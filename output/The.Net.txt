@@ -1,0 +1,160 @@
+
+                        The.Net Node Statuses
+
+
+Node
+Organization
+Public
+Addresses
+DEVLAN
+VLANs
+Notes
+
+
+node1
+Umbrella
+X
+UMB:192.168.2.1 (/16)
+10.6.2.101
+Umbrella
+ 
+
+
+node2
+Abstergo
+X
+
+ABS: 172.20.2.2 (/16)
+VPN1: 10.250.101.2 (/24)
+
+10.6.2.102
+VPN1, Abstergo
+ 
+
+
+node3
+Sarif
+X
+SAR: 172.30.20.3 (/24)
+10.6.2.103
+Sarif
+ 
+
+
+node4
+Umbrella
+ 
+
+UMB:192.168.2.4 (/16)
+VPN2: 10.250.102.4 (/24)
+
+10.6.2.104
+VPN2, Umbrella
+ 
+
+
+node5
+Abstergo
+ 
+
+VPN1: 10.250.101.5 (/24)
+PLA_VPN: 10.250.104.5 (/24)
+
+10.6.2.105
+VPN1, PLA_VPN
+ 
+
+
+node6
+Anonymous
+ 
+
+VPN2: 10.250.102.6 (/24)
+UMB_SEC: 10.250.103.6
+
+10.6.2.106
+VPN2, Umbrella_Secret
+ 
+
+
+node7
+Sarif
+ 
+
+SAR: 172.30.20.7 /24
+VPN2: 10.250.102.7 /24
+
+10.6.2.107
+VPN2, Sarif
+ 
+
+
+node8
+Black Mesa
+ 
+
+UMB_SEC: 10.250.103.8 /24
+PLA_VPN: 10.250.104.8 /24
+
+10.6.2.108
+PLA_VPN, Umbrella_Secret
+ 
+
+
+node9
+PLA
+ 
+
+PLA_VPN: 10.250.104.9 /24
+PLA: 192.168.1.9 /24
+
+10.6.2.109
+PLA_VPN, PLA
+ 
+
+
+node10
+PLA
+ 
+
+PLA: 192.168.1.10/24
+PLA_TS: 10.250.105.10/24
+
+10.6.2.110
+PLA, PLA_TS
+ 
+
+
+Target
+PLA
+ 
+PLA_TS: 10.250.105.11/24
+10.6.2.100
+PLA_TS
+please hack me kthx
+
+
+ 
+ 
+
+Previous versions:
+| 1 
+| 2 
+| 3 
+| 4 
+| 5 
+| 6 
+| 7 
+| 8 
+| 9 
+| 10 
+| 11 
+| 12 
+| 13 
+| 14 
+| 15 
+| 16 
+| 17 
+| 18 
+|
+                    

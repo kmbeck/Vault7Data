@@ -1,0 +1,54 @@
+
+                        Owner: User #71475
+Build Python 3.4 on Debian/Ubuntu
+I prefer to install python to /opt/python34 instead of /usr/local. Just make sure to update your path to include /opt/python34/bin and add /opt/python34/lib to your LD path, or edit the prefix argument in the configure statement below. This would also work on Ubuntu.
+ 
+sudo apt-get install -y build-essential libreadline-dev libsqlite3-dev libssl-dev libncursesw5 libncursesw5-dev libbz2-dev libgdbm-dev liblzma-dev tk-dev valgrind
+tar zxvf Python-3.4.3.tgz
+cd Python-3.4.3
+./configure --enable-shared --enable-loadable-sqlite-extensions --enable-ipv6 \
+            --with-system-ffi --with-system-expat --with-signal-module --with-threads --with-valgrind \
+	        --with-fpectl --with-ensurepip --prefix=/opt/python34
+make && make install
+As Root:
+echo "/opt/python34/lib" >> /etc/ld.so.conf.d/python34.conf
+ldconfig
+ 
+As an alternate to the post-build step of changing the LD path, one can, at the ./configure step, specify the following additional parameter (e.g., after the "–prefix=/opt/python34" parameter):
+LDFLAGS="-Wl,--rpath=<value given for --prefix>/lib"
+this will burn the necessary path into the binary during the build step, and things should just "work" (assuming correct update to $PATH, of course)
+Related articles
+
+Related articles appear here based on the labels you select. Click to edit the macro and add or change labels.
+
+('contentbylabel' missing)
+('details' missing)
+
+Comments:
+
+
+2015-04-08 15:33 
+[User #71475]: 
+
+True. It was installed by default on my fresh Debian 7 install, but it definitely wasn't a minimal install.
+
+
+2015-04-08 15:14 
+[User #13763443]: 
+
+you may want to add valgrind to the apt-get install
+
+
+
+Previous versions:
+| 1 
+| 2 
+| 3 
+| 4 
+| 5 
+| 6 
+| 7 
+| 8 
+| 9 
+|
+                    

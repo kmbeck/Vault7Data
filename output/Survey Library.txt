@@ -1,0 +1,139 @@
+
+                        Owner: User #71473
+System Monitoring and Manipulation Library
+
+ 
+SECRET//NOFORN
+ 
+System Monitoring and Manipulation API
+<iframe src="https://osb-doxygen.devlan.net/systemmonitoring/" noborder="0" width="100%" height="1000" scrolling="yes" seamless></iframe>
+ 
+The System Monitoring and Manipulation Library is a set of classes designed to be used in two main scenarios:
+
+Go/No Go logic for installers/droppers (i.e., blacklist or PSPPersonal Security Product (Anti-Virus) avoidance).  Immediate feedback at the time the member function is called
+Event notification/Change Detection
+
+As an example, an implementation of the library would provide both on-demand process detection (is procmon.exe running now) and event driven call-back notification (alert me when procmon.exe starts or stops).  This is not primarily intended for collection purposes, but rather to alter program behavior based on current system state or future events.
+ 
+Stash Repository: Link to Stash RepositoryUnit Tests Repository: Link to Unit Tests Stash Repository
+ 
+Interface Description: The interface for the System Monitoring and Manipulation Library specifies on-demand detection of machine state using the Contains, DoesNotContain, IsEqual, IsNotEqual, IsLessThan, IsLessThanEqual, IsGreaterThan, IsGreaterThanEqual logic functions. The prototypes are as follows:
+ 
+Library Conventions: 
+Naming convention of classes in the System Monitoring and Manipulation library:
+
+Prefix SM (System Monitoring)
+Type of system object or state to monitor + the word "Monitor" (e.g., "MediaMonitor", "ProcessMonitor", "RegistryMonitor")
+_ Optional crypt specifying APIApplication Programming Interface basis of technique, abbreviated to 2-3 letters (W32 = Win32 API, WMIWindows Management Instrumentation = WMI, MFC = MFC, PSX = Posix-style calls)
+
+ 
+Example:
+SM_MediaMonitor_W32
+SM = System Monitoring and ManipulationMediaMonitor = Class to monitor removable/fixed media_W32 = Implementation based on Win32 APIApplication Programming Interface for core functionality
+ 
+System Monitoring Member List:
+
+SM_NetAdapterMonitor_W32 - Class Name: SM_NetAdapterMonitor_W32
+
+ 
+ 
+
+
+Error Code Descriptions: 
+
+  Error Codes List
+ 	enum SysMonError: int
+	{
+		eSM_FALSE = FALSE,	    // BOOL value returned when the call is successful and the conditions being checked are false; equivalent to eSM_ERROR_SUCCESS
+		eSM_ERROR_SUCCESS = 0,  // generic success
+		eSM_TRUE = TRUE,		// BOOL value returned when the call is successful and the conditions being checked are true
+		eSM_ERROR_GENERIC = -1, // generic failure
+		eSM_ERROR_OPERATOR_NOT_IMPLEMENTED = -2, // this SysMonOperator is not implemented for this child class
+		eSM_ERROR_INVALID_TYPE = -3,
+		eSM_ERROR_INVALID_ARGUMENT = -4,
+		eSM_ERROR_MEMORY = -5,
+		eSM_ERROR_ACCESS_DENIED = -6,
+		eSM_ERROR_PATH_NOT_FOUND = -7
+	};
+
+	enum SysMonOperator: int
+	{
+		SM_OP_EXISTS = 0,
+		SM_OP_DOES_NOT_EXIST = 1,
+		SM_OP_GREATER_THAN = 2,
+		SM_OP_GREATER_THAN_OR_EQUAL = 3,
+		SM_OP_EQUAL = 4,
+		SM_OP_DOES_NOT_EQUAL = 5,
+		SM_OP_LESS_THAN = 6,
+		SM_OP_LESS_THAN_OR_EQUAL = 7,
+		SM_OP_CONTAINS = 8,
+		SM_OP_DOES_NOT_CONTAIN = 9
+	};
+
+Code Sample Using The Library Interface:
+// NetAdapterMonitor Examples
+ 
+SM_NetAdapterMonitor_W32 netMon;
+if (netMon.check(SM_NetAdapterMonitor_W32::SM_OP_EXISTS, SM_NetAdapterMonitor_W32::SM_TYPE_IP_ADDRESS, L"10.2.8.8|10.2.8.64") == ISystemMonitoring::eSM_TRUE)
+{
+	wprintf(L"This system has IP 10.2.8.8 or 10.2.8.64 assigned to an adapter\r\n");
+}
+else
+{
+	wprintf(L"This system DOES NOT have IP 10.2.8.8 assigned to an adapter\r\n");
+}
+ 
+if (netMon.check(SM_NetAdapterMonitor_W32::SM_OP_DOES_NOT_EXIST, SM_NetAdapterMonitor_W32::SM_TYPE_MAC_ADDRESS, L"12:34:56:78:90:AB") == ISystemMonitoring::eSM_TRUE)
+{
+	wprintf(L"This system has an adapter with MACApple Operating System 12:34:56:78:90:AB\r\n");
+}
+else
+{
+	wprintf(L"This system DOES NOT have an adapter with MACApple Operating System 12:34:56:78:90:AB\r\n");
+}
+ 
+ 
+SECRET//NOFORN
+
+Comments:
+
+
+2014-10-01 09:26 
+[User #1179925]: 
+
+I vote that this be the library icon. User #71473
+ 
+
+
+2014-08-05 18:17 
+[User #71473]: 
+
+Totally noobing it up here...
+
+
+
+Attachments:
+
+
+monitored.png
+
+
+sysmonicon.jpg
+
+
+
+Previous versions:
+| 1 SECRET
+| 2 SECRET
+| 3 SECRET
+| 4 SECRET
+| 5 SECRET
+| 6 SECRET
+| 7 SECRET
+| 8 SECRET
+| 9 SECRET
+| 10 SECRET
+| 11 SECRET
+| 12 SECRET
+|
+                    

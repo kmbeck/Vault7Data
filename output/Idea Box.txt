@@ -1,0 +1,20 @@
+
+                        Owner: User #71384
+SSL / TLS Certificates
+Create a configuration file for the CA: edb.conf
+Create the certificate and generate a keypair
+openssl req -x509 -newkey rsa -out ca-cert.pem -outform PEMPrivacy Enhanced Mail -config edb.conf
+ 
+ 
+
+Attachments:
+
+edb.conf
+
+
+Previous versions:
+| 1 
+| 2 
+| 3 
+|
+                    

@@ -1,0 +1,37 @@
+
+                        Owner: User #13763861
+iOS 9 Research
+Saline
+Initial check found an error:
+User #73587@User #?s-MacBook-Pro:saline ./Dist/Release-MacOSX/saline ../test_dylib/Build/Release-iPhoneOS/testdylib/testmain
+    ERROR (config.py:242) Failed to read config file "/Users/User #73587/Library/Application Support/saline/1aec62117965249df93751bad506c56d856e597c_iPhone6,1_13A4254v.plist"
+    .................................................
+    Traceback (most recent call last):
+      File "/System/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/runpy.py", line 162, in _run_module_as_main
+        "__main__", fname, loader, pkg_name)
+      File "/System/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/runpy.py", line 72, in _run_code
+        exec code in run_globals
+      File "./Dist/Release-MacOSX/saline/__main__.py", line 43, in <module>
+      File "./Dist/Release-MacOSX/saline/__main__.py", line 37, in do_main
+      File "./Dist/Release-MacOSX/saline/saline.py", line 101, in __enter__
+      File "./Dist/Release-MacOSX/saline/saline.py", line 413, in start
+      File "./Dist/Release-MacOSX/saline/config.py", line 192, in sync
+      File "./Dist/Release-MacOSX/saline/config.py", line 216, in sync_with_device
+      File "./Dist/Release-MacOSX/saline/mop/shared_cache.py", line 232, in get_slide
+      File "./Dist/Release-MacOSX/saline/construct/core.py", line 191, in parse_stream
+      File "./Dist/Release-MacOSX/saline/construct/core.py", line 645, in _parse
+      File "./Dist/Release-MacOSX/saline/construct/core.py", line 388, in _parse
+      File "./Dist/Release-MacOSX/saline/construct/core.py", line 296, in _read_stream
+    construct.core.FieldError: expected 395036132, found 231912490
+expected: 0x178BC5E4 - file offset?
+found: 0xDD2B42A
+ 
+Looking into the decrypted filesystem to investigate. Doesn't have /usr/lib/system/libdyld.dylib
+ 
+ 
+
+Previous versions:
+| 1 
+| 2 
+|
+                    

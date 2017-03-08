@@ -1,0 +1,37 @@
+
+                        Building PolarSSL for Solaris x86 and SPARC
+Despite the best attempts by authors of PolarSSL, it consistently does not build on Solaris out of the box.  Several minor tweaks are needed to get it to compile properly.
+Step-by-step guide for Solaris x86
+
+Add the steps involved:
+
+
+Modify include/gcm.h.  You will get an error about not finding stdint.h.  Instead, use inttypes.h.  One option follows:
+
+#else#include <stdint.h>#endif
+>>> Change to <<<<<
+#elif defined (__sun) && defined (__SVR4)#include <inttypes.h>#else#include <stdint.h>#endif
+
+
+Add "-lsocket" and "-lnsl" to LD_FLAGS in the Makefiles under the "tests" and "programs" directories (if you plan on using these).
+You may need to delete any #if #else blocks in the Makefiles
+You may get 1 or 2 warnings related to unresolved functions such as readdir_r().  readdir_r() is not available on Solaris and later versions of PolarSSL do not use this function.  I have successfully gotten rid of this warning by copying a newer version of x509write.c into my v1.2.X library sources.
+
+Step-by-step guide for Solaris SPARC
+For SPARC, do the same steps above for x86 and then do the following additional step.
+Modify include/polarssl/config.h and comment out #define POLARSSL_HAVE_ASM.  The SPARC assembly is broken in both v1.2.11 and v1.3.8.  See the following comment in include/polarssl/bn_mul.h: "The Sparc64 assembly is reported to be broken.  Disable it for now, until we're able to fix it."  Several other modules defined in config.h depend on POLARSSL_HAVE_ASM such as POLARSSL_TIMING_C and POLARSSL_PADLOCK_C.  You may need to uncomment these as well.
+Always build and run the tests (make check) as these will identify potential problems specific to Solaris or your processor architecture.  PolarSSL does not seem to get much testing on Solaris, especially SPARC, so the tests are a great sanity check that the library is built properly. 
+Some makefiles give Solaris make problems.  The easiest solution I have found is to delete all the #if #else blocks.  Then, usually, the Makefiles will work as-is.
+Related articles
+
+Related articles appear here based on the labels you select. Click to edit the macro and add or change labels.
+
+('contentbylabel' missing)
+
+Previous versions:
+| 1 
+| 2 
+| 3 
+| 4 
+|
+                    

@@ -1,0 +1,71 @@
+
+                        Owner: User #524297
+Internet Relay Chat (IRC)
+IRC now available at irc.devlan.net
+NON-SSL: 6667
+SSL:         6697
+CLIENTS
+Windows: X-chat, ChatZilla (Firefox plug-in), Pidgin, Trillian, emacs, ...
+Linux: Check your repositores. X-chat, irssi, Pidgin, Trillian, emacs, ...
+Mac:  Colloquy, irssi (requires compilation), emacs, ...
+Colloquy
+To install Colloquy on Mac, open finder->applications and right click and select open. click open in the pop up window to install anyway OR disable gatekeeper globally. To disable Gatekeeper go to system preferences, select security and privacy. Unlock the lock that prevents changes, enter your password and then select anywhere for the Allow apps downloaded from: option.
+Applycolloquy-long_time.patch to get long timestamps in chat windows.  The patch applies to a particular Colloquy style so apply as appropriate. Also, the style file will probably be locked so unlock first. 
+Install Guide
+Follow the instructions for your given client. 
+
+X-Chat: Xchat->Network List.Click Add, name network "DEVLAN".Click Edit, Change servers to "irc.devlan.net/6667" or "irc.devlan.net/6697" for SSLClick Close, Then Connect.
+For SSL, also check "Use SSLSecure Socket Layer for all servers on the network" and "Accept invalid SSLSecure Socket Layer certificate"
+Under "Favorite Channels", you can list all channels to auto-connect, separated by commas
+Under "Nickserv Password", you can set your nickserv password to automatically authenticate you, as discussed below
+
+IRC GUIDE
+Once you've connected to irc.devlan.net, you should:
+
+
+Register your nick. You can register any number of nicks, but you should first register your DEVLAN username. IEInternet Explorer) "User #72251". This will make it easier once JIRA and Bamboo are integrated into IRCInternet Relay Chat so that you can receive notifications.
+
+(If not already your devlan username) "/nick DEVLAN_USERNAME"
+To register your nick: "/msg nickserv register IRC_PASSWORD"
+
+
+
+Join a Channel. You can join multiple channels and create channels as you please. Our default original channels will mimic AED's branches: #AED, #AIB, #EDB, #MDB, #OSB, #RDB.
+
+To join a channel: "/join #Channel"
+If no one is in the channel, including Bot-- Then you need to register the channel: "/msg chanserv register #Channel CHANNEL_PASSWORD CHANNEL_DESCRIPTION"
+
+
+Have Fun. Chat and do as you please. If you don't know how to IRC, then google it.
+
+Why IRC?
+
+For collaboration! We can easily chat with each other now!
+IRC is 1337!
+
+
+Attachments:
+
+
+offline.html
+
+
+colloquy-long_time.patch
+
+
+
+Previous versions:
+| 1 
+| 2 
+| 3 
+| 4 
+| 5 
+| 6 
+| 7 
+| 8 
+| 9 
+| 10 
+| 11 
+| 12 
+|
+                    

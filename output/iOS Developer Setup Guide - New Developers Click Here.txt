@@ -1,0 +1,121 @@
+
+                        iOS Development Process
+
+('toc' missing)
+ 
+This document describes how to start working on a JIRA task/ticket, including getting a repository, creating a git branch to work on, creating a pull request to have the work reviewed, and addressing pull request comments.
+ 
+Get a Repository
+
+mkdir <project>.repo 
+
+cd <project>.repo
+(NOTE: path to project is "ios" for the IOSApple operating system for small devices projects. See the path in the URLUniform Resource Locator after "stash.devlan.net/projects/")
+
+
+repo init --no-repo-verify -u ssh://git@stash.devlan.net:7999/<path_to_project>/<project>_manifest.git
+repo sync
+
+Work on a Ticket
+
+Go to the ticket in Jira at https://jira.ioc.local/.
+Assign the ticket to yourself if it is not yet assigned to you.
+Click on “Start Progress” button in Jira.
+Click on the “Create branch” link under “Development” on the right side of the ticket page.
+Ensure that Repository is set to the correct repo.
+Set “Branch from” to “master”.
+Click on the "Create branch" button to create it.
+
+
+At the command line, type “git fetch” to get the new branch.
+Type “git checkout <branchname>” to switch to the branch. Note that the branch name can be copied from stash. Go to stash (stash.devlan.net), search for the repo and select it, select the new branch from the dropdown, and then click on the “…” and select “copy branch name”.It should automatically track the remote branch.
+
+Complete the required changes and test them.
+Check in the changes using "git add" to add each modified file.
+Use "git commit" to commit the change. Enter a message describing the change.
+If you made a lot of commits that need to be pushed for this change, it is sometimes cleaner to combine them all into one commit. This allows the developer to make minor changes and test different commits to save their state while they are working out details. These details can be hidden from the final pushed change. Do this by running the "git rebase -i" command. You can change "pick" to "reword" to reword commit messages for certain commits. You can use "edit" to modify individual commits. Use "squash" to merge multiple commits into one. Use "squash" to keep the commit message for that commit or use "fixup" to include the commit but remove the message from the final commit.
+Use "git push" to push the change to the server so that it can be reviewed.
+Run the following to create a pull request (requires the Stash command-line tool whose installation is described at https://confluence.devlan.net/display/NS/iOS+Developer+Setup+Guide).git create-pull-request master
+
+
+Quick Changes (no ticket)
+
+Make a new branch:git checkout -b <new branch name>
+
+Make changes, commit, and push to new branch.
+Create a pull request just like any other branch. Only difference is no ticket.git create-pull-request master
+
+After review is complete, merge it in like before.
+
+Reviewing a Pull Request
+
+Go to the following link in Stash to see all of the open pull requests for a project. Replace "IOS" with the project you want: https://stash.devlan.net/plugins/servlet/all-pull-requests/project/IOS#inboxThis can be manually navigated to by going to https://stash.devlan.net, clicking on "Projects", selecting your project, and then clicking on "Pull Requests".
+
+Select the pull request that you want to view by clicking on the title.
+Review the code and add comments as necessary.
+Test the code to ensure that it builds and runs correctly.
+Make sure you do a "repo sync" and/or "git pull" so that your code is up to date.
+Document the success/failure with a comment in stash. Include your target in the comment (i.e. iPad4,2_12A365)
+
+
+
+Approve/Address Pull Request Comments
+
+After engineers have reviewed a pull request, the original author needs to address any comments/concerns that they have.
+Comments can be replied to with additional comments.
+Changes may need to be made. If a change is made, push the change on the same branch and add a comment reply to the original comment(s) that was addressed.Previous approvals will be reset when the change is pushed. Reviewers will then need to re-review the new changes and approve again.
+
+For issues that do not need to be addressed before merging the change, create a new task in Jira to document the issue. Do NOT use the "Create task" button in Stash as this appears to just add a checkbox on the item and does not integrate with Jira.
+Once the necessary approvals have been received (at least two checkmarks), merge the pull request into the master branch.
+Open up the pull request in Stash.
+Click on the "Merge" button.
+Check the box for "Delete source branch after merging".
+Click on the "Merge" button.
+
+
+
+
+Working on a New JIRAUser Managment Software (Atlassian) Issue
+
+
+
+Create a branch from the JIRAUser Managment Software (Atlassian) Issue in the manifest project that will be affected by your JIRAUser Managment Software (Atlassian) issue.
+
+
+Create any additional branches in the specific project(s) that the JIRAUser Managment Software (Atlassian) issue will address.Modify the default.xml in your manifest branch to point to the specific revisions you created
+
+
+
+Once you're done with your work, push the branches up to remote, and create pull requests as needed
+
+Once a JIRAUser Managment Software (Atlassian) issue is complete, delete the branch in the manifest project. If the branch added new projects, then do a pull request for that branch.
+
+If creating an RC/release, create a new file in the manifest project with the revisions of each project in the repo, like so:
+repo manifest -r -o .repo/manifests/some_project_and_version.xml
+cd .repo/manifests && git add <the new file you just added> && git commit m 'Add XXXX version' && git push origin HEAD && git stashpull-request
+
+
+
+
+
+
+Attachments:
+
+
+image2015-11-3 9:11:36.png
+
+
+image2015-11-3 9:9:45.png
+
+
+
+Previous versions:
+| 1 
+| 2 
+| 3 
+| 4 
+| 5 
+| 6 
+| 7 
+|
+                    

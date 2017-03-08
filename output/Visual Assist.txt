@@ -1,0 +1,50 @@
+
+                        Owner: User #524297
+Google Test Library
+Google Unit Test Framework Library
+ 
+Manually Installing Google Test Library on Linux/OS X
+# unzip your archive into ${GTEST_DIR}
+ 
+# build the code, requires installation of CMake
+cd ${GTEST_DIR}
+mkdir mybuild 
+cd mybuild
+cmake -G"Unix Makefiles" ..
+make
+ 
+# the manual installation part, to make libraries available on your system in a sane place
+sudo cp -r ../include/gtest /usr/local/include
+sudo cp lib*.a /usr/local/lib
+ 
+Resources
+
+gtest-primer.pdf
+gtest-faq.pdf
+gtest-advguide.pdf
+gtest-xcode.pdf
+
+ 
+
+Attachments:
+
+
+gtest-xcode.pdf
+
+
+gtest-advguide.pdf
+
+
+gtest-faq.pdf
+
+
+gtest-primer.pdf
+
+
+
+Previous versions:
+| 1 
+| 2 
+| 3 
+|
+                    

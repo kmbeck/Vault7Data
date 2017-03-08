@@ -1,0 +1,159 @@
+
+                        Survey Library
+SECRET//NOFORN
+ 
+Survey API
+<iframe src="https://osb-doxygen.devlan.net/survey/" noborder="0" width="100%" height="1000" scrolling="yes" seamless></iframe>
+ 
+Stash Repository: Edit This Link To Point To Stash Repository For This Library
+ 
+Interface Description:  Insert text here documenting the interface for the library. Identifty whether the library is liaison releasable or unilateral. This is where any MSDNMicrosoft Developer Network style documentation should be placed
+ 
+Library Conventions: Describe any and all conventions submissions should adhere to for this library. Applying a naming convention can help with the organization of the library. Any organizational requirements or notes go here as well.
+ 
+XXXXXX Member List: (ex: Execution Vector Member List where the library is execution vectors)
+ 
+
+SDIR_DFS_WALD - Depth-First-Search Directory Listing
+SDIR_RECDOCS_WALD - A directory listing of recent documents
+SWMI_Addict
+SBASE_Addict - Baseline survey
+SBASE_App_Addict - Application Information
+SBASE_InstalledApps_Addict - Information about installed applications (Win32_Product)
+SBASE_ProcList_Addict - Information about running processes (Win32_Process)
+
+
+SBASE_Device_Addict - Information about devices on the machine
+SBASE_Drive_Addict - All drives on the machine
+SBASE_CDROM_Addict - CDROM Info
+SBASE_Disk_Addict - Physical/local disks (removable and fixed)
+SBASE_NetworkDrive_Addict - Network Drives
+
+
+SBASE_Memory_Addict - Memory Devices
+SBASE_Motherboard_Addict - Motherboard Info
+SBASE_Portable_Addict - Portable Devices
+SBASE_Printer_Addict - Printers
+
+
+SBASE_Execution_Addict - Gives the state/environment the survey was executed in
+SBASE_Machine_Addict - Machine Info
+SBASE_Bios_Addict - Bios info
+SBASE_Computer_Addict - Computer info
+SBASE_EnvVar_Addict - Environment Variables
+SBASE_Os_Addict - Operating System Info
+SBASE_Processor_Addict - Processor Info
+
+
+SBASE_Network_Addict - Network Info
+SBASE_ConnectionPrefs_Addict - Connection Preferences (Mainly for dial-up)
+SBASE_Firewall_Addict - Firewall Settings
+SBASE_LocalShares_Addict - Local Share List
+SBASE_Neighbor_Addict - Neighbor Info (NetServerEnum)
+SBASE_NetworkAdapter_Addict - Network Adapter Info
+SBASE_NetworkProtocol_Addict - Supported Network Protocols
+SBASE_Ports_Addict - Open Ports
+SBASE_TCP_Addict - Open TCPTransport Control Protocol Ports
+SBASE_UDP_Addict - Open UDPUser Datagram Protocol Ports
+
+
+SBASE_Routing_Addict - Routing Information
+SBASE_Arp_Addict - ARPAddress Resolution Protocol Table
+SBASE_Forward_Addict - IP Forward Table
+
+
+SBASE_Sessions_Addict - Active Sessions
+
+
+SBASE_User_Addict - User Information
+SBASE_AllUsers_Addict - All users allowed on the machine (Win32_User)
+SBASE_LoggedOnUsers_Addict - All Logged On Users
+SBASE_NetworkLogin_Addict - List all users logged into a network/domain
+
+
+
+
+SCI_Addict - Counter Intelligence Survey (Enumerates areas of common persistence)
+SCI_RunKey_Addict - Lists all run key entries
+SCI_SchedTask_Addict - Lists all scheduled tasks
+SCI_Services_Addict - Lists all installed services
+
+
+SDYN_REG_Addict - Dynamic Registry Entry Grab - Configure A List Of Registry Keys To Grab
+SGEO_Addict - Geolocation Survey 
+Current Wireless SSID/AP
+Stored Wireless SSID/MAC/ETC
+Browser Location
+Location API??
+
+
+SPID_Addict - Positive Identification and User Information
+Owner and Company From Installed Applications
+Owner and Company Machine
+Logged On User
+Microsoft Office Author And Company
+Microsoft Office Product Keys
+Windows Product Keys
+Application Creds
+Browser Creds
+
+
+SPOL_Addict - Pattern-Of-Life Survey
+Application History - MRU?
+Most Used Applications
+Recent Documents
+USB Stor
+PIN'd Applications (Start Menu, TaskBar)
+PreFetch
+ShellBags
+Logon/Logoff, Startup/Shutdown, Hibernate, Sleep, Wake-up
+
+
+SRETURN_Addict - Return Exploitation Survey - Helps us determine potential vulnerabilities in the system for privilege escalation, persistence/backdoors, etc. Information needed to help make choices when deciding to maintain a presence on a machine.
+SRETURN_IsAdmin_Addict - Is user an administrator
+SRETURN_UAC_Addict - UAC Level
+SRETURN_DefaultApp_Addict - Default Applications List
+SRETURN_Patch_Addict - Patch Level
+Cached Folder Access??
+Priv Up Hijacks
+
+
+
+
+
+ 
+ 
+
+Technique/Class 1 with Link or Anchor to Technique - Class Name: xxxxxx
+Example of technique/class in Survey Library: Get User Name(Link to Get User Name Windows APIApplication Programming Interface Module Page) - Class Name: GetUsersName_WinApi
+
+Error Code Descriptions: List error codes with descriptions. Use either a bulleted list or the code block macro. Remember, error codes must be compatible with the SUCCEEDED() and FAILED() macros.
+
+  Error Codes List
+ 
+
+Code Sample Using The Library Interface:
+ 
+INSERT LABELS FOR THE PAGE - USE AS MANY DESCRIPTIVE LABEL AS POSSIBLE
+SECRET//NOFORN
+ 
+ 
+
+Attachments:
+
+359jzz.jpg
+
+
+Previous versions:
+| 1 SECRET
+| 2 SECRET
+| 3 SECRET
+| 4 SECRET
+| 5 SECRET
+| 6 SECRET
+| 7 SECRET
+| 8 SECRET
+| 9 SECRET
+| 10 SECRET
+|
+                    

@@ -1,0 +1,17 @@
+
+                        User Information
+LABEL PAGE: Child pages of this page will contain code snippets pertaining to the Windows User Information.
+ 
+
+('children' missing)
+
+Sub-Pages:
+
+
+Verify User is in the Administrator Group via Net User API (MISCIsUserInAdminGroup_NET) SECRET
+
+
+Get Current User And Domain (MISCUserAndDomain_TOK) SECRET
+
+
+                    

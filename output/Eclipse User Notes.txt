@@ -1,0 +1,66 @@
+
+                        Owner: User #71384
+Linux ARP Options
+Information on this page is taken from Benvenuti:Understanding Linux Network Internals, O'Reilly Media, 2006, p708-711.
+Tunable ARPAddress Resolution Protocol Options are found under /proc/sys/net/ipv4/conf
+ARP_ANNOUNCE - controls which source IP addresses can be put in the ARPAddress Resolution Protocol headers of solicitation requests.
+
+
+Value
+Meaning
+
+
+0 (default)
+Select any local IP address
+
+
+1
+If possible, select an IP address that falls within the same subnet of the target address; otherwise use level 2.
+
+
+2
+Prefer primary addresses.
+
+
+ 
+ARP_IGNORE - controls the criteria that determines how to process ARPAddress Resolution Protocol requests
+The IP addresses in Linux belong to the host, not the interfaces. Consequently, ARPAddress Resolution Protocol requests will be processed by a host as long as the target IP address is configured on ANY of the interfaces, including the loopback (lo) interface. This behavior, however, can be modified by changing the ARP_IGNORE parameters found under /proc/sys/net/ipv4/conf.
+
+
+Value
+Meaning
+
+
+0 (default)
+Reply for any local address.
+
+
+1
+Reply only if the target IP address is configured on the receiving interface.
+
+
+2
+Like 1, but the source IP (sender's address) must belong to the same subnet as the target IP.
+
+
+3
+Reply only if the scope of the target IP is not the local host (i.e. that address is not used to communicate with other hosts).
+
+
+4-7
+Reserved.
+
+
+8
+Do not reply.
+
+
+>8
+Unknown value; accept request.
+
+
+
+Previous versions:
+| 1 
+|
+                    

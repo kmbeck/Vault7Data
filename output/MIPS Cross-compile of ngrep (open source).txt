@@ -1,0 +1,97 @@
+
+                        Owner: User #1179751
+
+User #1179751's Home
+
+A Collection of somewhat, but not quite, useless information
+
+I'm not 100% sure why you are here, but if you want to see what I'm working on currently that information will be found here.  Do pay attention to my blog as I do try and post useful information there; mostly about Visual Studio or Windows development in general, but I will be expanding to include conversations about DART, Bamboo, JIRA, whatever.
+
+Currently Working On
+
+('jira' missing) 
+
+
+ Backlog
+
+('jira' missing)
+
+
+
+Comments:
+
+
+2015-02-10 14:57 
+[User #71473]: 
+
+Congrats on finally locking down your user page.  But now what am I going to do when I am here until AfterMidnight   (lolz) and I feel compelled to deface a page?
+
+
+2015-02-06 01:31 
+[User #71473]: 
+
+Still haven't cleaned up and locked down your user page I see... too bad I am too tired to find anything creative or original to further deface it with.  So I'll just do something trite and hackneyed instead...
+
+
+2015-02-04 23:29 
+[User #71473]: 
+
+Its 11:30... time to deface people's unprotected user pages...
+
+
+2015-02-04 21:08 
+[User #71473]: 
+
+So... I fixed all my tests and was rerunning them in DART, and somebody had a bamboo build for bartender that took over an hour to complete and was hogging the XPWindows operating system (Version) 64 VMVirtual Machine I needed.  Now I'm here past 9 trying to make sure all my frickin tests passed.
+You are so dead...
+
+
+2014-02-06 11:07 
+[User #524297]: 
+
+I’ve half-jokingly said that I’m going to either pull the division into the 21st century or go down kicking and screaming.
+We will go down in flames together! 
+
+
+2014-02-05 17:21 
+[User #71473]: 
+
+User #1179751, you get a "Like" on your page for somehow magically knowing that the Resource APIApplication Programming Interface calls on windows are (weirdly) asynchronous, which totally explained the weird-ass timing issues we have been seeing for months across all of the resource-based config GUIs.
+Plas-wan!
+
+
+
+Attachments:
+
+
+trigun.gif
+
+
+prof.png
+
+
+
+Sub-Pages:
+
+
+New Confluence Plugins 
+
+
+Test Page 
+
+
+
+Previous versions:
+| 1 
+| 2 
+| 3 
+| 4 
+| 5 
+| 6 
+| 7 
+| 8 
+| 9 
+| 10 
+| 11 
+|
+                    

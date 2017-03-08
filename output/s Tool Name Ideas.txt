@@ -1,0 +1,274 @@
+
+                        Owner: User #11628962
+Practices of an Agile Developer
+Today, I started reading The Pragmatic Programmers - "Practices of an Agile Developer" (ISBNInternational Standard Book Number 0-9745140-8-X) by Venkat Subramaniam and Andy Hunt because I wanted to learn more about agile development.  This blog entry will track and document what I learn by reading this book in the hopes that you will be able to learn as well.  However, I would encourage you to read the book for yourself.
+ 
+
+Definition – "Agile development uses feedback to make constant adjustments in a highly collaborative environment."
+ 
+Chapter 1 – Agile Software Development
+ 
+The Agile Manifesto (agilemanifesto.org)
+
+Individuals and interactions over processes and tools
+Working software over comprehensive documentation
+Customer collaboration over contract negotiation
+Responding to change over following a plan
+
+ 
+The Spirit of Agility
+
+Continuous development, not episodic
+Inject energy to resolve friction caused by episodic development
+
+ 
+Chapter 2 – Beginning Agility
+ 
+Professional Attitude – "A professional attitude focuses on positive outcomes for the project and the team, on personal and team growth, and on success."
+ 
+Quotable Quote – "one popular software methodology suggests you need to fulfill some thirty-five distinct roles on a project, ranging from architect to designer to coder to librarian.  Agile methods take a different tack.  You perform just one role: software developer.  That is you.  You do what is needed on the team, working closely with the customer to build software.  Instead of relying on Gantt charts and stone tablets, agility relies on people."
+ 
+Practice #1 – Work for Outcome
+ 
+
+Blame does not fix bugs
+"Instead of pointing fingers, point to possible solutions.  It is the positive outcome that counts."
+
+ 
+Practice #2 – Quick Fixes Become Quicksand
+ 
+
+Beware of land mines such as quick fixes and shallow hacks
+Do not code in isolation to ensure more than one person knows about a certain piece of the project
+Use unit tests
+"Do not fall for the quick hack.  Invest the energy to keep code clean and out in the open."
+
+ 
+Practice #3 – Criticize Ideas, Not People
+ 
+
+Negativity kills innovation
+"Criticize ideas, not people.  Take pride in arriving at a solution rather than providing whose idea is better."
+"There is no absolute best, only better.  Despite the popularity of the term, there is no such thing as "best practices," only better practices in a particular situation."
+
+ 
+Practice #4 – Damn the Torpedoes, Go Ahead
+ 
+
+
+You definitely need to read this section for yourself - basically admit your mistakes and back up your opinions with facts (pros and cons).
+"Do what is right.  Be honest, and have the courage to communicate the truth.  It may be difficult at times; that is why it takes courage."
+
+ 
+Chapter 3 – Feeding Agility
+ 
+Practice #5 – Keep Up with Change
+ 
+
+Learn iteratively and incrementally
+Get the latest buzz
+Attend local user groups
+Attend workshops or conferences
+Read voraciously
+"Keep up with changing technology.  You do not have to become an expert at everything, but stay aware of where the industry is headed, and plan your career and projects accordingly."
+
+ 
+Practice #6 – Invest in Your Team
+ 
+
+Training
+"Raise the bar for you and your team.  Use brown-bag sessions to increase everyone's knowledge and skills and help bring people together.  Get the team excited about technologies or techniques that will benefit your project."
+
+ 
+Practice #7 – Know When to Unlearn
+ 
+
+"One of the foundations of agility is coping with change.  Given that change is so constant and pervasive, does it make any sense to keep applying the same techniques and tools you have always used?"
+Expensive mental models are not discarded lightly
+"Learn the new; unlearn the old.  When learning a new technology, unlearn any old habits that might hold you back.  After all, there is much more to a car than just a horseless carriage."
+
+ 
+Practice #8 – Question Until You Understand
+ 
+
+The best question to ask – Why ...?
+"Keep asking Why.  Do not just accept what you are told at face value.  Keep questioning until you understand the root of the issue."
+
+ 
+Practice #9 – Feel the Rhythm
+ 
+
+Agile projects have rhythms and cycles
+Scrum protects the team from requirement changes during a development sprint
+Time boxing – setting a near-term, hard deadline for an activity that cannot be extended
+"Tackle tasks before they bunch up.  It's easier to tackle common recurring tasks when you maintain steady, repeatable intervals between events."
+
+ 
+Chapter 4 – Delivering What Users Want
+ 
+Quotable Quote – "In warfare, as in software development, the situation can change quickly and drastically.  Sticking to yesterday's plan despite a change in circumstances is a recipe for disaster."
+ 
+Practice #10 – Let Customer's Make Decisions
+ 
+
+Decide what you should not decide
+"You do not want to have to make decisions that are business critical by yourself.  After all, it is not your business."
+"Let your customers decide.  Developers, managers, or business analysts should not make business-critical decisions.  Present details to business owners in a language they can understand, and let them make the decision."
+
+ 
+Practice #11 – Let Design Guide, Not Dictate
+ 
+
+Design should be only as detailed as needed to implement
+Strategic versus tactical design – strategic is the up-front design before requirements are known
+"A good design is a map; let it evolve.  Design points you in the right direction.  It is not the territory itself; it should not dictate the specific route.  Do not let the design (or the designer) hold you hostage."
+"'No Big Design Up Front' does not mean no design.  It just means do not get stuck in a design task without validating it with real code.  Diving into code with no idea of a design is just as dangerous.  Diving into code is fine for learning or prototyping, as long as you throw the code away afterward."
+"White boards, sketches, and Post-It notes are excellent design tools.  Complicated modeling tools have a tendency to be more distracting than illuminating."
+
+ 
+Practice #12 – Justify Technology Use
+ 
+
+Blindly picking a framework is like having kids to save taxes
+Pick technology and frameworks based on statements like – "It is too hard to ..." or "It takes too long too ..."
+Does it really solve the problem?
+Will you be tied to this technology forever?  When technology changes, will you be able to change the design to match technology?
+What about maintenance costs?
+Do not build what you can download – reinventing the wheel
+"Choose technology based on need.  Determine your needs first, and then evaluate the use of technologies for those specific problems.  Ask critical questions about the use of any technology, and answer them genuinely."
+
+ 
+Practice #13 – Keep It Releasable
+ 
+
+Checked-in code is always ready for action
+Check out the latest source.  Run your local tests.  Check in.
+"Keep your project releasable at all times.  Ensure that the project is always compilable, runnable, tested, and ready to deploy at a moment's notice."
+
+ 
+Practice #14 – Integrate Early, Integrate Often
+ 
+
+Never accept big-bang integration
+"Integrate early, integrate often.  Code integration is a major source of risk.  To mitigate that risk, start integration early and continue to do it regularly."
+"Successful integration means that all the unit tests continue to pass.  As per the Hippocratic oath – first, do no harm."
+"For prototypes and experimental code, you may want to work in isolation and not waste effort on integration.  But do not stay isolated too long; once you learn from the experience, work toward integration quickly."
+
+ 
+Practice #15 – Automate Deployment Early
+ 
+
+QA should test deployment
+"Deploy your application automatically from the start.  Use that deployment to install the application on arbitrary machines with different configurations to test dependencies.  QA should test the deployment as well as your application."
+
+ 
+Practice #16 – Get Frequent Feedback Using Demos
+ 
+
+Requirements are as fluid as ink
+"Develop in plain sight.  Keep your application in sight (and in the customer's mind) during development.  Bring customers together and proactively seek their feedback using demos every week or two."
+
+ 
+Practice #17 – Use Short Iterations, Release in Increments
+ 
+
+Show me a detailed long-term plan, and I will show you a project that is doomed
+Definition (incremental development) – developing "application functionality in several small groups at a time.  Each round of development builds on the functionality of the previous one and adds features that enhance the product's value.  You can release or demo the product at that point."
+Definition (iterative development) – "carry out the various tasks of development - analysis, design, implementation, testing, and seeking feedback - in small, repetitive cycles, called iterations.  The end of an iteration marks a milestone.  However, the product may or may not be available at that time for real use."
+"Each increment generally includes many iterations."
+"Develop in increments.  Release your product with minimal, yet usable, chunks of functionality.  Within the development of each increment, use an iterative cycle of one to four weeks or so."
+
+ 
+Practice #18 – Fixed Prices Are Broken Promises
+ 
+
+"We have been talking all along about working in a continuous, iterative, and incremental fashion, and now someone comes along and wants to know ahead of time how long it will take and how much it will cost."
+A fixed price guarantees a broken promise
+"Estimate based on real work.  Let the team actually work on the current project, with the current client, to get realistic estimates.  Give the client control over their features and budget."
+
+ 
+Chapter 5 – Agile Feedback
+ 
+Practice #19 – Put Angels on Your Shoulder
+ 
+
+Coding feedback using unit tests
+Unit testing provides instant feedback
+Unit testing makes your code robust
+Unit testing can be a helpful design tool
+Unit testing is a confidence booster
+Unit tests can act as probes when solving problems
+Unit tests are reliable documentation
+Unit tests are a learning aid
+"Use automated unit tests.  Good unit tests warn you about problems immediately.  Do not make any design or code changes without solid unit tests in place."
+
+ 
+Practice #20 – Use It Before You Build It
+ 
+
+Write tests before writing code - test driven development
+"Adding gratuitous code is always a bad idea."
+"Use it before you build it.  Use Test Driven Development as a design tool.  It will lead you to a more pragmatic and simpler design."
+"Unit tests may not be appropriate when you are experimenting with an idea or prototyping.  In the unfortunate case that the code does move forward into the real system, you will have to add the tests, but it is almost always better to start over from scratch."
+
+ 
+Practice #21 – Different Makes a Difference
+ 
+
+Automate to save time
+"Different makes a difference.  Run unit tests on each supported platform and environment combination, using continuous integration tools.  Actively find problems before they find you."
+
+ 
+Practice #22 – Automate Acceptance Testing
+ 
+"Create tests for core business logic.  Have your customers verify these tests in isolation, and exercise them automatically as part of your general test runs."
+ 
+Practice #23 – Measure Real Progress
+ 
+
+Focus on where you are going
+"Measure how much work is left.  Do not kid yourself - or your team - with irrelevant metrics.  Measure the backlog of work to do."
+"If you are spending so much time keeping track of how much time you are spending that you are not spending enough time working on the project, then you are spending too much time keeping track of how much time you are spending.  Get it?"
+
+ 
+Practice #24 – Listen to Users
+ 
+
+Users are the customer's employees - they are the ones using your software
+"Whether it is a bug in the product, a bug in the documentation, or a bug in our understanding of the user community, it is still the team's problem, not the user's."
+"Every complaint holds a truth.  Find the truth, and fix the real problem."
+
+ 
+Chapter 6 – Agile Coding
+ 
+Practice #25 – Program Intently and Expressively
+ 
+
+"If someone hands you code that is easy to understand, they are making your life a lot easier.  Honoring the Golden Rule, you owe it to them to make your own code easy to read."
+Program Intently and Expressively (PIE) principle
+"Write code to be clear, not clever.  Express your intentions clearly to the reader of the code.  Unreadable code is not clever."
+"There is no later.  If you cannot do it right now, you will not be able to do it right later."
+
+ 
+Practice #26 – Communicate in Code
+ 
+
+Do not comment to cover up
+"Should you document all your code?  To some extent, yes.  But that does not mean you need comments for most of the code you write, especially within the body of you methods.  Source code should be understandable not because it has comments but because of its elegance and clarity - proper use of variable names, good use of whitespace, good separation of logic, and concise expression."
+"Comment to communicate.  Document code using well-chosen, meaningful names.  Use comments to describe its purpose and constraints.  Do not use commenting as a substitute for good code."
+"Commenting what the code does is not that useful; instead, comment why it does it."
+
+ 
+Further Readings
+ 
+
+http://www.martinfowler.com/articles/continuousIntegration.html
+http://www.martinfowler.com/articles/designDead.html
+
+ 
+
+Previous versions:
+| 1 empty
+| 2 
+|
+                    

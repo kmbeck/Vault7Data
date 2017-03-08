@@ -1,0 +1,18 @@
+
+                        Image File Execution Options
+This registry key can be used to redirect the execution of any application to a different executable. It is likely monitored by many PSPs. The specified “debugger” application will be called with a path to the original program as the first argument.
+HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\notepad.exe
+
+Key: notepad.exe
+Value: Debugger (REG_SZ) : "C:\windows\system32\calc.exe"
+
+
+
+
+ 
+ 
+
+Previous versions:
+| 1 
+|
+                    

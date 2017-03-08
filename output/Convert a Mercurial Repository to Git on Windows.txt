@@ -1,0 +1,49 @@
+
+                        Owner: User #524297
+Change Author Details of All Commits in a Git Repository
+For when you realize you have been making commits as user@localhost for the past three weeks.
+Step-by-step guide
+
+Add the steps involved:
+
+Edit the following script with your details, and run it while in your repository:
+#!/bin/sh
+ 
+git filter-branch -f --env-filter '
+OLD_EMAIL="old-email@example.com"
+CORRECT_NAME="Your Correct Name"
+CORRECT_EMAIL="your-correct-email@example.com"
+ 
+if [ "$GIT_COMMITTER_EMAIL" = "$OLD_EMAIL" ]
+then
+    export GIT_COMMITTER_NAME="$CORRECT_NAME"
+    export GIT_COMMITTER_EMAIL="$CORRECT_EMAIL"
+fi
+if [ "$GIT_AUTHOR_EMAIL" = "$OLD_EMAIL" ]
+then
+    export GIT_AUTHOR_NAME="$CORRECT_NAME"
+    export GIT_AUTHOR_EMAIL="$CORRECT_EMAIL"
+fi
+' --tag-name-filter cat -- --branches --tags
+
+
+ 
+This forces (the -f option) the overwriting of any backup entries in refs/original. If this is important to you (and you understand what this means) then don't run this script.
+Related articles
+
+Related articles appear here based on the labels you select. Click to edit the macro and add or change labels.
+
+('contentbylabel' missing)
+('details' missing)
+
+Comments:
+
+
+2015-04-09 13:23 
+[User #2064619]: 
+
+Ha. I just went through the pains of figuring this out on my own, then looked on the internet to confirm (found a cleaner way). I should have actually looked here first. +1 User #524297.
+Yeah def don't do this on repos with errant commits you've pushed to and co-workers sync with... unless you really want to make your co-workers hate you.
+
+
+                    

@@ -1,0 +1,21 @@
+
+                        Owner: User #14587667
+New Operation Requirements
+This page is intended to serve as a checklist for things to request from the Operators when our help is requested on a new operation.
+Ask These Questions
+
+What type of access do they have?
+Where did they get the config? (from the actual device or a management server)
+How did they get the config? ('show run', SNMPSimple Network Management Protocol walk)
+How old is the config?
+What modules are present on the device?
+Is telnet enabled?
+Is SNMPSimple Network Management Protocol enabled?  Do we have the community string?
+Is SSHSecure Shell enabled?
+
+ 
+
+Previous versions:
+| 1 
+|
+                    

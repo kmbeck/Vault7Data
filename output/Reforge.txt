@@ -1,0 +1,477 @@
+
+                        Reforge
+Reforge Scripting Grammar Definition
+Variable Types
+
+
+Type
+Syntax
+Notes
+
+
+int
+int <name> = <value>
+
+whole integers only
+name is restricted to A-Z, a-z, 0-9, and may contain an underscore
+
+
+
+str
+str <name> = '<value>'
+
+value must be quoted
+name is restricted to A-Z, a-z, 0-9, and may contain an underscore
+
+
+
+list
+list <name> = [v1,v2,v3,..]
+
+name is restricted to A-Z, a-z, 0-9, and may contain an underscore
+value list must be comma seperated
+value list must be wrapped in [ ]
+
+
+
+encrypted stream
+
+encryptedstream <name> = <path>
+encryptedstream <name>
+
+
+name is restricted to A-Z, a-z, 0-9, and may contain an underscore
+filepath must be a valid windows filepath
+output will always be compressed and encrypted
+declaring a stream as stream <variable_name> or stream <variable_name> = '' will make the stream an in memory stream
+
+
+
+plaintext stream
+
+plaintextstream <name> = <path>
+plaintextstream <name>
+
+
+name is restricted to A-Z, a-z, 0-9, and may contain an underscore
+filepath must be a valid windows filepath
+output will always be uncompressed and unencrypted
+declaring a stream as stream <variable_name> or stream <variable_name> = '' will make the stream an in memory stream
+
+
+
+NOTES on Streams: streams are read/write. In-memory streams are cleared when their reference count drops to 0. Changing a stream variable's file_path will close the stream and open a new one to the new path.
+Core functions
+
+
+Function
+Description
+Syntax
+Notes
+
+
+pause
+pause execution for a specified number of seconds
+pause <number_of_seconds>
+
+input can be a raw number or a variable of type int
+time must be a whole integer and is specified in seconds
+
+
+
+echo
+echo a value to a file
+echo <stream> <value>
+
+string/int value can be a raw string/int or a variable of type string
+stream must be a user defined stream type or a reserved stream type
+
+
+
+break
+jump out of a for or while loop
+break
+ 
+
+
+continue
+go to the end of a for or while loop and move to the next loop iteration
+continue
+ 
+
+
+for
+Iterates over each item in a list and performs a series of operations
+
+for <var> in <list> { }
+for <var> in [v1,v2,v3,...] { }
+for <var> in <path> { }
+
+
+for each <x> item in <y> do the commands in the <cmds> block
+<y> is a list of items or the base of a directory to iterate over
+if <y> is a base dir then it must be a valid windows filepath
+the cmds block can contain any command supported by reforge 
+For loop can take a path as the <y> param that allows the for to do a for each in pathfor <files>[,<dirs>] in <path>
+if only files is specified the for loop will not follow sub directories
+if dirs param is provided a second for loop can be used to follow subdirectories.
+
+
+
+
+
+
+while
+Perform a number of operations while a condition is true
+while( <condition>) { }
+
+condition must be in the form <x> <operator> <y> where x and y are of the same type
+condition operators can be <,>, <=,>=, or =
+x and y can be raw str/int or variables of type str/int
+
+
+the cmds block can contain any command supported by reforge
+
+
+
+if / if...else
+Perform an operation if a condition is true other wise perform a different operation
+
+if( <condition> ) { }
+if( <condition> ) { } else { }
+
+
+condition must be in the form <x> <operator> <y> where x and y are of the same type
+condition operators can be <,>, <=,>=, or =
+x and y can be raw str/int or variables of type str/int
+
+
+the cmds block can contain any command supported by reforge 
+the else part of this command is optional
+
+
+
+add to list
+append a value to the end of a list
+add_to_list <list> <value>
+ 
+
+
+remove from list
+remove an item from a list
+remove_from_list <list> <index>
+ 
+
+
+pipe
+output one stream to another
+pipe <stream> <stream>
+either <stream> can be plaintextstream or encryptedstream types
+
+
+ 
+Modules
+
+
+Function
+Description
+Syntax
+Notes
+
+
+remove
+securely deletes a file
+remove <path>
+
+input can be a raw string or variable of type str
+input must be a valid windows filepath
+returns a status code which will indicate success or failure
+
+
+
+dirlist
+performs a dir walk starting at the specified location
+dirlist <starting_path> <stream>
+
+start path must be a valid windows file path
+stream must be a user defined stream type or a reserved stream type
+returns a list of containing the results of the dir walk
+
+
+
+archive
+add a file to a zip/rar archive
+
+archive <archive_file> <file_to_add>
+archive <archive_file> <list of files to add>
+
+
+filepaths must be valid windows filepaths
+the file combined should be secure deleted
+returns a status code which indicates success or failure
+
+
+
+unpack
+unpacks another executable from the ReForge package to a specified location on the target
+unpack <local path to executable> <target extraction path>
+
+executable path can be a valid linux or windows filepath
+extract location must be a valid windows filepath
+both inputs can be a raw string or a variable
+returns a status code indicating success or failure
+
+
+
+netstat
+perfrom a netstat
+netstat <stream>
+
+stream must be a user defined stream type or a reserved stream type
+returns a list of strings containing netstat information
+
+
+
+process list
+get a process list
+proclist <stream>
+
+stream must be a user defined stream type or a reserved stream type
+returns a list of lists containing process related information
+
+
+
+registry
+set, edit, or delete a registry key
+registry <operation> <key> <type> <value>
+
+operation can be create, set, or delete
+key can be a raw string or a variable of type string
+type can be REG_BINARY, REG_SZ, REG_DWORD
+value can be a raw string, raw int, or a variable of type int or str
+returns a status code indicating success or failure
+
+
+
+enzip
+compress and encrypt a file
+enzip <input file> <output file>
+
+input/output files must be valid windows file paths
+input/output files can be raw strings or variables of type string
+input can also be a stream which causes the stream to close
+should we allow compress and encrypt of the same file in place?
+returns a status code to indicate success or failure
+
+
+
+run
+run a system command or executable and wait for its completion
+run <cmd> <stream>
+
+cmd can be a raw string or a variable of type string
+cmd must contain full path to the executable to run and any args if these things are necessary
+run must wait till the command is finished
+stream must be a user defined stream type or a reserved stream type
+return a status code to indicate success or failure and a string containing the results of the command?
+
+
+
+start
+run a system command or executable but don't wait for its completion
+start <cmd>
+
+cmd can be a raw string or a variable of type string
+cmd must contain full path to the executable to run and any args if these things are necessary
+start does not wait till the command is finished
+return a status code to indicate success or failure
+
+
+
+
+Arithmetic and Comparison operators
+
+
+Operator
+Description
+
+
++
+add two numbers or append two strings
+
+
+-
+subtract two numbers
+
+
+/
+divide two numbers
+
+
+%
+get the remander from the division of two numbers
+
+
+*
+multiply two numbers
+
+
+<
+less than comparison operator
+
+
+<=
+less than or equal to comparison operator
+
+
+>
+greater than comparison operator
+
+
+>=
+greater than or equal to comparison operator
+
+
+==
+equals comparison operator
+
+
+!=
+not equals comparison operator
+
+
+#
+comment
+
+
+ 
+Environment Variables
+
+
+Name
+Description
+
+
+env.stdout
+reserved stream name to output to stdout
+
+
+env.stdin
+reserved stream to get data from stdin
+
+
+env.stderr
+reserved stream to output to stderr
+
+
+env.temp
+represents the path to the target's temp directory
+
+
+env.computername
+represents the target computers name
+
+
+env.windir
+represents the target's path to system32
+
+
+env.systemroot
+represents the target's path to the root drive
+
+
+env.path
+represents the value of the target's path.
+
+
+ 
+How to Compile ReForge Scripts
+A reforge script can be compiled using the reforge_builder.py python script.  The options are defined as the following:
+ 
+> python reforge_builder.py <-i> -f <path to your script> -o <output file> <-d>
+
+
+Option
+Description
+Notes
+
+
+-i
+run the builder in interactive mode
+Allows the user to enter a single line of text and see how it parses. This feature is primarly used to debug new features of the compiler
+
+
+-f
+specifies the script to compile
+ 
+
+
+-o
+specifies the name of the output file
+*Currently ouputs a bytecode ingot file
+
+
+-d
+turns on debug output during compilation
+ 
+
+
+ 
+Running the Emulator
+Currently we do not output a runnable executable.  However, you can run the resulting ingot file through our emulator to check the correctness of the resulting bytecode. The emulator can be run as follows:
+> python emulator <path to ingot file>
+The emulator will create an emulated file system under the hood in order to allow scripts that target a windows system to be run on linux.  Environment variables are also populated with emulated values.
+Once the emulator is started you can type help to get a list of commands available.  You can also type help and a command name to get more information about that command.
+
+ 
+
+Sub-Pages:
+
+
+Archive Grammer notes 
+
+
+Reforge bytecode specification 
+
+
+
+Previous versions:
+| 1 
+| 2 
+| 3 
+| 4 
+| 5 
+| 6 
+| 7 
+| 8 
+| 9 
+| 10 
+| 11 
+| 12 
+| 13 
+| 14 
+| 15 
+| 16 
+| 17 
+| 18 
+| 19 
+| 20 
+| 21 
+| 22 
+| 23 
+| 24 
+| 25 
+| 26 
+| 27 
+| 28 
+| 29 
+| 30 
+| 31 
+| 32 
+| 33 
+| 34 
+| 35 
+| 36 
+| 37 
+|
+                    

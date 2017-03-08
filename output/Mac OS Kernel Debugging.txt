@@ -1,0 +1,91 @@
+
+                        Why POSIX Daemonization is Complicated
+Here's how Stevens says you're supposed to Daemonize:
+void daemonize(const char *cmd) {
+	if ((pid = fork()) < 0)
+		err(1, "fork fail");
+	else if (pid != 0) /* parent */
+		exit(0)
+	
+	/* child A */
+	setsid()
+ 
+	if ((pid = fork()) < 0)
+		err(2, "fork fail");
+	else if (pid != 0) /* child A * /
+		exit(0)
+	
+	/* child B (grandchild) */
+	do_daemon_stuff();
+}
+ 
+ 
+Most people have 2 questions about this code:
+
+Why setsid() in the first child?
+Why fork() again?
+
+Why setsid() in the first child?
+According to Stevens, setsid() does 3 important things:
+
+The process becomes a session leader of a new session that only contains the calling process.  (PIDProcess ID = SID)
+The process becomes the process group leader of a new group. (PIDProcess ID = SID = PGID)
+The process will have no controlling terminal.  If it had one before setsid(), the association will be broken.
+
+Furthermore, setsid() cannot succeed if the calling process is already a process group leader (PIDProcess ID = PGID), so it's necessary to first call fork(), which guarantees that the newly created process is not a process group leader (it inherits this from the parent).
+Calling setsid() is important because daemons should not have controlling terminals.  If a daemon is launched from an interactive shell, it is subject to signals from the user's controlling terminal that might cause it to exit unexpectedly.
+Why fork() again?
+There are 2 reasons:
+
+In order for the process to be reparented to init, its parent must exit.  Most well-intentioned Unix daemons do this, so they don't even need to call fork() again.  But if the parent process is NOT going to exit, then if you want the child to be reparented to init, say, because you're not going to call waitpid() on it, then you MUST call fork() a second time.  If you don't call fork() a second time, and you don't call waitpid() on the child, then the child will become a zombie.  When the parent finally dies, it's zombie child might get reparented to init, but it would remain a zombie forever because init would never receive a SIGCLD, because the child is already dead, and so, init would never call waitpid() either.
+On System V-based operating systems, the second call to fork() prevents the daemon from ever acquiring a controlling terminal again.  The only System V variants in wide use today are: AIX, Solaris and HP-UX, so this isn't a good reason to fork() again, unless you're expecting to see one of those systems.
+
+So Why am I Making Zombies?
+When a process exits, the system presumes that another process might want to call wait/waitpid() on it in order to get its exit status (as if anyone cares!).  If nobody calls wait/waitpid() on the dead process' pid, then the record is maintained indefinitely in the kernel.  This is a zombie.
+Even if you properly daemonize a program, on some systems, it's possible to create a zombie because of a buggy init program.  For example, busybox a bug in 2005 that caused zombies to proliferate because init didn't reap them.  In this case, it may be better to waitpid on your own children instead of forking twice.
+How to Make a Zombie
+Here's how you make a zombie:
+
+Make a child
+Let it die while you're alive
+Exit without calling wait/waitpid on the child
+
+That being said, on all system I've looked at, this won't even make a true zombie for the following reasons:
+
+Some systems have a kernel reaper thread that waits on dead processes and gives their parent SIGCHLD (OpenBSD)
+Some systems automatically reparent a process to init at exit(), then give the parent a SIGCHLD, causing the zombie to be reaped (XNU/OSX)
+
+How Make a Background Task
+For long-running implants, there's usually no need for the second fork.  If you're able to setup a signal handler for SIGCHLD, just fork once call setsid, and perform the task.  The implant will get a SIGCHLD when the child exits, upon which wait may be called.
+
+static void signal_handler(int sig) {
+	int stat;
+	wait(&stat);
+}
+
+
+void main(void) {
+    struct sigaction sigact;
+    sigact.sa_handler = signal_handler;
+    sigemptyset(&sigact.sa_mask);
+    sigact.sa_flags = 0;
+    sigaction(SIGCHLD, &sigact, (struct sigaction *)NULL);
+ 
+	if ((pid = fork()) < 0)
+		err(1, "fork fail");
+	else if (pid != 0)
+		do_parent_stuff();
+	else {
+		setsid()
+		do_child_stuff();
+	}
+}
+
+Previous versions:
+| 1 
+| 2 
+| 3 
+| 4 
+| 5 
+|
+                    

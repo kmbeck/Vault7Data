@@ -1,0 +1,112 @@
+
+                        Captive Portal
+Summary
+The following is the setup for a DNSDomain Name System server designed to trick a device to launch its captive portal window.  The idea is that we want the DNSDomain Name System server to forward requests for captive.apple.com/hotspot-detect.html to mdbtest.devlan.net/captive.html.  Captive.html can then forward the the device to our machine running Hamr.
+Set Up
+The wireless router configured for captive portal is CaptivationStation.  The device can be accessed at 192.168.1.1:81 (if port 81 isn't getting you to the configuration page, try 192:168.1.1.  This means that some settings have been reset and need to be fixed).  The admin user name for the device is "Captive" (Note: the password is not the same as the wireless password).  The router forwards all requests for captive.apple.com/hotspot-detect.html to a local hotspot-detect.html file.
+Apple devices try to connect to the hotspot-detect.html file.  We use this file to forward users to captive.html also on the router.  Both html files are located at:
+/jffs
+Adding Your Machine to Captive.html
+
+
+Connect to CaptivationStation and SSHSecure Shell into the router
+
+ssh root@192.168.1.1
+password is the same one used for logging into the web configuration
+
+
+vi /jffs/captive.html
+
+add a line like the following:
+<h2><a href="http://[Your IP]:8080/?id=myt">[Your Name]</a></h2>
+
+
+Connecting to CaptivationStation
+
+Connect to CaptivationStation with the password
+The device should connect and launch the captive portal
+Click on your machine
+To get out hit "cancel" and then "Use Other Network"
+
+** If captive portal does not open on subsequent tries, tell the device to forget the network.  This is a known issue if you selected "Use Without Internet" **
+Creating New Captive Portal Routers
+
+Browse to 192.168.1.1, log into your router, and go to Administration/Backup. For a factory reset router, these are the default configurations:
+SSID: dd-wrt (no password)
+Configuration page username/password: admin/admin 
+
+
+Navigate to Administration/Backup and restore the router with this back up file: nvrambak.bin
+
+Once the router restarts, connect to TestivationStation (the new SSIDService Set Identifier (Wireless Network) of your router)Note: all passwords are the same as CaptivationStation
+
+Browse to 192.168.1.1:81 using the username Captive and its password
+
+Verify that the startup script in Administration/Commands is the following:
+killall httpd
+sleep 1
+httpd -p 80 -h /jffs
+httpd -p 81
+
+Line 2 allows the files in /jffs to be served to the browser on port 80 (ex. 192.168.1.1/captive.html)
+Line 3 enables you to be able to configure the router using port 81.  You MUST use 192.168.1.1:81 to access the router configuration page.
+
+
+
+Verify that the new settings have been restored by going to Services/Services and make sure DNSMasq has the following entry:
+address=/captive.apple.com/192.168.1.1
+
+In Administration/Management, enable JFFS2 (do not enable Clean JFFS2). Click Save and then Apply Settings (the page will take a few seconds to reload)
+
+SCP hotspot-detect.html and captive.html over to /jffs on the router
+ex. scp ~/Desktop/captive.html root@192.168.1.1:/jffs
+
+Browse to 192.168.1.1/hotspot-detect.html.  It should redirect you to 192.168.1.1/captive.html.  If it doesn't, ssh into the router and run the 3 commands from step 5
+
+To SSHSecure Shell into the router
+
+ssh root@192.168.1.1
+password is the same one used for logging into the web configuration
+
+
+
+
+Attachments:
+
+
+captive.html
+
+
+hotspot-detect.html
+
+
+nvrambak.bin
+
+
+
+Previous versions:
+| 1 
+| 2 
+| 3 
+| 4 
+| 5 
+| 6 
+| 7 
+| 8 
+| 9 
+| 10 
+| 11 
+| 12 
+| 13 
+| 14 
+| 15 
+| 16 
+| 17 
+| 18 
+| 19 
+| 20 
+| 21 
+| 22 
+| 23 
+|
+                    

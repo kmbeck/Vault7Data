@@ -1,0 +1,342 @@
+
+                        iOS Developer Setup Guide - New Developers Click Here
+
+('toc' missing)
+Mount Network Share
+In Finder, hit Command-k to bring up the "Connect to Server" dialog box. Enter "smb://fs-01.devlan.net" for the "Server Address". Select the "share" volume and hit "OK". Enter your devlan credentials when prompted for a username and password. Once "share" is open in Finder, bookmark the "MDB" folder since you will need access to it often.
+Set Up NTP
+Go to the Date & Time preferences, check the box for "Set date and time automatically", and enter "ntp.devlan.net" for your time server.
+Install Xcode
+Install Xcode from smb://fs-01.devlan.net/share/share-udb-net/public/osx/software/Xcode.
+Do not forget to install the command line tools.
+After Xcode is installed, "fix" it.  from command line type "open /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/SDKSettings.plist" and double click to switch from NO to YES and YES to NO the following fields:
+
+ENTITLEMENTS_REQUIRED = NO
+CODE_SIGN_REQUIRED = NO
+AD_HOC_CODE_SIGNING_ALLOWED = YES
+
+Check to see if additional .../Developer/SDKs/iPhoneOS<version>.sdk directories exist and fix their SDKSettings.plist as well (This is required for XCode 6.3).
+IRC
+Install Adium from share. Follow the instructions at Internet Relay Chat (IRC)   to set up an IRCInternet Relay Chat client. Join the rooms #mdb and #mdb-ios.
+Messages/Bonjour
+The iOS team uses Apple's Messages application to communicate due to its cleaner handling of multi-line messages. To set up Messages,
+
+Launch the Messages program.
+Select "Preferences" from the "Messages" menu.
+Click on the "Accounts" tab.
+Click on "Bonjour".
+Check "Enable Bonjour instant messaging".
+
+Configure Your Bash Profile
+$ touch ~/.bash_profile 
+export PATH=${PATH}:/Applications/Sublime\ Text.app/Contents/SharedSupport/bin/:~/GIT/git-repo/
+export EDITOR=vim  # designates editor for input when a command line tool requests an editor
+export CLICOLOR=1  # command line color set
+export LSCOLORS=dxfxcxdxbxegedabagacad    # LS command line color set
+ 
+#The following are GITSource code management software command line completions (optional but suggeted
+. /Applications/Xcode.app/Contents/Developer/usr/share/git-core/git-completion.bash
+. /Applications/Xcode.app/Contents/Developer/usr/share/git-core/git-prompt.sh
+GIT_PS1_SHOWUNTRACKEDFILES=1     #... untracked files(
+PS1='\u@\h:\W\[\033[31m\]$(__git_ps1 "(%s)")\[\033[0m\]\$ '
+
+
+# The following are Make file completions suggested but optional
+ 
+_complete_make() { COMPREPLY=($(compgen -W "$(make -pRrq : 2>/dev/null | awk -v RS= -F: '/^# File/,/^# Finished Make data base/ {if ($1 !~ "^[#.]") {print $1}}' | egrep -v '^[^[:alnum:]]' | sort | xargs)" -- "${COMP_WORDS[$COMP_CWORD]}")); }
+complete -F _complete_make make
+ 
+export CODESIGN_ALLOCATE=$(xcrun -f codesign_allocate)   # used by the coding command needs to know where coding alloc is located in Xcode
+export ZOO_IPSW_PATH=~/Work/ios-files/   # used for make files and IOSApple operating system for small devices build processes
+export GHIDRA_PATH=~/Work/ghidra_6.0.10     # used for make files and IOSApple operating system for small devices build processes
+Either log out and log in again or source .bash_profile as needed.
+Set Up SSHSecure Shell key pair
+Using ssh-keygen, create a private/public key pair:
+
+$ ssh-keygen
+Generating public/private rsa key pair.
+Enter file in which to save the key (~/.ssh/id_rsa): 
+Enter passphrase (empty for no passphrase): 
+Enter same passphrase again: 
+Your identification has been saved in ~/.ssh/id_rsa.
+Your public key has been saved in ~/.ssh/id_rsa.pub.
+The key fingerprint is:
+...
+
+Set up Stash
+On Stash (stash.devlan.net), go to "Manage Account" under the user menu icon on the upper right (it may have a non-image display). On the left, navigate to "SSH Keys," and then click "Add Key." On the command line, type:
+$ pbcopy < ~/.ssh/id_rsa.pub
+This copies the key into the bin. Paste it into the text field on Stash and click "Add Key."
+Configure SSH
+Open (or create) ~/.ssh/config and add the following:
+
+host stash
+        hostname stash.devlan.net
+        port 7999
+        user git
+
+SSH will determine your username from the key you created. Test this by checking out a
+project from git (try "git clone  ssh://stash/dto/dto_logger").
+Set Up .gitignore_global
+Create the file ~/.gitignore_global with the following list of file names for which GITSource code management software should ignore changes:
+
+ 
+.svn/
+*.build
+build
+build-*
+DerivedData
+.DS_Store
+*xcuserdata*
+*.xccheckout
+*.pyc
+*.orig
+*.dSYM
+*.swp
+*.o
+NOTE: Older versions of GITSource code management software might use ~/.gitignore. Run "git config --global --get core.excludesfile" to check what file is being used if you have issues.
+Set up Git Config
+Useful git aliases to add to your ~/.gitconfig:
+ 
+[core]
+    excludesfile = /Users/<your_user_name>/.gitignore_global
+[alias]
+    b = branch
+    ca = commit --amend
+    ci = commit
+    co = checkout
+    f = fetch --all --prune
+    gui = !sh -c '/usr/local/git/libexec/git-core/git-gui'
+    po = push origin
+    st = status --short --branch
+    lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%C(bold cyan) <%an>%Creset' --abbrev-commit
+ 
+
+Install Repo
+Create a folder in ~/GIT for git-repo
+from GITSource code management software run "git clone ssh://stash/gitrepo/git-repo.git"
+Test Repo checkout
+$ mkdir early$ cd early $ repo init --no-repo-verify -u ssh://git@stash.devlan.net:7999/ios/early_manifest.git$ repo sync
+Fix Xcode
+Run the following commands to disable code signing and entitlements and to enable ad hoc code signing. The script also creates a link to IOKit.
+$ git clone ssh://stash/ios/xcode_fixes.git
+$ cd xcode_fixes; python fix_xcode.py $(xcrun --sdk iphoneos --show-sdk-version)
+Add Entries to Hosts File
+The JIRAUser Managment Software (Atlassian) and PyPi servers are not currently registered with our DNSDomain Name System servers. Manually add them to your hosts file. See lines 10 and 11.
+##
+# Host Database
+#
+# localhost is used to configure the loopback interface
+# when the system is booting.  Do not change this entry.
+##
+127.0.0.1       localhost
+255.255.255.255 broadcasthost
+::1             localhost
+172.31.1.2      jira.ioc.local jira
+10.2.3.102      pypi.python.org
+Install GHUnit
+git clone ssh://git@stash.devlan.net:7999/ios/gh-unit.git
+cd gh-unit/Project-iOS
+make default
+sudo make install
+ 
+Optional Cool Stuff
+
+Download the following and install 
+Install Sublime from : file:///Volumes/share/MDB/OSX/Software/FreeSoftware/Editor/Sublime/
+
+1) Install
+2) Run: ln -s"/Applications/Sublime Text.app/Contents/SharedSupport/bin/subl" subl
+3) Now you can open Sublime from Terminal with "subl"
+ 
+
+Install 010 editor from : file:///Volumes/share/MDB/OSX/Software/FreeSoftware/Editor/010Editor/
+
+Setup python Devlan simple pip index  
+
+           Click on the pip hyperlink located on the page linked above to download the binaries (from http://10.3.2.212/packages/). Open Finder to the downloaded python installer. In a terminal change directory to the folder containing the setup file (Can be done by entering Cd in the terminal window and dragging the folder from finder to the terminal window). Run "sudo python setup.py install" to install pip. Be sure to set the URLUniform Resource Locator directory as directed on the linked page. The URLUniform Resource Locator can be set permanently for your user by creating the file ~/.pip/pip.conf with the following contents:
+[global]
+index-url = http://pypi.python.org/simple/
+Note that you must have added pypi.python.org to your hosts files (IP is 10.2.3.102).
+           Once pip is installed run "sudo pip install PYcrypto" to install the PYcrypto python suite. 
+Setup pylint and SublimeLinter
+
+Run "sudo pip install pylint"
+Download the following: Package Control
+
+
+Drop the file into the following directory and restart Sublime:
+/Users/[User]/Library/Application Support/Sublime Text 3/Installed Packages/
+
+Type Comand+Shift+P in Sublime (this opens Sublime's Command Palette) and type "Add Channel"
+
+Add http://mdbtest.devlan.net/channel_v3.json to the field on the bottom of sublime
+
+Open Command Palett again and type "Install Package"
+
+Install "SublimeLinter" and "Sublime-pylint"
+
+Restart Sublime and the Linter should run
+
+Install Java (necessary requirement for ghidra) from 
+/Volumes/share/MDB/OSX/Software/FreeSoftware/System/Java/    double click the idk-8u25 or newer version and follow prompts to install. This is oracles Java
+Setup Homebrew
+See Homebrew  .
+
+ Install / Setup Ghidra from: https://confluence.devlan.net/x/RoKR (Ghidra is a NSANational Security Agency app and is located in the /volumes/share/NSA folder)
+
+Found in Software/ClassifiedTools/Ghidra/ghidra_6.0.10_NEW_TSSI.
+1) cd ggidra_6.0.10
+2) run "./ghidraRun" 
+Xcode Docsets
+Copy docsets from  
+/Volumes/share/MDB/OSX/software/DevTools/Xcode/docsets/
+to
+copy these to ~/Library/Developer/Shared/Documentation/DocSets
+To download them, you must download the *.dmg from https://developer.apple.com/library/downloads/docset-index.dvtdownloadableindex, unpackage the .pkg using:
+
+xar -xf to unxar it
+gunzip -dc | cpio -i on the "Payload" file
+
+ 
+
+Stash Notifications via RSS
+
+Download an RSSReally Simple Syndication reader from the share(Vienna, RSS.app), smb://fs-01.devlan.net/share/MDB/OSX/Software/FreeSoftware/Utility
+
+Add a new feed URLUniform Resource Locator of http://mdbtest.devlan.net/rss/<project-name>.xml - for example, http://mdbtest.devlan.net/rss/ios.xml for the iOS project
+Update frequency as you please
+
+ 
+ 
+ 
+
+Create Stash Pull Requests From the Command Line (moved to stash page) 
+
+We’ll be continuing to improve these tools, some improvement in the pipeline include:
+
+Allow the user to set the title and description of a PR
+Pulling out a pull request description from the commit message body
+Checking that the source branch is fully pushed to the server, and providing an option to do so if not
+Create a host of new commands, such as:
+
+Listing all/my pull requests for the current repo
+Switch to the source branch for a particular repo (so that I can review the code with my local clone)
+
+
+However, we need you! If you’re a ruby wizard and use Stash, fork the project on Bitbucket and create a pull request to contribute back. You can be awesome too!
+
+Attachments:
+
+
+Screen Shot 2015-11-12 at 1.25.25 PM.png
+
+
+image2015-11-12 13:21:2.png
+
+
+image2015-11-12 13:16:1.png
+
+
+image2015-11-12 13:15:18.png
+
+
+image2015-11-12 13:14:27.png
+
+
+Utility
+
+
+
+Sub-Pages:
+
+
+iOS Development Process 
+
+
+iOS Team Acronyms and Terms SECRET
+
+
+DRBOOM 
+
+
+End to End Nightskies 3.x Install with Poseidon 
+
+
+Development Resources 
+
+
+Generating and Installing Provisioning Profiles for Xcode 
+
+
+Tips & Tricks 
+
+
+Building Nightskies (crunchylimeskies) 
+
+
+
+Previous versions:
+| 1 
+| 2 
+| 3 
+| 4 
+| 5 
+| 6 
+| 7 
+| 8 
+| 9 
+| 10 
+| 11 
+| 12 
+| 13 
+| 14 
+| 15 
+| 16 
+| 17 
+| 18 
+| 19 
+| 20 
+| 21 
+| 22 
+| 23 
+| 24 
+| 25 
+| 26 
+| 27 
+| 28 
+| 29 
+| 30 
+| 31 
+| 32 
+| 33 
+| 34 
+| 35 
+| 36 
+| 37 
+| 38 
+| 39 
+| 40 
+| 41 
+| 42 
+| 43 
+| 44 
+| 45 
+| 46 
+| 47 
+| 48 
+| 49 
+| 50 
+| 51 
+| 52 
+| 53 
+| 54 
+| 55 
+| 56 
+| 57 
+| 58 
+| 59 
+| 60 
+| 61 
+|
+                    

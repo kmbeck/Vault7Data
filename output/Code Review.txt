@@ -1,0 +1,27 @@
+
+                        Owner: User #524297
+Delivery & Deployment
+THOU MUST
+
+Only deliver projects that have been built on an environment different than the development machine
+Track the SHA's of delivered code (see Source Control   for ways of doing this)
+
+THOU SHOULD
+
+Utilize Bamboo for building projects (gives you that different machine)
+Share evaluation copies with customers often 
+Provide regular demonstrations of new functionality/development progress to customers (alternative to evaluation copies)
+
+THOU SHOULD NOT
+ 
+THOU MUST NOT
+Give the Customers the impression they can deploy evaluation copies operationally
+
+Previous versions:
+| 1 
+| 2 
+| 3 
+| 4 
+| 5 
+|
+                    

@@ -1,0 +1,92 @@
+
+                        Owner: User #524297
+Git Reference
+Git – The Fine Manual
+Everything you wanted to know about Git in one place. 
+Pro Git (PDFPortable Document Format book): progit.en.pdf
+
+Git - The Cheat Sheet
+Just the facts.
+Git Cheat Sheet (Atlassian): atlassian_git_cheatsheet.pdf
+
+Articles from the Git Blogosphere:
+Delve deeper into something more specific.
+
+Git Reset Demystified (Git Blog): Git-ResetDemystified.pdf
+
+Git - SVNSoftware Virtual Network Crash Course (Git Blog): Git-SVN-CrashCourse.pdf
+
+Git Submodules (Atlassian): Git-Submodules.pdf
+
+Git Branching and Forking in the Enterprise: Why Fork? (Atlassian): Git-Branching-and-Forking.pdf
+
+Vive la git diff! (Tips for using git diff) (Atlassian): AtlassianBlogs_git_diff.pdf
+
+Git Best Practices (Seth Robertson Blog) : git-best-practices.pdf
+
+Post-Production Editing Using Git (Seth Robertson Blog) : git-post-production.pdf
+
+A Note About Commit Messages (Tim Pope Blog) : git-commits.pdf
+
+Forks and Upstreams (Atlassian) : git-forks-and-upstreams.pdf
+
+Visual Representation of Fast-Forward Merging : git-ffwd.pdf
+
+Deliberate Git - Best practices for recording your history in Git : git-deliberate-git.pdf
+
+
+
+Attachments:
+
+
+git-deliberate-git.pdf
+
+
+git-ffwd.pdf
+
+
+git-forks-and-upstreams.pdf
+
+
+git-commits.pdf
+
+
+git-post-production.pdf
+
+
+git-best-practices.pdf
+
+
+AtlassianBlogs_git_diff.pdf
+
+
+Git-Branching-and-Forking.pdf
+
+
+atlassian_git_cheatsheet.pdf
+
+
+Git-Submodules.pdf
+
+
+Git-SVN-CrashCourse.pdf
+
+
+Git-ResetDemystified.pdf
+
+
+progit.en.pdf
+
+
+
+Previous versions:
+| 1 empty
+| 2 
+| 3 
+| 4 
+| 5 
+| 6 
+| 7 
+| 8 
+|
+                    

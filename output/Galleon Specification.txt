@@ -1,0 +1,24 @@
+
+                        Owner: User #71473
+NOD In-memory Code Execution Specifications
+Files pertaining to In-memory Code Execution Specifications such as ICEv3 and Fire & Forget v2
+
+('attachments' missing)
+
+Attachments:
+
+
+Fire & Forget Spec.pdf
+
+
+ICE-Spec-v3-final-UNCLASSIFIED.pdf
+
+
+ICE-Spec-v3-final-SECRET.pdf
+
+
+
+Previous versions:
+| 1 
+|
+                    

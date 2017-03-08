@@ -1,0 +1,24 @@
+
+                        Owner: User #524297
+Integration & Acceptance Testing
+THOU MUST
+Assist IV&V in developing a solid test plan for your product.
+THOU SHOULD
+
+Consider the (below) Rule of Eight when planning automated testing."If the test will ever be run more than eight times, it is worth the effort spent to automate it."
+
+Consider that if two components are dependent on each other, that an automated test to verify that they work together as intended may be necessary. 
+Consider if DART can meet acceptance testing needs for your project.
+
+THOU SHOULD NOT
+Be shy about writing automated acceptance tests as a project developer.  They can be of great utility to IV&V. 
+THOU MUST NOT
+Treat "Release Candidates" as "Betas".   Confidently deliver a release candidate that you know is a quality product. 
+
+Previous versions:
+| 1 empty
+| 2 
+| 3 
+| 4 
+|
+                    

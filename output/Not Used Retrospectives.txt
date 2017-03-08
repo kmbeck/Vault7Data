@@ -1,0 +1,18 @@
+
+                        Owner: User #20251227
+Database
+This page is for items of note related to the database used in Kraken.
+NOTE:  Any info on this page is to be considered a guide only.  For ground truth, go review the code.
+Schema
+
+(again, the image above should be taken as a guide only.  for real-deal, go check the code!)
+
+Attachments:
+
+20151216_schema.jpg
+
+
+Previous versions:
+| 1 
+|
+                    

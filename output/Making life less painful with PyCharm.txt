@@ -1,0 +1,41 @@
+
+                        Common Issues
+error "'module' object has no attribute '__main_leaf__'"
+After running remote_commit, sometimes all tests fail with the above error.  It means there's a clock sync issue between the commit environment and the test server.  Because python uses the datestamp to figure out if it should recompile *.pyc's, having incorrect clocks can mess things up.
+I'm not sure why things will work a lot, and then suddenly fail, but either of the following should fix it:
+
+Reset your clock in your dev VMVirtual Machine back a few minutes/hours/whatever
+Remove all *.pyc files from everywhere - your environment and your directory on the server (/proj/testing/commits/YOUR_NAME/)
+
+ 
+Overmind tests pause and no images get reaped/reverted
+The symptoms here is that a test stays "running" for a long long time, but digging in to test case just has a run_task.log showing that no reaping is going on.  If this is the case, the reaper process has died on the test server.  Log in as root and run '/etc/init.d/reaper restart'
+ 
+Test Server remote_commits runs s. l.. o... w....
+Sometimes the Linux test server just starts running very slow.  This is likely due to "defunct" processes stuck running.  Log in to the test server as root and carefully kill processes that are hogging resources and defunct.
+ 
+Can't copy down an exe, is rput or put throwing an exception?
+Rename your exe to .txt. For example, program.exe will not copy down, but once renamed to program.txt it will copy fine.
+
+Comments:
+
+
+2015-04-20 11:34 
+[User #1179925]: 
+
+Sorry if the above is too advanced for you.
+
+
+2015-04-17 11:38 
+[User #1179925]: 
+
+Ok, User #?, I withdraw my complaint : )  I had just spent a good chunk of time trying to figure out why my exe's were not appearing on the target along with everything else...
+
+
+
+Previous versions:
+| 1 
+| 2 
+| 3 
+|
+                    

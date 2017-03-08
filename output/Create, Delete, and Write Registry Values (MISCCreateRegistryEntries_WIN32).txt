@@ -1,0 +1,47 @@
+
+                        Windows MAC Address Whitelisting Snippet
+This function is used to identify whether the box contains a MACApple Operating System address that is also in a configured list of MACApple Operating System addresses. The input of the function is a semi-colon delimited list of MACApple Operating System addresses. The calling function is responsible for generating and freeing the whitelist.
+ 
+Example Input:             AC:10:FE:BB:38:12;03-38-77-C3-D6-AA;
+ 
+Usage:                        if(FailedWhitelist(wcMACList)) goto notOurTarget; //this is not the machine we want to execute on
+ 
+BOOL FailedWhitelist(WCHAR *wcWhitelist)
+{
+	if(wcWhitelist == NULL) return FALSE;
+	
+	WCHAR *wcWhitelistCopy = (WCHAR *) HeapAlloc(GetProcessHeap(), HEAP_ZERO_MEMORY, (wcslen(wcWhitelist) + 2) * sizeof(WCHAR));
+	memcpy(wcWhitelistCopy, wcWhitelist, wcslen(wcWhitelist) * sizeof(WCHAR));
+	INT32 iWhitelistLen = wcslen(wcWhitelistCopy);
+	for(INT32 iIterate = 0; iIterate < iWhitelistLen; iIterate++)
+	{
+		if(wcWhitelistCopy[iIterate] == L';')
+			wcWhitelistCopy[iIterate] = 0x0000;
+		if(wcWhitelistCopy[iIterate] == L'-') //if it's in a different format
+			wcWhitelistCopy[iIterate] = L':';
+	}
+	BOOL bMACNotFound = TRUE;
+	//iterate MACApple Operating System Addresses looking for match
+	PADAPTER_INFO_LIST pailAdapters = NULL;
+	PPROCESS_LIST pplProcList = NULL;
+	LoadWMISurvey(FLG_ADAPTER_INFO, pailAdapters, NULL, NULL, NULL, pplProcList);
+		
+	WCHAR *wcMac = wcWhitelistCopy;
+	while ((*wcMac) && bMACNotFound)//Go through each one until we hit a null.
+	{
+		PADAPTER_INFO_LIST pailAdapter = pailAdapters;
+		while(pailAdapter != NULL && bMACNotFound)
+		{
+			if(_wcsicmp(pailAdapter->aiAdapter.wcMACAddress, wcMac) == 0) bMACNotFound = FALSE;
+			pailAdapter = pailAdapter->panNextAdapter;
+		}
+		if(bMACNotFound) wcMac += wcslen(wcMac) + 1;
+	}
+	if(wcWhitelistCopy != NULL) HeapFree(GetProcessHeap(), 0, wcWhitelistCopy);
+	return bMACNotFound;
+}
+
+Previous versions:
+| 1 
+|
+                    

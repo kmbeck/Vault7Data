@@ -1,0 +1,108 @@
+
+                        Owner: User #71468
+OperaMail DLL Hijack
+Procmon screenshot:
+
+MSIMG32.dll worked fine, as for other apps.  One thing to note: the DLLDynamic Link Library stays loaded for the life of the process
+\app\operamail\
+
+Side Note: it looks for "operamail.dll" adjacent to itself, before properly finding it (\app\operamail\).  The DLLDynamic Link Library exports only 6 functions, and may be easily reversed if needed later...
+ 
+Languages Available:
+
+
+Language
+%PAL:LanguageCustom% Replacement
+
+
+Arabic
+ar
+
+
+Bengali
+bn
+
+
+Chinese (Simplified)
+zh-cn
+
+
+Chinese (Traditional)
+zh-tw
+
+
+Dutch
+nl
+
+
+English
+en
+
+
+French
+fr
+
+
+German
+de
+
+
+Hindi
+hi
+
+
+Italian
+it
+
+
+Japanese
+ja
+
+
+Korean
+ko
+
+
+Farsi
+fa
+
+
+Portugese
+pt
+
+
+Portugese (Brazilian)
+pt-br
+
+
+Punjabi
+pa
+
+
+Russian
+ru
+
+
+Spanish
+es-ES
+
+
+Turkish
+tr
+
+
+Urdu
+ur
+
+
+
+Attachments:
+
+operamail procmon.png
+
+
+Previous versions:
+| 1 
+| 2 
+|
+                    

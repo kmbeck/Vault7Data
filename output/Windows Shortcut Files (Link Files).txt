@@ -1,0 +1,24 @@
+
+                        Data Transfer Modules (KB)
+LABEL PAGE: Child pages of this page will contain articles pertaining to data transfer modules.
+ 
+
+('children' missing)
+
+Sub-Pages:
+
+
+Transfer Data By Appending To An Existing File (DTFile_PICT - PICTOGRAM) SECRET
+
+
+Data Transfer Via Data File (DTFile_GLPH - GLYPH) SECRET
+
+
+Transferring Data Using NTFS Alternate Data Streams (DTNtfsAds_BK - Brutal Kangaroo) SECRET
+
+
+
+Previous versions:
+| 1 
+|
+                    

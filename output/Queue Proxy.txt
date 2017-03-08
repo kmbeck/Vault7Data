@@ -1,0 +1,97 @@
+
+                        Queue Proxy
+Purpose
+The Queue Proxy program, qproxy, provides command line access  to the queue implementation on the C2.    The user interface (UIUser Interface) and the transport use this program.
+Usage
+Command Line
+qproxy -q <que_id> <command> [flags] [parameters]
+Returns
+OS Return Codes
+These are incomplete,  actual numbers to be refined and may./will change during development
+0 - success
+1 - unspecified
+2 - invalid arguments
+3 - queue does not exist
+4- queue not locked
+5 - invalid file path
+6 - invalid task id, queue name, queue base path, or other internal error
+Stdout
+Output of list command which varies by -v parameter.
+Notes
+
+Only one command (aka positional parameter) per execution
+Program returns operating system numeric return code
+From and to parameters may be either task ids or numeric index positions (except for delete command, which must be task id)
+To get a status update from LPListening Post use a commit with no changes   (e.g.  use --force --clear --immediate)
+Flags (single - plus letter or – plus word) which are stand alone can be commands or modifiers to commands
+Flags with a following word/phrase are parameters.   They  provide supplemental information to commands  e.g.  -v
+Flags or parameters that are superfluous to a command are ignored   e.g.  a --json with an append
+Commands requiring lock -  append, prepend, move, insert, delete, pop, ingest, commit, remove
+
+Examples
+qproxy -q boss0042 exist                                                         // reports if  boss0042 exists
+qproxy -q boss0042 lock                                                         // acquires lock as current user-id,  fails if already locked by other user
+qproxy -q boss0042  lock --force --clear                                // forces a lock, clears all non-committed changes
+qproxy -q boss0042 exist --force --clear --immediate            // forces lock, clears changes, commits changes, unlocks, essentially a request for status from queue on LP
+qproxy -q boss0042  list -v working                                        // prints list of current (low) queue with current (non-committed) changes
+qproxy  ingest --file update.tar                                               // processes command in update.tar file (usually queue update from LPListening Post), then deletes file
+qproxy -q boss0042 append --immediate -f dirwalk.bin  -desc "dirwalk c:"         // appends dirwalk.bin to existing changes on queue boss0042, commits changes,  fails if not locked
+ command       = <task_cmd | queue_cmd > task_cmd      = append | prepend | move | insert | delete  queue_cmd     = queue_system | queue_local  queue_local   = pop | lock | unlock | list | ingest | exist queue_system  = commit | create | remove | queues
+append -  append task file specified by -f to queue
+prepend - prepend task file specified by -f to queue (i.e. put in first index)
+move - move task from position specified by --from to position specified by --to
+insert - insert task file specified by -f to queue position specified by --to
+exist - report if queue exists - i.e, returns success (0) or queue does not exist (3)
+delete - delete task specified by queue position --from
+pop - undo last change made to queue
+lock - lock queue for use by current user,  required to make changes
+unlock - release queue so other users may access queue for changes
+list - write various aspects of queue (specified by -v) to standard otu
+ingest - process commands and data in tar file (specified by -f)  Usually queue update from LP
+commit - bundle all changes into tar file and send to LP,  clear change file locally
+create - create files and directory structure for a new, empty queue specified by -q parameter
+remove - delete files and and directory structure for the  queue specified by -q parameter
+queues - list all queues by name on the C2, one per line to stdout
+flags = flag [flags] flag = --immediate // lock, task_cmd, commit, unlock
+--force           //  lock command always succeeds (will bump current lock owner)
+--clear           // clear all uncommitted changes, before preforming task_cmd
+--json      // list low, working, or high views and other views except changes in JSONJavascript Object Model format Proxy JSON Outputs  
+parameters = parameter [parameters] parameter  =  -q --queue <que_id>  -f --file <task_file | tar_file>   // required for (append, prepend, and insert) | ingest --from <index | id >                // required for move  --to <index | id>                   // required for insert and move
+--desc   <description>             // longer description, required, meant for task command line
+--shortdesc <description>                      // shorter description for compact display, optional, defaults to original filename -v --view < low | working | changes | high | user | elapsed | lasttime >          // default = working
+--json 
+low - last know state of low (LPListening Post) queue
+working - low queue with current changes applied
+changes - set of current changes in order of application
+high - low queue with all changes, committed and current, applied in order
+user - user name of last user of locked queue
+elapsed- number of seconds since last queue update from LPListening Post was processed
+lasttime - C2 time of last update received from LP
+description - alphanumeric string id - alphanumeric, fails on conversion to number index - digits only / numeric que_id - alphanumeric, at least 5 alphanumeric (fisrt 4 are parent id) task_file - file name of file to be copied into queue tar_file - file name of tar file to be processed / ingested
+
+Sub-Pages:
+
+
+Proxy JSON Outputs 
+
+
+
+Previous versions:
+| 1 
+| 2 
+| 3 
+| 4 
+| 5 
+| 6 
+| 7 
+| 8 
+| 9 
+| 10 
+| 11 
+| 12 
+| 13 
+| 14 
+| 15 
+| 16 
+|
+                    

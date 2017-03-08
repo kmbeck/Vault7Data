@@ -1,0 +1,53 @@
+
+                        MDB AngerManagement Op Delivery
+
+Create a folder in /share/MDB/Android/Operations if there does not already exist one for the operation.
+Visit https://bamboo.devlan.net:8443/browse/DROID-ANGER to get the lastest build number.
+Visit https://bamboo.devlan.net:8443/browse/DROID-ANGER-[LATEST_BUILD_NUMBER]/artifact/JOB1/Delivery/ and download the latest tar.gz build.
+Extract the RELEASE folder inside the tar.gz into the specific OP folder (ie. JQJLIMECAKE).
+Rename the RELEASE folder to correspond to the AngerManagement release version (ie. AngerManagement_v1.5-OP_RELEASE).
+Extract the angermanagement_vX.Y.tar from BIN/UNCLASSIFIED_FOUO into SRC/TOPSECRET_NOFORN
+Copy the latest BEM from the latest release of Quafflehamr (see /share/ESD_ELECTRONIC_DELIVERIES) into SRC/TOPSECRET_NOFORN
+
+The specific operation root directory run ```git clone ssh://git@stash.devlan.net:7999/~User #73583/make-plist.git```
+Copy the file into the SRC/TOPSECRET_NOFORN directory
+
+
+Obtain the following information from the OperatorGenerate a passphrase (OSOperating System X can use the keychain password generation tool)
+
+bowtie-url
+hamr-url
+proxy-cert
+port
+targets
+
+
+
+Using the information obtained from the target create a bash script (ie. SRC/TOPSECRET_NOFORN/scr.sh) with the followingRun scr.sh  which will spit out a fel
+
+ 
+#!/bin/bash
+ 
+./make-plist --bowtie-url=[BOWTIE_URL] --hamr-url=[HAMR_URL] --proxy-cert=[PROXY_CERT] --port \[PORT] --bowtie-config=bowtie_config.xml --passphrase \[PASSPHRASE] -t \[TARGETS SEPARATED BY SPACES]
+ 
+./bem build -f config.plist fel angermanagement_vX.Y/*.hamr -t bowtie_config.xml
+
+
+Copy the fel from SRC/TOPSECRET_NOFORN into BIN/FOUO
+Copy bt.php into BIN/FOUO, can be obtained from the latest __
+Copy decode_all.sh into BIN/FOUO can be obtained from the latest __
+Copy chronos/plugin/plugin.py device list into SRC/TOPSECRET_NOFORN/devices.txt
+Copy All .crts and keys used to build fel into SRC/TOPSECRET_NOFORN
+SRC/TOPSECRET_NOFORN should contain all of the tools, scripts, files necessary to build the release.
+
+
+Previous versions:
+| 1 
+| 2 
+| 3 
+| 4 
+| 5 
+| 6 
+| 7 
+|
+                    

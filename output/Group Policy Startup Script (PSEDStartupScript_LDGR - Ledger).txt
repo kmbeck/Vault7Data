@@ -1,0 +1,46 @@
+
+                        COM + Junction Folder User Persistence (PSDComJunction_HCLS - HighClass)
+SECRET//NOFORN
+ 
+OSB Library: Persistence
+
+Module Name: PSDComJunction_HCLS (HighClass)
+ 
+Module Description: This module is a user-privilege-level persistence technique. The technique makes modifications to the HKEY_CURRENT_USER registry hive. Upon logon, a dll is loaded (via ProcessAttach). Only tools or shims that do all of their work in dllmain should use this persistence mechanism. The persistence technique works for Windows XPWindows operating system (Version) through Windows 8.1, 32 and 64-bit OSs. Upon logon, the persisted dll is loaded by Explorer.exe (a user process). To understand more of the tecnique, see CLSIDs and Junction Folders (Persistence and then some)  SECRET. This module places the junction folder in different places for different OSs. In Windows XP, Windows Vista, and Windows 8.0, a junction folder is placed inside the start-menu folder structure (Start Menu\Programs\Accessories). On Windows 7 and Windows 8.1, the junction folder is placed in Appdata\Roaming\Microsoft and a modification to a library file is made (Appdata\Roaming\Microsoft\Windows\Libraries). If there are no library files present, the technique used in XP, Vista and 8 is used instead. The junction folder has no subfolders/files. The library file is modified to add the path of the junction folder, triggering the loading of the dll. Be aware that on different OSs, the dll may be loaded (process attach is called) multiple times. The user of this persistence mechanism should use this technique only on tools aware of already running instances.
+ 
+PSP/OS Issues: No known issues (XPWindows operating system (Version) - 8.1)
+ 
+('excerpt' missing)
+ 
+Sharing Level: Unilateral
+ 
+Technique Origin: In-house
+ 
+Notes: 
+
+Should only be used to persist user-level-privilege applications.
+Requires that the CLSID you choose to use is not already being used. The function should return ePERSIST_CLSID_ALREADY_EXISTS if the CLSID already exists on the system.
+The persistence is only a process attach to an architecture specific dll - the dll being persisted should always match the architecture of the OSOperating System regardless of the architecture of the application setting the persistence.
+The dll may be loaded multiple times in one session
+Navigation inside of the junction folder causes the loading of the dll
+Two different code paths are used for full coverage, one manipulates library files while the other places the junction folder inside of the Start Menu heirarchy
+If Start Menu\Programs\Accessories does not exist, the junction folder is placed directly underneath "Start Menu"
+Modifications are made specifically to HKEY_CURRENT_USER
+Can execute the command "explorer.exe shell:::{CLSID-HERE}" to force the loading of the dll by explorer.
+
+ 
+ 
+SECRET//NOFORN
+
+Previous versions:
+| 1 SECRET
+| 2 SECRET
+| 3 SECRET
+| 4 SECRET
+| 5 SECRET
+| 6 SECRET
+| 7 SECRET
+| 8 SECRET
+| 9 SECRET
+|
+                    

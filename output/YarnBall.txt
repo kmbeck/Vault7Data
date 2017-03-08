@@ -1,0 +1,100 @@
+
+                        YarnBall
+ 
+
+('toc' missing)
+ 
+
+ 
+EFI Development TODO
+
+
+ID
+Status
+Task
+
+
+8
+incomplete
+Develop install to write YarnBall to flash for automatic load
+
+
+9
+incomplete
+
+Develop builder for operator configuration
+
+
+10
+incomplete
+Investigate how Apple boots to the boot menu (Would allow target machine to give secret keystroke without holding OPT)
+
+
+11
+incomplete
+Add functionality to deploy implants and payloads (Currently can only boot from covert storage)
+
+
+12
+incomplete
+Investigate on non-Apple hardware
+
+
+13
+incomplete
+Investigate on communication with NyanCat through USBUniversal Serial Bus Async/Sync data methods (Would allow larger than 64 byte commands to NyanCat)
+
+
+15
+incomplete
+Investigate Apple EFIExtensible Firmware Interface camera driver for possible snapshot on boot (and storage to NyanCat)
+
+
+16
+incomplete
+Add encryption and data extraction capabilities to convert storage
+
+
+ 
+ 
+
+ 
+Hardware/NyanCat Development TODO
+
+
+ID
+Status
+Task
+
+
+14
+incomplete
+
+Investigate why ControlTransfer commands timeouts to EFIExtensible Firmware Interface driver (some type of non-end of packet transmission)
+
+
+17
+incomplete
+Intercept USBUniversal Serial Bus keyboard traffic for hardware keylogging capabilities
+
+
+18
+incomplete
+Move from external USBUniversal Serial Bus thumb stick to SD storage device (present NyanCat as both HID and mass storage device)
+
+
+
+Previous versions:
+| 1 empty
+| 2 
+| 3 
+| 4 
+| 5 
+| 6 
+| 7 
+| 8 
+| 9 
+| 10 
+| 11 
+|
+                    

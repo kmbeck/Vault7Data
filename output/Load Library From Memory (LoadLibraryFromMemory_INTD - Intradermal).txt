@@ -1,0 +1,49 @@
+
+                        Owner: User #71473
+Inject Dll From Memory Into A Remote Process (InjectLibraryFromMemory_NCPT - Inception)  LIAISON Releasable
+SECRET//NOFORN
+ 
+OSB Library: Payload Deployment
+
+Module Name: InjectLibraryFromMemory_NCPT - Inception
+ 
+Module Description: The module allocates memory in another remote process and copies a self-loading shim DLLDynamic Link Library image into the allocated memory.  It then allocates memory for the payload and a remote arguments structure and copies this data across as well. Finally, the loaded calls the exported ordinal 1 of the shim with a pointer to the args strucure. The shim performs base relocations, resolves imports and then calls the DllMain entrypoint of itself with PROCESS_ATTACH.  Once the shim has bootstrapped itself it uses the open source MemoryModule library to memory load the payload DLL.  All fixups are handled in the remote process.  The payload and shim never touch disk.
+ 
+PSP/OS Issues: Any PSP/OS issues associated with the technique.
+ 
+('excerpt' missing)
+ 
+Sharing Level: Liaison
+ 
+Technique Origin: Memory loading code is based on the open source Memory Module.cpp with modification to allow the shim to self-load.  The self-loading technique itself is in-house.
+ 
+Notes: The Shim DLLs are prebuilt and stored as melomy-style header files.  The Shims are XOR-ed with 0xB2.
+ 
+Module Specific Structures:
+ 
+Example Code:
+ 
+// Injects improvedDummyDll into notepad.exe
+ 
+IPayload::PayloadErr retVal;
+HANDLE hProc = NULL;
+ 
+retVal = InjectFromMemory::OpenProcessByName(&hProc, L"notepad.exe");
+ 
+if (SUCCEEDED(retVal) && hProc != NULL)
+{
+    InjectLibraryFromMemory_NCPT myInject;
+    retVal = myInject.execute(improvedDummyDll, sizeof(improvedDummyDll), hProc, sizeof(HANDLE), NULL);
+    CloseHandle(hProc);
+}
+
+
+ 
+ 
+ 
+SECRET//NOFORN
+
+Previous versions:
+| 1 SECRET
+|
+                    

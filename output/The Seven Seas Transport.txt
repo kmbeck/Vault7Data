@@ -1,0 +1,388 @@
+
+                        The Seven Seas Transport
+Description
+The seven seas transport (7Seas) is a transport for Galleon testing. Systems meeting the Galleon interface specification can use 7Seas as a transport for testing. It can modify files to create transport errors as a means to test system fault handling.
+Contents
+
+('toc' missing)
+7Seas Components
+This is some mid level detail about the programs, files, folders, and overall runtime structure. Once installed, only seasick is normally used directly. Your Galleon system will interact only with ship.sh.
+The seasick, setsail, and ship.sh usage is described in following sections. 
+PROG is base program folder - defaults to /work
+BASE is the base data folder - defaults to /work
+DEST is a destination
+SRC is a source
+
+
+Component
+Type
+Description
+Location
+
+
+install.sh
+bash script
+currently not executable, mostly notes on how to install and configure 7Seas
+PROG
+
+
+ship.sh
+bash script
+
+implements Galleon transport interface for sending files. This is the program
+your system calls.
+
+PROG
+
+
+7seas
+
+service script
+soft link
+
+
+starts, stops, transport monitor dockwork
+this is soft link to the PROG folder
+
+
+PROG
+/etc/init.d
+
+
+
+SevenSeas
+package
+contains ahoythere.py and sail7seas.py
+PROG
+
+
+ahoythere.py
+python script
+Main monitoring program for .docks (uses pyinotify). Imported by 7seas.py
+PROG/SevenSeas
+
+
+sail7seas.py
+pyhton script
+Main program for modifying, and transporting files. Imported by 7seas.py
+PROG/SevenSeas
+
+
+shiplog.py
+ 
+utility program implementing shiplog class; allows logging to console and syslog
+PROG/SevenSeas
+
+
+7seas.py
+python script
+
+Package level program for invoking sail7seas.py It is the target for
+soft links dockwork, atsea, seasick, and setsail
+
+
+PROG
+defaults to '/work'
+
+
+
+-- seasick
+soft link
+
+Configuration of transport at the destination and/or destination/source level
+file modification settings. Also keeps scp compatible destination addresses.
+
+PROG
+
+
+-- dockwork
+soft link
+Invoked by 7seas service, monitors files under DEST/.docks
+PROG
+
+
+-- atsea
+soft link
+called from setsail this invokes scp to transport the (modified) file
+PROG
+
+
+-- setsail
+soft link
+
+Invoked by dockwork, applies file modifications and coordinates transport
+of file. Invokes atsea to send file via scp
+
+ 
+
+
+thirdparty
+python package
+cross process locking support
+PROG
+
+
+.docks
+folder
+
+base folder monitored for write/close, delete, and move along with all its children
+(destinations are subfolders, sources subfolders are under destination folders)
+
+BASE
+
+
+.onboard
+folder
+work folder where dockwork transfers files before invoking setsail
+BASE
+
+
+DEST
+folder
+folder matching a Galleon destination label
+BASE/.docks
+
+
+SRC
+folder
+folder matching a Galleon source label
+BASE/.docks/DEST
+
+
+.treasuremap
+text file
+
+one line text file. Required in destination folder or source folder or both. The
+format is a template for calling a subprocess whenever a file is moved or copied
+into a monitored folder - see installation for details
+
+
+BASE/.docks/DEST/SRC
+or
+BASE/.docks/DEST
+
+
+
+ 
+Seven Seas Programs
+The user level programs are the Galleon Send Interface program, ship.sh, and the configuration program, seasick.
+ship.sh
+This is the program implementing the Galleon Send Interface. The interface specifies the last three parameters. The dock_path is the base directory where the .docks monitored folder tree was placed during installation. The program returns 1 if there are fewer than 3 parameters or if either/both of the source and destinations are not configured.
+Usage
+usage: ./ship.sh [dock_path] <source> <destination> <filepath>
+Transports file to destination, with return address as source
+Arguments:
+    dock_path     path assigned to folder used for .docks folder tree
+                  defaults to '/work'
+    destination   Galleon destination label
+    source        Galleon source label
+Notes
+
+The program (via setsail) secure copies files to a destination / source folder structure configured/installed on the destination computer(s).
+The folders must be created manually.
+Files are picked up and renamed every second. Do not send multiple files with the same name more frequently than every two seconds
+Each file may generate three Linux processes temporarily and one for the duration of the delay time. If you are sending a file every 5 seconds and delaying 6 minutes, at least 72 processes will be running. Remember this if the sending system is sluggish.
+
+seasick
+This is the configuration program for the Seven Seas. The only required parameters to set (using 'config' command) is the destination address in scp format. Only destination and sources on the sending side need to be configured using seasick.
+On the receiving side the minimal configuration is creating a .treasuremap file in each destination folder. 
+Usage
+usage: seasick [-h] COMMAND ...
+Seven Seas Transport Configuration
+optional arguments:
+  -h, --help  show this help message and exit
+Commands:
+  COMMAND     transport modification to make    config    configure settings for destination or destination/source
+    list      list settings for destination or destination/source
+    reset     reset settings for destination or destination/source
+    delete    delete destination or destination/source
+ 
+Usage for config command
+usage: seasick config [-h] [--delay DELAY] [--extradelay EXTRA] [--dup DUP]
+                      [--drop DROP] [--corrupt CORRUPT] [--truncate TRUNCATE]
+                      [--order OOO] [--address DEST_IP]
+                      destination [source]
+positional arguments:
+  destination          destination
+  source               source
+optional arguments:
+  -h, --help           show this help message and exit
+  --delay DELAY        minimum number of seconds to delay (0 - 3,600)
+  --extradelay EXTRA   average extra number of seconds to delay (0 - 1,800)
+  --dup DUP            'once' or num of transfers (of 1000) to dup
+  --drop DROP          'once' or num of transfers (of 1000) to drop
+  --corrupt CORRUPT    'once' or num of transfers (of 1000) to corrupt
+  --truncate TRUNCATE  'once' or num of transfers (of 1000) to truncate
+  --order OOO          'once' or number of out-of-order transfers (of 1000)
+  --address DEST_IP    ip address or hostname of destination
+Notes
+maladies
+
+delay is the minimum amount of time in seconds before a file is sent
+extradelay is the average amount of time in seconds in addition to the delay before a file is sent
+drop deletes a file without sending it
+truncate truncates a random number of bytes - up to the file size
+corrupt overwrites1024 contiguous bytes (or file size, whichever is smaller) starting at a random seek position
+dup sends a copy of the file immediately after the original
+order saves a file until another is sent, then sends them out of order, the original file, immediately after the second
+
+config
+
+Configuration must be done on each system, changes made to files are done on the sending side
+Creates destination or destination/source if they do not exist, updates if they do. Be sure to check your spelling
+Destination and settings must be acceptable Linux folder names. The strings $SRC$DEST and $FILE are reserved, as is the character #
+
+Any source level setting (e.g. dup) overrides any destination level setting. The exception is a destination level once setting
+Settings are 0 - 1000, as in baseball hitting stats, represent the chance of each particular malady being applied
+Maladies are cumulative, and applied in this precedence (order, drop, corrupt, truncate, dup)
+Once (if) malady settings add up to 1000, one will be applied 100% of the time. Any malady after that point will never be applied. This is not error checked or reported
+
+A once setting forces the next file to exhibit that malady. The setting then reverts to what it was previously. The precedence is (order, drop, corrupt, truncate, dup)
+A once setting at the destination level triggers on the first source (under that destination) that sends a file. The destination setting then reverts to what it was previously
+The file name is always changed to a uuid string
+setting a malady to 0 removes it from the configuration file. It cannot override a destination level setting.
+if order is set to 0 and a file is saved for out-of-order delivery it will be sent immediately
+
+list
+
+list without destination or source lists all the destinations
+list with only a destination lists the destination address and all the sources under it (sources allowed to send to that destination)
+list with destination and source list the destination data and all the maladies (e.g. dup) with their 1-1000 or once value
+If a malady at source level is inherited from its destination parent its value will be listed in brackets - e.g. [100]
+If a file is reserved for out of order, the order malady will show the full file path to that file
+
+reset
+
+reset clears the maladies but does not remove destination or source
+rest with only a destination clears/deletes the maladies at the destination level only (the address is not cleared)
+reset with destination and source clears the source maladies only
+if a file is saved for out-of-order delivery it will be sent immediately
+
+delete
+
+delete removes a destination and all of its sources
+delete with destination and source deletes the source
+Deleting the .sick file removes everything. The program will create a new one when a destination and/or source is configured.
+
+Sea Sick Installation
+Programs
+
+Designate a program folder - e.g. /work/7Seas
+copy the distribution files to the program folder
+create soft links within program folder
+ln -s 7seas.py atsea
+ln -s 7seas.py seasick
+ln -s 7seas.py setsail
+ln -s 7seas.py dockwork
+
+SSH Setup
+
+create ssh key pairs for each system at root level
+ssh-copy-id -i root@host_ip
+try to ssh to root@host_ip
+try a scp
+
+Service Installation
+7seas is a service wrapper script that runs the dockwork program.
+
+in folder /etc/init.d (on ubuntu) create a soft linkln -s /work/7Seas/7seas 7seas
+
+sudo update-rc.d 7seas defaults
+setup the 7seas.conf file (as described in the next section, step 2)
+sudo service 7seas [start | stop | restart | status]use start to enable monitoring
+
+
+"Dropbox" (.docks) Setup
+The 7seas service monitors the .docks folder tree. It looks in each source folder for a .treasuremap file for a template on what to do with any file that is moved or written / copied into that folder. The service moves every file to a .onboard folder, then invokes the substituted .treasuremap line as a non-blocking process. If you move, copy, edit, drop, or touch (but not move out) a .treasuremap, the service will detect and update its cache. The service does not need to be restarted. See .treasuremap format for more details.
+
+create a .docks folder (e.g. /work/.docks), the default host location is /work
+
+in program folder (e.g. /work) create a text file
+name it 7seas.conf
+
+the single line is the host location filepath, in the defauilt case /work
+
+
+
+for every destination create a folder under .docks with the exact same name
+for every source (on the local system) that might send to a destination create a folder under the destination folder
+in every destination folder create a .tresuremap text file - see below for format
+for destination folders where the destination is on a remote vm/computer use setsail to invoke the Seven Seas transport
+for destination folders where the destination is a program on the host / current vm/computer use the Galleon receiver program
+If a file needs to be handled at the source level create a .treasuremap file in that destination/source folder
+
+.treasuremap Format
+A single line of text. After substitutions, dockwork executes the line without waiting/blocking.
+Backus-Naur
+<program>[#[PARAMS]]
+# is used to separate parameters - this allows spaces to be used in source destination and arbitrary text parameters
+PARAMS = PARAM [PARAMS]
+PARAM = text | $SRC | $DEST | $FILE
+$SRC = source is substituted by dockwork
+$DEST = destination is substituted by dockwork
+$FILE = full file path to file being sent
+Examples
+Example for sending file to a destination using Seven Seas Transport
+/work/7Seas/setsail#$SRC#$DEST#$FILE
+Example of receiving file from another system/computer/VM. Here receiver is your Galleon Interface Receiver application in the /work folder
+/work/receiver#$SRC#$DEST#$FILE
+Logging
+All Seven Seas Transport programs log to syslog, and to the console, if run manually. The program generated portion of each line is comma separated for ease of import into Excel, etc.
+The following command will output all log lines pertaining to Seven Seas:
+grep shiplog /var/log/syslog
+Line format
+date hostname shiplog,verb,source,destination,filepath,filepath2,comment
+verb = execute | info | event | mv | map | list | config | reset | delete | dup | corrupt | truncate | drop | order | delay| sending| error | rm
+source, destination = source and destination if known/applicable
+execute = invoking non blocking process using line in comment
+info = non critical informational message in comment - usually a transient file (swp) in monitor are caused by editing in place
+event = move, delete, or close/write file action in monitored folder
+mv = rename of file in .onboard, gives original and new names in filepath and filepath2
+map = a new or changed .treasuremap has been detected, It is being cached
+list = seasick list has been run - the .sick configuration filepath is in filepath
+config = seasick config has been run - the .sick configuration filepath is in filepath
+reset= seasick rest has been run - the .sick configuration filepath is in filepath
+delete= seasick delete has been run - the .sick configuration filepath is in filepath
+dup = a file has been duplicated, renamed file (uuid name) will be in filepath
+corrupt = a file has been corrupted, the comment will give seek offset and size corrupted
+truncate = a file was truncated, new size in comment
+drop = a file was deleted and not sent
+order = a file is being saved for later out-of-order delivery or being sent out-of-order
+delay = a file is being delayed, number of seconds in comment
+sending = a file is being sent via scp
+error = multipe e.g. no destination address configured, or scp returned fail status
+rm = file has been deleted, usually after being sent
+Notes, Issues, and Known Errors
+Development level testing determined that throughput is about 3 files per second between to VMs hosted on the same system. Faster rates seem to cause scp failures.
+Source level settings override the parent destination setting. There are two exceptions, when the destination setting is "once" or when the source setting is 0 out of 1000.
+ 
+
+Previous versions:
+| 1 
+| 2 
+| 3 
+| 4 
+| 5 
+| 6 
+| 7 
+| 8 
+| 9 
+| 10 
+| 11 
+| 12 
+| 13 
+| 14 
+| 15 
+| 16 
+| 17 
+| 18 
+| 19 
+| 20 
+| 21 
+| 22 
+| 23 
+| 24 
+| 25 
+| 26 
+|
+                    

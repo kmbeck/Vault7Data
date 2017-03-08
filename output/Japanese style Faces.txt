@@ -1,0 +1,63 @@
+
+                        Owner: User #71475
+Using pyenv on devlan
+Pyenv is a fantastic tool for managing and working with different versions of Python on a single machine.
+Pyenv does not support Windows. I would recommend at least using virtualenvs (check out virtualenv-wrapper as well). PyCharm and Python Tools for Visual Studio can manage virtual environments
+ 
+
+('toc' missing)
+Setting up pyenv for the first time
+
+
+Check out pyenv where you want it installed. A good place to choose is $HOME/.pyenv (but you can install it somewhere else). 
+$ git clone ssh://git@stash.devlan.net:7999/opensource/pyenv.git ~/.pyenv
+
+
+Define environment variable PYENV_ROOT to point to the path where pyenv repo is cloned and add $PYENV_ROOT/bin to your $PATH for access to the pyenv command-line utility. 
+$ echo 'export PYENV_ROOT="$HOME/.pyenv"' >> ~/.bash_profile
+$ echo 'export PATH="$PYENV_ROOT/bin:$PATH"' >> ~/.bash_profile
+ 
+ 
+Zsh note: Modify your ~/.zshenv file instead of ~/.bash_profile. Ubuntu note: Modify your ~/.bashrc file instead of ~/.bash_profile.
+
+
+Add pyenv init to your shell to enable shims and autocompletion. Please make sure eval "$(pyenv init -)" is placed toward the end of shell configuration file since it manipulates PATH during the initialization. 
+$ echo 'eval "$(pyenv init -)"' >> ~/.bash_profile
+
+ 
+Zsh note: Modify your ~/.zshenv file instead of ~/.bash_profile. Ubuntu note: Modify your ~/.bashrc file instead of ~/.bash_profile.General warning: There are some systems, where the BASH_ENV variable is configured to point to .bashrc. On such systems you should almost certainly put the above-mentioned line eval "$(pyenv init -) into .bash_profile, and not into .bashrc. Otherwise you may observe strange behaviour, such as pyenv getting into an infinite loop. 
+
+
+Restart your shell so the path changes take effect. You can now begin using pyenv. 
+$ exec $SHELL
+
+
+
+Installing a Python version
+Becuase we're not on the internet, you wont be able to use any of the built-in python versions. I've created a mirror of Python source here that can be used to install Python versions. To do this you must create a custom definition file.
+For example, if you wanted to setup a Python 3.4.3 version, you could use the following commands
+$ cat > 2.7.9 << EOF
+#require_gcc
+install_package "Python-2.7.9" "http://10.3.2.212/python/Python-2.7.9.tgz" ldflags_dirs standard verify_py27 ensurepip
+EOF
+
+$ pyenv install ./2.7.9
+Downloading Python-2.7.9.tgz...
+-> http://10.3.2.212/python/Python-2.7.9.tgz
+Installing Python-2.7.9...
+Installed Python-2.7.9 to /home/User #71475/.pyenv/versions/2.7.9
+
+$ pyenv rehash
+ 
+Use the predefined definition files in python-build as a reference for the version you want to install. Always make sure to run pyenv rehash after installing a python version.
+Related articles
+
+Related articles appear here based on the labels you select. Click to edit the macro and add or change labels.
+
+('contentbylabel' missing)
+('details' missing)
+
+Previous versions:
+| 1 
+|
+                    

@@ -1,0 +1,651 @@
+
+                        Owner: User #3375506
+Caterpillar
+Caterpillar Design
+TicketingRepository
+Requirements
+Refer to Caterpillar v1.0 User Requirements Document (URD) IMIS: 2014-0638 Revision K January 30, 2014.
+Use cases
+Use Case 0: Operator exfiltrates a subject file.
+Use Case 1: Operator exfiltrates arbitrary bytes of a subject file.
+Use Case 2: Operator exfiltrates a glob.
+Use Case 3: Operator resumes an aborted collection.
+Public interfaces
+Low-side client
+WinShell interface
+TBD.
+ICE interface
+Will implement the Fire and Forget mode.
+High-side postprocessor
+TBD.
+Compile-time parameters
+Low-side client
+
+
+Name
+Type
+Description
+Default
+
+
+ticks_per_packet
+UINT32
+Amount to increment RTP timestamp
+1000
+
+
+High-side postprocessor
+TBD.
+Runtime parameters
+Low-side client
+A resource will convey runtime parameters.
+
+
+Name
+Type
+Description
+Default
+
+
+chunksize
+UINT32
+Outer Caterpillar subject chunk size (B)
+1048576 (1 MB)
+
+
+subject_globs
+std::vector<std::wstring>
+Absolute subject file names with globbing, supporting environment variables
+C:\data.txt
+
+
+state_filename
+std::wstring
+Absolute collector state file name to persist collector state, supporting environment variables
+C:\collector_state.txt
+
+
+packetsize
+UINT32
+Maximum Size of RTP payload (B)
+1444 (1514 B MTUMaximum Transmission Unit - 14 B Ethernet header - 20 B IP header - 8 B UDPUser Datagram Protocol header - 12 B RTP header - 16 B packet metadata)
+
+
+exfiltration_rate
+UINT32
+Bits per second
+1048576 (1 Mbps)
+
+
+ip
+char*
+Destination IP
+192.168.100.100
+
+
+ticks_per_packet
+UINT32
+Ticks per RTP datagram
+1000
+
+
+port
+UINT16
+Destination port
+12345
+
+
+instance_id
+UINT32
+Deconflicts concurrent sessions
+0
+
+
+begin_indices
+std::vector<INT64>
+Subject begin offset (modulo subject file size, inclusive, B)
+0
+
+
+end_indices
+std::vector<INT64>
+Subject end offset (modulo subject file size, inclusive, B)
+-1
+
+
+maximum_bytes
+UINT64
+Maximum amount of data to transmit (B)
+0 (unlimited = 0)
+
+
+redundancy
+UINT32
+Percentage of redundancy to generate
+10
+
+
+High-side postprocessor
+TBD.
+Collection algorithm
+
+Open or initialize collector state file.
+Open UDPUser Datagram Protocol socket.
+Iterate over subject globs.Iterate over subject glob members.
+Consult collector state file.
+If new subject file, create an entry in the collector state file and set START_CHUNK to 0.
+If previously completed subject file, break.
+If previously attempted subject file, set START_CHUNK to last sent chunk + 1.
+
+
+Generate collection file metadata.
+Virtually prepend collection file metadata to subject file.
+Iterate over chunks of enhanced subject file, beginning at START_CHUNK.
+Generate chunk metadata.
+Virtually prepend chunk metadata to chunk.
+Raptor the enhanced chunk, receiving one or more raptor packets in return.
+Iterate over raptor packets.
+Generate packet metadata.
+Virtually prepend packet metadata to packet.
+Generate RTP header.
+Virtually prepend RTP header to enhanced packet.
+Determine actual collection rate.
+Pause until actual falls below provisioned collection rate.
+Send covered, enhanced packet via UDPUser Datagram Protocol socket.
+
+
+Increment last sent chunk for this subject file in collector state file.
+
+
+Mark subject file complete for this subject file in collector state file.
+
+
+
+Close collector state file.
+
+Packet format
+The Caterpillar low-side client will prepare a packet comprising an RTP header, packet metadata and raptored chunk metadata, collection file metadata and subject payload.
+Basic strategy
+given SUBJECT_FILE
+ENHANCED_SUBJECT_FILE = COLLECTION_FILE_METADATA(SUBJECT_FILE) + SUBJECT_FILE
+CHUNKS = CHUNK(ENHANCED_SUBJECT_FILE)
+ENHANCED_CHUNKS[i] = CHUNK_METADATA(CHUNKS[i]) + CHUNKS[i]
+PACKETS[i] = RAPTOR_METADATA(ENHANCED_CHUNKS[i]) + RAPTOR(ENHANCED_CHUNKS[i])
+ENHANCED_PACKETS[i][j] = PACKET_METADATA(PACKETS[i][j]) + PACKETS[i][j]
+COVERED_PACKETS[i][j] = RTP_HEADER + ENHANCED_PACKETS[i][j]
+
+
+subjectfile
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+
+collection filemetadata
+subjectfile
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+
+chunk0
+ 
+ 
+ 
+ 
+ 
+ 
+ ...
+chunkk
+ 
+ 
+ 
+ 
+ 
+ 
+
+
+chunk0metadata
+chunk 0
+ 
+ 
+ 
+ 
+ 
+...
+chunkkmetadata
+chunkk
+ 
+ 
+ 
+ 
+ 
+
+
+packet00
+ 
+ 
+...
+packet0m
+ 
+ 
+...
+packetk0
+ 
+ 
+...
+packetkm
+ 
+ 
+
+
+packet00metadata
+packet00
+ 
+...
+packet0mmetadata
+packet0m
+ 
+...
+packetk0metadata
+packetk0
+ 
+...
+packetkmmetadata
+packetkm
+ 
+
+
+RTPheader
+packet00metadata
+packet00
+...
+RTPheader
+packet0mmetadata
+packet0m
+...
+RTPheader
+packetk0metadata
+packetk0
+...
+RTPheader
+packetkmmetadata
+packetkm
+
+
+ 
+RTP Encapsulation 
+The purpose of the RTP encapsulation is deception. We use 53 for the payload type because it is in the middle of the longest series of unassigned values. The complete list is: [20, 24], 27, 29, 30, [35, 71] and [77, 95].
+
+
+Offset (b)
+Length (b)
+Name
+Value
+
+
+0
+2
+Version
+2
+
+
+2
+1
+Padding
+0
+
+
+3
+1
+Extension header present
+0
+
+
+4
+4
+Contributing source (CSRC) count
+0
+
+
+8
+1
+Marker
+0
+
+
+9
+7
+Payload type
+53
+
+
+16
+16
+Sequence number
+1-up counter
+
+
+32
+32
+Timestamp
+
+ticks_per_packet-up counter
+
+
+64
+32
+Synchronization source (SSRC)
+0x00000000
+
+
+96
+CSRC count * 32
+CSRC list
+N/A
+
+
+96 + CSRC count * 32
+variable
+Extension header
+N/A
+
+
+ 
+Raptor Metadata
+The purpose of the Raptor metadata is so that Raptor has the information it needs about each raptorized packet to be able to decode the data.
+
+
+Offset (B)
+Type
+Length (B)
+Name
+
+
+0
+UINT16
+2
+Source Block Number (SBN)
+
+
+2
+UINT16
+2
+Encoding Symbol ID (ESI)
+
+
+4
+UINT32
+4
+Transfer Length of Chunk (F)
+
+
+8
+UINT16
+2
+Encoding Symbol Length (T)
+
+
+10
+UINT16
+2
+# of Source Blocks (Z)
+
+
+12
+UINT8
+1
+# of Sub-Blocks per Source Block (N)
+
+
+13
+UINT8
+1
+Alignment Parameter (Al)
+
+
+14
+std::vector<UINT8>
+?
+Encoded Symbols
+
+
+ 
+Packet Metadata (Chunk ID)
+The purpose of the packet metadata is to document the chunk reassembly. Chunk ID is an MD5 digest of the chunk metadata and the chunk payload.
+
+
+Offset (B)
+Type
+Length (B)
+Name
+
+
+0
+std::vector<UINT8>
+16
+Chunk ID --> MD5(Chunk Metadata + Chunk)
+
+
+ 
+Chunk Metadata
+The purpose of the chunk metadata is to document the subject file reassembly. Collection file ID is an MD5 digest of the collection filename and the collection file payload.
+
+
+Offset (B)
+Type
+Length (B)
+Name
+
+
+0
+std::vector<UINT8>
+16
+Collection file ID --> MD5(Filename + File)
+
+
+
+16
+UINT32
+4
+Instance ID
+
+
+20
+UINT32
+4
+Actual chunk size (not provisioned chunk size, which may be larger)
+
+
+24
+INT64
+8
+Chunk begin index (inclusive)
+
+
+32
+INT64
+8
+Chunk end index (inclusive)
+
+
+ 
+Collection File Metadata
+The purpose of the collection file metadata is to document the operation.
+
+
+Offset (B)
+Type
+Length (B)
+Name
+
+
+0
+UINT32
+4
+Instance ID
+
+
+4
+UINT64
+8
+Collection time (Windows file time format)
+
+
+12
+UINT64
+8
+Size (in bytes)
+
+
+20
+INT64
+8
+Begin index (inclusive)
+
+
+28
+INT64
+8
+End index (inclusive)
+
+
+36
+FILETIME
+8
+Subject file creation time (Windows file time format)
+
+
+44
+UINT32
+4
+Subject file name size (in wchars, including null termination)
+
+
+48
+wchar_t*
+Subject file name size
+Subject file name (UTF-16 encoded, null terminated)
+
+
+Globbing
+Globbing is pattern-matching based on wildcard characters; it is not a regular expression capability. Globbing operators are not standardized: Caterpillar will use the WinAPI implementation of globbing, specifically calls to FindFirstFile() and FindNextFile().
+Obfuscation
+We considered symmetric-key XOR, RC4 and AESAdvanced Encryption Standard techniques for obfuscating the collection file, chunk, packet and raptor metadata. The first iteration will use progressive XOR with an eight bit symmetric key, and we can upgrade to a stronger mechanism in a later iteration. The state file is obfuscated using RC4 with a 256 bit key. These features cannot be considered encryption because the keys are present in the low-side client.
+State file format
+The de-obfuscated state file uses UTF-16 encoding. The first line of the de-obfuscated state file is the instance ID (in decimal format) to confirm correct de-obfuscation. The second line of the de-obfuscated state file comprises the active collection file and the last chunk transmitted, if these are applicable. Each subsequent line of the de-obfuscated state file logs a previously collected file. e.g.,
+12345active_file.txt 1previous_file_0.txtprevious_file_1.txt
+Caterpillar Data Flow
+
+CaterpillarDataFlow.pptx
+
+Comments:
+
+
+2014-07-17 16:28 
+[User #524297]: 
+
+Liked the demo today, encourage the "Raptorize" library to be put into Stash, if it isn't already!
+
+
+
+Attachments:
+
+
+CaterpillarDataFlow.png
+
+
+CaterpillarDataFlow.pptx
+
+
+
+Sub-Pages:
+
+
+Test PCAPs 
+
+
+Post Processor Redesign 
+
+
+Caterpillar Releases 
+
+
+
+Previous versions:
+| 1 empty
+| 2 
+| 3 
+| 4 
+| 5 
+| 6 
+| 7 
+| 8 
+| 9 
+| 10 
+| 11 
+| 12 
+| 13 
+| 14 
+| 15 
+| 16 
+| 17 
+| 18 
+| 19 
+| 20 
+| 21 
+| 22 
+| 23 
+| 24 
+| 25 
+| 26 
+| 27 
+| 28 
+| 29 
+| 30 
+| 31 
+| 32 
+| 33 
+| 34 
+| 35 
+| 36 
+| 37 
+| 38 
+| 39 
+| 40 
+| 41 
+| 42 
+| 43 
+| 44 
+| 45 
+| 46 
+| 47 
+| 48 
+| 49 
+| 50 
+| 51 
+| 52 
+| 53 
+|
+                    

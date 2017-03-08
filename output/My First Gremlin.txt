@@ -1,0 +1,116 @@
+
+                        Owner: User #71475
+Deployment Interface
+Plans are defined as a list of jobs that After Midnight should execute on a target. A target has a single plan running at a given time. These plans are made available to the target via Core through a beacon to a web server. The am tool generates a deploy directory that is made available through the web server.
+ 
+Deploy Directory
+The deploy directory is generated and modified when the user use the commit or remove functions of the am command.
+Structure
+/<workspace>/deploy/<target url>/<plan_files>
+Where workspace is the workspace the am tool was performing on. <target url> is defined when creating a target configuration in the am command, which can manually be specified, or auto-generated. <plan_files> are a number of files that are automatically generated when the am commit command is run.
+Plan Files
+A plan consists of a single index file, and a variable number of data blobs that are referred to from the index file.
+The Index File
+An index file follows the following format.
+ 
+
+
+Byte Offset
+Field
+
+
+0x000
+32-bit Index Serial
+
+
+
+0x008
+64-bit Uninstall FILETIME
+
+
+
+0x010
+32-bit Beacon Interval
+
+
+
+0x018
+32-bit Jitter
+
+
+
+0x020
+32-bit Dead Man Delay
+
+
+
+0x028
+256-bit  LP Key
+
+
+
+0x068
+256-bit Plan Hash
+
+
+
+0x108
+32-bit Plan Length
+
+
+
+0x108
+plan_data[Plan Length] = [ [ 64-bit ID,  64-bit action, 256-bit hash ],  ... ]
+
+
+ 
+ 
+The LPListening Post key is a randomly generated key for the target that is used for encrypting data written to disk on target. This key does not exist on the target until the index file is retrieved. The index file is encrypted using the target's public certificate. The index's file name is predetermined and burned into the target build. The data started at 0x80 is a list of gremlin blobs information for the target. The gremlin blob information includes the unique ID of the blob, the action to be taken with the blob, and the sha256 hash of the blob which is also its file name on disk.
+Index Actions
+
+
+Name
+value
+Description
+
+
+INDEX_ACTION_MASTER
+0xFF
+Indicates the Master gremlin
+
+
+INDEX_ACTION_NOP
+0x00
+No operation to be performed with the blob
+
+
+INDEX_ACTION_EXEC
+0x01
+Instruct master to execute the ID in the blob information. This is used to start a gremlin
+
+
+INDEX_ACTION_LOAD
+0x10
+Instruct master to load the ID in the blob information. This is used to load gremlin configuration blobs
+
+
+
+Previous versions:
+| 1 
+| 2 
+| 3 
+| 4 
+| 5 
+| 6 
+| 7 
+| 8 
+| 9 
+| 10 
+| 11 
+| 12 
+| 13 
+| 14 
+| 15 
+| 16 
+|
+                    

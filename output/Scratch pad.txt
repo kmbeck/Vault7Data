@@ -1,0 +1,91 @@
+
+                        Owner: User #71475
+Devlan simple pip index
+I have a script running auto-generating a pip-1.5.4.tar.gz compatible index of every package in \\10.6.2.11\Python\packages directory. Simply dropping a file in that folder means it should show up within the next 5 minutes in the index.
+The server used to pull from \\fs-01\share\Python\packages, but fs-01 caused endless headaches so it has been moved to a different file server. There is a link from the Python folder on the fs-01 share called 'pypi' that links to the new folder.
+you can access it at http://10.6.2.20/pypi and use it as follows:
+pip install --index-url=http://10.6.2.20/simple/ foopackage
+
+On the low side, you can use the pip2pi package to automatically download python packages and their dependencies from pypi without installing the packages. (use the pip2tgz command from pip2pi)
+As of pip version 1.1, you can pass the --download option to download the package and its dependencies without installing.
+$ pip install --download=/path/to/download/dir <package name>
+
+You can set this as the default by updating your pip configuration file (~/.pip/pip.conf on *nix, %HOME%\pip\pip.ini on windows) like this:
+[global]index-url = http://10.6.2.20/simpletrusted-host = 10.6.2.20
+
+Comments:
+
+
+2015-08-31 14:38 
+[User #54198274]: 
+
+add this line to the pip.conf file if you're using a newer version of pip that yells about https
+trusted-host = 10.6.2.20
+
+
+2014-06-13 11:09 
+[User #524297]: 
+
+Just drop a line to someone in EIB, they can set up the DNSDomain Name System entry.  Doing this for gravatar.com right now; it redirects to an add-on in Confluence that serves up your Confluence avatar.
+
+
+2014-06-13 10:25 
+[User #71475]: 
+
+Went ahead and made it available from normal (80) ports, so this can happen =D
+
+
+2014-06-12 15:44 
+[User #11628734]: 
+
+It would be really nice if someone were able to point pypi.python.org to the repo on DEVLAN so pip could work without having to specify a repo url.  
+
+
+
+2014-06-12 11:56 
+[User #71475]: 
+
+Completely agree on proper mirrors... I have a script ready to go on the low side to do a full mirror of pypi, any idea how we can go about getting someone to transfer it? Or what would be the "right" way to get this done?
+ 
+
+
+2014-06-12 09:36 
+[User #524297]: 
+
+Hah, right after I manually copied up nose and mock too. Nice job.  I'd still like to get some good proper mirrors going again though. Pypi, rubygems, opencsw, homebrew, etc.
+
+
+2014-06-11 16:45 
+[User #11628734]: 
+
+Oh, wow.  What a simple, great idea.  You are the MAN!!!
+
+
+
+Attachments:
+
+pip-1.5.4.tar.gz
+
+
+Previous versions:
+| 1 
+| 2 
+| 3 
+| 4 
+| 5 
+| 6 
+| 7 
+| 8 
+| 9 
+| 10 
+| 11 
+| 12 
+| 13 
+| 14 
+| 15 
+| 16 
+| 17 
+| 18 
+| 19 
+|
+                    

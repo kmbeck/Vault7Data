@@ -1,0 +1,24 @@
+
+                        Chrome Plugins
+CRX plugins can be downloaded via http://chrome-extension-downloader.com
+To install the crx file, Settings->Extensions. then drag the crx file into the window.
+
+Markdown-Preview_v0.6.crx
+Vimium
+
+ 
+
+Attachments:
+
+
+vimium_1_43.crx
+
+
+Markdown-Preview_v0.6.crx
+
+
+
+Previous versions:
+| 1 
+|
+                    

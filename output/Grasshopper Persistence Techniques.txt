@@ -1,0 +1,148 @@
+
+                        Owner: User #20873595
+Grasshopper Persistence Techniques
+ 
+Delivered Techniques:  
+
+
+Grasshopper Module Name
+Number of Stubs
+Execution Level
+BitBucket Link
+Description
+
+
+Service DLL
+6
+System
+Service DLL
+Registers a Service DLLDynamic Link Library to be launched on reboot
+
+
+Service Proxy
+3
+System
+Service Proxy
+Sits in the spot of a normal service, gets called instead, will then call that normal service
+
+
+Scheduled Task
+3
+System
+Scheduled Task
+Creates a scheduled task to execute on reboot
+
+
+Run Key
+1
+System
+Run Key
+Creates a Run Key to run at reboot
+
+
+ 
+ 
+ 
+ 
+ 
+
+
+ 
+In Progress Techniques:  
+
+
+Grasshopper Module Name
+Execution Level
+BitBucket Link
+Description
+
+
+Icon Overlay
+User
+Icon Overlay
+Registers an Icon Overlay comm object that will load a DLLDynamic Link Library as the current user
+
+
+WMI Persistence
+ 
+WMI Persistence
+ 
+
+
+ 
+ 
+ 
+ 
+
+
+ 
+The Weasels:
+The Weasels are a set of techniques developed by ESD(Branch) contractors under the Bronze Forge program.
+
+
+Grasshopper Module Name
+Description
+
+
+BitingWeasel 1.1
+IGD Searcher DLLDynamic Link Library for BITS service
+
+
+SneakyWeasel 1.1
+Service DLLDynamic Link Library with Hijack (lol!)
+
+
+
+TimidWeasel 1.1
+Windows Time Provider
+
+
+TunnellingWeasel 1.1
+Pluggable interface to the built-in Teredo
+
+
+GraveWeasel 1.0
+
+Creates a local-machine Windows Group Policy Startup Script
+(Maybe only runs as LOCAL SERVICE)
+
+
+
+ 
+ 
+
+
+
+Comments:
+
+
+2016-02-24 11:54 
+[User #71473]: 
+
+Noice!
+
+
+2016-02-23 17:02 
+[User #3375388]: 
+
+User #77478 is the POCPoint of Contact, Proof of Concept for Icon Overlay.  Short answer we register as a provider of icon overlays (ie, the green check in something like TortoiseSVN) and thus get execution in explorer.exe as the user.
+
+
+2016-02-18 14:56 
+[User #71473]: 
+
+I'm curious to know how the Icon Overlay technique works.  Any description available somewhere?
+Also, what does "Number of Stubs" mean?
+
+
+
+Previous versions:
+| 1 
+| 2 
+| 3 
+| 4 
+| 5 
+| 6 
+| 7 
+|
+                    

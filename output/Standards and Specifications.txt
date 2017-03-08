@@ -1,0 +1,24 @@
+
+                        Owner: User #71473
+OXF Data Standard
+Files related to the OXF Data Standard
+
+('attachments' missing)
+
+Attachments:
+
+
+oxf-schemas.zip
+
+
+oxf-example-docs.zip
+
+
+OXF Data Standard, Version 1-2, 29 April 2013.docx
+
+
+
+Previous versions:
+| 1 
+|
+                    

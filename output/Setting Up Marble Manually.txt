@@ -1,0 +1,730 @@
+
+                        Marble Descriptions
+SECRET//NOFORN
+
+
+    
+
+
+Marble Name
+Author
+Description
+Type (C/C++)
+
+
+MBL_CLASS_XOR1
+User #72806
+Class with a random key, iterating forward, constructor only, private variable for key, zero clear
+C++
+
+
+MBL_CLASS_XOR2
+User #72806
+Class with a random key, iterating backwards, constructor only, private variable for key, zero clear
+C++
+
+
+MBL_CLASS_XOR3
+User #72806
+Class with a random key, iterating forward, constructor only, private variable for key, random clear
+C++
+
+
+MBL_CLASS_XOR4
+User #72806
+Class with a random key, iterating backwards, constructor only, private variable for key, random clear
+C++
+
+
+MBL_CLASS_XOR5
+User #72806
+Class with a random key, iterating forward, separate function, private variable for key, zero clear
+C++
+
+
+MBL_CLASS_XOR6
+User #72806
+Class with a random key, iterating backwards, separate function, private variable for key, zero clear
+C++
+
+
+MBL_CLASS_XOR7
+User #72806
+Class with a random key, iterating forward, separate function, private variable for key, random clear
+C++
+
+
+MBL_CLASS_XOR8
+User #72806
+Class with a random key, iterating backwards, separate function, private variable for key, random clear
+C++
+
+
+MBL_CLASS_XOR9
+User #72806
+Class with a random 8-byte key, iterating forward, constructor only, public variable for key, zero clear
+C++
+
+
+MBL_CLASS_XOR10
+User #72806
+Class with a random 8-byte key, iterating backward, constructor only, public variable for key, zero clear
+C++
+
+
+MBL_CLASS_XOR11
+User #72806
+Class with a random 8-byte key, iterating forward, constructor only, public variable for key, random clear
+C++
+
+
+MBL_CLASS_XOR12
+User #72806
+Class with a random 8-byte key, iterating backward, constructor only, public variable for key, random clear
+C++
+
+
+ 
+ 
+ 
+ 
+
+
+MBL_CLASS_RXOR1
+User #72806
+Class with a random key, iterating forward, zero clear
+C++
+
+
+MBL_CLASS_RXOR2
+User #72806
+Class with a random key, iterating backward zero clear
+C++
+
+
+MBL_CLASS_RXOR3
+User #72806
+Class with a random key, iterating forward, random clear
+C++
+
+
+MBL_CLASS_RXOR4
+User #72806
+Class with a random key, iterating backward random clear
+C++
+
+
+MBL_CLASS_RXOR5
+User #72806
+Class with a random key, separate function, iterating forward, zero clear
+C++
+
+
+MBL_CLASS_RXOR6
+User #72806
+Class with a random key, separate function, iterating backward zero clear
+C++
+
+
+MBL_CLASS_RXOR7
+User #72806
+Class with a random key, separate function, iterating forward, random clear
+C++
+
+
+MBL_CLASS_RXOR8
+User #72806
+Class with a random key, separate function, iterating backward random clear
+C++
+
+
+MBL_CLASS_RXOR9
+User #72806
+Class with a random key, reverse rolling, forward through array, zero clear
+C++
+
+
+MBL_CLASS_RXOR10
+User #72806
+Class with a random key, reverse rolling, backward through array, zero clear
+C++
+
+
+MBL_CLASS_RXOR11
+User #72806
+Class with a random key, reverse rolling, forward through array, random clear
+C++
+
+
+MBL_CLASS_RXOR12
+User #72806
+Class with a random key, reverse rolling, backward through array, random clear
+C++
+
+
+ 
+ 
+ 
+ 
+
+
+MBL_CLASS_BUMP1
+User #72806
+Class bump between 5-250, iterating forward, zero clear
+C++
+
+
+MBL_CLASS_BUMP2
+User #72806
+Class random bump between 10-240, iterating backward, zero clear
+C++
+
+
+MBL_CLASS_BUMP3
+User #72806
+Class  bump between 5-250, iterating forward,  clear
+C++
+
+
+MBL_CLASS_BUMP4
+User #72806
+Class  bump between 10-240, iterating backward,  clear
+C++
+
+
+MBL_CLASS_BUMP5
+User #72806
+Class  bump function between 5-250, iterating forward, zero clear
+C++
+
+
+MBL_CLASS_BUMP6
+User #72806
+Class  bump function between 10-240, iterating backward, zero clear
+C++
+
+
+MBL_CLASS_BUMP7
+User #72806
+Class  bump function between 5-250, iterating forward,  clear
+C++
+
+
+MBL_CLASS_BUMP8
+User #72806
+Class  bump function between 10-240, iterating backward,  clear
+C++
+
+
+MBL_CLASS_BUMP9
+User #72806
+Class  bump  8-byte key between 5-250, iterating forward, zero clear
+C++
+
+
+MBL_CLASS_BUMP10
+User #72806
+Class  bump  8-byte key between 10-240, iterating backward, zero clear
+C++
+
+
+MBL_CLASS_BUMP11
+User #72806
+Class  bump  8-byte key between 5-250, iterating forward,  clear
+C++
+
+
+MBL_CLASS_BUMP12
+User #72806
+Class  bump  8-byte key between 10-240, iterating backward,  clear
+C++
+
+
+ 
+ 
+ 
+ 
+
+
+MBL_CLASS_RBUMP1
+User #72806
+Class rolling bump , random key between 5-250, iterating forward, zero clear
+C++
+
+
+MBL_CLASS_RBUMP2
+User #72806
+Class rolling bump , random key between 10-240, iterating backward, zero clear
+C++
+
+
+MBL_CLASS_RBUMP3
+User #72806
+Class rolling bump , random key between 5-250, iterating forward, random clear
+C++
+
+
+MBL_CLASS_RBUMP4
+User #72806
+Class rolling bump , random key between 10-240, iterating backward, random clear
+C++
+
+
+MBL_CLASS_RBUMP5
+User #72806
+Class rolling bump function , random key between 5-250, iterating forward, zero clear
+C++
+
+
+MBL_CLASS_RBUMP6
+User #72806
+Class rolling bump function , random key between 10-240, iterating backward, zero clear
+C++
+
+
+MBL_CLASS_RBUMP7
+User #72806
+Class rolling bump function , random key between 5-250, iterating forward, random clear
+C++
+
+
+MBL_CLASS_RBUMP8
+User #72806
+Class rolling bump function , random key between 10-240, iterating backward, random clear
+C++
+
+
+MBL_CLASS_RBUMP9
+User #72806
+Class rolling bump , random key between 5-250, iterating forward, zero clear, flip +/-
+C++
+
+
+MBL_CLASS_RBUMP10
+User #72806
+Class rolling bump , random key between 10-240, iterating backward, zero clear, flip +/-
+C++
+
+
+MBL_CLASS_RBUMP11
+User #72806
+Class rolling bump , random key between 5-250, iterating forward, random clear, flip +/-
+C++
+
+
+MBL_CLASS_RBUMP12
+User #72806
+Class rolling bump , random key between 10-240, iterating backward, random clear, flip +/-
+C++
+
+
+ 
+ 
+ 
+ 
+
+
+MBL_FORLOOP_XOR1
+User #72806
+Random key, forward through array
+C
+
+
+MBL_FORLOOP_XOR2
+User #72806
+Random key, backward through array
+C
+
+
+MBL_FORLOOP_XOR3
+User #72806
+Random 8-byte key, forward through array
+C
+
+
+MBL_FORLOOP_XOR4
+User #72806
+Random 8-byte key, backward through array
+C
+
+
+ 
+ 
+ 
+ 
+
+
+MBL_FORLOOP_FUNC_XOR1
+User #72806
+Random key, function, forward through array
+C
+
+
+MBL_FORLOOP_FUNC_XOR2
+User #72806
+Random key, function, backward through array
+C
+
+
+MBL_FORLOOP_FUNC_XOR3
+User #72806
+Random 8-byte key, function, forward through array
+C
+
+
+MBL_FORLOOP_FUNC_XOR4
+User #72806
+Random 8-byte key, function, backward through array
+C
+
+
+MBL_FORLOOP_FUNC_XOR5
+User #72806
+Random 16-byte key, function, forward through array
+C
+
+
+MBL_FORLOOP_FUNC_XOR6
+User #72806
+Random 16-byte key, function, backward through array
+C
+
+
+ 
+ 
+ 
+ 
+
+
+MBL_FORLOOP_RXOR1
+User #72806
+Random key, forward rolling, forward unscramble
+C
+
+
+MBL_FORLOOP_RXOR2
+User #72806
+Random key, forward rolling, backward unscramble
+C
+
+
+MBL_FORLOOP_RXOR3
+User #72806
+Random key, backward rolling, forward unscramble
+C
+
+
+MBL_FORLOOP_RXOR4
+User #72806
+Random key, backward rolling, backward unscramble
+C
+
+
+ 
+ 
+ 
+ 
+
+
+MBL_FORLOOP_FUNC_RXOR1
+User #72806
+Random key, function, forward rolling, forward unscramble
+C
+
+
+MBL_FORLOOP_FUNC_RXOR2
+User #72806
+Random key, function, forward rolling, backward unscramble
+C
+
+
+MBL_FORLOOP_FUNC_RXOR3
+User #72806
+Random key, function, backward rolling, forward unscramble
+C
+
+
+MBL_FORLOOP_FUNC_RXOR4
+User #72806
+Random key, function, backward rolling, backward unscramble
+C
+
+
+ 
+ 
+ 
+ 
+
+
+MBL_FORLOOP_BUMP1
+User #72806
+Random bump between 15-240/65520, iterate forward
+C
+
+
+MBL_FORLOOP_BUMP2
+User #72806
+Random bump between 15-240/65520, iterate backward
+C
+
+
+MBL_FORLOOP_BUMP3
+User #72806
+Random bump negative between 15-240/65520, iterate forward
+C
+
+
+MBL_FORLOOP_BUMP4
+User #72806
+Random bump negative between 15-240/65520, iterate backward
+C
+
+
+MBL_FORLOOP_BUMP5
+User #72806
+Random bump 4-byte key between 15-240/65520, iterate forward
+C
+
+
+MBL_FORLOOP_BUMP6
+User #72806
+Random bump 6-byte key between 15-240/65520, iterate backward
+C
+
+
+MBL_FORLOOP_BUMP7
+User #72806
+Random bump 8-byte key negative between 15-240/65520, iterate forward
+C
+
+
+MBL_FORLOOP_BUMP8
+User #72806
+Random bump 12-byte key negative between 15-240/65520, iterate backward
+C
+
+
+MBL_FORLOOP_BUMP9
+User #72806
+Random bump 16-byte key between 15-240/65520, iterate forward
+C
+
+
+MBL_FORLOOP_BUMP10
+User #72806
+Random bump 8-byte key between 15-240/65520, iterate backward
+C
+
+
+MBL_FORLOOP_BUMP11
+User #72806
+Random bump 16-byte key negative between 15-240/65520, iterate forward
+C
+
+
+MBL_FORLOOP_BUMP12
+User #72806
+Random bump 8-byte key negative between 15-240/65520, iterate backward
+C
+
+
+ 
+ 
+ 
+ 
+
+
+MBL_FORLOOP_FUNC_BUMP1
+User #72806
+Random bump function between 15-240/65520, iterate forward
+C
+
+
+MBL_FORLOOP_FUNC_BUMP2
+User #72806
+Random bump function between 15-240/65520, iterate backward
+C
+
+
+MBL_FORLOOP_FUNC_BUMP3
+User #72806
+Random bump function negative between 15-240/65520, iterate forward
+C
+
+
+MBL_FORLOOP_FUNC_BUMP4
+User #72806
+Random bump function negative between 15-240/65520, iterate backward
+C
+
+
+MBL_FORLOOP_FUNC_BUMP5
+User #72806
+Random bump function 8-byte key between 15-240/65520, iterate forward
+C
+
+
+MBL_FORLOOP_FUNC_BUMP6
+User #72806
+Random bump function 8-byte key between 15-240/65520, iterate backward
+C
+
+
+MBL_FORLOOP_FUNC_BUMP7
+User #72806
+Random bump function 8-byte key negative between 15-240/65520, iterate forward
+C
+
+
+MBL_FORLOOP_FUNC_BUMP8
+User #72806
+Random bump function 8-byte key negative between 15-240/65520, iterate backward
+C
+
+
+MBL_FORLOOP_FUNC_BUMP9
+User #72806
+Random bump function 16-byte key between 15-240/65520, iterate forward
+C
+
+
+MBL_FORLOOP_FUNC_BUMP10
+User #72806
+Random bump function 16-byte key between 15-240/65520, iterate backward
+C
+
+
+MBL_FORLOOP_FUNC_BUMP11
+User #72806
+Random bump function 16-byte key negative between 15-240/65520, iterate forward
+C
+
+
+MBL_FORLOOP_FUNC_BUMP12
+User #72806
+Random bump function 16-byte key negative between 15-240/65520, iterate backward
+C
+
+
+ 
+ 
+ 
+ 
+
+
+MBL_FORLOOP_RBUMP1
+User #72806
+Random rolling bump between 15-240/65520 iterate forward
+C
+
+
+MBL_FORLOOP_RBUMP2
+User #72806
+Random rolling bump between 15-240/65520 iterate backward
+C
+
+
+MBL_FORLOOP_RBUMP3
+User #72806
+Random rolling bump negative between 15-240/65520 iterate forward
+C
+
+
+MBL_FORLOOP_RBUMP4
+User #72806
+Random rolling bump negative between 15-240/65520 iterate backward
+C
+
+
+MBL_FORLOOP_RBUMP5
+User #72806
+Random rolling bump between 15-240/65520 iterate forward, +/- flip
+C
+
+
+MBL_FORLOOP_RBUMP6
+User #72806
+Random rolling bump between 15-240/65520 iterate backward, +/- flip
+C
+
+
+MBL_FORLOOP_RBUMP7
+User #72806
+Random rolling bump negative between 15-240/65520 iterate forward, +/- flip
+C
+
+
+MBL_FORLOOP_RBUMP8
+User #72806
+Random rolling bump negative between 15-240/65520 iterate backward, +/- flip
+C
+
+
+ 
+ 
+ 
+ 
+
+
+MBL_FORLOOP_FUNC_RBUMP1
+User #72806
+Random rolling bump function between 15-240/65520 iterate forward
+C
+
+
+MBL_FORLOOP_FUNC_RBUMP2
+User #72806
+Random rolling bump function between 15-240/65520 iterate backward
+C
+
+
+MBL_FORLOOP_FUNC_RBUMP3
+User #72806
+Random rolling bump function negative between 15-240/65520 iterate forward
+C
+
+
+MBL_FORLOOP_FUNC_RBUMP4
+User #72806
+Random rolling bump function negative between 15-240/65520 iterate backward
+C
+
+
+MBL_FORLOOP_FUNC_RBUMP5
+User #72806
+Random rolling bump function between 15-240/65520 iterate forward, +/- flip
+C
+
+
+MBL_FORLOOP_FUNC_RBUMP6
+User #72806
+Random rolling bump function between 15-240/65520 iterate backward, +/- flip
+C
+
+
+MBL_FORLOOP_FUNC_RBUMP7
+User #72806
+Random rolling bump function negative between 15-240/65520 iterate forward, +/- flip
+C
+
+
+MBL_FORLOOP_FUNC_RBUMP8
+User #72806
+Random rolling bump function negative between 15-240/65520 iterate backward, +/- flip
+C
+
+
+
+ 
+ 
+SECRET//NOFORN
+ 
+ 
+ 
+
+Previous versions:
+| 1 empty
+| 2 SECRET
+| 3 SECRET
+|
+                    

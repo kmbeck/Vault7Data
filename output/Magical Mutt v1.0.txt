@@ -1,0 +1,56 @@
+
+                        Owner: User #71473
+Magical Mutt v1.0
+SECRET//NOFORN
+Magical Mutt v1.0
+ 
+Description:
+ 
+ 
+Design:
+Stash Repository:   Project Repository
+
+ 
+Testing Repoistory:   Project Tests Repository
+
+ 
+Documentation:
+('section' missing)
+ 
+Latest Testing Results:
+Operational Use:
+JQJMYOPERATION
+ 
+Highlights:
+ 
+Technique Tracking:
+List of techniques used by Project
+
+Inject Dll From Memory Into A Remote Process (InjectLibraryFromMemory_NCPT - Inception)  LIAISON Releasable  SECRET DLLDynamic Link Library Injection (Variant)
+WMI Process Watcher  
+
+ 
+Change Log:
+
+('excerpt' missing) Older Versions:
+ 
+ 
+SECRET//NOFORN
+ 
+ 
+
+Sub-Pages:
+
+
+Magical Mutt v1.0 Sprint 2 Retrospective 2016-02-24 
+
+
+Magical Mutt v1.0 Sprint 1 Retrospective 2016-02-16 
+
+
+
+Previous versions:
+| 1 SECRET
+| 2 SECRET
+|
+                    

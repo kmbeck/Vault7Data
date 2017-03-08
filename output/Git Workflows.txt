@@ -1,0 +1,86 @@
+
+                        Owner: User #524297
+Git Tutorials
+Need to import your project into Stash?
+Check out Teamforge to Stash Migration HOWTO
+Coming to Git from Subversion?  
+Try the Git Reference  
+Git Immersion –
+Step-by-step walkthrough of typical git usage on the command line. 
+   
+Download:  git_immersion_tutorial.zip ,  load html/index.html in your browser.
+('excerpt' missing)
+More info on Git Flow – "A successful Git branching model" – Workflow
+An option for branching workflow during development to separately track feature branches, release preparations & tagging, and hotfixes.
+
+Download:  successful-git-branching-model.pdf and Git-branching-model.pdf
+Git Flow add-on available in Git Tools  , is included by default in Git Tools  !
+New to Git? Awesome interactive tutorial on the web -
+I stumbled across a interactive Git tutorial on the web that teaches you the commands and then has you actually use them.
+So on FIIN or 4STAR go to: pcottle.github.io/learnGitBranching/
+ 
+Stay tuned for more additions!
+
+Attachments:
+
+
+Git_Workflows_Forking.pdf
+
+
+Git_Workflows_GitFlow.pdf
+
+
+Git_Workflows_FeatureBranch.pdf
+
+
+Git_Workflows_Centralized.pdf
+
+
+Git_Workflows_Overview.pdf
+
+
+Git-branching-model.pdf
+
+
+successful-git-branching-model.pdf
+
+
+gitflow.png
+
+
+gitimmersion_ss2.png
+
+
+gitimmersion_ss.png
+
+
+git_immersion_tutorial.zip
+
+
+
+Sub-Pages:
+
+
+Git For Visual Studio Users 
+
+
+
+Previous versions:
+| 1 empty
+| 2 
+| 3 
+| 4 
+| 5 
+| 6 
+| 7 
+| 8 
+| 9 
+| 10 
+| 11 
+| 12 
+| 13 
+| 14 
+| 15 
+| 16 
+|
+                    

@@ -1,0 +1,18 @@
+
+                        Owner: User #71468
+Opera Portable DLL Hijack
+Similar to Thunderbird hijack...
+ 
+Operalooks for "DWrite.dll", a system DLL, adjacent to itself (under \app\Opera\[version]) before correctly finding it
+This DLLDynamic Link Library is ideal for hijacking as it only exports one function (at ordinal #1) with the following prototype:
+HRESULT DWriteCreateFactory(DWRITE_FACTORY_TYPE, REFIID, IUnknown**)
+ 
+The DWRITE_FACTORY_TYPE is an enum defined in Dwrite.h, however we cannot #include this header as doing so will declare the function as an extern.
+Instead, we can either create a dummy enum with only two values (as the real DWRITE_FACTORY_TYPE only has two options) or simply use a INT variable in its place.
+ 
+Opera dpes not appear to crash in the same way Thunderbird would if the function does not return fast enough
+
+Previous versions:
+| 1 
+|
+                    

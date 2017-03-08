@@ -1,0 +1,78 @@
+
+                        Windows Theme Files (.theme)
+('toc' missing)
+
+Using Theme Files in Exploitation
+Theme files are intended for modifying the way your machine looks. Theme files are of the ini/inf format where the file is a list of sections and properties. For example, there is a theme section that you can use in a theme file. In the theme section you can set a display name for the theme as well as a logon background. An example theme section looks like this:
+ 
+
+[Theme]
+; Windows 7 - IDS_THEME_DISPLAYNAME_AERO - Comments start with semicolons
+DisplayName=@%SystemRoot%\System32\themeui.dll,-2013
+SetLogonBackground=0
+
+ 
+The list of things you can set with a theme file is extensive. Here is an example theme file:
+ 
+
+; Copyright © Microsoft Corp.
+[Theme]; Windows 7 - IDS_THEME_DISPLAYNAME_AERO;DisplayName=@%SystemRoot%\System32\themeui.dll,-2013DisplayName=@%SystemRoot%\System32\test.dll,-2013SetLogonBackground=0
+; Computer - SHIDI_SERVER[CLSID\{20D04FE0-3AEA-1069-A2D8-08002B30309D}\DefaultIcon]DefaultValue=%SystemRoot%\System32\imageres.dll,-109
+; UsersFiles - SHIDI_USERFILES[CLSID\{59031A47-3F72-44A7-89C5-5595FE6B30EE}\DefaultIcon]DefaultValue=%SystemRoot%\System32\imageres.dll,-123
+; Network - SHIDI_MYNETWORK[CLSID\{F02C1A0D-BE21-4350-88B0-7367FC96EF3C}\DefaultIcon]DefaultValue=%SystemRoot%\System32\imageres.dll,-25
+; Recycle Bin - SHIDI_RECYCLERFULL SHIDI_RECYCLER[CLSID\{645FF040-5081-101B-9F08-00AA002F954E}\DefaultIcon]Full=%SystemRoot%\System32\imageres.dll,-54Empty=%SystemRoot%\System32\imageres.dll,-55
+[Control Panel\Cursors]AppStarting=%SystemRoot%\cursors\aero_working.aniArrow=%SystemRoot%\cursors\aero_arrow.curCrosshair=Hand=%SystemRoot%\cursors\aero_link.curHelp=%SystemRoot%\cursors\aero_helpsel.curIBeam=No=%SystemRoot%\cursors\aero_unavail.curNWPen=%SystemRoot%\cursors\aero_pen.curSizeAll=%SystemRoot%\cursors\aero_move.curSizeNESW=%SystemRoot%\cursors\aero_nesw.curSizeNS=%SystemRoot%\cursors\aero_ns.curSizeNWSE=%SystemRoot%\cursors\aero_nwse.curSizeWE=%SystemRoot%\cursors\aero_ew.curUpArrow=%SystemRoot%\cursors\aero_up.curWait=%SystemRoot%\cursors\aero_busy.aniDefaultValue=Windows AeroDefaultValue.MUI=@main.cpl,-1020
+[Control Panel\Desktop]Wallpaper=%SystemRoot%\web\wallpaper\Windows\img0.jpgTileWallpaper=0WallpaperStyle=10Pattern=
+[VisualStyles]Path=%ResourceDir%\Themes\Aero\mytheme.msstylesColorStyle=NormalColorSize=NormalSizeColorizationColor=0x6B74B8FCTransparency=1
+[boot]SCRNSAVE.EXE=
+[MasterThemeSelector]MTSM=DABJDKT
+[Sounds]; IDS_SCHEME_DEFAULTSchemeName=@%SystemRoot%\System32\mmres.dll,-800
+
+ 
+One of the interesting sections in the theme file is [Slideshow]. The slideshow portion of the theme allows you to select files that are used in the icon of the theme file. It is used for other things, but the most interesting portion is that the first three of the list are used as the icons of the theme file. So in the cases where your execution vector uses icon rendering/file previews to exploit (link files, font files), a theme file can allow you to point to up to three other files and render them from one.
+ 
+Take the example of having three fonts. There are three fonts because one will only exploit Windows 7 x86, another exploits Windows 7 x64, the third exploits Windows XPWindows operating system (Version) x86. To get full coverage normally, you would put all three font files in a directory. When the target navigates to the directory containing the font files, execution is gained. Now, let say you have another of the microsoft "interesting" files, like a desktop.ini or a library-ms. You could use other files to specify that your "theme" file should be the icon for something. For this example, let's say that we make it the icon of something in the root of the drive.  We'll put the fonts system, hidden and buried on the drive. When the target goes to the root of the drive and the icon is rendered, the theme file is rendered. The theme file then has the relative paths to the font files on the system and renders all three fonts. Thus, you have moved from needing three exploits in the directory a target is navigating to, to hidden files while maintaining the same coverage.
+ 
+Here's an example of a modified theme file that would render 3 fonts upon the rendering of itself.
+
+[Slideshow]
+Interval=1800000
+Shuffle=1
+ImagesRootPath=MyFolder\temp
+Item0Path=MyFolder\temp\font1.fon
+Item1Path=MyFolder\temp\font2.fon
+ Item2Path=MyFolder\temp\font3.fon
+
+ 
+Interesting Theme File Characteristics
+Another note made from playing with Microsoft theme files. Calling ShellExecute on a theme file will cause the theme to be changed to the default. This does cause the opening of a Control Panel window if you don't hide it.
+ 
+ 
+
+Comments:
+
+
+2014-10-02 10:02 
+[User #1179891]: 
+
+Thanks User #73835!
+
+
+2014-10-02 09:58 
+[User #1179891]: 
+
+I think you want the registry key HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Theme. The string value of CurrentTheme should show you the path to the current theme being used. Also, I leared that you can call shellexecute on a theme file to change the theme (although the control panel window pops up). I only checked this on Windows 7 although I assume it will be in the same location for others. User #1179891
+
+
+2014-10-01 14:22 
+[User #1179891]: 
+
+Does anyone know of a way to progammatically determine which theme is currently active?
+
+
+
+Previous versions:
+| 1 empty
+| 2 
+|
+                    

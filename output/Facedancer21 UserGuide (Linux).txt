@@ -1,0 +1,155 @@
+
+                        Facedancer21 UserGuide (Linux)
+
+GoodFET
+The GoodFET is a nifty little tool for quickly exposing embedded system buses to userland Python code.
+Drivers
+In Linux, the FTDI drivers are included by default. Be sure that the user has permissions for /dev/ttyUSB0, which will likely require adding that user to the dialout group.
+Packages
+You will need python-serial, wget, gcc-msp430, and curl. These might have different names, and the MSP430 compiler might be separated from its libc implementation.
+Client
+First, grab a copy of the client code and link it into /usr/local/bin.
+$ dmesg #does the FTDI driver detect the device$ git clone https://github.com/travisgoodspeed/goodfet/$ cd goodfet/client$ sudo make link
+
+Make sure board variable is set to facedancer21 (see Firmware).
+Facedancer-Keyboard Client
+Overview:
+This client is for keyboard emulation. You are able to send keystrokes to the host computer as if you were typing them into a keyboard.
+Vocabulary (for this client documentation):
+Modifier code: The numerical code that represents the special keys on the keyboard (control, shift, alt)Key code: The numerical code that represents keys on the keyboard but are not special/modifier keys ('a', '8', '[')Keystroke: The combination of the usb and modifier key codes (the usb key encodings).
+Things added / modified:
+I added to USBKeyboard.py to create a way to take input from a file (action_ascii.txt) and send that input to the target. Depending on the format type being used, the input can be taken as is, create a new line, wait / pause, or create a manual keystroke code. It also outputs to action_usb.txt to show the codes that were input to keyList and modList, but this file does not show the blank keystrokes used for waiting or signaling a "key up". Right now the path for the input and output files is /home/summer2015/Documents/action_ascii.txt and /home/summer2015/Documents/action_usb.txt. The file path declarations are in USBKeyboard.py, and you can easily change the paths/filenames.
+Some of this code comes from GoodFETMAXUSB.py. This way of creating keystroke input can easily be modified and still work correctly. The main thing that needs to happen is that keyList msut get the usb key code and modList must get the modifier code for that corresponding key. The key combinations of the usb key code and corresponding modifier code must be at the same indexes in their respective lists.
+Input File:
+
+
+Format Type
+Description                                                  
+
+
+
+\"/____________\"/
+The input ____ will be taken exactly as is. The enclosing idenitifier of this format type is backslash quotation forwardslash.
+
+
+n
+Any n not used within another format will be treated as a newline
+
+
+w(___)
+Inserts blank keystrokes. ___ must be a base 10 number (1000 ~ 10 seconds)
+
+
+m__k__
+These __ correspond to the modifier and key usb code. Each must be a two digit hex code. For example, m02k04 would be 'A'.
+
+
+# ________ #
+The ____ is for comments. The enclosing idenitifier of this format type is hastag.
+
+
+
+How the modifier usb code works:
+Each bit [x] signifies whether that special key is pressed.
+[7][6][5][4][3][2][1][0]
+[0] ~ left control[1] ~ left shift[2] ~ left alt[3] ~ left gui[4] ~ right control[5] ~ right shift[6] ~ right alt[7] ~ right gui
+[3] and [7] might be the windows key, depends on the keyboard that is emulated.
+A modifier of 7 would be [2] + [1] + [0] = left alt + left shift + left control.A modifier of 2 would be [1] = left shift.
+Example (Linux Host and Target):
+In your action_ascii.txt file on the host computer, insert the following
+\"/vim testing\"/
+n
+w(10) #allow for vim to open#
+\"/i\"/
+\"/#!/bin/bash
+ 
+echo Hello World!\"/
+m00k29 #ESC#
+\"/:wq\"/
+n
+\"/chmod +x testing\"/
+n
+\"/./testing\"/
+n
+On your target computer, open up the terminal and make sure it is selected so the keys will be inputed into it
+Plug in the deviceOn your host computer, run
+facedancer-keyboard.py
+
+Should create and run a script on the target computer that outputs Hello World!The host terminal will tell you when the program is done and you can disconnect the device
+Important:
+This client has the same capabilites as a keyboard and nothing more!! If you are using this client, think "Can I do what I am trying to do with a keyboard and nothing else?"
+The usb keystroke code (modifier numerical code and key numerical code) can be found online.
+This file may be formatted differently on stache than when openned and read locally on your machine.
+Faceancer-FTDI Client
+Overview:
+This client will connect to the target computer as a virtual serial port that you can use to exvil data from the target computer to the host computer. When something is written to that port on the target computer, it is written to the FTDIdump.txt file on the host computer.
+Things added / modified:
+I modified the client to output what is written to the virutal serial port on the target computer to the FTDIdump.txt file on the host computer. Right now the path for FTDIdump.txt is /home/summer2015/Documents/FTDIdump.txt. The file path declaration is in USBFtdi.py, and you can easily change the path/filename.
+In the goodfet-ftdi client you are able to read from the virtual serial port on the target computer that is getting information from the host computer. I am not sure exactly how this works and skipped adding this capability to the facedancer client because the keyboard emulation is how we were inputting onto the target computer. Inputing from the ftdi client could be something to look into moving forward though.
+When the device is connected (not just plugged in) to the target you will be able to see it using the lsusb command, and it should be connected as /dev/ttyUSB0. That path is how you will interact with the device.
+Example (Linux host and target):
+Plug in the deviceOn the host computer, run
+facedancer-ftdi.py
+
+On the target device, run
+lsusb 
+
+If the device is connected to the target, you should see Future Technology Devices InternationalWhen connected, do the following on the target computer (may need to run as sudo)
+echo Hello World! > /dev/ttyUSB0
+
+(You can disconnect the device by pressing control+c) On the host computer, do the following
+cat FTDIdump.txt
+
+Should output Hello World!
+Firmware
+If your GoodFET has not yet been flashed, or if you would like to develop new firmware features, you will need to compile from scratch.
+export board=facdancer21 #put this in the /etc/environment script (may need to reopen terminal or relogin)
+$ cd goodfet/firmware
+$ board=facedancer21 goodfet.bsl --dumpinfo > info.txt
+$ board=facedancer21 make clean install
+$ board=facedancer21 make installinfo #info.txt might have to be in firmware directory
+
+General Help
+
+The device is very flakey on virtual machines (it disconnects randomly and keystroke errors occur). PDB cannot execute facedancer-keyboard.py but I did not worry about this since it worked when executed normally.
+To see if the device is connect (on linux) run the lsusb command and you should see it connected as Future Technology Devices International device.
+
+
+
+Comments:
+
+
+2015-08-11 03:14 
+[User #524297]: 
+
+Good to know... I'll keep an eye out for USBUniversal Serial Bus problems with VBox too.  Haven't seen any yet, but haven't been playing with USBUniversal Serial Bus on them either. 
+
+
+2015-08-10 15:04 
+[User #17072574]: 
+
+I was using VirtualBox on a Mac for a Linux host VMVirtual Machine and a Linux target VM. I switched to using two different physical Linux computers and the problems went away.
+
+
+2015-08-07 03:38 
+[User #524297]: 
+
+The device is very flakey on virtual machines (it disconnects randomly and keystroke errors occur).
+This may be a function of your virtualization software.  I have found that VMWare on Windows (either Player or Workstation) has very flaky USBUniversal Serial Bus support in general, in particular when it comes to USBUniversal Serial Bus 3.0 (the blue ports). You might want to try a different host platform (assuming you are using Windows), or try using VirtualBox instead.
+
+
+
+Attachments:
+
+README.md
+
+
+Previous versions:
+| 1 empty
+| 2 
+| 3 
+| 4 
+| 5 
+| 6 
+|
+                    

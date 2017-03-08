@@ -1,0 +1,39 @@
+
+                        Owner: User #20251227
+2015-12-07 Retrospective
+
+
+('details' missing)
+Retrospective
+
+
+
+What did we do well?
+
+assigning of story points
+capturing work by using tasks/sub-issues
+
+
+
+What should we have done better?
+Capacity planning still needs attention
+
+
+
+What will we do differently next time to improve?
+Attempt to better account for capacity.
+
+
+ID
+Status
+Task
+
+
+1
+incomplete
+@mention a person to assign them an action item
+
+
+
+
+                    

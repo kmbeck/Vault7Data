@@ -1,0 +1,89 @@
+
+                        Memory Searching - Naive Sequence Search (MISCMemorySearch_NSS)
+SECRET//NOFORN
+ 
+Miscellaneous Module
+Stash Repository: Miscellaneous Library
+
+Module Name: MISCMemorySearch_NSS (Naive Sequence Search)
+ 
+Module Description: This modules exposes two functions for finding a sequence of bytes in a section of memory. One works from the start of a buffer forward, the other, from the end of the buffer back. The return value is the index into the buffer of the beginning of the sequence.
+ 
+Usage: 
+INT64 FindIndexOfSequenceInMemory(CHAR *cMemToSearch, DWORD dwMemLen, CHAR *cSequence, DWORD dwSeqLen);
+ 
+cMemToSearch: A pointer to the buffer to be searched
+dwMemLen: Length of the buffer to be searched
+cSequence: The sequence to look for
+dwSeqLen: Length of the sequence to look for
+Returns the index into the buffer where the sequence begins. If the sequence does not exist, ERROR_SEQUENCE_DOESNT_EXIST (-1) is returned.
+ 
+INT64 FindIndexOfSequenceInMemoryReverse(CHAR *cMemToSearch, DWORD dwMemLen, CHAR *cSequence, DWORD dwSeqLen);
+ 
+cMemToSearch: A pointer to the buffer to be searched
+dwMemLen: Length of the buffer to be searched
+cSequence: The sequence to look for
+dwSeqLen: Length of the sequence to look for
+Returns the index into the buffer where the sequence begins. If the sequence does not exist, ERROR_SEQUENCE_DOESNT_EXIST (-1) is returned.
+ 
+PSP/OS Issues: No known issues.
+ 
+('excerpt' missing)
+ 
+Sharing Level: Unilateral
+ 
+Technique Origin: In-house
+ 
+Notes: 
+
+Uses the Naive String Searching algorithm
+If you know the sequence will be closer to the bottom use FindIndexOfSequenceInMemoryReverse
+Not the most efficient so don't use it for large sets of data
+If the sequence is not found it will return -1
+Buffers will be overflowed if lengths are not correct
+
+
+Module Specific Structures: N/A
+ 
+Module Return Codes: 
+
+SUCCESS = (>=0) = index into buffer where the sequence starts
+Failure = ERROR_SEQUENCE_DOESNT_EXIST = -1
+
+
+Example Code:
+ 
+ 	//Find the index of the sequence
+	CHAR cBuffer[] = { 0x55, 0x56, 0x57, 0x58, 0x59 };
+	
+	MISCMemorySearch_NSS msSearch;
+	
+	//sequence at start of buffer
+	INT64 iIndex = msSearch.FindIndexOfSequenceInMemory(cBuffer, 5, "\x55\x56", 2);
+	EXPECT_EQ(iIndex, 0);
+	
+	//sequence at end of buffer
+	iIndex = msSearch.FindIndexOfSequenceInMemory(cBuffer, 5, "\x58\x59", 2);
+	EXPECT_EQ(iIndex, 3);
+	
+	//sequence not present
+	iIndex = msSearch.FindIndexOfSequenceInMemory(cBuffer, 5, "\x55\x59", 2);
+	EXPECT_EQ(iIndex, -1);
+	
+	//sequence not present (start of sequence at end of the buffer)
+	iIndex = msSearch.FindIndexOfSequenceInMemory(cBuffer, 5, "\x59\x60", 2);
+	EXPECT_EQ(iIndex, -1);
+ 
+ 
+SECRET//NOFORN
+
+Previous versions:
+| 1 SECRET
+| 2 SECRET
+| 3 SECRET
+| 4 SECRET
+| 5 SECRET
+| 6 SECRET
+| 7 SECRET
+|
+                    

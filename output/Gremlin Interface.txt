@@ -1,0 +1,36 @@
+
+                        Owner: User #8650754
+Tools Overview
+ToolPEtoAMM
+This tool is used to convert standard PEPrivilege Escalation DLLDynamic Link Library files to AMMAll My Movies (data files) files.
+ToolPEtoAMM Conversion Tool:
+arguments: <source file> <destination file> <tools>
+optional <tools> -> jenkins(default), rol, elf, superfast
+1)      Strip the PEPrivilege Escalation file header and replace with minimalistic loader variables
+2)      Mask import modules names (currently simply shifting all characters to left by 1)
+3)      Convert import function names to hashes.                                                                                                               NOTE: The first AMMAll My Movies (data files) to be included within the AMPArbitrary Map (data file format) should be the hash implementation.
+4)      Master.dll – this is a magic name in the build system to allow the loader to mask the name of this module but still be able to reference it during the load.  NOTE: internally referenced as ”XO”
+5)      Remove all other module dll name from the export information.
+6)      Clean any residual debug information in the module.
+ToolPackageAMP
+This tools is used to bind AMMAll My Movies (data files) files into a single package (AMPArbitrary Map (data file format)).
+ToolPackageAMP Tool:
+arguments: <amp file> <amm file>
+1)      Appends new AMMAll My Movies (data files) files into a single file
+NOTE: no AMMAll My Movies (data files) header is added during the packaging phase.  The AMM_HEADER contains a size of the block and is sufficient to enumerate through the entire list of AMMAll My Movies (data files) modules.
+2)      NOTE: the hash implementation must be the first module included within the package
+ToolPackageAMP 
+This tools is used to build a PKG file from master.amm and an AMPArbitrary Map (data file format) file.
+ToolPackagePKG Tool:
+arguments: <package file> <AMP - package file> <AMM - master file>
+package file - destination file for delivery
+AMP - package file - package file created with ToolPackager
+AMM - master file - module file created with ToolPEtoAMM
+1)      Fixes up the shell code assembly instructions and header information.
+ToolHash
+This tool is used to generate a hash value for a specific tool type.
+HASH Display Tool:
+arguments: <string> <tool>>
+tools: jenkins(default), rol, elf, superfast
+ 
+                    

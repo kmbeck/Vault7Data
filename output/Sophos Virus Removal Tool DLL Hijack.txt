@@ -1,0 +1,23 @@
+
+                        Owner: User #71468
+Sophos Virus Removal Tool DLL Hijack
+Similar to others... msimg32.dll
+ 
+FoxIt attempts to load the system DLLDynamic Link Library "msimg32.dll" adjacent to itself first before loading it in the proper location.  The DLLDynamic Link Library export 5 functions with the following prototypes:
+typedef VOID(WINAPIWindows Application Programming Interface *vSetDdrawflag)(VOID);typedef BOOL(WINAPIWindows Application Programming Interface *AlphaBlend)(HDC, int, int, int, int, HDC, int, int, int, int, BLENDFUNCTION);typedef DWORD(WINAPIWindows Application Programming Interface *DllInitialize)(DWORD, DWORD);typedef BOOL(WINAPIWindows Application Programming Interface *GradientFill)(HDC, PTRIVERTEX, ULONG, PVOID, ULONG, ULONG);typedef BOOL(WINAPIWindows Application Programming Interface *TransparentBlt)(HDC, int, int, int, int, HDC, int, int, int, int, UINT);
+ 
+To hijack this DLL, take the following steps:
+
+Determine if you're running on a 32 or 64 bit machine and call GetSystemDirectory() or GetSystemWow64Directory()
+LoadLibrary on the real msimg32.dll
+Call GetProcAdress on each of the functions listed above and store in global pointers
+Re-route all calls to any of these functions to the "real" functions and return appropriately
+
+ 
+Languages Available:
+English only
+
+Previous versions:
+| 1 
+|
+                    

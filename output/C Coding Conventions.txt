@@ -1,0 +1,24 @@
+
+                        Lab Configuration
+Wireless Access Points
+In the cage, we have two wireless access points:
+
+BuffaloTrace - Used for general purpose DevLan access, password is: boat49;baked
+rinkydink - Used for testing exploits, where DNSDomain Name System is pointed to the MDBMobile Development Branch test server: mdbtest.devlan.net Password: muddy87/scoops
+
+ 
+
+Sub-Pages:
+
+
+Simulating Packet Delay / Dropped Packets 
+
+
+NGinx Redirector Configuration 
+
+
+
+Previous versions:
+| 1 
+|
+                    

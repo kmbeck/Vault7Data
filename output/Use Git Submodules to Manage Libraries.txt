@@ -1,0 +1,75 @@
+
+                        Creating an empty commit in a new project
+$ git clone <stash>/your_new_proj.git
+$ cd your_new_proj
+$ git commit -m "initial commit" --allow-empty
+ 
+If you need to create a new parent with no files in an existing project (ie, you oops'd)
+$ git clone <stash>/your_existing_proj.git
+
+# create a new empty branch with no history
+$ git checkout --orphan new_root
+
+# unstage, stop tracking, and remove existing files (in this branch only)
+$ git rm -rf .
+ 
+$ git commit -m 'initial commit' --allow-empty
+ 
+# move history of master branch onto the empty commit 
+$ git rebase --root master --onto new_root
+
+# overwrite the remote repository's history for master
+$ git push -f origin master
+ 
+# remove the branch locally as it is no longer needed
+$ git branch -d new_root
+ 
+ 
+If you need to create a new empty branch:
+git checkout --orphan <branch_name>
+
+Comments:
+
+
+2015-11-04 04:26 
+[User #524297]: 
+
+My guess is no.  reading up on the technique, people started doing it mainly because you used to not be able to rebase or squash on the root commit object.  but that issue was fixed in Git 1.7 or so.  it may not even be required anymore.  personally, i think it makes things cleaner and conceptually easier for a rebase heavy workflow.
+There are some good aliases/scripts for adding this kind of commit object on StackOverflow though. 
+
+
+2015-11-03 13:14 
+[User #1179891]: 
+
+i wonder if there is a stash plugin to do this automatically
+
+
+2015-11-03 10:18 
+[User #524297]: 
+
+If you want to get really wacky, there is a way you can insert an empty root commit that was created at the Epoch, so that you can also do a lot of interesting time-based git searching/rebasing/etc.
+
+
+2015-11-03 10:13 
+[User #524297]: 
+
+This is a really good git best practice.  I fixed up your "existing project" recommendation though, with some more explanations:  
+
+I very rarely recommend reset --hard to anyone these days.  They typically shoot their foot off with it and lose work. 
+Your directions before did not fix the local version of the master branch, only the remote.  
+The rebase --onto option allows you to rebase the local master without having to create a new branch.  Force pushing is going to rewrite the published history anyway, so at that point you may as well just go for it with master. 
+
+
+
+
+Previous versions:
+| 1 
+| 2 
+| 3 
+| 4 
+| 5 
+| 6 
+| 7 
+| 8 
+|
+                    

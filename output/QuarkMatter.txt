@@ -1,0 +1,77 @@
+
+                        Owner: User #71491
+QuarkMatter
+
+This page is still under construction.
+ 
+If you came here looking for information on how to work with EFI, that has been moved to EFI/UEFI Information  .
+Project Objective:
+Mac OSOperating System X EFIExtensible Firmware Interface implant which uses an EFIExtensible Firmware Interface driver stored on the EFIExtensible Firmware Interface system partition to provide persistence to an arbitrary kernel implant.
+Table of Contents:
+Stash Repository
+Project Members:
+
+
+User #73993’s Home - Project Lead and Developer
+
+User #71491’s Home - Developer
+
+ 
+
+Comments:
+
+
+2015-10-06 08:27 
+[User #524297]: 
+
+example Vagrantfile to setup VMVirtual Machine for Spottsroide automated post-processing
+
+
+2015-10-05 10:54 
+[User #524297]: 
+
+look into using the Vagrantfile to script out your setup on a base Ubuntu VM. in the docs, the section you want is probably (off the top of my head) "Provisioning". 
+
+
+2015-10-05 09:37 
+[User #71491]: 
+
+I ended up moving the information for this page to Setting Up a Linux Build Environment for EFI  , for those interested. I've looked into how to use Vagrant to do those tasks, but haven't quite figured it out yet.
+
+
+2015-08-17 09:02 
+[User #524297]: 
+
+this sounds like a job for Vagrant!
+
+
+
+Attachments:
+
+
+construction-dog-photos2.jpg
+
+
+Screen Shot 2015-08-14 at 9.24.31 AM.png
+
+
+
+Previous versions:
+| 1 
+| 2 
+| 3 
+| 4 
+| 5 
+| 6 
+| 7 
+| 8 
+| 9 
+| 10 
+| 11 
+| 12 
+| 13 
+| 14 
+| 15 
+| 16 
+|
+                    

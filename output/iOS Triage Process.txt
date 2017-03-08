@@ -1,0 +1,15 @@
+
+                        Owner: User #13763861
+Notes from iOS 8.4.1 Triage
+Adderalling:
+The result of running adderall did not pull the kernel. Python reported "unable to init". I rebuilt it in Debug and ran while monitoring the syslog and found that the adderperm might be broken:
+Jul 16 17:03:57 iPad aitd[240] <Emergency>: [1437080637 en.c:el_init:240] ncpu = 2
+Jul 16 17:03:57 iPad aitd[240] <Emergency>: [1437080637 el_addrperm.c:el_get_mach_port_sright_kaddr_perm:41] Error: port name 0x207 not found in task space
+Jul 16 17:03:57 iPad aitd[240] <Emergency>: [1437080637 el_addrperm.c:el_get_kernel_task_itk_self:95] Error: bad mach_host_sright_kaddr 0x0
+Jul 16 17:03:57 iPad aitd[240] <Emergency>: [1437080637 en.c:el_init:250] Error: bad kernel_task_itk_self
+I thought that maybe a fix in iOS 9 was pulled down to 8.4.1. I checked out the iOS 9 branches {}
+
+Previous versions:
+| 1 
+|
+                    

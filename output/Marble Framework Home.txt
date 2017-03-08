@@ -1,0 +1,111 @@
+
+                        Setting Up Marble Manually
+SECRET//NOFORN
+ 
+First of all, it is recommended that you use the EDGEngineering Development Branch Project Wizard. If there is a specific reason you cannot use the EDGEngineering Development Branch Project Wizard here are the following steps to manually setup the Marble Framework for your project and solution.
+ 
+Step 1: Cloning Core Library (Corelib)
+ The Core Library Repository contains the Marble Framework. You can add Core Library to your project as a Submodule using git.
+ 
+
+ 
+
+ 
+Step 2: Copy (and Modify) Marble.h
+Inside of Submodules\Corelib\Corelib_Utils\Marble you will see Marble.horig. Copy the file into a Shared Folder in your Solution directory as Marble.h. Include this header in any project you wish to use it in. Modify the header file to configure the pool of algorithms to use. Instructions on configuration options are documented in the Marble header file.
+ 
+ 
+Step 3: Include Corelib and Marble.h In Your Project
+In a file where you wish to obfuscate strings/data, make sure you include Marble.h and Corelib.lib. For your project to include the deobfuscation routines, you project include directories must also contain $(Subs). Right-click project->Properties->C/C++->General->Additional Include Directories and add $(Subs); to the list.
+ 
+ 
+
+ 
+Step 4: Add Pre and Post-Build Events
+Check to see that Corelib includes the following commands as prebuild events: (Right-click project->Properties->Build Events->Pre-Build Event)
+CALL "$(Subs)Corelib\CoreLib_Utils\Marble\Mender.exe" "$(SolutionDir)\"
+CALL "$(Subs)Corelib\CoreLib_Utils\Marble\Mibster.exe" "$(SolutionDir)\" "$(SolutionDir)Shared\\" "$(Bin)$(Configuration)\$(Platform)\\"
+If they are not present, make sure to add the two prebuild events to the first project built in your solution.
+ 
+On the last project built in your solution, the following commands should be set as post-build events: (Right-click project->Properties->Build Events->Post-Build Event)
+CALL "$(Subs)Corelib\CoreLib_Utils\Marble\Mender.exe" "$(SolutionDir)\"
+CALL "$(Subs)Corelib\CoreLib_Utils\Marble\Validator.exe" "$(Bin)$(Configuration)\$(Platform)\MarbleReceipt.xml" "$(Bin)$(Configuration)\$(Platform)\$(ProjectName)$(TargetExt)"
+**It is important that the prebuild events be run before any projects are built and the postbuild events are run after all projects are built.
+ 
+
+ 
+ 
+
+ 
+Step 5: Do Work
+ 
+ 
+SECRET//NOFORN
+ 
+ 
+ 
+ 
+ 
+
+Attachments:
+
+
+image2015-12-14 9:37:12.png
+
+
+image2015-12-14 9:35:37.png
+
+
+image2015-12-14 9:25:29.png
+
+
+image2015-12-14 9:24:58.png
+
+
+image2015-12-14 9:18:12.png
+
+
+image2015-12-14 8:35:42.png
+
+
+image2015-12-14 8:35:12.png
+
+
+image2015-4-22 16:56:39.png
+
+
+image2015-4-22 16:54:35.png
+
+
+image2015-4-22 16:45:50.png
+
+
+image2015-4-22 16:43:28.png
+
+
+image2015-4-22 16:42:12.png
+
+
+image2015-4-22 16:41:5.png
+
+
+image2015-4-22 16:40:34.png
+
+
+image2015-4-22 16:37:14.png
+
+
+image2015-4-22 16:36:11.png
+
+
+
+Previous versions:
+| 1 empty
+| 2 SECRET
+| 3 SECRET
+| 4 SECRET
+| 5 SECRET
+| 6 SECRET
+| 7 SECRET
+|
+                    

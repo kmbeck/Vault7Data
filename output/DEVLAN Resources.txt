@@ -1,0 +1,15 @@
+
+                        Partial OpenBSD Mirror
+OpenBSD installers, source tarballs and packages up on http://grouper.devlan.net/OpenBSD
+I have only mirrored a small subset of the files and packages for i386 and amd64.  Let me know if you need/have any other packages.
+
+Comments:
+
+
+2015-05-21 12:36 
+[User #524297]: 
+
+Why would you want to do that?
+
+
+                    

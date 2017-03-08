@@ -1,0 +1,51 @@
+
+                        Owner: User #1179751
+Get database information about VM's (or fun with db_admin)
+If you are a user of dart you are aware of the "resources" page which shows the different VM's that are available.  If you use dart regularly you have probably wanted to access that information programmatically during a test and shed tears of frustration.  This article describes how to use a dart utility called db_admin to grab the information displayed to the left of the screen.  We will do this from the command line first to give a better understanding of the arguments and how to pass them, and then we will look at some python code that creates an easy to access dictionary.
+Working with db_admin from the command line:
+db_admin exists in the tyworkflow/bin directory, for this document we will assume default locations for all dart folders and thus tyworkflow will be in ~/dart/tyrant/tyworkflow.  Like other dart scripts, it is assumed you are working out of either tyworkflow or tybase so all calls to db_admin will be done via bin/db_admin.  Below I will walk you through the relevant commands on the left, and on the right I will show the output of said commands.
+('section' missing)
+ 
+
+ 
+Doing this from a dart script is relatively easy due to the -j (JSONJavascript Object Model) flag. 
+import json
+import os
+ 
+def get_db_info(host_ip_address):  
+    cmd = './media/tyworkflow/bin/db_admin -j 
+    list_resources with_header=True filter_by=ip="%s" select=family,os,ossp,lang,arch' % host_ip_address
+    x = os.popen(cmd)  
+    data = x.read()  
+    x.close()
+    
+    data_list = json.loads(data)
+    return dict(zip(data_list[0], data_list[1]))
+ 
+This function can be tweaked to your desire, but in the end it returns a dictionary with the values you desired.
+ 
+To the best of my knowledge the information in this table isn't dynamically created so you are subject to the accuracy of this database.  I have no reason to doubt the database, but I want to make this point to save debugging frustration in the future.
+Related articles
+
+Related articles appear here based on the labels you select. Click to edit the macro and add or change labels.
+
+('contentbylabel' missing)
+('details' missing)
+ 
+ 
+ 
+
+Attachments:
+
+
+image2015-1-7 9:19:7.png
+
+
+image2015-1-7 9:14:34.png
+
+
+
+Previous versions:
+| 1 
+|
+                    

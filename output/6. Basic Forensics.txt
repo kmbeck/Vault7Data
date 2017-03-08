@@ -1,0 +1,73 @@
+
+                        Owner: User #1179751
+6. Basic Forensics
+SECRET//NOFORN
+ 
+String and Data Obfuscation
+When building a tool you will almost inevitably have to use some set of strings or sensitive data. When security products or professionals scan a system we don't want to make it easy for them to find something malicious by just doing a string search. Thus, in order to obfuscate what the tool is doing we obfuscate the strings or data being used. You should also scan the binary you deliver against usernames and names of people on the project as many times mistakes are made and PDB strings (file paths that often inculde usernames) are left in the final binary. There are many products we use to help us automate portions or all of string/data obfuscation. For example, take a look at Marble Framework Home  SECRET to see how the framework uses Visual Studio to help automate obfuscation during build time.
+Memory vs On Disk
+So you may already have a good idea of where we're going with this. Memory refers to the volatile memory on the machine while the disk is non-volatile. This difference is important when developing malicious software. As a development shop we tend to do most of our work in memory and rarely leave unencrypted artifacts on disk. That being said, all persistence is gained by writing to a non-volatile location on the machine. Thus, it is good to keep in mind that anything on disk shouldn't contain anything too cool for school. Also, on disk artifacts are more likely to be detected by Personal Security Products (PSPs).
+Secure Delete and Self-Delete
+When we do end up needing to leave artifacts on disk we most often require that the tool is securely deleted. As you may already know, when you delete a file you merely remove the reference to it in the file system and you don't actually wipe the appropriate bytes on disk. Self-delete refers to the set of techniques in which the executing code is able to delete itself from disk. Sometimes this is done insecurely but the risk of doing this is managed by the customers. You can vist 9. Tradecraft   to see the standard for secure deletion.
+Obfuscation vs Encryption
+It is important to understand the differences between how we use obfuscation vs encryption. Obfuscation usually applies to strings/data that we wish to protect from automated scans. Encryption applies to data we wish to protect from our adversaries. That being said, any data that can be recovered with some light reverse engineering is merely obfuscated. When developing a tool it is important to identify which parts need to be encrypted or obfuscated.
+Forensics Exercise
+
+('section' missing)
+ 
+ 
+('section' missing)
+('section' missing)
+ 
+ 
+('section' missing)
+ 
+ 
+('section' missing)
+ 
+ 
+('section' missing)
+ 
+ 
+('section' missing)
+ 
+ 
+SECRET//NOFORN
+
+Attachments:
+
+
+image2015-5-6 14:44:30.png
+
+
+image2015-5-6 14:43:51.png
+
+
+image2015-5-6 14:43:30.png
+
+
+image2015-5-6 14:41:24.png
+
+
+image2015-5-6 14:40:34.png
+
+
+image2015-5-6 14:39:31.png
+
+
+image2015-5-6 14:35:3.png
+
+
+
+Previous versions:
+| 1 empty
+| 2 SECRET
+| 3 SECRET
+| 4 SECRET
+| 5 SECRET
+| 6 SECRET
+| 7 SECRET
+| 8 SECRET
+| 9 SECRET
+|
+                    

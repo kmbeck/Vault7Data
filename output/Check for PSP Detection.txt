@@ -1,0 +1,58 @@
+
+                        Owner: User #1179751
+Making life less painful with PyCharm
+For those of you using gedit or similar to write you dart scripts there is a better way.  I was searching for a decent IDEIntegrated Development Environment for Python on Linux and stumbled upon PyCharm.  I've found this IDEIntegrated Development Environment to be pretty nice, and with a little tweaking it allows for you to auto complete Dart methods.
+Step-by-step guide
+To make life better, do the following1:
+
+Install PyCharm2
+
+Create a new Python project and set it up to have the correct leafbag structure.
+In PyCharm select File -> Settings -> Project Structure
+On the right of this window you should see "Add Content Root", add the following3:
+~/Dart/tybase201408/src
+~/Dart/tyutils/leafbag
+~/Dart/tyworkflow201408/src
+
+
+Create a new python script which will be your main leaf
+Add the following code so that you can auto complete the host object:
+
+ 
+#This should seem familiar because it is required for all leafs
+import tybase.undermine.leaf as leaf
+import tybase.undermine.meta.leafi as leafi
+ 
+#This is a hack to allow us to enumerate the host object
+import tybase.palantir.client
+import tybase.undermine.client
+ 
+#Back to the familiar
+@leafi.MainLeaf()
+class MyAwesomeTest(leaf.Leaf):
+	def run(self):
+		host = self.hosts[0]
+		
+		#this finishes the hack
+		assert isinstance(host, tybase.palantir.client.Client)
+		assert isinstance(host, tybase.undermine.client.Client)
+ 
+Doing these steps will allow PyCharm to autocomplete a lot of the Dart methods, furthermore User #1179755 found that if you hit Ctrl+Q you can get any documentation they have on said method (hit or miss if they have any).  Good luck and happy coding.
+ 
+
+1: This article assumes you have already setup your machine to have tybase, tyworflow, and tyutils pulled down.
+2: PyCharm is made by the JetBrains guys and can be found at their website, or you can download PyCharm Community Edition v3.1.3 (which I am using for this how to) from \\fs-01\share\Linux\utilities
+3: This is assuming we created our repos in ~/Dart/, this could be something different on your machine.
+ 
+
+Related articles
+
+Related articles appear here based on the labels you select. Click to edit the macro and add or change labels.
+
+('contentbylabel' missing)
+
+Previous versions:
+| 1 
+| 2 
+|
+                    

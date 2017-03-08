@@ -1,0 +1,39 @@
+
+                        Owner: User #14587667
+Install Fluxwire v2.3
+OS: Ubuntu Desktop 14.10 x64
+ 
+
+Install Java 6sudo apt-get install -y openjdk-6-jre
+
+Copy the file fluxwire-v2.3.0-rc4.bsx to /home/ubuntu
+Run the fluxwire self-extracting executable
+cd /home/ubuntu
+chmod +x fluxwire-v2.3.0-rc4.bsx
+sudo ./fluxwire-v2.3.0-rc4.bsx
+
+
+Run the flux program
+cd /usr/lib/fluxwire/jvm/oracle-java-1.6.0.29/bin
+sudo java -Xms256m -jar /usr/lib/fluxwire/horizon.jar
+
+
+
+Java location: /usr/lib/jvm/java-6-openjdk-amd64/jre/bin/java
+/usr/bin/java
+ 
+ 
+Default desktop configuration stored in /home/ubuntu/linux-fluxwire.conf
+Helpter python scripts stored in /home/ubuntu/flx-tools
+Installation directory: /usr/lib/fluxwire
+
+See also: Setup Fluxwire v3.3  
+
+Previous versions:
+| 1 
+| 2 
+| 3 
+| 4 
+| 5 
+|
+                    

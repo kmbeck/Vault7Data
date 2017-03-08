@@ -1,0 +1,670 @@
+
+                        Past Presentations
+
+2009 - The Birth of NERDS!
+
+
+Date
+Topic
+Branch
+
+
+Jun. 05, 2009
+
+Building Cross-platform collection tools with CMAKE (User #?, User #72072, User #?)
+UDB
+
+
+Jun. 19, 2009
+Cancelled due to CBOC (Any Guesses what this stands for?)
+ 
+
+
+Jul. 03, 2009
+Federal Holiday - Enjoy the Day off
+ 
+
+
+Jul. 17, 2009
+
+Scunnel - Automated Testing, Tracking + Fixing Bugs, & PEID usage (User #72077, User #72078)
+WRB
+
+
+Jul. 31, 2009
+User #72076’s talk moved to 8/14/09
+ 
+
+
+Aug. 14, 2009
+
+Babel and SourceForge (User #72099.)
+NB
+
+
+Aug. 28, 2009
+
+Something about Stack Security (User #?, on stack overflows from Black Hat’s Exploit Lab)
+UDB
+
+
+Sep. 11, 2009
+
+ExpressLane - USBUniversal Serial Bus Data Exfiltration From a Biometric Border Crossing System(User #72075 and User #72074)
+WAB
+
+
+Sep. 25, 2009
+
+Building Small-footprint Bootable Media Collection Tools with Linux (User #?, User #72103.)
+UDB
+
+
+Oct. 23, 2009
+
+Advanced Windows Implementation Details - Highlights from the Windows Internals Class (User #72077.)
+WRB
+
+
+Nov. 06, 2009
+
+Attacking the Eye-Fi Wireless SD Card Firmware (User #72080)
+NB
+
+
+Nov. 20, 2009
+
+BadMFS - A Covert File System for the MARATHON Base Implant (User #72104., User #72111.)
+AIB
+
+
+Dec. 4, 2009
+
+MagicBox and Assymmetric Crypto (User #72088., User #72089.)
+AIB, MDB
+
+
+ 
+2010
+
+
+Date
+Topic
+Branch
+
+
+Jan 15, 2010
+
+Agile-An Introduction to Scrum (User #72120.)
+AED SI
+
+
+Jan 29, 2010
+
+CIB - COG‘s Covert Infrastructure for Network Attacks (User #72105., User #72128.[COG/NOD/CIB])
+AIB, CIB
+
+
+Feb 12, 2010
+
+MOS - A Mobile Framework Library for the DS&T (User #72070)
+EDB
+
+
+Feb 26, 2010
+
+Collide (User #72084., User #72118.)
+AIB
+
+
+Mar 12, 2010
+
+EDG AllHands (Nerds Postponed)
+EDG
+
+
+Mar 26, 2010
+
+Ergostar (Geoff)
+AIB
+
+
+Apr 9, 2010
+
+gPXE TLSTransport Layer Security Crypto Vulnerability (User #72083)
+EDB
+
+
+Apr 23, 2010
+
+Synchronizing iPhone source code across isolated development machines with git(User #?, User #72122.)
+MDB/EDB
+
+
+May 7, 2010
+
+Development Best Practices, Tools, & What AEDApplied Engineering Devision wants from Contractor tools (User #72101.)
+ET
+
+
+May 21, 2010
+
+Babel: Automated Continuous Integration and Testing (User #72099.)
+AIB
+
+
+Jul. 16, 2010
+
+**Does AEDApplied Engineering Devision want a cross-platform communications library? ** (User #72126.) Additional Notes/Comments
+
+SED
+
+
+Jul. 29, 2010 (Thurs)
+(Non-Black Hat) Training and Conference Roundup
+AED
+
+
+Aug. 06, 2010
+
+How C3 Does Software Engineering (User #72070 S.)
+EDB
+
+
+Aug. 13, 2010
+
+Handling International Data Collection (User #72117., User #72077.)
+MDB, RDB
+
+
+Aug. 27, 2010
+
+Embeddable RAM-based Linker (User #72087.)
+TDB
+
+
+Sep. 10, 2010
+
+Black Hat Outbriefs (Black Hat Attendees)
+AED
+
+
+Sep. 24, 2010
+
+Southwest Summer Workshop Report: User #?’s Summer Vacation (User #72089.)
+MDB
+
+
+Oct. 1, 2010 (OOC)
+
+JDW Outbriefs (JDWDevelopment Facility of GCHQ Attendees)
+AED
+
+
+Oct. 22, 2010
+
+Survey of Embedded Devices (User #72123.)
+EDB
+
+
+Nov. 14, 2010 (Thurs)
+
+Holstein: Apple iPod Covert Storage (User #72079.)
+MDB
+
+
+Dec. 3, 2010
+
+TenCent QQ (User #72113.)
+ESD/SDB
+
+
+ 
+2011
+
+
+Date
+Topic
+Branch
+
+
+Feb. 25, 2011
+
+Lessons Learned While Porting Miniloader From 32- to 64-bit (User #72116.)
+AIB
+
+
+Mar. 3, 2011
+
+Black Hat and ShmooCon Round Table (User #72092., User #72115., User #72122., User #72071, User #72121.)
+EDB, AIB
+
+
+Mar. 18, 2011
+
+Torpedo (User #72075.)
+OSB
+
+
+Apr. 1, 2011
+
+Fluxwire (User #72081.)
+COG
+
+
+Apr. 15, 2011
+
+Core Jacking (Pikewerks)
+SED/ETB
+
+
+Apr. 22, 2011
+
+Field Software Engineering Lessons from NEUROMANCER (User #72097.)
+EDG
+
+
+Apr. 29, 2011
+
+Wiki/Jabber/Network Infrastructure (User #1179825., User #72090., User #72096., User #72122.)
+EIB/EDB
+
+
+May 13, 2011
+
+C+ +0x and The RAII Idiom (User #72125.) :collaboration:nerds-cpp-raii.pdf
+
+OSB
+
+
+Jun 3, 2011
+
+PSPs in Your Cloud: The Rise of Cloud-Based AntiVirus and Personal Security Products (User #?)
+NSA/TAO
+
+
+Jun. 10, 2011
+
+Investigation of Embedded Databases on iOS and Android Devices (TBD)
+MITRE
+
+
+Jun. 24, 2011
+
+Thread Monkey (User #72087.)
+TBD
+
+
+Jul. 8, 2011
+
+TBD (TBD)
+TBD
+
+
+Jul. 22, 2011
+Canceled
+ 
+
+
+Aug. 5, 2011
+
+BowmanHeir (User #72124.)
+RDB
+
+
+Aug. 19, 2011
+
+Eliminating Code Bloat (User #72086.)
+RDB
+
+
+Sep. 2, 2011
+Holiday
+ 
+
+
+Sep. 9, 2011
+
+Remote iOS Exploit (User #72092.)
+EDB
+
+
+Sep. 16, 2011
+
+Sandia Work (User #72084.)
+EDB
+
+
+Sep. 30, 2011
+
+Remote iOS Exploit Part II (User #72092.)
+EDB
+
+
+Oct. 14, 2011
+
+IPV6 (User #72082.)
+EDB
+
+
+Oct. 21, 2011
+
+Evolution of Cellular Networks (User #72091.)
+ 
+
+
+Oct. 28, 2011
+Canceled
+EIB
+
+
+Nov. 11, 2011
+Holiday
+ 
+
+
+Nov. 18, 2011
+
+Intro to Parallel Computing APIs CANCELLED DUE TO SICKNESS (User #72095.)
+EDB
+
+
+Nov. 25, 2011
+Holiday
+ 
+
+
+Dec. 9, 2011
+
+TBD (TBD)
+TBD
+
+
+Dec. 23, 2011
+Holiday
+ 
+
+
+ 
+2012
+
+
+Date
+Topic
+Branch
+
+
+Feb. 3, 2012
+
+EDG Only: Career as a Field Officer and 2013 Field Engineer Position at NeuroMancer (Vihn B.)
+AED
+
+
+Feb. 16, 2012
+
+DVR (Out-of-Cycle, Off by One) (User #72079.)
+MDB
+
+
+Mar. 2, 2012
+
+:Ergostar II (User #72108.)
+AIB
+
+
+Mar. 16, 2012
+
+Horizon: A proof of concept Tool management system for AEDApplied Engineering Devision (User #72088.)
+AIB
+
+
+Mar. 30, 2012
+
+The Adventures of C-runtime Linking (User #72086.)
+RDB
+
+
+Apr. 13, 2012
+
+Milestone (User #72085.)
+EDB
+
+
+Apr. 20, 2012
+
+TIO observations (User #72075.)
+AED
+
+
+Apr. 27, 2012
+ 
+ 
+
+
+May 11, 2012
+ 
+ 
+
+
+May 24, 2012
+
+Research@Intel Conference-staff only (User #72095.)
+EDB
+
+
+May 25, 2012
+CANCELED
+ 
+
+
+Jun. 8, 2012
+User #72093 Coordinated–Raytheon
+Pikewerks
+
+
+Jun. 22, 2012
+ 
+ 
+
+
+Jul. 6, 2012
+CANCELED
+ 
+
+
+Jul. 20, 2012
+Hacking Virtual Machines (Mark St. Laurent-Red Hat)
+ 
+
+
+Jul. 30, 2012
+AED Software Development Workshop
+
+User #? V.
+
+
+Aug. 3, 2012
+ 
+ 
+
+
+Aug. 17, 2012
+ 
+ 
+
+
+Aug. 24, 2012
+Nvidia GPU
+ESD
+
+
+Sep. 7, 2012
+Black Hat Presentations
+AED
+
+
+Sep. 14, 2012
+ 
+ 
+
+
+Sep. 20, 2012
+Red Hat
+ 
+
+
+Sep. 28, 2012
+ 
+ 
+
+
+Oct. 19, 2012
+
+Python Crypto Importer (User #72092 and User #72127.)
+EDB
+
+
+Oct. 26, 2012
+
+Hacking a Parking Meter (Ben C. Coordinated)
+Raytheon
+
+
+Nov. 9, 2012
+
+Mocana Cryptographic Library (User #72077 and User #71585)
+Mocana
+
+
+Nov. 15, 2012
+PSP Whitelisting
+ESD
+
+
+Nov. 30, 2012
+
+Grasshopper (not kung fu) (User #72106.)
+RDB
+
+
+Dec. 7, 2012
+RabbitHole, A Windows Exploitation Library (User #72104.)
+ 
+
+
+Dec. 14, 2012
+Windows 8 (EIB(Branch) Coordinated)
+External
+
+
+ 
+2013
+
+
+Date
+Topic
+Branch
+
+
+Jan. 22, 2013
+
+PensiveTrace (ROP compiler toolchain) (User #72109., User #72129.)
+EDB/SNL
+
+
+Feb. 1, 2013
+Windows 8 briefing by NSANational Security Agency (User #72100., POSTPONED)
+NSA
+
+
+Mar. 1, 2013
+
+Kaspersky Defeats (User #72119.)
+EDG/RDB
+
+
+Mar. 15, 2013
+
+EIB TownHall [Devlan modifications/upgrades] (User #72114.)
+EDG/EIB
+
+
+Mar. 29, 2013
+
+AFD Malware RE tour (User #72103.)
+EDG/RDB
+
+
+Apr. 12, 2013
+
+JQC as a rootkit and KitV (User #72102./ User #72112.)
+EDG/ESD/SDB
+
+
+Apr. 26, 2013
+
+Forensics Overview of the Alternate Data Stream (User #71578)
+EDG/SED
+
+
+May 10, 2013
+
+Overview of the OXF data standard. (User #71567, User #72104., User #72110.)
+EDG/SED
+
+
+May 15, 2013
+
+Out of Cycle - AEDApplied Engineering Devision Source Control: Bamboo/Stash (User #?, User #72094., User #72073)
+OSB/RDB
+
+
+Jun. 7, 2013
+
+IOS False Off (User #72093.)
+AED/MDB
+
+
+Jul. 19, 2013
+
+RAVAGE - A Hosted Network Implementation Prototype (User #? )
+ESD
+
+
+Aug. 16, 2013
+Black Hat Outbriefs
+ 
+
+
+Sep. 13, 2013
+RainKing - Signature Diversity Compiler - NEW FEATURES + more! (User #72098.)
+EDG/RDB
+
+
+Sep. 27, 2013
+Advanced Persistance Study (User #72107)
+ESD/SDB 
+
+
+Nov. 8, 2013
+Memory Forensics, Part I (User #71578.)
+SED
+
+
+ 
+2014
+
+
+Date
+Topic
+Branch
+
+
+Jan. 10, 2014
+Memory Forensics, Part II (User #72083.)
+EDB
+
+
+
+
+                    

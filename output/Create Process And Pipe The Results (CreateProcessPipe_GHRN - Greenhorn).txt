@@ -1,0 +1,33 @@
+
+                        Payload Deployment Modules: In-Memory Dll Execution
+LABEL PAGE: Child pages of this page will contain articles pertaining to payload deployment modules for in-memory dll execution.
+ 
+
+('children' missing)
+
+Sub-Pages:
+
+
+Inject Dll From Memory Into A Remote Process (InjectLibraryFromMemory_NCPT - Inception)  LIAISON Releasable SECRET
+
+
+Inject Fire and Forget Dll From Memory Into Remote Process (InjectFireAndForgetFromMemory_HYPD - Hypodermic) SECRET
+
+
+Inject Dll From Memory Into A Remote Process (InjectLibraryFromMemory_HYPD - Hypodermic) SECRET
+
+
+Load ICE Dll In-Memory (LoadICEFromMemory_INTD - Intradermal) SECRET
+
+
+Load Fire and Forget Dll In-Memory (LoadFireAndForgetFromMemory_INTD - Intradermal) SECRET
+
+
+Load Library From Memory (LoadLibraryFromMemory_INTD - Intradermal) SECRET
+
+
+
+Previous versions:
+| 1 
+|
+                    

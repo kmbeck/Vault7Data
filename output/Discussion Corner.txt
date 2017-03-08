@@ -1,0 +1,151 @@
+
+                        Owner: User #1179751
+What did Equation do wrong, and how can we avoid doing the same?
+
+
+
+Equation_group_questions_and_answers.pdf
+
+('viewpdf' missing)
+Inside the EquationDrug Espionage Platform - Securelist.pdf
+
+('viewpdf' missing)
+ 
+
+To the left is Kaspersky's report on Equation.  What do you think Equation did wrong, and how do you think we can avoid the same pitfalls?  Feel free to edit and comment on this page as you see fit!
+
+
+Here are some ideas to get things started:
+ISSUE: Use of customized crypto:
+
+If using a custom crypto algorithm limit its use to a specific tool set
+Use publicly available crypto (Microsoft's Encryption Libraries, OpenSSL, PolarSSL)
+
+ISSUE: Unique MUTEX in privlib
+If a mutex like this is needed, a compiler warning should be generated and the mutex used should be documented
+ISSUE: Pdb string in the binary:
+We need to create a string scanner that queries active directory for user names, and such
+ISSUE: Reuse of exploits
+This is becoming harder and harder to avoid, we may have to accept this and ensure a database of which tool uses which exploit is maintained.
+
+
+
+Comments:
+
+
+2015-03-10 13:36 
+[User #71473]: 
+
+Its interesting you mention the positive ID technique – I noticed that the OXF standard specifies precisely how to generate the UUID of a target – grab the NetBIOS host name, throw it in to MD5, grab the first enumerated MACApple Operating System address, throw it in to MD5 and then finalize the hash.  That's probably a signature right there in what ought to be a data standard that can be (largely) enforced in the post processor and shouldn't influence the tool signature so directly.
+
+
+2015-03-06 10:33 
+[User #1179925]: 
+
+Beyond the actual crypto, there is also the question of protocol (for us in the remote tool world). If I take the time to develop an SSL-like encrypted comm channel, it will probably stick out a bit more (especially across multiple tools) than a "standard" implementation (OpenSSL, Microsoft API, etc.)
+In particular, XSOCK might be the type of library that would cause trouble when analyzed across multiple tools. (It hurts me to type that).
+
+
+2015-02-26 17:08 
+[User #1179925]: 
+
+It's probably worth going back over the libraries we have to make sure we're not doing anything too unique.
+
+
+2015-02-23 15:51 
+[User #524297]: 
+
+pp.28-29 of the report, they knew they were the negatives of the standard constants, but found their usage to be extremely uncommon in popular rc5/rc6 implementations.
+in that case, i'd say it's better to use common/open source implementations
+
+
+2015-02-23 14:30 
+[User #1179751]: 
+
+I'd be interested to see if Kaspersky had picked up on it if they had used the standard constants?  Obviously we'll never really be able to know the answer to that question, but does using PolarSSL, OpenSSL, MSFT, and other libraries present a signature problem for us or does it help us hide in the noise?
+
+
+2015-02-23 10:03 
+[User #1179925]: 
+
+The "custom" crypto is more of NSANational Security Agency falling to its own internal policies/standards which came about in response to prior problems.
+In the past there were crypto issues where people used 0 IV's and other miss-configurations. As a result the NSANational Security Agency crypto guys blessed one library as the correct implementation and every one was told to use that. unfortunately this implementation used the pre-computed negative versions of constants instead of the positive constants in the reference implementation.
+I think this is something we need to really watch and not standardize our selves into the same problem
+
+
+2015-02-20 14:59 
+[User #1179925]: 
+
+The way I was looking at it, the "Equation Group" isn't the single group Kaspersky imagines it to be, so basically it is the tools that seem to make the encompassing group. Basically when we answer who is the Equation Group? It isn't a single entity. The better question would be who uses the "Equation Group" tools. My reference was to the conference cds.
+
+
+2015-02-18 14:46 
+[User #1179925]: 
+
+Not sure what you mean with your nitpick. Item 1 in the report defines "Equation Group" as a "threat actor", not a collection of tools. They based this on the fact that all these tools they found were tied together. (And they found them all because they were tied together. 
+)Also, I wasn't aware any IOCInformation Operation Center equities were involved here. Can you elaborate? Is it the conference CDCompact Disk reference?
+
+
+2015-02-18 14:36 
+[User #1179925]: 
+
+'Unique' (actually non-unique) anything can relate tools to each other-- including strings, techniques, crypto or target countries.  It's mostly subjective, but IMHO, next-gen tradecraft will require learning from these reports and will eventually involve end-to-end decisions from development to deployment to shutdown / upgrade. 
+(Considering the report mentions the tools may go back fourteen years, maybe we should be predicting and considering the PSPs of 2029!)
+ 
+
+
+2015-02-18 13:27 
+[User #1179925]: 
+
+Firstly, I'll start with a nitpicky thing. The Equation Group as labeled in the report does not relate to a specific group but rather a collection of tools (mostly TAOTailored Access Operation some IOCInformation Operation Center). Disregarding the fact that a lot of details about these tools were leaked, the larger issue seems not to be a single tool getting caught (that is a risk we'll never be able to fully mitigate). The bigger issue is in breaking ties between tools (or at a minimum tracking them), and not reusing tools with compromised techniques/exploits. My thought is that more tracking of techniques and tools (EDGEngineering Development Branch can really only be responsible for tracking code in tools), can help us understand and be more proactive in preventing this issue. 
+ 
+Customized crypto: Limit it to a specific set that we're comfortable attributing to each other if they're all found. Tracking applies here.
+Unique Mutex: Could be expanded to unique strings (file names, mutexes, events, named pipes, etc). Should be changed probably on a version basis if possible (definitely shouldn't be in multiple tools). When tracking techniques and code, each implementation or usage that requires a hardcoded string should be noted (as well as the string used).
+String Scanner: Result would be part of the full report of what's being tracked.
+Reuse of exploits: Going to be difficult to do. If possible, have multiple resignature implementations. At a minimum, if an exploit is burnt and patched, we should not use the same compromised tool with a new exploit.
+Obviously, the tracking requires a lot of user input. However, I think we should try to think of ways to automate a lot of our code/technique tracking.
+
+
+2015-02-18 11:16 
+[User #1179751]: 
+
+Oh, and I should state that I speak from experience too unfortunately.....
+
+
+2015-02-18 11:15 
+[User #1179751]: 
+
+For 3, I'm not sure if it was in this report or one of the other ones that referenced this but there was definitely a pdb entry in there.  This is definitely something we need to watch for because it can be overlooked especially with new developers.  We don't really have an official way of doing strings currently (sounds like NSANational Security Agency does from what I'm seeing in IRCInternet Relay Chat) and I feel like we need to get to that.  Off the top of my head one way of protecting against this is dumping all user ids from ADActive Directory and running a strings check for that in addition to all the other dirty words out there. 
+
+
+2015-02-18 11:03 
+[User #1179925]: 
+
+
+I would argue using custom crypto is always a mistake for two reasons. First, for the obvious problem described in the report. It makes your code look strange on deep RE inspection. Second, a custom routine greatly increases the odds you implemented the algorithm incorrectly and end up with a much weaker encryption scheme than intended.
+Named kernel objects in general provide an easy signature for detection because it's usually a unique name. Using the same name in multiple tools is catastrophic.
+This is PDB string, right? The PDB path should ALWAYS be stripped (I speak from experience. Ask me about Blackstone some time.). For Visual Studio user mode stuff, the /DEBUG linker switch should NOT be used. For drivers, it's a bit harder to avoid it, but a post-build step using binplace will strip the path information.For other strings generally, yeah, search the binary for them. Don't use internal tool names in your code.
+It's less of a problem if leave-behind code doesn't have any exploit code in it.
+
+ 
+As for what 'Equation' did wrong.... All their tools shared code. The custom RC5 was everywhere. The techniques for positive ID (hashing) was used in the same way in multiple tools across generations.
+The shared code appears to be the largest single factor is allowing KL to tie all these tools together. The acquisition and use of C&C domains was probably number 2 on the list, and I'm sure the COGComputer Operations Group infrastructure people are paying attention to this.
+
+
+
+Attachments:
+
+
+Inside the EquationDrug Espionage Platform - Securelist.pdf
+
+
+Equation_group_questions_and_answers.pdf
+
+
+
+Previous versions:
+| 1 
+| 2 
+| 3 
+|
+                    

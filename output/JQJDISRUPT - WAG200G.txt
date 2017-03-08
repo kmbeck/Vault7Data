@@ -1,0 +1,90 @@
+
+                        Owner: User #71467
+JQJADVERSE
+Test Plan for Adverse-1h
+
+HG Base
+Install - COMPLETE - test 2
+Uninstall - via CTCounter Terrorism command - COMPLETE test 3
+Restart modules - COMPLETE - test 12
+CT Session - COMPLETE - test 2
+
+
+Persistence
+Persist through reload - COMPLETE - Test 6
+Persist dns checkin changes - COMPLETE - Test 13
+Persist dns checkin timer values - COMPLETE - Test 13
+Persist trigger sequence number - COMPLETE - Test 13
+
+
+SDC 
+Test capability to snoop - COMPLETE - Test 7
+Change SDCMicrosoft software packaging format settings - COMPLETE - Test 14
+DNS checkin after SDCMicrosoft software packaging format window expires using dns snooped host list - COMPLETE - Test 15
+
+
+Deadman
+Test failsafe due to no hosts to impersonate - COMPLETE - Test 4
+Test failsafe due to negative response from DNSDomain Name System - COMPLETE - Test 9
+Test failsafe due to no response from DNSDomain Name System - COMPLETE - Test 18
+Test failsafe due to no CNAME present - COMPLETE - Test 17
+
+
+On-Device OpSecVerify show tech before install, after install, after uninstall - COMPLETE - Test 3
+
+DNS Checkin
+Change checkin parameters - delay, variance - COMPLETE
+
+Disable/Enable checkin - COMPLETE - Test 2
+Reload module - COMPLETE - Test 12
+Verify all CNAME rewrite commands
+loc1 - update failsafe counter - complete - Test 2
+bls - uninstall - complete - Test 3
+time - checkin every 25h - complete - Test 21
+info - callback once a day - 
+loc3 - go back to nominal checkin frequency (15d) - complete Test 2, test 21
+map2 - smite - complete - Test 24
+ship - internal use - call back
+map1 - internal use - change delay 15d - complete - Test 24
+tanker - internal use - delete all mitm rules - complete -Test 24
+
+
+
+
+CONOP test
+Ad hoc
+Reload DUTDevice Under Test during HG upload - COMPLETE - Test 5
+Uninstall and then subsequent reinstall - COMPLETE - Test 10
+Disable SDCMicrosoft software packaging format and set rapid checkins - COMPLETE - Test 11
+Stop Checkin module and reload DUTDevice Under Test - COMPLETE - Test 13
+Test HG persistence after power pulled - COMPLETE - Test 20
+Test failsafe due to unexpected or multiple CNAME present - COMPLETE - Test 23
+
+
+
+
+
+
+
+Sub-Pages:
+
+
+ROCEM v1.2-Adverse-1r Testing [Xetron]
+
+
+HG v3.1.3-Adverse-01 Testing [Xetron]
+
+
+Powerman-1r Testing [Xetron]
+
+
+
+Previous versions:
+| 1 empty
+| 2 
+| 3 
+| 4 
+| 5 
+| 6 
+|
+                    

@@ -1,0 +1,92 @@
+
+                        Weeping Angel Time Research
+SECRET // REL US, UK
+Time on Smart TV
+
+TV Time
+Go to  Menu > System > Time > Clock to configure/view time displayed anywhere on TV
+Auto time pulls time based on timezone and DST
+Manual can be used to set time different from timezoneWhen TV is unplugged on manual, time resets to --:-- and requires configuration
+
+TV Time is not effected and appears unrelated to the System Time
+SmartHub pulls time from this setting
+Backend (implant side) system time does not match or effect TV time
+
+
+
+
+System Time
+The system time resets to Unix Epoch (1 Jan 00:00:00 1970) each time the TV is unplugged
+The system time persists when remote is used to turn TV off (in fake-off mode)
+date command prints current system time (UTCCoordinate Universal Time)
+Files created in the file system use the time reported by date as their creation/modification times
+Files created in /mtd_rwcommon with current (2014) timestamps remain unaltered even when TV resets to Unix Epoch on power cycle
+
+TODO: test implant to ensure timestamps on audio files use same time as reported by date
+
+
+NTP Syncing
+
+ntpd and rdate (deprecated) are NTPNetwork Time Protocol clients included with BusyBox and can fetch time from server but cannot set local system timeError reported: "settimeofdate: bad address" related to underlying implementation in BusyBox
+
+
+
+ntpclient (http://doolittle.icarus.com/ntpclient/) is an NTPNetwork Time Protocol client for unix-alike computer and is a small subset of xntpd (not included in BusyBox)
+Recommended by BusyBox in "External Tiny Utilities"
+Compiled for Linux on 32-bit build environment. Ran on Virtual Machine to test functionality
+Attempted to cross-compile for ARMProcessor manufacturer but got error related to glib version
+Found pre-compiled ARMProcessor manufacturer build on SamyGo forums (forums.samygo.tv/download/file.php?id=1248)
+
+Ran on TV using:
+/mtd_rwcommon/ntpclient-arm -s -h pool.ntp.org
+
+Successfully updated system time from Unix Epoch to current time reported by NTPNetwork Time Protocol server (uses different method of setting time than BusyBox)
+-s flag for simple (implies -c 1) and -h for NTPNetwork Time Protocol host
+Returns string in format:<days since 1900> <secs since midnight> <NTP transaction time> <internal server delay> <clock difference bt local and NTPNetwork Time Protocol (μS)> <dispersion> <adjtimex frequency (not implemented on ARMProcessor manufacturer)>
+Check ntpclient-2010/README and HOWTO for more details on flags and reported strings
+HOWTO also has details on measuring and logging systems performance
+
+
+
+
+
+ntpdate does not exist on the TV or in BusyBox
+Syncing with NTPNetwork Time Protocol servers changes the System Time but appears to have not effect on TV Time
+
+
+Clock Drift
+Several simple attempts were made to measure the time drift
+Started at 15:50:30 UTCCoordinate Universal Time on 6 AUG with System Time synced to pool.ntp.org
+In approximately 22 hours, the drift on the TV was less than 1 second
+No clarity was given beyond seconds is given by date so exact ms drift could not be determined
+Same time period on Linux laptop yielded 600ms drift
+
+
+Look into ntpclient's logging and measuring characteristics of hardware clock over period of time
+
+
+Sync scripts (not started)
+Sync time with NTPNetwork Time Protocol server on power-on and once? per day
+Use non-US related NTPNetwork Time Protocol server
+mx.pool.ntp.org - Does not currently have enough (1 active) servers in country/time zone
+Recommend using north-america.pool.ntp.org (721 active)
+
+
+
+
+
+Related articles
+
+Related articles appear here based on the labels you select. Click to edit the macro and add or change labels.
+
+('contentbylabel' missing)
+ 
+SECRET // REL US, UK
+
+Previous versions:
+| 1 
+| 2 
+| 3 
+| 4 
+|
+                    

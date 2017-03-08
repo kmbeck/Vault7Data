@@ -1,0 +1,20 @@
+
+                        Owner: User #71468
+Sandisk Secure Access v2 DLL Hijack
+Less than ideal situation as the EXE doesn't look for any DLLs deeper than adjacent to itself
+Procmon screenshot:
+
+"ntshrui.dll" is a valid System DLL.  Interestingly enough, returning TRUE or FALSE from PROCESS_ATTACH is not a problem, as the DLLDynamic Link Library is unloaded immediately after being loaded (seemingly without any exported functions being called).  Win
+ 
+Languages Available:
+English only
+
+Attachments:
+
+sandisk secure procmon.png
+
+
+Previous versions:
+| 1 
+|
+                    

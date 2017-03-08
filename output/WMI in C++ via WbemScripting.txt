@@ -1,0 +1,59 @@
+
+                        Get File Major/Minor Version Numbers (MISCFileVersion_WIN32)
+SECRET//NOFORN
+ 
+Miscellaneous Module
+Stash Repository: Miscellaneous Library
+
+Module Name: MISCFileVersion_WIN32 (Using Win32 APIApplication Programming Interface)
+ 
+Module Description: This module allows you to grab the major and minor version numbers of a file. Calling this function on a windows file (ex: kernel32.dll) will also get the accurate Operating System version numbers (gets around OSVERSIONINFO on Win 8/8.1). The module uses GetFileVersionInfo and VerQueryValue to determine the major and minor version of the file.
+ 
+Usage:
+
+/*
+	Gets the file version major and minor number using the GetFileVersionInfo Windows
+	API call. 
+*/
+static BOOL GetFileMajorMinor(WCHAR *wcFilePath, DWORD &dwMajor, DWORD &dwMinor);
+
+ wcFilePath: The path to the file the version information should be extracted from.
+dwMajor: Is returned with the major version number of the file.
+dwMinor: is returned with the minor version number of the file.
+Returns TRUE on success and FALSE on failure.
+ 
+PSP/OS Issues: No known issues.
+ 
+('excerpt' missing)
+ 
+Sharing Level: Unilateral
+ 
+Technique Origin: In-house (Windows APIApplication Programming Interface)
+ 
+Notes: 
+
+Only works on files that include version information.
+Can be used on Windows files to determine OSOperating System version.
+
+ 
+Module Return Codes:
+Returns TRUE when successful and FALSE on failure
+ 
+Example Code:
+ 
+ //Get OSOperating System major/minor by calling GetFileMajorMinor on kernel32
+DWORD dwMajor = 0;
+DWORD dwMinor = 0;
+
+
+BOOL bRet = MISCFileVersion_WIN32::GetFileMajorMinor(L"kernel32.dll", dwMajor, dwMinor);
+ 
+ 
+SECRET//NOFORN
+
+Previous versions:
+| 1 SECRET
+| 2 SECRET
+| 3 SECRET
+|
+                    

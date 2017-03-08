@@ -1,0 +1,25 @@
+
+                        Articles on Exploiting PSPs
+This page will contain a list of articles/papers that discuss exploiting Personal Security Products on the Windows Operating System.
+ 
+Breaking Antivirus Software
+ 
+
+Comments:
+
+
+2015-12-11 10:39 
+[User #20251227]: 
+
+Neat. 
+FYI - I think there is a recent-ish (11-DEC-15) article making the public rounds which mentioned a lack of ASLRAddress Space Layout Randomization usage by some PSPs.  Might be interesting to skim the DLLs & such of the PSPs & see which support DEP, ASLR, and/or SAFESEH...
+FYI x2 - I think Tavis Ormandy from Google has published some material in this area as well.
+ 
+ 
+
+
+
+Previous versions:
+| 1 
+|
+                    

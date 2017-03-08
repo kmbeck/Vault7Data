@@ -1,0 +1,115 @@
+
+                        Owner: User #524297
+Git Tools
+ 
+ 
+Command Line Tools
+Git For Windows - Git-1.8.3-preview20130601.exe
+Git 1.8 source tarball - git-1.8.2.3.tar.gz
+Graphical User Interfaces
+SourceTree for Windows - SourceTreeSetup_1.5.2.exe
+SourceTree for Mac OSOperating System X - SourceTree 1.9.3.1.dmg available on smb://fs01.devlan.net/share/MDB/OSX/Software/FreeSoftware/SourceTree_1.9.6.dmg
+License File for SourceTree (for when it starts bugging you): sourcetree.license
+Tools for Managing Branches
+gitflow.tgz  - Git addon for using branches as described in the successful-git-branching-model.pdf article.
+Tools for Managing Multiple Repositories Simultaneously
+Repo   - Tool from Google for managing a large number of interdependent repositories.  Helpful if you're doing development in both the child projects and the parent repository simultaneously.
+Plugins for Vim
+fugitive.zip – Tim Pope's awesome git vim plugin.
+Plugins for Visual Studio
+GitSccProvider.msi (Note: Update 2 for VS is VS2012.2.exe)
+GitSccProvider.vsix
+GitSccProvider.msi
+ 
+
+Comments:
+
+
+2013-06-20 09:55 
+[User #524297]: 
+
+Fixed! (and updated to 1.8.3)
+
+
+2013-06-20 09:25 
+[User #71473]: 
+
+FYI, the GITSource code management software for Windows link is pointing to the wrong file.  I got VS2012.2.exe when I downloaded it.
+
+
+2013-05-14 11:24 
+[User #524297]: 
+
+Completely agree.  I think that pointing to a folder on the share will be the best "go-to" place for the latest.  I wish the share wasn't such a landfill though. It could use some serious purging.  Attaching stuff here should be a good temporary measure to get folks started on trying it out. 
+
+
+2013-05-14 10:12 
+[User #2064619]: 
+
+Just a thought... might be more beneficial to link to something like "file:///fs-01/share/Windows Software Development Resources/git" rather than uploading to Confluence. I can't see how uploading versions of git tools to Confluence would scale very well.
+
+
+
+Attachments:
+
+
+SourceTreeSetup_1.5.2.exe
+
+
+git-1.8.2.3.tar.gz
+
+
+Git-1.8.3-preview20130601.exe
+
+
+sourcetree.license
+
+
+VS2012.2.exe
+
+
+Microsoft.TeamFoundation.Git.Provider (1).msi
+
+
+GitSccProvider.vsix
+
+
+GitSccProvider.msi
+
+
+fugitive.zip
+
+
+gitflow.tgz
+
+
+
+Sub-Pages:
+
+
+Repo 
+
+
+
+Previous versions:
+| 1 empty
+| 2 empty
+| 3 
+| 4 
+| 5 
+| 6 
+| 7 
+| 8 
+| 9 
+| 10 
+| 11 
+| 12 
+| 13 
+| 14 
+| 15 
+| 16 
+| 17 
+| 18 
+| 19 
+|
+                    

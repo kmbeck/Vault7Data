@@ -1,0 +1,38 @@
+
+                        Owner: User #71467
+AAA Server
+Basic AAASecurity Server from Cisco Server Configuration
+Steps to setup an AAASecurity Server from Cisco server to provide authentication, authorization and accounting for access to Cisco devices:
+
+Start with UbuntuServer 14.04 BASE
+Connect to DevLAN and use the repo to download the tac_plus package: apt-get install tacacs+
+Edit /etc/tacacs+/tac_plus.conf to configure for the network
+Set keykey = TripleAKey123
+Set authentication methoduncomment this line "default authentication = file /etc/passwd"
+
+Add service exec to DEFAULT user permissions: user = DEFAULT {
+   login = PAM   service = exec {      priv-lvl = 15   }}
+
+
+
+Add users to UbuntuServer to create accounts that you'd like to be able to use to log into the Ciscosadduser <newuser>
+Restart tac_plus - /etc/init.d/tacacs_plus restart
+
+Basic Cisco AAASecurity Server from Cisco Configuration
+Basic Cisco configuration to enable authentication to the tac_plus server:
+
+Make sure you have a local username and an enable password already configured
+aaa new-model
+aaa authentication login default group tacacs+ local
+aaa authentication enable default group tacacs+ enable
+aaa authorization exec default group tacacs+ if-authenticated
+aaa accounting exec default start-stop group tacacs+
+tacacs-server host 10.9.8.25 key TripleAKey123
+
+ 
+
+Previous versions:
+| 1 empty
+| 2 
+|
+                    

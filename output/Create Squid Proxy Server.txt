@@ -1,0 +1,104 @@
+
+                        Owner: User #14587667
+VMware
+
+
+Welcome!
+Next, you might want to:
+
+
+ID
+Status
+Task
+
+
+1
+incomplete
+
+Create your first knowledge base article - Click "Create" and select a "How-to" or "Troubleshooting" article.
+
+
+2
+incomplete
+
+Customise the home page - Click "Edit" to get started. Include useful information like what users can expect to find in this knowledge base, frequently asked questions and links to other resources.
+
+
+
+
+
+ 
+ 
+
+('livesearch' missing)
+ 
+ 
+Knowledge base for configuring/managing VMware vSphere.
+
+ 
+
+
+
+Frequently asked questions
+
+Add links to popular how-to and troubleshooting articles.
+Highlight important documentation.
+
+
+
+Need more help?
+
+Link to resources such as your service desk, questions & answers or a forum.
+List contacts for getting additional help.
+
+
+
+Other resources
+
+Include links to relevant external sites and services.
+Add other helpful information.
+
+
+
+
+ 
+
+ 
+
+
+
+Browse by topic
+
+('listlabels' missing)
+
+
+Recently updated articles
+
+('recently-updated' missing)
+
+
+
+
+Sub-Pages:
+
+
+Enable Copy/Paste for VMs 
+
+
+Modify Web Client Timeout 
+
+
+Workaround for OVF Deployment Failed 
+
+
+vSphere Web Client Slow to Open VM Consoles 
+
+
+How-to articles 
+
+
+
+Previous versions:
+| 1 
+|
+                    

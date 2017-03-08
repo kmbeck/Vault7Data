@@ -1,0 +1,19 @@
+
+                        Owner: User #14587667
+Perseus 1.1.0b1 Mikrotik RB450G - Test 2 Notes
+Perseus 1.1.0 Beta 1MikroTik RB450G
+General Info
+WAN (from TR-Core) 172.20.100.8/30TR-CoreSwx: 172.20.100.9    Perseus: 172.20.100.10
+ICON-CR: 172.20.12.23/24
+LAN Hosts:
+192.168.88.2  Perseus Test1 -1.1.0b1 - UbuntuDesktop 14.10 x64
+ 
+5/5/2015
+Currently has RouterOS (ROS) v6.19
+ 
+
+Previous versions:
+| 1 empty
+| 2 
+|
+                    

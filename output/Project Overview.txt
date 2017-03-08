@@ -1,0 +1,56 @@
+
+                        Owner: User #20251227
+Not Used Retrospectives
+This page is for holding notes gleaned via sprint retrospectives.
+I could delete this page since JIRAUser Managment Software (Atlassian) does the automagickZ, but there are some useful comments at the bottom of the page/
+ 
+
+Comments:
+
+
+2015-11-10 11:00 
+[User #20251227]: 
+
+Other than a desire to put the individual retrospective pages in a lump of their own, it worked out well.
+ 
+
+
+2015-11-10 03:54 
+[User #524297]: 
+
+As far as I can tell, only Spaces.  I think that standard practice for use of Confluence in the Real World is a space per project.  That might prove unwieldy here though. 
+
+
+2015-11-09 13:56 
+[User #20251227]: 
+
+Groovy!
+Is there a way of getting this instance of JIRAUser Managment Software (Atlassian) to shove retrospectives into children of a specified sub-page?
+I will have to do some Duck-Duck-Bing-Oogling.
+
+
+2015-11-09 07:04 
+[User #524297]: 
+
+When the dialog comes up after you close a Sprint in JIRA, it asks you to specify in which Confluence Space you want to put the Retrospective.  (see the one I just made in Playground)
+There is no need to link JIRA Projects to Confluence spaces for Retrospectives.  
+
+
+2015-11-06 11:00 
+[User #20251227]: 
+
+I did not know that.  That's a neat feature.
+AFAIK, the JIRAUser Managment Software (Atlassian) instance of the project and this wiki space are not linked, though.
+
+
+2015-11-06 10:05 
+[User #524297]: 
+
+No need to create this page, when you create a retro when you close out a sprint from JIRA, it makes a holding page automagically.
+
+
+
+Previous versions:
+| 1 
+|
+                    

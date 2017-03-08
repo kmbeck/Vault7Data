@@ -1,0 +1,27 @@
+
+                        Developer Quickstart
+ 
+Baseline Hardened OS: Contains an overview of the NODNetwork Operations Division Hardened OSOperating System (spec?)
+Packer Configurations: Overview of Packer and Packer configurations
+Ansible Playbooks: Overview and quickstart guide to creating Ansible playbooks
+ 
+ 
+
+Sub-Pages:
+
+
+Ansible Playbooks empty
+
+
+Baseline Hardened OS 
+
+
+Packer Configurations 
+
+
+
+Previous versions:
+| 1 empty
+| 2 
+|
+                    

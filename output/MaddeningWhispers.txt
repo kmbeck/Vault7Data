@@ -1,0 +1,27 @@
+
+                        Owner: User #524297
+MaddeningWhispers
+Concept of Operations
+MaddeningWhispers is a set of software components that provide beaconing and remote access capabilities to a Vanguard-based device (ET project).  This proof-of-concept project is done in conjunction with ESD/CNB.
+Resources
+
+Project Issues
+
+Project Repositories
+mw - main source repository for Python daemon service, command-line client, and listening post server.
+
+tinyshell - forked source repository for remote access client.  – will need to be compiled under a supported platform, and also under Linux using the Vanguard cross-compiler kit.
+
+usbreset - source repository for executable to manipulate USBUniversal Serial Bus device on bus.  – will need to be compiled under Linux using the Vanguard cross-compiler kit.
+
+
+
+ 
+ 
+
+Previous versions:
+| 1 
+| 2 
+| 3 
+|
+                    

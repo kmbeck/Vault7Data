@@ -1,0 +1,14 @@
+
+                        Owner: User #13763861
+Interesting Files on Devices
+iOS 7 & 8
+/private/var/root/Library/Caches/locationd/cache_encryptedA.db
+/private/var/root/Library/Caches/locationd/cache_encryptedC.db
+/private/var/root/Library/Caches/locationd/lockCache_encryptedA.db
+/var/preferences/SystemConfiguration/com.apple.wifi.plist
+/private/var/wireless/Library/CallHistory/call_history.db
+
+Previous versions:
+| 1 
+|
+                    

@@ -1,0 +1,38 @@
+
+                        Owner: User #524297
+Specific Tradecraft Techniques
+
+('children' missing)
+Could use your help in the following:
+
+File Hiding
+Process Hiding
+Network Activity Hiding
+Activity Log Manipulation
+Privilege Escalation
+Data Exfiltration Techniques / Tools
+
+Backdoors
+Implants
+Compression
+Encryption
+Anti-Forensics
+Anti-Tampering/Anti-Reverse Engineering
+Code size reduction
+
+
+Sub-Pages:
+
+
+Process Enumeration 
+
+
+Detecting and Bypassing Personal Security Products (PSPs) 
+
+
+
+Previous versions:
+| 1 
+| 2 
+|
+                    

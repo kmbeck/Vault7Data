@@ -1,0 +1,22 @@
+
+                        Owner: User #15728648
+Building Nightskies (crunchylimeskies)
+Prerequisite:
+The crunchylimeskies project uses environment variables during the build process that need to be defined in your .profile/bash_profile etc. As of 02/21/2014, The variables are:
+
+ZOO_IPSW_PATH - path to a directory containing all the ipsw-spec files
+
+ZOO_IOS_MIN_VERSION - minimum SDKSoftware Development Kit version used during compilation
+
+ZOO_IOS_SDK_VERSION - actual SDKSoftware Development Kit version used during compilation; this can be the same as ZOO_IOS_MIN_VERSION
+
+ZOO_DYONEDO_FILES - path to a directory containing dyonedo files, which are the AppStore and dyld binaries for a specific ipsw spec. This can be the same as ZOO_IPSW_PATH
+
+
+ 
+ 
+
+Previous versions:
+| 1 
+|
+                    

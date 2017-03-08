@@ -1,0 +1,190 @@
+
+                        Owner: User #71467
+Powerman-1r Testing
+Powerman-1r Testing
+Xetron delivered ROCEM version 1.1 for 3560G.  Testing ROCEM for operational use on JQJADVERSE.  Operator was not able to provide a configuration for the 3560G - we only know that this 3560G is a core switch with a router on a stick configuration and in a VTPVLANVirtual Local Area Network Trunk Protocol enviroment.  Conop will be to first use ROCM to survey device and then subsequently use ROCEM to throw HG.  We are testing with a 3560G-24-PS, although Xetron's readme lists this ROCEM release is for 3560G-24-TS.  It is not believed that the power over ethernet feature should affect the implant.
+Testing Summary
+
+Readme needs to be changed - show switch detail does not exist in this IOSApple operating system for small devices version
+ROCEM telnet session with no user visible in output of "show users" - this is known to Xetron and is documented in 2015-05-27 Powerman ROCEM QRC Results Memo
+Exit from ROCEM interactive session produces an SNMPSimple Network Management Protocol trap for connection close
+Connect/disconnect from ROCEM interactive session produces log messages in /var/log/syslog on AAASecurity Server from Cisco server - these are different than reported messages in Operational Use Notes
+While ROCEM interactive session active, credentials which normally login with privilege level 15 actually login with privilege level 1.  Attempts to enable produce error: Error in authentication
+While ROCEM interactive session active, new and existing telnet sessions are logged - AAASecurity Server from Cisco commands and start-stop messages recorded (this is not expected based on Operational Use Notes)
+With DUTDevice Under Test configured to log config changes locally, config changes made through ROCEM interactive session are logged to syslog.
+
+Progress/Notes
+
+Smoke Test - Survey 3560G with ROCEM
+3560G is configured to use AAASecurity Server from Cisco server to authenticate users as well as authorize commands and log all commands entered
+3560G is configured to log snmp traps and syslogs to Solarwinds
+Output of "who" command before ROCEM shows my console session and my vty session on line 13560G#who Line User Host(s) Idle Location 0 con 0 cisco idle 00:07:52* 1 vty 0 root idle 00:00:00 10.9.8.96
+Interface User Mode Idle Peer Address
+3560G#
+
+Verified that AAASecurity Server from Cisco is logging show commands when entered in 3560G through regular telnet session
+Followed Xetron Powerman-1R readme procedure to use ROCEM to execute show commands
+./rocem_c3560-ipbase-mz.122-35.SE5.py -i -f fill.bin 192.168.111.1
+Entered y to proceed
+3560# prompt appeared - no creds were netered
+Executed show commands from readme successfully - show switch detail does not exist in this IOS.  AAA does not log show commands entered through ROCEM to tac_accounting.log, no syslogs or SNMPSimple Network Management Protocol traps generated when commands entered
+
+
+AAA does log the ROCEM connection in /var/log/syslog:               tac_plus[1155]: connect from 172.20.100.14 [172.20.100.14] Operational Use Notes details differences between AAASecurity Server from Cisco messages observed with ROCEM interactive session and without, however the messages seen are different on the AAASecurity Server from Cisco server during test than reported in the Operational Use Notes, likely due to AAASecurity Server from Cisco server configuration differences.
+
+Confirmed that the same connect message is seen when ROCEM is set or unset
+
+
+
+Output of "who" command shows ROCEM vty session from ICON-CT IP and no username:3560G#who Line User Host(s) Idle Location 0 con 0 root idle 00:04:10* 1 vty 0 root idle 00:00:00 10.9.8.96 2 vty 1 idle 00:00:02 172.20.12.22
+
+
+
+Typed exit at ROCEM prompt - session closed, no logs generated to tac_accounting.log file, however connection close is logged in /var/log/syslog of AAASecurity Server from Cisco server (this is expected per Operational Use Notes).  Output of "who" shows vty session for ROCEM is gone.  No logs in 3560G logging buffer.  SNMP trap for the connection close is logged:CISCOTRAP-MIB:tcpConnectionClose tsLineUser.2 =  loctcpConnOutBytes.192.168.111.1.XX.XXX.XX.XX (???).22.37770 = 78 loctcpConnInBytes.192.168.111.1.XX.XXX.XX.XX (???).22.37770 = 810 loctcpConnElapsed.192.168.111.1.XX.XXX.XX.XX (???).22.37770 = 0.50 second tcpConnState.192.168.111.1.XX.XXX.XX.XX (???).22.37770 = synReceived(4) tslineSesType.2.1 = telnet(5) snmpTrapOID = CISCOTRAP-MIB:tcpConnectionClose sysUpTime = 15 minutes 31.92 seconds
+
+
+
+
+Performance Test - Survey 3560G with ROCEM
+
+Established traffic with IXIA to simulate network conditions on the device and repeated Test 1 procedure
+900Mbps with 100000 max simultanoeous and per second superflows with constant data rate
+Breaking Point Enterprise traffic profile
+11 minute test
+
+
+Baseline CPU without IXIA traffic or ROCEM activity - CPU utilization for five seconds: 5%/0%; one minute: 5%; five minutes: 5%
+With IXIA traffic, CPU levels are the same - CPU utilization for five seconds: 5%/0%; one minute: 5%; five minutes: 5%
+
+With IXIA traffic - only small increase in five second CPU spikes at the beginning of the test -     2    2  67955055555555
+
+Observed small spike in five second CPU to 15% during ROCEM survey in output of show proc cpu hist - this increase was also observed when entering the survey commands through regular telnet session
+Did not observe any log of ROCEM activity to syslog buffer, AAASecurity Server from Cisco server, or trap server with the exception of connection close trap noted in Step 1g.
+
+
+Ad-hoc Test - Login to console while ROCEM set
+Established ROCEM interactive session on 3560G
+At console window, hit enter to bring up username prompt
+Enter username, and get password prompt
+Enter password - expected result - logged in with privilege 15.  Actual result, logged in as privilege level 1.  Type enable, but 3560G does not accept the enable password.  Can't get into enable mode.  Error message received - Error in authentication. Login in logged to AAASecurity Server from Cisco server.
+
+Exited ROCEM interactive session - must logout from privilege 1 mode and enter username and password again, this time with expected result of privilege level 15.
+
+
+Ad-hoc Test - Login via telnet during ROCEM interactive sessionsame result observed as above - cannot get into enable mode with root user during ROCEM interactive session.  Logged in as privilege level 1 and cannot get authenticated to enable mode.  Exited ROCEM interactive seesion and exit and attempt to login again to restore expected result.
+
+Ad-hoc Test - Local authentication of users - no AAA
+Disabled tacacas on Target Device and enabled local authentication
+Verified that cisco user authenticates with privilege level 15 using local database
+Attempted to telnet into Target Deivce while ROCEM session active
+Cisco user now is logged in as privilege level 1.  Cisco user can enable to privilege 15 by entering enable and then the enable password.
+
+
+Ad-hoc Test - Fill up vty lines during  ROCEM interactive session
+Establish ROCEM interacive session
+Establish 15 more telnet sessions with Target Device (in priv level 1)
+Attempt another connection - connection is refused - expected behavior
+Exit ROCEM and attempt another connection again - this time connection is successful, priv level 15.
+
+
+Ad-hoc Test - SNMPSimple Network Management Protocol traps sent during interactive sessionDuring an interactive session, bounced an interface and saved config to generate SNMPSimple Network Management Protocol traps - as per Operational Use Notes, no SNMPSimple Network Management Protocol trap generated during interactive session
+
+Ad-hoc Test - Logging of logins during interactive session
+Established interactive session and then logged in via telnet and console - start/stop of logins were logged to AAASecurity Server from Cisco server.  This is not expected because Operational Use Notes state that "While an interactive session is active, logging is disabled for all existing and new telnet sessions."
+
+Show commands entered from a regular telnet session while interactive ROCEM session active also log to AAASecurity Server from Cisco server.
+
+
+Test EAREnterprise Archive 4694 - Confirmed
+Created a user larry in tac_plus and denied show commands, assigned privilege level 1
+Enabled tac_plus autorization and verified that larry is not authorized to issue show ver
+Established interactive session.
+Verified that larry is now authorized to issue show commands
+Exited interactive session and verified that larry can no longer issue unauthorized by AAASecurity Server from Cisco commands
+
+
+Ad-hoc Test - reload device with ROCEM session
+Established ROCEM interactive session
+Entered reload and hit enter to confirm.
+Switch reloaded with message:  %SYS-5-RELOAD: Reload requested by vty0 (172.20.12.22). Reload Reason: Reload Command.
+
+
+Set / Un-Set Test - Test basic funcationality with set command
+CT# ./rocem.py -s 172.20.100.14
+Initial survey information displays and asks to type "y" to proceed
+"y" pressed to proceed, connection created and ends with "done"SNMP trap shows a "CISCOTRAP-MIB:tcpConnectionClose"
+
+
+
+telnet to DUTDevice Under Test produces an enable prompt with priv level 15 utilizing no credentials
+No commands logged to AAASecurity Server from Cisco or traps sent to SNMPSimple Network Management Protocol server
+Commands run in the telnet session still log to the DUTDevice Under Test under "sh logging"
+
+
+CT# ./rocem.py -u 172.20.100.14
+Survey information displays again and asks to type "y" to proceed
+"y" pressed to proceed, connection created and ends with "done" againSNMP trap shows a "CISCOTRAP-MIB:tcpConnectionClose"
+
+
+
+telnet to DUTDevice Under Test produces prompt for creds.  root/password entered which gives enable promptIssuing several commands again logs to SNMPSimple Network Management Protocol server, AAA, and still to the DUTDevice Under Test local loggingCommands previously run in "set" mode still show under "sh logging" command
+
+
+
+
+Ad-hoc - Test if configuration changes made through ROCEM interactive session will be logged to local syslog
+Configure DUTDevice Under Test to log configuration changes to local buffer and syslogarchive log config logging enable notify syslog hidekeys
+
+
+Establish ROCEM session and make configuration changes to test if they are added to "show log" output of local log buffer:
+changed interface description on g0/28 as a test through ROCEM interactive session
+
+
+Check local log buffer to see if commands were logged - observe commands logged to local buffer with no username
+000051: Jun 3 11:01:56.097: %PARSER-5-CFGLOG_LOGGEDCMD: User:unknown user logged command:interface GigabitEthernet0/28000052: Jun 3 11:01:57.565: %PARSER-5-CFGLOG_LOGGEDCMD: User:unknown user logged command:description test000053: Jun 3 11:01:59.561: %PARSER-5-CFGLOG_LOGGEDCMD: User:unknown user logged command:no description
+
+
+
+CI Profile - Collect show tech before testing and again during interactive session and compare results.
+Confirm Xetron EAREnterprise Archive 5355 - Debug telnet causes anomalous output 
+Enabled debug telnet on DUT
+Set ROCEM
+Observed the following:000467: Jun 3 13:54:09.330: TCP2: Telnet received WILL TTY-SPEED (32) (refused)000468: Jun 3 13:54:09.330: TCP2: Telnet sent DONT TTY-SPEED (32)000469: Jun 3 13:54:09.330: TCP2: Telnet received WILL LOCAL-FLOW (33) (refused)000470: Jun 3 13:54:09.330: TCP2: Telnet sent DONT LOCAL-FLOW (33)000471: Jun 3 13:54:09.330: TCP2: Telnet received WILL LINEMODE (34)000472: Jun 3 13:54:09.330: TCP2: Telnet sent DONT LINEMODE (34) (unimplemented)000473: Jun 3 13:54:09.330: TCP2: Telnet received WILL NEW-ENVIRON (39)000474: Jun 3 13:54:09.330: TCP2: Telnet sent DONT NEW-ENVIRON (39) (unimplemented)000475: Jun 3 13:54:09.330: TCP2: Telnet received DO STATUS (5)000476: Jun 3 13:54:09.330: TCP2: Telnet sent WONT STATUS (5) (unimplemented)000477: Jun 3 13:54:09.330: TCP2: Telnet received WILL X-DISPLAY (35) (refused)000478: Jun 3 13:54:09.330: TCP2: Telnet sent DONT X-DISPLAY (35)000479: Jun 3 13:54:09.330: TCP2: Telnet received DO ECHO (1)000480: Jun 3 13:54:09.330: Telnet2: recv SB NAWS 116 29000481: Jun 3 13:54:09.623: Telnet2: recv SB 36 92 OS^K'zAuk,Fz90X000482: Jun 3 13:54:09.623: Telnet2: recv SB 36 0 ^CCISCO_KITS^Ap
+
+Observed the same for ROCEM unset, and ROCEM interactive session.
+
+
+
+
+Previous versions:
+| 1 empty
+| 2 [Xetron]
+| 3 [Xetron]
+| 4 [Xetron]
+| 5 [Xetron]
+| 6 [Xetron]
+| 7 [Xetron]
+| 8 [Xetron]
+| 9 [Xetron]
+| 10 [Xetron]
+| 11 [Xetron]
+| 12 [Xetron]
+| 13 [Xetron]
+| 14 [Xetron]
+| 15 [Xetron]
+| 16 [Xetron]
+| 17 [Xetron]
+| 18 [Xetron]
+| 19 [Xetron]
+| 20 [Xetron]
+| 21 [Xetron]
+| 22 [Xetron]
+| 23 [Xetron]
+| 24 [Xetron]
+| 25 [Xetron]
+| 26 [Xetron]
+| 27 [Xetron]
+| 28 [Xetron]
+| 29 [Xetron]
+|
+                    

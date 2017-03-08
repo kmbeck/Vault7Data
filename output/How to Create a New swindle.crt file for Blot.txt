@@ -1,0 +1,26 @@
+
+                        Owner: User #14587612
+CentOS 6.6 VM (Blot)
+
+VM name: Blot-Template-Centos-6.6_x64
+
+Creds
+user/user
+root/<TR admin pass>
+
+
+VMWare tools installed
+To setup Blot, RPM's and docs in /root/Blot 4.3
+Follow instructions for install, using NODNetwork Operations Division wiki guidlines
+Deviations/gotchas here
+
+
+
+ 
+
+Previous versions:
+| 1 
+| 2 
+| 3 
+|
+                    

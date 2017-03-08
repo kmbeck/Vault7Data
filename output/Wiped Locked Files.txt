@@ -1,0 +1,16 @@
+
+                        Wiped Locked Files
+Overview
+The Shamoon malware made use of a legitimate, signed driver from a commercial company called Eldos.  Eldos sells a software product called RawDisk.  RawDisk is a signed driver that allows raw writes to the active partition (which is normally prohibited by newer versions of Windows such as Vista/7). 
+The authors downloaded an evaluation copy of the driver from Eldos.  The license check in the RawDisk driver is flawed in two ways.  First,  the trial key the program sends to RawDisk contains information about the valid time period this driver can be used (evaluation time frame).  However, the Shamoon authors set the system time to a random date within the evluation period for the driver before opening a handle with the driver (they set the time/date back immediately after calling the target driver function).  Another flaw that was not leveraged involved RawDisk bypassing license checks if the calling program's name was "RawDiskSample.exe".
+Using a driver to modify files on an active partition requires administrative privileges to install the driver to begin with. 
+ 
+Issues/Limitations
+This method is quite obvious and trivial to implement, since it involves using a signed driver to perform raw disk access.  The biggest issue/limitation is that it requires the installation of a driver on the target system.
+ 
+Source
+The Shamoon malware utilized this technique to wipe disks
+ 
+Component Reuse
+Rebound (repurposing of Shamoon)
+                    

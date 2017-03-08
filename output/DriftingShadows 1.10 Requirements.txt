@@ -1,0 +1,128 @@
+
+                        Owner: User #14588054
+DriftingShadows 1.9 Requirements
+SECRET//NOFORN
+ 
+ 
+('details' missing)
+Goals
+Create a DriftingShadows version that will have a builder so that differently configured payloads can be attached to the DLL.  The LNK file will kick off a 64-bit DLLDynamic Link Library which will check for the existence of Kaspersky, check for the existence of a stop file, and will have a list of whitelisted IP addresses to target.  If those checks clear then it runs a 32-bit DLLDynamic Link Library that does process hollowing on a 32-bit svchost.exe and then injects GRAVITYTURN into that process's space.
+Assumptions
+
+User has access to a shared network drive that all of the targeted IP addresses will visit.
+The target systems are 64-bit machines.
+
+Requirements
+Delivered File Requirements:
+
+
+ID
+Status
+Task
+
+
+27
+complete
+A LNK file that is pointing to the location of the 64-bit DLLDynamic Link Library to start up the process. (Will point to the location of tmpD24A.tmp.)
+
+
+28
+complete
+A 64-bit DLLDynamic Link Library (tmpD24A.tmp)
+
+
+29
+complete
+A 32-bit DLLDynamic Link Library (tmp5A12.tmp)
+
+
+30
+incomplete
+A command-line builder to attach the 32-bit GRAVITYTURN payload to the 32-bit DLL
+
+
+Configuration Requirements:
+
+
+ID
+Status
+Task
+
+
+31
+complete
+Be able to add the payload to the DLL
+
+
+32
+complete
+Be able to configure the filename for the stop file that will be located at %TEMP% on the exploited systems
+
+
+33
+incomplete
+Be able to give a file of whitelisted IP addresses, and if there is nothing then leave it empty
+
+
+64-bit DLLDynamic Link Library requirements:
+
+
+ID
+Status
+Task
+
+
+34
+complete
+Check for Kaspersky running on the system
+
+
+35
+complete
+Check for the existence of the stop file (will re-exploit if the stop file name changes between different GT deployments)
+
+
+36
+incomplete
+Check if there is a list of IP addresses to filter against, if not then get everybody, if so then check the user's IP against the list
+
+
+37
+complete
+Call rundll on the 32-bit DLL
+
+
+32-bit DLLDynamic Link Library requirements:
+
+
+ID
+Status
+Task
+
+
+38
+complete
+Unpack the GT payload
+
+
+39
+complete
+Use the process hollowing from User #? to inject that payload into svchost.exe
+
+
+SECRET//NOFORN
+
+Previous versions:
+| 1 SECRET
+| 2 SECRET
+| 3 SECRET
+| 4 SECRET
+| 5 SECRET
+| 6 SECRET
+| 7 SECRET
+| 8 SECRET
+| 9 SECRET
+| 10 SECRET
+| 11 SECRET
+|
+                    

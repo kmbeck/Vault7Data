@@ -1,0 +1,138 @@
+
+                        Owner: User #3375374
+Funny Code 2009
+Funny code post from 2009.
+ 
+
+User #3375374's Windbg and IDA PRO Cheat Sheet
+Commands available in Windbg.
+ 
+
+
+Command
+Notes
+
+
+bp /p <process address> module!function 
+Create a breakpoint at a function within the specified process
+
+
+.process /r /p <process address>
+Change the context to the specified process
+
+
+!gle
+Shows the value for GetLastError()
+
+
+g @$ra
+Continue until the return address is found.
+
+
+ 
+Commands available in IDA PRO.
+
+
+Command
+Notes
+
+
+<F5>
+HexRays Decompile
+
+
+ 
+
+Turns out the default configuration of Process Explorer and Process Monitor could be more helpful.  If you open Process Explorer, double click a process, switch to the Threads tab you will see the following:
+
+Notice how the Threads and Thread Stack dialogs display the helpful start address for the thread entry point: 'wevtsvc.dll!ServiceMain+0xa8adc'.  Know that one right? Well, it turns out by default Process Explorer is configured to use the Windows system32 dbghelp.dll which does not know anything about the Microsoft Symbol Server.  If you go to the Process Explorer and change your symbol server location to point to the 'Debugging Tools for Windows' dbghelp.dll then Process Explorer will download and display symbol information for these dialogs.
+
+Using symbols the thread stack looks like this.
+
+
+One day I happened to neglect one of the bedrock principles of (team) software development. Everyone SHOULD use the same version of the compiler. I had just shipped a product off to IV&V. And I noticed that VS 2008 SP1 came in as part of my MSDNMicrosoft Developer Network subscription.  Oh, a new toy whee! Let's play. A few days after installing it I had to look at a bug in the old code. While compiling the source, I found that the build failed with the following message.
+fatal error C1047: The object or library file '..\foobar\lib\foobar-release.lib' was created with an older compiler than other objects; rebuild old objects and librariesLINK : fatal error LNK1257: code generation failed.
+Really? I happen to find this error message to be really, really disturbing on several levels but that is a story for another day.  Now, aside from the fact that it is near impossible to uninstall VS 2008 SP1 how could I solve this problem? A little investigation revealed that C1047 is a result of having link time code generation /LTCG turned on in the existing library build. 
+
+What! This is a library project. There are no linker settings. At this point I felt the need to talk to my monitor but did not give into that impulse because that is just the insanity talking.  After about ten minutes, I kicked this problem to the curb and rebuilt the old libraries with the new compiler.
+A few days later, I came back to this problem and went through the compiler and linker switches one by one for each project configuration. For future reference behold the setting:
+
+Yes, its a COMPILER optimization setting for a LINKER optimization. Also, by default its is turned on for release builds and turned off for debug builds. It is worth noting that looking up error LNK1257 may have helped solve the problem a little faster.
+
+Where in the heck does this link error come from?
+srapi-free.lib(ProviderApi.obj) : error LNK2001: unresolved external symbol __except_handler4srapi-free.lib(Provider.obj) : error LNK2001: unresolved external symbol __except_handler4
+This is partly to blame because of the use of TinyLibC. There is too much benefit to TinyLibC to stop using it. The LNK2005 error can have more than one cause but the one I typically encounter is from abuse of the stack e.g. using large amount of stack space. When code uses stack space above MAGIC (TODO update with this exact size) the MSVC compiler will insert buffer security check code that calls the %%__except_handler4%% routine. A solution is to turn the buffer securitycheck option off by using the /GS- option.
+How would I find the offensive source line and make the change to the implementation? One way is to use IDA Pro. Load the ProviderApi.obj file into IDA Pro. Navigate to the Names windowand search for %%__except_handler4%%.
+
+Double click it to jump to the IDA View for the disassembly and see what functions are refereningthe function.
+
+
+Visual Studio 2008 turns c++ run time type information on by default. Forc++ classes this will place clear text string information in the binary.To the extent that the class names reveal information about the tool then this can be forensiclly bad.  Turn Run-Time Type Info OFF!
+Set 'Enable Run-Time Type Info' to turn it off e.g. /GR-
+Note the switch name as this is my 'Grr! bug'!
+
+By default Visual Studio 2008 will include the name of the dll at the end of the .rdata section where the export are listed. It is important to use a .def file to control this aspect of the signature. The LIBRARY name in the .def file will control the text.
+
+The DDK makefiles like to include a debug section in drivers. Add the following to the sources file to turn the /debug flag off:
+!if "$(DDKBUILDENV)"=="fre"LINKER_FORCE_NO_DBG_SECTION = 1!endif
+
+Code lines should be no longer than 80 character long. The next part is that a function should not on average be longer than 60 rows.  The rational is that short term memory is severely limited. On average the mind can only retain about five to nine active symbols at a time e.g. the 'seven-plus-or-minus-two' rule. With an 60x80 virtual page for writing a function one is LESS likely to violate the 7±2 rule.
+It is hard with a quick glance to look at a piece of code and see that it has more than nine symbols. However, it is easy to determine when code is bigger than 60x80 and to pay more attention. The virtual page size is a cue to indicate the possibility of logic that is approaching the limits of human complexity. 
+It also gives the additional benifit of being able to see and visualize the entire function.  If a function is split across a screen scroll it is more difficult to visualize the entire algorithm. In which case one is likely to only understand a portion of the routine.  Out of sight, out of mind.
+
+We are faster at typing lowercase words than uppercase words.  Time yourself typing  "User #77132 jobs is bill gates' love-child." Now, time yourself typing "User #77131 JoBs Is BiLl GaTeS' LoVe_ChIlD." The second version takes longer and is more complicated. It should be slightly more frustrating. Think useability. Think about applying it to repetitive tasks.
+Path names, file names, and command line options are quicker to type when lowercase. Spaces in path names often require quotes ("). That is four extra key presses e.g. shift+" at the beginning and ending.  Using '-' verses '_' saves one keypress. 
+
+Hungarian notation is the naming of the variable to indicate its type or intended use.  The intended use is the often the forgotten step child. Consider the case for the following two pointer variables:
+
+void Foo(const char * lpBar);
+const char * pFoo;
+
+lpBar is a long pointer to Bar. It means someone else allocated object Bar and is responsible for its lifetime e.g. freeing the memory.  pFoo is pointer to Foo.  It means Foo is a locally allocated object and its lifetime is managed locally e.g. the object must be freed. Now, two more cases:
+
+void Foo(const char ** ppBar);
+const char * pBar;Foo(&pBar);
+
+ppBar is pointer to a Bar pointer.  It means the local routine will allocate some memory on behalf of the caller and return it to the caller. The caller is responsible for the lifetime of object Bar.  pBar is pointer to Bar. It means the Bar object lifetime must be locally managed.
+
+Paraphrased from Smithsonian, February 2008, 'Unlocking mysteries of the Parthenon.'
+
+A few years into the Parthenon restoration, University of Pennsylvania scholar User #77124 exploring the Temple of Apollo noticed scratches on the marble walls. Investigating what looked like vandalism turn out to be ancient blueprints for the temple builders. The scratches were 1/16th scale drawings of the temple columns segment by segment.
+Tracing the scratches turned up lines of reference drawings for everything from the slight curve of the walls to the lintel supported by the columns. There were even floor plans drafted into the floor.  As the temple's stepped platform User #77133, each floor plan was copied from one layer to the next. The building process often taking place over many years.
+This finding implied that the temple builders operated on a 'plan as you go' basis. The scratches indicate a large degree of advance planning. Yet there was no evidence on the reliance of a single set of plans and elevations drawn to scale as seen in today's architects.
+The builders were guided by tradition but free to experiment. They worked to extreme precision yet the final result was anything but rigid. The building that resulted was a commanding structure with supple, fluid lines that emerged from a blend of improvised solutions.
+
+ 
+
+Attachments:
+
+
+blog2.jpg
+
+
+editsymbols1.jpg
+
+
+sysinternalsthreads3annoted.jpg
+
+
+linkerltcg.jpg
+
+
+compilerltcg.jpg
+
+
+idapronames1.jpg
+
+
+idaproexcept2.jpg
+
+
+temple of apollo at didyma blueprint.jpg
+
+
+
+Previous versions:
+| 1 
+|
+                    

@@ -1,0 +1,142 @@
+
+                        Owner: User #524297
+Use Git Submodules to Manage Libraries
+The Dilemma:  Using Libraries in Projects under Version Control
+How do we maintain a project dependency on a library already under version control?  Copying the source into a project subdirectory will lose valuable version control information, and might cause problems with our existing project version control.
+Git Submodules
+What if we could maintain a Git repository within a Git repository?  You can!  With Git submodules.  
+
+Git submodules are essentially that.  Submodules allow you to tie your project code to a specific commit hash of another git repository.  
+Submodules Commits, not Branches
+Typically, your project would depend on a particular version of a library.  So, in practice, you would ensure that your submodule ties you to the specific tagged revision of that library.  This version tag will reference a single commit object.
+Submodules can also reference a specific branch, but that is not the default behavior.  Submodules that reference branches are not recommended, because they will always be in flux.
+Step-by-step guide to adding a Git submodule to your project
+Adding a submodule to your project is the easy part.  For this example, our project is going to depend on mbedtls (formerly PolarSSL). 
+
+
+In your project, run the below submodule command to add a subdirectory to your project that will contain the submodule repository. 
+ git submodule add ssh://git@stash.devlan.net:7999/opensource/mbedtls.git
+
+
+Your project will have a new subdirectory containing the submodule code, and a new file .gitmodules at the top level. Both this file and the directory are automatically staged into your index, ready to commit. 
+git status -s
+ 
+  A  .gitmodules
+  A  mbedtls
+
+
+When you enter the submodule directory for the first time, you will be on the HEAD of that repository's default branch (likely master).  This will probably not be what you want.  For this example, default branch for mbedtls is development, which is not the recent stable version. 
+cd mbedtls
+git tag -l | grep mbedtls
+
+
+  mbedtls-1.3.10
+  mbedtls-1.4-dtls-preview
+ 
+git checkout mbedtls-1.3.10
+
+
+Change back to the top level project. Check the status of the index.  Note that the subdirectory for the submodule is marked as changed. 
+cd ..
+git status -s
+ 
+  A  .gitmodules
+  AM mbedtls
+
+
+Add the directory to the index, and create a new commit. 
+git add mbedtls
+git status -s
+ 
+  A  .gitmodules
+  A  mbedtls
+ 
+git commit -m'add submodule for mbedtls dependency, tagged version 1.3.10'
+
+
+Step-by-step guide to cloning a repository with submodules
+
+Using submodules will change how you have to initially clone the repository.  
+If after you clone, you find that the directories that should contain the submodules are empty, then run the below commands.
+
+Use one of the following sets of commands to clone the repository and pull in all of its submodules.
+git clone <git URL>
+git submodule init
+git submodule update
+     ------
+git clone <git URL>
+git submodule update --init --recursive
+     ------
+git clone --recursive <git URL>
+Step-by-step guide to making changes within submodules
+Doing active development on a project while simultaneously doing development on a library dependency within a submodule can be extremely tricky if you aren't familiar with submodules.
+Overall, the rule to remember is this:  Push all submodule changes before pushing top level project changes.
+
+
+First thing, when checking out a submodule, it does not start on a branch.  You are in the "detached HEAD" state, meaning any commits you make will not be associated with any branch.  So get to the branch you want with a checkout command
+cd library-dir
+git checkout master
+git checkout -b bugfix/fix-a-bug
+
+
+Make and commit your changes like you would ordinarily.  
+It is really recommended that you go through the pull request process here, but for sake of brevity, we will just merge this commit back into master.
+# make necessary edits
+git commit -am'fix this horrible bug'
+git checkout master
+git merge --no-ff bugfix/fix-a-bug
+git tag v1.0.1
+
+
+Push those changes to the remote repository (likely Stash).
+git push origin master
+# don't forget the tags!
+git push --tags origin
+
+
+Update the parent project repository.
+cd ..
+git add library-dir
+git commit -m'update submodule for library to use version 1.0.1 to incorporate bugfix'
+git push
+
+
+To get the changes already made to a submodule from remote:
+
+From the parent project repository, do a pull like you would ordinarily.  If you see the "Subproject" changes, then submodules will need to be updated. 
+git pull
+ 
+  - Subproject commit 0123556..
+  + Subproject commit 2099402..
+ 
+git submodule update
+
+Have fun inceptioning your version control!
+
+Related articles
+
+Related articles appear here based on the labels you select. Click to edit the macro and add or change labels.
+
+('contentbylabel' missing)
+('details' missing)
+
+Attachments:
+
+
+inception.gif
+
+
+git-yodawg.jpg
+
+
+
+Previous versions:
+| 1 
+| 2 
+| 3 
+| 4 
+| 5 
+| 6 
+| 7 
+|
+                    

@@ -1,0 +1,14 @@
+
+                        Windows Configuration and Logging Storage
+LABEL PAGE: Child pages of this page will contain information and articles pertaining to locations and extraction of windows configuration or logging data.
+ 
+
+('children' missing)
+
+Sub-Pages:
+
+
+Interesting Log/Data Locations SECRET
+
+
+                    

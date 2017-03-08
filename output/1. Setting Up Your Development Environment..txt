@@ -1,0 +1,107 @@
+
+                        Owner: User #1179751
+1. Setting Up Your Development Environment.
+SECRET//NOFORN
+ 
+This module is mostly admin; we will be spending the next few minutes (or hours depending on the state of the machine handed to you) setting up a base environment for you to do your work.  Before we begin a few quick notes about our networks:
+
+ There are three major networks in AEDApplied Engineering Devision that will concern you to start.
+
+DEVLAN – Top Secret network, dirty environment where we do 90% of our work.  If you are reading this, you are on DEVLAN.
+
+FIN – Unclassified SC0 (CIA attributable) network.  This is for your general use (Google, Stackoverflow, etc).
+
+4STAR – Unclassified SC1 (US Government attributable) network.  Much slower network than FIN, but our MSDNMicrosoft Developer Network accounts are tied to it.  This will be used mostly for MSDNMicrosoft Developer Network downloads.
+
+
+A few other networks you may hear about.
+
+OSN – COG’s operational support network.
+
+ICON – COG's operations network.
+
+Falcon – High-speed link between us and the NSA.
+
+
+
+As stated above, DEVLAN is the network you will care about most and the one that this module focuses on.  You are the owner of your box, and should be admin on it (if you aren’t tell us and we’ll fix it).  Feel free to set up the box as you see fit, or keep it as it is now.  You’ll need a couple of minimum items to work with us but there is also some further recommended software.
+
+Required Software:
+Windows 7 or Windows 8
+VMware                                                    (\\fs-01\Share\Windows Applications\VMWare)
+Visual Studio (At least 2010)                    (\\fs-01\Share\Windows Software Development Resources\Visual Studio 2013)
+Git                                                             (See next section for instructions on how-to setup)
+EDG Project Wizard                                 (\\fs-01\Share\EDG Project Wizard - Don't install before Git is installed)
+Google Test Runner for Visual Studio      (\\fs-01\Share\Windows Software Development Resources\Visual Studio Plugins\GoogleTestRunner.vsix)
+
+
+Recommended Software:
+Visual Studio 2013                                  (\\fs-01\Share\Windows Software Development Resources\Visual Studio 2013)
+Winhex or 010 editor                               (\\fs-01\Share\Windows Applications\WinHex\) (\\fs-01\Share\Windows Applications\010 Editor)
+SourceTree                                             (See next section for instructions on how-to setup)
+XChat or similar IRCInternet Relay Chat client                       (Internet Relay Chat (IRC)  )
+Microsoft Office                                       (\\fs-01\Share\Windows Applications\MS Office 2013)
+Notepad++                                              (\\fs-01\Share\Windows Applications\Notepad++)
+Sysinternals                                            (\\fs-01\Share\Windows Applications\Sysinternals)
+Firefox or Chrome                                   (\\fs-01\Share\Windows Applications\Browsers)
+Visual Assist                                           (\\fs-01\Share\Windows Software Development Resources\Visual Assist)
+MSDN                                                     ([BLOGPOST] content-title="Offline MSDN for Visual Studio 2013." posting-day="2014/07/28" space-key="~User #1179751")
+
+
+
+The locations of the software can be found with a little bit of searching in the following locations (appologies in advance, fs-01 is a small disaster in regards to organization): 
+ 
+
+\\fs-01\share - This is where most software can be found 
+\\fs-01\share\OS DVDDigital Versatile Disk ISOs - Location of a lot of OSOperating System DVDs
+\\fs-01\share\Windows Applications - Location of a lot of basic Windows applications
+\\fs-01\share\Windows Software Development Resources - Visual Studio and similar applications
+\\fs-01\home - location of everyone’s home directories.
+\\fs-01\home\<Your Name> - Lets make this now, it will be your place to store extra data you want backed up.
+
+We’ll end with a few websites on DEVLAN that you should bookmark or remember:
+
+
+https://stash.devlan.net – Our hosted Git repositories.
+
+https://confluence.devlan.net – You’re here now, take a look around.
+
+https://jira.devlan.net – Our project management web page.
+
+ 
+SECRET//NOFORN
+
+Previous versions:
+| 1 empty
+| 2 
+| 3 
+| 4 
+| 5 
+| 6 
+| 7 
+| 8 
+| 9 
+| 10 
+| 11 
+| 12 
+| 13 
+| 14 
+| 15 
+| 16 
+| 17 
+| 18 
+| 19 
+| 20 
+| 21 
+| 22 
+| 23 
+| 24 
+| 25 
+| 26 
+| 27 
+| 28 
+| 29 SECRET
+| 30 SECRET
+| 31 SECRET
+|
+                    

@@ -1,0 +1,27 @@
+
+                        Owner: User #14587667
+Install WANem to hard drive
+Before installing to disk, ensure your hard drive has atleast 4GB of space.
+Step-by-step guide
+
+Add the steps involved:
+
+Open a terminal
+Exit to out of the WANemControl@PERC prompt by running the command 'exit2shell'.
+At the linux root prompt, run '0wn'. (That is a zero)
+Click 'Accept and Continue'.
+Select 'disk', and use the complete disk.
+Once the disk has been partitioned, select the newly created partition.
+Follow the prompts to install GRUB.
+Reboot
+
+To get back to the shell, enter 'startx' at the command prompt.
+ 
+You may also want to use visual panels to communicate related information, tips or things users need to be aware of.
+Related articles
+
+Related articles appear here based on the labels you select. Click to edit the macro and add or change labels.
+
+('contentbylabel' missing)
+('details' missing)
+                    

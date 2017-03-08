@@ -1,0 +1,54 @@
+
+                        Owner: User #71384
+Remote Debugging with Eclipse
+Build the GDBGNU debugger Server for the target platform
+ARM Architecture
+
+Untar GDBGNU debugger into a directory of choice
+Create a build and install directorymkdir -p build/arm install/arm
+
+Go to the build/arm directory and execute the following:../../gdb/gdbserver/configure --prefix=`pwd`/../../install/arm --verbose --host=arm-linux-gnueabi --build=x86_64-linux-gnueabi --target=arm-linux-gnueabimakemake install
+
+The resulting binary (arm-linux-gnueabi-gdbserver) will then be found in the ../../install/arm/bin directory
+
+MIPS Architecture (using uClibc)
+
+Cross-compile libtermcap
+Create a build and install directorymkdir -p build/mips install/mips
+
+Configure using the following:CC=/opt/buildroot/buildroot-2010.11-mipsbe/output/staging/usr/bin/mips-linux-gcc LD=/opt/buildroot/buildroot-2010.11-mipsbe/output/staging/usr/bin/mips-linux-ld CFLAGS="-static -I/opt/buildroot/buildroot-2010.11-mipsbe/output/staging/usr/include -DMB_CUR_MAX=1" LDFLAGS=-lutil AR=/opt/buildroot/buildroot-2010.11-mipsbe/output/staging/usr/bin/mips-linux-ar RANLIB=/opt/buildroot/buildroot-2010.11-mipsbe/output/staging/usr/bin/mips-linux-ranlib ../../configure --prefix=/home/User #?/src/gdb-7.9.1/build/mips/../../install/mips --verbose --host=mips-linux-gnueabi --build=x86_64-linux-gnueabi --target=mips-linux-gnueabi
+
+Run make
+
+Install CDT Eclipse with the necessary supporting software
+On an unclassified, Internet-connected workstation:
+
+Download and install the CDT version of Eclipse
+Select Help->Check for Updates and update the software to the latest revision.
+Run Eclipse
+Select: Help->Install New Software
+
+In the Work with: window select --All Available Sites--
+
+
+Under Name expand the Mobile and Device Development line item and select the following:
+C/C++ DSF GDBGNU debugger Debugger Integration
+C/C++ Remote Launch
+Remote System Explorer End-User Runtime
+Remote System Explorer User Actions
+
+
+Complete the installation, accepting any license agreements and then clicking Finish.
+
+
+
+
+Previous versions:
+| 1 
+| 2 
+| 3 
+| 4 
+| 5 
+| 6 
+|
+                    

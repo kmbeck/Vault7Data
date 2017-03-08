@@ -1,0 +1,19 @@
+
+                        Owner: User #13763861
+Dia
+Dia is a Diagraming tool that comes with build in support for all flavors of UML - particularly static and dynamic diagrams. Unlike other tools, Dia cuts out a lot of cruft and enables quick diagraming of your ideas. On OSXApple operating system 10.10 (Yosemite) Dia does not start up at first. To fix:
+
+Install XQuartz -> provides X11If XQuartz was previously installed check that /usr/X11 and /usr/X11R6 exist as sym links to /opt/X11 (for both)
+
+Run Dia (it probably will fail to open successfully and will pop up and die immediately)
+check the file `/Applications/Dia.app/Contents/Resources/bin` and remove lines 27 and 29 (the if check around `export DISPLAY=:0`
+Close X11 and start Dia again
+
+Install: Dia-0.97.2-7.dmg
+ 
+
+Attachments:
+
+Dia-0.97.2-7.dmg
+
+                    

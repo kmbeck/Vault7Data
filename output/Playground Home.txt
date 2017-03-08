@@ -1,0 +1,32 @@
+
+                        Owner: User #14587667
+Testing how to make a decision
+('details' missing)
+Backgroundbackground textAction items
+
+
+ID
+Status
+Task
+
+
+1
+incomplete
+Type your task here. Use "@" to assign a user and "//" to select a due date.
+
+
+
+Comments:
+
+
+2015-05-27 11:00 
+[User #14587667]: 
+
+How do you use this page?  Does "Status" have a workflow?  If so, how do you change it (rather than manually typing the status)?
+
+
+
+Previous versions:
+| 1 
+|
+                    

@@ -1,0 +1,62 @@
+
+                        Mach-O Symbol and Entitlement Tools
+Generating the Database
+I wrote some scripts to help me find symbols and entitlements on mach-o and fat files.  The project is called Macho-tools. 
+Here's how you generate the database and cache information about your mach-o files:
+#
+# all of the following steps take a long time
+#
+ 
+# search for mach-o and fat files, put them in the database
+bmacho.py
+
+# cache symbol information about the mach-o files in the database
+symcache.py
+ 
+# cache entitlement information about the mach-o files in the database
+entcache.py
+ 
+Since building the symbol database takes a long time, I've uploaded some of the databases:
+osx-10.11.1 (GM)
+ 
+To make it your default database, put it in ~/.bmacho.db
+ 
+Searching the Database
+Here's how you search the database
+# find defined symbols like 'strtok'
+# by default it shows symbols in i386 and amd64 arches, but you can show arm/ppc as well
+findsym.py -l strtok
+ 
+# show STAB/debug symbols
+# this will show files that #include'd Mat.h
+findsym.py -s strtok -t N_SOL -l Mat.h
+ 
+# show all entitlements/files
+findent.py '*'
+ 
+# show all entitlements for /usr/sbin/spindump
+machoinfo.py -e /usr/sbin/spindump
+ 
+# show all defined symbols in libFosl_dynamic.dylib
+machoinfo.py -s /usr/lib/libFosl_dynamic.dylib
+ 
+# show all STAB/debug data in 
+machoinfo.py -S /usr/lib/libFosl_dynamic.dylib
+ 
+ 
+ 
+
+Previous versions:
+| 1 
+| 2 
+| 3 
+| 4 
+| 5 
+| 6 
+| 7 
+| 8 
+| 9 
+| 10 
+| 11 
+|
+                    

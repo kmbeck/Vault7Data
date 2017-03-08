@@ -1,0 +1,71 @@
+
+                        Owner: User #71473
+WMI in C++ via WbemScripting
+The following is an example of using WbemScripting to execute WMIWindows Management Instrumentation queries in C++, bypassing most (but not all) of the heinous COM setup/teardown boilerplate that natively calling WMIWindows Management Instrumentation requires.  The advantage here is twofold:
+
+Less COM, and therefore less code
+An alternate signature to copy/pasta MSDNMicrosoft Developer Network example code for WMI
+
+The code is (minimally) adapted from: www.codeproject.com/Articles/18135/Getting-the-Network-Adaptor-MAC-Address-with-WMI
+Step-by-step guide
+
+You'll need the wbemdisp.tlb file located in %windir%\system32\wbem – for this example I've hardcoded the #import path since as far as I know you can't use environment variables in preprocessor statements.  (Once you have built the code once, the output folder will contain a .tlh file that can supposedly be used instead.
+Copy pasta the code below and tweak as needed.
+
+
+#include <Windows.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <WbemDisp.h>
+#import "C:\windows\system32\wbem\wbemdisp.tlb" named_guids
+int wmain(int argc, wchar_t* argv[])
+{
+	CoInitialize(NULL);		// Initialize COM
+	try
+	{
+		// Create the WbemScripting locator object which we will use to access all other WMIWindows Management Instrumentation functions
+		WbemScripting::ISWbemLocatorPtr locator;
+		locator.CreateInstance(CLSID_SWbemLocator);
+		if (locator != NULL)
+		{
+			// Get the pointer to the WMIWindows Management Instrumentation service on the local machine
+			WbemScripting::ISWbemServicesPtr services = locator->ConnectServer(".", "root\\cimv2", "", "", "", "", 0, NULL);
+			// Get the list of objects of interest, in our case network adapters
+			WbemScripting::ISWbemObjectSetPtr objects = services->ExecQuery("Select * from Win32_NetworkAdapter", "WQL", wbemFlagReturnImmediately, NULL);
+			// Create the enumerator for the object collection
+			IEnumVARIANTPtr obj_enum = objects->Get_NewEnum();
+			ULONG fetched;
+			VARIANT var;
+			// Iterate through the collection
+			while (obj_enum->Next(1, &var, &fetched) == S_OK)
+			{
+				// Get an object (an instance of Network adapter WMIWindows Management Instrumentation class)
+				WbemScripting::ISWbemObjectPtr object = var;
+				// Retrieve the properties
+				WbemScripting::ISWbemPropertySetPtr properties = object->Properties_;
+				// Check the adapter type by retrieving the "AdapterTypeID" property
+				WbemScripting::ISWbemPropertyPtr prop = properties->Item("AdapterTypeID", 0);
+				_variant_t value = prop->GetValue();
+				if (value.vt == VT_I4 && (int)value == 0) // If LANLocal Area Network adapter
+				{
+					// Retrieve the "MACAddress" property
+					prop = properties->Item("MACAddress", 0);
+					// And print it out
+					printf("MAC address found: %s\n", (const char *)_bstr_t(prop->GetValue()));
+				}
+			}
+		}
+	}
+	catch (_com_error err)
+	{
+		printf("Error occurred: %S", err.ErrorMessage());
+	}
+	return 0;
+}
+ 
+Related articles
+
+Related articles appear here based on the labels you select. Click to edit the macro and add or change labels.
+
+('contentbylabel' missing)
+                    

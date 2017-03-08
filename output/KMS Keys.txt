@@ -1,0 +1,123 @@
+
+                        Docker
+Docker is a tool to quickly build and deploy containers (kinda like a 'lite' VMVirtual Machine) but with the same running Linux kernel. It is useful for quickly spinning up a system to act as a webserver or redirector or anything linuxy.
+Below is quickstart guide. Use the google for anything more detailed.
+ 
+Install
+On OSX, install boot2docker (smb://fs01.devlan.net/mdb/OSX/Software/FreeSoftware/Boot2Docker-1.7.1.pkg) . This will also install virtualbox, but you can tell it not to if you already virtualbox installed.
+On Linux, install docker. Linux install files located at smb://fs01.devlan.net/mdb/Linux/Software/docker/
+
+dpkg -i lxc-docker-1.7.1_1.7.1_amd64.deb
+dpkg -i lxc-docker_1.7.1_amd64.deb
+
+Apparently, ubuntu 14.04 has the packages as docker.io. 
+ $ ## ON OSXApple operating system only
+$ boot2docker init
+$ boot2docker down
+
+##enable 3rd network adaptor with bridge support in VMVirtual Machine settings (this will be the IP for all your containers)
+$ boot2docker up
+$ boot2docker ssh
+$ 
+# inside vm:
+$   ifconfig, record ip address of 3rd device and exit
+$ 
+
+# back on OSXApple operating system 
+$ eval "$(boot2docker shellinit)"
+$ 
+Import an image
+# On both OSXApple operating system or Linux.
+# Note: On Linux, docker requires root or add yourself to the docker group.
+
+$ cat fs-01.devlan.net/mdb/Linux/Software/docker-ubuntu-trusty-devlan.tar.gz | docker import - ubuntu:devlan
+ 
+
+Dockerfiles
+Create a Dockerfile. Dockerfiles are a set of commands to create a new container. Below is a sample to setup nginx.
+FROM ubuntu:devlan
+MAINTAINER nobody
+RUN apt-get update && apt-get install -y nginx
+RUN echo "dns-nameservers 10.2.3.102" >> /etc/network/interfaces
+ADD PATH_TO_NGINX_REDIR /etc/nginx/sites-enabled/default
+RUN mkdir /srv/www
+ADD PATH_TO_INDEX_HTML /srv/www/index.html
+RUN chmod -R 755 /srv/www
+RUN chown -R www-data:www-data /srv/www
+CMD /usr/sbin/nginx -g "daemon off;"
+EXPOSE 443
+EXPOSE 80
+Create a container
+ # with dockerfile in current dir. all files being copied also have to be in the same directory.
+$ docker build -t=mycontainer .   
+
+$ docker create --name my_nginx_container  -p 443:443 -p 80:80 --hostname=myhost --net=bridge mycontainer
+
+# start it
+$ docker start my_nginx_container
+
+# stop it.
+$ docker stop nginx
+
+ 
+See https://stash.devlan.net/users/User #?/repos/rundocker/browse .  This creates a nginx redirectory suited for hamr testing.
+ 
+# create a generic bash shell
+ 
+$ docker create -i --name bash -p 443:443 -p 80:80 --hostname basher --net=bridge -t giraffy.com bin/bash
+ 
+$ docker start -i bash
+$ docker stop bash
+ 
+# generic bash shell, no exposed ports (for messing around in)
+# this creates and starts a container with an interactive bash shell. 
+$ docker run -t -i <your_image> /bin/bash
+
+
+
+ 
+ 
+
+Comments:
+
+
+2015-08-26 04:49 
+[User #524297]: 
+
+should get User #1179891 to do a Docker image for Simulating Packet Delay / Dropped Packets  
+
+
+2015-08-05 05:10 
+[User #524297]: 
+
+Latest Bamboo has support for Docker agents FYI.
+
+
+2015-08-05 05:09 
+[User #524297]: 
+
+YAY DOCKER
+
+
+
+Previous versions:
+| 1 
+| 2 
+| 3 
+| 4 
+| 5 
+| 6 
+| 7 
+| 8 
+| 9 
+| 10 
+| 11 
+| 12 
+| 13 
+| 14 
+| 15 
+| 16 
+| 17 
+| 18 
+|
+                    

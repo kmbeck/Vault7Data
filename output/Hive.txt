@@ -1,0 +1,64 @@
+
+                        Owner: User #71384
+Hive
+
+
+Hive is a redirector used by COGComputer Operations Group in remote network operations.
+ 
+
+
+Hive client and server debug commands
+Hive Client Debugging Commands (Make sure iptables is not blocking any ports and target is listening on port specified for raw-tcp and raw-udp triggers...):
+Client: gdb --args ./hclient-linux-x86-dbg ./coreClient -a 10.3.2.188 -t 10.3.2.188 -P raw-tcp -r 22 -k TestingTesting -p 4001 -m b
+Hived: gdb --args ./hived-linux-x86-dbg ./coreHived -t 0 -a 10.2.5.191 -i 600 -d 10 -k TestingTesting
+
+UsersGuide.pdf
+DevelopersGuide.pdf
+Code Repository on Stash
+
+Currently Deployed Infrastructure
+
+Proposed Infrastructure
+This new infrastructure configuration replaces the Blot proxy with Nginx to provide SSLSecure Socket Layer communication (rather than something that looks like SSLSecure Socket Layer) between the implant and the response servers.
+
+
+
+
+
+Attachments:
+
+
+UsersGuide.pdf
+
+
+DevelopersGuide.pdf
+
+
+New Hive Test Infrastructure.jpg
+
+
+Hive Test Infrastructure.jpg
+
+
+
+Previous versions:
+| 1 
+| 2 
+| 3 
+| 4 
+| 5 
+| 6 
+| 7 
+| 8 
+| 9 
+| 10 
+| 11 
+| 12 
+| 13 
+| 14 
+| 15 
+| 16 
+| 17 
+| 18 
+|
+                    

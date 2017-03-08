@@ -1,0 +1,60 @@
+
+                        Remote Commit to a New Tyrant Server
+
+User #1179751 is lazy and you can be too!
+ 
+Tyrant is the component of DARTTest-Software (commercial) that handles automated testing. Developers can use Tyrant's remote_commit tool to submit test plans from their own local development environment to the main Tyrant test server where the plans are scheduled and executed. See Setting up new DART tester VM (Fedora 20)   for details on prepping your test development environment.
+In a scenario where there are multiple Tyrant servers, a developer may need to update his/her remote_commit configuration to point to a different server.
+Step-by-step guide
+
+Ensure that the commits/<username> directory exists on the Tyrant server. Note that "username" is whatever you provide the -u option in the remote_commit command. Feel free to create the directory on the Tyrant server if it doesn't already exist or ask the Tyrant server admin to create it for you.
+In your local development environment, navigate to the rc subdirectory wherever you cloned the tyworkflow repo. For example, if you cloned tyworkflow to /proj/testing/, cd to /proj/testing/tyworkflow/rc/
+
+In your local development environment, edit the following two lines in the remote_commit.rc file:
+remote_host = <tyrant_server_ip>remote_commit_dir = <path_to_remote_commit_dir_on_tyrant_server>
+For example, if the new Tyrant server IP is 10.0.0.200 and your remote commit directory is /proj/testing/commits, the file would look something like this (highlighting added below to emphasize changed lines):
+
+[remote_commit]
+#username to SSHSecure Shell to the remote machine asremote_user = root
+#machine to remote commit toremote_host = 10.0.0.200
+#commits directory on the remote hostremote_commit_dir = /proj/testing/commits
+remote_commit_dest = %(remote_commit_dir)s/%(environment)s
+
+
+
+In your local development environement, edit the following two lines in the db.rc file:
+dbname = <tyrant_database_name>host = <tyrant_server_ip>
+For example, if the new Tyrant server IP is 10.0.0.200 and the new database name is tyrant201408, the file would look something like this (highlighting added below to emphasize changed lines):
+
+ #######################################
+[resource_manager]#######################################dbname = tyrant201408engine = mysql
+[sqlite3]
+[mysql]host = 10.0.0.200user = rootpasswd = 123ABCdef.
+
+
+
+Update your ssh key on the new Tyrant server. From your local development environment, run the following:
+ssh-copy-id username@tyrant_server
+Or if ssh-copy-id isn't available (or didn't work properly), run this instead:
+cat ~/.ssh/id_rsa.pub | (ssh username@tyrant_server "cat >> ~/.ssh/authorized_keys")
+
+
+Verify that you can ssh from your local development environement to the Tyrant server without being prompted for a password.
+ssh username@tyrant_server
+ If you're prompted for a password, go back to the previous step and verify that your key is on a new line in ~/.ssh/authorized_keys on the Tyrant server.
+ 
+
+
+Related articles
+Setting up new DART tester VM (Fedora 20)  
+ 
+
+('contentbylabel' missing)
+('details' missing)
+
+Previous versions:
+| 1 
+| 2 
+| 3 
+|
+                    

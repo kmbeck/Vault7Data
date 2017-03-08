@@ -1,0 +1,38 @@
+
+                        Owner: User #14588054
+DriftingShadows 1.10 Requirements
+SECRET//NOFORN
+('details' missing)
+Assumptions
+Operator has access to the shared network drive
+Link File Requirements:
+
+('jira' missing)
+DLL File Requirements:
+
+('jira' missing)
+Target System(s) (Server):
+
+('jira' missing)
+Target System(s) (Client):
+
+('jira' missing)
+Target PSPs
+
+('jira' missing)
+
+
+SECRET//NOFORN
+
+
+
+
+Previous versions:
+| 1 
+| 2 SECRET
+| 3 SECRET
+| 4 SECRET
+| 5 SECRET
+| 6 SECRET
+|
+                    

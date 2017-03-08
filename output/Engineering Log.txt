@@ -1,0 +1,26 @@
+
+                        Owner: User #524297
+Idea Box
+Not Ready for Prime Time Ideas
+ 
+
+OpenDNS provides a service called DNSCrypt – open source package to encrypt & route outbound DNSDomain Name System requests through OpenDNS servers.
+Using Netflix Monkeys on a virtualized network test environment to simulate outages/latency
+Webapp to manage Hive Beacon Infrastructure? Backronym SWARM.  Automate redirector connection setup. 
+Look into ZeroMQ as a solution for establishing mesh network 
+What if interactive tools collected their own log files, and then threw them high side for archival/analysis/reporting?  
+CA tool (DDOS?)
+Flyweight exe (tasking only) dropped on set of targets, no persistence, runs only in memory. 
+Sensor collects set of targets from worm-infected machines 
+Exploiter re-exploits target with same worm vulnerability. 
+Filter IPs based on GeoIP database.
+
+
+
+
+Previous versions:
+| 1 
+| 2 
+| 3 
+|
+                    

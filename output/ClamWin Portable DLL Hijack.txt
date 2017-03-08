@@ -1,0 +1,33 @@
+
+                        Owner: User #71468
+ClamWin Portable DLL Hijack
+ 
+ClamWin looks for "quserex.DLL" in just about every place it can think of:
+
+ 
+The DLLDynamic Link Library doesn't seem to be "needed" as returning FALSE on ProcessAttach doesn't cause anything to break
+ 
+This DLLDynamic Link Library is also attempted to be laoded in the same manner by ClamWin's scanning executable, "clamscan.exe"
+ 
+Worth noting as well, ClamWin will attempt to load a ton of DLLs it fails to find under it's \lib\ folder.  Here are some examples:
+
+MsgBox.dll
+random.dll
+sre.dll
+
+ 
+There are lots more beyond just those three, but whenever it is able to load these DLLs (regardless of if DllMain returns TRUE or FALSE), the executable will bail out.  Although this doesn't serve us any good when trying to hijack the program, it may be worth experimenting at a later time to see if this is a reasonable way to prevent the PSPPersonal Security Product (Anti-Virus) from scanning properly, by simply dropping a properly named DLLDynamic Link Library into this folder.
+ 
+Languages Available:
+English only
+
+Attachments:
+
+clamwin procmon.png
+
+
+Previous versions:
+| 1 
+| 2 
+|
+                    

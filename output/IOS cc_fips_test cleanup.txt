@@ -1,0 +1,27 @@
+
+                        iOS relay and web inspector
+Go to Settings > Safari > Advanced
+Enable WebInspector
+Grab MobileDevice project
+from MDBMobile Development Branch share
+        Command + K: smb://username@fs-01.devlan.net
+        Connect
+        Mount share
+        Copy from MDB/iOS/Source/MobileDevice_04042014.zip to your desired directory.
+        Unzip
+from Stash (preferable; this has some MDBMobile Development Branch modifications) in the mcnugget repository there are a few directories beginning with "mdf"
+Go to the directory where you unzipped the MobileDevice project.
+Mount developer disk image:
+        python MobileDevice mount dev
+Setup reverse proxy:
+        python MobileDevicePrivate ait relay 8080 your_ip_address:your_port
+Navigate Safari on the phone:
+        python MobileDevice web navigate "http://127.0.0.1:8080"
+
+Previous versions:
+| 1 
+| 2 
+| 3 
+| 4 
+|
+                    

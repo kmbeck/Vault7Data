@@ -1,0 +1,72 @@
+
+                        Owner: User #71473
+HammerDrill v2.0 Developer Notes
+SECRET//NOFORN
+ 
+The main addition to HammerDrill v2.0 over v1.1 is the ability to Trojan 32-bit windows executables as they are being burned to disc.  This is accomplished as follows:
+ 
+
+A thread is created when HammerDrill starts that registers two WMIWindows Management Instrumentation Asynchronous queries on creation and deletion of Win32_Process objects.
+The callbacks compare the image name of created processes to the following list:  NERO.EXE, NEROEXPRESS.EXE and NEROSTARTSMART.EXE; if the process name matches, HammerDrill decrypts, decompresses and injects the MemoryLoadShimDLL into the process and calls ordinal 1.  Note: this injection is simply allocating and writing the pre-expanded shim.  no fixups are done at this time by the loading process.
+Ordinal 1 of the MemoryLoadShimDLL performs the necessary fixups on itself (relocations and imports) and then calls its own DLLMain with PROCESS_ATTACH to bootstrap the C runtime.  The shim then decrypts, decrompresses and MemoryLoads the NeroHookDLL.
+NeroHookDLL uses Microsoft detours to hook the ReadFile function, which is used by Nero when reading source files for burning to disc and also when verifying burned files.  The read file hook reads the requested amount od data fom the file, detects if the buffer contains an MZ header and if the buffer contains the entire file, it calls the TrojanBinary function on the read buffer to perform further validation and actually insert the Trojan code.
+The TrojanBinary code validates the binary by checking the following:
+
+DOS Header magic number (e_magic == IMAGE_DOS_SIGNATURE)
+PE Header signature (Signature == IMAGE_NT_SIGNATURE)
+PE Machine type (FileHeader.Machine == 0x14c)
+Bitness and EXE type (FileHeader.Characteristics & 0x102)
+Non-DLL (!FileHeader.Characteristics & 0x2000)
+Non .NET or VB (Empty or absent IMAGE_DIRECTORY_ENTRY_COM_DESCRIPTOR)
+
+The TrojanBinary code then saves attempts to locate the main executable section as follows:
+Locate ".text" section
+If not found, locate "CODE" section
+If not found, find the section that contains the entryPoint.
+
+
+The TrojanBinary code calculates the slackSpace available by subtracting the virtual size of the section from the size of raw data.  It also calculates the delta between the virtual address and the pointer to raw data.  Some binaries are linked in such a way that they have zero padded sections that result in a "full" section when in fact there is plenty of slack space in the zero padding.  If no slackspace is found with the above calculation, the code examines the section for a trailing series of zero bytes, ignores the first 4 bytes of zeros (to avoid clobbering an instruction with a 32-bit zero immediate operand) and returns the length of any zero padding.
+If the above calculation indicates enough space for the insertion of the shellcode (currently 279 bytes), the code first checks whether there is already a trojan shellcode blob occupying the previous 279 bytes (on most binaries this isn't possible since disk sections are 512 bytes, but some compilers/linkers produce larger (e.g., 4096 byte) sections that could actually hold multiple 279 byte shellcode blobs).  If the binary is not already trojaned, the code copies the shellcode blob into the slackspace, calculates the new entrypoint, replaces the existing entrypoint, and patches the push instruction immediately prior to the ret instruction at the end of the shellcode with the relative offset to the original entrypoint.  Finally, the code fixes up the virtual size of the section to account for the added size of the shellcode.
+Once the TrojanBinary call finishes, the hooked function returns and the caller uses the buffer, which may have been modified with the shellcode.  Nero will add the resulting file to the disc image.
+When Nero attempts to verify the original source file of a trojaned binary, the nature of the hook will produce the same buffer, essentially forcing Nero to see the file as always having been trojaned.
+
+ 
+The shellcode itself uses the PEBPortable Environment Block with precomputed 16-bit hashes of key function names to locate LoadLibraryA and GetEnvironmentVariableA.  Once LoadLibraryA is found it uses the function pointer to load urlmon.dll and then locates UrlDownloadToCacheFileA.  Once the function pointers are retrieved, the code copies scrambled versions of the URLUniform Resource Locator and the environment variable "PATHEXT" onto the stack and descrambles them via XOR.  The code calls GetEnvironmentVariableA with a pointer to the descrambled PATHEXT string and checks the return value in EAX (the length of the value of %PATHEXT%) – if this is zero, the code jumps to the final stack cleanup and PUSH/RET instruction pair that returns to the original entrypoint.  This is a single call Kaspersky Sandbox defeat.  If this return is non-zero, the code calls UrlDownloadToCacheFileA on the configured DLL.
+ 
+ShellCode Source:
+  
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+SECRET//NOFORN
+ 
+ 
+
+Previous versions:
+| 1 SECRET
+|
+                    

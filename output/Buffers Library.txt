@@ -1,0 +1,27 @@
+
+                        Data Packager Library
+SECRET//NOFORN
+ 
+Stash Repository: Edit This Link To Point To Stash Repository For This Library
+ 
+work in progress
+ 
+Interface Description:  Insert text here documenting the interface for the library. Identifty whether the library is liaison releasable or unilateral. This is where any MSDNMicrosoft Developer Network style documentation should be placed
+ 
+Library Conventions: Describe any and all conventions submissions should adhere to for this library. Applying a naming convention can help with the organization of the library. Any organizational requirements or notes go here as well.
+ 
+XXXXXX Member List: (ex: Execution Vector Member List where the library is execution vectors)
+
+Technique/Class 1 with Link or Anchor to Technique - Class Name: xxxxxx
+Example of technique/class in Survey Library: Get User Name(Link to Get User Name Windows APIApplication Programming Interface Module Page) - Class Name: GetUsersName_WinApi
+
+Error Code Descriptions: List error codes with descriptions. Use either a bulleted list or the code block macro. Remember, error codes must be compatible with the SUCCEEDED() and FAILED() macros.
+
+  Error Codes List
+ 
+
+Code Sample Using The Library Interface:
+ 
+INSERT LABELS FOR THE PAGE - USE AS MANY DESCRIPTIVE LABEL AS POSSIBLE
+SECRET//NOFORN
+                    

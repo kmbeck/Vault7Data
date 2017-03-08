@@ -1,0 +1,61 @@
+
+                        Owner: User #1179751
+4. Introduction to Win32 Programming.
+SECRET//NOFORN
+ 
+Introduction to Win32 Programming
+ 
+The below exercises will assist you in understanding the basics of Win32 programming.  To do these exercises simply check out the solution and begin working on develop (remember to branch off it).  The instructions for the exercise will be at the top of the file.  If you are having trouble there are additional branches that will provide further hints.  If you do elect to check out these branches start with Advanced, which provides the least help, and proceed through intermediate to beginner.  If you are still having trouble check out the Solution branch. Hint: Use MSDNMicrosoft Developer Network and the internet for help!
+Available exercises:
+
+Basic System Calls: 
+
+Find the computer name
+Get the paths to some system folders
+List information for available drives.
+
+ 
+List File/Folder Structure: 
+
+Enumerate directories
+List all files and folders
+Collect files
+
+ 
+
+Start A Process:
+
+Execute a process
+Wait on the process to exit and delete it
+
+ 
+Useful APIApplication Programming Interface Calls:
+
+GetModuleFileName
+LoadLibrary
+CreateThread or __beginthread
+CreateProcess(AsUser)
+ExpandEnivronmentStrings
+WideCharToMultiByte/MultiByteToWideChar
+CryptStringToBinary/CryptBinaryToString
+
+ 
+ 
+SECRET//NOFORN
+ 
+ 
+ 
+
+Previous versions:
+| 1 empty
+| 2 
+| 3 
+| 4 
+| 5 
+| 6 
+| 7 
+| 8 
+| 9 
+| 10 SECRET
+|
+                    

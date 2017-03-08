@@ -1,0 +1,106 @@
+
+                        MCNUGGET
+
+
+Mcnugget 3 QuickRef  
+
+
+Mcnugget Test Checklist  
+
+
+Testing Different Network Connectivity States Using Network Link Conditioner  
+
+
+EVE_EARTH String Obfuscation  
+
+
+Current Dev branch
+Requirements for dev
+python modules:
+pycrypto  slimitply
+If you have not already done so, you will need to fix xcode. See iOS Developer Setup Guide - New Developers Click Here  .
+Make sure fs-01.devlan.net:MDB/OSX/Software/DevTools/closure.sh into your path.
+
+Go to Finder
+Connect to Server: command + k
+Connect to Server Address: smb://<your username>@fs-01.devlan.net
+
+Find MDB/OSX/Software/DevTools/closure.sh
+
+To checkout mcnugget's plugin EVE:
+mkdir mcnugget
+cd mcnugget
+repo init -u ssh://stash/ios/mcnugget_manifest.git -b eve --no-repo-verify
+repo sync
+
+
+See mcnugget/readme.md for more info. 
+Mcnugget Errors
+When testing mcnuggets, we were randomly losing our session while testing. Make sure all tabs in Safari are closed.  Need to find a programatic way to do this, clear cache, etc.
+mctest: MC | 127.0.0.1       | evetest                              |                                      | Unhandled exception, replying with 404 errorTraceback (most recent call last):  File "/Users/giraffe/work/mcnugget/Build/Debug-MacOSX/mcnugget/mctest/mission_control.py", line 274, in index    raise ValueError('target already has a session with id {}'.format(session.id))ValueError: target already has a session with id 53b29726-1850-4640-8604-751ff1a4749a
+ 
+$ make webtest ZOO_TEST_FLAG=-vv
+
+Traceback (most recent call last):
+  File "webtest.py", line 218, in <module>
+    main()
+  File "webtest.py", line 215, in main
+    runtest(args['<mcnugget_path>'])
+  File "webtest.py", line 158, in runtest
+    webfetch(dev, "data:text/html,<h1>moo go time={}</h1>".format(time.time()))
+  File "webtest.py", line 123, in webfetch
+    wki.navigate(url)
+  File "/Users/giraffe/work/mcnugget/Build/Debug-MacOSX/mcnugget/tests/mdf/webkitinspector.py", line 141, in navigate
+    self.reportIdentifier(conn)
+  File "/Users/giraffe/work/mcnugget/Build/Debug-MacOSX/mcnugget/tests/mdf/webkitinspector.py", line 56, in reportIdentifier
+    retval = self._recvmsg()
+  File "/Users/giraffe/work/mcnugget/Build/Debug-MacOSX/mcnugget/tests/mdf/wirservice.py", line 57, in _recvmsg
+    wi += wimsg[u'WIRFinalMessageKey']
+TypeError: 'NoneType' object has no attribute '__getitem__'
+make[1]: *** [_webtest] Error 1
+make: *** [webtest] Error 2
+Make sure webinspector is enabled.
+ 
+
+Sub-Pages:
+
+
+EVE_EARTH String Obfuscation 
+
+
+Testing Different Network Connectivity States Using Network Link Conditioner 
+
+
+Mcnugget Test Checklist 
+
+
+Mcnugget 3 QuickRef 
+
+
+pycrypto 
+
+
+
+Previous versions:
+| 1 
+| 2 
+| 3 
+| 4 
+| 5 
+| 6 
+| 7 
+| 8 
+| 9 
+| 10 
+| 11 
+| 12 
+| 13 
+| 14 
+| 15 
+| 16 
+| 17 
+| 18 
+| 19 
+| 20 
+|
+                    

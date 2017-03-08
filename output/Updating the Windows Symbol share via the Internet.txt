@@ -1,0 +1,42 @@
+
+                        Owner: User #2064619
+Debugging a VMWare Guest
+ 
+Prerequisites:
+
+VMWare (Workstation 6+ | Fusion)
+gdb (Pro tip: Use this .gdbinit unless you hate sane output and actual debugging context)
+
+Steps:
+
+With the target guest VMVirtual Machine powered off, edit the .vmx file for the guest and add in the following lines:#start the VMWare gdb listener on localhostdebugStub.listen.guest32 = "TRUE"
+#enable the gdb remote listener (so we can debug from another VMVirtual Machine or machine)debugStub.listen.guest32.remote = "TRUE#uncomment below if you want to start debugging in the VMWare BIOS#monitor.debugOnStartGuest32 = "TRUE"#Uncomment to enable int 3 breakpoints. Otherwise the gdb breakpoints will use hw breakpoints.#debugStub.hideBreakpoints = "FALSE"Note that there is also 64-bit support, just replace 32 with 64 in the above options.
+
+Start up gdb on your host, from another VMVirtual Machine on your host or from a remote machine.$ gdb
+Set your architecture (modern versions of gdb will tab complete all the supported options). Note: If you're debugging 16-bit bootcode be sure to set this to i8086 otherwise your disassembly output will be wrong.gdb$ set architecture i386
+Optionally, set your initial breakpoint. For example if you're debugging a bootloader you'd do the following:gdb$ b *0x7c00
+
+Finally, tell gdb that you're debugging a remote target. If you're debugging from a remote machine or another VMVirtual Machine on the host, use the host's IP instead of localhost. Also, if you're targeting a 64-bit guest, the port is 8864gdb$ target remote localhost:8832
+
+Start the target VMWare guest.
+gdb should break on your breakpoint (or if you enabled monitor.debugOnStartGuest32 in step one, gdb will be in the first instruction of the BIOSBasic Input/Output System).
+From here you can debug as you would anything else in gdb.
+
+Related articles
+ 
+
+('contentbylabel' missing)
+('details' missing)
+
+Attachments:
+
+.gdbinit
+
+
+Previous versions:
+| 1 
+| 2 
+| 3 
+| 4 
+|
+                    

@@ -1,0 +1,147 @@
+
+                        Time Stomper
+SECRET//NOFORN
+Time Stomper
+ 
+Description:
+Time Stomper is a high-side utility intended to aide in modifying timestamps for files and directories. This should help when prepping files and packages for operational use. This utility allows you to choose which timestamps you change (access, modified, creation, or a combination). The SetFileTime windows APIApplication Programming Interface is used for these operations.
+Design:
+Arguments:
+
+-c (Sets Create Time)
+-m (Sets Last Write Time)
+-a (Sets Last Access Time)
+-t (Date/Time String)
+-rt (Date Range)
+-p (Path to a file or directory)
+
+ 
+Arguments may be done in any order except in the case where the argument specifically requires a follow on argument (-p C:\Users\Docs). When running this utility you are required to choose at least one filetime to modify (-c, -m, -a). You are also required to specify a path to a file or directory. If neither -t or -rt are specified, the current time is used as the timestamp to be set for the file/directory. Time Stomper sets timestamps for both files and directories during recursion. When specifying a time string the format must fit the following: m[m]-d[d]-yyyy [hh:mm:ss] UTC. When specifying a range the format must fit the following: m[m]-d[d]-yyyy:mm-dd-yyyy [hh:hh] UTC. Note, all times are interpreted as UTC.
+ 
+Examples Of Valid Time String Values:
+5-5-2015 - Sets time to May 5, 2015 at a random hour, minute and second.
+12-12-2014 - Sets time to Dec 12, 2014 at a random hour, minute and second.
+3-3-2014 8 - Sets time to March 3, 2014 at 8 o'clock AM (UTCCoordinate Universal Time) with a random minute and second.
+4-4-2014 0:0 - Sets time to April 4, 2014 at 12 o'clock AM (UTCCoordinate Universal Time)  with a random second.
+6-6-2014 16:22 - Sets time to June 6, 2014 at 4:22 PM (UTCCoordinate Universal Time) with a random second
+7-7-2014 20:59:32 - Sets time to July 7, 2014 at 8:59:32 PM (UTCCoordinate Universal Time)
+ 
+Examples Of Invalid Time String Values:
+May 5 2015 - Does not handle string formats
+0-5-2015 - 0 is an invalid month. Month values (1-12).
+1-0-2015 - 0 is an invalid day. Day values are (1-31)
+1-1-15 - A year must be specified in 4 digits
+1-1-2015 24:0:0 - 24 is an invaild hour. Range (0-23)
+1-1-2015 23:60:0 - 60 is an invalid minute range (0-59)
+ 
+NOTE: If hours, minutes, and seconds are not specified, they will be randomly generated. Milliseconds are always randomly generated.
+ 
+Examples of Valid Date Range Values:
+1-1-2015:1-2-2015 - Randomly generates a filetime within January 1, 2015 and January 2, 2015. Hours have no limitations (12:00:00AM to 11:59:59PM).
+1-1-2014:12-31-2014 - Randomly generates a filetime within January 1, 2014 and December 31, 2014. Hours have no limitations (12:00:00AM to 11:59:59PM).
+1-1-2015:1-1-2015 8:16 - Randomly generates a filetime on January 1st between the hours of 8:00:00AM and 4:00:00PM.
+1-1-2015:12-12-2015 2:4 - Randomly generates a filetime between January 1, 2015 and December 12, 2015. All timestamps will be between the hours of 2:00:00AM and 4:00:00AM
+ 
+Examples of Invalid Date Range Values:
+0-0-2015:1-1-2015 - Invalid month and day values in the start date.
+1-1-15:1-2-15 - Invalid year values in the start and end date.
+1-1-2015:1-1-2014 - The end date cannot earlier than the start date.
+1-1-2015:1-2-2015 8:4 - The end hour cannot be earlier than the start hour
+ 
+NOTE: Hours are randomly generated in the full range if not specified (0-23). Minutes, seconds and milliseconds are always randomly generated.
+Example Configurations:
+Usage:
+
+ 
+Set Modified Time For File
+
+
+ 
+Set Create/Access/Modified Times For Directories of Folders/Files
+
+
+ 
+Set Random Date Range For Files In Directory
+
+
+Stash Repository:   Time Stomper Repoistory
+
+Change Log:
+('excerpt' missing)  
+SECRET//NOFORN
+ 
+ 
+
+Comments:
+
+
+2015-04-01 09:26 
+[User #524297]: 
+
+Good thing these comments are timestamped... too bad you can't timestomp your comment on Confluence 
+
+
+
+2015-03-31 11:33 
+[User #71473]: 
+
+I have no idea what you're talking about...
+
+
+2015-03-31 09:05 
+[User #524297]: 
+
+Its "It's one...", even funnier you got it right the first time.  
+
+
+
+2015-03-30 17:17 
+[User #71473]: 
+
+Ask anyone. It's impossible for me to not see a typo no matter how large the wall of text surrounding it.
+It's one reason I hate messing around with tools written by a certain country's sketchy hacker types. They insist on making their interfaces in English, but their command of English spelling is atrocious, and the typos are quite literally EVERYWHERE.
+
+
+2015-03-24 10:24 
+[User #1179925]: 
+
+Who needs spellcheck when you have User #71473...
+
+
+
+Attachments:
+
+
+image2015-3-20 11:27:52.png
+
+
+image2015-3-20 11:27:4.png
+
+
+image2015-3-20 11:26:43.png
+
+
+image2015-3-20 11:25:30.png
+
+
+image2015-3-20 11:25:1.png
+
+
+image2015-3-20 11:22:48.png
+
+
+image2015-3-20 11:22:23.png
+
+
+image2015-3-20 11:14:34.png
+
+
+
+Previous versions:
+| 1 SECRET
+| 2 SECRET
+| 3 SECRET
+| 4 SECRET
+| 5 SECRET
+|
+                    

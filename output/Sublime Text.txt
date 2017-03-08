@@ -1,0 +1,24 @@
+
+                        anaconda_sublime
+anaconda user settings
+ {
+    "pep8_ignore":
+    [
+        "E128",
+        "E203",
+        "E221",
+        "E251",
+        "E302",
+        "E501",
+        "E701",
+        "E702",
+    ],
+    "anaconda_linter_mark_style": "none",
+    "anaconda_linter_underlines": true,
+    "pep8_max_line_length": 120,
+}
+
+Previous versions:
+| 1 
+|
+                    

@@ -1,0 +1,121 @@
+
+                        Owner: User #20251227
+Development VMs
+This page is for recording any information related to the development/build VMs that are in use by the project.  Ideally, this information should be able to allow one to replicate a particular VM, in order to avoid the "Works on my box!" phenomena.  Note that the dev boxes should not be overly customized such that one runs into a "Works on my VM!" phenomena, as that really defeats the entire purpose, which is to allow someone to quickly get rolling and/or provide a "known good" environment for debugging & troubleshooting.
+Location
+\\fs-01\share\Projects\kraken\development_VMs\KrakenClientDev.zip
+Windows
+Windows 7 x64 (en_windows_7_professional_n_with_sp1_x64_dvd_u_677207.iso)
+Installed OSOperating System updates via devlan WSUSWindows Server Update Service via How-To: Configure a non-domain-joined Windows workstation to use DevLAN's WSUSWindows Server Update Service (Windows Server Update Services) host
+
+VM Settings:
+
+Memory: 4GB
+Processors: 4
+Disk: 60GB
+Network Adapter: NAT
+
+
+Software:
+
+\\fs-01\share\Python\3.4\cpython\3.4.3\python-3.4.3.amd64.msi
+IDA 6.6
+\\fs-01\share\Windows Applications\Notepad++\npp.6.7.9.2.Installer.exe
+\\fs-01\share\Windows Applications\WinHex\WinHex v18.2.zip
+\\fs-01\share\Windows Software Development Resources\PEBrowse\PEBrowse64\v4.1\PEBrowse64Setup.msi
+\\fs-01\share\Windows Software Development Resources\PEBrowse\PEBrowse\v10.1.4\PEBrowse.zip (This is unpacked to C:\Users\developer\Desktop)
+\\fs-01\share\Windows Software Development Resources\Visual Assist\VA_X_Setup2076.vsix
+\\fs-01\share\Windows Applications\Wireshark (Ethereal)\Wireshark-win64-2.0.0.exe
+PEBrowsePro 6.4.4.0
+\\fs-01\share\Windows Software Development Resources\Visual Studio 2013\en_visual_studio_premium_2013_with_update_5_x86_dvd_6815742.iso
+\\fs-01\share\Windows Software Development Resources\UnxUtils\UnxUtils.zip (This is unpacked to C:\UnxUtils)
+\\fs-01\share\Windows Software Development Resources\git\git_for_windows\2.5.1\Git-2.5.1-64-bit.exe
+\\fs-01\share\Windows Applications\Sysinternals\20150720_SysinternalsSuite.zip (This is unpacked to C:\20150720_SysinternalsSuite)
+\\fs-01\share\Windows Software Development Resources\DDK\GRMWDK_EN_7600_1.ISO
+\\fs-01\share\Windows Software Development Resources\Vim\gvim74.exe
+\\fs-01\share\Windows Software Development Resources\Debugging Tools for Windows\Windows_Win7x86.7600.16385.090713-1255.X86FRE.Symbols.msi
+\\fs-01\share\Windows Software Development Resources\Debugging Tools for Windows\Windows_Win7x64.7600.16385.090713-1255.X64FRE.Symbols.msi
+\\fs-01\share\Windows Software Development Resources\Visual Studio Plugins\VsVim_20150722.vsix
+\\fs-01\share\Windows Software Development Resources\Doxygen\doxygen-1.8.10-setup.exe
+\\fs-01\share\Windows Applications\7-Zip\7z930-x64.msi
+\\fs-01\share\Windows Software Development Resources\Visual Studio Plugins\GoogleTestAdapter-0.2.2.vsix
+\\fs-01\share\Windows Software Development Resources\git\git Extensions\GitExtensions-2.48.05-SetupComplete.msi
+
+ 
+Misc Configurations:
+Control Panel->Folder Options->ViewSelect:
+
+        display the full path in the title bar
+        show hidden files, folders, and drives
+
+Uncheck:
+
+        hide extensions for known file types
+        hide protected operating system files
+
+My Computer->Manage-Advanced
+
+Edit, Environment Variables->System Variables->Path
+
+Append ;C:\20150720_SysinternalsSuite;C:\Python34;C:\UnxUtils\bin;C:\UnxUtils\usr\local\wbin
+
+
+ 
+Linux
+Debian Stable (currently 8.2, amd64)
+Selected "Other Linux 3.x Kernel 64-bit" in VMWare
+Used :
+Performed netinstall using mini .iso from DevLan repo:http://repo.devlan.net/debian/dists/stable/main/installer-amd64/current/images/netboot/mini.isoEastern Time Zone, US English, Debian deskop environment (MATE), standard system utilities, unchecked print server,
+Installed (note that it is likely that there are dependencies for the below which were auto-installed as part of the installation of the desired package):(also note that unless otherwise specified, all of the below were installed from the Debian repos (main, contrib, and/or non-free)
+
+(already installed) Python 3.4.2
+(already installed) libsqlite3-0 (3.8.7)
+sqlite3 (3.8.7)  (note:  this is just a cli to interact w/ sqlite3 databases, installed for convenience)
+nginx (1.6.2)
+uwsgi (2.0.7)
+uwsgi-plugin-python3 (2.0.7)
+uwsgi-emperor (2.0.7)
+
+Miscellaneous Software/Dev tooling:
+
+open-vm-tools-desktop (9.4.6) (incl. open-vm-tools)  
+cifs-utils (6.4)  (dev-tooling only, optional, useful for mapping network shares like a share drive on the host) (installs a ton of dependencies, like samba)
+doxygen (1.8.8)
+git (2.1.4)
+dos2unix (6.0.4)
+tree (1.7.0)
+vim-gtk (7.4)
+virtualenv (13.1.2) (likely will NOT be used on production box)
+sqlalchemy (1.0.11)  (installed in virtual environment created with virtualenv for ease of development, will likely be installed to "bare metal" in production)
+
+ 
+
+Comments:
+
+
+2015-11-05 04:48 
+[User #524297]: 
+
+Look into using Vagrant for automating the process of configuring your development virtual machines.  Then you can store this configuration alongside of your source code in version control.
+"Infrastructure as code". 
+
+
+
+Previous versions:
+| 1 
+| 2 
+| 3 
+| 4 
+| 5 
+| 6 
+| 7 
+| 8 
+| 9 
+| 10 
+| 11 
+| 12 
+| 13 
+| 14 
+| 15 
+|
+                    

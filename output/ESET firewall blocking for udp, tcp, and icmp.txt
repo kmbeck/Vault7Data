@@ -1,0 +1,12 @@
+
+                        ESET firewall blocking for udp, tcp, and icmp
+After investigating triggering on eset in depth, I found that if home/network is set for ip range in question 137,138....udp all work from triggering and hubcallback ports of 3587 on windows 7 boxes work.
+However if not part of local zone:
+Firewall does not block tcp connections out to addresses outside of local zone.  But it does block incoming and outgoing udp and incoming tcp connections from outside the local zone.  ICMPInternet Control Message Protocol messages of type 3 are allowed from addresses outside of local zone range.  This could be used for triggering, in future or if needed.  GameBoy study does have utility to alter firewall settings in ESET have not verified that it works.  If we added put and arbitrary execute we could alter these on fly. They have several firewall altering utilities for many of the popular firewalls.
+
+Previous versions:
+| 1 
+| 2 
+| 3 
+|
+                    

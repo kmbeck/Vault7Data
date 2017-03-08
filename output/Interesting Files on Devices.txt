@@ -1,0 +1,35 @@
+
+                        Ghidra 6.0.10 on OSX/El Capitan
+1. Get cifs://towerpower.apple.net/ghidra/6.0.10/ghidra-6.0.10.tgz
+2. Extract it somewhere
+3. Get ifs://towerpower.apple.net/ghidra/5.6.3/ghidra-5.6.3.tgz
+4. Extract it somewhere
+5. Get cifs://towerpower.apple.net/java/Java6ForOSX2015-001.dmg
+6. Install it
+7. Put the extracted ghidra directory containing ghidraRun in your PATH by editing your .profile
+8. Execute ghidraRun
+ 
+Issues
+1. None of the other Java installers will function properly on El Capitan.
+2. You need to analyze binaries in Ghidra 5.6.3 because 6.0.10 is a broken turd.  But after this, you can open them in 6.0.10
+ 
+Getting New Versions of Ghidra
+1. Go to https://dbox.proj.nsa.ic.gov and create a drop-box account (automatic/easy)
+2. Ask ghidra@nsa.ic.gov to send the files to your account (please get all OS/versions/TS//SCI stuff)
+3. Put it in smb://fs-01/NSA/ghidra
+
+Comments:
+
+
+2015-09-16 06:52 
+[User #524297]: 
+
+EDG Tools of the Trade Home  
+
+
+
+Previous versions:
+| 1 
+| 2 
+|
+                    

@@ -1,0 +1,66 @@
+
+                        How to click controls and send text, alternate method
+Another way to send text to controls
+I was not able to get the "controlSend(win, ctlId, instance, text)" command to function, so I used the "windowSend(hwndCtl, text)".
+When I used the "setCheckbox(hwndCtl, value)" command the control changed the check mark display, but other functionality did not occur (the password never appeared in clear text).  I conclude that the setCheckbox() command does not accomplish what clicking on a check box accomplishes.
+When I double click on a text field and then send() text, the new text is the only text in the control.  Using windowSend() I needed to remove the old text prior to writing the new text.
+Care is needed when mingling windowSend() and setCheckbox() as they use the control's hwnd, which is easy to find in a table, but the instance is different than the instance for controlClick()
+ 
+Examine the tool using Resource Hacker, or equivalent, to examine the structure that defines the different controls.  Note the red * that appears beside the entry for Hide Password since I have selected the control in the representation of the GUI.
+
+Step-by-step guide
+Using controlClick(win,      ctlId,        instance, numClicks)
+Start Button        0           'Button'          1         # This is the first occurrence of type BUTTON in the structure (not the ‘1’ in the structure)
+Exit Button          1           'Button'          2         # This is the second occurrence of type BUTTON (not the ‘2’ in the structure)
+File Name           4             'Edit'            2         # This is the second occurrence of type EDIT (5th entry)
+Password           6             'Edit'            3         # This is the third occurrence of type BUTTON (7th entry)
+Hide Passwd      9            'Button'         4         # This is the fourth occurrence of type BUTTON (the entry with the red *)
+Things needed in your code:
+from tyutils.window_and_controls_util import setup_wincon
+…
+    def run(self):
+…
+        target = host.createEmissary()
+        # Setting up Windows and Controls
+        Rwincon,Rsend = setup_wincon(target)
+… start execution of tool under test
+        # Find tool
+        proc_hwnd = Rwincon.getWindowByAppxTitle('Goldie Small')
+        procs = Rwincon.getChildWindows(proc_hwnd) # This creates a table of [hwnd, title, class] entries that match the structure above, needed for Method 2.
+
+Method 1:
+        Rsend.controlClick(proc_hwnd, 'Edit', 3, 2) # double click Password
+        Rsend.Send('LikeWow') # Write to password control 
+Method 2: 
+        Rsend.windowSend (procs[6][0], PassWd) # procs[6][0] is the hwnd for the Password Control.
+Method 1:
+ 
+        Rsend.controlClick(proc_hwnd, 'Button', 4, 1) # click Hide Passwd 
+Method 2:
+        Rsend.setCheckbox (procs[9][0], 0) # This changed the GUI, but the program did not make the password readable
+  Method 1:
+ 
+        Rsend.controlClick(proc_hwnd, 'Edit', 2, 2) # double click Filename
+        Rsend.Send(rarname) # Write to filename control 
+Method 2: 
+ 
+        for x in range (1, 25): # windowSend does not overwrite selected text, it appends, so you need to clean out the old manually
+ 
+            Rsend.windowSend (procs[4][0], '{BS}') # Send a bunch (hopefully enough) of back-spaces
+ 
+        Rsend.windowSend (procs[4][0], rarname) # procs[4][0] is the hwnd for the Password Control. 
+ 
+ 
+ 
+ 
+You may also want to use visual panels to communicate related information, tips or things users need to be aware of.
+Related articles
+How to click controls  
+
+('contentbylabel' missing)
+('details' missing)
+
+Previous versions:
+| 1 
+|
+                    

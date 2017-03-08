@@ -1,0 +1,60 @@
+
+                        Owner: User #1179928
+JQJDRAGONSEED - Earl Grey
+Tests
+
+Exploit/InstallationTry installation after running lots of BP traffic overnight (or all weekend) 
+
+Redir modulesubtests
+
+Survey modulesubtests
+
+Uninstall
+Trigger port - fuzz with breaking point
+Tripwire (aka nomnom) bail out when running variations of supported CLICommand-Line Interface cmds
+RP failover scenarios
+hot swap SIPSession Initiation Protocol (Internet Telephony) cards (change between Jan config and July config that caused EG-2)
+
+Earl Grey v1.0.2 cppcheck analysis  
+
+dirty word list
+Latency - characterize with avg up to 1500ms
+MTU 
+**Conduct all of the above under breaking point loading
+Comms CIConcern profile - wireshark
+exploit/install
+beacons/C2
+trigger
+
+
+
+ 
+
+Sub-Pages:
+
+
+Earl Grey v1.0.2 cppcheck analysis 
+
+
+Earl Grey Testing 
+
+
+
+Previous versions:
+| 1 empty
+| 2 
+| 3 
+| 4 
+| 5 
+| 6 
+| 7 
+| 8 
+| 9 
+| 10 
+| 11 
+| 12 
+| 13 
+| 14 
+| 15 
+|
+                    

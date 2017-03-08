@@ -1,0 +1,109 @@
+
+                        Owner: User #524297
+Engineering Log
+Goal
+My goal is to record all engineering solutions as I encounter them for future reference, and to provide them in a public venue with the hopes that they might help other members of the Division.
+C
+// Macro to verify size of struct at compile time! -- useful for defining structs going from/to kernel/user space 
+#define STATIC_ASSERT(expr, id) extern _static_assert ## id [ (expr) ? 1 : -1 ]
+STATIC_ASSERT( sizeof(struct blob) == 42, blob_size );
+(credit to User #1179926 for the macro)
+Solaris 11.0
+sudo pkg unset-publisher solaris
+sudo pkg set-publisher -g http://10.2.5.12 solaris
+sudo pkg install /developer/gcc-45
+sudo pkg install /system/library/gcc-45-runtime
+sudo pkg install /system/header
+sudo pkg install /developer/build/autoconf
+sudo pkg install /developer/build/automake-110
+sudo pkg install /developer/build/libtool
+sudo pkg install /developer/macro/gnu-m4
+sudo pkg install /text/gnu-gettext
+sudo pkg install /developer/versioning/git
+sudo pkg install /developer/gnu-binutils
+sudo /usr/sbin/pkgadd -G -d ./VboxSolarisAdditions.pkg
+ 
+Solaris 10
+# switch boot to use 32-bit kernel
+eeprom boot-file="kernel/unix"
+# go back to 64-bit
+eeprom boot-file="kernel/amd64/unix"
+ 
+Solaris tidbits
+# find 32/64bit support in solaris
+isainfo -kv
+ 
+Windows
+Powershell
+# Enable Powershell script execution on the whole machine (as admin)
+Set-ExecutionPolicy -ExecutionPolicy Unrestricted -Scope LocalMachine
+ 
+Linux
+Bash
+NORMAL=$(tput sgr0)
+GREEN=$(tput setaf 2; tput bold)
+YELLOW=$(tput setaf 3)
+RED=$(tput setaf 1)
+ 
+function red()    { echo -e "$RED$*$NORMAL"; }
+function yellow() { echo -e "$YELLOW$*$NORMAL"; }
+function green()  { echo -e "$GREEN$*$NORMAL"; }
+
+function debug() { ((DEBUG)) && echo "[*] $*"; }
+URL=${URL:-http://somewhere.com:8080}
+if [ ${#api_key} != 32 ]; then
+  echo "invalid api key length"
+fi
+OpenSSL
+# generate key
+openssl genrsa -des3 -out blah.key 1024
+# generate cert request
+openssl req -new -key blah.key -out stash.csr
+# cat the stash.csr into the website to get a certificate
+# remove password after getting your certificate. makes starting services easier
+openssl rsa -in blah.key -out blah.key.plaintxt
+
+# cert chain convert for apache2
+openssl pkcs7 -print_certs -in devlan-ca.p7b -out devlan-ca.cer
+Ubuntu
+# for add-apt-repository
+sudo apt-get install python-software-properties
+ 
+# for apt-file search, to find which packages contain the file
+sudo apt-get install apt-file
+sudo apt-file update
+
+Package Repository available on DEVLAN: http://repo.devlan.net/ubuntu/
+Udev
+# reload udev rules without restarting udev
+sudo udevadm control --reload-rules
+# get running list of udev visible events for debugging
+sudo udevadm monitor
+Ruby on Rails
+To precompile assets for faster initial loading: (encountered while setting up GitLab)
+bundle exec rake assets:precompile RAILS_ENV=production
+
+Previous versions:
+| 1 
+| 2 
+| 3 
+| 4 
+| 5 
+| 6 
+| 7 
+| 8 
+| 9 
+| 10 
+| 11 
+| 12 
+| 13 
+| 14 
+| 15 
+| 16 
+| 17 
+| 18 
+| 19 
+| 20 
+| 21 
+|
+                    

@@ -1,0 +1,17 @@
+
+                        Enabling OS X Updates on Devlan
+We are regularly syncing OSOperating System X updates to towerpower.apple.net.  Here's how you set your system up to receive them:
+sudo defaults write /Library/Preferences/com.apple.SoftwareUpdate CatalogURL http://towerpower.apple.net:8088/index.sucatalog
+On devlan, the App Store won't work, but you should start receiving notifications about updates automatically.
+Manually Applying Updates
+If you don't want to wait for your system to look for updates, you can manually apply them, as follows:
+# show all updates for your system
+sudo softwareupdate --list
+ 
+# install recommended updates
+sudo softwareupdate -irv
+ 
+Restoring Default (apple.com) Updates
+You can stop receiving updates from towerpower.apple.net by removing the CatalogURL:
+sudo defaults delete /Library/Preferences/com.apple.SoftwareUpdate CatalogURL
+                    

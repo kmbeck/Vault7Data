@@ -1,0 +1,38 @@
+
+                        Owner: User #20873326
+Router Exploitation
+First attempt at listing steps for analyzing routers for vulnerabilities.
+Step-by-step guide
+
+Add the steps involved:
+https://confluence.devlan.net/x/coA_AQ
+ 
+You may also want to use visual panels to communicate related information, tips or things users need to be aware of.
+Related articles
+
+Related articles appear here based on the labels you select. Click to edit the macro and add or change labels.
+
+('contentbylabel' missing)
+('details' missing)
+
+Comments:
+
+
+2015-07-31 08:32 
+[User #524297]: 
+
+probably want to check out NDB's page as well SOHO Triage   
+
+
+
+Sub-Pages:
+
+
+SOHO ROM Exploitation 
+
+
+
+Previous versions:
+| 1 
+|
+                    

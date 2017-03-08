@@ -1,0 +1,19 @@
+
+                        Owner: User #14587667
+Baseline Resource Measurements
+Device: DUT2 (RB450G)
+Pre-Implant Screenshots / Values
+   
+/system resource printuptime: 57m47sversion: 6.20build-time: Oct/01/2014 10:06:12free-memory: 235.5MiBtotal-memory: 256.0MiBcpu: MIPS 24Kc V7.4cpu-count: 1cpu-frequency: 680MHzcpu-load: 0%free-hdd-space: 495.7MiBtotal-hdd-space: 512.0MiBwrite-sect-since-reboot: 137write-sect-total: 38356bad-blocks: 0%architecture-name: mipsbeboard-name: RB450Gplatform: MikroTik/system resource cpu print# CPU LOAD IRQ DISK0 cpu0 0% 0% 0%/system routerboard printrouterboard: yesmodel: 450Gserial-number: 33B6045711E4current-firmware: 3.18upgrade-firmware: 3.18/system routerboard settings printbaud-rate: 115200boot-delay: 2senter-setup-on: any-keyboot-device: nand-if-fail-then-ethernetcpu-frequency: 680MHzboot-protocol: bootpenable-jumper-reset: yesforce-backup-booter: nosilent-boot: no/system history printFlags: U - undoable, R - redoable, F - floating-undoACTION BY POLICY/system health printvoltage: 12.2Vtemperature: 57C/system resource monitorcpu-used: 1%cpu-used-per-cpu: 1%free-memory: 241028KiB
+Post Implant Screenshots / Values
+ 
+/system resource printuptime: 3h15m31sversion: 6.20build-time: Oct/01/2014 10:06:12free-memory: 231.0MiBtotal-memory: 256.0MiBcpu: MIPS 24Kc V7.4cpu-count: 1cpu-frequency: 680MHzcpu-load: 1%free-hdd-space: 495.3MiBtotal-hdd-space: 512.0MiBwrite-sect-since-reboot: 1363write-sect-total: 39582bad-blocks: 0%architecture-name: mipsbeboard-name: RB450Gplatform: MikroTik[admin@MikroTik] >[admin@MikroTik] > /system resource cpu print# CPU LOAD IRQ DISK0 cpu0 1% 0% 0%/system routerboard printrouterboard: yesmodel: 450Gserial-number: 33B6045711E4current-firmware: 3.18upgrade-firmware: 3.18/system routerboard settings printbaud-rate: 115200boot-delay: 2senter-setup-on: any-keyboot-device: nand-if-fail-then-ethernetcpu-frequency: 680MHzboot-protocol: bootpenable-jumper-reset: yesforce-backup-booter: nosilent-boot: no/system history printFlags: U - undoable, R - redoable, F - floating-undoACTION BY POLICY/system health printvoltage: 12.2Vtemperature: 57C/system resource monitorcpu-used: 1%cpu-used-per-cpu: 1%free-memory: 236536KiB
+Diff of Resource Values
+                  Before                                            After
+  
+
+Previous versions:
+| 1 
+| 2 
+|
+                    

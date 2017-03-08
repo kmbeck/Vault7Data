@@ -1,0 +1,56 @@
+
+                        LoggedLeaf
+
+('toc' missing)
+What is LoggedLeaf?
+LoggedLeaf is a subclass of the standard Leaf class provided by Tyrant.  It is meant to provide generally useful functionality that any windows test might want.
+It comes standard in the EDGEngineering Development Branch leafbag courtesy of AIB.  All questions/comments/concerns/bugs should go to User #78173.  (Or just fix it.  It's stash, you have the ability)
+I don't like to read things other than code
+Me either.  https://stash.devlan.net/projects/TYR/repos/edg/browse/leafbag/edg/utilities/python/LoggedLeaf.py
+Here is a thing that implements LoggedLeaf: https://stash.devlan.net/projects/CAC/repos/cocoon_dart/browse/leafbag/cocoon/tests/CocoonLeaf.py
+What features does it give me?
+
+Remote Log Gathering
+Provide a list of files in self.remote_log.  After the test, on success or failure, LoggedLeaf will gather the data and put it on the webpage, linked with the host it was taken from
+Useful for grabbing output files.  I typically have my debug outputs write to a file, then I grab that file with remote_log
+
+
+Automatically show Tasklist
+Set self.print_tasklist to True and after each test each windows machine will print its task list to the log.
+Useful for visually looking for crashes or whatever
+
+
+Auto-cleaning on Test Server
+Add to the self.clean_directories() and after the test those directories will be deleted from the Test server.
+You probably should NOT/NOT add '/', but adding your temp directories is a good and smart thing
+
+
+Screenshots on end-state
+Set self.screenshot_on_success, self.screenshot_on_error, and/or self.screenshot_on_failure
+A screen shot will be taken on each host that ends the test with the given state (ie, success, error, failure)
+
+
+MINIDUMP Collection
+Turn on self.collect_dumps and any process that crashes will produce a minidump that will be automatically gathered
+(None of my code ever crashes, so I have no idea what kind of terrible coder would need this)
+
+
+
+Teach me to use it, please
+Inheireit from LoggedLeaf instead of Leaf
+Change your run(self) function to run_logged(self).
+ 
+Here is a snippet that turns some things on:
+ 
+from edg.utilities.python.LoggedLeaf import LoggedLeaf@leafi.MainLeaf()@leafi.DefineActuator()class CocoonLeaf(LoggedLeaf):    remote_log = [ 'c:\\TBDMA.log' ]    print_tasklist = True    screenshot_on_error = True    screenshot_on_failure = True        def run_logged( self ):        ... run your tests normally here ...
+ 
+ 
+Should I use it?
+LoggedLeaf is only for cool people doing cool things.  If you are not a cool person, or you are not doing a cool thing, then LoggedLeaf may not be right for you.
+(Note you must be both cool and doing a cool thing, so like (you.cool && task.cool), not (you.cool || task.cool))
+
+Previous versions:
+| 1 
+| 2 
+|
+                    

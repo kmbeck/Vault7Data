@@ -1,0 +1,69 @@
+
+                        Core Library (CoreLib)
+SECRET//NOFORN
+ 
+Stash Repository: Core Library
+ 
+Description
+The Core Library is a collection of all the interfaces used by the AEDApplied Engineering Devision Libraries. The Core Library also contains any debugging modules (DebugPrint) or developmenet aides (Marble). Since the Corelib module holds all the interfaces for each library as well as the obfuscation framework (Marble), all AEDApplied Engineering Devision libraries require the Core Library. Thus, the Core Library will need to be included as a submodule anytime an AEDApplied Engineering Devision Library submodule is included. For example, when including the Survey Library (which is a submodule) you must also include the Core Library in order for the survey library to have access to the interfaces it needs. All interfaces, whether library interfaces, interfaces that use multiple libraries, or interfaces that are a subset of the library (i.e. interface for encryption - a subset of buffers), should be included in the Core Library. Also, any development aides such as debugging, string/data obfuscation, etc should be included in this library.
+ 
+Core Library Interface Diagram
+ 
+
+ 
+Core Library Contents
+
+Buffers Interfaces
+Data Transfer Interfaces
+Execution Vectors Interfaces
+File Collection Interfaces
+Payload Deployment Interfaces
+Persistence Interfaces
+Privilege Escalation Interfaces
+Survey Interfaces
+System Monitoring and Manipulation Interfaces
+Marble Framework
+Error Munge
+
+Data Packager Library  SECRET
+
+
+ 
+SECRET//NOFORN
+
+Attachments:
+
+
+image2015-4-22 10:31:3.png
+
+
+image2015-4-22 10:29:42.png
+
+
+image2015-4-22 10:26:25.png
+
+
+image2015-4-22 10:24:25.png
+
+
+
+Sub-Pages:
+
+
+Data Packager Library SECRET
+
+
+
+Previous versions:
+| 1 SECRET
+| 2 SECRET
+| 3 SECRET
+| 4 SECRET
+| 5 SECRET
+| 6 SECRET
+| 7 SECRET
+| 8 SECRET
+| 9 SECRET
+| 10 SECRET
+|
+                    

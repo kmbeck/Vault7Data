@@ -1,0 +1,106 @@
+
+                        Owner: User #14587667
+HunGrrr Training
+The TestRange is now housing HunGrrr training equipment.  It currently supports 10 students and 1 instructor.  The target switches (Cisco Catalyst 2960) live in NDBNetwork Devices Branch Rack 4.
+ 
+IP Addresses
+The IP addresses for each of the switches is as follows:
+
+
+User
+Switch Name
+IP Address
+Console Access
+
+
+Instructor
+HG-2960-0
+XXX.XXX.X.XXX (AS4230[BR])
+telnet 10.9.8.9 7011
+
+
+Student
+HG-2960-1
+XXX.XXX.X.XXX (AS4230[BR])
+telnet 10.9.8.9 7001
+
+
+Student
+HG-2960-2
+XXX.XXX.X.XXX (AS4230[BR])
+telnet 10.9.8.9 7002
+
+
+Student
+HG-2960-3
+XXX.XXX.X.XXX (AS4230[BR])
+telnet 10.9.8.9 7003
+
+
+Student
+HG-2960-4
+XXX.XXX.X.XXX (AS4230[BR])
+telnet 10.9.8.9 7004
+
+
+Student
+HG-2960-5
+XXX.XXX.X.XXX (AS4230[BR])
+telnet 10.9.8.9 7005
+
+
+Student
+HG-2960-6
+XXX.XXX.X.XXX (AS4230[BR])
+telnet 10.9.8.9 7006
+
+
+Student
+HG-2960-7
+XXX.XXX.X.XXX (AS4230[BR])
+telnet 10.9.8.9 7007
+
+
+Student
+HG-2960-8
+XXX.XXX.X.XXX (AS4230[BR])
+telnet 10.9.8.9 7008
+
+
+Student
+HG-2960-9
+XXX.XXX.X.XXX (AS4230[BR])
+telnet 10.9.8.9 7009
+
+
+Student
+HG-2960-10
+XXX.XXX.XX.XXX (AS4230[BR])
+telnet 10.9.8.9 7010
+
+
+ 
+Switch Config Baseline
+Committing Config Changes
+All of the switch configs are saved into RANCID's CVSSource code management software repository.  They can be viewed at http://rancid.testrange.local/viewvc/HG-Training/configs/
+If a switch's config is updated, it needs to be updated in RANCID.  RANCID will not automatically pull the config since we only want certain changes to be committed to CVS.
+To commit switch config changes to RANCID, perform the following steps:
+
+SSH to the RANCID server as the ubuntu user.
+Go to /home/ubuntu
+Run the command: sudo -i -u rancid /usr/local/rancid/bin/rancid-run HG-Training
+You should now see a new revision in CVSSource code management software (if there were changes).  You can view the latest config or diff from the previous config by going to http://rancid.testrange.local/viewvc/HG-Training/configs/
+
+
+Reverting Config Changes
+After each training session, each of the switches will be reverted back to their baseline by pulling the config from RANCID.  This is done using a shell and expect script which accesses the switches via the console server. 
+The scripts can be run using the following steps:
+
+SSH to the RANCID server as the ubuntu user.
+Go to /home/ubuntu/restore_training_switches
+sudo ./restore_hg_training_config.sh 
+ 
+
+
+ 
+                    

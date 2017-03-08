@@ -1,0 +1,45 @@
+
+                        Interesting Log/Data Locations
+SECRET//NOFORN
+
+('toc' missing)
+USB Devices
+
+%WINDIR%\setupapi.dev.logContains install information for usb devices
+
+Windows Event Log - Microsoft-Windows-Kernel-PNP/Device Configuration (400,410, 420)Contains install dates of USBUniversal Serial Bus devices
+
+Windows Event Log - Microsoft-Windows-DeviceSetupManagerInstall dates of USBUniversal Serial Bus devices
+
+ Microsoft-Windows-Security-AuditingUSB insertion recent history
+
+
+ 
+Network Connections
+ 
+Machine State Changes  (Startup, Shutdown, Logon, Logoff, Hibernate, Sleep, Wake)
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+SECRET//NOFORN
+                    

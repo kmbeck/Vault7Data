@@ -1,0 +1,80 @@
+
+                        Status Update 2
+SECRET//NOFORN
+Status Update 2 – Last Updated July 12, 2013
+Objective
+My goal was to better understand how the Siemens phone application uses the ifx_mps driver.  The first step was to determine which processes were opening the ifx_mps device files.  I built strace and lsof for the phone and put them in /usr/sbin.  Using lsof, I determined that SvcConfig and its threads (total 70 of 95) are the only processes that open /dev/ifx_mps/cmd. In the current state, no ifx_mps channels are opened by any process.  After closer examination, the 70 SvcConfig processes have the following command line:
+SvcConfig services.conf -startLogDaemon -logAll V2 R0.92.0      HFA  120822
+
+lsof | grep ifx_mps | wc -l
+ps -ef | grep SvcConfig | wc -l
+ 
+The SvcConfig (using PIDProcess ID 503 as an example) process opens the following files (in addition to numerous sockets and pipes filtered out of the result below):
+SvcConfig   503        ???  cwd       ???                ???       ???        ??? /Opera_Deploy
+SvcConfig   503        ???  exe       ???                ???       ???        ??? /Opera_Deploy/SvcConfig
+SvcConfig   503        ???    0       ???                ???       ???        ??? /dev/null
+SvcConfig   503        ???    1       ???                ???       ???        ??? /dev/null
+SvcConfig   503        ???    2       ???                ???       ???        ??? /dev/null
+SvcConfig   503        ???   10       ???                ???       ???        ??? /Opera_Deploy/healthservice.conf
+SvcConfig   503        ???   24       ???                ???       ???        ??? /data/database/phone.db
+SvcConfig   503        ???   37       ???                ???       ???        ??? /dev/input/keyboards
+SvcConfig   503        ???   38       ???                ???       ???        ??? /dev/input/keyInput
+SvcConfig   503        ???   39       ???                ???       ???        ??? /dev/input/HookSw
+SvcConfig   503        ???   40       ???                ???       ???        ??? /dev/sidecar
+SvcConfig   503        ???   41       ???                ???       ???        ??? /dev/ledmatrix
+SvcConfig   503        ???   42       ???                ???       ???        ??? /dev/fb/0
+SvcConfig   503        ???   53       ???                ???       ???        ??? /tmp/lldpfifo
+SvcConfig   503        ???   56       ???                ???       ???        ??? /tmp/LldpManagerFifo
+SvcConfig   503        ???   62       ???                ???       ???        ??? /dev/pc_status
+SvcConfig   503        ???   64       ???                ???       ???        ??? /dev/ifx_mps/cmd
+SvcConfig   503        ???   81       ???                ???       ???        ??? /Opera_Deploy/Mobile_0100_base.dls
+SvcConfig   503        ???  100       ???                ???       ???        ??? /dev/sidecar
+SvcConfig   503        ???  mem       ???              1f:04         0        386 /Opera_Deploy/SvcConfig
+SvcConfig   503        ???  mem       ???              1f:04     20480        386 /Opera_Deploy/SvcConfig
+ 
+The next step was to begin decomposing SvcConfig and the services.conf file.  SvcConfig – and the Opera executables in general – is a C++ application making heavy use of shared libraries and a distributed object framework with separate client-side proxy libraries and server-side invoker libraries although there is no machine or processor boundary between the client and server side code (i.e. they both run on the Linux OSOperating System and NOT the voice co-processor).
+Future Approaches
+Hook syscalls to ifx_mps
+Intercept reads, writes, and ioctls to ifx_mps.  This would require observing normal operation to determine the functionality we'd want to create at this level; and some of the functionality we desire is not observable because it is abnormal.
+Reverse Opera proxy libraries
+Begin reversing the Opera C++ proxy libraries (client) and write an application that uses them.  Without header files, this would involve reversing to determine appropriate object formats and parameters for calling these functions.
+Possible places to start:
+  Library name                            Creator fn                              Supported interface        Supported Protocol
+###############################################################################################################################
+libPhysicalInterfaceService.so          createphysicalEventObserverProxy        PhysicalEventObserver           opera_text
+libPhysicalInterfaceService.so          createfunctionalEventObserverProxy      FunctionalEventObserver         opera_text
+libPhysicalInterfaceServiceProxy.so     createphysicalEventGenerationProxy      PhysicalEventGenerationIfc      opera_text
+libToneGenerationServiceProxy.so        createToneGenerationServiceProxy        ToneGenerationServiceIfc        opera_text
+libToneGenerationService.so             createToneGenerationEventObserverProxy  ToneGenerationEventObserverIfc  opera_text
+libMediaControlServiceProxy.so          createMediaControlServiceProxy          MediaControlServiceIfc          opera_text
+libVoiceEngineProxy.so                  createVoiceEngineProxy                  VoiceEngineInterface            opera_text
+libMediaControlServiceProxy.so          createAuditoryDeviceProxy               AuditoryDeviceIfc               opera_text
+libMediaControlService.so               createAcousticStateEventObserverProxy   AcousticStateEventObserver      opera_text
+libCommunicationsServiceProxy.so        createCommunicationsServiceProxy        CommunicationsServiceIfc        CommunicationsServiceProtocol
+libCommunicationsService.so             createCommunicationsServiceEventProxy   CommunicationsServiceEventIfc   CommunicationsServiceProtocol
+
+
+ 
+Reverse Opera invoker libraries
+Begin reversing the Opera C++ invoker libraries (server) to understand how they interface with the ifx_mps driver(s); as I currently believe the invoker libraries contain the code that receive high-level requests from the client-proxies and communicates with the ifx_mps driver.
+SECRET//NOFORN
+
+Previous versions:
+| 1 empty
+| 2 
+| 3 
+| 4 
+| 5 
+| 6 SECRET
+| 7 SECRET
+| 8 SECRET
+| 9 SECRET
+| 10 SECRET
+| 11 SECRET
+| 12 SECRET
+| 13 SECRET
+| 14 SECRET
+| 15 SECRET
+| 16 SECRET
+|
+                    

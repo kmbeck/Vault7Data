@@ -1,0 +1,90 @@
+
+                        Owner: User #524297
+AED Development Workflow
+
+
+
+How the Magic Happens
+An often overlooked topic of tradecraft is how AEDApplied Engineering Devision actually goes about the software development process – beginning to end.  
+This is a high level overview of what AEDApplied Engineering Devision is working towards, for a more in-depth description please see the attached documents which fully describe the who, what, when, where, why and how. 
+In this space are the PEER (i.e. not Management) recommended ways of customizing the development of a new project.  
+Many options have been tried, many options have failed. 
+Some of these are must do's, and some are strongly worded suggestions (that may or may not earn you scornful looks if you stray from them).
+They are here to give you or your Branch a starting point and the freedom to develop your own "Best Practices".
+ 
+ 
+
+('children' missing)
+ 
+ 
+
+
+Phases of Development
+
+
+
+
+
+Source Files
+
+('attachments' missing)
+
+ 
+
+
+
+Attachments:
+
+
+2014 10 23 -- EDG Testing White Paper -- Rev Draft B.docx
+
+
+(S-NF) Independent_Review_EDG_Test_Programs_7NOV14.docx
+
+
+NewDevelopmentWorkflow.pptx
+
+
+NDW.png
+
+
+
+Sub-Pages:
+
+
+Developer Testing 
+
+
+Code Review 
+
+
+Project Planning 
+
+
+Integration & Acceptance Testing 
+
+
+Delivery & Deployment 
+
+
+Documentation 
+
+
+Source Control 
+
+
+
+Previous versions:
+| 1 
+| 2 
+| 3 
+| 4 
+| 5 
+| 6 
+| 7 
+| 8 
+| 9 
+| 10 
+| 11 
+|
+                    

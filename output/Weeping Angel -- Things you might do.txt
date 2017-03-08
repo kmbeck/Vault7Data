@@ -1,0 +1,16 @@
+
+                        Weeping Angel -- Things you might do
+
+Extract browser credentials or history
+Extract WPA/WiFi credentials
+Insert Root CACovert Action cert to facilitate MitM of browser, remote access, or Adobe application
+Investigate the Remote Access feature
+Investigate any listening ports & their respective services
+Attempt to override /etc/hosts for blocking Samsung updates without DNSDomain Name System query and iptables (referred to by SamyGo)
+Add ntpclient update calls to startup scripts to sync implant's system time for accurate audio collection timestamps
+
+
+Previous versions:
+| 1 
+|
+                    

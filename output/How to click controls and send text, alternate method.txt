@@ -1,0 +1,6 @@
+
+                        DART Resource Naming Standards
+OS Names
+DART currently recognizes the following OSOperating System names (as defined in https://stash.devlan.net/projects/TYR/repos/edg/browse/leafbag/edg/utils/dart/plan_helpers.py).
+10ent10ent_eval10home10pro10tec2003ent2003r2ent2003r2std2003std2008dat2008ent2008r2dat2008r2ent2008r2std2012r2std2012r2std_pps2012std7pro7ult7ult_pp7ult_pps8.1ent8.1pro8.1pro_pp8.1std8ent8pro8stdcentoscentos_rbcorsairdebianfedorainnovationjetflashkingstonredhatrhelsandiskstdubuntuvistaentvistaultxppro
+                    

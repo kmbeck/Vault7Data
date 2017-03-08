@@ -1,0 +1,39 @@
+
+                        Owner: User #20251227
+Browsers
+This parent page is for organizing information about web browsers.
+
+('children' missing)
+
+Comments:
+
+
+2015-08-20 15:23 
+[User #20251227]: 
+
+Thanks for the heads up.  I added a link to Captain Jack on the IEInternet Explorer Credential Storage page.  It is good that we have a wiki where the pages can act as a focal point for various knowledge and projects.
+
+
+2015-08-20 11:49 
+[User #71473]: 
+
+As a heads up, since I saw you had sections for credentials, User #7995631 developed a tool called Captain Jack (stash link) that collects creds from all 3 browsers.  A lot of the gory details for how the different browsers and their various versions store things is there in the code.
+
+
+
+Sub-Pages:
+
+
+Microsoft Edge 
+
+
+Chrome 
+
+
+Firefox 
+
+
+InternetExplorer 
+
+
+                    

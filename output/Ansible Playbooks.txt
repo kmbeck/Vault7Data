@@ -1,0 +1,26 @@
+
+                        Baseline Hardened OS
+The baseline hardened OSOperating System uses a kickstart to install a minimal number of packages (per NODNetwork Operations Division guidance) and configure basic services for an LP.  The current kickstart works for CentOS 6+ and Scientific Linux 6+.  It performs the following:
+
+Configures root password
+Configure Ethernet Interface
+Enables SELinux in Enforcing mode
+Enables & configures SSH
+Disables postfix, ip6tables, and netfs
+Partitions a 10GB hard drive
+Installs "Core" components
+Installs basic LPListening Post & troubleshooting tools (tcpdump, bind-utils, traceroute, strace, lsof, rsyslog, & rsync)
+Uninstalls unnecessary firmware (wireless drivers, etc)
+Removes unneccessary user accounts (gopher, games, shutdown, halt, uucp, etc)
+Blacklists the IPv6 and USBUniversal Serial Bus storage modules
+Hardens SYSCTL
+Installs the YUM Repo (for DEVLAN)
+Setups a SSHSecure Shell key for root
+Cleans up (zeros slack space, removes network udev rules, etc)
+
+ 
+
+Previous versions:
+| 1 empty
+|
+                    

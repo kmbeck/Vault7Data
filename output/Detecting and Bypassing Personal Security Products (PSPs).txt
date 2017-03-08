@@ -1,0 +1,5 @@
+
+                        Owner: User #71473
+AVG Fake Installer Trick
+AVG will sometimes heuristically identify Raptor/Melomy/Ferret trojans as, well, Trojans (duh).  However, in many cases this heuristic detection can be avoided by renaming the .exe to a common installer name such as setup.exe.  There may be other names that can be used – Windows itself recognizes a few "installer" exe names and slaps the little shield icon on there by default and also does that weird "this program didn't install correctly" popup, which can be elminated with some manifest-fu.
+                    

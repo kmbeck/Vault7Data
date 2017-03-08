@@ -1,0 +1,53 @@
+
+                        Windows Process Blacklist Snippet
+ 
+The following function takes as input a wide character string of process names (semi-colon delimited) and tells you wether one of the processes is present. The calling function is responsible for generating and freeing the string of process names.
+ 
+Example Input:     avp.exe;cmd.exe;360.exe;mbam.exe
+Example Call:      if(FailedBlacklist(wcBlacklist)) goto handleBlacklistFailure;
+ 
+BOOL FailedBlacklist(WCHAR *wcBlacklist)
+{
+	if(wcBlacklist == NULL) return FALSE;
+	//make Copy
+	WCHAR *wcBlacklistCopy = (WCHAR *) HeapAlloc(GetProcessHeap(), HEAP_ZERO_MEMORY, (wcslen(wcBlacklist) + 2) * sizeof(WCHAR)); 
+	memcpy(wcBlacklistCopy, wcBlacklist, wcslen(wcBlacklist) * sizeof(WCHAR));
+	INT32 iBlacklistLen = wcslen(wcBlacklistCopy);
+	for(INT32 iIterate = 0; iIterate < iBlacklistLen; iIterate++)
+	{
+		if(wcBlacklistCopy[iIterate] == L';')
+			wcBlacklistCopy[iIterate] = 0x0000;
+	}
+	BOOL bProcessMatch = FALSE;
+	//iterate list
+	WCHAR *wcProcName = wcBlacklistCopy;
+	while ((*wcProcName) && !bProcessMatch)//Go through each one until we hit a null.
+	{
+		//iterate processes
+		HANDLE hProcessSnap = INVALID_HANDLE_VALUE;
+		PROCESSENTRY32 pe32;
+		hProcessSnap = CreateToolhelp32Snapshot(TH32CS_SNAPALL, 0);
+		if(hProcessSnap == INVALID_HANDLE_VALUE) 	
+		{
+			if(wcBlacklistCopy != NULL) HeapFree(GetProcessHeap(), 0, wcBlacklistCopy);
+			return FALSE;
+		}
+		pe32.dwSize = sizeof(PROCESSENTRY32);
+	
+		if(!Process32First(hProcessSnap, &pe32)) 
+		{
+			if(wcBlacklistCopy != NULL) HeapFree(GetProcessHeap(), 0, wcBlacklistCopy);
+			return FALSE;
+		}
+		do
+		{
+			if(PathMatchSpecW(pe32.szExeFile, wcProcName))	//Check to see if the current string matches the spec
+				bProcessMatch = TRUE;	
+		}while(Process32Next(hProcessSnap, &pe32));
+		CloseHandle(hProcessSnap);
+		if(!bProcessMatch) wcProcName += wcslen(wcProcName) + 1;	
+	}
+	if(wcBlacklistCopy != NULL) HeapFree(GetProcessHeap(), 0, wcBlacklistCopy);
+	return bProcessMatch;
+}
+                    

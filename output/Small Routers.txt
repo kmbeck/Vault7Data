@@ -1,0 +1,137 @@
+
+                        Owner: User #20873326
+Small Routers
+Small Routers Research - work in progress
+Tools and firmware images:
+Stash Repository
+ 
+
+
+Country
+ISP
+Modem
+Firmware
+
+
+Pakistan
+PTCL
+ADSL Huawei EchoLife HG-510
+ 
+
+
+ 
+ 
+        Shiro DSL805EU
+ 
+
+
+ 
+ 
+        ZTE-831
+ 
+
+
+ 
+ 
+        ZTE-ZXDSL-831D
+ 
+
+
+ 
+ 
+        ZyXel P-660R-T1 v2
+ 
+
+
+China
+ 
+TP-LINK TD-8620T
+N
+
+
+ 
+ 
+Mercury Network MD880S
+N
+
+
+ 
+ 
+FAST Quick FD880D
+Y
+
+
+ 
+ 
+Mercury MD898N
+Y
+
+
+ 
+ 
+Huawei MT660a
+Y
+
+
+ 
+ 
+TL-WR842N 300M wireless router
+Y
+
+
+ 
+ 
+Tenda D8
+ 
+
+
+ 
+ 
+Lei Ke NM400
+ 
+
+
+ 
+ 
+Mercury MD880S
+ 
+
+
+
+Pakistan
+    PTCL        ADSL Huawei EchoLife HG-510        Shiro DSL805EU        ZTE-831        ZTE-ZXDSL-831D        ZyXel P-660R-T1 v2
+
+China
+    Majority access via DSL - China Telecom and China Netcom    Baidu search engine    Soso.com - search engine    263.net  - cloud computing?    China Mobile - mobile     China Netcom - merge to China Unicom    China Unicom - ?    China Telecom    China Tietong    MSN China - just msn    CSTNet    ChinaNet    CERNET    CHINAGBN    TP-LINK TD-8620T    Huawei 1260 data card (3g modem, beijing)    http://www.mercurycom.com.cn/DownloadHuawei EchoLife HG522-cHuawei mt880d-ADSL http://consumer.huawei.com/cn/\
+Amazon.cn ADSL routers by popularity:
+
+TP-Link TD-8620T 
+no fw
+http://service.tp-link.com.cn/
+
+
+Mercury Network MD880Sno fw
+
+FAST Quick FD880D
+have fw
+http://www.fastcom.com.cn/Download/list
+
+
+Mercury MD898N
+have fw
+http://www.mercurycom.com.cn/Product/detail?pd=95
+
+
+Huawei MT660ahave fw
+
+
+
+Most Popular TD Link router on Amazon.cn
+TL-WR842N 300M wireless routerhave fw
+
+http://www.yoybuy.com/en/product/search?keyword=adslMT660A (3311 bought)Tenda D8 (1210)TD-8620T (1187)Lei Ke NM400 (427)Mercury MD880S
+
+Previous versions:
+| 1 
+|
+                    

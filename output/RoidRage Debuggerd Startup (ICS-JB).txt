@@ -1,0 +1,115 @@
+
+                        Owner: User #26968069
+Anger Management / RoidRage ICD
+ 
+RoidRage Zip File Format
+RoidRage zip files shall have the following directory structure:
+installer
+device.props
+readme.txt
+rrgo
+<root_binary>
+
+
+In the above directory structure, these files will have the format specified below:
+File: "device.props"
+The "device.props" file will contain a list of properties which describe the device.  In every case that this property corresponds has a corresponding string available using 'adb shell getprop', the value must match exactly (including case) the value in the getprop result.  Each property in the list will be on its own line in the format of:
+<key>:<value>
+The following is a list of known keys.  Whenever possible one of the keys below should be used.  If there is a property that is not contained in the list below, then it may be added, but if the install package would like to filter on any property that is in this list, then the key should be exactly the value specified here.  For example, this list specifies a key of 'os_version' and as a result the OSOperating System version should always be the value corresponding to the key 'os_version' and should not use any other key for this value (such as 'OS Version', 'os version' or 'device_os_version').:
+
+os - In the case of RR/AM this will always be "Android"
+os_version - If this package only supports a specific version of the OS, then it will be that version, otherwise it may be a list of versions separated by a comma and no space
+model - This should be the device model number exactly as it appears in the device properties with no additional characters before or after the value.  If it is more than one model number, it may be a list separated by one comma and no space
+arch - This is the device archatecture.  It may have one of the following values:
+arm32 - This is ARMv7 32-bit instructions, with ELFLinux executable format executables which ARE built to support position-independent-execution
+arm32-nopie - This is ARMv7 32-bit instructions, with ELFLinux executable format executables which are NOT built to support position-independent-execution
+aarch32  - Per ARMProcessor manufacturer spec, this specifies the ARMv8 architecture, operating in 32-bit mode
+aarch64 - Per ARMProcessor manufacturer spec, this specifies the ARMv8 architecture, operating in 64-bit mode
+x86 - Currently unused
+mips - Currently unused
+mips64 - Currently unused
+
+
+icdversion - This will refer to the version of this ICD that the zip file conforms to.  Zip files which conform to this version shall be 1.0
+tool_version - This will refer to the version of the tool being installed (IE: RoidRage version)
+tool_name - This will refer to the tool which is being installed.  It will be one of the following
+rr - This will be used to refer to RoidRage
+sh - This will be used to refer to Seahorse
+sp - This will be used to refer to Suckerpunch
+nf - This will be used to refer to Nunfish
+an - This will be used to refer to Anchovy
+
+
+
+Example 1:
+os:Android
+os_version:4.4.2
+model:SM-G900F
+build:K0T49H
+arch:arm32
+icdversion:1.0
+tool_name:rr
+tool_version:3.4
+Example 2:
+os:Android
+os_version:5.0.2,5.1.1
+model:SM-G920F,SM-G920I
+arch:aarch64
+icdversion:1.0
+tool_name:rr
+tool_version:3.4
+Note that this file is required and must exist for the install package to be considered valid.
+File: "rrgo"
+The "rrgo" file will be an elf executable which may be executed on the target device without any command line parameters in order to install RoidRage.  Once rrgo completes execution, RoidRage will be both installed and running.
+File: "readme.txt"
+The readme.txt will provide human-readable instructions for installing RoidRage on the device.
+File: <root_binary>
+The root binary may be present as a convenience to the operator in the case of physical access usage.
+Legacy RoidRage Zip File Format
+While the format described above is preferred, Anger Management will allow for RoidRage zip files which do not have the installer executable prepackaged if and only if it conforms to this alternate specification.  Zip files meeting this specification will have the following structure:
+installer
+device.props
+readme.txt
+config<Tahoma installation script which conforms to the requirements in the Tahoma documentation, which runs without any command-line parameters, and which starts RoidRage upon completion.  Script must have a '.xml' extension.>
+
+files<Installation files which are required for installing this package.  This is not to include any root binary.>
+
+utils
+<root_binary>
+
+
+File: "device.props"
+If this exists, it must have the format as specified above.  If it does not exist, then the device must be compatible with 32-bit ARMProcessor manufacturer devices which support position-independent-execution (pie), as this is the default architecture that will be used.  If the device requires non-pie or any other architecture, then the install package must contain a 'device.props' file which specifies this architecture.
+File: "readme.txt"
+The readme.txt will provide human-readable instructions for installing RoidRage on the device.
+Directory: "config"
+This directory will contain one and only one file which must be present.  This file will be the Tahoma script which conforms to the requirements in the Tahoma documentation, and which runs without any command-line parameters.  It must also start RoidRage upon completion.  The script must have a '.xml' extension.  Beyond the extension, it may have any filename which is appropriate for this type of install.
+Directory: "files"
+This directory will contain all of the files required by the installation script.  It shall not contain any root binary as this will be run prior to the installer's execution.  If the installation script requires a file and it is not in this directory, then the installation package is invalid.  If there are extraneous files in this directory which are not required by the installation script, then the installation package is invalid.
+Directory: "utils"
+This is an optional directory which may contain additional scripts, tools, or utilities used in installation, but which are not used by the installation script.  If tahoma is included in the installation package, then it should be in this directory.
+File: <root_binary>
+The root binary may be present as a convenience to the operator in the case of physical access usage.
+ 
+
+Previous versions:
+| 1 empty
+| 2 
+| 3 empty
+| 4 
+| 5 
+| 6 empty
+| 7 
+| 8 empty
+| 9 
+| 10 
+| 11 
+| 12 
+| 13 
+| 14 
+| 15 
+| 16 
+| 17 
+| 18 
+|
+                    

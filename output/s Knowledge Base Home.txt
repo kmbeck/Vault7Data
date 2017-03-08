@@ -1,0 +1,171 @@
+
+                        Mobile Ops Status/Priority
+(S//NF)
+Android
+
+
+Priority
+Crypt
+Vanguard POC
+NOD POC
+Description
+Device
+Exploit
+Implant
+Status
+Timeline
+
+
+1
+JQJFIRESHOT
+ICE: User #72205
+NE: User #72214/User #72202
+
+Chrome 28 remote
+Samsung Galaxy S3 Neo GT-I9300i
+ 
+?
+R&D
+ 
+
+
+5
+JQJKETTLEDRUM
+ICE: User #72215/ User #72200
+NE: User #72217
+Chrome 28 remote
+Samsung Galaxy S4
+ 
+ 
+R&D
+ 
+
+
+2
+JQJGUNSHY
+ICE: User #72216/User #72204
+
+NE: User #72199/User #72213
+
+MoTS
+Samsung Galaxy Note 3 SM-N9005
+ 
+ 
+ 
+Early Nov.
+
+
+4
+JQJATOMIC
+ESA: User #72208/User #72201
+
+CTWZ: User #72198/User #72211/User #72207
+
+Dual SIM/Android 4.1.2/Chrome 37 remote
+Samsung Galaxy Star+ GT-S7262
+ 
+ 
+ 
+November
+
+
+3
+JQJFACTOR
+
+User #72203/User #72209
+
+User #72212
+Android 4.4.2/Chrome 37 remote
+Samsung Galaxy Note 3 SM-N900
+ 
+ 
+ 
+Mid Nov.
+
+
+? (no official)
+JQJAMBITION
+ICE: User #72205/User #72216
+
+NE: User #72199
+
+Meterpreter autolaunch/QRC
+Samsung Galaxy S4 (Model TBD/ROM TBD)
+T2 (Amino?)
+One-off launcher
+Immediate action canceled, shifted to longer term effort (Jan). Meterpreter wrapper POCPoint of Contact, Proof of Concept complete, should be further developed
+October
+
+
+ 
+Recently Completed
+
+
+Date
+Crypt
+Vanguard POC
+NOD POC
+Description
+Device
+Exploit
+Implant
+Status
+Timeline
+
+
+ 
+JQJTOPSPIN
+ESA: User #72201/User #72206
+
+CTWZ: User #72198
+
+Opera remote with Freedroid Shellcode for sandbox escape
+Nokia X
+Salazar/Freedroid
+Roid Rage 2.5.4
+Complete, but access lost
+ 
+
+
+ 
+JQJCHARON
+
+User #72218/User #72206
+
+User #72210
+ 
+Samsung GT-I9308 Android 4.0.4
+ 
+Bowtie
+Bowtie changes in development
+October
+
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+
+ 
+iOS
+
+Previous versions:
+| 1 
+| 2 
+| 3 
+| 4 
+| 5 
+| 6 
+| 7 
+| 8 
+| 9 
+| 10 
+|
+                    

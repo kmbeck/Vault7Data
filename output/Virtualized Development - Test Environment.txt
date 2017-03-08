@@ -1,0 +1,165 @@
+
+                        Owner: User #71384
+Virtualized Development / Test Environment
+NOTE: This page under construction!
+This page provides guidance for building networks of virtualized hosts for development and testing.
+EDB Infrastructure
+EDB has two HP Proliant DL380p Gen8 servers, each with a total of 16 cores, 132GB of RAMRandom Access Memory and 11TB of storage. In addition, we also have a Cisco 6509 multilayer switch and twelve Cisco 7301 routers that are interconnected with VLANVirtual Local Area Network trunks. EDBEmbedded Devices Branch currently has VLANs 65-75 and 160-175 dedicated for our use across DEVLAN, but can use many more within EDB. With these elements we can construct numerous test networks of various sizes.
+The Process
+
+Create a network plan of hosts and the connections between them.
+Configure the networks that will be used to connect the hosts.
+Configure and create the virtualized hosts.
+
+NOTE: The process described here uses Virt-Manager to provide a GUIGraphical User Interface interface and get get some additional control over the VMs than just using the kvm (quem-kvm) command. However, Virt-Manager is still a work in progress (by the open source community) and, consequently, it does not necessarily support all of the functionality found in the kvm command line. For example, selecting READ-ONLY mode on a VM's disk produces an error message.
+Preliminaries
+DNS is provided by the EDBEmbedded Devices Branch servers foxtrot.edb.devlan.net (10.6.5.51) and/or tango.edb.devlan.net (10.6.5.50)
+If you need root access to these servers, please ask User #71384.
+Creating Networks
+NOTE: When following these procedures, please do not modify or add hosts to the existing networks of other users without talking with them.
+
+Login to one of the EDBEmbedded Devices Branch servers: foxtrot.edb.devlan.net (10.6.5.51) or tango.edb.devlan.net (10.6.5.50)
+
+Network interface eth0 on both foxtrot and tango  is bridged to interface br0 and connects to DEVLAN. So, if you only need a connection to DEVLAN, use bridge br0 when selecting the network connection and ignore the rest of this section.
+Go to the /etc/sysconfig/network-scripts directory and configure network interfaces (bridges) for each network that will interconnect hosts.
+eth1 is the trunking interface on the server. VLANs on this interface are created to form the networks. Each interface is defined in a file with a name of the form ifcfg-eth1.<vlan number>
+
+Looking at the numbers already in use, select a set of unused numbers between 1000 and 3999. To keep life simple, start with any 4-digit number ending in zero (e.g. 1120) and use consecutive numbers for additional networks.
+Create a file with the following content (or copy one that already exists, changing the name appropriately),
+
+
+
+DEVICE=eth1.<vlan #>BRIDGE=<name of network>ONBOOT=yesVLAN=yes
+For example:
+DEVICE=eth1.1001BRIDGE=hive1ONBOOT=yesVLAN=yes
+Issue the following command from the command line to create the VLAN:
+vconfig add eth1 <vlan #>
+
+Start virt-manager from the command line. (If the GUIGraphical User Interface window doesn't come up, make sure you have X11 forwarding enabled or use ssh -X <hostname> when connecting to the server.)
+From the menu bar on top, select Edit -> Connection Details. This will pop up a new window.
+In the Connection Details window, select Network interfaces
+On the bottom left, select the + icon to add a network interface. Another window will appear. Select an interface type of Bridge and then click on the Forward button.
+On the next Configure network interface window:
+Change the name of the bridge to one that you choose.
+Select the Start mode to be hotplug
+Select the Activate now box
+Configure the IP settings to use manual, no configuration
+
+Configure Bridge settings and deselect the STP enable box
+In the list of interfaces, select the VLANVirtual Local Area Network interface you just created above (eth1.<vlan #>)
+Click Finish
+
+
+
+Repeat these steps for each network.
+
+Creating Virtual Machines
+
+Login to the desired server (foxtrot or tango)
+Allocate LVM storage for the project (typically under the /vm directory). (This is still a work in progress. We need to determine the granularity for VMVirtual Machine storage – i.e. allocate a VM, a project, or many projects to a logical volume.)
+
+Use a separate directory for each VM
+Create a disk file for the VM
+
+Use LVM?  — NEED MORE HERE, just ask User #71461
+
+.
+Start virt-manager (If the GUIGraphical User Interface window doesn't come up, make sure you have X11 forwarding enabled or use ssh -X <hostname> when connecting to the server.)
+Click on New, enter the name of the VM, select Import existing disk image, and then click on Forward.
+On this last menu:
+select Customize configuration before install
+
+Under advanced options, set the network for the primary network interface (eth0 on Linux)
+Select Set a fixed MACApple Operating System address
+
+Then set the Virt Type to kvm and the appropriate architecture
+Click on Finish
+
+
+
+The next menu shows the hardware configured for the VM.
+Add a description and then click on Apply
+
+Select the Add Hardware button and add an Input for a Graphics Tablet (this allows the mouse pointer to enter and leave the VM's display window)
+Select the Disk 1 in the hardware listing and under Advanced options select the IDE disk bus and either a raw or qcow storage format. NOTE: Selecting the Readonly box will produce an error.
+Under Video in the hardware list, select vga for the Model.
+For the network interface, select a Device model of e1000 (the hypervisor default will not work for Linux).
+Add any additional network interfaces
+Set the amount of memory desired along with the number of processors to use (likely one)
+If you want the VMVirtual Machine to start upon bootup of the host server, then select the Start virtual machine on host bootup box in the Boot Options menu.
+When the hardware mods are complete select the Begin Installation at the top of the menu.
+Once the mahcine boots, verify the network connections.
+
+Example
+The network shown below is an example of an actual test network. The implanted hosts are all attached to VLANVirtual Local Area Network 65 – which is associated with AED's DEVLAN. Networks hive1 and hive2 are both isolated to VLANs 1001 and 1002, respectively.
+
+ 
+ 
+Converting VMware Disk Images
+In cases where a VMware disk image already exists, use the following procedure to convert it for use on KVM.
+For a single disk image use:
+qemu-img convert -f vmdk vmware-image.vmdk -O raw newdisk-image.raw
+For a disk image that spans several vmdk files, convert each separately and then join them all together. For example, given a disk image having the following vmdk files:
+linux-server-s001.vmdklinux-server-s002.vmdklinux-server-s003.vmdklinux-server.vmdk
+Ignore the last linux-server.vmdk file, as the disk image is stored only in the numbered files. Then use:
+for file in linux-server-s*.vmdk ; do echo $file
+qemu-img convert -f vmdk "${file}" -O raw temp
+cat temp  >> linux-server.raw
+rm temp
+done
+
+Comments:
+
+
+2014-02-06 16:16 
+[User #20873326]: 
+
+Error when starting virt-manager:
+Unable to open a connection to the libvirt management daemon.Libvirt URIUniform Resource Identifier is: qemu:///systemVerify that: - The 'libvirtd' daemon has been started
+
+
+
+Attachments:
+
+
+example.jpeg
+
+
+Hive Operating Environment - Test Infrastructure.pdf
+
+
+
+Previous versions:
+| 1 
+| 2 
+| 3 
+| 4 
+| 5 
+| 6 
+| 7 
+| 8 
+| 9 
+| 10 
+| 11 
+| 12 
+| 13 
+| 14 
+| 15 
+| 16 
+| 17 
+| 18 
+| 19 
+| 20 
+| 21 
+| 22 
+| 23 
+| 24 
+| 25 
+| 26 
+| 27 
+| 28 
+| 29 
+| 30 
+| 31 
+|
+                    

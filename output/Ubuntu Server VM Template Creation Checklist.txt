@@ -1,0 +1,115 @@
+
+                        Owner: User #11629142
+RANCID - NDB Lab
+RANCID is up and running in the NDBNetwork Devices Branch lab.The network device configs are queried every hour, and they are saved to CVSSource code management software if there are changes. The current config, previous configs, and config changes can be viewed by accessing the RANCID server's web page.
+RANCID is currently "monitoring" the following devices:
+
+
+IP
+Device Description
+
+
+192.168.0.5
+NDB Lab BB_Switch 
+
+
+192.168.128.10
+NDB Lab BB_Router
+
+
+192.168.128.14
+Test Range Core Switch
+
+
+XXX.X.X.XX (JUMPSTART-5[US])
+S630-brew-C2960
+
+
+10.0.255.74
+Cinnamon2 Router
+
+
+XXX.X.X.X (UNICOM-HL[CN])
+R632-Cinnamon-2-C1841
+
+
+10.0.255.58
+R617-TN10-C1841
+
+
+10.0.252.2
+POS-7201
+
+
+172.16.101.252
+Hun-Grrr-3750
+
+
+10.0.255.50
+R614-HG-3845
+
+
+To access the RANCID web page from DEVLAN or the NDBNetwork Devices Branch Lab, open a browser and go to:
+http://10.9.9.70/viewvc/networking/configs
+ 
+You will see a listing of IP addresses for each device. If you click on one of the IP addresses, you can view the revision history and the differences from the previous config versions.
+ 
+Note: When viewing a config it will also include information regarding VLANs, interfaces, etc. The current config (result of the "show run" command) starts after this other information.
+ 
+If you go back to the main page (http://10.9.9.70/viewvc/networking/configs) and click on the "Rev" number for a specific device, it will show the most recently queried config running on the device. The "Age" column will let you know the last time the device's config was modified. Since RANCID only polls the network devices every hour (at the top of the hour), don't be alarmed if updates don't appear on the web page immediately after making a config change.
+ 
+If you are on one of the NDBNetwork Devices Branch Lab workstations, you can also access the RANCID web page by using the server's DNSDomain Name System name (this will not work from DEVLAN since we cannot add DNSDomain Name System entries on DEVLAN). The DNSDomain Name System entry for accessing the RANCID web page is: http://rancid.loki/lab/viewvc/networking/configs). 
+ 
+Notes
+Add network device:  sudo vi /usr/local/rancid/var/networking/router.db
+Add/Change Username/Password:  sudo vi /usr/local/rancid/.cloginrc
+Run RANCID:  sudo -i -u rancid /usr/local/rancid/bin/rancid-run
+Execute command:  sudo -i -u rancid /usr/local/rancid/bin/clogin -c "<command>" <ip address>
+Execute list of commands on multiple devices:  sudo -i -u rancid /usr/local/rancid/bin/clogin -x "commands.txt" `cat ip_list.txt`
+
+commands.txt should contain the commands you want to run (one line per command). Note: Use "\n" if you command requires confirmation
+ip_list.txt should contain the IP addresses of the devices you would like to run the commands on (one line per IP addrress)
+
+ 
+RANCID Administrative Documents
+RANCID-Installation.doc
+RANCID-Configuration Changes.doc
+rancid installation files.zip
+
+Attachments:
+
+
+rancid installation files.zip
+
+
+RANCID-Configuration Changes.doc
+
+
+RANCID-Installation.doc
+
+
+
+Previous versions:
+| 1 
+| 2 
+| 3 
+| 4 
+| 5 
+| 6 
+| 7 
+| 8 
+| 9 
+| 10 
+| 11 
+| 12 
+| 13 
+| 14 
+| 15 
+| 16 
+| 17 
+| 18 
+| 19 
+| 20 
+| 21 
+|
+                    

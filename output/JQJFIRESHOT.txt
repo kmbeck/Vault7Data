@@ -1,0 +1,95 @@
+
+                        Owner: User #13205547
+BuzFuz Testing
+Test Overview Table
+
+
+Test Name
+Status  
+
+
+PandaSneeze Initial Install
+Complete 
+
+
+Establish C2 using CutThroat
+Complete 
+
+
+Verify PandaSneeze Log File
+Complete 
+
+
+Configure and load PandaScoreLE Capability
+Complete 
+
+
+Run basic Survey (all 0's)  
+Complete 
+
+
+Run basic redirection rule (all hosts to one site)
+Complete 
+
+
+Run basic Beacon test 
+Complete
+
+
+Unload PandaScoreLE  
+Complete
+
+
+Uninstall implant 
+Complete 
+
+
+Run individual Survey's against specific hosts
+Complete 
+
+
+Create and run multiple Survey and Redir rules and observe behavior (CPU, memory, etc.) 
+Complete
+
+
+Run bounce redirection rule, redirecting traffic from external host
+Complete 
+
+
+Run individual redirection rule for single host
+Complete
+
+
+Operational traffic?  
+n/a 
+
+
+Traffic conditioning on Flux nodes?  
+n/a
+
+
+ Device stop to unload
+Complete 
+
+
+Disconnect network  
+Complete 
+
+
+
+Sub-Pages:
+
+
+Testing Notes 
+
+
+
+Previous versions:
+| 1 
+| 2 
+| 3 
+| 4 
+| 5 
+| 6 
+|
+                    

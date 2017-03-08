@@ -1,0 +1,32 @@
+
+                        Simulating Packet Delay / Dropped Packets
+Packet Delay
+To simulate packet delay, use the 'tc' (Traffic Control) command:
+sudo tc qdisc add dev eth0 root netem delay ____ms
+To delete current tc commands:
+sudo tc qdisc del root dev eth0
+ 
+Drop Packets
+To simulate corrupted packets, use the command: (change the probability as desired)
+sudo iptables -A INPUT -m statistic --mode random --probability 0.01 -j DROP
+ 
+To list iptables rules:
+sudo iptables -L --line-numbers
+To remove an iptable rule: (replace <index> with the line number provided from the list in the command above)
+iptables -D INPUT <index>
+ 
+ 
+ 
+ 
+ 
+
+Comments:
+
+
+2015-08-19 02:29 
+[User #524297]: 
+
+Would love to see more developers test their tools over high latency links.  Could easily automate a test environment for this using either Vagrant or Docker. 
+
+
+                    

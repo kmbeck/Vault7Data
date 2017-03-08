@@ -1,0 +1,95 @@
+
+                        JQJGUNSHY: how to build tools
+List of projects
+These projects can be build independently. The chronos-bowtie and flameskimmer-bowtie executables must be copied to a Linux box in order to run Legba on them to generate chronos-bowtie-legba.bin and flameskimmer-bowtie-legba.bin
+
+Helios (remote) make plugin -> generates in MCPlugin's directory a helios.zip
+it will call make helios -> generates the output.html 
+packages the output of "make helios" into MCPlugin's directory along with plugin.py file and zips it up
+
+
+
+Legba (elf loader)
+currently, it doesn't build on MACApple Operating System OS. This will be resolved in the future
+use legba on a Linux box.
+
+
+Chronos (priv) 
+Helios plugin will use this priv if the user agent does not contain SM-N910 (in this case it is the Sony Xperia T2 and TX).
+requires bowtie_config.xml and bowtie.jar (place these in top-level directory of Chronos project)
+edit bowtie.c: give ip address of the LPListening Post to collect bowtie's data, search and replace 10.3.2.97 with real ip address
+make bowtie -> generates an executable file, chronos-bowtie
+If not on Linux, copy chronos-bowtie to a Linux machine to run Legba on it to generate chronos-bowtie-legba.bin
+copy chronos-bowtie-legba.bin to MissionControl's "tools" directory
+
+
+Flameskimmer (priv)
+Helios plugin will use this priv if user agent matches SM-N910.
+requires bowtie_config.xml and bowtie.jar (place these in top-level directory of Flameskimmer project)
+edit main.c: give ip address of the LPListening Post to collect bowtie's data, search and replace 10.3.2.97 with real ip address
+make bowtie -> generates an executable file, flameskimmer-bowtie
+If not on Linux, copy flameskimmer-bowtie to a Linux machine to run Legba on it to generate flameskimmer-bowtie-legba.bin
+copy flameskimmer-bowtie-legba.bin to MissionControl's "tools" directory
+
+
+
+
+Building the final Mission Control Server
+
+requires flameskimmer-bowtie-legba.bin and chronos-bowtie-legba.bin and place them in the tools directory
+
+configs/helios-bowtie.plist (Mission Control configuration plist format) will need 2 keys inside the client config dictionary 
+<key>HeliosFlameskimmerPayload</key><string>flameskimmer-bowtie-legba.bin</string> 
+
+<key>HeliosChronosPayload</key><string>chronos-bowtie-legba.bin</string>
+
+
+
+requires helios.zip from Helios project's "make plugin" (listed above) in the "plugins" directory
+
+how to build the Mission Control server
+/mc_creator server helios-bowtie configs/helios-bowtie.plist plugins/helios.zip plugins/common.zip  -t tools
+common.zip: RRCommon plugin
+helios.zip: output of "make plugin" in Helios project
+
+
+
+Timeline during exploitation
+
+Setup the LPListening Post to be serving the bt.php script.
+Make sure you have the directory /srv/bt (or whatever directory specified in bt.php) in the LP.
+Rebuild Flameskimmer and Chronos with the ip address of the LP.
+Edit Flameskimmer's main.c (see Flameskimmer section above)
+Edit Chronos's bowtie.c (see Chronos section above)
+"make bowtie" in Flameskimmer and Chronos projects to generate chronos-bowtie and flameskimmer-bowtie executables. 
+Use Legba on a Linux box to make chronos-bowtie-legba.bin and flameskimmer-bowtie-legba.bin
+Make sure the generated flameskimmer-bowtie-legba.bin and chronos-bowtie-legba.bin are in Mission Control's tools directory.
+
+
+Make Mission Control plugin (see "Building the final Mission Control Server")
+Once Mission Control Server is running, target will be redirected to Mission Control Server.
+Helios plugin runs and does user agent fingerprinting (to extract Chrome and OSOperating System version).
+If user agent matches SM-N910, it will use Flameskimmer payload (flameskimmer-bowtie-legba.bin)
+Else, it will use Chronos payload (chronos-bowtie-legba.bin)
+
+
+Payload gets stamped into Helios's output.html file which is then served to the target.
+Helios browser exploit runs.
+Payload executes inside the browser process.
+Privesc runs, gains root, switches to init context, injects SELinux policy
+Payload drops bowtie.jar and bowtie_config.xml into /dev/.r.
+Payload executes bowtie.jar.
+Bowtie.jar runs.
+Bowtie.jar sends files specified in bowtie_config.xml into the specified LP.
+
+
+
+Previous versions:
+| 1 
+| 2 
+| 3 
+| 4 
+| 5 
+| 6 
+|
+                    

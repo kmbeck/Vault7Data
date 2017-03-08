@@ -1,0 +1,67 @@
+
+                        Owner: User #71467
+Cytolysis CONOP Notes
+Notes from 1/7/16 Meeting with Xetron and Operators re: Caveats for fixed Cytolysis delivery
+
+There are two problematic configuration items on the target device
+RPF confiugred on several vlan interfaces - this was initially fixed by disabling the feature for traffic that comes to the CPU
+Nat'd traffic interacting with traffic that assisted
+Anhytime you use FilterBroker, you are using an assist
+NAT'd traffic automatically sends 1st packet to CPU.  Can avoid using FilterBroker assist by modifying process so that all subsequent NAT'd packets continue to come to the CPU
+Affects SMITE, DIVRT, Packet collection, redir
+
+
+With this change to eliminate FB, you are no longer limited to filter only on destination IP address - increased granularity
+Can also now SMITE to any destination set, not just /32
+Will only be able to target NAT'd traffic with this fix in place
+
+
+Operators stated that they would like to use ACE, SMITE and then Tunnel, in that order.  They will use "show ip nat trans" and "show arp" output to initially survey.
+For tunnel, they would like to be able to pop out on a subnet and then target the VLANVirtual Local Area Network 19 traffic
+Xetron stated that they cannot impersonate a VLANVirtual Local Area Network 19 host if they want to do this.  Cannot impersonate NAT'd traffic
+Xetron will provide analysis of target config to come up with a recommendation for a host to pop out as for the tunnel
+
+
+Xetron stated that for CTCounter Terrorism session, must impersonate someone not on VLANVirtual Local Area Network 19 or VLANVirtual Local Area Network 2.
+Discussed difference in daughterboard on 4-port 10G module and it was agreed that the hardware difference between test range and the target is acceptable.  Xetron confirmed they have a setup to test that includes the exact match.
+
+ 
+Notes from 11/9 Meeting with Xetron and Operators re: CONOP
+
+HG resides on the SUP, and we have to bring traffic to the SUP in order for HG to access the packets.  In general, need to be cautious with how much traffic gets elevated to the SUP or else you will overwhelm the SUP.  (this is particularly true in this network where the Operators stated that they don't pay much attention to logs etc, but if we impact customers, they will probably start to poke around and pay attn.)
+We can only access packets based on destination IP address - so you can't say just port 80 traffic, or just traffic from one host.
+When an assist is laid down in one direction, then the reverse assist is automatically created and all traffic destined to that IP will also be promoted
+HG in non-persistent
+First step will be to install HG and then connect with a CTCounter Terrorism session to the device
+When HG communicates, we use a trigger packet to tell HG to call back, and when HG calls back, it impersonates a host
+An assist is put down for the life of the implant for the trigger packet destination IP address, so it's better in this case for performance to trigger to an IP on the device.  An IP on the device we get for free, no assist needed.  Operators agreed to trigger to the 0.108 address with a UDPUser Datagram Protocol port 161 packet.
+Operators stated that we would call back to the Osmo web server flux node, not the node that we attack from
+Need to choose an IP to impersonate for Comms traffic.  This IP address must be routed to the device, not switched.  Operators will need to check on the ACLs and see what hosts can communicate to the web server flux node.  There is an assist for the IP of the impersonated host, however there is no assist for the destination web server IP.
+Next thing after CTCounter Terrorism session established is to use ACEApplication Control Engine (Module) to perfom a "show arp" to identify some hosts on the network and vlans
+Then you may want to SMITE a host.  However we are limited with SMITE - we must know the exact destination IP for the traffic.
+In order to build a pattern of life for a host and identify potential SMITE rule destinations, probably want to perform packet collection on DNSDomain Name System traffic in order to identify web destinations
+Alternatively, could use DIVRT.  You would have to identify the IP address of their DNSDomain Name System server(s), but once that is identified, you could create a DIVRTDigital Imaging & Video Recovery Team rule to send the traffic to a proxy server we control.
+Will need ExfilParse in order to use C&C exfil and view exfiltrated data
+With collection rules - you can collect on UDPUser Datagram Protocol traffic destinations in either direction, but TCPTransport Control Protocol only outbound destinations (HG looks for TCPTransport Control Protocol SYNFlag in TCP/IP Protocol packets).
+Recommendations
+set timers on rules to enable short bursts of collection only
+Always consider how much traffic you promoting to CPU - destination IP is only filter
+watch the assist thresholds to monitor how much load you are putting on CPU
+CPU Scaling can be used to counter snmp monitoring
+
+
+Xetron brought up the possibility of assists remaining active on linecards in the case of a SUP failover - these can be viewed in show ip cef commands
+Use IXIA to characterize impact of assists on CPU
+
+ 
+
+Previous versions:
+| 1 empty
+| 2 [Xetron]
+| 3 [Xetron]
+| 4 [Xetron]
+| 5 [Xetron]
+| 6 [Xetron]
+| 7 [Xetron]
+|
+                    

@@ -1,0 +1,29 @@
+
+                        Owner: User #71491
+Active EFI/UEFI Projects
+Below are links to project pages for projects that are using/going against UEFI/EFI. Please add new UEFIUniversal Extendible Firmware Interface projects to this page so they are easier to find.
+
+ 
+
+
+Project Name (and Link)
+Description
+
+
+
+DerStarke  
+
+Apple EFIExtensible Firmware Interface implant via flash unlock
+
+
+
+QuarkMatter  
+
+Apple EFIExtensible Firmware Interface implant via EFIExtensible Firmware Interface system partition
+
+
+ 
+ 
+
+
+                    

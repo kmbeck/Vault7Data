@@ -1,0 +1,104 @@
+
+                        Linux Package Repository Mirrors setup
+Ubuntu
+
+User #73369 http://repo.devlan.net/ubuntu oneiric main multiverse restricted universe
+User #73369 http://repo.devlan.net/ubuntu oneiric-security main multiverse restricted universe
+User #73369 http://repo.devlan.net/ubuntu oneiric-backports main multiverse restricted universe
+User #73369 http://repo.devlan.net/ubuntu oneiric-updates main multiverse restricted universe
+User #73369 http://repo.devlan.net/ubuntu oneiric-proposed main multiverse restricted universe
+
+
+
+User #73369 http://repo.devlan.net/ubuntu/ trusty main restricted
+deb-src http://repo.devlan.net/ubuntu/ trusty main restricted
+User #73369 http://repo.devlan.net/ubuntu/ trusty-updates main restricted
+deb-src http://repo.devlan.net/ubuntu/ trusty-updates main restricted
+User #73369 http://repo.devlan.net/ubuntu/ trusty universe
+deb-src http://repo.devlan.net/ubuntu/ trusty universe
+User #73369 http://repo.devlan.net/ubuntu/ trusty-updates universe
+deb-src http://repo.devlan.net/ubuntu/ trusty-updates universe
+User #73369 http://repo.devlan.net/ubuntu/ trusty multiverse
+deb-src http://repo.devlan.net/ubuntu/ trusty multiverse
+User #73369 http://repo.devlan.net/ubuntu/ trusty-updates multiverse
+deb-src http://repo.devlan.net/ubuntu/ trusty-updates multiverse
+User #73369 http://repo.devlan.net/ubuntu/ trusty-backports main restricted universe multiverse
+deb-src http://repo.devlan.net/ubuntu/ trusty-backports main restricted universe multiverse
+
+
+ios link: http://repo.devlan.net/ubuntu-releases/14.04/ubuntu-14.04.1-desktop-amd64.iso
+ 
+Debian
+deb http://repo.devlan.net/debian/ wheezy main
+deb-src http://repo.devlan.net/debian/ wheezy main
+
+
+Comments:
+
+
+2015-04-30 17:00 
+[User #71475]: 
+
+ONE LINE ALL THE THINGS!!!!!
+:%s:\(.*extras\):#\1:g | %s:/.*ubuntu.com://repo.devlan.net:g
+FYI, replacing extras.ubuntu.com to repo.devlan.net will cause an error because you now have two repos defined for "$release main". The vim replacement above comments out the two extras lines before replacing all of the ubuntu.com URLs
+
+
+2015-04-30 15:49 
+[User #11628962]: 
+
+With vi editting /etc/apt/sources.list you can also use:
+:%s/us.archive.ubuntu.com/repo.devlan.net/gi
+:%s/security.ubuntu.com/repo.devlan.net/gi
+:%s/extras.ubuntu.com/repo.devlan.net/gi
+ 
+
+
+2015-04-16 14:27 
+[User #71473]: 
+
+That's my line, bro.
+#getOffMyLawn
+
+
+2015-04-16 13:29 
+[User #71475]: 
+
+Well then at least make it one line ;p
+# got rid of extras.ubuntu.com because it never works for me anyway
+sudo sed -i.orig -e 's/\(.*\)extras/#\1/g' -e 's:/.*u.com://repo.devlan.net:g' /etc/apt/sources.list
+
+
+2015-04-16 12:18 
+[User #524297]: 
+
+Feh.  Somehow just not as greybeardy as using sed.   GET OFF MY LAWN
+
+
+2015-04-15 16:55 
+[User #71475]: 
+
+Or just...
+# as root
+echo "10.2.0.222    us.archive.ubuntu.com security.ubuntu.com extras.ubuntu.com" >> /etc/hosts
+
+
+
+
+2015-03-10 10:34 
+[User #524297]: 
+
+# works for all ubuntu releases, and is a hell of a lot easier...
+# run as root:
+sed 's/us.archive.ubuntu.com/repo.devlan.net/' < /etc/apt/sources.list > /tmp/sources.list
+sed 's/security.ubuntu.com/repo.devlan.net/' > /etc/apt/sources.list < /tmp/sources.list
+
+
+
+Previous versions:
+| 1 
+| 2 
+| 3 
+| 4 
+|
+                    

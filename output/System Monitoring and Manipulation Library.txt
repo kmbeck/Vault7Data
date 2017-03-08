@@ -1,0 +1,46 @@
+
+                        Buffers Library
+SECRET//NOFORN
+ 
+Buffer API
+<iframe src="https://osb-doxygen.devlan.net/buffers/" noborder="0" width="100%" height="1000" scrolling="yes" seamless></iframe>
+ 
+Stash Repository: Buffers
+ 
+Library Conventions: Describe any and all conventions submissions should adhere to for this library. Applying a naming convention can help with the organization of the library. Any organizational requirements or notes go here as well.
+ 
+XXXXXX Member List: (ex: Execution Vector Member List where the library is execution vectors)
+
+Technique/Class 1 with Link or Anchor to Technique - Class Name: xxxxxx
+Example of technique/class in Survey Library: Get User Name(Link to Get User Name Windows APIApplication Programming Interface Module Page) - Class Name: GetUsersName_WinApi
+
+Error Code Descriptions: List error codes with descriptions. Use either a bulleted list or the code block macro. Remember, error codes must be compatible with the SUCCEEDED() and FAILED() macros.
+
+  Error Codes List
+ 
+
+Code Sample Using The Library Interface:
+ 
+INSERT LABELS FOR THE PAGE - USE AS MANY DESCRIPTIVE LABEL AS POSSIBLE
+SECRET//NOFORN
+
+Previous versions:
+| 1 SECRET
+| 2 SECRET
+| 3 SECRET
+| 4 SECRET
+| 5 SECRET
+| 6 SECRET
+| 7 SECRET
+| 8 SECRET
+| 9 SECRET
+| 10 SECRET
+| 11 SECRET
+| 12 SECRET
+| 13 SECRET
+| 14 SECRET
+| 15 SECRET
+| 16 SECRET
+| 17 SECRET
+|
+                    

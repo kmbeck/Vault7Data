@@ -1,0 +1,42 @@
+
+                        Owner: User #14587667
+PowerShell Notes
+Create and Modify Your Powershell Profile
+
+First check whether or not your profile exists.Test-Path $profile
+
+If the query returned "False", then your profile does not exist.
+Create your profileNew-Item -path $profile -type file -force
+
+The output of the previous command will tell you where your profile was created.  The path given as the "Directory" output is the directory containing your profile.  It will be something like C:\Users\user1\Documents\WindowsPowerShell.
+Open Windows Explorer and go to that directory.  Your profile will be "Microsoft.PowerShell_profile.ps1".
+By default your profile will be empty.  You can edit your profile to customize your powershell window default settings.  One setting that you will likely need is modifying the PATH environment variable to include the python directory.
+To add the python directory to your path, open your profile (Microsoft.PowerShell_profile.ps1) in a text editor and add the following line.$env:Path += ";C:\python27"
+
+You can test your settings by opening a powershell window and typing "$env:Path".  You should see "C:\python27" added to the end of your path.
+
+ 
+Execution of Scripts is Disabled on this System
+When you try to run a powershell script on Windows, you may receive the following error stating that the execution policy on your computer does not allow you to run the script.
+
+To fix this error, you must change the PowerShell execution policy for this computer.  If you issue the command "get-get about_signing" you will get plenty of information about this error.  However, because we are on a closed network these instructions will explain how to allow "Unrestricted" access to running scripts on your computer.
+
+To set the execution policy to unrestricted, enter the following command (PowerShell must be run as an Administrator):Set-ExecutionPolicy Unrestricted
+
+You will receive a warning indicating that you are trying to change the execution policy and the risk that is associated with the change.  Enter 'Y' and press enter.
+Your execution policy is now changed.  You can verify this by executing the command "Get-ExecutionPolicy".  You can now try to run your script again and you should not receive any errors.
+
+
+Attachments:
+
+image2015-1-30 9:21:48.png
+
+
+Previous versions:
+| 1 
+| 2 
+| 3 
+| 4 
+| 5 
+|
+                    

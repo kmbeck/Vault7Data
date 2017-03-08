@@ -1,0 +1,337 @@
+
+                        Android Exploits and Techniques
+(S)
+
+
+Weaponized/Delivered Name
+Proof-of-Concept Name
+Contract/Partner
+Description
+Affected Devices
+Type
+
+
+B12
+SwampMonkey
+Fangtooth
+
+System->Root Priv
+Used in conjunction with NightMonkey
+
+ 
+Priv
+
+
+ 
+BaronSamedi  
+Anglerfish
+remote access (libxml2)
+ 
+Remote access
+
+
+
+Chronos  
+
+Chronos
+
+Anglerfish
+(originally purchased via partner)
+
+User->Root Priv
+Certain MSMMobile Station Modem devices with Adreno GPUs
+Priv
+
+
+Creatine (crt)
+Colobus
+Fangtooth
+Shell->Root Priv (Framebuffer/graphics stack vuln)
+
+devices equipped with particular Adreno GPUs
+ie. Adreno 225 and 320
+Nexus 7 OSOperating System 4.4.2
+
+Priv
+
+
+Dugtrio (da)
+Dugtrio
+Anglerfish
+
+Browser/Javascript bridge
+Doesn't require porting
+
+
+4.0 - 4.1.2
+newer Samsung devices might have the vulnerability,
+but it is not guaranteed.
+
+Remote Access
+
+
+ 
+EerieBatter
+ 
+ 
+ 
+Priv
+
+
+EggsMayhem
+EggsMayhem
+GCHQ, NSA
+ 
+Chrome version 32 - 39 (present)
+Remote Access
+
+
+ 
+FLAAFY
+Anglerfish
+User->System Priv
+ 
+Priv
+
+
+
+Freedroid (fd3)
+EerieIndiana (ei)
+
+Freedroid/EerieIndiana
+Fangtooth
+Kernel/user mem vuln
+subset 2.3.6 - 4.2, unreliable in 4.3 - 4.4
+Priv
+
+
+Galago
+Galago
+ 
+ 
+
+SM-N910 (KTU84P.N910HXXU1ANK5),
+SM-N910S (KTU84P.N910SKSU1ANK8)
+
+Priv
+
+
+Glutamine (glt)
+Bonobo
+Fangtooth
+Shell->Root Priv (Framebuffer/graphics)
+ 
+Priv
+
+
+
+Remote Code Execution (RCE) Exploits - Helios  
+
+Dragonfly/Beracuda
+Purchased via partner org.
+ 
+ 
+Remote Access
+
+
+
+Flameskimmer
+HGH
+(Note: HGH never deployed,
+will carry forward FSFilesystem name
+in future angry priv framework)
+
+Flameskimmer
+SurfsUp
+
+User->Root Priv (WiFi driver vuln)
+requires WiFi to be enabled
+
+
+Broadcom WiFi chipset devices
+4.3 - 4.4.2
+4.4.4 (updated on July 2015)
+
+Priv
+
+
+Levitator
+Levitator
+Public
+ 
+pre 2.3 - 2.3.5
+Priv
+
+
+Livestrong
+Totodile
+Anglerfish
+Library load via property
+Kitkat devices
+Persistence
+
+
+LugiaLight (lgl)
+Lugia
+Peppermint
+ 
+MSM devices until ~4.4
+Priv
+
+
+NightMonkey
+NightMonkey
+Fangtooth
+User->System Priv, physical access required (Dex repack/MTP vuln)
+ 
+Priv
+
+
+Salamander
+Salamander
+ 
+
+Works on Chrome and Samsung Browser's browser
+Requires porting if not listed in "Affected Devices"
+
+Chrome version 28.0.1500.94
+Remote Access
+
+
+Salazar
+Salazar
+Anglerfish
+
+Works on Chrome, Opera, and Samsung Browser's sbrowser
+Requires porting if not listed in "Affected Devices"
+
+
+Chrome version 35.0.1916.141, 37.0.2062.117),
+Opera version 21.0.1437.75510),
+
+Remote Access
+
+
+Simian
+Simian
+Fangtooth
+User->Root Priv, KGSL driver
+MSM8974 devices
+Priv
+
+
+Skor
+Skor
+ 
+Requires porting per device
+2.2 - 2.3.6
+Remote Access
+
+
+Snubble
+Snubble/Snubull
+Anglerfish
+User->System Priv (with Absolute LoJack software)
+
+Samsung Galaxy S5 (KOT49H.G900HXXU1ANCD)
+Samsung Galaxy Note 3 (KOT49H.N900W8UBUCNC1)
+Samsung Galaxy S4 (KOT49H.I9500UBUFNB3)
+
+Priv
+
+
+Spearow (sp)
+Spearrow
+Anglerfish
+ 
+4.1.2?
+Remote Info Leak
+
+
+Starmie (st)
+Starmie
+Anglerfish
+Requires porting for each ROMRead-Only Memory -> suggest using Helios
+
+4.0 - 4.3
+Samsung Galaxy Tab 2 10-inch, GT-P5100
+Epic 4G Touch, SPH-D710
+Samsung Galaxy Note, GT-N7000
+
+Remote Access
+
+
+ 
+Sulfur
+Fangtooth
+Android kernel info leak for devices running kernel versions 3.10 and later
+
+SM-N910H (KTU84P.N910HXXU1ANK5)
+SM-N910S (KTU84P.N910SKSU1ANK8)
+SM-N910A (KTU84P.N910AUCU1ANIE)
+
+Remote Info Leak
+
+
+
+T2
+Amino
+
+Towelroot, Steelix
+Anglerfish
+User->Root Priv (PI-futex vuln)
+OS before 3 June 2014
+Priv
+
+
+ 
+ 
+
+Sub-Pages:
+
+
+Cobalt 
+
+
+BaronSamedi 
+
+
+Flameskimmer (FS2) Porting 
+
+
+Chronos 
+
+
+Remote Code Execution (RCE) Exploits - Helios 
+
+
+
+Previous versions:
+| 1 
+| 2 
+| 3 
+| 4 
+| 5 
+| 6 
+| 7 
+| 8 
+| 9 
+| 10 
+| 11 
+| 12 
+| 13 
+| 14 
+| 15 
+| 16 [NSA] [FBI] [GCHQ] [MI5]
+| 17 [NSA] [FBI] [GCHQ] [MI5]
+| 18 [NSA] [FBI] [GCHQ] [MI5]
+| 19 [NSA] [FBI] [GCHQ] [MI5]
+| 20 [NSA] [FBI] [GCHQ] [MI5]
+| 21 [NSA] [FBI] [GCHQ] [MI5]
+| 22 [NSA] [FBI] [GCHQ] [MI5]
+| 23 [NSA] [FBI] [GCHQ] [MI5]
+| 24 [NSA] [FBI] [GCHQ] [MI5]
+| 25 [NSA] [FBI] [GCHQ] [MI5]
+| 26 [NSA] [FBI] [GCHQ] [MI5]
+|
+                    

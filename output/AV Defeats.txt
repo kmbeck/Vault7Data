@@ -1,0 +1,143 @@
+
+                        Owner: User #71473
+F-Secure Entropy Defeat
+UPDATE: Another technique seems to work fine for both F-Secure and Avira.  Cloning the manifest from a self-extracting RARFile compression algorithm file seems to make both of these annoying troublemaker PSPs happy.  The resource type for the manifest is 24, the resource number is 1 and the resource language is 1033.  
+Note: This technique does cause issues with Kaspersky when used with Snowcrash.  Proceed with caution and test, test and retest:
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<assembly xmlns="urn:schemas-microsoft-com:asm.v1" manifestVersion="1.0">
+<assemblyIdentity
+  version="1.0.0.0"
+  processorArchitecture="*"
+  name="WinRAR SFX"
+  type="win32"/>
+<description>WinRAR SFX module</description>
+<trustInfo xmlns="urn:schemas-microsoft-com:asm.v2">
+  <security>
+    <requestedPrivileges>
+      <requestedExecutionLevel level="requireAdministrator"
+      uiAccess="false"/>
+    </requestedPrivileges>
+  </security>
+</trustInfo>
+<dependency>
+  <dependentAssembly>
+    <assemblyIdentity
+      type="win32"
+      name="Microsoft.Windows.Common-Controls"
+      version="6.0.0.0"
+      processorArchitecture="*"
+      publicKeyToken="6595b64144ccf1df"
+      language="*"/>
+  </dependentAssembly>
+</dependency>
+<compatibility xmlns="urn:schemas-microsoft-com:compatibility.v1">
+  <application>
+    <!--The ID below indicates application support for Windows Vista -->
+      <supportedOS Id="{e2011457-1546-43c5-a5fe-008deee3d3f0}"/>
+    <!--The ID below indicates application support for Windows 7 -->
+      <supportedOS Id="{35138b9a-5d96-4fbd-8e2d-a2440225f93a}"/>
+  </application>
+</compatibility>
+<asmv3:application xmlns:asmv3="urn:schemas-microsoft-com:asm.v3">
+  <asmv3:windowsSettings xmlns="http://schemas.microsoft.com/SMI/2005/WindowsSettings">
+    <dpiAware>true</dpiAware>
+  </asmv3:windowsSettings>
+</asmv3:application>
+</assembly> 
+ 
+Old Technique Follows:
+F-Secure, not unlike Avira, seems to strongly dislike binaries that contain large sections of high entropy data. Unfortunately, the Rar! trick doesn’t fool F-Secure. However, it seems F-Secure is doing a different, but equally brain dead static string scan to see if an otherwise “dangerous” file is a totally legit Rar self extractor – it looks for strings contained in the string table resource of a RARFile compression algorithm SFX.
+Plop this RC file into your binary with Visual Studio or Reshacker, or use Clone resources on a sample self extracting RARFile compression algorithm file.
+NOTE: While this technique seems to work swimmingly against F-Secure, it makes Avira pitch a fit.  More research is needed to see if there is a way to defeat both F-Secure and Avira at the same time.
+ 
+STRINGTABLE
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+{
+100, 	"Select destination folder"
+101, 	"Extracting %s"
+102, 	"Skipping %s"
+103, 	"Unexpected end of archive"
+104, 	"The file \"%s\" header is corrupt"
+105, 	"The archive comment header is corrupt"
+106, 	"The archive comment is corrupt"
+107, 	"Not enough memory"
+108, 	"Unknown method in %s"
+109, 	"Cannot open %s"
+110, 	"Cannot create %s"
+111, 	"Cannot create folder %s"
+}
+
+
+STRINGTABLE
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+{
+112, 	"CRC failed in the encrypted file %s. Corrupt file or wrong password."
+113, 	"CRC failed in %s"
+114, 	"Packed data CRC failed in %s"
+115, 	"Wrong password for %s"
+116, 	"Write error in the file %s. Probably the disk is full"
+117, 	"Read error in the file %s"
+118, 	"File close error"
+119, 	"The required volume is absent"
+120, 	"The archive is either in unknown format or damaged"
+121, 	"Extracting from %s"
+123, 	"Next volume"
+124, 	"The archive header is corrupt"
+125, 	"Close"
+126, 	"Error"
+127, 	"Errors encountered while performing the operation\nLook at the information window for more details"
+}
+
+
+STRINGTABLE
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+{
+128, 	"bytes"
+129, 	"modified on"
+130, 	"folder is not accessible"
+131, 	"Some files could not be created.\nPlease close all applications, reboot Windows and restart this installation"
+132, 	"Some installation files are corrupt.\nPlease download a fresh copy and retry the installation"
+133, 	"All files"
+}
+
+
+STRINGTABLE
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+{
+150, 	"<ul><li>Press <b>Install</b> button to start extraction.</li><br><br>"
+151, 	"<ul><li>Press <b>Extract</b> button to start extraction.</li><br><br>"
+152, 	"<li>Use <b>Browse</b> button to select the destination"
+153, 	"folder from the folders tree. It can be also entered"
+154, 	"manually.</li><br><br>"
+155, 	"<li>If the destination folder does not exist, it will be"
+156, 	"created automatically before extraction.</li></ul>"
+}
+
+
+STRINGTABLE
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+{
+160, 	"The archive is corrupt"
+165, 	"Extracting files to %s folder"
+166, 	"Extracting files to temporary folder"
+170, 	"Extract"
+171, 	"Extraction progress"
+175, 	"Total path and file name length must not exceed %d characters"
+}
+
+
+STRINGTABLE
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+{
+176, 	"Unsupported encryption method in %s"
+}
+
+Previous versions:
+| 1 
+| 2 
+| 3 
+| 4 
+| 5 
+| 6 
+|
+                    

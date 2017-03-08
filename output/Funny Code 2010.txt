@@ -1,0 +1,79 @@
+
+                        Owner: User #3375374
+Funny Code 2013
+Funny Code post from 2013.
+ 
+
+Occasionally, I want to decode SSLSecure Socket Layer to troubleshoot an issue.  This requires the server private key and is configured as follows from the Wireshark preference dialog.
+
+The format of the RSAEncryption algorithm key list is: <server ip>, <server port>, <wireshark protocol dissector>, <private key file>. Use semicolons to delimit multiple private keys.  Hovering over the edit box displays the information format.  Use 'data' for the <wireshark protocol dissector>, if you don't know the for the contained protocol.
+IDA PRO's Neutered Symbols
+IDA PRO ships with a neutered version of the dbghelp.dll from Microsoft. The dbghelp is redistributable one from Microsoft that 3rd parties are allowed to redistributed.
+
+As it happens this dll does not have enough intelligence to perform network or environment variable look up for symbols e.g. from _NT_SYMBOL_PATH.  There is a way around this as the dbghelp.dll that ships with the Windows DDK does know how to search the _NT_SYMBOL_PATH path including network searches. The solution is to replace the IDA PRO version of dbghelp.dll with the one from the Windows DDK. 
+
+As it happens the Sysinternal Process Explorer has the same issue; however, they provide a hand gui modifying this setting so see my Funny Code 2009 posts for those details.
+
+sudo apt-get updatesudo apt-get upgradesudo apt-get install smbfssudo mount /share/zagyg/work/sudo apt-get install subversioncd Documents/svn co --username User #77120 https://teamforge.devlan.net/svn/repos/tyrantcd tyrant/cp -R trunk/tyrant-dev-postncr/ ..cd ../tyrant-dev-postncr/cd leafbags/mkdir blackcrowmkdir blackcrow/blackcrowcd ..cd leafbags/blackcrow/blackcrow/gedit __init__.pymkdir tests planscp __init__.py plans/cp __init__.py tests/cd ../..(from tyworkflow)ln -s leafbags/blackcrow/blackcrow/plans/ .ln -s leafbags/blackcrow/blackcrow/tests/ .makegedit tests/BlackcrowUnitTestFxf.py  &bin/undermine tests/BlackcrowUnitTestFxf.py 10.8.4.39 10.8.4.10 -- targetProcess=fxf.exe appMode=Fxfsudo apt-get install sshssh-keygenscp /home/User #77120/.ssh/User #77120/id_rsa.pub root@tyrant-devlan:~ssh root@tyrant-devlancat id_rsa.pub >> /root/.ssh/authorized_keysmkdir /proj/testing-draft/commits/User #77120exitgedit plans/BlackcrowFxf.py  &bin/remote_commit -u User #77120 run plans/BlackcrowFxf.py count=1
+ 
+
+The default MDSN Windows 8 installation requires Product Key Activation in order to setup.  The following steps are useful in editing the MSDNMicrosoft Developer Network iso to enable the Skip button during the install.
+1.Extract the boot.bin from the msdn iso image. Download geteltorito.pl to help extract the boot image.
+./geteltorito.pl win8_image.iso > boot.bin
+2.  mount the win8_image iso to a folder. It is read only e.g. a DVDDigital Versatile Disk so after mounting copy the contents to a writable folder.
+
+mkdir win8_ro
+mount -t auto -o loop win8_image.iso win8_ro
+mkdir win8
+cp -r win8_ro win8
+
+3. Copy any modification into the win8 folder. In this case a file ei.cfg was added to win8/sources.
+[EditionID]Professional[Channel]Retail[VL]0
+4. Copy the boot.bin into the win8 boot directory. mkisofs requires the boot.bin be located in the image as a relative path is used.
+mkisofs -udf -b boot/boot.bin -no-emul-boot -hide boot.bin -relaxed-filenames -joliet-long -D -o ./new_win8.iso ./win8
+5. chmod and chgrp the new_win8.iso so the linux gui can burn the dvd. Just right click.
+6. The following iso is modified to enable skipping the Product Key prompt. [\\fs-01\share\OS DVDDigital Versatile Disk ISOs\Windows 8\skip activation modified]
+
+Use windbg pseduo registers is helpful for breaking halfway through a loop. Espically, if the loop has a 100 iterations and it is not possible to modify the source code. The following command will break on the 103 call to InternetReadFile.
+r $t0 = 0; bp wininet!InternetReadFile "r $t0 = $t0 + 1; j $t0 < 67 'gc';''"
+
+To scrape virtual memory to analyze the memory forensic characteristics. Dump strings in memory using windbg use the following command.
+0:003> .dump /mf "C:\Work\testing\bc16r3x64pnr.dump"Creating C:\Work\testing\bc16r3x64pnr.dump - mini user dumpDump successfully written
+Run Sysinternals strings on the .dump file using the following command.
+C:\Work\testing>strings.exe bc16r3x64pnr.dump > bc16r3x64pnr.strings.txt
+
+Takes the input file, slices it into 1024 byte blocks, fills the blocks with random data, and generates a collection of files. The files that are not flagged by AVAnti-Virus must contain part of the AVAnti-Virus signature.
+slice.py
+Take the survivor block list from slice.py, generates 4 byte blocks, fills the blocks with random data, and generates a collection of files. The files that are not flagged by AVAnti-Virus must contain part of the AVAnti-Virus signature.
+slice2.py
+
+The following are procedures to get WinDbg to load symbols for injected memory code. First update the symbol path to include the location of the debugging symbols.
+srv*C:\WindowsSymbols*C:\Work\rdb\blackcrow\client\x64\Debug*\\ISIS\Symbols
+ Assuming the code has been injected into memory the following command will load debugging symbols for the dll.
+.reload /f /i client_x64.dll=poi(pImageBase)
+ It can be helpful to turn on verbose symbol resolution using the !sym noisy command.
+
+Attachments:
+
+
+wireshark_ssl_private_keys.png
+
+
+IDAPRO_Dbghelp_2.png
+
+
+IDAPRO_Dbghelp.png
+
+
+
+Previous versions:
+| 1 
+| 2 
+| 3 
+| 4 
+| 5 
+| 6 
+| 7 
+| 8 
+|
+                    

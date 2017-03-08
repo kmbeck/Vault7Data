@@ -1,0 +1,198 @@
+
+                        Data Transfer Library
+ 
+ 
+SECRET//NOFORN
+ 
+DataTransfer API
+<iframe src="https://osb-doxygen.devlan.net/datatransfer/" noborder="0" width="100%" height="1000" scrolling="yes" seamless></iframe>
+
+Stash Repository: Data Transfer
+ 
+Interface Description: 
+Currently, there are two interfaces that are used in the Data Transfer Library: IDataTransfer and IDataStorage. Function prototypes for IDataStorage:
+ 
+ virtual DataTransErr addFile(DWORD progID, wchar_t* filename, BYTE* header = NULL, LONGLONG size = 0) = 0;
+ 
+Desription: Adds "filename" from the local disk to the dataTransfer exfil. Optionally prepend a caller-specified header to the file.
+progID [in]: Program ID of the file to be added. Program IDs should be tracked in the used modules Tool List
+filename [in]: String name of the local file to be added.
+header [in,opt]: An additional header you wish to be prepended to the file before it is added. This can be used to uniquely identify files for reading and deleting. 
+size [in,opt]: The size of the header buffer
+Returns a DataTransError which is described in the Error Code Descriptions section.
+ 
+virtual DataTransErr addFile(DWORD progID, BYTE* buffer, DWORD size) = 0;
+ 
+Description: Adds buffer to the dataTransfer file system.
+progID [in]: Program ID of the file to be added. 
+buffer [in]: The data to be written.
+size [in]: The size of the buffer to be written
+Returns a DataTransError which is described in the Error Code Descriptions section.
+ 
+virtual DataTransErr findFirstFile(IN DWORD progID, OUT DWORD& size, OUT DWORD* fileProgID = NULL, IN DWORD headerSize = 0, OUT BYTE* header = NULL) = 0;
+ 
+Description: Searches the dataTransfer file system for a file that matches the given progID. If the given progID is 0, all files in the file system are a match. The progID value is set in the call to findFirstFile and used in findNextFile. The function will return the size of the file, the program ID of the file (this will only be different when searching with a progID of 0), and (optionally) a small header of information from the file that may further indicate what the file is to the caller. 
+progID [in]: Program ID of the file to search, or 0 for all files. This program ID is saved and used in all subsequent calls to findNextFile.
+size [out]: The size of the found file. 
+fileProgID [out,opt]: The Program ID of the file. This value will only be different from progID when progID is equal to 0.
+headerSize [in,opt]: The size of the header to be read into the header buffer. 
+header [out,opt]: The optional buffer to read the header data for a file into. This can be used to identify which file is currently found.
+Returns a DataTransError which is described in the Error Code Descriptions section.
+ 
+virtual DataTransErr findNextFile(OUT DWORD& size, OUT DWORD* fileProgID = NULL, IN DWORD headerSize = 0, OUT BYTE* header = NULL) = 0;
+
+Description: Searches for the next file in the file system using the Program ID specified in FindFirstFile. If the Program ID is 0, all files in the file system are considered a match. The function will return the size of the file, the program ID of the file (this will only be different when searching with a progID of 0), and (optionally) a small header of information from the file that may further indicate what the file is to the caller. 
+size [out]: The size of the found file. 
+fileProgID [out,opt]: The Program ID of the file. This value will only be different from progID when progID is equal to 0.
+headerSize [in,opt]: The size of the header to be read into the header buffer. 
+header [out,opt]: The optional buffer to read the header data for a file into. This can be used to identify which file is currently found.
+Returns a DataTransError which is described in the Error Code Descriptions section.
+ 
+virtual DWORD readFile(LPBYTE lpBuffer, DWORD size) = 0;
+
+Description: Reads "size" bytes from the currently found file (found via FindFirst/FindNext) into lpBuffer.
+lpBuffer [out]: The buffer that the file is read into.
+size [in]: The size of the buffer that the file is read into.
+Returns a DataTransError which is described in the Error Code Descriptions section.
+ 
+virtual DataTransErr deleteFile() = 0;
+ 
+Description: Deletes the currently found file (found via FindFirst/FindNext).
+Returns a DataTransError which is described in the Error Code Descriptions section.
+
+Function prototypes for IDataTransfer:
+ 
+virtual DataTransErr sendData(LPBYTE data, DWORD size) = 0;
+
+ 
+Description: Sends data via the module specific mechanism.
+data [in]: A data buffer (LPBYTE) containing the data to send.
+size [in]: The size of the data being sent.
+Returns a DataTransError which is described in the Error Code Descriptions section.
+ 
+virtual DataTransErr readData(LPBYTE &data, DWORD &size) = 0;
+
+ 
+Description: Receives/Reads data via the module specific mechansim.
+data [out]: A data buffer (LPBYTE) that will receive data.
+size [out]: The size of the data buffer returned.
+Returns a DataTransError which is described in the Error Code Descriptions section.
+
+Library Conventions: 
+Naming convention of classes in the Data Transfer library:
+
+Prefix DT (Data Transfer)
+Medium of transfer (file, covert storage, pipe, etc)
+_ Crypt specifying tool/technique, abbreviated to 2-3 letters (EZC = EZCHEESE, Rap = Raptor, etc)
+
+ 
+Example:
+DTNtfsAds_BK
+DT = Data TransferNtfsAds = NTFSNT filesystem (Windows) Alternate Data Streams_BK = Brutal Kangaroo (made for Brutal Kangaroo)
+ 
+Use eDATATRANS_NOT_SUPPORTED for functionality that is not supported in your module.
+Use eDATATRANS_NO_MORE_DATA when no additional data can be found.
+Document any overloaded constructors on your module page.
+A program ID of 0 should allow search results to contain all files in the file system
+ 
+Program IDs should be tracked on module documentation pages inside the Tool List
+All modules should be compatible with Windows XPWindows operating system (Version) through the current version of Windows. This does not mean that all functionality be present. It does mean, however, that code should not crash the parent process of the library when running on Windows XPWindows operating system (Version) or greater.
+ 
+Data Transfer Member List:
+
+Transferring Data Using NTFSNT filesystem (Windows) Alternate Data Streams (DTNtfsAds_BK - Brutal Kangaroo)
+Data Transfer Via Data File (DTFile_GLPH - GLYPH)
+Transfer Data By Appending To An Existing File (DTFile_PICT - PICTOGRAM)
+
+
+
+Error Code Descriptions:
+Return Code Type For The Data Transfer Library: enum DataTransErr: int.
+Error codes >= 0 are successful. The return codes will work with the SUCCESS() and FAILED() macros.
+ 
+ enum DataTransErr : int
+{
+	// SUCCESS CODES: >= 0
+	// GENERIC_SUCCESS
+	eDATATRANS_SUCCESS = 0,
+	eDATATRANS_MORE_DATA = 1,		//More data left to be read
+
+	// DTNtfsAds_BK SUCESS
+	eDATATRANSBK_PATHS_ALREADY_GEN,		//All of the link file paths have already been generated
+
+	// ERROR CODES: < 0
+	// GENERIC_ERROR
+	eDATATRANS_UNKNOWN = -1,		//Unknown Failure : Unimplemented or undefined
+	eDATATRANS_INVALID_ARGS = -2,	//Invalid Arguments
+	eDATATRANS_BAD_PATH = -3,		//Path Not Valid
+	eDATATRANS_NO_MEM = -4,			//Insufficient Memory
+	eDATATRANS_NO_MORE_DATA = -5,	//No more data
+	eDATATRANS_CORRUPT_FILE = -6,	//File is corrupted
+
+	//DTNtfsAds_BK Error
+	eDATATRANSBK_INVALID_FS = -35,		// Volume is not NTFS
+	eDATATRANSBK_NO_MORE_FILES = -36,	//No more files with that program id - resetting index
+	eDATATRANSBK_INVALID_FILE = -37,	//File invalid (size to big or small)
+
+	//DTFILE_PICT Error
+	eDATATRANSPICT_NO_SIG = -70			//File does not contain the set signature
+};
+
+Code Sample Using The Library Interface:
+WCHAR wcDrivePath[] = L"I:\\";
+
+
+IDataStorage *dtTransfer = new DTNtfsAds_BK(wcDrivePath);
+
+
+DWORD dwChunkSize = 0;
+DWORD dwFileProgID = 0;
+
+
+//Add the file to storage file
+DataTransErr dtErr = dtTransfer->addFile(5, byData1, dwData1Len);
+
+
+//find first file - no header
+dtErr = dtTransfer->findFirstFile(5, dwChunkSize, &dwFileProgID, 0, NULL);
+
+
+//Allocate memory - read in file just identified by findFirstFile
+LPBYTE lpbData = (LPBYTE)malloc(dwChunkSize);
+DWORD dwBytesRead = dtTransfer->readFile(lpbData, dwChunkSize);
+free(lpbData);
+
+
+//Cleanup
+WCHAR wcTemp[MAX_PATH] = { 0 };
+swprintf(wcTemp, L"%s:$ObjId0", wcDrivePath);
+DeleteFile(wcTemp);
+delete dtTransfer;
+ 
+ 
+ 
+SECRET//NOFORN
+
+Previous versions:
+| 1 SECRET
+| 2 SECRET
+| 3 SECRET
+| 4 SECRET
+| 5 SECRET
+| 6 SECRET
+| 7 SECRET
+| 8 SECRET
+| 9 SECRET
+| 10 SECRET
+| 11 SECRET
+| 12 SECRET
+| 13 SECRET
+| 14 SECRET
+| 15 SECRET
+| 16 SECRET
+| 17 SECRET
+| 18 SECRET
+| 19 SECRET
+| 20 SECRET
+|
+                    

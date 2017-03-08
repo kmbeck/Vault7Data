@@ -1,0 +1,32 @@
+
+                        Owner: User #15728648
+PyPi
+ 
+I have a PyPi server on 10.2.3.96 on port 8080. That machine also includes a samba share for the Python packages, so you can upload your pypi packages there.
+On an internet-facing machine, you can use the pip2tgz command to download a pypi package and its dependencies.
+You can edit your ~/.pip/pip.conf file:
+ 
+[global]
+index-url = http://10.2.3.96:8080/simple
+trusted-host = 10.2.3.96
+
+Comments:
+
+
+2015-11-09 13:45 
+[User #15728648]: 
+
+Agree - the other confluence page had an out of date IP address for the pip server, so I made my own. Ideally, IBInfrastructure Branch should set this up for us with a proper DNSDomain Name System entry.
+
+
+2015-11-04 08:04 
+[User #3375506]: 
+
+There's already a simple pip sever on 10.6.2.20. We should probably avoid duplicating efforts.
+
+
+
+Previous versions:
+| 1 
+|
+                    

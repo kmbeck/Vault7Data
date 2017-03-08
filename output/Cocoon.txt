@@ -1,0 +1,20 @@
+
+                        New Metaconnection Protocol Commands
+
+REQ_STATSSyntax: REQ_STATS, %x rand(), STRING requestorSends a request stats packet.  On receipt, all nodes should forward along the broadcast tree and respond to requestor with an ANS_STATS
+
+ANS_STATSSyntax: ANS_STATS, STRING target_requestor, STRING my_name, (stats TBD...)Directed message to requestor (the cocoond, in practice) with who is sending the message + whatever stats we send back
+
+
+SET
+Syntax: SET, INT val_id, INT val_valueTell to set val_id to val_value, and forward on to the restCurrently the only valid val_id is for the DEADMAN_DELAY
+
+
+
+ 
+
+Previous versions:
+| 1 
+| 2 
+|
+                    

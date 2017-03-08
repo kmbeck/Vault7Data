@@ -1,0 +1,139 @@
+
+                        Owner: User #1179751
+Getting Started with DART
+NOTE: The instructions below are kinda outdated.  For more up to date info, go to the EDG Leafbag Project on Stash
+ 
+Download the Fedora 18 VMVirtual Machine from \\FS-01\Share\Dart\Virtual Machines\Linux (not required if you have a linux X64 machine you already like).
+Import the ova file into VMWare Workstation by double clicking it.
+user name and password for fedora vm = tester, 123ABCdef.
+ 
+Download VSphere client – the latest version is 5.5 which is available on \\fs-01\share\Windows Applications\VMware\VMware vCenter Server 5.5.0 U2\vSphere-Client\VMware-viclient.exe
+(Note: If Windows 8/8.1 complains about .Net Framework 3.5 not being installed you need the OSOperating System installation media and then to run this command: DISM /Online /Enable-Feature /FeatureName:NetFx3 /All /LimitAccess /Source:<INSTALL MEDIA PATH>\sources\sxs)
+You can also use the "Connect to remote server" option with VMWare 10 to connect as well!
+login information for VSphere:
+Addr: (10.9.0.10) Dart-vcenter.devlan.net (Currently use the IP address listed!)
+  user: root
+  pass: 123ABCdef.   <- Notice there is a period at the end!
+ 
+If you're using Ubuntu and don't have mercurial installed, you'll need to pull it down.  There are devlan repositories for Ubuntu available here http://repo.devlan.net/.  Instructions for setting them up are here http://wiki.devlan.net/wiki/doku.php?id=network:mirrors:ubuntu&s=ubuntu.  Use the lsb_relase -a  linux command to get the Codename used for editing /etc/apt/sources.list  (e.g.  12.04 is "precise").   Anything after Essential Packages is optional.    Not all packages are needed (e.g. subversion), use your discretion.
+Once your repositories are setup run:
+sudo apt-get install git
+ 
+From here follow the directions found here: EDG Leafbag Project on Stash
+DART Information – DEVLAN
+
+
+DNS Name
+IP Address
+Description
+
+
+Dart-ts-01.devlan.net
+10.9.0.20
+Tyrant test server
+
+
+Dart-twiki.devlan.net
+10.9.0.30
+Wiki (documentation) website
+
+
+Dart-vcenter.devlan.net
+10.9.0.10
+VMWare vCenter server
+
+
+Dart-esxi-01.devlan.net
+10.9.2.10
+VMWare ESXi host for XPWindows operating system (Version) virtual machines
+
+
+Dart-esxi-05.devlan.net
+10.9.2.11
+VMWare ESXi host for XPWindows operating system (Version) virtual machines
+
+
+Dart-esxi-02.devlan.net
+10.9.3.10
+VMWare ESXi host for Vista virtual machines
+
+
+Dart-esxi-06.devlan.net
+10.9.3.11
+VMWare ESXi host for Vista virtual machines
+
+
+Dart-esxi-03.devlan.net
+10.9.4.10
+VMWare ESXi host for Win7 virtual machines
+
+
+Dart-esxi-07.devlan.net
+10.9.4.11
+VMWare ESXi host for Win7 virtual machines
+
+
+Dart-esxi-04.devlan.net
+10.9.5.10
+VMWare ESXi host for Win8 virtual machines
+
+
+ 
+The main web interface for DARTTest-Software (commercial) is at http://Dart-ts-01.devlan.net/overview201408
+ 
+
+Sub-Pages:
+
+
+What is What in DART 
+
+
+How to DART your executable 
+
+
+My First DART Test 
+
+
+
+Previous versions:
+| 1 empty
+| 2 
+| 3 
+| 4 
+| 5 
+| 6 
+| 7 
+| 8 
+| 9 
+| 10 
+| 11 
+| 12 
+| 13 
+| 14 
+| 15 
+| 16 
+| 17 
+| 18 
+| 19 
+| 20 
+| 21 
+| 22 
+| 23 
+| 24 
+| 25 
+| 26 
+| 27 
+| 28 
+| 29 
+| 30 
+| 31 
+| 32 
+| 33 
+| 34 
+| 35 
+| 36 
+| 37 
+| 38 
+| 39 
+|
+                    

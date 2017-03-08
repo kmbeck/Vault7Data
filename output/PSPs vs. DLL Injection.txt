@@ -1,0 +1,10 @@
+
+                        Owner: User #3375374
+Rising Thinks You're Signed
+Rising will trust binaries with self-signed certificates. This generally works if Rising can not hit the Internet e.g. closed networks. There is no way for Rising to verify the certificate so just used the signtool in the Windows SDK.
+ 
+
+Previous versions:
+| 1 
+|
+                    

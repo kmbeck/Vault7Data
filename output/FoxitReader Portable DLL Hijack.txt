@@ -1,0 +1,181 @@
+
+                        Owner: User #71468
+FoxitReader Portable DLL Hijack
+The following are two good candidates for DLLDynamic Link Library hijacks...
+ 
+#1
+FoxIt Reader attempts to auto update itself, looking for a DLLDynamic Link Library named "UpdaterLOC.dll" from its plugins folder (\Foxit Reader\plugins)
+Returning FALSE from ProcessAttach doesn't seem to cause any negative side effects
+ 
+
+#2
+FoxIt attempts to load the system DLLDynamic Link Library "msimg32.dll" adjacent to itself firrst (\app\Foxit Reader\) before loading it in the proper location.  The DLLDynamic Link Library export 5 functions with the following prototypes:
+typedef VOID(WINAPIWindows Application Programming Interface *vSetDdrawflag)(VOID);typedef BOOL(WINAPIWindows Application Programming Interface *AlphaBlend)(HDC, int, int, int, int, HDC, int, int, int, int, BLENDFUNCTION);typedef DWORD(WINAPIWindows Application Programming Interface *DllInitialize)(DWORD, DWORD);typedef BOOL(WINAPIWindows Application Programming Interface *GradientFill)(HDC, PTRIVERTEX, ULONG, PVOID, ULONG, ULONG);typedef BOOL(WINAPIWindows Application Programming Interface *TransparentBlt)(HDC, int, int, int, int, HDC, int, int, int, int, UINT);
+ 
+To hijack this DLL, take the following steps:
+
+Determine if you're running on a 32 or 64 bit machine and call GetSystemDirectory() or GetSystemWow64Directory()
+LoadLibrary on the real msimg32.dll
+Call GetProcAdress on each of the functions listed above and store in global pointers
+Re-route all calls to any of these functions to the "real" functions and return appropriately
+
+ 
+Languages Available:
+current unable to validate this changes the language... might need to make changes with internet access?
+
+
+Language
+%PAL:LanguageCustom% Replacement
+
+
+Arabic
+49102d
+
+
+Bulgarian
+49103d
+
+
+Catalan
+49105d
+
+
+SimpChinese
+49107d
+
+
+TradChinese
+49108d
+
+
+Czech
+49106d
+
+
+Danish
+49109d
+
+
+Dutch
+49110d
+
+
+English
+49101d
+
+
+Estonian
+49112d
+
+
+Finnish
+49113d
+
+
+French
+49114d
+
+
+Galician
+49115d
+
+
+German
+49116d
+
+
+Greek
+49117d
+
+
+Hebrew
+49132d
+
+
+Hungarian
+49104d
+
+
+Irish
+49136d
+
+
+Italian
+49118d
+
+
+Japanese
+49133d
+
+
+Korean
+49119d
+
+
+Latvian
+49120d
+
+
+Lithuanian
+49121d
+
+
+Norwegian
+49122d
+
+
+Polish
+49123d
+
+
+Portuguese
+49124d
+
+
+PortugueseBR
+49125d
+
+
+Romanian
+49126d
+
+
+Russian
+49127d
+
+
+Serbian
+49138d
+
+
+Slovenian
+49128d
+
+
+Spanish
+49129d
+
+
+Swedish
+49130d
+
+
+Thai
+49134d
+
+
+Turkish
+49131d
+
+
+Valencian
+49135d
+
+
+
+Previous versions:
+| 1 
+| 2 
+| 3 
+|
+                    

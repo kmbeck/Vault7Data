@@ -1,0 +1,116 @@
+
+                        Owner: User #13763861
+SOL v 1.1 Test Results
+
+
+person
+date
+icn
+device
+success/failure
+notes
+
+
+JN
+12 Jan
+2005F651
+iPhone7,1_13A344
+
+(nonpersistent) success
+(persistent) success
+
+ 
+
+
+JN
+12 Jan
+2005k389
+iPhone5,3_12F70
+
+(nonpersistent) success
+(persistent) success
+
+ 
+
+
+JN
+12 Jan
+2005f146
+iPhone5,3_12B411
+
+(nonpersistent) success
+(persistent) success
+
+ 
+
+
+JN
+12 Jan
+2005f649
+iPhone7,2_13B143
+
+(nonpersistent) success
+(persistent) success
+
+ 
+
+
+JN
+12 Jan
+2005k268
+iPad4,4_12B1410
+
+(nonpersistent) success
+(persistent) success
+
+pin locked
+
+
+JN
+12 Jan
+2005G957
+iPad2,5_12A365
+
+(nonpersistent) success
+(persistent) success
+
+ 
+
+
+JN
+12 Jan
+2005k384
+iPhone5,3_12H143
+
+(nonpersistent) success
+(persistent) success
+
+ 
+
+
+JN
+12 Jan
+2005j965
+iPad3,1_12H321
+
+(nonpersistent) success
+(persistent) success
+
+ 
+
+
+
+Previous versions:
+| 1 
+| 2 
+| 3 
+| 4 
+| 5 
+| 6 
+| 7 
+| 8 
+| 9 
+| 10 
+| 11 
+|
+                    

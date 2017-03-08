@@ -1,0 +1,24 @@
+
+                        IOS cc_fips_test cleanup
+If this cc_fips_test is pointing to unsigned binary or a binary that return non-success, then it will power off the device. This will cause the device to become "soft bricked".
+ 
+This is a procedure to verify cc_fips_test will be in a good state.
+1. ssh into device
+2. cd /usr/libexec/
+3. ls -al cc_fips_test
+4. ls -al .cc_fips_test
+5. If cc_fips_test is NOT a link and has a size around 34224, then you are good.
+    ex. "-rwxr-xr-x 1 root wheel 34224 Oct  7  2014 cc_fips_test"
+6. If cc_fips_test is a link lets fix this.
+    6a. Is .cc_fips_test have a size around 34224. 
+        i. If it isn't around that size, you will have to recover cc_fips_test from a backup.
+    6b. mount filesystem read writable
+    6c. cp .cc_fips_test cc_fips_test
+    6d. mount filesystem read only
+
+
+
+Previous versions:
+| 1 
+|
+                    

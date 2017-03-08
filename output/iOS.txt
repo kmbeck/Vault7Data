@@ -1,0 +1,33 @@
+
+                        Owner: User #15728648
+Analyzing a New Shared Cache With PensiveTrace 1.5.1
+
+On a MAC, run the dsc_extractor on the extracted shared cache. (dsc_extractor is part of the dyld source code - grab a copy of the executable on the share at MDB/OSX/Binaries/dsc_extractor)
+dsc_extractor extracts the libraries as Universal binaries, which PT 1.5.1 does not support, so recursively run lipo -thin <arch>find . -type f -exec lipo -thin arm64 {} -output {} \;
+
+scp over the files to the ptserver (currently at ptserver.devlan.net)
+
+Rename duplicate files since PT 1.5.1 goes crazy if duplicate file names are found. (NOTE: findsn outputs an "ls -l", so use the grep command to grab everything from the last space to the end)
+/usr/share/fslint/fslint/findsn <sharedcachedir> > dupesLong.txt
+grep -o '[^ ]*$' dupesLong.txt > dupes.txt (sudo apt-get install fslint)
+count=0; cat dupes.txt | while read n; do fullpath="iPhone6,1_9.0_13A4325c_sharedcache/$n"; mv "$fullpath" "${fullpath}_${count}"; count=$(expr $count + 1);  done
+rm dupesLong.txt dupes.txt
+
+
+Remove actual duplicate files since PT 1.5.1 goes crazy if duplicate files are foundfdupes -r -d -N <path_to_cache_dir>
+
+nohup pt_prepare -vvvv -E--recursive <path_to_cache_dir> <output path> &
+Wait a while...
+
+ 
+
+Previous versions:
+| 1 
+| 2 
+| 3 
+| 4 
+| 5 
+| 6 
+| 7 
+|
+                    

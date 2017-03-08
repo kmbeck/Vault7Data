@@ -1,0 +1,58 @@
+
+                        Verify User is in the Administrator Group via Net User API (MISCIsUserInAdminGroup_NET)
+SECRET//NOFORN
+ 
+Miscellaneous Module
+Stash Repository: Miscellaneous Library
+
+Module Name: MISCIsUserInAdminGroup_NET (Uses NET APIApplication Programming Interface)
+ 
+Module Description: This module use a process ID (PIDProcess ID) to identify a specific user (Domain\user). The module then uses the derived domain and user names to obtain the privilege level as specified by the Net User APIApplication Programming Interface (NetUserGetInfo - USER_INFO_1). The module will tell you if the specified user is a part of the Administrators group.
+ 
+Usage: 
+
+/*
+	Determines whether the user the code is currently running as is a member of the administrators group
+*/
+static BOOL IsUserInAdminGroup(DWORD dwPID);
+
+ dwPID [in]: The process ID from which to derive the user and group level. Pass in GetCurrentProcessId() to determine if you are running in the context of a user who is a part of the Administrators group.
+Returns TRUE if the specified user is a part of the Administrators group and FALSE if not. 
+ 
+PSP/OS Issues: No Known Issues
+ 
+('excerpt' missing)
+ 
+Sharing Level: Unilateral
+ 
+Technique Origin: In-house (well-documented Windows APIApplication Programming Interface)
+ 
+Notes: 
+
+This module will only tell you about the user associated with the process specified
+If the PIDProcess ID is different from the PIDProcess ID of the current process, you must make sure that the passed PIDProcess ID can be opened with QUERY_INFORMATION access rights
+
+ 
+Module Return Codes: 
+Returns TRUE if the process's User is a member of the Administrators group. Returns FALSE if the process's user is a member of the user or guest groups.
+ 
+Example Code:
+ 
+//Determine from a separate process's PID
+DWORD dwPID = 7320;
+BOOL bRet = MISCIsUserInAdminGroup_NET::IsUserInAdminGroup(dwPID);
+
+
+//Determine from our own PID	
+bRet = MISCIsUserInAdminGroup_NET::IsUserInAdminGroup(GetCurrentProcessId());
+ 
+ 
+ 
+SECRET//NOFORN
+
+Previous versions:
+| 1 SECRET
+| 2 SECRET
+| 3 SECRET
+|
+                    

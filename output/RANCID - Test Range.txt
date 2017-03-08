@@ -1,0 +1,16 @@
+
+                        Owner: User #14587667
+vRealize Orchestrator
+IP: 10.9.8.12/24
+username: root
+password: NDBadm1n4Life!
+http://10.9.8.12     - vRealize Orchestrator Appliance Home Page
+https://10.9.8.12:8283    - Orchestrator Configuration (username: vmware, same password)
+https://10.9.8.12:8281     - Orchestrator Server
+https://10.9.8.12:5480     - Appliance Configuration
+
+Previous versions:
+| 1 
+| 2 
+|
+                    

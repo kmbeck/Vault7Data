@@ -1,0 +1,79 @@
+
+                        Convert to UTF-8 (String Encoding Class - MISCStringEncoder_WIN32)
+SECRET//NOFORN
+ 
+Miscellaneous Module
+Stash Repository: Miscellaneous Library
+
+Module Name: MISCStringEncoder_WIN32.ConvertToUTF8 (exposed as a function inside of the String Encoding Class - uses Windows APIApplication Programming Interface)
+ 
+Module Description: Converts a wide character string to a UTF-8 string using the Windows APIApplication Programming Interface (WideCharToMultiByte).If successful, the returned buffer will contain a null-terminated string that must be freed by the user (by calling free()).
+ 
+Usage:
+BOOL ConvertToUTF8(WCHAR *wcToConvert, CHAR *&cConverted);
+ 
+wcToConvert: The null terminated string that is to be converted to UTF-8.
+cConverted: A null buffer that will be filled with the resulting UTF-8 string. The caller must free this buffer if not null by calling free().
+Returns TRUE when successful.
+ 
+PSP/OS Issues: No known PSP/OS issues. Designed for XP+.
+ 
+('excerpt' missing)
+ 
+Sharing Level: Unilateral
+ 
+Technique Origin: In-house (Windows APIApplication Programming Interface)
+ 
+Notes: 
+
+Uses CP_UTF8
+Uses malloc to create the buffer returned in cConverted
+Flags set to 0 and default chars set to NULL
+
+ 
+Module Specific Structures: N/A
+ 
+Module Return Codes: Boolean return values where TRUE means SUCCESS.
+ 
+Example Code:
+ 
+	//Encode a string and compare it
+	BOOL bRet;
+	WCHAR wcString1[] = L"Testing my string";
+	CHAR cString1E[] = "Testing my string";		//E = Expected, A = Actual
+	
+	CHAR *cString1A = NULL;
+	WCHAR wcString2[] = L"ىئةىضصثقفغعهخحشسيبلاتنمئ";
+	CHAR *cString2A = NULL;
+	
+	WCHAR wcString3[] = L"五达卡嘎哈哈解热";
+	CHAR *cString3A = NULL;
+	
+	MISCStringEncoder_WIN32 seEncoder;
+	
+	//Test English
+	EXPECT_TRUE(seEncoder.ConvertToUTF8(wcString1, cString1A));
+	EXPECT_EQ(stricmp(cString1E, cString1A), 0);
+	if (cString1A)
+		free(cString1A);
+	//Test Arabic
+	EXPECT_TRUE(seEncoder.ConvertToUTF8(wcString2, cString2A));
+	if (cString2A)
+		free(cString2A);
+	else EXPECT_TRUE(false);
+	//Test Chinese
+	EXPECT_TRUE(seEncoder.ConvertToUTF8(wcString3, cString3A));
+	if (cString3A)
+		free(cString3A);
+	else EXPECT_TRUE(false);
+ 
+ 
+SECRET//NOFORN
+
+Previous versions:
+| 1 SECRET
+| 2 SECRET
+| 3 SECRET
+| 4 SECRET
+|
+                    

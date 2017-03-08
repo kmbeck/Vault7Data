@@ -1,0 +1,16 @@
+
+                        Owner: User #71468
+Skype Portable DLL Hijack
+ 
+Skype looks for "api-ms-win-core-winrt-string-l1-1-0.dll" - an oddly named DLLDynamic Link Library file – under its phone directory (\app\skype\Phone\api-ms-win-core-winrt-string-l1-1-0.dll)
+ 
+Returning FALSE from PROCEsS_ATTACH seems to have no negative effect.  In fact, the DLLDynamic Link Library is never found on my version of Skype naturally (and looks for it in 10 different places before giving up)
+
+ 
+Skype also has the "DWrite.dll" vulnerable load, attempting to find it under the phone directory first
+
+Attachments:
+
+select skype procmon.png
+
+                    

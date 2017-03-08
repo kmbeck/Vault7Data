@@ -1,0 +1,34 @@
+
+                        Mcnugget Test Checklist
+After make delivery, the following should work
+
+clear crash logs
+clear safari cache/cookies
+make sure no tabs in safari
+visit diff web pages (mdbtest.devlan.net/internet)
+
+do a safari test
+start mission control
+start aitloop/wifi/crazy ethernet setup
+
+
+verify running (look at ios syslog for debug)
+mdf restart
+verify ns restarts correctly
+verify no crash logs
+if kernel panic, be sure to manually reboot phone
+if successful, reboot once to verify persistence
+then use nsrm to remove.
+
+
+
+Previous versions:
+| 1 
+| 2 
+| 3 
+| 4 
+| 5 
+| 6 
+| 7 
+|
+                    

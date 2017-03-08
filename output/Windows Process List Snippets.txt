@@ -1,0 +1,22 @@
+
+                        Windows Process Creation Snippets
+ 
+LABEL PAGE: Child pages of this page will contain code snippets pertaining to the Windows Process Creation.
+ 
+
+('children' missing)
+
+Sub-Pages:
+
+
+Use COM to Create a 32-bit Process on 64-bit Windows (MISC32Surrogate_COM) SECRET
+
+
+Create Process With WMI 
+
+
+
+Previous versions:
+| 1 
+|
+                    

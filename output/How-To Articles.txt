@@ -1,0 +1,56 @@
+
+                        Owner: User #2064619
+Updating the Windows Symbol share via the Internet
+Step-by-step guide
+
+If you don't have an SDKSoftware Development Kit and/or "Debugging Tools for Windows" (aka windbg) installed on your devlan machine and your 4-star. Install it.
+
+Use symchk.exe to generate a manifest of missing symbols for the current machine.
+Example: symchk.exe /om symbols_manifest.txt /r C:\Windows\System32 (note this example assumes the use of the _NT_SYMBOL_PATH env var)
+
+Review your symbols_manifest.txt (because you will be transferring this to an unclassified internet machine) and remove any classified or project specific names of dlls, exes, etc.
+Transfer the symbols_manifest.txt file to your internet machine.
+Use symchk.exe to pull down the symbols in the manifest from microsoft's symbol store.Example: symchk.exe /im symbols_manifest.txt /s srv*C:\download_symbols_here\*http://msdl.microsoft.com/download/symbols
+
+Transfer symbols to devlan (warning this can several GBs).
+Copy the fresh symbols to the share: \\fs-01\share\WindowsSymbols for all to enjoy.
+
+ 
+You may also want to use visual panels to communicate related information, tips or things users need to be aware of.
+Related articles
+
+Related articles appear here based on the labels you select. Click to edit the macro and add or change labels.
+
+('contentbylabel' missing)
+('details' missing)
+
+Comments:
+
+
+2015-09-04 07:48 
+[User #1179925]: 
+
+Fair enough. I was just giving you a hard time. I think eventually it should be put on DART. The DARTTest-Software (commercial) admins have higher priorities currently, but once they get it to a good state, the symbol updates shouldn't be too difficult.
+
+
+2015-09-03 09:51 
+[User #2064619]: 
+
+I made this in the hope that others will pull symbols when they find they are missing. I just did a pull for latest Windows 10 patches earlier this week. 
+Longer term, it might be more ideal to have VMs on the low side that apply new updates and update symbol info and cache it – lots of care and feeding here. Other ideas that User #? had was maybe the DARTTest-Software (commercial) folks could help us here... but I don;t know their capacity or other challenges they may have doing it.
+
+
+2015-09-02 08:00 
+[User #1179925]: 
+
+Just curious. Is the how-to written in hopes that someone else will pull down and update the symbols or did you just update them all? 
+
+
+
+
+Previous versions:
+| 1 
+| 2 
+| 3 
+|
+                    

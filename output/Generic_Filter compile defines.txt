@@ -1,0 +1,69 @@
+
+                        Owner: User #20873326
+Generic_Filter compile defines
+There are a lot if ifdef code in the kernel module used to determine what is to be redirected.  This is what is defined at compile time for the generic filter code:
+ 
+/G1.1/Flytrap/../toolchain/bin/arm-none-linux-gcc -c -I. -O2  -D__KERNEL__ -nostdinc  -iwithprefix include -fno-strict-aliasing -fno-common -fomit-frame-pointer -include /G1.1/Flytrap/Kernel/generic_filter/get_autoconf.h -D__IS_LINUX__ -D__KERNEL__ -D__LINUX_ARM_ARCH__=5 -march=armv5 -fno-pic -pipe -Wa -mlong-calls -fsigned-char -Wall -Wextra -Wstrict-prototypes -Wno-trigraphs -Wno-sign-compare -fno-strict-aliasing -fno-common -Os -fomit-frame-pointer -I/G1.1/Flytrap/../toolchain/arm-none-linux/include -I/G1.1/Flytrap/../toolchain/arm-none-linux/include -DOUTGOING_HOOK_USE_BR_PRE_ROUTING -DINCOMING_HOOK_USE_BR_POST_ROUTING  -DSKBUF_LACKS_VALID_TIMESTAMP -DNFHOOK_VPNPROXY_DEV=tap0  -D"KBUILD_STR(s)=#s" -D"KBUILD_BASENAME=KBUILD_STR(gf)"  -D"KBUILD_MODNAME=KBUILD_STR(gf)" -D"DEBUG_HASH= " -D"DEBUG_HASH2=" -DVU_COUNTRY_CODE="83"  -DVU_EXIT_CODE="00"  -DVU_TRUNK_CODE="0" -DNFHOOK_DEBUG -DDEBUG -DVU_COUNTRY_CODE="83"  -DVU_EXIT_CODE="00"  -DVU_TRUNK_CODE="0" -DNFHOOK_DEBUG -DDEBUG  -I/G1.1/Flytrap/Common/libft -DWAN_INTERFACE=wmx0 -O -DMODULE  -Wall -Wno-unused-parameter gen_hash_hook.c -o gen_hash_hook.o
+ 
+/G1.1/Flytrap/../toolchain/bin/arm-none-linux-gcc 
+-c
+-I.
+-O2 
+-D__KERNEL__
+-nostdinc 
+-iwithprefix include
+ -fno-strict-aliasing
+-fno-common
+-fomit-frame-pointer
+-include /G1.1/Flytrap/Kernel/generic_filter/get_autoconf.h
+-D__IS_LINUX__
+-D__KERNEL__
+-D__LINUX_ARM_ARCH__=5
+-march=armv5
+-fno-pic -pipe
+-Wa
+ -mlong-calls
+-fsigned-char
+-Wall
+-Wextra
+-Wstrict-prototypes
+-Wno-trigraphs
+-Wno-sign-compare
+-fno-strict-aliasing
+-fno-common
+-Os
+-fomit-frame-pointer
+-I/G1.1/Flytrap/../toolchain/arm-none-linux/include
+-I/G1.1/Flytrap/../toolchain/arm-none-linux/include
+-DOUTGOING_HOOK_USE_BR_PRE_ROUTING
+-DINCOMING_HOOK_USE_BR_POST_ROUTING 
+-DSKBUF_LACKS_VALID_TIMESTAMP
+-DNFHOOK_VPNPROXY_DEV=tap0 
+-D"KBUILD_STR(s)=#s" -D"KBUILD_BASENAME=KBUILD_STR(gf)"
+-D"KBUILD_MODNAME=KBUILD_STR(gf)"
+-D"DEBUG_HASH= "
+-D"DEBUG_HASH2="
+-DVU_COUNTRY_CODE="83"
+-DVU_EXIT_CODE="00" 
+-DVU_TRUNK_CODE="0"
+-DNFHOOK_DEBUG
+-DDEBUG
+-DVU_COUNTRY_CODE="83" 
+-DVU_EXIT_CODE="00" 
+-DVU_TRUNK_CODE="0"
+-DNFHOOK_DEBUG
+-DDEBUG 
+-I/G1.1/Flytrap/Common/libft
+-DWAN_INTERFACE=wmx0
+-O
+-DMODULE 
+-Wall
+-Wno-unused-parameter
+gen_hash_hook.c
+-o gen_hash_hook.o
+
+
+ 
+
+ 
+                    

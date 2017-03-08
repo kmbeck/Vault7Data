@@ -1,0 +1,49 @@
+
+                        Use COM to Create a 32-bit Process on 64-bit Windows (MISC32Surrogate_COM)
+SECRET//NOFORN
+ 
+Miscellaneous Module
+Stash Repository: Miscellaneous Library
+
+Module Name: MISC32Surrogate_COM (Component Object Model)
+ 
+Module Description: This module allows for the creation of a 32-bit dllhost.exe process from a 64-process using COM. This could be useful when there are no 32-bit processes running on a 64-bit machine and one is needed for dll injection. This will also create a 32-bit dllhost on 32-bit Windows. The module does not wait on the created dllhost.exe to finish nor does it ever kill the dllhost.exe process that it created.
+ 
+Usage:
+This module currently only has one callable function:
+
+static BOOL Start32Process();
+
+
+No arguments
+Returns TRUE on success. There is currently no checks to see if the actual process is running. 
+ 
+PSP/OS Issues: No known issues.
+ 
+('excerpt' missing)
+ 
+Sharing Level: Unilateral
+ 
+Technique Origin: In-house
+ 
+Notes:
+
+Currently, there is no implemented way to check whether the process was actually created. No process identifiers are returned from the COM creation. Error codes returned from the COM call also don't verify creation of the process.
+This will create a 32-bit instance of dllhost.exe. On 32-bit machines this code will work but won't gain you as much. Intended for creating a 32-bit process (so you can inject into it) from a 64-bit process.
+Use a specific CLSID. If being used repeatedly, the CLSID may need to be changed to another on-system class that allows a surrogate.
+
+ 
+Module Return Codes: Returns TRUE when successful. The module does not contain a mechanism to check whether a 32-bit dllhost.exe is running. Since there is a separation through COM, the module does not receive the PIDProcess ID or any identifying attributes as to which process it started. 
+ 
+Example Code:
+ 
+BOOL bRet = MISC32Surrogate_COM::Start32Process();
+ 
+ 
+SECRET//NOFORN
+
+Previous versions:
+| 1 SECRET
+| 2 SECRET
+|
+                    

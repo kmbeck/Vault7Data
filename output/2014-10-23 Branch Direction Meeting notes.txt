@@ -1,0 +1,186 @@
+
+                        Owner: User #524297
+2014-10-23 Branch Direction Meeting notes
+Date
+Oct 23, 2014
+Attendees
+
+User #524297
+User #71384
+User #11628962
+User #524420
+User #20873326
+User #524420
+User #71459
+User #71456
+User #71455
+
+Goals
+
+To address Branch concerns over personnel reallocation and possible requirements adjustments
+To determine future goals and direction for Embedded Devices Branch 
+To better position the Branch to meet future operational needs
+To discuss how the Branch can adapt/improve to meet these needs
+To discuss how the Branch can work as a team to meet these goals
+
+Discussion items
+
+
+Time
+Item
+Who
+Notes
+
+
+15min
+Intro from AED/FO
+
+User #71456/User #71455
+
+Current status of situation with AEDApplied Engineering Devision Hardware projects
+
+
+Rest
+EDB Direction
+
+User #524297 et.al.
+ 
+
+
+Reference
+
+
+Discussion of Branch Organization with User #71455
+
+User #71459, User #71460, and User #71457 (also User #71458) will be relocated to ESD/CNB. 
+Slots will likely be kept in EDBEmbedded Devices Branch (2 of 3)
+
+
+
+Discussion of other potential options for reorganization with User #71455 (CNB, AIB, EDBEmbedded Devices Branch)
+
+
+
+Potential Mission Areas for EDB
+
+
+Firmware Targets
+
+Internet of Things (e.g. Weeping Angel (Extending) Engineering Notes   )
+Vehicle Systems (e.g. VSEP)
+ICS/SCADA
+Network Devices (including but not limited to SOHOSmall Office / Home Office routers)
+EFI
+
+
+
+Software Targets
+
+Linux/Unix
+BSD
+Solaris
+VxWorks - not addressed by any EDBEmbedded Devices Branch work
+QNX - not addressed by any EDBEmbedded Devices Branch work, big player in VSEP
+
+
+
+Software Capabilities
+
+Exploitation
+Access
+Persistence
+Network
+Implant
+
+
+
+
+
+
+
+"Advertising" the Branch
+
+Do we have a flagship product? 
+Do we need to define "embedded systems" for management and customers?
+Technical:  A single-purpose device that has a firmware running a software operating system.
+
+Non-technical:  A computer serving a singular function that doesn't have a screen or keyboard.
+
+Really non-technical:  "The Things in the Internet of Things"
+
+
+
+
+
+
+Discussion of need for generic implant for Linux-based Embedded Systems, applicable to future 
+
+A flagship product to enable the branch to better position for operations
+Working for subset of target platforms. Once a new/similar platform is encountered, effort is decreased to focus on important problems (e.g. access, persistence)
+Address need to pre-position for future CONOPS/requirements like  Weeping Angel (Extending) Engineering Notes  
+
+
+
+When do we seek customer buy-in?  How do we know what target platforms are seen day-to-day?   Perhaps when we have demonstrable capability, easier to ask "Where do you want us to go from here?" than "Where do you want us to start?"
+
+Seek to develop modular "library" of capabilities to unify across platforms, require only necessary componentsMultiple solutions for individual capabilities
+e.g. When providing stealth: kernel level, via process injection, or in plain sight ...
+e.g. When providing persistence:  GRUB, initrd ... 
+
+
+
+
+
+
+
+Discussion of Team development
+
+Team consisting of entire branch (User #524297, User #11628962, User #524420, User #71384, User #20873326, User #3375130 )
+Co-located in lab
+Need for Collective Code Ownership - All members familiar with all parts of development
+
+
+
+Some discussion of need for Working Agreement – for future:  
+
+Mapping Values to Work - Scrum Values (excerpt from http://www.scrumalliance.org/why-scrum/core-scrum-values-roles) ?
+Focus - Because we focus on only a few things at a time, we work well together and produce excellent work.  We deliver valuable items sooner.
+Courage - Because we work as a team, we feel supported and have more resources at our disposal.  This gives us the courage to undertake greater challenges.
+Openness - As we work together, we express how we're doing, what's in our way, and our concerns so they can be addressed.
+Commitment - Because we have great control over our own destiny, we are more committed to success. We strive to deliver what we promise.
+Respect - As we work together, sharing successes and failures, we come to respect each other and to help each other become worthy of respect. 
+
+
+
+
+Action items
+
+
+ID
+Status
+Task
+
+
+1
+incomplete
+Create working agreement for development team.
+
+
+2
+incomplete
+Create starting point repository for project.
+
+
+3
+incomplete
+
+
+
+
+Previous versions:
+| 1 
+| 2 
+| 3 
+| 4 
+|
+                    

@@ -1,0 +1,100 @@
+
+                        List Installed Windows Updates (MISCEnumerateUpdatesCOM_OFF)
+SECRET//NOFORN
+ 
+Miscellaneous Module
+Stash Repository: Miscellaneous Library
+
+Module Name: MISCEnumerateUpdatesCOM_OFF (Searches for updates offline - checks the event history)
+ 
+Module Description: This module uses COM to search the update history of the Windows Update Agent. The Windows Update Agent does not need to be online to be used in this module. This module returns a linked list of update descriptions, UUIDs, and revision numbers. The description will give both a verbal description of the update and the KB Article ID associated with the update. If using this to black/whitelist, the user should match against the UUID of the update. The KB Article ID's UUID can be derived from this module by reading the results of the update list descriptions.
+ 
+Usage: 
+
+/*
+	This function returns a linked list of the updates installed on the machine as detected by the Windows Update Agent. The 
+	argument bRetDesc allows the user to specify whether the Description should be returned for each update. The function 
+	returns TRUE on success and FALSE on failure.
+*/
+static BOOL GetUpdateList(PUPDATE_LIST &pList, BOOL bRetDesc = TRUE);
+
+
+/*
+	This function clears/frees all the data in an UPDATE_ENTRY linked list
+*/
+static BOOL FreeUpdateList(PUPDATE_LIST &pList);
+
+ pList [in/out]: A pointer to an UPDATE_LIST. On calls to GetUpdateList the pointer is set to the linked list of updates installed on the machine. On FreeUpdateList, the linked list of updates is cleared and freed.
+bRetDesc [in]: A boolean that specifies whether the description portion of the UPDATE_ENTRY structure.
+Return TRUE on success and FALSE on failure.
+ 
+PSP/OS Issues: No known issues. Available Windows 2000 SP3+.
+ 
+('excerpt' missing)
+ 
+Sharing Level: Unilateral
+ 
+Technique Origin: In-house (Uses the COM interface for the Windows Update Agent)
+ 
+Notes: 
+
+Some updates may not be explicitly listed (cases identified include updates to the updater agent)
+There may be multiple UUIDs that correspond to a specific KB Article ID
+The revision number will tell you which revision of the update is installed
+Most comprehensive list of updates of the set so far.
+
+ 
+Module Specific Structures: 
+
+typedef struct _UPDATE_ENTRY
+{
+	WCHAR *wcUUID; //The universally unique identifier for the update (see Windows Update Agent APIApplication Programming Interface for IUpdateHistoryEntry)
+	LONG lRevNumber;
+	WCHAR *wcDesc; //The description of the update (see Windows Update Agent APIApplication Programming Interface for IUpdateHistoryEntry)
+	_UPDATE_ENTRY *pNextEntry; //Next entry in the linked list
+}UPDATE_ENTRY, *PUPDATE_ENTRY, UPDATE_LIST, *PUPDATE_LIST;
+
+  
+Module Return Codes: 
+Returns TRUE on success and FALSE on failure.
+ 
+Example Code:
+ 
+ //Get the list of updates on the machine
+WCHAR wcUUID[] = L"214341b3-6b9b-41ad-a01c-bd75ff0a2f67";
+PUPDATE_LIST pList;
+
+
+BOOL bRet = MISCEnumerateUpdatesCOM_OFF::GetUpdateList(pList);
+
+
+//print desc and UUIDs
+BOOL bFoundMatch = FALSE;
+PUPDATE_ENTRY pNode = pList;
+while(pNode != NULL)
+{
+	if (pNode->wcUUID != NULL)
+	{
+		if (wcsicmp(pNode->wcUUID, wcUUID) == 0)
+			bFoundMatch = TRUE;
+	}
+	//print out string if both uuid and desc are present
+	if (pNode->wcUUID && pNode->wcDesc)
+		wprintf(L"%s\n%s %ul\n\n", pNode->wcDesc, pNode->wcUUID, pNode->lRevNumber);
+	pNode = pNode->pNextEntry;
+}
+
+//Free the list
+bRet = MISCEnumerateUpdatesCOM_OFF::FreeUpdateList(pList);
+
+
+ 
+ 
+SECRET//NOFORN
+
+Previous versions:
+| 1 SECRET
+| 2 SECRET
+| 3 SECRET
+|
+                    

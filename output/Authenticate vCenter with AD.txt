@@ -1,0 +1,57 @@
+
+                        Owner: User #14587667
+RANCID - Test Range
+RANCID is up and running in the Test Range.  this is a separate server from the one running in the NDBNetwork Devices Branch lab.  The TR-Core network device configs are queried every hour, and they are saved to CVSSource code management software if there are changes. The current config, previous configs, and config changes can be viewed by accessing the RANCID server's web page.
+RANCID is currently "monitoring" the following devices:
+
+
+IP
+Device Description
+
+
+10.9.8.1
+TR Core Switch
+
+
+ 
+To access the RANCID web page from DEVLAN, open a browser and go to:
+http://10.9.8.98/viewvc/
+ 
+You will see a listing of projects. If you click on one of the IP addresses, you can view the revision history and the differences from the previous config versions.  
+Note: The previous project called "networking" has been changed to "TR-Core".  The TR-Core project is intended to only include the Test Range Infrastructure network devices.  For devices that are part of a test, you should create a new project (refer to the section "Add a new RANCID project").
+Add a new RANCID project
+To add a new project to RANCID or add network devices to an existing project, run the script "add_rancid_project.sh" and follow the prompts.  The script will perform all the server configuration to instantiate a new RANCID project (or update an existing one).
+# sudo ~./add_rancid_project.sh
+Delete a CVSSource code management software project
+Delete the project from disk: sudo rm -rf /usr/local/rancid/var/CVS/<project_name>
+Remove project name from rancid.conf (Remove from line that reads: LIST_OF_GROUPS="project1 project2"): sudo vi /usr/local/rancid/etc/rancid.conf
+Rebuild CVS: sudo /usr/local/viewvc/bin/cvsdbadmin rebuild /usr/local/rancid/var/CVS/CVSROOT
+Restart apache: sudo service apache2 restart
+Run RANCID
+sudo -i -u rancid /usr/local/rancid/bin/rancid-run <project_name>
+Notes
+HG-Traning Config location: /usr/local/rancid/var/HG-Training/configs
+RANCID ssh known_hosts: /usr/local/rancid/.ssh/known_hosts
+Add network device:  sudo vi /usr/local/rancid/var/<project_name>/router.db
+Add/Change Username/Password:  sudo vi /usr/local/rancid/.cloginrc
+Run RANCID:  sudo -i -u rancid /usr/local/rancid/bin/rancid-run
+Execute command:  sudo -i -u rancid /usr/local/rancid/bin/clogin -c "<command>" <ip address>
+Execute list of commands on multiple devices:  sudo -i -u rancid /usr/local/rancid/bin/clogin -x "commands.txt" `cat ip_list.txt`
+
+commands.txt should contain the commands you want to run (one line per command). Note: Use "\n" if you command requires confirmation
+ip_list.txt should contain the IP addresses of the devices you would like to run the commands on (one line per IP addrress)
+
+ 
+Refer to the RANCID - NDB Lab   attachments for RANCID configuration instructions.
+
+Previous versions:
+| 1 
+| 2 
+| 3 
+| 4 
+| 5 
+| 6 
+| 7 
+| 8 
+|
+                    

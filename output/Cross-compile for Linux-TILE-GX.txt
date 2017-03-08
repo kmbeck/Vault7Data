@@ -1,0 +1,89 @@
+
+                        Cross-compile for Linux/TILE-GX
+MikroTik's line of Cloud Core Routers (CCM) utilize MikroTik's RouterOS with a 16-core TILE-GX processor.  The motivation was to cross-compile software for this OS/architecture variant.  The first toolchain (running as a VMVirtual Machine on foxtrot.edb.devlan.net with hostname tilegx-builder) described below was verified to work with the MikroTik CCR-1016-12G running RouterOS 6.27.  The CCR-1016-12G is a 1U rackmount switch/router with 16-cores, 1.2GHz TILE-GX processor and twelve 1Gbps ethernet ports.  The CCR-1016-12G's version of RouterOS 6.27 is a 64-bit kernel with 32-bit userspace.  For a C library, it uses glibc rather than uClibc (like RouterOS 4.X and 5.X).
+ 
+Cross-compiler has been installed in VMVirtual Machine for this purpose.  IP and credentials of the VMVirtual Machine can be found Development Devices and Hosts  .
+Instructions from readme.pdf (provided by ESD/NDB resource)
+
+CD Contents (can be found at //fs-01/EDB share/MikroTik (Tile-GX) cross compiler)
+readme.pdf – This file describes what’s on the disk
+RB-60-TILEGX-CC.tar.gz –file is the gzipped compressed gcc cross compiler for the tilegx architecture. The cross compiler includes a compiler for building 64-bit kernel modules and a compiler for building 32-bit user mode executablesexecutables.
+
+
+
+Installing – The compiler has to be installed in /usr/local. The 64-bit compiler is installed in /usr/local/rb-6.0-tilegx-unknown-linux-gnu and the 32-bit compiler is installed in /usr/local/rb-6.0-tilegx-unknown32-linux-gnu.  The installation steps are:
+cd /usr/local
+tar xf RB-60-TILEGX-CC.tar.gz
+sudo ./install.sh
+
+
+Using the cross compilers
+Build Host – The build host is assumed to running a 64-bit version of Ubuntu 14.04 with the appropriate 32-bit packages installed.
+Compiling kernel modules
+add /usr/local/rb-6.0-tilegx-unknown-linux-gnu/bin to PATH
+add CFLAGS_MODULE=-fno-asynchronous-unwind-tables to your kernel module Makefile
+use prefix tilegx-unknown-linux-gnu- when calling gcc, ld and binutils
+
+
+Compiling user modules
+add /usr/local/rb-6.0-tilegx-unknown32-linux-gnu/bin to PATH
+add /usr32/lib to LD_LIBRARY_PATH
+add –m32 to CFLAGS and to LDFLAGS
+use prefix tilegx-unknown32-linux-gnu- when calling gcc, ld and binutils
+
+
+
+
+Libraries
+Cross Compiled Libraries – The cross compiler includes 32-bit versions of openssl version 1.0.0.e and zlib version 1.2.3.
+Libraries used by the cross complier – Below is the contents of /usr32/lib on a 64-bit build server used to build 32-bit binaries
+32-bit Libraries:
+libgmp.a
+libgmpxx.a
+libmpc.a
+libmpfr.a
+libgmp.la
+libgmpxx.la
+libgmp.so
+libgmpxx.so
+libgmp.so.10
+libgmpxx.so.4
+libmpc.la
+libmpfr.la
+libmpc.so
+libmpc.so.3
+libmpfr.so
+libmpfr.so.4
+libgmp.so.10.2.0
+libgmpxx.so.4.4.0
+libmpc.so.3.0.0
+libmpfr.so.4.1.2
+
+
+64-bit librariesThe list of required 64-bit libraries is probably the same as the 32-bit list.
+
+
+
+
+
+Source Code – The kernel source code is in /usr/local/src.
+Notes –The kernel modules are built using BUILD_CONFIG which may or may not be what you want. The task_struct data structure does not align with the OEM.
+Changes –The primary change made is that kernel configuration file BUILD_CONFIG more closely matches the configuration used by the OEM. Fields in the sk_buff data structure appear to align with fields used by the OEM.
+
+Instructions from NSA/TAO
+ 
+Related articles
+
+Related articles appear here based on the labels you select. Click to edit the macro and add or change labels.
+
+('contentbylabel' missing)
+('details' missing)
+
+Previous versions:
+| 1 
+| 2 
+| 3 
+| 4 
+| 5 
+|
+                    

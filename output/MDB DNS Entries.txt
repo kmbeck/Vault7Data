@@ -1,0 +1,33 @@
+
+                        Using Poseidon and the NSX LP (used for NightSkies and RoidRage)
+ 
+Using Poseidon
+Use the following URLUniform Resource Locator for Poseidon:
+http://poseidon.devlan.net/Poseidon/default.aspx
+For the Poseidon user's guide:
+https://mdbtest.devlan.net/classified_documentation/Poseidon%207.1.1%20UsersGuide.docx
+Using the LP
+Configure your LPListening Post to the address:
+https://mdbtest.devlan.net/nsx/ini.php
+In order to add IDs to the LP, view jobs, logs, etc., use the following URL:
+http://mdbtest.devlan.net/lpadmin/admin.php
+To add jobs to the LP, create a job in Poseidon, download the job package, extract the .avc file and drop the file in the following share (Note: they will disappear immediately):
+smb://mdbtest/dropbox/
+Then verify that the job appears in:
+http://mdbtest.devlan.net/lpadmin/jobs.php
+When collected data arrives, it will appear in:
+smb://mdbtest/inbox/
+It should get pulled automatically to the import directory on Poseidon, but if it doesn't then you may need to move it to: smb://poseidon/import/
+Collected data will be processed and display in the Poseidon's device main page (Data Products).
+ 
+ 
+ 
+
+Previous versions:
+| 1 
+| 2 
+| 3 
+| 4 
+| 5 
+|
+                    

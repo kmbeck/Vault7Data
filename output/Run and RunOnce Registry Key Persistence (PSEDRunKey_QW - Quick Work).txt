@@ -1,0 +1,50 @@
+
+                        Scheduled Task Persistence (PSEDSchedTask_TP - TrickPlay)
+SECRET//NOFORN
+ 
+OSB Library: Persistence
+
+Module Name: PSEDSchedTask_TP (TrickPlay)
+ 
+Module Description: This module creates a scheduled task. When installing persistence with user privileges this modules sets the trigger to run a command at logon of the current user (as the current user). If running as Administrator or SYSTEM, the scheduled task is set to run as SYSTEM on system startup. The tasks are identified by the task name. This module uses COM for Task Scheduler 1.0 (works XP+). This means, however that all tasks have the same destination folder (Task Scheduler Library). If this module is used often it should be considered to change some parameters (such as start date) so that a signature is not built on the module.
+ 
+
+ 
+PSP/OS Issues: No known issues (XPWindows operating system (Version) - 8.1)
+ 
+('excerpt' missing)
+ 
+Sharing Level: Unilateral
+ 
+Technique Origin: In-house (Win32 APIApplication Programming Interface)
+ 
+Notes: 
+
+The module uses IsUserAnAdmin() to determine which task to set (SYSTEM or User).
+The start date for the module is 1/1/1999 (taken from an example online).
+To persist a dll, provide the properly formatted rundll command string.
+Uses MSTask.lib - Task Scheduler 1.0
+Task Flag is set to "hidden".
+Uses the COM interface (in C++)
+When scheduling for a user, the domain and username are used for the account information.
+
+ 
+ 
+SECRET//NOFORN
+
+Attachments:
+
+image2014-10-21 13:25:53.png
+
+
+Previous versions:
+| 1 SECRET
+| 2 SECRET
+| 3 SECRET
+| 4 SECRET
+| 5 SECRET
+| 6 SECRET
+| 7 SECRET
+| 8 SECRET
+|
+                    

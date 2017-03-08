@@ -1,0 +1,89 @@
+
+                        Owner: User #3375374
+Funny Code 2013a
+Funny Code post from 2013.
+Skipping Windows 8 Activation
+The default MDSN Windows 8 installation requires Product Key Activation in order to setup.  The following steps are useful in editing the MSDNMicrosoft Developer Network iso to enable the Skip button during the install.
+1.Extract the boot.bin from the msdn iso image. Download geteltorito.pl to help extract the boot image.
+./geteltorito.pl win8_image.iso > boot.bin
+2.  mount the win8_image iso to a folder. It is read only e.g. a DVDDigital Versatile Disk so after mounting copy the contents to a writable folder.
+
+mkdir win8_ro
+mount -t auto -o loop win8_image.iso win8_ro
+mkdir win8
+cp -r win8_ro win8
+
+3. Copy any modification into the win8 folder. In this case a file ei.cfg was added to win8/sources.
+[EditionID]Professional[Channel]Retail[VL]0
+4. Copy the boot.bin into the win8 boot directory. mkisofs requires the boot.bin be located in the image as a relative path is used.
+mkisofs -udf -b boot/boot.bin -no-emul-boot -hide boot.bin -relaxed-filenames -joliet-long -D -o ./new_win8.iso ./win8
+5. chmod and chgrp the new_win8.iso so the linux gui can burn the dvd. Just right click.
+6. The following iso is modified to enable skipping the Product Key prompt. [\\fs-01\share\OS DVDDigital Versatile Disk ISOs\Windows 8\skip activation modified]
+Skipping Breakpoints in Windbg
+Use windbg pseduo registers is helpful for breaking halfway through a loop. Espically, if the loop has a 100 iterations and it is not possible to modify the source code. The following command will break on the 103 call to InternetReadFile.
+r $t0 = 0; bp wininet!InternetReadFile "r $t0 = $t0 + 1; j $t0 < 67 'gc';''"
+Use Windbg to dumping in memory strings
+To scrape virtual memory to analyze the memory forensic characteristics. Dump strings in memory using windbg use the following command.
+0:003> .dump /mf "C:\Work\testing\bc16r3x64pnr.dump"Creating C:\Work\testing\bc16r3x64pnr.dump - mini user dumpDump successfully written
+Run Sysinternals strings on the .dump file using the following command.
+C:\Work\testing>strings.exe bc16r3x64pnr.dump > bc16r3x64pnr.strings.txt
+Slice
+Takes the input file, slices it into 1024 byte blocks, fills the blocks with random data, and generates a collection of files. The files that are not flagged by AVAnti-Virus must contain part of the AVAnti-Virus signature.
+slice.py
+Take the survivor block list from slice.py, generates 4 byte blocks, fills the blocks with random data, and generates a collection of files. The files that are not flagged by AVAnti-Virus must contain part of the AVAnti-Virus signature.
+slice2.py
+Debugging In Memory Dlls
+The following are procedures to get WinDbg to load symbols for injected memory code. First update the symbol path to include the location of the debugging symbols.
+srv*C:\WindowsSymbols*C:\Work\rdb\blackcrow\client\x64\Debug*\\ISIS\Symbols
+ Assuming the code has been injected into memory the following command will load debugging symbols for the dll.
+.reload /f /i client_x64.dll=poi(pImageBase)
+ It can be helpful to turn on verbose symbol resolution using the !sym noisy command.
+
+Comments:
+
+
+2013-07-12 10:21 
+[User #524297]: 
+
+OK, I created those spaces after all.  TOOLS and TRICKS! 
+Have at them!
+
+
+2013-07-12 09:59 
+[User #524297]: 
+
+Dude, this isn't funny code, this is good stuff.  Definitely the kind of stuff we should be sharing on here.  I agree there should be a better place for it.  
+The reason you didn't find it is because there wasn't a way to automagically import all the old stuff (at least, not without serious pain).  Which, honestly, is probably a good thing because it could stand some new organization and updating. 
+Two things:  
+
+To carve out a little personal area of the wiki, Create Your Own Personal Space in Confluence. 
+The source files might be better tracked in Stash in case they change, try Create a New Personal Project in Stash, and then link to it. 
+
+
+I'm thinking of making two new spaces that would encompass stuff like this.  Maybe "AED Tricks of the Trade" and "AED Tools of the Trade"? 
+There is an AEDTC space (only just started), which is where I figured we could gather some input for the TACTechnical Advisory Council Topic.  Could be updated for what we've chatted about recently though. 
+
+
+
+Attachments:
+
+
+geteltorito.pl
+
+
+slice2.py
+
+
+slice.py
+
+
+
+Previous versions:
+| 1 
+| 2 
+| 3 
+| 4 
+| 5 
+| 6 
+|
+                    

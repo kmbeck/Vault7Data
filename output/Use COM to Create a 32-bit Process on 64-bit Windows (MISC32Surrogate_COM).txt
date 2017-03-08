@@ -1,0 +1,40 @@
+
+                        Payload Deployment Modules: On Disk Executables
+LABEL PAGE: Child pages of this page will contain articles pertaining to payload deployment modules for on-disk executables.
+ 
+
+('children' missing)
+
+Sub-Pages:
+
+
+Create Process Using Temp Directory (LoadFromDisk_GHR - Gharial) SECRET
+
+
+Create A Process Via COM Class Creation (COMLocalServerRun_SHTA - Shasta) SECRET
+
+
+Create Process And Choose A User To Run As Via The Task Scheduler (TaskSchedulerRun_SPKL - Speckled) SECRET
+
+
+Create Process Via ShellExecute (ShellExecute_CRS - Chorus) SECRET
+
+
+Create Process Using WMI (CreateProcessWMI_TIG - Tiger) SECRET
+
+
+Create Process And Pipe The Results (CreateProcessPipe_GHRN - Greenhorn) SECRET
+
+
+Create Process As Current User +Admin (CreateProcessAsUser_LEP - Leopard) SECRET
+
+
+Create Process (CreateProcess_SPF - Spadefoot) SECRET
+
+
+
+Previous versions:
+| 1 
+| 2 
+|
+                    

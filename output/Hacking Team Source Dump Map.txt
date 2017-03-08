@@ -1,0 +1,109 @@
+
+                        Owner: User #20251227
+Hacking Team Source Dump Map
+Introduction
+At the beginning of July 2015, it was publicly disclosed that the Italian firm named Hacking Team had, in fact, been hacked.  By all accounts the entity or entities associated with performing the hack completely compromised the company's infrastructure.  Approximately 400GB of data from Hacking Team's infrastructure was publicly released as a torrent.  Additionally, it appeared as though Hacking Team's source code repositories were, in fact, included in the 400GB of released data.  Fifty-three (53) GITSource code management software code repositories which were in the data dump were copied to the public code sharing site known as GitHub.  The code contained in these repositories reportedly included source code to Hacking Team's product line(s) and support code.
+According to published reports, Hacking Team's main product line was an implant/backend combination package.  The GITSource code management software repositories included in the data dump apparently contain the source code for the various implants (differentiated by platform and capabilities), the backend/implant management component(s), and a variety of other items (e.g., exploits, UEFIUniversal Extendible Firmware Interface frameworks).  Public reports indicated that there were around six different 0-day exploits included in the data dump (since patched), an Apple enterprise signing certificate for iOS applications (since revoked), and various other items.  Other reports mentioned an internal fuzzing effort that Hacking Team was conducting against font files.
+In the interest of learning from and leveraging existing work, it was decided to review selected pieces of the publicly dumped data.
+Initial Review
+In August of 2015, we performed an initial review of a few selected repositories that were obtained from GitHub.  These specific repositories contained source code which was focused on the implementation of implants for the Windows platform.  This source code demonstrated a variety of capabilities (e.g., audio capture).  "Capability" maps were created which mapped a certain capability (e.g., browser credential stealing) to individual source files found in the repositories.  The maps created in August of 2015 are located on DevLan at:
+Note that no effort was made to build and/or test the source code, either in whole or in part.  Thus, if one is interested in using some implementations found in the source code, it should be considered a best practice to extract the desired pieces, and thoroughly review and test the extracted pieces.  The quality of the code included in the repos is unknown.
+Large Scale Triage
+In the latter part of September 2015, it was decided that an expanded review of the publicly dumped Hacking Team data (not just the code repositories) was warranted.  To give one an idea of scope, the data associated with the torrent was approximately 380GB and contains over 166,000 files in roughly 20,000 directories.  The aforementioned file count does not include source code file & directories found in the 53 previously mentioned GITSource code management software code repositories.  The data dump includes everything anyone could imagine that a company would have in their infrastructure.  This ranges from business documents (e.g., ~8,500 Word files, ~6,400 Excel spreadsheets), to various source code found in individual revisions ( e.g., one repository's current revision contained 3,781 ".c" source files).  There were also items which appeared to be archives of source code & associated files dating back into the mid/early 2000's.  The "directories of supporting interest" (and comments about same) are:
+With respect to the previously mentioned source code repositories,  These were divided into the following subject categories:
+
+MOBILE
+UNIX/LINUX
+WINDOWS
+MAC
+ALL PLATFORMS
+BACKEND/MANAGEMENT
+MISCELLANEOUS
+
+These categories, the names of the repositories placed into the categories, and associated data follows.
+Repository Categorization
+The key to reading the following is:
+<repository name>; Repository size; comments
+The repository size was determined by cloning the repo and observing the amount of disk space taken up by the repository, NOT the size of the checked-out revision. 
+No organized attempt was made to examine repository stats such as earliest revision,  number of commits, etc.  That being said, some informal review indicates that there are repositories which date back several years and have a multitude of commits.  Additionally, except for the few repositories subjected to the previously mentioned initial review, no further analysis was performed on the repositories other than to categorize them and gather some basic statistics.
+MOBILE
+core-android-audiocapture; 308MB; -
+core-android; 262MB; -
+core-android-market; 362MB; -
+core-android-native; 65MB; -
+core-blackberry; 172 MB; -
+core-ios; 348MB; -
+core-symbian; 15MB; -
+core-winmobile;20MB; -
+core-winphone; 304MB; -
+shshget; 1MB; Ruby code, related to Apple devices
+vector-rmi; 1MB; Windows code that interacts with mobile devices
+fuzzer-android; 432MB; -
+UNIX/LINUX
+core-linux; 159MB; -
+core-linux.git.old; -; -
+WINDOWS
+core-win32; 85MB; -
+core-win64; 453kB; -
+driver-win32; 297kB; -
+driver-win64; 330kb; -
+scout-win; 512MB; implant code
+soldier-win; 8MB; implant code
+core-packer; 1MB; packer/protector?
+melter; 70kB; Trojan-izer
+libmelter; 322kB; -
+libpemelter; 171kB; -
+vector-default; 68MB; Something related to the melter
+vector-recover; 674kb; Get file(s) via WinHTTP & exec same
+vector-silent; 78MB; dropper/1st stage
+fuzzer-windows; 114MB; -
+MAC
+core-macos; 48MB; -
+driver-macos; 347kB; -
+vector-macos; 53kB; -
+ALL PLATFORMS
+vector-dropper; 53MB; droppers/1st stage for all platforms
+vector-exploit; 451MB; exploits, shellcode
+vector-offline; 1MB; installer for Hacking Team product?
+vector-offline2; 132MB; installer for Hacking Team product?
+BACKEND/MANAGEMENT
+Note that the vast bulk of the code in this category appears to be Ruby-based.
+rcs-common; 10MB; -
+rcs-backdoor; 359kB; -
+rcs-db-ext; 657MB; -
+rcs-db; 3.4GB; -
+rcs-anonymizer; 14MB; -
+rcs-anonymizer.git.old; -; -
+rcs-collector; 8MB; -
+rcs-console; 78MB; -
+rcs-console-library; 13MB; -
+rcs-console-mobile; 331kB; -
+MISCELLANEOUS
+poc-x; 665kB; Unknown Proof of Concept.  Repo looks to be a hodge podge of Ruby-based network comms
+test-av; 53MB; anti-anti-virus testing
+test-av2; ; 53MB; anti-anti-virus testing
+vector-applet; 8MB; Java for HTMLHypertext Markup Language injection?
+vector-edk; 287MB; UEFIUniversal Extendible Firmware Interface dev framework & work on a UEFI-based persistence mechanism
+vector-ipa; 3MB; Network/Proxy injection?
+vector-ni; 43GB; hodge-podge of network/wireless related 3rd party libraries, binaries, etc.
+gitosis-admin; config files for the gitosis git repository backend/management.
+ 
+
+Comments:
+
+
+2015-09-28 13:29 
+[User #1179817]: 
+
+Nice job!
+
+
+
+Previous versions:
+| 1 
+| 2 
+| 3 
+| 4 
+| 5 
+|
+                    

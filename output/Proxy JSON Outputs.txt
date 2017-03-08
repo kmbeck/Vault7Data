@@ -1,0 +1,36 @@
+
+                        Proxy JSON Outputs
+The Que Proxy can output list commands as JSONJavascript Object Model strings.    Here are some details.
+JSON
+The data is in the form of a dictionary:
+
+view:  low, working, or high  (string)
+lasttime:  number of seconds ( from )  (number)
+elapsed:  seconds since last update from LPListening Post (number)
+respno:  the last response sequence number from LPListening Post (number)
+cmdno: the last command sequence number on C2 (number)
+taskno: the last number used for creating unique, one up, task ids (number)
+sync:  if the last command sequence number from the LPListening Post matches the last one sent (boolean)
+queue: a (list) of  tasks in order,  each task is a JSONJavascript Object Model dumps (string) 
+index: order number of task, starting with 0  (number)
+id: unique id assigned to task,  it is also the file name (string)
+long:  long description,  should be the original assassin command (string)
+short: short description,  default is original file name,  meant for compact display (string)
+added:  timestamp of last action in same numeric format as lasttime (number)
+user:  OSOperating System username of user when last action performed (string)
+status:   new, sent, or low (string)
+
+
+
+Task status
+
+new are tasks due to changes that have not been committed
+pending are tasks that have been committed (seen in high view)
+low are tasks on the LP
+
+Example
+
+Previous versions:
+| 1 
+|
+                    

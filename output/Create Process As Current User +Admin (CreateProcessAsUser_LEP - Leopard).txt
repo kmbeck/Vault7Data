@@ -1,0 +1,61 @@
+
+                        Create Process Using WMI (CreateProcessWMI_TIG - Tiger)
+SECRET//NOFORN
+ 
+OSB Library: Payload Deployment
+
+Module Name: CreateProcessWMI_TIG - Tiger
+ 
+Module Description: This module uses WMIWindows Management Instrumentation to execute a command/create a process. Since there is a level of indirection (the caller is not the process doing the CreateProcess call), no handle to the created process is returned. The payload, if supplied, is written to a user configurable location with user configurable attributes. Quotes are placed around the target path, not the arguments passed to the process.
+ 
+PSP/OS Issues: PSPs should be tested on a per case basis.
+ 
+('excerpt' missing)
+ 
+Sharing Level: Unilateral
+ 
+Technique Origin: In-house module development, internet/open-source technique
+ 
+Notes: 
+
+Uses WMIWindows Management Instrumentation to create the process, levels of indirection can help when getting caught by PSPs
+No handle to the created process is returned
+PSPs should be checked on a per tool basis.
+
+ 
+Module Specific Structures: 
+
+struct PARAM_TIG //action type = 1
+{
+	WCHAR   *wcTargetPath;		//The target path of the executable to be executed.
+	WCHAR	*wcArgs;			//Arguments to be passed to the created process
+	DWORD	dwAttribs;			//Attributes of the file on disk
+};
+
+
+ 
+ 
+Example Code:
+ 
+LPHANDLE lpHandle = NULL;
+
+
+IPayload *myPayload = new CreateProcessWMI_TIG();
+
+
+PARAM_TIG params;
+params.dwAttribs = FILE_ATTRIBUTE_NORMAL;
+params.wcTargetPath = L"C:\\Test Folder\\MyTest.exe";
+params.wcArgs = L"1 2 3";
+
+
+IPayload::PayloadErr pErr = myPayload->execute(improvedDummy, sizeof(improvedDummy), ¶ms, sizeof(params), lpHandle);
+ 
+ 
+SECRET//NOFORN
+
+Previous versions:
+| 1 SECRET
+| 2 SECRET
+|
+                    

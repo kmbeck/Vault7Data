@@ -1,0 +1,39 @@
+
+                        Owner: User #71475
+Running undermine tests in PyCharm
+The new_leafbag template project for DARTTest-Software (commercial) tests contains a script, undermine_debug.py, that will run the undermine command completely within Python. This allows you to attach a Python debugger, like PyCharm. Assuming your DARTTest-Software (commercial) leafbag is setup from new_leafbag, and you're already using PyCharm to edit your DARTTest-Software (commercial) tests, follow the steps below to add a Debug Configuration in PyCharm.
+Step-by-step guide
+
+Add a new Python Interpreter for your project by clicking File > Settings > Project: <ProjectName> > Project Interpreter, then click on the configuration cog at the top right and choose Add local
+
+Select /home/user/dart/tyrant/tybase/PythonLocal/python, then press OK to close the settings dialog
+Add a new Debug Configuration by clicking Run > Configurations
+
+Click the green + at the top left of the window to add a new configuration
+Setup the configuration using the screen shot below as a guide
+Save the configuration
+Add a breakpoint to your run function in your test and click debug
+
+ 
+Pay close attention to the Python Interpreter and LD_LIBRARY_PATH configurations when adding your configuration
+ 
+
+ 
+The script parameters are passed directly to undermine, so use the same format as normal
+Because of the craziness that is tybase/tyworkflow, PyCharm may open the same source file using a different path. The breakpoints will still work, it just might look weird in PyCharm.
+Related articles
+
+Related articles appear here based on the labels you select. Click to edit the macro and add or change labels.
+
+('contentbylabel' missing)
+('details' missing)
+
+Attachments:
+
+debug_configuration.png
+
+
+Previous versions:
+| 1 
+|
+                    

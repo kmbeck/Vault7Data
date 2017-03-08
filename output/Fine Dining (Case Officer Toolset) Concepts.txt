@@ -1,0 +1,214 @@
+
+                        Fine Dining (Case Officer Toolset) Concepts
+ 
+Scenarios
+
+
+Operator
+TargetTarg
+ Device
+
+
+Case Officer
+Asset
+Computer/Tablet (Surface) 
+
+
+Case Officer 
+Asset 
+Removable Media (CD\DVD\Thumb Drive\SD Card\External Hard Drive\Mobile Device\Truecrypt Containers) 
+
+
+Case Officer 
+Developmental 
+Computer/Tablet (Surface) 
+
+
+Case Officer 
+Developmental 
+ Removable Media (CD\DVD\Thumb Drive\SD Card\External Hard Drive\Mobile Device\Truecrypt Containers)
+
+
+Asset
+Foreign Entity 
+ Computer Network (Tablets, Workstations, Laptops, Servers, Kiosks)
+
+
+Developmental
+Foreign Entity 
+ Computer Network (Tablets, Workstations, Laptops, Servers, Kiosks) 
+
+
+ 
+Case Officer Configuration Options
+Case Officer's are allowed to configure a subset of the full capabilities of the provided tools. To configure a tool for an operation the case officer must answer a set of questions about the operation. The provided tool will then be configured based upon the answers to the questions.
+ 
+Current list of Case Officer tool configuration questions (assuming they wish to configure a new drive for an operation - they must first create a case/op file):
+
+Who will be the operator of the tool?
+
+Case Officer or TIOTechnical Information Officer (Only allow case officers to run removable media collection
+Asset
+Developmental
+Liaison or Liaison Asset
+
+Who is the target of the collection?
+Asset
+Developmental
+Liaison Asset
+Foreign Information Operations
+Foreign Intelligence Agency
+Foreign Government Entity
+System Administrator or Comparable Technical Target
+ Other
+
+
+Will the operator of the tool be watched while the collection is occurring?
+Yes
+No
+Unknown
+
+
+Does the target machine reside in a Hard Target country?
+Yes
+No
+
+
+Do you intend to collect data from the targets Removable Media (Thumb Drive, SD Cards, CDs, etc) or from the targets machine (Laptop, Desktop, Surface, or Server)?
+Removable Media
+Machine
+
+
+What is the target?
+Laptop
+Desktop
+Windows Server
+Microsoft Surface
+Unknown
+
+
+What is the Operating System running on the target machine?
+Windows XP
+Windows Vista
+Windows Seven
+Windows 8/8.1
+Windows 10
+Unknown
+
+
+If known, check applications running on the machine (will have a list of known PSPs, Data Loss Prevention Software, USBUniversal Serial Bus protection, and monitoring tools)
+PSPs
+DLP, USBUniversal Serial Bus Guard?
+Monitoring Tools
+Unknown
+
+
+Is the machine connected to the internet?
+Yes
+No
+Unknown
+
+
+Will you have recurring access to the target?
+Yes
+No
+Unknown
+
+
+How much time will you have on target?
+< 1 minutes
+< 5 minutes
+5 - 10 minutes
+10 - 30 minutes
+30+ minutes
+
+
+Data Path (internal routing)?
+Would you like a survey of the target machine to be collected (recommended)?
+
+Yes
+No
+
+What information about the machine would you like to obtain?
+Geo-locational (How aggressive?)
+ User Information / Positive Identification
+Counter Intelligence / ARMS
+Pattern Of Life
+Return Information
+General Machine Information (How aggressive should network be?)
+
+
+Would you like to collect files on the target machine?
+Yes
+No
+
+
+What types of files would you like to collect?
+
+Office Documents (Microsoft Office, Open Office, Adobe PDFPortable Document Format Documents (Word, Excel, Powerpoint granularity?)
+Images
+Audio
+Video
+Custom File Formats
+
+Does the operator have administrator access on the machine?
+Yes
+No
+Unknown 
+
+
+Questions regarding cover application 
+Operation Crypt and/or Asset Crypt (Internal Tracking Purposes Only)
+Feature Request (Internal Uses Only)
+
+ 
+Notes and Future Plans
+A toolset to allow TIOs and maybe Case Officers to do offline installs 
+ 
+Operation Organization:
+Everything stored in "Case Folders" with "Operation Files" that way a case can have multiple operations, etc
+Keep Backup copies of all case files
+An operation file should be referenced for searching, post processing, and configuring
+ 
+UI functionality:
+Find drives for them when post processing (automate as much as possible)
+Report Status of Post Processing Drives
+Collection Directory opened for them
+Separate Triage Into Categories
+Summary Sheets for surveys
+Prepare the drive for them (formatting and all)
+ 
+Potential Initial Set Of Execution Vectors:
+VLC Player
+Irfan View
+Portable PSPs (ClamAV, Kaspersky Anti-RootKit, McAfee, etc)
+Backup Software
+Document Viewer
+Note Taker
+Portable Browser
+Portable Mail Viewer
+2048, Sudoku, something else
+Portable cmd replacement - CMDER
+Sandisk Vault or U3 software
+Double-Click (Kamikaze style)
+ 
+Misc:
+Reporting Line For Issues/PSP Security Triggers
+Kill Date of 6 months from deployment?
+What if the target wants a copy of the application? - Self-Delete If Not Run From Volume
+Flashcards
+Instruct to not list available tools to target?
+Migrate From App To DLLDynamic Link Library Host Using COM in Stub?
+ 
+ 
+ 
+ 
+ 
+
+Previous versions:
+| 1 
+| 2 
+| 3 
+| 4 
+|
+                    

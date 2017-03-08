@@ -1,0 +1,56 @@
+
+                        Owner: User #524297
+Tool Pedigree
+ 
+ 
+ 
+
+
+
+
+ 
+Philosoraptor v1.0
+Tool Pedigree
+15 Dec 2014
+Table of Contents
+
+('toc' missing)
+(U) Origin
+(S//NF) Internally developed by AED/OSB.  User #1179751, lead developer.  User #524297, consultant.
+(U) Compiler Information
+(U) Microsoft Visual Studio 2013
+(U) Libraries/Shared Source Used
+(S//NF) Philosoraptor project was initialized using the OSBOperation Support Branch Project Wizard templates.
+(S//NF) Philosoraptor depends on the following components from the OSBOperation Support Branch Library:
+
+CoreLib
+PayloadDeployment
+
+ 
+(U) Techniques Used
+(S//NF) All techniques in the Philosoraptor tool are commonly known in the open community. 
+(U) APIApplication Programming Interface Calls
+(S//NF) API Calls made into the operating system
+ 
+ 
+ 
+
+Attachments:
+
+
+ioc-logo.png
+
+
+edg_logo.png
+
+
+edg_logo_original.png
+
+
+
+Previous versions:
+| 1 
+| 2 
+| 3 
+|
+                    

@@ -1,0 +1,14 @@
+
+                        Registry Information
+LABEL PAGE: Child pages of this page will contain code snippets pertaining to registry informaiton.
+ 
+
+('children' missing)
+
+Sub-Pages:
+
+
+Create, Delete, and Write Registry Values (MISCCreateRegistryEntries_WIN32) SECRET
+
+
+                    

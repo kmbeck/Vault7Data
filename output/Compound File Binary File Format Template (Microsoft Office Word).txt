@@ -1,0 +1,92 @@
+
+                        SweetScape Binary Template Archive
+ 
+Pulled all of the 010 Binary Templates from their site. Templates allow for easy parsing of file formats. 
+ 
+Templates
+AVI Movie File Template (.avi)
+Bitmap Image Template (.bmp)
+Microsoft Cabinet File Format Template (.cab)
+Parse Java card CAP file with bytecode disassembler (.cap)
+Simple CDA Template to read Audio CDCompact Disk Header Information (.cdx)
+Java Class (JVM) File Template
+Java Class Files (.class) template
+Parse Java Class (JVM) Files Full (Visualize bytecode) Template
+Packaged Google Chrome Extensions Template (.crx)
+DBF (database) Format Files Template (.dbf)
+Android DEX File Template (.dex)
+Microsoft Memory Dump File Template (.dmp)
+Extended Display Identification Data Template (.edid)
+ELF Template: 32/64bit, big/little endian, decode elf, prgoram, and section headers, decode dynamic symbol table entries
+Enhanced Metafile Format Template (.emf)
+Embedded Open Type Template (.eot)
+Decomposes Video Symbol Stream Files for E-8VSB modulation as per ATSCAdvanced Television Systems Committee (Digital Television Standard) Digital Television Standard (A/53)
+Set of templates for parsing Microsoft Windows Event Log (.evt)
+Executable File Template (.exe)
+Alternate Executable File Template: Parses Exe and Dll file headers (.dll, .exe)
+Microsoft exFAT file system Template (exFAT)
+FAT16 File System Template (fat16)
+Flash Video File Template (.flv)
+GeoTiff Template (.tiff subset)
+Graphics Interchange Format Template (.gif)
+GOCLEVER GPS Navigation Log Format Template
+GZip data/files Template (.gz)
+Icon Files Template (.ico)
+ISO Base Media File Format Template (QuickTime, JPEG2000, MPEG-4, etc)
+JPG Image File Template (.jpg, jpeg)
+Microsoft Shortcut Template (.lnk)
+Linux Unified Key Setup Template (LUKS)
+Macho-o Binary Template (MachO)
+Master Boot Record Template (mbr)
+Mifare 1k Structure Highlighting
+Mifare 4k Structure Highlighting
+Amazon Kindle mobipocket Template (.mobi, .azw, .prc)
+MP3 Music File Template (.mp3)
+Cisco Netflow Version 5 Format Template
+OGG Container Format Template (.ogg)
+Microsoft PAL Palette File Template (.pal)
+Network Capture File Template (.pcap)
+PCX Bitmap Header Template (PCX)
+Portable Document Format Template (.pdf)
+PE File Template (.exe, .dll, .sys)
+PNG 1.2 Template (.png)
+Portable Network Graphics File Template (.png)
+WSUS Patch Storage File Template (PSF)
+Python Bytecode Template (.pyc, .pyo - 2.4 through 2.7)
+RAR 2.x, 3.x, and SFX RARFile compression algorithm Archive Template (.rar)
+QQ's RDBRemote Development Branch File Template (RDBRemote Development Branch)
+Windows Registry Policy File Template (registry.pol)
+Template for Parsing and Reverse Engineering RomFS images (ROMFS)
+ESRI SHP File Template (.shp)
+ESRI SHX File Template (.shx)
+Images of Emulated Sinclair Microdrive Cartridges Template
+Motorola S-REC Format Template (S-REC)
+SmartSniff Packet File Template (ssp)
+STL Binary File Template (CAD)
+Adobe Flash SWF File Template (.swf)
+TGA Image Template (TGA)
+Tagged Image File Format Template (.tiff)
+Eudora 7.x Mailbox Index File Template (.toc)
+TrueType Font Template (.ttf)
+UTMP and WTMP Login Log File Template
+WAV File Template (.wav)
+Advanced WAVWaveform Audio Format File Template (.wav)
+WinHex POS File Template (.pos)
+Windows Metafile Format Template (.wmf)
+ZIP Archive Template (.zip)
+Advanced ZIP Archive Template (.zip)
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+Previous versions:
+| 1 
+| 2 
+|
+                    

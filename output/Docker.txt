@@ -1,0 +1,160 @@
+
+                        Owner: User #2064619
+Cuckoo Sandbox
+
+
+
+Overview
+Cuckoo is an open source automated malware analysis system.
+It’s used to automatically run and analyze files and collect comprehensive analysis results that outline what the malware does while running inside an isolated Windows operating system.
+It can retrieve the following type of results:
+
+Traces of win32 APIApplication Programming Interface calls performed by all processes spawned by the malware.
+Files being created, deleted and downloaded by the malware during its execution.
+Memory dumps of the malware processes.
+Network traffic trace in PCAPPacket capture format format.
+Screenshots of Windows desktop taken during the execution of the malware.
+Full memory dumps of the machines (including automatic running of Volatility).
+
+For answers to general questions see: cuckoo.pdf
+cuckoo-current.tar.gz
+ 
+
+
+Instance
+An in-work instance is at http://10.3.2.118:8080/. The instance has a 32-bit Windows XPWindows operating system (Version) SP3 sandbox and a 32-bit Windows 7 SP1 sandbox. Both sandboxes are limited to "host-only" networking and will not be able to resolve external network resources on DEVLAN (see TODO).
+ 
+
+
+
+Analyzing ICEIn-memory Code Execution modules
+An ICEIn-memory Code Execution DLLDynamic Link Library module analysis package is available (its also still in-work; so please report any bugs you find). It will take the "sample" and run it using RICE 1.0. Currently it only supports ICEIn-memory Code Execution Fire and Fire and Forget modules.
+In order to submit a sample to cuckoo and have it run it as an ICEIn-memory Code Execution module, take the following steps:
+
+Zip up the ICEIn-memory Code Execution DLLDynamic Link Library and META.xml into a zip file. For ease of submission, ensure the .META.xml file has the same name as the DLL. (i.e. ice.zip has 2 files: ice.dll and ice.dll.META.xml)
+Open a browser to http://10.3.2.118:8080/submit/
+
+Click Select and then select the zip file containing the ICEIn-memory Code Execution module and META.xml file.
+Next click Advanced Options to expand the submit form
+Select "ice_dll" as the Analysis Package.
+In the Options field enter "file=[ICE DLLDynamic Link Library FILE],rice_arguments=[--Fire|–FireAndForget]
+For Machine select cuckoo_win7 as the vm to run the sample in.
+Finally click 'Analyze' to submit
+Once submitted sucessfully, click Recent to see status.
+
+ 
+Available Options for the ice_dll analysis package:
+
+file: The name of the file in the zip to use as the ICEIn-memory Code Execution DLL.
+metadata: The name of the file in zip to use as the ICEIn-memory Code Execution v3 metadata xml filedefaults to file.META.xml
+
+arguments: arguments to be passed to the ICEIn-memory Code Execution DLLDynamic Link Library upon execution.
+rice_arguments: arguments to be passed to rice (typically --Fire or --FireAndForget)
+
+
+
+
+
+TODO
+
+
+ID
+Status
+Task
+
+
+1
+incomplete
+64-bit: Test out 64-bit support – no mention of limitation to 32-bit windows for cuckoo.
+
+
+
+2
+incomplete
+DEVLAN Infrastructure:
+
+ID
+Status
+Task
+
+
+3
+incomplete
+physical home
+
+
+4
+incomplete
+cuckoo.devlan.net 
+
+
+5
+incomplete
+static IP
+
+
+9
+incomplete
+Perhaps add resolvable network resources for testing implants (but the C&C lives outside the sandbox -- still in the same host-only network?)
+
+
+
+
+
+6
+incomplete
+ICE analysis package: Add support for ICEIn-memory Code Execution FireAndCollect and FireAndInteract modules.
+
+
+7
+incomplete
+Dirty word scanner
+
+
+8
+incomplete
+Cross-correlation: Explore search and database features – can we have it generate reports with "similar" samples?
+
+
+
+
+
+Comments:
+
+
+2014-11-12 09:11 
+[User #524297]: 
+
+fantastic
+
+
+
+Attachments:
+
+
+cuckoo-current.tar.gz
+
+
+image2014-11-10 14:8:56.png
+
+
+image2014-11-10 14:8:28.png
+
+
+cuckoo.png
+
+
+cuckoo.pdf
+
+
+
+Previous versions:
+| 1 
+| 2 
+| 3 
+| 4 
+| 5 
+| 6 
+| 7 
+|
+                    

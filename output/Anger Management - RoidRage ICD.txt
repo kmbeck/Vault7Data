@@ -1,0 +1,7 @@
+
+                        Droid Bamboo Agent
+Builds not running? Build in queue for 2938102938901 minutes?
+ssh bamboo@mdblinux.devlan.net -> have User #? add your public key to be able to log in
+sh /home/bamboo/bamboo-agent-home/bin/bamboo-agent.sh status
+sh /home/bamboo/bamboo-agent-home/bin/bamboo-agent.sh start
+                    

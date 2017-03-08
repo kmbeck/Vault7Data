@@ -1,0 +1,82 @@
+
+                        Queue
+Purpose
+The Queue program,  queue, provides command line access to the queue implementation on the LP.    The user interface (UIUser Interface) and the transport use this program.
+Usage
+Command Line
+queue -q <que_id> command [parameters]
+Returns
+Return Codes
+These are incomplete,  actual numbers to be refined and may./will change during development
+0 - success
+1 - unspecified
+2 - invalid arguments
+3 - queue does not exist
+4 - no data
+5 - file does not exist
+6 - queue already exists
+Stdout
+filepath of next task file to implant
+Notes
+
+Only one positional parameter (aka command) per execution
+Operating system numeric return code code
+next parameter returns full path to next task file via stdout
+
+There are no user locks for the queue.  A hard lock is used during execution, which should take only milliseconds
+
+Examples
+queue -q boss0042 ingest --file=changes.tar                              // processes command in changes.tar file (usually queue changes from C2), then deletes file
+queue -q boss0042 next  /d/cgi/files/filename                             // copy the next task file (e.g. filename)  in queue to /d/cgi/files/filename
+queue -q boss0042 clone --to  empl0001                                   //  clone queue boss0042 to make queue empl0001
+queue queues                                                                             // list all queue names to stdout, one per line
+Breakdown
+command = next | delete| ingest | exist | clone | create | queues | list
+next - Copy the next task file on queue and print task-id to stdout,  return "no data" error code if queue empty
+delete- Remove task file specified by --from from queue, and send queue update to C2
+ingest - process tar file (full filepath required) specified (with -f) then delete file. Usually queue updates from C2
+exist - return "queue does not exist" or "no error" depending on existence of queue
+clone - copy specified queue structure/files to create a new queue specified by -to parameter
+create - create new queue with default structure/files named by -q parameter
+queues- list queue names on LP, one per line, to stdout
+list - list queue ids (aka tasks)  in queue order, one per line, to stdout
+parameters = [parameter] [parameters]
+parameter =
+-q --queue <queue id>
+-f --file <task_file | tar_file>      // required for succeed, fail, delete, or ingest
+--to <que_id>                         // required for clone
+queue id - alphanumeric, at least 5 alphanumeric (first 4 are parent id)
+task_file - file name of file (aka queue id)  to be deleted (succeed) from queue
+tar_file - file name of tar file to be processed / ingested
+Program Help Output
+queues.py -h
+usage: queues.py [-h] [-q QUEUE] [-f path] [--to TO] [--from SOURCE] command
+Queue.
+positional arguments:
+  command               Allowable: clone, create, delete, exist, ingest, list, git loqueues, next, remove
+optional arguments:
+  -h, --help            show this help message and exit
+  -q QUEUE, --queue QUEUE
+                        Queue to use
+  -f path, --file path  Path to a tar file or path for next command
+  --to TO               Specify cloned queue name
+  --from SOURCE         Specify item name to delete
+ 
+ 
+
+Previous versions:
+| 1 
+| 2 
+| 3 
+| 4 
+| 5 
+| 6 
+| 7 
+| 8 
+| 9 
+| 10 
+| 11 
+| 12 
+| 13 
+|
+                    

@@ -1,0 +1,58 @@
+
+                        Owner: User #14587667
+NS1 - DNS (BIND) Server
+Description: This BINDDNSDomain Name System server software server will function as a DNSDomain Name System server for Test Range testing.
+IP Address: 172.20.13.31/24
+OS: Ubuntu Server 14.04 LTSLong Term Support x64
+VM Name: BIND-ns1-UbuntuServer 14.04 172.20.13.31
+Username/Password: ubuntu/password
+Hostname: test-ns1
+Resolves Domains: 
+
+google.com
+cnn.com
+blot.com
+
+Bind Config Location: /etc/bind
+Background
+In DNSDomain Name System terminology, a domain is referred to as a 'zone'.  Each zone has its own zone file which defines hosts and IP addresses for its respective zone.
+Add a new host to a Zone
+
+Edit the file /etc/bind/db.<domain name>.For example, if the zone is loki.lab, the file will be /etc/bind/db.loki.lab.
+
+Once all edits are complete, check the zone file by issueing the command:
+$ sudo named-checkzone <domain name> db.<domain name>
+For example, "sudo named-checkzone loki.lab db.loki.lab
+
+
+If there are no errors, reload BIND.$ sudo service bind9 reload
+
+
+Create a new Zone
+
+Edit the file /etc/bind/named.conf.localCreate a new zone section and point to the zone file "/etc/bind/db.<domain name>.  Note: The actual zone file will be created in the next step.For example, if the zone is loki.lab, point to the file /etc/bind/db.loki.lab".
+
+
+Create a new zone file by copying db.local for the new domain name.
+For example, if creating the zone loki.lab, execute the command "sudo cp db.local db.loki.lab".
+Edit the zone file by adding new hosts (Follow the instructions in the section titled "Add a new host to a Zone")
+
+
+
+Check the BINDDNSDomain Name System server software config
+$ sudo named-checkconf
+
+
+Reload BIND
+$ sudo service bind9 reload
+
+
+ 
+
+
+Previous versions:
+| 1 
+| 2 
+| 3 
+|
+                    

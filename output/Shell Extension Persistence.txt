@@ -1,0 +1,21 @@
+
+                        Shell Extension Persistence
+Windows Explorer (explorer.exe) supports various types of extensions that can be used to add functionality to the default Windows shell. For example:
+
+Context menu handler
+Drop handler
+Icon handler
+Property sheet handler
+Icon overlay handler
+Column handler
+
+Each of these extensions takes the form of a COM DLL that gets loaded into Windows explorer. While any of these handlers could be used to provide persistence for an implant, there are reasons why some are better suited for this than others. For example, the context menu handler and icon handler are only loaded into explorer when they are needed (and are then typically unloaded). This means that they cannot be relied on to load at the beginning of a user’s session (or at any time). The icon overlay handler is loaded into explorer at the beginning of a session, making it a good option for persistence.
+Windows explorer will unload any extension that does not comply with the appropriate shell extension COM interface. In Windows XPWindows operating system (Version) this verification process is taken further with the VERCLSID application which loads extensions prior to EXPLORER and then forceably terminates them if they do not adhere to the correct interface. To avoid having to implement the required interface, we can use code that will pretend to support the desired interface when being tested with VERCLSID, but will return a E_NOTIMPL when queried by explorer. This results in a DLL that can be used as any type of shell extension.
+This technique achieves persistence, stealth, and (in some cases) PSP avoidance.
+ 
+Source
+Based on internet code
+ 
+Component Reuse
+StepStool 1.0
+                    

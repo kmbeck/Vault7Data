@@ -1,0 +1,96 @@
+
+                        Owner: User #14587612
+SOHO Triage
+When a new target is identified by COG, some initial analysis must be done to understand what implant(s) are best suited to the device.  This article explains how to conduct this initial triage.  After this is complete, further testing of the implant must be performed with the environment matching the target (e.g. firmware version, encapsulation type, etc.)
+Step-by-step guide
+These steps assume COGComputer Operations Group has provided the make/model of the device, and ideally the firmware version running on it.
+
+Install pre-req software.  These can be downloaded, User #14587612 also has copies on Devlan.  Installation instructions are inclucded in each
+firmware-mod-kit (FMK)
+binwalk
+sasquatch
+
+
+Download firmware from the target device manufacturer's website.  It's good OPSEC to use 4star exit points other than DC.  Note that often manufacturer's differentiate HW versions within a particular device model, and have different firmware for it.  It's not often that they radically change the OSOperating System or architecture between HW versions, but it has happened.  If you don't know the HW version, grab one firmware version of each so that you can compare
+
+Identifiy an execution vector for the target.  This may be a public exploit (Google) or a tool developed in EDGEngineering Development Branch (WGBWireless Geo-location Branch maintains a spreadsheet of exploits that describes their targets).
+Use firmware-mod-kit to attempt to extract the firmware image.
+/opt/firmware-mod-kit/extract-firmware.sh <file>
+If you get an error during extraction, see below.
+
+
+Navigate to the fmk/ dir to the extracted file system and attempt to determine the OS.  If FMK was able to successfully extract, it's probably Linux running busybox and some version of uClibc.  In this case, Cannoli is probably a good implant to use.  
+Look for executables in the filesystem (e.g. /usr/sbin, /bin).  Run "file <executable>".  The results will tell you the instruction set architecture (ISA) that the device uses.  This, along with the OS, will tell you what implant you should attempt to get running on the device.  See notes below for list of current SOHOSmall Office / Home Office implants.
+
+Note: Steps 8 - 18 assume that you have an exemplar device on hand to test with and you are testing Cannoli.  The commands will need to be adapted for other implants, but the general steps will be the same.
+Download the appropriate cross compiler toolchain from www.uclibc.org/downloads/binaries.  This dir contains cross compilers for the latest uclibc version.  The preferred way to build Cannoli is statically (also the default in the Makefile), so that there are no dependencies on the (very likely) older uclibc version running on the target device.Some manufacturers also GPL their toolchain and code for a device.  You can search their website for the GPL center and check if they have a toolchain available for your particular target.  Most of the time this is unneccesary and the uclibc cross-compiler will work just as well (and be easier to install if you grab the binaries vice compiling the toolchain yourself)
+
+Extract the latest Cannoli delivery into a dir you create for the op (use JQJ crypt to keep them organized).
+Extract the cross-compiler from step 6 into <cannoli root>/cross-compilers/cross-compiler-<arch>/
+
+Open Makefile in your favorite text editor. Modify "export PATH=" and "GCC_PREFIX=" to point to your cross-compiler extracted in step 10.
+Open client/client_lib.c.  Modify the following #define's for your test environment
+DEFAULT_BEACON_RATE: use something short, like 60 so that you are getting frequent beacons
+BEACON_LP_HOST[1-3]: your makeshift listening post.  Probably use the same host for all three of these.  IP or FQDN can be used (use FQDN when doing actual testing - this is what the operators will want to use)
+BEACON_LP_PORT[1-3]: port for the LPListening Post server to listen on for beacons.  Most of the time the operators choose 443
+
+
+From the Cannoli root directory, run make clean && make to build Cannoli.
+Navigate to <cannoli root>/build/client/ and <cannoli root>/build/server/.  These contain the implant and LPListening Post respectively.
+Start the LPListening Post (server) - ./server <port> > server.log &
+
+Upload build/client/client binary to the target's /tmp directory using your exploit.
+Run Cannoli: /tmp/client -b &
+
+You should receive beacons on your LP
+
+Now that you've verified Cannoli (or another implant) is compatible with the target, commence operational testing.  Discuss with the operator what capaiblities they're likely to exerciese in the op (e.g. secure tunnel, host scanning).  Refer to delivered test reports for more information on the various tests you should consider performing.
+If you can't extract the firmware with FMK
+
+If FMK failed to extract the firmware, it's ususally because it doesn't recognize either the compression used in the binary, or the filesystem.  Run binwalk on the firmware to see what signatures it identifies.  A lot will likely be false positives - one way to tell is that the compressed file size reported by binwalk will be huge.  There hopefully will be enteries that have more reasonable file size.  You can use dd to copy out the bytes corresponding to this chunk of the file.  Then you can examine the chunk in a hex editor to investigate the compression.  Sometimes manufacturers will use a different magic header, but the compression will actually be lzma or another standard type.  
+
+VxWorks images can be extracted using dd to copy the bin starting at the lzma section (as found using binwalk) and then using p7zip -d extracted.7z to decompress.  This has been found to work on TP-Link images running VxWorks (842N, 710N)
+Sometimes there are articles online describing how to extract the firmware for a particular device.  They may give hints as to what compression is used or even the OS.
+Run strings -a on the firmware to see if there are any strings that will help point to what compression/OS is being used
+.ROS (not Mikrotik RouterOS) - Dell switches.  There's an open source tool (ros_unpack) that will read the firmware file and extract the contstiuent compressed blobs.  You still need to decompress these (p7zip)
+
+ 
+ 
+
+Implants by device class
+
+Linux/BusyboxCannoli should work, after cross-compling against most of these targets.
+
+VxWorksTurboPanda port
+
+DrayOSDewars - Mitre implant supporting secure tunnel
+
+Dell
+FTOS (Force10 Operating System) or DNOS (Dell Network Operating System)
+Propriertary OS, based on NetBSD or Linux kernels
+Lightsoar implant
+
+
+
+
+Related articles
+
+Related articles appear here based on the labels you select. Click to edit the macro and add or change labels.
+
+('contentbylabel' missing)
+('details' missing)
+
+Previous versions:
+| 1 
+| 2 
+| 3 
+| 4 
+| 5 
+| 6 
+| 7 
+| 8 
+| 9 
+| 10 
+| 11 
+|
+                    

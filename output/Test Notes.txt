@@ -1,0 +1,247 @@
+
+                        Owner: User #14587667
+DUT4 - RB1100AH - v1.1.0 Notes
+IP: 172.20.100.22/30
+VLAN: 615  (TOR6 gi1/0/11)
+ROS: 6.30.2, 6.26
+Console Server Rack 6 Port 7
+Tool Versions Used:
+ChimayRed 4.6.1
+TshPatcher 1.0.4
+Perseus 1.1.0
+ 
+Note: Testing was halted due to Perseus not supporting SMPSymmetric Multi-Processor and Non-SMP devices in the same executable.
+Test Notes
+7/27/2015
+
+Setup console server, CoreSwx VLANs, and TOR6 Swx access ports
+Create Ubuntu 14.10 Host VM
+Installed ROS 6.30.2
+Setup WANWide Area Network IP on MT: /ip address add address=172.20.100.22/30 interface=ether12
+
+Setup LANLocal Area Network IP on MT: /ip address add address=192.168.88.1/24 interface=ether13
+
+Generate Perseus binary: python bin/perseus_1.1.0.4_routeros6_powerpc.zip -f /flash/boot/hidden -f /flash/etc/rc.d/run.d/S99mcc -f /flash/etc/rc.d/run.d/S99tsh -d /flash/boot/hidden -p /flash/rw/tmp/tshd-powerpc -S /flash/boot/hidden/startup -s 2 -m /flash/boot/hidden/mcc.ko -r /flash/boot/hidden/dont_panic -z /flash/boot/hidden/zero deploy_$PERSEUS_DEPLOY_VERPERSEUS_DEPLOY_VER=2015-07-27
+
+Downgraded to ROS 6.30.1.  ChimayRed does not support 6.30.2.
+Download BB for PPCPowerPC (IBM) and x86
+Throw ChimayRed, Tshd, BB, and Flux
+
+7/28/2015
+
+
+Configure Syslog (/system logging action set 3 bsd-syslog=yes remote=192.168.88.2)
+
+Take baseline measurement: 
+Downgraded to ROS 6.26When throwing ChimayRed, I was required to specify the architecture (-a ppc) because CR could not detect it and would error out.
+
+When Perseus is started, the hidden directory disappears and all evidence of Perseus, Tsh, and BB is gone.  A test log file was sent to TP for analysis.  This behavior occured on both ROS 6.30.2 and 6.26.
+
+7/29/2015
+
+Performed netinstall of ROS 6.26.  Threw CR, TSH, BB, and FLUX.  All work fine (Perseus not started).  Perseus started and all files were deleted.  This is the same behavior as yesterday.
+I called User #75087 to follow up regarding the logs I sent him yesterday.  He indicated that he got pulled to another project and will look at the logs and try to reproduce the issue next week.
+
+Operator Notes
+No default firewall to block port 80 (Web GUIGraphical User Interface) on ROS 6.30.2
+ 
+Tests to Run:
+mcc is visible
+
+
+ID
+Status
+Task
+
+
+1
+incomplete
+lsmod | grep mcc   # mcc will appear in list
+
+
+2
+incomplete
+ls /lib/modules/3.3.5     #no mcc
+
+
+3
+incomplete
+ls /ram/pckg                 #no mcc
+
+
+Inconsistent hiding
+
+
+ID
+Status
+Task
+
+
+4
+incomplete
+ls /sys/module       #mcc should be visible
+
+
+5
+incomplete
+ls /sys/kernel        # mcc should be hidden
+
+
+Check netstat for PID/Program name
+
+
+ID
+Status
+Task
+
+
+15
+incomplete
+bb netstat -p
+
+
+Check if kallsyms shows 'mcc' and its symbols
+
+
+ID
+Status
+Task
+
+
+16
+incomplete
+cat /proc/kallsyms | bb grep mcc
+
+
+Flux appears in firewall connections
+
+
+ID
+Status
+Task
+
+
+6
+incomplete
+/ip firewall connection print
+
+
+Sequential listing of /proc/pid reveals hidden directories. 
+
+
+ID
+Status
+Task
+
+
+7
+incomplete
+Run following script
+
+
+#!/bin/ash i=1 #echo "PIDs in /proc/" > proc_dirs while [ $i -lt 1000 ]; do         test -d /proc/$i && echo $i >> proc_dirs         i=$((i+1)); done bb ls -1v /proc > ls_dirs bb grep -Fxv -f ls_dirs proc_dirs 
+Check if connection is attempted to cloud.mikrotik.com
+
+
+ID
+Status
+Task
+
+
+8
+incomplete
+/system logging add action=echo topics=!ntp,!dhcp,!rip,!snmp
+
+
+Inspect Memory
+
+
+ID
+Status
+Task
+
+
+9
+incomplete
+ICON: nc -l -p 9999 | dd bs=1048576 of=DUTX-ram.bin
+
+
+10
+incomplete
+Target: busbybox dd if=/dev/mem bs=1048576 count=1536 | bb nc 172.20.12.100 9999
+
+
+11
+incomplete
+Check for ELFs
+
+
+12
+incomplete
+Check if call tables were modified
+
+
+13
+incomplete
+Check mcc.ko for 'srcversion' string
+
+
+14
+incomplete
+Remove perseus and re-inspect memory for mcc unload
+
+
+
+Verify Files Hidden
+
+
+ID
+Status
+Task
+
+
+0
+incomplete
+bb ps ax | grep startup
+
+
+17
+incomplete
+bb ps ax | grep tsh
+
+
+18
+incomplete
+
+bb ps ax | grep flx
+
+
+
+ 
+
+Attachments:
+
+image2015-7-28 9:29:27.png
+
+
+Previous versions:
+| 1 
+| 2 
+| 3 
+| 4 
+| 5 
+| 6 
+| 7 
+| 8 
+| 9 
+| 10 
+| 11 
+| 12 
+| 13 
+| 14 
+| 15 
+| 16 
+| 17 
+| 18 
+|
+                    

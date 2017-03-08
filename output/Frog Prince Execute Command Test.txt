@@ -1,0 +1,76 @@
+
+                        Frog Prince Execute Command Test
+Requirement(s)
+4.1.15  The implant shall be capable of launching a process as the current user.
+4.1.15.x   Execute process in foreground with timeout
+4.1.15.y   Return standard output from process
+4.1.15.z   Execute process in background
+4.1.15.a   Execute process with parameters
+Preparation
+
+Create an executable 
+accepts optional parameter string
+writes string to known file in known location  e.g.  c:\teststring.txt
+if no parameter specified writes known string e.g. "no string"  to a different file  e.g.  "c:\nostring.txt"
+
+
+Write scripts for user interface
+put command for file
+execute command for file
+with a string as parameter
+without execute in foreground i.e. fire and forget
+
+
+execute command for file
+without execute in foreground i.e. fire and forget
+without any parameters
+
+
+execute "netstat" programwait  60+ seconds, run in foerground
+
+execute calc.exe programwait 120 seconds, run in foreground
+
+queue status to verify command was run
+
+
+
+Execute Test(s)
+
+execute with parameters, no foreground
+copy install vector and Frog Prince module on target
+install Frog Prince
+copy program to target
+run execute script of program with a string parameter
+examine written file for string given in parameter
+
+
+execute program w/o parameters, no foreground
+copy install vector and Frog Prince module on target
+install Frog Prince
+copy program to target
+run execute script of program w/o parameter
+examine written file for hard-coded string
+
+
+execute netstat program with foreground
+copy install vector and Frog Prince module on target
+install Frog Prince
+run execute script of netstat program in foreground
+wait for output
+examine output to verify netstat ran
+
+
+execute calc.exe program with foreground
+copy install vector and Frog Prince module on target
+install Frog Prince
+run execute script of calc.exe program in foreground
+wait for output
+verify command timed out waiting for calc.exe to complete
+
+
+
+
+Previous versions:
+| 1 
+|
+                    

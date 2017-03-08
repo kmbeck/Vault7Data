@@ -1,0 +1,138 @@
+
+                        Owner: User #524297
+Pterodactyl Requirements
+('details' missing)
+Goals
+(S//NF) Provide the asset with the ability to rapidly copy 3.5" floppy disks in a covert manner. 
+Background and strategic fit
+Use of embedded device technology to support access and enable collection.
+Assumptions
+
+(S//NF) The asset will be allowed to carry the concealment into the controlled space. 
+(S//NF) The asset will have unsupervised access to the floppy disks.
+
+Requirements
+
+
+#
+User Story Title
+User Story Description
+Priority
+Notes
+
+
+1
+Power On/Off
+As the asset, in order to conserve battery life, there needs to be a functionality to turn the power on/off to the device.
+Must Have
+ 
+
+
+2
+Copy Media to Internal Storage
+As the asset, in order to copy the media, the device must copy the media contents to an internal storage area.
+Must Have
+ 
+
+
+3
+Copy Media on Insert
+As the asset, in order to efficiently copy the media, the device must start copying the contents of the media immediately upon media insertion.
+Must Have
+ 
+
+
+4
+Feedback Mechanism
+As the asset, in order to know that a media copy is complete, the device must have a feedback mechanism to alert when the copy is completed.
+Must Have
+Feedback mechanism yet to be determined. Output to GPIO pin, feedback must be haptic (thumper) or visual (LEDLight Emitting Diode). Floppy drive does create sound while copying, so lack of sound may also be an indicator.
+
+
+5
+Continuous Copying
+As the asset, in order to copy disks efficiently, the device must be able to run and copy media continually while the device is powered on and without any user interaction.
+Must Have
+If device runs Linux operating system, possible solution to run as a Linux service (using systemd).
+
+
+6
+Data Compression
+As the asset, in order to copy numerous disks, the device should compress the copied media contents.
+Nice to Have
+Compression should only be done if it does not add overhead to the copy process.
+
+
+7
+Obfuscation
+As the asset, in order to conceal activities on the device as much as possible, the device should behave as normally as possible on the device filesystem.
+Nice to Have
+ 
+
+
+8
+Collection Retrieval
+As a collector, in order to easily retrieve the collected floppy images from the device, the data should be easily retrieved from the device using a stand-alone computer.
+Nice to Have
+Possible solution to use kernel module to have device behave like a standard USBUniversal Serial Bus thumb drive when plugged into a computer.
+
+
+ 
+ 
+ 
+ 
+ 
+
+
+ 
+Concealment
+As the asset, in order to bring the device into a secured space, the device must be concealed in an innocuous carrier.
+Must Have
+(S//NF) Capability provided by DST/OTR/OED, initial plan for concealment host is as a day planner.
+
+
+User interaction and design
+ 
+Questions
+Below is a list of questions to be addressed as a result of this requirements document:
+
+
+Question
+Outcome
+
+
+What hardware platform will the deployed device use?
+ 
+
+
+How are we going to supply power to the device?
+Communicate the decision reached
+
+
+How long should the device be able to operate on a single charge of a power source?
+ 
+
+
+Not Doing
+
+Encryption of copied media.  Adds overhead to the media copy process, does not really help in the event of discovery.
+
+Ability to copy media types other than 3.5" floppy disks.   Outside of scope for this concept of operations. 
+
+
+
+Previous versions:
+| 1 
+| 2 
+| 3 
+| 4 
+| 5 
+| 6 
+| 7 
+| 8 
+| 9 
+| 10 
+| 11 
+| 12 
+|
+                    

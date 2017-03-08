@@ -1,0 +1,35 @@
+
+                        Owner: User #71473
+Hook Functions by Replacing References (MISCHookFunctions_RPRF_NTRN)
+SECRET//NOFORN
+ 
+Miscellaneous Module
+Stash Repository: Miscellaneous Library
+
+Module Name: MISCHookFunctions_RPRF_NTRN (Uses Windows APIApplication Programming Interface and winternl.h data structures))
+ 
+Module Description: Replaces all references to the target function with the specified hook function address.  Targets call near relative and call near absolute on x86 and call near relative on x64
+ 
+Usage: Forthcoming
+ 
+PSP/OS Issues: Any PSP/OS issues associated with the technique.
+ 
+('excerpt' missing)
+*Miscellaneous modules should also contain "Excerpt Includes" from every non-miscellaneous module that uses it.
+ 
+Sharing Level: Unilateral, Liaison, Intelligence Community (Default: Unilateral - until otherwise noted)
+ 
+Technique Origin: In-house, internet/open-source, reversed malware, stolen, etc.
+ 
+Notes: Any information that could be useful to anyone maintaining the code or using the code. i.e. This module uses Alternate Data Streams which are only available on NTFSNT filesystem (Windows) volumes.
+ 
+Module Specific Structures: Any module specific data structures. 
+ 
+Module Return Codes: Any module error/return codes should be described here.
+ 
+Example Code:
+ 
+ 
+INCLUDE DESCRIPTIVE LABELS FOR EACH MODULE
+SECRET//NOFORN
+                    

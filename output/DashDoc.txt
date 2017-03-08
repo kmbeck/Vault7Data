@@ -1,0 +1,30 @@
+
+                        Make
+Place for makefile tips
+ 
+make.pdf
+ 
+ 
+vpath %.py $(ZOO_PROJECT_DIR)
+vpath %.py $(ZOO_REPO_DIR)/cowpy/docopt
+vpath %.py $(ZOO_REPO_DIR)/cowpy/pexpect
+WEBTEST_FILES := $(addprefix $(MCNUG_TESTDIR)/,webtest.py webtest_config.py webteststat.py docopt.py pexpect.py)
+$(MCNUG_TESTDIR)/%.py: %.py
+	cp $^ $@
+
+
+make -pn | grep -A1 "^# makefile" | grep -v "^#\|^--|" | grep -v "^define"|  sort | uniq
+make -pn | grep -v "^#" | grep ': ' -A 5
+
+Attachments:
+
+make.pdf
+
+
+Previous versions:
+| 1 
+| 2 
+| 3 
+| 4 
+|
+                    

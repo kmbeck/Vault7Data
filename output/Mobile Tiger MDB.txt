@@ -1,0 +1,85 @@
+
+                        Remote Debugging Chrome On Android
+When trying to remote debug chrome on Android...without the internet.
+Why?
+When using the standard way to remote debug Android...ie. chrome://inspect -> inspect...
+
+Host-machine chrome will ask Client-machine chrome which version of devtools it should run
+Host-machine will call out to appspot to run the correct version of devtoolswe cannot reach appspot because we don't have internet on devlan
+
+Devtools window that spawns will be a blank page
+
+
+Using the following steps we are going to run our own copy of devtools and direct chrome to use that one.
+ 
+Step-by-step guide (OSXApple operating system)
+ 
+
+Dependencies 
+Google Chrome Canary
+NOTE: The version of chrome you are using to debug must be >= the version of chrome running on the device.
+Source
+DEVLAN: share/MDB/OSX/Software/FreeSoftware/Browser/googlechrome48_canary.dmg
+Web: google.com/chrome/browser/canary.html
+
+
+Installation
+Double click.
+Drag the .dmg into Applications folder.
+
+
+
+
+Google Chrome Devtools
+Source
+DEVLAN: /Volumes/share/MDB/Android/Software/OpenSourceTools/Chrome/devtools-frontend
+Web: mkdir devtools-frontend && cd devtools-frontend
+git init
+git remote add upstream https://chromium.googlesource.com/chromium/blink
+git config core.sparsecheckout true
+echo Source/devtools >> .git/info/sparse-checkout
+echo codereview.settings >> .git/info/sparse-checkout
+echo .gitignore >> .git/info/sparse-checkout
+git pull upstream master --depth=1
+
+
+
+InstallationCopy from share/DTO to host machine
+
+
+
+
+
+Environment Setup
+In your .bash_profile or .bashrc put the following:alias canary="/Applications/Google\ Chrome\ Canary.app/Contents/MacOS/Google\ Chrome\ Canary"
+alias canary-debug="canary --remote-debugging-port=9222 --no-first-run --user-data-dir=$(mktemp -dt 'chrome-dev-profile') http://localhost:9222/#http://localhost:9999/front_end/inspector.html?experiments=true http://$LOCALHOST_IP"
+
+Restart terminal to reload .bash_profile or .bashrc
+adb forward tcp:9222 localabstract:chrome_devtools_remote
+
+
+Setup devtools-frontendcd /path/to/host/machine/chrome/devtools-frontend/Source/devtools
+python -m SimpleHTTPServer 9999
+
+Open chrome and visit page to debug on Android device
+
+Run canary on host machinecanary-debug
+
+Select tab to debug
+Mousing over html elements on the devtools should show them selected on the Android browser
+
+Related articles
+
+Related articles appear here based on the labels you select. Click to edit the macro and add or change labels.
+
+('contentbylabel' missing)
+('details' missing)
+
+Previous versions:
+| 1 
+| 2 
+| 3 
+| 4 
+| 5 
+|
+                    

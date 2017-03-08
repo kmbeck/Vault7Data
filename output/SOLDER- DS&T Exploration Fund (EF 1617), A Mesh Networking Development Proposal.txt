@@ -1,0 +1,162 @@
+
+                        Owner: User #3375130
+SOLDER- DS&T Exploration Fund (EF 1617), A Mesh Networking Development Proposal
+Mesh Networking Definitions:
+PDF Documentation: Wireless mesh network - Wikipedia, the free encyclopedia.pdf
+ 
+   Wikipedia:
+A mesh network is a topology in which each node relays data for the network.  All mesh nodes cooperate in the distribution of data in the network.
+ 
+Mesh networks can relay messages using the flooding technique or a routing technique.  With routing, the message is propagated along a path by hopping from node to node until it reaches its destination.  To ensure all its paths' availability, the network must allow for continuous connections and must reconfigure itself around broken paths using a self-healing algorithms such as Shortest Path Bridging.  Self-healing allows a routing-based network to operate when a node breaks down or when a connection becomes unreliable.  As a result, the network is typically quite reliable, as there is often more than one path between a source and a destination in the network.  Although mostly used in wireless situations. this concept can also apply to wired networks and to software interaction.
+ 
+A mesh network whose nodes are all connected to each other is a fully connected network.  Fully connected wired networks have the advantages of security and reliability: problems in a cable affect only the two nodes attached to it.  However, in such networks, the number of cables, and therefore the cost, goes up rapidly as the number of nodes increases.
+ 
+Mesh networks can be considered a type of an ad-hoc network.  Thus, mesh networks are closely related to mobile ad hoc networks (MANETs), although MANETs also must deal with problems introduced by the mobility of the nodes.
+ 
+Shortest path bridging allows Ethernet switches to be connected in a mesh topology for all paths to be active.
+
+    Another internet site:
+ A mesh network topology is a decentralized design in which each node on the network connects to at least two other nodes.  Mesh networks are expected to play an important part in the Internet of Things (IoT).  Unlike nodes in a star topology, which require a router to deliver internet services, network nodes can "talk" directly to each other without the assistance of an internet connection.  A big advantage of this decentralized topology is that there cannot be a single point of failure.  If one node can no longer operate, all the rest can still communicate with each other, directly or through on or more intermediate nodes.  Mesh networks can use a full mesh topology or a partial mesh topology.  
+    Byzantium (http://project-byzantium.org/faqs):
+
+ A mesh network is a network in which some of the nodes route traffic for other nodes in addition making services available and acting as clients in the network.  In traditional wired or wireless networks, every node has a default gateway through which it sends all traffic not destined for adjacent nodes on the local network. If that default gateway goes down the local network is isolated.  In a mesh network, every node on the local network can potentially act as a gateway for oll other nodes within broadcast range. Under the hood of a mesh there is no default gateway, there are only neighboring routers that will relay traffic.  Also, due to the sheer number of routers in a mesh, you don't have to worry about your active connections dropping just because you walked three blocks away and your smartphone decided that another two or three mesh nodes were its preferred ("default") gateway; this is called mobile IP.  
+ 
+Examples of Mesh Networking:
+ Flux/Fluxwire - CCI's default, sole source contractor provided, default mesh networking tool:
+        (S/NF) PDFPortable Document Format Documentation: Fluxwire_manual-3.5.0.pdf 
+First Demonstration?  9 Feb 2016
+  TINC- Self-routing, mesh networking protocol, used for compressed, encrypted, virtual private networks.  It was started in 1998 by User #74835, User #74834, and User #74836, and released as a GPL-licensed project. (http://www.tinc-vpn.org ):
+PDF Documentation: tinc.pdf 
+Source Code:   tinc-1.0.26.tar.gz
+Installation Instructions: How To Install Tinc and Set Up a Basic VPN on Ubuntu 14.pdf
+It looks like someone already uploaded its source to stash as well.
+First Demonstration?  9 Feb 2016
+  Zigbee:
+PDF Documentation: ZigBee - Wikipedia, the free encyclopedia.pdf
+  SONOS - Proprietary Mesh Networking Software for consumer based Speaker System:
+PDF Documentation: How Sonos and User #74838 Built the Perfect Wireless Speaker for Streaming Music - Businessweek.pdf
+EERO
+PDF Documentation: eero - Finally, WiFi that works.pdf    
+ eero - Technology.pdf     
+What's a mesh network_ – eero Help Center.pdf
+User #?
+Wifi Router System
+  CJDNS:
+PDF Documentation: cjdns_Whitepaper.pdf
+  Byzantium - Ad-hoc wireless mesh networking for the zombie apocalypse. (See http://project-byzantium.org ):
+PDF Documentation: Not yet retrieved.
+ 
+Interesting Technologies that may be applicable:
+   ZeroMQ:
+PDF Documentation: The Architecture of Open Source Applications (Volume 2)_ ZeroMQ.pdf 
+ØMQ - The Guide - ØMQ - The Guide.pdf
+ 
+ 
+Schedule:
+12 Jan 2016-  First Team Meeting
+TBD Jan 2016- First Official Kickoff Meeting to DS&T Staff
+15 February 2016- Mesh Network Survey Status Report
+15 April 2016- SOLDER Mesh Networking Requirement Report
+31 November 2016- SOLDER Final Report
+ 
+Administrivia:
+Weekly meeting times?
+Availability of personnel?
+ 
+Fill in the Blanks for our project:
+ 
+Mesh Networking Definition:
+A mesh network is a topology in which each node cooperatively relays data for the network.
+Goals (Like 3-4 basic goal statements):
+Survey proprietary and open source software projects for design ideas and that might serve as a foundation for an operational CCICenter for Cyber Intelligence tool.
+Select one project from the survey and configure and/or modify it to make it suitable, prototype maturity, for evaluation (e.g. throughput, latency, covertness, modularity) and demonstration.
+Remember the operator/user and make it simple to configure and use.
+Requirements:
+Blank
+ 
+ 
+Equipment Purchases:  Thank you User #? and User #76665 for equipment ordering information
+ 
+Training:  Waiting for feedback from User #76666 for the MikroTik course.
+ 
+ 
+
+Comments:
+
+
+2016-02-10 10:04 
+[User #524297]: 
+
+What kinds of testing practices will you be putting into place for this project?  
+(I would ask the same for PLASMA, but there is no representation of the project on Confluence yet)
+
+
+
+Attachments:
+
+
+What's a mesh network_ – eero Help Center.pdf
+
+
+eero - Technology.pdf
+
+
+eero - Finally, WiFi that works.pdf
+
+
+Fluxwire_manual-3.5.0.pdf
+
+
+How To Install Tinc and Set Up a Basic VPN on Ubuntu 14.pdf
+
+
+ØMQ - The Guide - ØMQ - The Guide.pdf
+
+
+The Architecture of Open Source Applications (Volume 2)_ ZeroMQ.pdf
+
+
+cjdns_Whitepaper.pdf
+
+
+How Sonos and User #74838 Built the Perfect Wireless Speaker for Streaming Music - Businessweek.pdf
+
+
+ZigBee - Wikipedia, the free encyclopedia.pdf
+
+
+tinc-1.0.26.tar.gz
+
+
+tinc.pdf
+
+
+Wireless mesh network - Wikipedia, the free encyclopedia.pdf
+
+
+
+Previous versions:
+| 1 
+| 2 
+| 3 
+| 4 
+| 5 
+| 6 
+| 7 
+| 8 
+| 9 
+| 10 
+| 11 
+| 12 
+| 13 
+| 14 
+| 15 
+| 16 
+| 17 
+| 18 
+| 19 
+| 20 
+| 21 
+| 22 
+|
+                    

@@ -1,0 +1,13 @@
+
+                        Expanding Environment Variables Windows Snippet
+The following function uses Windows ExpandEnvironementStrings to expand a string. The calling function is responsible for freeing the returned value if it is not null.
+ 
+BOOL ExpandStrings(WCHAR *wcInString, WCHAR *&wcOutString)
+{
+	wcOutString = NULL;
+	DWORD dwSizeNeeded = ExpandEnvironmentStrings(wcInString, NULL, 0);
+	wcOutString = (WCHAR *) HeapAlloc(GetProcessHeap(), HEAP_ZERO_MEMORY, (dwSizeNeeded + 2) * sizeof(WCHAR));
+	ExpandEnvironmentStrings(wcInString, wcOutString, dwSizeNeeded);
+	return TRUE;
+}
+                    

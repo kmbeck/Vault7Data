@@ -1,0 +1,9 @@
+
+                        MacAfee Virus Scan blocking injection into svchost
+When MacAfee is set to high security it blocks non-microsoft DLLs from being loaded into svchost.  These setting are kept in registry at:   .  They may be able to be altered programatically.
+ 
+
+Previous versions:
+| 1 empty
+|
+                    

@@ -1,0 +1,113 @@
+
+                        Owner: User #1179751
+OSB Home
+
+ 
+
+
+Recent space activity
+
+('recently-updated' missing)
+
+
+Space contributors
+
+('contributors' missing)
+
+
+ 
+
+
+Comments:
+
+
+2013-05-08 17:46 
+[User #71473]: 
+
+Everyone should be worried.  I'm a frickin acting chief!  My authority is practically limitless.  And by limitless, I mean nonexistant...
+
+
+2013-05-08 17:43 
+[User #4849738]: 
+
+Thanks for the clarification User #77534, I'm sure he was very worried.....
+
+
+2013-05-08 17:38 
+[User #71473]: 
+
+Thank you sir.  And for what its worth, I was threatening to fire User #1179751, not you. 
+
+
+
+2013-05-08 17:32 
+[User #524297]: 
+
+
+
+
+2013-05-08 17:30 
+[User #524297]: 
+
+I'll fix it up.  It's sort of obtuse, but you need to be a Space Admin to add the "Categories" to a Space. I'll make the whole OSBOperation Support Branch group Space Admins.
+Space Categories look like the Labels, but they're for tagging outside of the space, while Labels tag inside the space.  
+ 
+
+
+2013-05-08 17:19 
+[User #71473]: 
+
+Get this to show up under aed-branches or you're fired.
+
+
+
+Attachments:
+
+
+spaceperms[1].png
+
+
+spaceperms.png
+
+
+
+Sub-Pages:
+
+
+Retrospectives 
+
+
+2015 Top bits 
+
+
+Helpful Tools 
+
+
+Payload Deployment Unit Tests Issue Tracker SECRET
+
+
+OSB Passwords SECRET
+
+
+OSB's ESXi Server 
+
+
+How-to articles 
+
+
+New Developer Exercises SECRET
+
+
+Projects 
+
+
+Personnel 
+
+
+
+Previous versions:
+| 1 
+| 2 
+| 3 
+|
+                    

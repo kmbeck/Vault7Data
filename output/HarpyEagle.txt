@@ -1,0 +1,100 @@
+
+                        Owner: User #11628962
+HarpyEagle
+Project Objective:
+To gain root access on an Apple Airport Extreme and Time Capsule via local and/or remote means to install a persistent rootkit into the flash storage of the devices.
+ 
+Table of Contents:
+
+
+Airport Extreme and Time Capsule Port Analysis  
+
+
+Airport Utility Analysis  
+
+
+Firmware Reverse Engineering  
+
+
+Test Infrastructure  
+
+USB Emulation Evaluation
+Facedancer21 UserGuide (Linux)
+
+ 
+Project Members:
+
+User #11628962’s Home - Project Lead
+
+Attachments:
+
+
+TestNetwork.jpg
+
+
+TestNetwork.png
+
+
+TestNetwork.pdf
+
+
+
+Sub-Pages:
+
+
+Facedancer21 UserGuide (Linux) 
+
+
+USB Emulation Evaluation 
+
+
+Test Infrastructure 
+
+
+Airport Extreme and Time Capsule Port Analysis 
+
+
+Firmware Reverse Engineering 
+
+
+Airport Utility Analysis 
+
+
+
+Previous versions:
+| 1 empty
+| 2 
+| 3 
+| 4 
+| 5 
+| 6 
+| 7 
+| 8 
+| 9 
+| 10 
+| 11 
+| 12 
+| 13 
+| 14 
+| 15 
+| 16 
+| 17 
+| 18 
+| 19 
+| 20 
+| 21 
+| 22 
+| 23 
+| 24 
+| 25 
+| 26 
+| 27 
+| 28 
+| 29 
+| 30 
+| 31 
+| 32 
+| 33 
+| 34 
+|
+                    

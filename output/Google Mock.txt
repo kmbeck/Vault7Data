@@ -1,0 +1,130 @@
+
+                        Owner: User #524297
+Vim
+
+
+
+Vi and Vim (Vi Improved)
+yypVr=
+
+
+
+"Don't panic... it's only vi."
+ 
+  
+The happening place for all things vim. 
+Tips
+Vim Editing Tips  
+Vimrc Tips  
+Tutorials & Reference
+vi-vim-tutorial-gif.zip : some graphical tutorials starting easy with basic movement and editing. 
+vi-vim-cheat-sheet.gif : the full visual cheat sheet for vi/vim. 
+vim-shortcuts_1280x800.png : a desktop version for the spatially aware.
+Articles
+why-why-vi.pdf : Why, oh WHY, do those #?@! nutheads use vi?
+problem-w-vim.pdf : The Problem with Vim
+vim_revisited.pdf : Vim Revisited
+Other Resources
+vimium_1_43.crx : the Vimium extension for Google Chrome.  trust me, you want this.  
+
+Comments:
+
+
+2015-06-10 14:12 
+[User #71475]: 
+
+There is now a project of VIMLinux editor extensions/plugins on stash for all you awesome coders that use it, https://stash.devlan.net/projects/VIM/ Included is Vundle, a plugin manager for VIMLinux editor that can be used to install plugins from stash, see my vimrc
+
+
+2013-08-28 12:06 
+[User #524297]: 
+
+hit ?
+
+
+2013-08-28 12:03 
+[User #71473]: 
+
+Now to figure out how to use it. 
+
+
+
+2013-08-28 12:01 
+[User #71473]: 
+
+There we go, that did the trick!
+
+
+2013-08-28 11:56 
+[User #524297]: 
+
+try dragging it onto the extensions page
+
+
+2013-08-28 11:52 
+[User #71473]: 
+
+Hrrm, can't seem to get that to behave – it acts like its going to let me install it, but then I get the same stupid error.
+
+
+2013-08-28 08:33 
+[User #524297]: 
+
+Drag the CRX file into an empty Chrome window (verified).
+
+
+2013-08-28 05:29 
+[User #71473]: 
+
+For some reason, chrome refuses to allow me to install the vimium extension from the confluence download folder.  I get a message "Apps, extensions and user scripts cannot be added from this website" with an OK button, but no way to bypass, and nothing in the chrome settings seems to let me force the issue.  Any idea what's going on?
+
+
+
+Attachments:
+
+
+vimium_1_43.crx
+
+
+vim_revisited.pdf
+
+
+problem-w-vim.pdf
+
+
+vim-shortcuts_1280x800.png
+
+
+vi-vim-cheat-sheet.gif
+
+
+why-why-vi.pdf
+
+
+vi-gang-sign.gif
+
+
+vi-vim-tutorial-gif.zip
+
+
+
+Sub-Pages:
+
+
+Vim Editing Tips 
+
+
+Vimrc Tips 
+
+
+
+Previous versions:
+| 1 
+| 2 
+| 3 
+| 4 
+| 5 
+| 6 
+| 7 
+|
+                    

@@ -1,0 +1,19 @@
+
+                        Owner: User #14587667
+vSphere Web Client Slow to Open Consoles
+If the vSphere Web Client is slow to open VMs in a console, perform the following to speed it up.
+The main cause is due to the fact that the vCenter server is using a self-signed SSLSecure Socket Layer cert.  When a request is made, Windows tried to update it's own root certificates by connecting to a Microsoft server.  You can turn off automatic root certificates update to stop this from occuring.
+ 
+
+Click Start -> Run.
+Type gpedit.msc, and then click OK.
+Under Computer Configuration, select Administrative Templates -> System -> Internet Communication Management -> Internet Communication settings.
+Double-click "Turn off Automatic Root Certificates Update".
+Select "Enabled", and then click OK.
+
+ 
+
+Previous versions:
+| 1 
+|
+                    

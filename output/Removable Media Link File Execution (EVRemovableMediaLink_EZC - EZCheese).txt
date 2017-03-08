@@ -1,0 +1,33 @@
+
+                        Persistence Modules (KB)
+LABEL PAGE: Child pages of this page will contain articles pertaining to persistence modules.
+ 
+
+('children' missing)
+
+Sub-Pages:
+
+
+Service Persistence (PSEDService_CF - Constant Flow) SECRET
+
+
+Group Policy Startup Script (PSEDStartupScript_LDGR - Ledger) SECRET
+
+
+WMI Event Persistence (PSEDWMIEvent_SU - SystemUptime) SECRET
+
+
+Run and RunOnce Registry Key Persistence (PSEDRunKey_QW - Quick Work) SECRET
+
+
+COM + Junction Folder User Persistence (PSDComJunction_HCLS - HighClass) SECRET
+
+
+Scheduled Task Persistence (PSEDSchedTask_TP - TrickPlay) SECRET
+
+
+
+Previous versions:
+| 1 
+|
+                    

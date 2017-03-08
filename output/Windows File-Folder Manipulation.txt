@@ -1,0 +1,70 @@
+
+                        Create Directory With Attributes and Create Parent Directories (MISCDirectoryCreator_NTV)
+SECRET//NOFORN
+ 
+Miscellaneous Module
+Stash Repository: Miscellaneous Library
+
+Module Name: MISCDirectoryCreator_NTV (Native APIApplication Programming Interface)
+ 
+Module Description: This module allows for the creation of parent directories as well as allowing for creation of a directory with attributes. Using the Native APIApplication Programming Interface you can use the exposed function CreateDirectoryWithAttributes to give attributes to create a new directory with attributes. The other exposed functions allow for the creation of a directory and all missing parent directories (recursive directory creation). For example, if I want to create the directory C:\test\test2\test3 when neither C:\test nor C:\test2 exist. Using CreateRecursiveDirectoryFromPath will cause the creation of C:\test, C:\test\test2, and C:\test\test2\test3.
+ 
+Usage: 
+BOOL CreateRecurisveDirectoryFromFilePath(WCHAR *wcFilePath, DWORD dwAttribs = FILE_ATTRIBUTE_NORMAL);
+ 
+wcFilePath: Path to a file. All missing parent directories will be created.
+dwAttribs: Attributes to be given to the directories created. Default to FILE_ATTRIBUTE_NORMAL.
+Returns TRUE when successful.
+ 
+BOOL CreateRecursiveDirectoryFromPath(WCHAR *wcDirectoryPath, DWORD dwAttribs = FILE_ATTRIBUTE_NORMAL);
+ 
+wcFilePath: Path to a folder. This directory and all missing parent directories will be created.
+dwAttribs: Attributes to be given to the directories created. Default to FILE_ATTRIBUTE_NORMAL.
+Returns TRUE when successful.
+ 
+BOOL CreateDirectoryWithAttributes(WCHAR * wcDirectoryPath, DWORD dwAttribs);
+ 
+wcFilePath: Path to a directory to be created
+dwAttribs: Attributes to be given to the directory created.
+Returns TRUE when successful.
+ 
+PSP/OS Issues: No known issues
+ 
+('excerpt' missing)
+ 
+Sharing Level: Unilateral
+ 
+Technique Origin: In-house
+ 
+Notes: 
+
+Uses the Native APIApplication Programming Interface - Wrapper around NTCreateFile
+Only creates directories - never creates files
+Function CreateRecursiveDirectoryFromFilePath now works with alternate data streams. Example: C:\TestDirectory:MyFile.dll will cause the creation of TestDirectory (as a directory) if it is not already present.
+
+ 
+Module Specific Structures: N/A
+ 
+Module Return Codes: Boolean return value (TRUE == SUCCESS)
+ 
+Example Code:
+ 
+	//Create multiple directories above a file
+	MISCDirectoryCreator_NTV dcCreate;
+	BOOL bCreated = dcCreate.CreateRecurisveDirectoryFromFilePath(L"C:\\TestDir\\Making\\ANew\\Directory\\file.txt");
+ 
+	//Create missing directories
+	bRet = dcCreate.CreateRecursiveDirectoryFromPath(L"C:\\Windows\\temp\\test2\\test3");
+ 
+	//Create with attributes
+	bRet = dcCreate.CreateDirectoryWithAttributes(L"C:\\Windows\\temp2", FILE_ATTRIBUTE_HIDDEN|FILE_ATTRIBUTE_SYSTEM);
+ 
+ 
+SECRET//NOFORN
+
+Previous versions:
+| 1 SECRET
+| 2 SECRET
+| 3 SECRET
+|
+                    

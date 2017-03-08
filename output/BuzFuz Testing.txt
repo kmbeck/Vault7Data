@@ -1,0 +1,210 @@
+
+                        Owner: User #13205547
+Testing Notes
+TP Visit Notes
+
+Need ADSL required equipment
+Check baud rate if you want to console in vice web access
+Attack is chatty.. CIConcern note
+Deb 8.1 used as CP in testing
+Turn off beacon by setting interval to 0
+Start with section 5
+Recommend not using survey / redir at the same time  
+
+ 
+Equipment Setup
+
+DUT placed in rack six, TOP RF enclosure
+Use APCAsynchronous Procedure Call to manage (10.9.8.211) device power
+DSLAM + PPoE required for ADSL  
+Leverage Perseus testing setup
+Spun up VMVirtual Machine on Cannoli LANLocal Area Network for initial setup
+VLAN 611
+ New password = password
+
+
+Initial power on CPU = 4%
+Initial power on Memory Usage = 23%
+Verified correct OSOperating System on the box
+backed up existing configuration and loaded operational configuration with the assumption that operationally they used default LANLocal Area Network IP, lost access
+Restored to factory default and reloaded backed up config
+default password is admin
+
+ 
+9-30-15
+
+Continued infrastructure setup
+Altered Perseus LANLocal Area Network setup - connect TOR 1/0/2 to ZyXEL LAN
+Changed IP address of ZyXEL LANLocal Area Network to 192.168.88.17/24
+Troubleshooting ADSL connectivity to DSLAM and PPoE VM
+Using VMVirtual Machine #5 from Perseus setup to manage ZyXEL (also a flux node)
+Attempted to alter Zexel config to match .sh file on PPoE VM, unsuccessful
+Mount drive to LANLocal Area Network host - sudo mount -t cifs -o username=Administrator,password=NDBadm1n4Life //10.9.8.21/share /mnt/share
+
+ 
+10-1-15
+
+Continued infrastructure setup
+
+User #77445 helping troubleshoot
+Config file on PPPoE VM is located in /etc/ppp/chap-secret  
+
+ 
+10-2-15
+Infrastructure setup 95% complete
+ICON box for C2 using Debian 8.1
+2 flux nodes - due to physical limitations, did not run the microtik directly to the LANLocal Area Network side of the ZyXel (only two total ports on RF enclosure)
+ZyXel WANWide Area Network through the DLSAM / PPoE server
+
+
+ 10-5-15
+
+Beginning Testing
+**Operational Use Note -In order for PandaSneeze to execute, the device must allow Telnet access from the attack host. This access is configurable to allow some combination of LANLocal Area Network and/or WANWide Area Network access. If the Range radio button is selected (only available when WANWide Area Network access is enabled), the attack host IP must fall within one of the listed ranges.
+
+
+ 
+Begin with BuzFuz Operations Notes Document, section 5 
+
+Install PandaSneeze
+
+Create a backdoor for C2 with the device
+run initial attack from /attack directory (~/Tool CD/Binaries_UNCLASS/adhoc/attack# ./setup-eS2s1_340UL05 -I 192.168.88.17
+Must specific password otherwise it will use device default (1234) and time out and you'll get - ERROR: Remote device timed-out, displaying the following message: ****
+Used -p flag to specify "password" as correct password, successful connection (took approximately 5 minutes to complete)
+device_id = 0xc0a85811 (should be changed n init file)  
+verified that system.log file is successfully created in the active working directory
+
+Establish Command and Control
+move into .. /adhoc/tp directory for C2
+./prep-ct.sh
+launch CTCounter Terrorism - ./CutThroat
+load libtpilm_Release.so
+successfully ran "ilm connect ilm.txt" command
+module show reveals paw and lbd available
+paw is active
+lbd STOPPED
+
+
+ Checked CPU and Memory stats of device - 2% CPU, 24% memory - normal ranges
+
+
+Load PandaScoreLE Dynamicalyl
+
+Ran - module add scorele -e - successfully loaded module
+module show indicates scorele is active
+Ran - tp cmd score ping successfully (validated comms with module)
+looked through available commands, all referenced in documentation are present in module 
+
+Create and Test Survey Rule
+
+ran continuous ping from perseus #5 to 4.4.4.4
+created survey rule to capture all traffic (all 0's) - success
+capture ID value of rule - 1
+ran - redir enable 1 - successful
+Question - is target using NAT? how does this impact test? maybe not at all since we're coming from LANLocal Area Network side
+ran - tp showtrans - successfully displayed output of ping and other traffic - captured to desktop doc (end day 10-5)
+
+Test Redirection
+unable to browse to cnn.com / google.com and cover server
+updated resolveconf file to include static entry for "nameserver 4.4.4.4"
+made web request for www.google.com from Perseus #5 192.168.88.2 and observed web request in wireshark
+typical DNSDomain Name System A record request sent to nameserver
+standard TCPTransport Control Protocol setup and HTTPHypertext Transfer Protocol request
+web page resolved normally
+
+
+re-established CTCounter Terrorism session with target
+performed module show command, scoreLE is present
+created rule to redirect all hosts on the LANLocal Area Network - redir create
+Progress interrupted, tried to load operational config, guessed at LANLocal Area Network IP, failed, had to reset to factory default and use backup config to restore
+Attempted CTCounter Terrorism session, failed, attempted to re-establish backdoor but failed - time out error
+Connectivity to flux node #2 is through the ZyXel, when ZyXel is rebooted, need to rebuild flux node two - need to manually restart or build watchdog (set for 5 mins) (also need to rebuild bridge)
+**Observation when running a module add socrele command - wireshark shows a bunch of UDPUser Datagram Protocol traffic on the fw0 interface coming from the GW flux node (192.168.88.2)
+created redir reule to route traffic from BuzFuz host 192.168.88.2 destined to X.X.X.XX (LVLT-GOGL-8-8-8[US]) (www.google.com) to new destination web server 172.20.13.20 (cover server)
+enable rule, browsed to www.google.com - successfully redirected to cover server 172.20.13.20
+**Refreshed web page several times to observe CPU and memory - CPU up to 11%, memory up to 35%
+**Observation with redirection enabled and actively in use - wireshark on local host (host being redirected) shows 6 DNSDomain Name System request packets sourced from local host to DNSDomain Name System server repeated several times. With redirection disabled, this does not occur.
+Checked tp showtrans and saw correct entries
+cleared trans table
+
+
+Test Beacon
+PandaMitt is the BuzFuz tool handler
+Configured blot and blot proxy - 172.20.13.35 / 36
+mounted share drive for access to gzip with pandamitt
+adjusted beastbox settings on the proxy blot server and loaded pandamitt onto the tool handler
+configured brawl.cfg and beastbox.cfg for communication with the implant (configs saved on VMVirtual Machine)
+Updating the ilm.txt file to include correct "ScoreLE parameters"  for DNSDomain Name System beacons
+(if fluxnode goes down need to reset the bridge and gw)
+performed "module stop scorele"
+rebuilt ilm.txt with correct parameters
+built new zone in bind server
+zone "buzfuz.com" {         type master;         file "/etc/bind/db.buzfuz.com";
+db.buzfuz.com
+
+
+turned off iptables on proxy server
+Successfully beaconed and reviewed beacon files
+/home/turbopanda/Mitt/data/c0a85811/Light/receive
+more 20151016183258_0000000326.rcvd
+
+
+
+
+Test Uninstall
+
+must stop scorele module - module stop scorele
+uninstall successful - device stop
+CPU / Memory returned to original values 4%/24% respectively 
+no entries recorded on device log
+
+Test redirection of individual host
+redirected LANLocal Area Network Host 1 from 100.100.40.3 to X.X.X.XX (LVLT-GOGL-8-8-8[US])
+
+successful redirection, LANLocal Area Network host 2 not impacted by redirection rule
+enabled "catch all" redirection rule (0.0.0.0)
+
+
+Ad Hoc Testing 
+
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+Previous versions:
+| 1 
+| 2 
+| 3 
+| 4 
+| 5 
+| 6 
+| 7 
+| 8 
+| 9 
+| 10 
+| 11 
+| 12 
+| 13 
+| 14 
+| 15 
+| 16 
+| 17 
+| 18 
+| 19 
+| 20 
+| 21 
+|
+                    

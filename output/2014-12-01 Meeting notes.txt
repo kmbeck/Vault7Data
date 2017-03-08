@@ -1,0 +1,64 @@
+
+                        Owner: User #524297
+Sprint 2 Retrospective
+
+
+('details' missing)
+Retrospective
+
+
+
+What did we do well?
+Presented plan to Branch Chiefs, received good feedback
+
+
+What should we have done better?
+
+Creating JIRA issues for tracking discovered bugs
+Include User #77661 earlier in process
+
+
+
+
+What will we do differently next time to improve?
+
+Create actionable ways of improving 
+
+
+ID
+Status
+Task
+
+
+1
+complete
+
+User #524297 - Create VMVirtual Machine Remote Agents for DART
+
+
+17
+complete
+
+User #1179751 - Fix bug in Google Test result parser
+
+
+18
+incomplete
+Discuss resources with User #77661
+
+
+
+19
+incomplete
+Discuss final plan with User #77660
+
+
+
+
+
+
+Previous versions:
+| 1 
+| 2 
+|
+                    

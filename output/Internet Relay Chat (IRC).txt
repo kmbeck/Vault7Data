@@ -1,0 +1,117 @@
+
+                        Owner: User #524297
+Solaris Automated Install Server
+
+
+AI Zone
+
+Solaris 11.1 Automated Installer is running in a non-global zone at 10.3.2.188. 
+See Use the Solaris Automated Install Server   for installation instructions for Solaris 11.1
+
+IPS Package Repository for Solaris 11.1
+
+Run the following command to point your existing Solaris 11.1 installation to the package repository:
+pkg set-publisher -g http://10.3.2.188 solaris
+
+NFS Shares on the AIArtificial Intelligence Zone:
+
+/export/boot : contains the Solaris boot images, meant to be mounted by a Solaris Boot Server located in your subnet for Jumpstart.
+/export/install : contains the Solaris install images for Jumpstart.
+
+/export/jumpstart : contains the Solaris Jumpstart configuration files.
+
+/export/studio : contains the installation files for Solaris Studio compiler suites.
+
+Currently Supported Installs
+
+
+Version
+Release
+Architecture
+Method
+
+
+Solaris 11
+11.1
+sparc, x86_64
+AI
+
+
+Solaris 10
+01/13 (U11)
+sparc
+Jumpstart
+
+
+Additional Software Installs
+
+
+Product
+Version
+Supported Platforms
+Method
+
+
+Solaris Studio
+12.3
+Solaris 10, Solaris 11
+NFS
+
+
+Solaris Studio
+12
+Solaris 9, Solaris 10
+NFS
+
+
+
+
+Solaris Version Reference
+
+
+Operating System
+Release
+Architecture
+
+
+Most Recent
+x86 (32-bit)
+x86 (64-bit)
+sparc (64-bit)
+
+
+Solaris 8
+02/04
+NOT SUPPORTED
+NOT SUPPORTED
+SUPPORTED
+
+
+Solaris 9
+09/05 (U9)
+SUPPORTED
+NOT SUPPORTED
+SUPPORTED
+
+
+Solaris 10
+01/13 (U11)
+SUPPORTED
+SUPPORTED
+SUPPORTED
+
+
+Solaris 11
+11.1
+NOT SUPPORTED
+SUPPORTED
+SUPPORTED
+
+
+
+
+
+Previous versions:
+| 1 
+|
+                    

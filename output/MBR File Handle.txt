@@ -1,0 +1,32 @@
+
+                        MBR File Handle
+Overview
+This component uses Windows Objects to open a read/write handle to the raw disk containg the system's Master Boot Record (MBRMaster Boot Record).  The MBRMaster Boot Record starts at offset 0 in the file pointed to by the handle.  While the handle provided by the component allows read/write access to the MBR, and sectors 1-63 of the drive that are normally empty,  it currently does not//not allow raw writes to the filesystem on Windows 7+ systems. 
+ 
+Method
+This component reads the current system's MBRMaster Boot Record through a read call on PhysicalDisk0.  It then searches the directory of Windows Objects to find object names relating to IDEIntegrated Development Environment or SCSI devices.  This search method uses hased values of the strings "IDE" and "SCSI" to perform the search, instead of using clear-text identifying strings.  The component opens a read/write handle on each object that was found to contain either of the target strings.  If the first SECTOR_SIZE (512) bytes matches the system's MBRMaster Boot Record read earlier, then the component returns this handle.
+Restrictions on File Handle
+The handle returned by this component is opened for read/write.  However, there are certain restrictions that must be considered when using the handle
+
+All reads/writes must be exactly SECTOR_SIZE amounts (512).  This does not//not mean you can write 1024 bytes at once.  You must read/write exactly 512 bytes per read/write operation
+Calling read/write does not advance the file pointer.  You must manually move the file pointer using the Windows APIApplication Programming Interface (Ex. SetFilePointer)
+This (currently) will not allow you to write to the filesystem using the given handle on systems that normally prevent such actions from occuring (Ex. Windows 7).  You can write starting at sector 0 up until the first sector of the file system.  For example, if the NTFSNT filesystem (Windows) header is at sector 100, you can write on sectors 0-100.  Oddly enough, Windows 7 appears to allow you to overwrite the NTFSNT filesystem (Windows) header, but will block any attempt to write any sector after that.
+
+Source Code
+Source is available in the Stash repo (LINK HERE) along with a compiled version of the component.  The code builds a DLLDynamic Link Library with a single exported function which, when called, returns a handle to the MBRMaster Boot Record disk (or an invalid handle value if an error occured)
+ 
+PSP Profile
+As of this writing, the following PSPs do not flag the use of this component to replace the MBR, or write data to additional sectors after the MBRMaster Boot Record (but before the NTFSNTMicrosoft operating system filesystem (Windows) header):  AVG, Kaspersky, 360safe, McAfee, Symantec, Avira, Rising.
+The component includes a simple 360safe protection defeat.  360safe originally flagged this component when it attempted to write to the MBRMaster Boot Record sector and other sectors near it.  However, it was discovered that adding a junk string to the end of the device path when calling CreateFile tricked 360safe into thinking the component was not opening the MBRMaster Boot Record disk.  Windows, on the other hand, will always return the same handle pointing to the same file and offset, no matter what the junk string you added to the end of the device path.  
+ 
+Origin
+The original source of this component was found by AFD\RE during an examination of malware sent to them for analysis.  According to AFD, the source malware was attributed to probable Chinese FIO actors.  AFD reconstructed this component from assembly source, and replaced the hard-coded string checks with a more robust, and covert, string-hash checking system.  The Umbrage team changed AFD's implementation from a C++ class to a standard C\C++ Windows DLL.  
+ 
+Component Use
+Stolen Goods: An MBRMaster Boot Record hooking persistence method for Grasshopper
+ 
+
+Previous versions:
+| 1 
+|
+                    

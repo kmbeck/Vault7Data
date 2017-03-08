@@ -1,0 +1,100 @@
+
+                        Owner: User #3375506
+Grasshopper Requirements
+('details' missing)
+Goals
+
+Improve usability by simplifying the Grasshopper system model
+Improve capability by supporting runtime execution by each install component
+
+Functional Requirements
+
+
+#
+Requirement
+Notes
+
+
+1
+Tool shall survey target to determine appropriate installation
+ 
+
+
+2
+Tool shall select installation based on user-configurable rules
+ 
+
+
+3
+Tool shall provide a global rule that is evaluated to determine whether to run
+ 
+
+
+4
+
+Tool shall provide the following peristence mechanisms:
+ ???
+
+ 
+
+
+5
+Tool shall provide capability to generate log that records installation results and collected survey data
+ 
+
+
+6
+Tool shall support context-keying payloads
+ 
+
+
+Target Systems
+
+
+Requirement
+Notes
+
+
+
+Tool shall be compatible with the following operating systems:
+Windows XPWindows operating system (Version) Professional 32-bit
+Windows 7 Ultimate 32-bit
+Windows 7 Ultimate 64-bit
+Windows 8.1 Enterprise 32-bit
+Windows 8.1 Enterprise 64-bit
+Windows 2003 Server Enterprise 32-bit
+Windows 2003 Server Enterprise 64-bit
+Windows 2008 Server R2 Enterprise 64-bit
+
+ 
+
+
+
+Tool shall be tested and characterized against the following PSPs:
+360 Safe
+Kaspersky Internet Security Suite
+Microsoft Security Essentials
+Rising Internet Security
+Symantec End Point Protection
+
+ 
+
+
+Questions
+Below is a list of outstanding questions related to the requirement. Please add to the list as questions arise.
+
+
+Question
+Answer
+
+
+What set of v1.0 persistence mechanisms must be updated for v2.0?
+ 
+
+
+
+Previous versions:
+| 1 
+| 2 
+|
+                    

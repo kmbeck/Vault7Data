@@ -1,0 +1,45 @@
+
+                        Owner: User #14587667
+Bumble - Device Configuration
+Summary of Console Server Terminals
+Cisco 2851 telnet 10.9.8.7 7001Cisco 3845 telnet 10.9.8.7 7002HP MSR 4080 telnet 10.9.8.7 7005Cisco 2911 telnet 10.9.8.7 7006Cisco ASRAzure Site Recovery 1002 telnet 10.9.8.7 7007Cisco 3825 telnet 10.9.8.7 7008Cisco 2811 telnet 10.9.8.7 7009Cisco 3750 telnet 10.9.8.7 7010
+HP MSR4080
+Contains cards: MPU-100 (x2), SPU-100
+Location: Rack 2 U5-9
+Console: telnet 10.9.8.7 7005
+Management IP: 172.20.100.234/28
+Cisco 2911
+Location: Rack 2 U10-11
+Console: telnet 10.9.8.7 7006
+HWIC0: 2E1
+HWIC1: 1E1
+Management IP: 172.20.100.235/28
+Cisco 3845
+Location: Rack 2 U44 (??)
+Console: telnet 10.9.8.7 7002
+HWIC 4: 4E1
+Management IP: 172.20.100.236/28
+Cisco 3825
+Location: Rack 2 UXX
+Console: telnet 10.9.8.7 7008
+Management IP: 172.20.100.225/28
+Cisco 2811
+Location: Rack 2
+Console: telnet 10.9.8.7 7009
+HWIC 0: 1E1
+Management IP: 172.20.100.226/28
+Has a memory error trying to load IOS 
+
+Attachments:
+
+image2015-7-17 16:0:29.png
+
+
+Previous versions:
+| 1 empty
+| 2 
+| 3 
+| 4 
+| 5 
+|
+                    

@@ -1,0 +1,47 @@
+
+                        Owner: User #71473
+Shellterm 2.10 Test Server
+SECRET//NOFORN
+Introduction
+The shellterm 2.10 Test Server on OSB's ESXi server on DEVLAN is located at shellterm210.com – you need to be on the OSBOperation Support Branch VLANVirtual Local Area Network (10.2.8.X) and using the 10.2.8.201 DNSDomain Name System server to resolve and connect by domain name.  Otherwise, you can ssh to 10.2.8.225.
+ 
+Connecting to the Server
+To connect to the server, ssh using your favorite ssh client (git bash has a ssh client available) and connect with 
+ssh user@shellterm210.com 
+or
+ssh user@10.2.8.225
+The password is the standard DARTTest-Software (commercial) VMVirtual Machine password.
+ 
+Starting the Shellterm LP
+Once connected, startup the shellterm LPListening Post by running the following:
+cd /usr/local/sbin/shellterm
+sudo python st2server
+This will bring up the shellterm interface.  If a previous shellterm session did not terminate cleanly, you may have to manually remove the file /tmp/st_ice_pipe
+sudo rm /tmp/st_ice_pipe
+ 
+Placebos (clients) for Shellterm 2.10
+Placebos to connect to the Shellterm 2.10 server are located in \\fs-01\home\User #?\ST OSBOperation Support Branch payloads\shellterm2.10.3
+You can also generate new placebos using the placebo command in the Shellterm LP
+ 
+Establishing a New Session
+Double clicking the appropriate bitness of payload on the target system will initiate a new session with the Shellterm server.  Once a new session is connected, take note of the session number -- look for the following message 
+New Connection: (sessid: ##)
+To attach to the new session, type 
+attach ##
+where ## is the session number
+ 
+ 
+More to come.
+Load DLLs, ICEIn-memory Code Execution Dlls, etc.
+Just you wait, its gonna be awesome.
+ 
+ 
+SECRET//NOFORN
+ 
+ 
+
+Previous versions:
+| 1 SECRET
+| 2 SECRET
+|
+                    

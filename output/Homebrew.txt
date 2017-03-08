@@ -1,0 +1,15 @@
+
+                        Owner: User #13763861
+iOS Servers
+Laphroig
+Laphroig is designed to be the Hamr server for testing plugins with the Hamr delivery from Quaffle. This requires using an Ubuntu VM.
+Ardbeg
+Ardbeg is the unit testing server and should have an assortment of devices across multiple versions and types attached to it. It needs to communicate with the Bamboo application in order to run the unit tests.
+EagleRare
+Trashcan
+Needs to be renamed (it does not follow our naming convention 
+)
+Previous versions:
+| 1 
+|
+                    

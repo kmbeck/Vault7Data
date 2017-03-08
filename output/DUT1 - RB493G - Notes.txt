@@ -1,0 +1,147 @@
+
+                        Owner: User #14587667
+DUT3 - RB450G - Long Term Test
+IP: 172.20.100.18/30
+VLAN: 612  (TOR6 gi1/0/10)
+Tool Versions Used:
+ChimayRed 4.5.1
+TshPatcher 1.0.4
+Perseus 1.1.0
+7/1/2015
+
+Setup CactiEZ server for syslog/snmp. Turned Cacti server off since it wasn't working properly.
+Configured 192.168.88.9 as syslog server.To view logs: tail - f /var/log/syslog
+
+Configured Default Route (/ip route add gateway=172.20.100.17)
+Configured NATNetwork Address Translation (/ip firewall nat> add action=masquerade chain=srcnat out-interface=ether1)
+
+
+Configure NTPNetwork Time Protocol (/system clock set time-zone-name=America/New_York)
+
+
+Configure Syslog (/system logging action set 3 bsd-syslog=yes remote=192.168.88.9)
+
+Setup HTTPHypertext Transfer Protocol Seed from LANLocal Area Network host VMVirtual Machine (192.168.88.9) to webserver (172.20.11.104).
+Setup DNSDomain Name System Seed from LANLocal Area Network host VMVirtual Machine (192.168.88.9) to 4.4.4.4
+
+7/2/2015
+
+
+Configure SNMP
+
+ /snmp community set [ find default=yes ] addresses=192.168.88.10/32
+
+/snmp set enabled=yes trap-version=2
+
+
+Setup graphing of interface, CPU, Disk, and RAMRandom Access Memory on DUT.
+
+Before attacking DUT.
+
+
+7/6/2015
+
+Configured SSHSecure Shell server on COGComputer Operations Group ICON3 VM.
+Copied over ChimayRed v3.7, TshPatcher v1.0.4, and Perseus v1.1.0
+12:40 UTCCoordinate Universal Time : 
+
+Build flux node: flx-packer -s linux:mipsbe:mikrotik:6.x -o mt-mipsbe-flx_node_icon3 -k aaaabbbbccccdddd --link "ip4=172.20.12.100 tcp=443 watchdog=0:0" -m 1250
+
+7/7/2015
+
+10:20 UTC:  (CPU is toggling between 0% and 2%)
+Performing an 'ls' when you are hidden in a directory shows the files in that directory
+
+
+7/10/2015
+Checked resource usage (/system clock print = time: 08:59:32 date: jul/10/2015)                 
+
+7/13/2015
+Checked resource usage (/system clock print = time: 07:46:01 date: jul/13/2015)
+
+                       
+7/15/2015
+
+Viewed CPU, Memory, and Disk Usage graphs.  All looked normal.
+Checked resource usage (/system clock print = time: 06:46:19 date: jul/15/2015)           
+
+
+
+('view-file' missing)
+('view-file' missing)
+('view-file' missing)
+ 
+ 
+ 
+Operator Notes
+ROS 6.28 has a Firewall Filter Rule to drop access to WANWide Area Network side ethernet port.  This was disabled in order to throw ChimayRed.
+ 
+ 
+
+Attachments:
+
+
+2015-07-15_DUT3-Memory_Graph.pdf
+
+
+2015-07-15_DUT3-Disk_Usage_Graph.pdf
+
+
+2015-07-15_DUT3-CPU_Graph.pdf
+
+
+image2015-7-15 6:0:1.png
+
+
+image2015-7-13 6:58:26.png
+
+
+image2015-7-10 9:7:22.png
+
+
+image2015-7-10 8:56:45.png
+
+
+image2015-7-7 7:21:28.png
+
+
+image2015-7-7 6:25:22.png
+
+
+image2015-7-6 8:41:56.png
+
+
+image2015-7-2 9:45:9.png
+
+
+
+Previous versions:
+| 1 
+| 2 
+| 3 
+| 4 
+| 5 
+| 6 
+| 7 
+| 8 
+| 9 
+| 10 
+| 11 
+| 12 
+| 13 
+| 14 
+| 15 
+| 16 
+| 17 
+| 18 
+| 19 
+| 20 
+| 21 
+| 22 
+| 23 
+| 24 
+| 25 
+| 26 
+| 27 
+|
+                    

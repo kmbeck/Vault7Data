@@ -1,0 +1,60 @@
+
+                        Random bits of knowledge
+Pairing Records  
+ 
+MobileDevice
+Sep 17 17:15:18 iPhone mobile_storage_proxy[144] <Error>: 0x19cf67310 handle_receive_bytes: The request is missing the disk image signature
+Sep 17 17:15:18 iPhone mobile_storage_proxy[144] <Error>: 0x19cf67310 handle_receive_bytes: failed, unlinking
+Sep 17 17:15:18 iPhone mobile_storage_proxy[144] <Error>: 0x19cf67310 main: Could not receive bytes
+Sep 17 17:15:19 iPhone mobile_storage_proxy[145] <Error>: 0x19cf67310 handle_mount_image: Could not find disk image
+Update your iTunes. Your MobileDevices framework is too old.
+ 
+Building and Using XPWN tools (xpwntool, ipsw, dmg, etc)
+
+Download from internet: https://github.com/xerub/xpwn
+
+brew install libpng 
+Uses cmake, so do:mkdir ~/build && cd build && cmake ../xpwn && make && make package
+
+Xpwn-*.zip will be created with binaries
+test everything runs
+
+ 
+Decrypting an ipsw
+
+unzip the Xpwn-*.zip
+./dmg extract ~/Downloads/iOS9beta.unzipped/058-21603-023.dmg ~/Downloads/rootfs_decrypted.dmg -k <akey>
+
+ 
+ 
+NGINX / Apache Server Issues and Gotchas
+ 
+
+nginx and apache seem to respond differently for HTTPHypertext Transfer Protocol POST and GET requests. nginx causes old Nightskies code to crash when parsing the network stream, while it works fine in Apache. Still need to investigate why this is the case. 
+Check the SSLSecure Socket Layer version supported by the server VS what the implant is using - for example, Nightskies 2.9.1 was using SSLVersion3 while the test nginx server only supported TLSTransport Layer Security v1.
+If MISSIONCONTROL server is missing parameters in the HTTPHypertext Transfer Protocol response / POST from the target device, ensure NGINX redirection isn't stripping the parameters(http://test.com/val=1&anothervalue=2)
+
+
+ 
+Launchctl Issues - "Could not find domain for" on OSXApple operating system 10.10 Yosemite
+
+Make sure the launchd.plist is in ~/Library/LaunchAgents
+chown it to the same user and group that is executing the launchd plist
+The user loading the plist must be logged in via the GUIGraphical User Interface - if its just over SSH, it still will not work. After logging in, you can ssh in and launchctl load it successfully.
+
+ 
+ 
+ 
+ 
+ 
+
+Previous versions:
+| 1 
+| 2 
+| 3 
+| 4 
+| 5 
+| 6 
+| 7 
+|
+                    

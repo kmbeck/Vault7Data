@@ -1,0 +1,169 @@
+
+                        Windows Array List Snippet
+C++ header file for creating ArrayLists
+ 
+Check out the code on STASH: Array List Code Snippet
+ 
+/*
+ * Filename:		ArrayList.h
+ * Classification:	UNCLASSIFIED
+ *
+ * Author:			User #72251
+ * Date Created:	8/17/2010
+ * Version 0.9:		User #72251
+ * Version 1.0:		User #72251 (7/10/2013)
+ *
+ * This class is an ArrayList template (No shit).
+ * NOT independently thread-safe.
+ */
+
+#pragma once
+
+template<class T> class ArrayList
+{
+private:
+	T* array;
+	int arrayCapacity, currentLength, incrementSize;
+	void increaseCapacity();
+public:
+	ArrayList(int num = 10, int incSize = 10);
+	virtual ~ArrayList();
+
+	T& add(const T);
+	T& add(const T, int);
+	void remove(int);
+	int getSize();
+	int getCapacity();
+	T*& getArray();
+	T& get(int);
+	void erase(int num = 10);
+	T& operator[](int i);
+};
+
+template<class T> ArrayList<T>::ArrayList(int num /*= 10*/, int incSize /*= 10*/)
+{
+	array = new T[arrayCapacity = num];
+	currentLength = 0;
+	incrementSize = incSize;
+}
+
+template<class T> ArrayList<T>::~ArrayList()
+{
+	delete [] array;
+	array = NULL;
+}
+
+template<class T> T& ArrayList<T>::add(const T num)
+{
+	if( currentLength == arrayCapacity )
+		increaseCapacity();
+	array[currentLength++] = num;
+	return array[currentLength-1];
+}
+template<class T> T& ArrayList<T>::add(const T num, int index)
+{
+	if( currentLength == arrayCapacity )
+		increaseCapacity();
+	for(int i = currentLength++; i > index; i--)
+		array[i] = array[i-1];
+	array[index]  = num;
+	return array[index];
+}
+
+template<class T> void ArrayList<T>::remove(int index)
+{
+	for(int i = index; i < currentLength - 1; i++)
+		array[i] = array[i + 1];
+	currentLength--;
+}
+
+template<class T> int ArrayList<T>::getSize()
+{
+	return currentLength;
+}
+template<class T> int ArrayList<T>::getCapacity()
+{
+	return arrayCapacity;
+}
+template<class T> T*& ArrayList<T>::getArray()
+{
+	return array;
+}
+template<class T> T& ArrayList<T>::get(int index)
+{
+	return array[index];
+}
+
+template<class T> void ArrayList<T>::increaseCapacity()
+{
+	T* tempArray = new T[arrayCapacity+=incrementSize];
+	memcpy( tempArray, array, sizeof(T) * currentLength);
+	delete[] array;
+	array = tempArray;
+}
+
+template<class T> void ArrayList<T>::erase(int num)
+{
+	delete [] array;
+	array = new T[arrayCapacity = num];
+	currentLength = 0;
+}
+
+template<class T> T& ArrayList<T>::operator[](int i)
+{
+	return array[i];
+}
+/*
+ * Filename:		ArrayList.cpp
+ * Classification:	SECRET//NOFORN
+ *
+ * Tool Name:		ArrayList
+ * Requirement #:	2014-XXXX
+ *
+ * Author:			User #72251
+ * Date Created:	2/20/2014
+ * Version 1.0:		2/20/2014 (User #72251)
+ *
+ */
+
+#include <Windows.h>
+#include "ArrayList.h"
+
+struct DataRuns
+{
+	// In clusters
+	ULONGLONG length, offset;
+};
+
+int wmain(int argc, wchar_t* argv[])
+{
+	//	bool (*func)(int a, int b) = NULL;
+	//	func( 3, 5);
+
+	ArrayList<DataRuns> dRuns;
+
+	DataRuns dataRuns;
+	dataRuns.length = 1;
+	dataRuns.offset = 1;
+
+	dRuns.add(dataRuns);
+	dRuns.remove(0);
+
+	dRuns.add(dataRuns, 0);
+	dRuns.add(dataRuns, 0);
+	dRuns.add(dataRuns, 0);
+	dRuns.remove(0);
+	dRuns.remove(1);
+
+	return 0;
+}
+ 
+ 
+ 
+
+Previous versions:
+| 1 SECRET
+| 2 SECRET
+| 3 SECRET
+|
+                    

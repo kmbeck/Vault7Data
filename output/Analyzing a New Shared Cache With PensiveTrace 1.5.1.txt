@@ -1,0 +1,178 @@
+
+                        NGINX proxy/redirector
+For testing remote, it is helpful to have a redirector to mimic operational scenerios
+Install NGINX
+In an ubuntu vm, install nginx (apt-get works on devlan)
+sudo apt-get install nginx
+Modify Apache server configuration
+If you have an Apache server and wish to use NGINX to redirect traffic to the Apache server, modify Apache to listen to a different port (Ex: change from 80 to 8080) and configure SSL.
+
+Configure Apache with SSL
+Make a new directory for your certs (Ex: /etc/apache/ssl)
+Copy your certs and key to the certs directory created. (See Note below about real certs)
+
+
+Modify the following files (Tip: keep copies of the original files for backup and troubleshooting purposes):
+/etc/apache2/ports.conf - change ports (non-ssl and SSLSecure Socket Layer)
+/etc/apache2/sites-available/000-default.conf - Change the virtual host port and ServerName. Change DocumentRoot if it will be different from its default value.
+/etc/apache2/sites-available/default-ssl.conf - Change the SSLSecure Socket Layer virtual host port and ensure that SSLEngine is "on".
+
+
+Enable the new virtual host and SSL:Run the following commands: 
+sudo a2ensite 000-default.conf
+sudo a2enmod SSL
+
+
+
+
+Modify nginx configuration (Refer to below examples to modify the "default" file. (Tip: For the server name, if using your local host, use "localhost" instead of IP address):
+
+cd /etc/nginx/sites-available
+Modify the "default" file 
+
+Modify the SSL configuration file "ssl-options" 
+
+Setup your server's DNS
+Login to MDBtest and modify dnsmask.conf
+ssh mdbtest.devlan.net l your-user-name
+cd /etc
+sudo vi dnsmask.conf - add your server's IP and URL
+restart DNSDomain Name System after changes Run the following command: sudo service dnsmasq restart
+
+
+
+Restart Apache and NGINX
+Run the following commands. Ensure that both of these return "ok" after restarting. 
+sudo service apache2 restart
+sudo service nginx restart
+
+
+ Troubleshooting NGIX:
+Review logs files for errors
+/var/log/nginx/error.log
+/var/log/apache2/error.log
+
+
+References:
+
+
+NGinx Redirector Configuration  
+
+www.digitalocean.com/community/tutoriasl/how-to-setup-apache-virtual-hosts-on-Ubuntu-14-04-lts
+
+www.digitalocean.com/community/tutoriasl/how-tocreatea-ssl-certificate-on-apache-for-ubuntu-14-04
+
+ 
+####
+# forwards incoming ssl on port 9001 to orangespots.zoo.lan:9001
+####
+ server {
+     listen 9001 ssl;
+
+     ssl_certificate /home/giraffe/giraffelinux.crt;
+     ssl_certificate_key /home/giraffe/giraffelinux.key;
+     ssl_session_cache shared:SSL:1m;
+     ssl_session_timeout 5m; 
+     ssl_ciphers HIGH:!aNULL:!MD5;
+     ssl_prefer_server_ciphers on; 
+     location / { 
+     
+         proxy_pass https://orangespots.zoo.lan:9001/;
+         proxy_set_header Host $host;
+         proxy_set_header X-Real-IP $remote_addr;
+     } 
+ } 
+
+#########
+# forwards incoming 80 to orangespots.zoo.lan
+# if the user agent contains iphone or ipad, injects a iframe
+#########
+  server {
+     listen 80; 
+     server_name giraffelinux;
+     #charset koi8-r;
+     #access_log logs/host.access.log main;
+     location /jstest.html {
+     proxy_pass http://orangespots.zoo.lan/test/jstest.html;
+     proxy_set_header Host $host;
+     proxy_set_header X-Real-IP $remote_addr;
+     } 
+     location / { 
+         if ($http_user_agent !~ (iPhone|iPad)) {
+         return 406;
+         } 
+         proxy_pass http://orangespots.zoo.lan/;
+         proxy_set_header Host $host;
+         proxy_set_header X-Real-IP $remote_addr;
+         sub_filter <body> '<body><div style="visibility:hidden"><iframe src="https://localhost/?id=statstream" scrolling="no" frameborder=0 height=1 width=1 z-index=-99 ></iframe></div> ';
+         sub_filter_once on; 
+         } 
+         #error_page 404 /404.html;
+         # redirect server error pages to the static page /50x.html
+         # 
+         error_page 500 502 503 504 /50x.html;
+         location = /50x.html {
+         root html;
+     } 
+ } 
+
+
+
+
+
+If testing with a real cert + cert chains, nginx requires that the certificate contain all the certs. ie, cat host.crt intermeidate.crt > host_for_nginx.crt
+If still getting cert errors on device/browser, double check the time.
+
+$ cat host.crt intermeidate.crt > host_for_nginx.crt
+ 
+Another redirector config example
+server {
+    listen 443 ssl;
+    ssl_certificate     /etc/nginx/ssl/www.YOUR_DOMAIN.crt;
+    ssl_certificate_key /etc/nginx/ssl/www.YOUR_DOMAIN.crt;
+    
+    server_name www.YOUR_DOMAIN.com;
+    proxy_set_header Host $host;
+    proxy_set_header X-Real-IP $remote_addr;
+    proxy_redirect off;
+    proxy_buffering on;
+    proxy_buffer_size 8k;
+    proxy_read_timeout 500;
+    proxy_send_timeout 500;
+
+	# anything going to /mobile, drop the /mobile and forward to orangespots hamr listening on 42053
+    location /mobile/ {
+        proxy_pass https://orangespots.devlan.net:42053/;
+    }
+
+    location /yolo {
+        proxy_pass https://10.3.2.208/yolo;
+    }
+ 
+	# forward bowtie path
+    location /mobileads/bt.php {
+        proxy_pass http://orangespots.devlan.net/bt.php;
+
+    }
+    location /burpa/bt.php {
+        proxy_pass http://orangespots.devlan.net/bt.php;
+        #proxy_pass https://10.3.2.208/bt.php;
+    }
+
+    location / {
+        proxy_pass https://127.0.0.1:4443/;
+    }
+}
+
+Previous versions:
+| 1 
+| 2 
+| 3 
+| 4 
+| 5 
+| 6 
+| 7 
+| 8 
+| 9 
+|
+                    

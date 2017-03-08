@@ -1,0 +1,264 @@
+
+                        DerStarke
+
+('toc' missing)
+
+ 
+UDK/DerStarke Problems Moving to Mavericks
+
+
+ID
+Status
+Task
+
+
+3
+incomplete
+mtoc not including in Mavericks. This should be used with including in DarkBuilder DMG
+
+
+4
+incomplete
+gcc not including in Mavericks.  gcc in DarkBuilder cannot build 32-bit images.  clang does not recognize -combine option... remove it
+
+
+5
+incomplete
+XCODE5-DP still only allows building of previous 2 SDKs... contemplate what builder should do to support Lion kernel implants.
+
+
+
+ 
+
+Future Ideas
+Phase 1 of DSDirectorate of Support v1.3Phase 2 of DSDirectorate of Support v1.3Phase 3 of DSDirectorate of Support v1.3
+
+Build Options
+
+Switch to the Python builder based on Aeris - Done (but still not Windows compatible)
+Change DarkMatter to allow payload changes and GUIDGlobally Unique Identifier changes without a complete rebuild. That "configuration" step would be accomplishable by an operator
+Allow the installer to be written to a FAT-formatted USBUniversal Serial Bus drive as /boot/EFI/bootx64.efi. That would potentially allow the "configurator" step to be performed on Linux.
+Make builder and configurator work on Linux
+Allow patching of Bokor so that different combinations of OSOperating System support may be configured by the operator. Maybe use seperate FFS files for each of the kernel implants?
+Modify TritonBuilder to not create ImplantInstaller for a DerStarke build... maybe add a preprocessor directive #ifdef DERSTARKE... or something like that.
+Separate the Payload Builder and the Configurator
+Add a hibernation period that is optionally used only when hibernation date is unspecified.????? What is the easiest way to do this?
+
+
+Enhanced Beaconing
+Fix user-agent string when sending requests from beacon.
+Accept any HTTPHypertext Transfer Protocol responses < 400 (instead of requiring 2xx).  (Do we really want this??)
+Add a regular trigger based on time (not based on using a web browser), and add jitter. Maybe use mDNSResponder instead of a browser if no browser is in use?
+Can we open a Safari instance with no window and then connect to the Internet? We can do that with Internet Explorer on Windows fairly easily.
+Can we inject into Little Snitch? And what ports/hosts is Little Snitch allowed to access?
+Make the survey optional/as a bundle.
+Implement the "Common Command Set"
+Change "high-priority fetch" to "get"
+Add the ability to remotely configure the darkmatter NVRAMNon-volatile Random Access Memory variables.
+Add the ability to specify an array of tasks, to be executed sequentially.
+Add the ability to send a "Go Dormant and Hibernate" tasking to change the hibernation date so that it can go dormant after it starts.
+
+
+Enhanced Capabilities
+Modify Bokor to support loading kexts that interface with IOKit.
+Idea for a tasking payload: Implant a user's iPhone that is connected to the computer (either physically via USBUniversal Serial Bus or wirelessly via over-the-air synching that was introduced in iOS 5)
+Test Bokor by loading a kext that has scattered relocations ('otool -r' will provide details about relocations).
+Calc statitistics for the latest used web browser and try that one first
+Can we "fake" an EFIExtensible Firmware Interface update so the user thinks the firmware update happened, but didn't actually. Maybe also change the firmware version number.
+Make the Triton component updatable without firmware modifications.
+Find/create a directory on the hard drive where Triton will assume all files are encrypted bundles.
+Integrate MagicBox crypto.
+
+
+Obfuscation
+Definitely obfuscate strings in Loader.
+sysctl__hw_memsize
+GUIDs
+injection targets (diskarbitrationd)
+
+
+Removing "-g" from GCCGNU Compiler Collection build options in tools_def.txt seems to result in unrecognizable *.efi files...why?
+Obfuscate the Status and Config NVRAMNon-volatile Random Access Memory Var guid/names in Triton.
+
+
+Enhanced Persistence
+Add support for new hardware (MBP9x, MBA5x, MBP10x)
+Fix the determination of warning_count in regards to a system booting Windows.If a system booted Windows that should not be considered a failed injection. Some ideas are to examine boot.efi to see the last time OSXApple operating system booted.
+
+Identify the meaning of the first DWord in the zero-vector at the top of the firmware volume in the latest MBA firmware.
+
+Add a lock to PCH SPI FWH to not need to not have to deal with patching - APWould have to gain execution before the lock occurred
+
+Do an initial survey collection (as in Dark Mallet)
+Change the output format (from smileys) to something more intelligible (like SUCCESS or FAILURE with a 3-5 second sleep), and also provide an install receipt
+Make Thunderbolt driver that just loads VI from a connected SimpleFileSystem (to get around an EFIExtensible Firmware Interface password that prevents booting from USBUniversal Serial Bus drive).
+Productize persistence across firmware updates.
+Investigate Windows kernel injection at boot time.
+Detect EFIExtensible Firmware Interface compression scheme and use the appropriate compression algorithm.
+Find the threshold of when NVRAMNon-volatile Random Access Memory gets flushed... will help how to solve storing Triton config
+Compress kernel and user-space payloads before encrypting (and then have loader decompress them at runtime). This should dramatically reduce the size of Loader.
+Can we move the Uninstall code to actually execute during a Virtual Memory callback? This would make it look like the OSOperating System has already started booting.... and may help with the black screen problem on the 13" MBP8,1.
+
+
+Post-Processing
+Support export into CCDF format
+Allow multiple versions of the same file to be presented after post-processing (i.e. Use the path and modified date for unique identifiers)
+
+
+
+DoneIf an exfil is still on-going at beacon time, then send a response that the implant is still alive and is still working on an exfil. If the new tasking is high-priority, then stop the current exfil and start the high-priority exfil.
+
+
+
+DerStarke Jenkins Automated Build Process
+
+The Jenkins Build server is located at: http://10.2.0.107:8080/
+
+DerStarke Job is at: http://10.2.0.107:8080/job/DerStarke/
+
+
+
+Creating new Unlock files future firmwares
+
+Grab trunk of darkmatter and navigate to in/unlock dir
+Use SFIT to extract the PchSpiRuntime file (this file locks FVH through the PCH)
+Use the following command to parse the new firmware to find out which file is the PchSpiRuntimepython3 -m sfit <firmware file>
+
+Locate the PchSpiRuntime file (GUID: c194c6ea-b68c-4981-b64b-9bd271474b20)
+Extract the depex and efi files with the following command:
+python3 -m sfit <firmware file> <depex file id from prev listing> <output filename>
+python3 -m sfit <firmware file> <PE32 file id from prev listing> <output filename>
+
+
+Copy the depex and efi files to in/unlock/extracted
+
+
+Use Ghidra to find where to subvert flash locking code
+Find the FlashLockingCode function
+Use previous version of an RE'd firmware for guidance
+The function should have the following flow (or similar)
+Get the EfiHobList
+Iterate through to find the value of BootMode
+If BootMode == 0x12 or BootMode == 0x20 keep the flash unlocked... else lock the flash
+
+
+
+
+Patch the FlashLocking Code in order to always keep the flash unlocked
+General idea is that there is usually a local variable that is also being check (default name of cVar1 by Ghidra)
+If the variable == 0, the code will flow in the same direction of not locking the flash
+The variable is initialized to 0, and only assigned a value in one spot.
+Find that MOV statement, and NOP the 2-3 bytes of that instruction (NOP is 0x90)
+Make modicications in a hex editor, and reload into Ghirda to make sure it has the desired disassembly and flowI have had zero luck making the changes inside Ghidra and using the export wizard
+
+Save the file in in/unlock
+
+
+
+
+Generate Dxe File from Efi using create_unlock.py
+Open create_unlock.py inside the in/
+Find the definition of PchSpiRuntimeFiles structure (~line number22)
+Add a new entry for the new PchSpiRuntime fileElements are [filename of patched file done in step 3, extracted depex from step 2, output dxe with standard compression, output dxe with lama compression]
+
+Run the python file and you should have both a standard and lama compressed Unlock file
+
+
+Integrate new file into DarkMatter source
+For Makefile
+Add exports to point to respective .h files (MBXXX_UNLOCK_H and MBXXX_UNLOAD_LZMA_H)
+Add exports to point to respective .dxe files (MBXXX_UNLOCK_DXE and MBXXX_UNLOAD_LZMA_DXE)
+Add new .h to dependence to flash_unlock_files
+Add rule to create .h files (MBXXX_UNLOCK_H)
+
+
+For Loader.c
+Add #include for both .h files (std and lzma)
+Add new enum type MacModelNames
+Add new ImplantStruct PatchedFiles (make sure they align, ie, MacModelNames MBP_61 is the 0th element of PatchFiles)
+Add if case inside function PatchFirmware()
+
+
+
+
+
+
+
+Compiling UDK BaseTools for Linux
+
+Copy UDK/BaseTools/Source to Linux destination
+Add -static flag to Source/C/Makefiles/app.makefile:$(LINKER) -static -o $(APPLICATION) $(LFLAGS) $(OBJECTS) -L$(MAKEROOT)/libs $(LIBS)
+
+Only need to build the following binaries for DerStarkeBuilder:
+GenSec
+GenFfs
+LzmaCompress (Standard compress is built into GenSec)
+
+
+If Linux distro does not have uuid lib, remove it from any GNUmakefile (UDK doesn't actually use it):Example: Source/C/GenSec/GNUmakefile
+
+make clean && make at Source/C path... output at Source/C/bin
+
+
+
+Compile and Executing TETransmission Error files for Mac EFIExtensible Firmware Interface Firmware
+
+Compile a TETransmission Error image
+in the INF file, set MODULE_TYPE = PEIM
+Copy a new FDF file from UDK2010.UP4/EdkCompatibilityPkg/EdkCompatibilityPkg.fdf
+In the new copy, 
+Add INF $(PathAndInfFilename) of PEIPre-EFI Initialization INF file
+Under [Rule.Common.PEIM], modify PE32 to TE.  Rule should look like:TE        TE             |.efi
+
+
+
+Execute: build fds -t XCODE32 -a IA32 -f <path_to_inf_file>
+TE will be located in: UDK2010.UP4/Build/EdkCompatibilityPkg/RELEASE_XCODE32/FV/Ffs/<guid><component name>/<guid>
+
+
+Calculate new image base
+Obtain image base of file right before the insertion of new PEIM FFSSFIT will show this value with -vvv option
+
+New image base = previous image base + FFS header (0x18) + size of any other leaf section to the TETransmission Error header (do not include TETransmission Error header size)
+
+
+Fixup TETransmission Error relocations./te_rebaser.py <orig raw TETransmission Error file (no section header)> <image base in hex> <output TETransmission Error file>
+
+
+Notes:
+
+Apple TETransmission Error images are based in memory mapped firmware (0xFFF0xxxx).  Code cannot write to global static variables.  Only variables declared on the stack.
+If needed to have global variables, compress a PE32 without memory fixups.  PEI Dispatcher will decompress in main memory
+
+ 
+ 
+ 
+
+ 
+ 
+
+Sub-Pages:
+
+
+DerStarke 2.0 
+
+
+Updating DerStarke v1.4 to Yosemite 
+
+
+Creating new Unlock files future firmwares 
+
+
+
+Previous versions:
+| 1 
+| 2 
+| 3 
+| 4 
+| 5 
+| 6 
+| 7 
+| 8 
+| 9 
+|
+                    

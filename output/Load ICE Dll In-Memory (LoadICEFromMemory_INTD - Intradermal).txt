@@ -1,0 +1,68 @@
+
+                        Inject Fire and Forget Dll From Memory Into Remote Process (InjectFireAndForgetFromMemory_HYPD - Hypodermic)
+SECRET//NOFORN
+ 
+OSB Library: Payload Deployment
+
+Module Name: All name information regarding the module to include file name, crypt name, etc.
+ 
+Module Description: Describe how the technique works. All the cool things it does. Describe how cool the module writer is, etc.
+ 
+PSP/OS Issues: Any PSP/OS issues associated with the technique.
+ 
+('excerpt' missing)
+ 
+Sharing Level: Unilateral, Liaison, Intelligence Community (Default: Unilateral - until otherwise noted)
+ 
+Technique Origin: In-house, internet/open-source, reversed malware, stolen, etc.
+ 
+Notes: Any information that could be useful to anyone maintaining the code or using the code. i.e. This module uses Alternate Data Streams which are only available on NTFSNTMicrosoft operating system filesystem (Windows) volumes.
+ 
+Module Specific Structures: Any module specific data structures. (Any PVOID pvStructs).
+ 
+Example Code:
+// Injects improvedDummyDll into notepad.exe as a Fire & Forget v2.0 module with a command line argument string
+ 
+IPayload::PayloadErr retVal;
+HANDLE hProc = NULL;
+DWORD dwFireAndForgetThreadExitCode = 0;
+HANDLE hFireAndForgetThread = INVALID_HANDLE_VALUE;
+ 
+retVal = InjectLibraryFromMemory::OpenProcessByName(&hProc, L"notepad.exe");
+ 
+if (SUCCEEDED(retVal) && hProc != NULL)
+{
+	InjectFireAndForgetFromMemory myFireAndForget;
+ 
+	// setup arguments structure -- these must be heap allocated with the new operator
+	PMODULE_INJECT_ARGS pInjectArgs = new MODULE_INJECT_ARGS;
+	// fire and forget args are a substructure
+	pInjectArgs->pRemoteArgs = new MODULE_REMOTE_ARGS;
+	// set remote process handle in args struct
+	pInjectArgs->hProcess = hProc;
+	// set fire and forget version in fire and forget substruct
+	pInjectArgs->pRemoteArgs->version = 2;
+	// set commandline in fire and forget substruct
+	wcscpy_s(pInjectArgs->pRemoteArgs->cmdline, L"Unit Test Command Line");
+ 
+	// execute will kick off the remote Fire & Forget thread, which we need to wait on to get the return code
+	retVal = myFireAndForget.execute(improvedDummyDll, sizeof(improvedDummyDll), pInjectArgs, sizeof(MODULE_INJECT_ARGS), &hFireAndForgetThread);
+	WaitForSingleObject(hFireAndForgetThread, INFINITE);
+	GetExitCodeThread(hFireAndForgetThread, &dwFireAndForgetThreadExitCode);
+ 
+ 
+	// NOTE: You don't need to CloseHandle on hProc, as the destructor for InjectFireAndForgetFromMemory closes it for you.
+	// NOTE: DO NOT delete the pInjectArgs or pInjectArgs->pRemoteArgs yourself -- these are cleaned up by the InjectFireAndForgetFromMemory inside its destructor.
+}
+ 
+ 
+If Miscellaneous Modules were used in the creation of this module, include the tool list excerpt from this page inside the tool list excerpt of each Miscellaneous Module used. For example, if the CreateDirectoryWithAttributes Misc. Module was used, add an "Excerpt Include" macro inside of the Tool List Excerpt on the documentation page for the CreateDirectoryWithAttributes module. The tool list for this module should now always show up in the list of tools that use the CreateDirectoryWithAttributes.
+SECRET//NOFORN
+ 
+ 
+
+Previous versions:
+| 1 SECRET
+| 2 SECRET
+|
+                    

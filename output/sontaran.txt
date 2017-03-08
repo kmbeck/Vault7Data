@@ -1,0 +1,192 @@
+
+                        sontaran
+
+('toc' missing)
+Development Notes
+Status Updates
+
+
+Sontaran Status Update 1  SECRET
+
+Status Update 2  SECRET
+
+Development Resources
+
+PHONE: https://10.3.2.151/, phone menu password – 123456, web interface admin – 123456
+SDK VM:  10.3.2.89.  SDKSoftware Development Kit and TAPITelephony Application Programming Interface unpacked and built in /home/user/ifx-com-linux/.  users:  user/10sne1, root/10sne1
+HIVE-BUILDER:  10.2.5.2.  Sample TAPITelephony Application Programming Interface application called "survey" in /root/sontaran/branches/survey.  See Makefile for example on how to reference the toolchain.  users: user/10sne1, root/10sne1
+
+System Configuration
+
+Firmware V2 R0.90.0 6/29/2012
+webroot = /Opera_Deploy/appWeb/web
+Phone runs linux-2.4.31
+Processor is MIPS-BE
+/tmp is reset each time the phone is booted
+for boot time execution, creating /etc/rc.local, /etc/init.d/test.sh, /etc/rc.d/rc3.d/test.sh did not work.  Might try modifying /etc/init.d/rcS or /etc/inittab or /etc/profile (per INCA_IP2_LinuxBSP_Rel2.0_UM_PR_Rev1.0.pdf, Section 2.2).  /etc/init.d/rcS tested and known to work.
+System loads kernel drivers in /etc/init.d/rcS from /lib/modules/2.4.31-INCAIP2-01.03.00/kernel/drivers/siemens-opera/
+Good information can be found by cat-ing the various files in /proc/driver and /proc/devices.
+From /proc/driver/ifx_mps/version – MPS Mailbox version 1.2.1 (SDKSoftware Development Kit has v1.2.3 from source/kernel/ifx/bsp/arch/mips/infineon/incaip2/mps/mps_linux.c)
+
+Establishing Initial Access for Development
+
+Use the hive-builder 10.2.5.2 (or another) to cross compile code for the phone.
+The phone temporarily allows SSHSecure Shell access to the admin user via the web interface (Administrator Pages > Maintenance > Secure Shell).
+Files can be transferred to the phone via TFTPFile transfer software (don't forget to chmod a+x the file once it is transferred to the phone).
+phone$  tftp -g -r <filename> <hostname> <port>
+wkstn$  sudo /usr/sbin/in.tftpd --daemon --port 6969 /tmp (this is for atftpd)
+
+
+The web server attempts to execute (yes, execute) any page requested by a client. 
+The webroot directory is writable by the admin user.
+TinyShell (tsh) has been compiled for the phone for port 12345 and password "wboKtbEYVTWAVIig".  Using the admin user via SSHSecure Shell and TFTP, tsh was put in /usr/sbin and the webroot.  Additionally, a script named tshd.cmd has also been placed in the webroot.  To start tsh, hit this page https://10.3.2.151/tshd.cmd .  Web interface credentials are not required.  That page will provide status, and in the background, it will kick off tsh with root privileges.  Use the tsh client to connect for root shell.
+
+SDK
+Documentation is from 2006/2007:
+
+EASY21653_LinuxBSP_Rel2.2_GS_Rev2.4.pdf – INCA IP2 Reference System (See Sec 4 for instructions on setting up the SDKSoftware Development Kit)
+
+INCA_IP2_LinuxBSP_Rel2.0_UM_PR_Rev1.0.pdf – Linux BSP Programmer's Reference (documents the ifx_mps APIApplication Programming Interface)
+
+TAPI_V3_UM_PR_Rev15.pdf – Telephone Application Programming Interface (documents the TAPITelephony Application Programming Interface and VMMC drivers)
+
+INCA_IP2_V1.2_BootROM_Rel1.4_UM_Rev1.1.pdf – User's Manual for BootROM
+
+INCA-IP2_LAN_Phone_V2.2.1_RN_Rev1.0.pdf – Software Release Notes v1.1
+
+INCA-IP2_LinuxBSP_V2.2.1_RN_Rev1.2.pdf – Software Release Notes v1.2
+
+EASY_21653_V1.2_HDG_Rev1.1.pdf – Preliminary Hardware Design Guide
+
+INCA_IP2_V1.2_BootROM_Rel1.4_UM_Rev1.1.pdf – High-Level Application Programming Interface (documents the HAPIHL7 Application Programming Interface driver)
+
+
+INCA, TAPI, VMMC, and HAPIHL7 Application Programming Interface driver code, and a few samples, are in the SDKSoftware Development Kit Bundle.  First unpack the INCA IP2 SDKSoftware Development Kit and follow the instructions in EASY21653_LinuxBSP_Rel2.2_GS_Rev2.4.pdf (Section 4 onward).  The TAPITelephony Application Programming Interface code is not part of the main bundle.  Run EASY\Software\TAPIv3\ifx_tapi.run and it will create a folder ifx_tapi with a driver for each folder.  Although the TAPITelephony Application Programming Interface bundle is kernel code, there are several header files one can reuse for user space applications.  See section below for more notes and observations on on how to building the SDK.
+
+Example user-space programs are in the INCA IP2 Linux Board Support Package.  Untar EASY\Software\Linux_BSP\iip2_linuxbsp_02.02.01.tgz.  In the extracted files, sample programs are found in iip2_linuxbsp_02.02.01\source\user\ifx.
+The /dev/vmmc1X files are not available by default.  The documentation indicates these are higher level APIs and will make writing applications easier.  The documentation indicates the following kernel modules must be loaded in this order:  insmod drv_tapi, drv_vmmc.  Building these modules also produces a hapi.o file.  Currently, loading hapi.o fails on load.  However, my current assessment from the documentation is that the  HAPIHL7 Application Programming Interface APIApplication Programming Interface is not needed.
+Source code notes:
+mps.h – definitions for registers and mailbox structures
+mps/proc/debug.h – currently not enabled
+commands in kernel/ifx/bsp/arch/mips/infineon/incaip2/basic/ikos.c – several messages given, test code could be modified for standalone program???
+
+
+Schematics
+Mainboard_V1_2_Ref_INCA.pdf
+Keyboard_V1_2_Ref_INCA.pdf
+Displayboard_RefV1_2_INCA.pdf
+Adapterboard_v1_2_Ref_INCA2.pdf
+
+
+
+Building the SDK
+
+Not necessary, but the easiest way to build the provided sample code and kernel modules.  Use EASY21653_LinuxBSP_Rel2.2_GS_Rev2.4.pdf with the following additional clarifications on how I got it to work:
+Start with Para 4, Software Installation
+Para 4.1 – "uclibc-toolchain" not part of path, add PATH and CCACHE_PATH to ~/.bash_profile
+Para 5.1.1 – Select 'Change default configurations' else some of the dependent configurations will not be created
+Para 5.1.1 – For 'Select Toolchain', used 'Only_3_3_6_based' since building kernel and user applications.
+Para 5.1.1 – Ensure path to toolchain is correct.  'Build Directory Path' was empty, so I added it.
+Para 5.1.1 – When it comes to choosing which applications to build, I built all but the phone applications and the opensource applications
+Para 5.1.2 – 'make images' was good enough for me, but only after doing the following.
+'cd ifx-com-linux/source/user/ifx/ifx_tapi'; and './build.sh config-only'
+'cd ifx-com-linux/source/user/ifx/ifx_vmmc'; and './build.sh config-only'  (or possibly just 'build.sh')
+then run 'make images' and kernel modules are output to /tmp/build/root-filesystem/user/local/pa – copy drv_tapi, drv_vmmc, and hapi.o
+
+
+Once you insmod drv_tapi and then drv_vmmc, there will be additional /dev/vmmc1X devices and entries in /proc/driver and /proc/devices
+
+Next Steps
+
+Try to load my drivers at boot time, first
+Continue to look at source
+Check older phones for presence of /dev/vmmc1X
+Are some modules loaded only when connected to the call manager?
+Continue to study the sample applications that use the ifx_mps interface
+Locate and reverse binaries that seem to have similar functionality
+
+
+Attachments:
+
+
+Mainboard_V1_2_Ref_INCA.pdf
+
+
+Keyboard_V1_2_Ref_INCA.pdf
+
+
+Displayboard_RefV1_2_INCA.pdf
+
+
+Adapterboard_v1_2_Ref_INCA2.pdf
+
+
+ifx_tapi.run
+
+
+TAPI_V3_UM_PR_Rev15.pdf
+
+
+SPINACER_VoIP_IPP_Subsystem_HAPI_Rel2.2_UM_PR_Rev1.1.pdf
+
+
+INCA-IP2_TAPI_V3.5.2_RN_Rev12.pdf
+
+
+INCA-IP2_LinuxBSP_V2.2.1_RN_Rev1.2.pdf
+
+
+INCA-IP2_LAN_Phone_V2.2.1_RN_Rev1.0.pdf
+
+
+INCA_IP2_V1.2_BootROM_Rel1.4_UM_Rev1.1.pdf
+
+
+INCA_IP2_LinuxBSP_Rel2.0_UM_PR_Rev1.0.pdf
+
+
+EASY_21653_V1.2_HDG_Rev1.1.pdf
+
+
+EASY_21653_INCA_IP2_V1.1_TB_Rev1.0.pdf
+
+
+EASY21653_LinuxBSP_Rel2.2_GS_Rev2.4.pdf
+
+
+
+Sub-Pages:
+
+
+Status Update 2 SECRET
+
+
+Sontaran Status Update 1 SECRET
+
+
+
+Previous versions:
+| 1 
+| 2 
+| 3 
+| 4 
+| 5 
+| 6 
+| 7 
+| 8 
+| 9 
+| 10 
+| 11 
+| 12 
+| 13 
+| 14 
+| 15 
+| 16 
+| 17 
+| 18 
+| 19 
+| 20 
+| 21 
+| 22 
+|
+                    

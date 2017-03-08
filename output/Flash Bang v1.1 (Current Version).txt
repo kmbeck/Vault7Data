@@ -1,0 +1,65 @@
+
+                        Flash Bang v1.1 (Current Version)
+SECRET//NOFORN
+Flash Bang v1.1
+ 
+Description:
+Flash Bang is a tool designed to be able to migrate from a browser process (using sandbox breakout), escalate privileges, and memory load a NODNetwork Operations Division Persistence Spec dll. To do these things Flash Bang is broken into two parts: FlashBangLoader.dll and FlashBang.dll. FlashBangLoader.dll runs from within the browser process for the duration of execution. FlashBang.dll is written to disk and never runs from within the browser. When loaded into the browser process (Fire and Forget Spec), FlashBangLoader.dll writes FlashBang.dll to disk and then uses the PEULinkedIn_x86x64 privilege escalation module to break out of the sandbox and escalate privileges. Once the tool escalates privileges, it memory loads a NODNetwork Operations Division Persistence spec dll. 
+ 
+This tool was built for a specific CONOPConcealed Operation but could be modified to fit a wider set of CONOPS. Currently, it is assumed that the target is exploited initially by Windex. The ShellTerm instance running inside the browser loads the FlashBangLoader.dll. For this specific build Flash Bang is configured to install a Grasshopper/Anthill/Assassin package.
+Design and Concept of Operations (JQJVIGOR):
+ 
+
+Malformed MHT file is sent to target. The .mht extension by default opens in Internet Explorer. 
+An IFRAMEEmbedded Webpage inside of the MHT allows IOCInformation Operation Center to Windex the machine, loading ShellTerm into the process space of the sandboxed IEInternet Explorer process. 
+FlashBang is loaded into the sandboxed IEInternet Explorer process by ShellTerm. 
+FlashBang privilege escalation is used to exit IEInternet Explorer sandbox and gain SYSTEM code execution. 
+The Grasshopper/Anthill/Assassin package is installed on the target machine.  
+
+ 
+
+Stash Repository:   Flash Bang Repository
+
+ 
+Testing Repoistory:   N/A
+ 
+Documentation:
+('section' missing)
+ 
+Latest Testing Results:
+Operational Use:
+JQJVIGOR
+ 
+Highlights:
+ 
+Technique Tracking:
+List of techniques used by Project
+LinkedIn User Mode LPE - PEULinkedIn_x86x64
+ 
+Change Log:
+
+('excerpt' missing) Older Versions:
+ 
+ 
+SECRET//NOFORN
+ 
+ 
+
+Attachments:
+
+
+image2015-3-30 12:11:43.png
+
+
+image2015-3-30 9:53:17.png
+
+
+
+Previous versions:
+| 1 SECRET
+| 2 SECRET
+| 3 SECRET
+| 4 SECRET
+| 5 SECRET
+|
+                    

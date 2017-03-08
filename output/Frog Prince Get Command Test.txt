@@ -1,0 +1,54 @@
+
+                        Frog Prince Get Command Test
+Requirement(s)
+4.1.3  The implant shall support uploading a file from the target to the C2 Infrastructure.
+4.1.4  The implant shall  compress files being uploaded  from the target to the C2 Infrastructure.
+4.1.5  The implant shall encrypt files being uploaded  from the target to the C2 Infrastructure.
+Preparation
+
+Identify or create a text file as a known entity
+take md5sum of file and file size
+make file large enough to easily demonstrate compression
+add multiple instances of unique string to file
+
+
+Write scripts for user interface
+get command for file
+queue status to verify command was run
+
+
+Write utility to examine publish file format .gz,   install on C2
+looks for file
+unpacks file
+md5sum file
+deletes file and .gz
+Write man-in-middle program to substitute for post-processor program
+MIM copies file received on C2 for use in test
+MIM passes original file to post-processor program
+
+
+create alternative .treasuremap  for MIM setup
+pre-stage code and .treasuremap on LP
+Write simplistic publish program that simply moves published .gz file to work area
+update LPListening Post snapshot
+
+Get Test(s)
+
+copy test file to target
+update .treasuremap to insert MIM on C2
+copy install vector and Frog Prince module on target
+install Frog Prince
+use script to issue get command
+wait for file to show up in publish work area on C2
+Use prestaged utility to verify file matches one staged on target and retrieved
+examine MIM copied file
+verify no known text string from source file is found in file
+verify file size is in line with that expected from creating a tar file from source file
+
+
+
+
+Previous versions:
+| 1 
+|
+                    

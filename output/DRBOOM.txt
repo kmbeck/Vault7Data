@@ -1,0 +1,32 @@
+
+                        Owner: User #15728648
+End to End Nightskies 3.x Install with Poseidon
+
+Log into http://poseidon.devlan.net/ and select 'Web Application'
+Create a new device, and configure it. mdbtest.devlan.net is already set up as a LPListening Post for Nightskies 3.x. The LPListening Post directory is /srv/www/nsx.
+Generate the Install package.
+Use MISSIONCONTROL / CRUNCHYLIMESKIES to install Nightskies.
+Create new JOB in POSEIDON.
+scp over the new .avc file over to the LP. Use the '~/addjob.sh' script to add the job to the database.
+Browse to a webpage on the implanted device to create some traffic and trigger a beacon.
+scp the output files from /srv/www/nsx/outbox/ over to the poseidon SMB share, smb://poseidon.devlan.net/Import/
+Refresh the poseidon web application and you should see new data products for your device.
+
+ 
+
+Comments:
+
+
+2015-04-23 10:38 
+[User #15728648]: 
+
+These are instructions are specific for DEVLAN installs, but besides the urls, everything else should be the same. The official Nightskies and Poseidon documentation go more into detail.
+
+
+2015-03-06 13:31 
+[User #524297]: 
+
+would i be able to use this from say, IOCInformation Operation Center Europe?  or is it just for testing?
+
+
+                    

@@ -1,0 +1,76 @@
+
+                        New Developers Guide for MDB
+
+
+Android  
+
+
+iOS  
+
+Training plan for new developers:
+
+Day 1: 
+Overview of the branch, walk thru MDB, WGB, AEDApplied Engineering Devision and EDGEngineering Development Branch front offices.
+Setup devalue and internet accounts
+
+
+Day 2: Setup development environment
+
+Android Developer Setup  
+
+
+iOS Developer Setup Guide - New Developers Click Here  
+
+
+
+
+Day 3:
+AED Development Tradecraft
+Training on EDGEngineering Development Branch development resources and tools:
+Stash
+Jira
+
+Confluence (Droid and iOS)
+Bamboo
+
+
+
+
+Day 4:
+Overview of MDBMobile Development Branch products & tools, techniques, architecture, etc.. (may require a 2nd day):
+Android:
+Privilege Escalation (privesc)
+Remote Code Execution (RCE) Exploits
+Implants
+Anger Management
+
+
+iOS:
+iOS Exploits
+Implant
+
+
+
+
+Day 5:
+
+Git Distributed Version Control Home  
+
+Git hands on tutorial (unclassified internet) --> pcottle.github.io/learnGitBranching/ 
+
+
+Day 6:Introduction to Poseidon
+
+Day 7:Attempt to build a couple products such as Bowtie and Anger Management
+
+Day 8:Assign small task(s) via Jira.
+
+
+
+
+
+
+Previous versions:
+| 1 
+|
+                    

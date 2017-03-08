@@ -1,0 +1,18 @@
+
+                        Including 3rd party python libraries for DART remote testing
+When running DARTTest-Software (commercial) tests through undermine, you'll notice that there is a local Python installation in tyrant/tybase/PythonLocal with a symbolic link to the python binary in tyrant/tybase
+This is where you'll need to put 3rd party python libraries that are used by your undermine scripts (Ex. PyCrypto)
+However, when using remote_commit, this PythonLocal folder you've taken the time to setup in tyrant/tybase/PythonLocal is ignored.  While the output of remote_commit makes it seem like your local PythonLocal folder is being uploaded/sync'd on the server, in reality the PythonLocal folder in your tybase folder on the remote testing server is deleted and re-created using a .zip file (which by default won't have your 3rd party libraries in it).
+ 
+To add your 3rd party python libraries to your tybase PythonLocal folder on the remote server, you'll need to modify the .zip file being used to install a clean copy of Python.  This zip file is located in your local tyworkflow folder:
+/tyworkflow/media/tybase/src/tybase/palantir/installer/platforms/linux/x86_64/Python27.zip
+ 
+Make alterations to your local copy of Python27.zip.  Then use remote_commit to sync, and you'll update the remote copy.  Now, all future rsync commands will install your new copy of Python2.7, with your 3rd party libraries in the Lib folder. 
+This is the only way I've found to use 3rd party python libraries through DARTTest-Software (commercial) when using test plans (remote_commit)
+ 
+Also, the version of GLIBC on the remote server is 2.12.  Make sure your 3rd party python libraries are built accordingly.
+
+Previous versions:
+| 1 
+|
+                    

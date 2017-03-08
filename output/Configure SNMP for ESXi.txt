@@ -1,0 +1,41 @@
+
+                        Owner: User #14587667
+Ubuntu Server VM Template Creation Checklist
+This is intended to function as an example/checklist for creating linux VMVirtual Machine templates.  
+OS: Ubuntu Server x64 14.04 LTS
+VM Hypervisor: ESXi2
+VM Name: UbuntuServer 14.04 LTS
+
+Set Network settings
+IP Address:10.9.9.80
+Netmask: 255.255.255.0
+Gateway: 10.9.9.1
+DNS: 10.9.9.12
+
+
+Username: ubuntu
+Password: NDBrul3s!
+Setup apt-get repository
+sudo vi /etc/apt/sources.list
+Delete all of the lines in the config related to adding User #75100 repos.
+Add the line: User #75100 http://repo.devlan.net/ubuntu/ trusty main restricted
+
+
+No automatic updates
+Software Installed:OpenSSH server
+
+Install VMware tools from vSphere
+Update OSOperating System packagessudo apt-get update && sudo apt-get upgrade
+
+
+ 
+Changes to make:
+Edit /etc/ssh/sshd_config.  Add entry 'UseDNS no"
+ 
+ 
+
+Previous versions:
+| 1 
+| 2 
+|
+                    

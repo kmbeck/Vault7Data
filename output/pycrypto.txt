@@ -1,0 +1,22 @@
+
+                        Owner: User #15728648
+Testing Different Network Connectivity States Using Network Link Conditioner
+
+If you have a previous Network Link Conditioner preference panel installed, remove it, clear the trash, and restart your machine.
+Install the latest Network Link Conditioner from the Hardware IOInformation Operations Tools dmg -  use fs-01.devlan.net/share/MDB/OSX/Software/Apple/hardwareiotools_for_xcode_6.1.dmg for Mavericks
+Restart your machine
+Network Link Conditioner should now be properly installed and you can enable the different profiles.
+
+ 
+
+ 
+
+Attachments:
+
+image2014-11-18 10:21:6.png
+
+
+Previous versions:
+| 1 
+|
+                    

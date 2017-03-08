@@ -1,0 +1,54 @@
+
+                        Owner: User #3375374
+Funny Code 2012
+ 
+Funny Code post from 2012.
+
+While working on a project, I ran into this error and it as tricky to resolve.
+"//fatal error C1905: Front end and back end not compatible (must target same processor).LINK : fatal error LNK1257: code generation failed//"
+Which module was responsible?  Using the /VERBOSE switch can help as itoften shows the last library searched which most likely contains the code.  My project had a large number of linked components that I wanted to test to ensure that the architecture matched so I used the following batch command.
+for /r %f in (tmp\media\x64\*.lib) do @echo %f && dumpbin /headers %f | findstr /c:"machine (x64)"for /r %f in (tmp\media\x64\*.lib) do @echo %f && dumpbin /headers %f | findstr /c:"machine (x86)"
+They were all correct and clean rebuilding did not clear up the problem. Turned off 'Link Time Code Generation' on the library that was searched last as identified by the /VERBOSE switch. Problem fixed!
+
+I ran into a tricky scenario with the error code convention below. In each file I wanted unqiueness in the error code.   A global enum would work but then the same header has to be included in each file.  It is straight forward to generate a list via grep. Unfortunately they came back unordered so its difficult to see if they are unique.
+  C:\Work\rdb\elsa\src\baes.cpp(113):#define BASE_ERROR(ln) RC_ERROR(5000, ln)  C:\Work\rdb\elsa\src\baes.cpp(113):#define BASE_ERROR(ln) RC_ERROR(5000, ln)  C:\Work\rdb\elsa\src\elsa.cpp(94):#define ELSA_ERROR(ln) RC_ERROR(451, ln)  C:\Work\rdb\elsa\src\elsa_io.cpp(11):#define ELSA_IO_ERROR(ln) RC_ERROR(453,ln)  C:\Work\rdb\elsa\src\elsa_io.cpp(11):#define ELSA_IO_ERROR(ln) RC_ERROR(453,ln)
+Using python here is how ended up having to sort them.
+ 
+def key(x):    return x[x.find("RC_ERROR(")+9:x.find(",")]
+fd = open(r"C:\Work\unsorted.txt", "rb")l = sorted(set(fd.read().split("\n")), key=key)for i in l : print ifd.close()
+
+
+This snippet of code makes it easy to attach a debugger to a starting service.
+ #ifdef USE_BREAK_ON_SERVICE_START // In WinXP at service start, on breakpoint hit cancel and select debugger // In Vista at service start, Services are launched in the session 0 desktop // while the interactive debugger is in the session 1 desktop. When the  // debugger is not attached the breakpoint is handled as an application  // exception e.g. exit process. // Remote debugging at application start up, use the debug break to pause // until the debugger is connected. for (int bContinue = 1; bContinue && !IsDebuggerPresent(); )  Sleep(1000); DebugBreak(); #endif // USE_BREAK_ON_SERVICE_START
+ 
+
+Proof of concept code to generate unique error codes and instrument a code path in a circular buffer.
+ 
+
+#ifndef RC_BITS#define RC_BITS 1// Want the sign bit to extent to the high bit on x86 or x64 signed values#define RC_BIT_ERROR_64 ((size_t)0x01 << ((sizeof(size_t) * 8) - 1))#define RC_BIT_ERROR 0x80000000#define RC_BIT_POS 0x40000000#define RC_BIT_ARGS_MASK 0x30000000#define RC_BIT_ARGS_EOF 0x20000000// The include file can specific a RC_BITS_SALT value if desired#ifndef RC_BITS_SALT#define RC_BITS_SALT 0xdeadbeaf#endif // RC_BITS_SALT// Want the salt high bit to always signal a signed negative value#define RC_BITS_SALT_MASK (~RC_BIT_ERROR & 0xdeadbeaf)#define RC_CODE_FILE(fc) ((0x0FFF & fc) << 16)#define RC_CODE_LINE(ln) (0xFFFF & ln)#define RC_CODE_NARGS(n) ((0x07 & n) << 28)#ifdef USE_SIMPLE_SENTINEL_PATTERN#define RC_ERROR(fc, ln) (-1)#else // USE_SIMPLE_SENTINEL_PATTERN#define RC_ERROR(fc, ln) ((RC_BIT_ERROR | RC_CODE_FILE(fc)| RC_CODE_LINE(ln)) ^ RC_BITS_SALT_MASK)#endif // USE_SIMPLE_SENTINEL_PATTERN#endif // RC_BITS
+ 
+
+ Use the code as follows.
+
+#define MAIN_ERROR(ln) RC_ERROR(10, ln)
+int _tmain(int argc, _TCHAR* argv[]){   int retval;
+  // default  retval = MAIN_ERROR(__LINE__);
+  if (0 == strcmp(argv[0], "test1"))  {       retval = MAIN_ERROR(__LINE__); }  else if (0 == strcmp(argv[0], "test2"))  {       retval = MAIN_ERROR(__LINE__);  }  else  {       retval = 0;  }
+  return retval;}
+
+
+
+  On the low side, clear the apt cache in '/var/cache/apt'
+  Run apt in download only mode 'sudo apt-get install --download-only kdbg=2.2.1-2_i386'
+  On the high side, run 'sudo dpkg --install kdbg_2.2.1-2_i386.User #77134'
+
+
+Run the following commands
+yum install mlocate/etc/cron.daily/mlocate.cronyum install redhat-lsbyum install gcc-g++
+ 
+ 
+
+Previous versions:
+| 1 
+|
+                    

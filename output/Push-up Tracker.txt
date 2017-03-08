@@ -1,0 +1,116 @@
+
+                        Owner: User #14587667
+Operations/Testing
+JQJTHRESHER  
+ 
+Operation Tracking/Status
+Perseus 1.1.0b1
+
+
+Priority
+Op Name
+Tool/Version
+Platform
+Status
+Start Test Date
+Completed Date
+
+
+ 
+JQJTHRESHER
+HG 3.3.0
+2960-S
+ 
+ 
+ 
+
+
+ 
+Perseus
+
+Perseus 1.1.0b1 Mikrotik RB493G - Test 1 Notes  
+
+MikroTik RB 493G
+2015-04-06
+ 
+ 
+
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+
+ 
+ 
+
+Sub-Pages:
+
+
+Cannoli v2.0 
+
+
+JQJDISRUPT - WAG200G 
+
+
+Felix empty
+
+
+Felix v1.0 
+
+
+Cytolysis [Xetron]
+
+
+MikroTik 
+
+
+JQJDRAGONSEED - Earl Grey 
+
+
+JQJFIRESHOT empty
+
+
+JQJSLASHER 
+
+
+JQJHAIRPIECE 
+
+
+JQJSTEPCHILD empty
+
+
+Bumble 
+
+
+JQJSECONDCUT 
+
+
+JQJADVERSE 
+
+
+Perseus empty
+
+
+JQJTHRESHER 
+
+
+New Operation Requirements 
+
+
+
+Previous versions:
+| 1 empty
+| 2 
+| 3 
+| 4 
+| 5 
+| 6 
+| 7 
+| 8 
+|
+                    

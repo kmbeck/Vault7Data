@@ -1,0 +1,19 @@
+
+                        Owner: User #11628962
+SnowyOwl
+Project Objective:
+Mac OSOperating System X capability that injects a pthread into an OpenSSH client process creating a surreptitious sub-channel to the remote computer.
+Table of Contents:
+Stash Repository
+Project Members:
+
+User #11628962’s Home - Project Lead and Developer
+ 
+ 
+
+Previous versions:
+| 1 empty
+| 2 
+| 3 
+|
+                    

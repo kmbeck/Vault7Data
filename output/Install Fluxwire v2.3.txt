@@ -1,0 +1,43 @@
+
+                        Owner: User #14587667
+COG ICON VM Modifications
+When an ICON VMVirtual Machine is received from COG, the following tasks must be performed to get it to work "correctly" on Devlan.
+
+Import into vSphere.  Place in the "Master VMs" folder.
+Login using username: user1 and password: 10sne1
+Edit /etc/apt/sources.list
+sudo vi /etc/apt/sources.list
+Replace the contents of this file with the following:deb http://repo.devlan.net/debian jessie maindeb-src http://repo.devlan.net/debian jessie maindeb http://repo.devlan.net/debian jessie-updates maindeb-src http://repo.devlan.net/debian jessie-updates main
+
+
+
+Fix expired repo error
+cd /etc/apt/apt.conf.d
+sudo vi 10no--check-valid-until
+Add the line: Acquire::Check-Valid-Until "0";
+
+
+sudo apt-get update
+Install VMware tools
+Use vCenter to install VMWare tools
+(old method for Open VMVirtual Machine Tools): sudo apt-get install -y open-vm-tools && sudo apt-get install -y open-vm-tools-desktop
+
+
+Change password to "password".
+passwd
+sudo passwd
+
+
+Add the following lines to /etc/network/interfaces directly after the line "iface eth0 inet dhcp"
+
+          #address          #netmask          #gateway
+chmod +x /home/user1/clone_vm_checklist.sh
+
+Previous versions:
+| 1 
+| 2 
+| 3 
+| 4 
+| 5 
+|
+                    

@@ -1,0 +1,145 @@
+
+                        Owner: User #71475
+tinc by example
+A Sample tinc Setup
+
+In this setup, we have three hosts; the goal of this configuration is so that host1 can communicate with host3 within the private network via host2.
+
+
+host1has an IP address that is accessible from host two
+
+
+host2Is within a private network, but can reach host1 via UDPUser Datagram Protocol on port 665 (the default tinc port)
+
+
+host3Within the same private network as host2 and can communicate with host2
+
+
+
+Configuration Overview
+The default configuration for tinc on linux is in /etc/tinc/<network_name>/, where <network_name> is a user provided name for the tinc network. Within this directory you have the following:
+
+
+hosts/<host config>A subdirectory hosts that contains files describing the host configuration and public key for every host in the <network_name>. Should be the same on all machines
+
+
+tinc.conftinc configuration for <network_name>
+
+
+tinc-upA shell script for bringing up the tinc tunnel interface
+
+
+tinc-downA shell script for bringing down the tinc tunnel interface
+
+
+rsa_key.privThe private RSAEncryption algorithm key for the local host
+
+
+Sample Configuration Data
+
+
+network name
+mynet
+
+
+Host 1 VPNVirtual Private Network IP
+10.0.0.1
+
+
+Host 2 VPNVirtual Private Network IP
+10.0.0.2
+
+
+Configure tinc on host1
+
+
+Create directories for configuration
+mkdir -p /etc/tinc/mynet/hosts
+
+Create /etc/tinc/mynet/tinc.conf 
+Name = host1
+AddressFamily = ipv4
+Interface = tun0
+Mode = router
+
+
+Create RSAEncryption algorithm keys
+tincd -n mynet -K4096
+
+Edit /etc/tinc/mynet/hosts/host1, prepending the following (before the RSAEncryption algorithm key) 
+Compression = 9
+Address = 10.3.2.90
+Subnet = 10.0.0.1/32
+
+
+Create /etc/tinc/mynet/tinc-up
+#!/bin/sh
+ifconfig $INTERFACE 10.0.0.1 netmask 255.255.255.0
+route add -net 192.168.1.0 netmask 255.255.255.0 gw 10.0.0.1
+
+
+Create /etc/tinc/mynet/tinc-down
+#!/bin/sh
+ifconfig $INTERFACE down
+
+
+Make the tinc-* scripts executable
+chmod a+rx /etc/tinc/mynet/tinc-*
+
+
+Configure tinc on host2
+
+
+Create directories for configuration
+mkdir -p /etc/tinc/mynet/hosts
+
+Create /etc/tinc/mynet/tinc.conf 
+Name = host2
+ConnectTo = host1
+AddressFamily = ipv4
+Interface = tun0
+Mode = router
+
+
+Create RSAEncryption algorithm keys
+tincd -n mynet -K4096
+
+Edit /etc/tinc/mynet/hosts/host2, prepending the following (before the RSAEncryption algorithm key) 
+Compression = 9
+Address = 192.168.1.143
+Subnet = 10.0.0.2/32
+Subnet = 192.168.1.0/24
+
+
+Create /etc/tinc/mynet/tinc-up
+#!/bin/sh
+ifconfig $INTERFACE 10.0.0.2 netmask 255.255.255.0
+
+
+Create /etc/tinc/mynet/tinc-down
+#!/bin/sh
+ifconfig $INTERFACE down
+
+
+Make the tinc-* scripts executable
+chmod a+rx /etc/tinc/mynet/tinc-*
+
+
+Run tinc
+
+Make sure the host1 and host2 configuration file within /etc/tinc/mynet/hosts are copied to both machines so both files are available on each host
+Start tincd on host1 
+tincd -n mynet -D -d3
+
+
+Start tincd on host2
+tincd -n mynet -D -d3
+
+
+ 
+
+Attachments:
+
+sample_tinc.PNG
+
+                    

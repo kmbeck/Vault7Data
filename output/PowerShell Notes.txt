@@ -1,0 +1,21 @@
+
+                        Owner: User #71467
+Configure SNMP for ESXi
+There are the commands entered on the CLICommand-Line Interface of each ESXI host to enable SNMPSimple Network Management Protocol for Solarwinds monitoring:
+esxcli system snmp set --communities snmp-testrange
+esxcli system snmp set --port 161
+esxcli system snmp set --enable true
+ 
+In addition, within Solarwinds each ESXi host should be configured to poll for VMware (you will need to enter ESXi host credentials).
+ 
+ 
+ 
+Enable SNMPSimple Network Management Protocol on vCenter host
+SSH to 10.9.8.16
+snmp.enable
+snmp.set --communities snmp-testrange --targets 10.9.8.22@162/snmp-testrange
+
+Previous versions:
+| 1 
+|
+                    

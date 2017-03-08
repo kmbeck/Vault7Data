@@ -1,0 +1,305 @@
+
+                        Owner: User #524297
+Airport Utility Analysis
+
+
+Running from client port to TCP 5009 on Airport Extreme
+Captured key exchange (possibly Diffie-Hellman) before channel encryption. 
+airport-admin-login.pcap
+
+
+CLIENT
+SERVER
+ 
+
+
+
+
+Fixed Length: 128 bytes
+
+0-3
+4-7
+8-11
+12-15
+
+
+"acpp"
+ 0x0003 0x0001
+(unknown 8 bytes - cksum?)  
+
+
+(length of next CFB0 packet)
+ 0x0000 0x0004
+0x0000 0x0000
+0x0000 0x001a
+
+(16 zero bytes)
+(unknown 16 bytes data – fixed for client comms)
+(unknown 16 bytes data – fixed for client comms)
+(16 zero bytes)
+
+
+Variable Length
+
+0-4
+4-7
+...
+...
+ 
+
+
+"CFB0" 0xd0
+ 
+ 
+ 
+
+Data fields of note:
+pstate (2 bytes - 0x1001)
+pusername (0 bytes)
+padmin (0 bytes)
+
+
+
+data field, null term, data
+e.g.  "pstate" 0x00 0x10 0x01
+
+
+ 
+ 
+ 
+0x00 "END!"
+
+
+
+ 
+ 
+
+
+ 
+
+
+Fixed Length: 128 bytes
+
+0-3
+4-7
+8-11
+12-15
+
+
+"acpp"
+ 0x0003 0x0001
+(unknown 8 bytes - cksum?)  
+
+
+(length of next CFB0 packet)
+ 0x0000 0x0004
+0x0000 0x0000
+0x0000 0x001a
+
+(16 zero bytes)
+(unknown 16 bytes data – nulls for server comms)
+(unknown 16 bytes data – nulls for server comms)
+(16 zero bytes)
+
+
+Variable Length
+
+0-4
+4-7
+...
+...
+ 
+
+
+"CFB0" 0xd0
+ 
+ 
+ 
+
+Data fields of note:
+psalt (19 bytes - 3 then 16)
+pgenerator (2 bytes - 0x4102)
+ppublicKey (195 - 3 then 192)
+pmodulus (195 - 3 then 192) 
+ 
+
+
+
+data field, null term, data
+or
+data field, null term, 0x4f10 (1 byte data len), data
+ 
+
+
+ 
+ 
+ 
+0x00 "END!"
+
+ 
+
+
+
+ 
+
+
+
+
+Fixed Length: 128 bytes
+
+0-3
+4-7
+8-11
+12-15
+
+
+"acpp"
+ 0x0003 0x0001
+(unknown 8 bytes - cksum?)  
+
+
+(length of next CFB0 packet)
+ 0x0000 0x0004
+0x0000 0x0000
+0x0000 0x001a
+
+(16 zero bytes)
+(unknown 16 bytes data – fixed for client comms)
+(unknown 16 bytes data – fixed for client comms)
+(16 zero bytes)
+
+
+Variable Length
+
+0-4
+4-7
+...
+...
+ 
+
+
+"CFB0" 0xd0
+ 
+ 
+ 
+
+Data fields of note:
+piv (19 bytes - 3 then 16)
+ppublicKey (195 bytes - 3 then 192)
+pstate (2 bytes - 0x1003)
+presponse (23 bytes - 3 then 20)
+
+
+
+data field, null term, data
+e.g.  "pstate" 0x00 0x10 0x01
+
+
+ 
+ 
+ 
+0x00 "END!"
+
+
+
+
+
+ 
+ 
+
+
+ 
+
+
+Fixed Length: 128 bytes
+
+0-3
+4-7
+8-11
+12-15
+
+
+"acpp"
+ 0x0003 0x0001
+(unknown 8 bytes - cksum?)  
+
+
+(length of next CFB0 packet)
+ 0x0000 0x0004
+0x0000 0x0000
+0x0000 0x001a
+
+(16 zero bytes)
+(unknown 16 bytes data – nulls for server comms)
+(unknown 16 bytes data – nulls for server comms)
+(16 zero bytes)
+
+
+Variable Length
+
+0-4
+4-7
+...
+...
+ 
+
+
+"CFB0" 0xd0
+ 
+ 
+ 
+
+Data fields of note:
+presponse (23 bytes - 3 then 20)
+piv (19 bytes - 3 then 16)
+ 
+ 
+
+
+
+data field, null term, data
+or
+data field, null term, 0x4f10 (1 byte data len), data
+ 
+
+
+ 
+ 
+ 
+0x00 "END!"
+
+ 
+
+
+
+ 
+
+
+ENCRYPTED SESSION BEGINS
+
+ 
+ 
+ 
+
+ 
+
+
+ 
+ENCRYPTED SESSION BEGINS
+ 
+
+
+
+Attachments:
+
+airport-admin-login.pcap
+
+
+Previous versions:
+| 1 
+| 2 
+| 3 
+| 4 
+| 5 
+|
+                    

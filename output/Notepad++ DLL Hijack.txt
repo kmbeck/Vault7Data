@@ -1,0 +1,104 @@
+
+                        Owner: User #71468
+Notepad++ DLL Hijack
+The following DLLDynamic Link Library hijack works for both the portable and non-portable variants of Notepad++
+ 
+Notepad++ loads Scintilla, a "code editing component" (and seperate project), from a DLLDynamic Link Library adjacent to its EXE called "SciLexer.dll".  This DLLDynamic Link Library exports only one funciton named "Scintilla_DirectFunction" at ordinal #1
+ 
+The DLLDynamic Link Library does a lot of "set up" in ProcessAttach, so it is important to load the true DLLDynamic Link Library as soon as the hijack is loaded.
+ 
+The exported function has the following prototype definition, according to the open source for Notepad++ online:
+sptr_t __stdcall Scintilla_DirectFunction(ScintillaWin * sci, UINT iMessage, uptr_t wParam, sptr_t lParam)
+ 
+For the life of me, I couldn't get this function to be called – I even installed additional plugins that were supposed to interact with Scintilla directly.  Considering we have the prototype, this shouldn't be that big of a deal, but its worth noting.
+ 
+Languages Available:
+
+
+Languages
+%PAL:LanguageCustom% Replacement
+
+
+Arabic
+arabic
+
+
+Bengali
+bengali
+
+
+Chinese (Simplified)
+chinese
+
+
+Chinese (Traditional)
+chineseSimplified
+
+
+Dutch
+dutch
+
+
+English
+english
+
+
+French
+french
+
+
+Farsi
+farsi
+
+
+German
+german
+
+
+Hindi
+hindi
+
+
+Italian
+italian
+
+
+Japanese
+japanese
+
+
+Korean
+korean
+
+
+Portuguese
+prtuguese
+
+
+Portuguese (Brazilian)
+brazilian_portugese
+
+
+Russian
+russian
+
+
+Spanish
+spanish
+
+
+Turkish
+turkish
+
+
+Urdu
+urdu
+
+
+
+Previous versions:
+| 1 
+| 2 
+| 3 
+|
+                    

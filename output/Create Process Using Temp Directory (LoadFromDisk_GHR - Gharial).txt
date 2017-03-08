@@ -1,0 +1,65 @@
+
+                        Create Process (CreateProcess_SPF - Spadefoot)
+SECRET//NOFORN
+ 
+OSB Library: Payload Deployment
+
+Module Name: CreateProcess_SPF - Spadefoot
+ 
+Module Description: This module uses the Windows CreateProcess APIApplication Programming Interface call. The user can specify whether the handle to the create process is returned or closed within the module. The payload, if specified, is written to a user specified location with user specified attributes. Flags for process creation can also be specified.
+ 
+PSP/OS Issues: PSPPersonal Security Product (Anti-Virus) issues with this modules should be tested on a per tool basis. This technique can be alerting. 
+ 
+('excerpt' missing)
+ 
+Sharing Level: Well-known, Liaison
+ 
+Technique Origin: Windows API
+ 
+Notes: 
+
+Create Process APIApplication Programming Interface - Could be caught by PSPs if the rest of the tool is alerting.
+Can be used if payload is already written to disk as well. (Pass NULL as the payload argument).
+
+ 
+Module Specific Structures: 
+
+struct PARAM_SPF
+{
+	WCHAR *wcTargetPath; //The target path of the executable to drop to disk
+	DWORD dwAttribs; //The attributes of the target payload on disk
+	WCHAR *wcArgs; //Arguments for the payload on disk
+	DWORD dwFlags; //Flags for process creation. Default: FILE_ATTRIBUTE_NORMAL
+	BOOL bRetHandle; //Specifies whether the module should fill returnHandle or close the handle itself
+};
+
+
+ 
+Example Code:
+ 
+HANDLE hHandle = NULL;
+
+
+IPayload *myPayload = new CreateProcess_SPF();
+
+
+PARAM_SPF params;
+params.dwAttribs = FILE_ATTRIBUTE_HIDDEN|FILE_ATTRIBUTE_SYSTEM;
+params.wcTargetPath = L"C:\\Test Folder\\MyTest.exe";
+params.wcArgs = L"1 2 3";
+params.dwFlags = CREATE_UNICODE_ENVIRONMENT | CREATE_NO_WINDOW;
+params.bRetHandle = FALSE;
+
+
+IPayload::PayloadErr pErr = myPayload->execute(improvedDummy, sizeof(improvedDummy), ¶ms, sizeof(params), &hHandle);
+ 
+ 
+SECRET//NOFORN
+
+Previous versions:
+| 1 SECRET
+| 2 SECRET
+| 3 SECRET
+| 4 SECRET
+|
+                    

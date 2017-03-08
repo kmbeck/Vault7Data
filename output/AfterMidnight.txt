@@ -1,0 +1,44 @@
+
+                        My First Gremlin
+This is my workspace for my experiences turning Drone in to a Gremlin.
+
+Forked drone in to its own DroneGremlin Project
+Created DroneGremlin(Init|Command) functions and added them to the def file as NONAMES
+Copied Gremlin.h from SDKSoftware Development Kit to projectCommented out #include "NTDLL.h" because Windows.h covers all that and I didn't grab NTDLL.h
+
+(optional) Created empty (for now) DroneInterface structure that contains a GremlinInterface as its first member
+Init command just fills out pointers and returns 0, Command just debugs out what's going on
+Link against Master.lib (from DevKit, presumably) - this gives access to MasterCommand()
+Build drone.dll
+run "ToolTest DEBUG_MOD drone.dll" - should get called
+
+Order of calling is:
+
+Init() function called
+Command() called with ID_OPEN
+Command() called with ID_RUN (if runable (tbd))
+... time passes ...
+Command() called with ID_CLOSE
+
+For Drone:
+
+Init()Do nothing
+
+ID_OPEN()Ensure DRONE_INTERFACE is initalized
+
+ID_RUN()??? (maybe nothing, maybe call ID_CONNECT or something)
+
+ID_CONNECT()Drone specific code - create a thread, store handle in DRONE_INTERFACE, and do the drone callback
+
+ID_CLOSE()If a thread is running, get it to exit, then return
+
+
+
+Previous versions:
+| 1 
+| 2 
+| 3 
+| 4 
+| 5 
+|
+                    

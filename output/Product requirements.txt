@@ -1,0 +1,38 @@
+
+                        Owner: User #14588054
+StrawHat 1.0 Requirements
+SECRET//NOFORN
+('details' missing)
+Goals
+Collect just the text from .DOC/.DOCX, .XLS/.XLSX, .PPT/.PPTX files (with potentially more file types in the future) and recreate them as best I can on the post-processor side.  Give the operator the ability to select which file extensions (s)he wants to collect.
+Background and strategic fit
+Because CakeShoulder seemed like it could be made so much sweeter with some fine tuning and customization.
+Assumptions
+Right now I am currently working under the assumption that all targets that are going to be using this tool have the IFilter functionality on their computers.
+Requirements
+Questions
+Below is a list of questions to be addressed as a result of this requirements document:
+ 
+SECRET//NOFORN
+
+Comments:
+
+
+2015-01-28 18:41 
+[User #14588054]: 
+
+Needs more paperwork
+
+
+2015-01-28 18:31 
+[User #71473]: 
+
+Needs more cowbell
+
+
+
+Previous versions:
+| 1 
+| 2 SECRET
+|
+                    

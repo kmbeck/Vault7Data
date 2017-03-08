@@ -1,0 +1,101 @@
+
+                        Owner: User #14587667
+Test Notes
+Device: DUT2 (RB450G)
+Test Notes
+7/9/2015
+
+Setup ICON4 VMVirtual Machine for DUT2 testing
+Take baseline measurements of CPU, RAM, and disk space
+Throw CR, Tsh, Flx, and Perseus (Thu Jul  9 16:39:50 UTCCoordinate Universal Time 2015).
+Diff Pre- and Post-Implant resource variables.
+
+7/10/2015
+
+Turned on console logging (/system logging add action=echo topics=!ntp,!dhcp,!rip)
+Identified Bug: PS-10 - Staring Flux generates Log message
+
+7/13/2015
+
+
+Performed strings on mips bins: startup, zeroize, mcc.ko.  Suspicous strings/signatures
+startup: "/sys/kernel/mcc/a", "/sys/kernel/mcc/b", "/proc/%s/exe", "/sys/devices/system/cpu", kernel calls (kobject_put(), kobject_del(), kallsyms_lookup_name(), "/proc/kallsyms"), sys_open(), sys_close(), "/flash/boot/hidden/dont_panic", "(deleted)"
+zeroize: "/sys/devices/system/cpu", "/dev/null", "/proc/stat"
+mcc.ko: "srcversion=D7C542ACCFAAA60F3C374F7" (shouldn't need to build this into binaries), "version=1.1.0.2", "task_nice" (flag to suspend file hiding), "$LC0", "$LC1", "$LC2", "intree=Y"
+Can all be found in memory dump (see below)
+
+
+Anaylzed each file in Ghidra - symbols present in mcc.ko (should have been stripped according to Design Overview), found filtering criteria (/flash/boot/hidden/*)
+Copied /flash/boot/hidden/busybox to /tmp/busybox
+/tmp/busybox netstat -p
+
+Proto Recv-Q Send-Q Local Address Foreign Address State PID/Program name tcp 0 0 172.20.100.10:http 172.20.12.101:33450 ESTABLISHED 226/wwwtcp 0 0 172.20.100.10:http 172.20.12.101:33425 ESTABLISHED 226/wwwtcp 0 0 172.20.100.10:12345 172.20.12.101:59187 ESTABLISHED -tcp 0 0 router:http 192.168.20.2:36362 ESTABLISHED 226/wwwtcp 0 0 172.20.100.10:47071 172.20.12.101:443 ESTABLISHED 450/bash
+
+
+450/bash and - in the PID/Program (flux and tshd respectively) list is suspicous - bash does not open sockets, and - should never be displayed when running as root.   netstat uses readdir() and getpidcon() to find processes
+
+# /tmp/busybox nice -n +13 /tmp/busybox ps
+
+444 root 140:39 /flash/boot/hidden/tshd-mipsbe
+399 root 479267 ./mt-mipsbe-flx_node_icon4
+202 root 0:47 /flash/boot/hidden/tshd-mipsbe
+200 root 8993:2 /flash/boot/hidden/startup
+
+
+/tmp/busybox top - none of the above processes shown
+
+Brute force /proc:
+#!/bin/ashi=1;
+while [ $i -lt 500 ]; do /tmp/busybox echo -n "/proc/$i/cmdline: "  /tmp/busybox cat /proc/$i/cmdline; /tmp/busybox echo; let i=$i+1;done
+Result snip:
+/proc/200/cmdline: /flash/boot/hidden/startup
+/proc/202/cmdline: /flash/boot/hidden/tshd-mipsbe
+/proc/399/cmdline: ./mt-mipsbe-flx_node_icon4
+(more...)
+/proc/421/cmdline: ./mt-mipsbe-flx_node_icon4
+
+Dump memory:
+ICON: nc -l -p 9999 | dd bs=1048576 of=target-ram.bin
+Target: /tmp/busybox dd if=/dev/mem bs=1048576 count=100 | /tmp/busybox nc 172.20.12.101 9999
+can find strings identified above in memory - e.g. /flash/boot/hidden/*
+Extract complete ELFs for startup, mcc.ko, zeroize
+
+
+List loaded kernel modules
+# /tmp/busybox lsmod
+mcc 9664 0 - Live 0xcf080000
+Compare to clean box, will see mcc in diff
+Will see kernel module exists, but will not be able to find it on filesystem ==> suspicious
+
+
+List open file handles: lsof - clean
+Not hiding /sys/module/mcc/
+/tmp/busybox cat /sys/module/mcc/version
+1.1.0.2
+stamper.py always adds "/sys/kernel/mcc" to hide list, should also add this path; Design Overview doc states that /sys/kern/ should show mcc, however this is hidden
+
+
+
+7/14/2015
+Removed Perseus (touch /flash/boot/hidden/dont_panic).
+ 
+
+Previous versions:
+| 1 
+| 2 
+| 3 
+| 4 
+| 5 
+| 6 
+| 7 
+| 8 
+| 9 
+| 10 
+| 11 
+| 12 
+| 13 
+| 14 
+| 15 
+| 16 
+|
+                    

@@ -1,0 +1,35 @@
+
+                        Owner: User #71473
+JDW 18 Results
+Topic 1: Windows Crashdump Analysis
+Developed a number of tools to help automate triage of large volumes of crash dumps
+Topic 2: Windows JIT
+
+Developed kernel exploit primitives to enable faster weaponization of new exploits.
+Developed syscall fuzzing framework to more easily identify information leaks needed by the kernel exploit primitives
+Developed novel injection techniques for managed and unmanaged processes.
+
+Topic 3: BadUSB
+Topic 4: Android
+Topic 5: iOS
+
+Comments:
+
+
+2015-09-29 14:37 
+[User #71473]: 
+
+Yes... once we get our data back from the UK there will be presentations.
+
+
+2015-09-29 14:34 
+[User #20251227]: 
+
+any chance of a presentation on the crash dump tools?
+
+
+
+Previous versions:
+| 1 
+|
+                    

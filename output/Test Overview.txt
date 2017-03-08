@@ -1,0 +1,72 @@
+
+                        Owner: User #8650754
+Developer Instructions
+Build Dependencies:
+
+
+OpenSSL - \\fs-01\share\Windows Applications\openssl\v1.0.1e\Win64OpenSSL-1_0_1e.exe
+
+VC++ 2008 redistributable - \\fs-01\share\Windows Applications\openssl\v1.0.1e\dependencies\vcredist_x64.exe
+
+PyCrypto - \\fs-01\share\Python\packages\pycrypto-python3-windows-installer-master\python3-pycrypto-windows-installer-master\pycrypto-2.6.1.win-amd64-py3.4.exe
+
+Ant - \\fs-01\share\Windows Software Development Resources\Apache Ant\apache-ant-1.9.4-bin.zip (extract to C:\apache-ant-1.9.4)
+Visual Studio 2013
+
+Python3.4 - \\fs-01\share\Python\3.4\cpython\3.4.3\python-3.4.3.amd64.msi
+
+Doxygen - \\fs-01\share\Windows Software Development Resources\Doxygen\doxygen-1.8.10-setup.exe
+
+Add Ant and Openssl to path:
+My Computer->Manage-Advanced Edit Environment Variables->System Variables->PathAppend C:\OpenSSL-Win64\bin;C:\apache-ant-1.9.4\bin
+
+
+
+The development environment is using Apache ANT (1.9.2) to build and manage all the sub projects.  Each tool/feature is located in a separate directory and contains a unique solution.  To begin development, edit the “properties.ant” file located in the root of the project.  Ensure that all tools exist and the appropriate paths are included within this file.  It is also possible to disable specific platforms by setting x86_supported or x64_supported to “false” instead of “true”.  The following build commands are supported by the ANT scripts.
+ 
+
+
+COMMAND
+Description
+
+
+ant
+Build   everything
+
+
+ant clean
+Delete   all generated files
+
+
+ant publish
+Copy   of files to bin/distribution directory
+
+
+ant test
+Perform   automated test scripts
+
+
+ant release
+Build   the release version of application
+
+
+ant debug
+Build   the debug version of application
+
+
+ant doxygen
+Build   the doxygen documentation files
+
+
+(optional) ant copy
+This   command will pull all files required to debug the project. (not from root)
+
+
+ 
+ 
+
+Previous versions:
+| 1 
+| 2 
+|
+                    

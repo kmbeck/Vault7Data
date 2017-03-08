@@ -1,0 +1,82 @@
+
+                        iOS Team Acronyms and Terms
+SECRET//NOFORN
+ 
+Agency
+ 
+
+EDG = Engineering Development Group - group making tools for COG; based on the 8th and 9th floors of DD2
+AED = Applied Engineering Division - part of EDG
+MDB = Mobile Development Branch - iOS and Android team working in the cage; part of AED
+
+iOS Team Projects and Tools and Vulnerabilities/Exploits
+
+Adderall = tool to pull IPSW files and kernel cache from devices
+Angerquake = Mission Control for Android
+Aquarius = contract for creating an implant
+CrunchyLimeSkies = close access tool to install (persistent or not) an executable onto a device.nsinstaller is the main project
+
+dyld-js = JavaScript code to load dylibs and other binaries; needs exploits that give it memory access and ability to call native functions
+Dyonedo = generates a dylinker/executable pair to defeat code signing and launch a payload
+Earth = array.sort vulnerability in JavaScript (pre iOS9)used by mcp_earth and elderwaldorf projects
+
+ElderPiggy = privilege escalation
+Grist = JavaScript bootstrapper that can be run with jsc
+HAMR (pronounced hammer) = throwing framework for browser exploits
+contracting effort with QUAFFLE run by ESD(Branch) and based on MissionControl to throw against OSX, Linux, and mobile devices (basically anything except Windows)
+
+existing EDGEngineering Development Branch throwing framework was Windows based and did not work well with these platforms
+
+
+
+jit-thunk = JavaScript code to make calls to native functions using JIT memory and memory access exploits; implements the native_call interface; made for use by Grist to persist on device
+js-util = JavaScript utilities including the testing framework, DataView, and additional String and ArrayBuffer methods
+jsc-util = generic JavaScript utilities related to the JavaScript Core; includes memory access functions and configuration for specific iOS versions including structure offsets and sizes
+Juggernaut = project of exploits used by the Grist framework
+Mcnugget = Mission Control for iOS
+mcp_adam_ios = mission control plug-in to determine whether 32 or 64 bit
+mcp_earth = mission control plug-in for Earth exploit (see Earth)
+mcp_eve = mission control plug-in to do initial exploitation for code execution
+mcp_safari_ua_ios = mission control plug-in to parse user agent
+mcp_sol = mission control plug-in to send stage 1 loader (installer) to devices
+MOP = Mach-O Parser - Python project to parse Mach-O files (soon to be called Apple Binary Parser (ABP) and maintained by HONEYDEW)
+Nandao = privilege escalation (privesc) and sandbox escape for iOS7 and iOS8
+NightSkies = beacon/implant tool (maintained by AQUARIUS based on the MDBMobile Development Branch created tool of the same name)
+NightVision = utility to read kernel memory and get/put files as .tbz
+Quaffle = support contract for the Hammer throwing framework
+Redux = close access tool for reading/writing executing files/memory via vpnagent. Should work on iOS up to 8.1.1.
+rop-thunk = JavaScript code to make calls to native functions using ROP; implements the native_call interface; meant for remote browser exploits
+Xiphos = privilege escalation (privesc) for iOS7, needs to be paired with a sandbox escape when run from remote.
+
+iPhone Stuff
+
+IPSW = iPhone/iPad Software - firmware for the devices
+MDF = Mobile Development Framework - public tool providing Python bindings
+jsc = JavaScript Console - JavaScript interpreter on iDevices. Used for persistence by the Grist program. Located at /System/Library/Frameworks/JavaScriptCore.framework/Resources/jsc. Not really used by Apple any more and may be removed in a future release.
+
+Other
+
+Networks
+DevLAN = classified development network used by MDBMobile Development Branch and others
+ZooLAN = old unclassified network; this is why you will occasionally see "zoo" or people with animal names
+
+
+JQJ* = tag given to names of operations
+pyzzle = Python executable zip file
+
+ 
+SECRET//NOFORN
+
+Previous versions:
+| 1 SECRET
+| 2 SECRET
+| 3 SECRET
+| 4 SECRET
+| 5 SECRET
+| 6 SECRET
+| 7 SECRET
+| 8 SECRET
+| 9 SECRET
+| 10 SECRET
+|
+                    

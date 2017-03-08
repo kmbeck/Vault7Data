@@ -1,0 +1,119 @@
+
+                        Owner: User #1179751
+My First DART Test
+Creating and Running a Basic Test Using UNDERMINE
+note: to be able to complete this example you need to have completed the steps found in the Getting Started with DART   page.
+So we have a linux vm, the dart binaries, and an esxi server ready to go!  Now what?
+This example is pretty narrow in scope and focuses on a single piece of the dart tool chest, UNDERMINE.  We aren't going to do anything too fancy beyond creating a directory for a test, and running said test.
+Reserve a VM1
+ Go to http://dart.devlan.net/overview/resources.php
+
+Select the computer you want to reserve
+Fill in the "Reserver's Name" text box with a useful string like "Keith_OSB"
+
+
+Now that we have a VMVirtual Machine reserved, we should fire it up and run a ping test to ensure PALINTIR is up and happy.
+2.  Start the vSphere Client and login with the user name and credentials (See Getting Started with DART   if you forgot these)
+3.  Under "Dart Datacenter" select the VMVirtual Machine you reserved. (Each name is unique, make sure you select the right one)
+4.  Power on the VMVirtual Machine (If desired select Console to be able to see your VMVirtual Machine in action).
+Now that the VMVirtual Machine is running we should will ping PALINITIR to both test the conectivity, and to get a feel for running a test through UNDERMINE.
+5.  Navigate to your tybase folder.
+6.  Run service_ping_test via UNDERMINE by one of the following two commands2:
+#The comand needs to be run from ~/dart/tyrant/tybase/
+#The X.X.X.X in the following line is the ipaddress of your reserved VM.
+bin/undermine leafbags/tyworkflow/overlib/preflight/service_ping_test.py X.X.X.X
+--or--
+#The comand needs to be run from ~/dart/tyrant/tybase/
+#The X.X.X.X in the following line is the ipaddress of your reserved VM.
+bin/undermine overlib.preflight.service_ping_test X.X.X.X
+ 
+If everything works you should get a "COMPLETION: success 'success' dialog.  This means that the PALINTIR module on your VMVirtual Machine responded, if you didn't get a success ensure the VMVirtual Machine is online.
+Creating your own leafbag.
+"Leafbags" is the DARTTest-Software (commercial) term for a collection of tests.  We already have two leafbags one called tybase, and one called tyworkflow, they corrispond with their respective modules.  Technically, we could add any scripts we like to these existing leafbags and they would work just fine, however to keep things clean and organized we will create our own leafbags.  Creating a leafbag isn't too difficult as long as you do it right, do it wrong and you'll hate life.  I'm learning while typing here and am currently writting unit tests for GlowingNeedle so this example will reflect that.
+7.  Create a folder for your projects unit tests, this folder can go anywhere, but for me I created it as a peer to the tybase and tyworkflow folders and named it glowingneedle3.
+8. Create a folder inside your previously created folder, I named this gn_basic_tests4.
+9.  Inside gn_basic_tests you need to create a couple of files:
+
+
+__init__.py (underscore underscore init underscore underscore . py)5 
+#LEAFBAG
+
+
+my_first_dart_test.py 
+#If this looks familiar, it is because it is a copy of service_ping_test.py
+import tybase.undermine.leaf as leaf
+import tybase.undermine.meta.leafi as leafi
+@leafi.MainLeaf()
+@leafi.DefineProcessor()
+class UnitTest(leaf.Leaf):
+    def run(self):
+        self.log.info( 'started' )
+        for h in self.hosts:
+            if not h.service_ping():
+                return self.FAILURE, 'failure'
+        return self.SUCCESS, 'success'
+
+
+10.  At this point we should have a folder structure that looks like this:
+ 
+11.  Once the folder structure is created, navigate to tybase/leafbags and create a symlink to the top folder.
+#The comand needs to be run from ~/dart/tyrant/tybase/leafbags
+#This is an example only, for me tybase and glowingneedle were in the same directory so this path works.
+ln -s ../../glowingneedle glowingneedle
+ 
+12. Finally we run our test via either of the below commands:
+#The comand needs to be run from ~/dart/tyrant/tybase/
+#The X.X.X.X in the following line is the ipaddress of your reserved VM.
+bin/undermine leafbags/glowingneedle/gn_basic_tests/my_first_test.py X.X.X.X
+--or--
+#The comand needs to be run from ~/dart/tyrant/tybase/
+#The X.X.X.X in the following line is the ipaddress of your reserved VM.
+bin/undermine gn_basic_tests.my_first_test X.X.X.X
+ 
+ 
+
+
+A note about reserving VM's.  We are on the honor system here, meaning you can reserve as many VM's as you want and return any reserved VM's to the testing pool.  Because DARTTest-Software (commercial) is a limited resource, don't be the guy (or girl) to reserve 20 VM's then leave for vacation.  So a couple of gentelmen's rules for reserving a VM 
+Thou shalt check out VM's for a limited time.
+Thou shalt always enter a name when checking out a VMVirtual Machine so others can ask if you are actually using the machine or not still. 
+Thou shalt return the VMVirtual Machine to the testing pool when you are done.
+Another quick item in regards to reserving VM's.  The act of reserving a VMVirtual Machine doesn't really do anything special, it just removes the VMVirtual Machine from OVERMINE's index.  This ensures that in the middle of testing a script you don't get run over by DART, but it doesn't protect you from another developer.
+There are two ways of running scripts.  The DARTTest-Software (commercial) guys recommend getting used to the python way because when we move on to writting plan files with OVERMINE this is how you will call functions.  However, the nice thing about the full path way is you get autocomplete.
+This name is arbitrary and can be whatever you want it to be.
+This name is important in the sense that it has to be unique amongst all your leafbags; if you have a repeat, you'll get errors.
+Has to be named this, and not __init.py__, two of us know this from experience...
+
+
+Attachments:
+
+
+datastruct[1].png
+
+
+datastruct.png
+
+
+Target.png
+
+
+
+Previous versions:
+| 1 
+| 2 
+| 3 
+| 4 
+| 5 
+| 6 
+| 7 
+| 8 
+| 9 
+| 10 
+| 11 
+| 12 
+| 13 
+| 14 
+| 15 
+| 16 
+| 17 
+|
+                    

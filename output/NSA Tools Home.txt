@@ -1,0 +1,26 @@
+
+                        Modify ACL Code Snippet (System Volume Information - OSB Module)
+
+OSB Library: Miscellaneous Library
+Module Name:  MISCFolderAccessControl_SVI
+ 
+
+('excerpt-include' missing)
+Error Codes: Specific error codes for the class/technique
+ 
+ 
+PSP/OS Issues: List all known issues the technique has with OSs or PSPs
+ 
+List Of Tools Using This Code: List all tools utilizing the code
+ 
+Description: A description of the technique/class.
+ 
+Code:
+ 
+ 
+INCLUDE DESCRIPTIVE LABELS FOR EACH MODULE
+
+Previous versions:
+| 1 
+|
+                    

@@ -1,0 +1,9 @@
+
+                        Sysmon Startup Method
+This is by far the simplest startup method.  All we need to do is to load the precore library from disk and call the entry point (run_pc_stub()).  The only complicating factor involved here is that some significant attention has been paid to making this fairly well obfuscated in order to protect the keys used to encrypt the precore stub and the paths used to locate the various RoidRage files.
+Source Link
+
+Previous versions:
+| 1 
+|
+                    

@@ -1,0 +1,83 @@
+
+                        Get Current User And Domain (MISCUserAndDomain_TOK)
+SECRET//NOFORN
+ 
+Miscellaneous Module
+Stash Repository: Miscellaneous Library
+
+Module Name: MISCUserAndDomain_TOK (from token)
+ 
+Module Description: Gets the user and domain information using the token of the current running thread (if the thread has no token the process token is used instead). The format of the returned string is DOMAIN\UserName Example: Devlan\User #73607. The caller is responsible for freeing the returned buffer. 
+ 
+Usage:
+
+/*
+	Gets the Domain and User Name of your current running thread. The format of the returned string is Domain\\UserName Example: Devlan\\User #73607
+	Returns false if unable to get the UserName and Domain and true if it is successful. The user of this function must free the returned buffer
+	by calling free() if the buffer is not null.
+*/
+static BOOL GetUserAndDomain(WCHAR *&wcUserAndDomain);
+ 
+/*
+	Gets the domain and user name of the specified process ID. The format of the returned string is Domain\\UserName Example: Devlan\\User #73607
+	Returns false if unable to get the UserName and Domain and true if it is successful. The user of this function must free the returned buffer
+	by calling free() if the buffer is not null.
+*/
+static BOOL GetUserAndDomain(WCHAR *&wcUserAndDomain, DWORD dwPID);
+
+ wcUserAndDomain: The user and domain of the current thread. Format is Domain\UserName. The caller is responsible for freeing the returned buffer using free().
+dwPID: The process id of the process whose token you wish to use to derive domain and username.
+Returns TRUE on success. wcUserAndDomain will be NULL on failure.
+ 
+ 
+PSP/OS Issues: No known issues.
+ 
+('excerpt' missing)
+ 
+Sharing Level: Unilateral
+ 
+Technique Origin: In-house (Windows Token APIApplication Programming Interface)
+ 
+Notes: 
+
+The caller must free the returned buffer.
+The domain and user name correlate to the current thread token
+Call being made is GetTokenInformation with the type being TokenUser. From there a call to LookupAccountSid returns the user and domain.
+
+ 
+Module Return Codes: Returns TRUE when successful.
+ 
+Example Code:
+ 
+WCHAR *wcUserAndDomain = NULL;
+
+
+BOOL bRet = MISCUserAndDomain_TOK::GetUserAndDomain(wcUserAndDomain);
+
+
+//After use
+if (wcUserAndDomain)
+	free(wcUserAndDomain);
+wcUserAndDomain = NULL;
+
+
+//Now using a process ID
+bRet = MISCUserAndDomain_TOK::GetUserAndDomain(wcUserAndDomain, dwPID);
+
+
+//After use
+if (wcUserAndDomain)
+	free(wcUserAndDomain);
+wcUserAndDomain = NULL;
+  
+ 
+ 
+SECRET//NOFORN
+
+Previous versions:
+| 1 SECRET
+| 2 SECRET
+| 3 SECRET
+| 4 SECRET
+|
+                    

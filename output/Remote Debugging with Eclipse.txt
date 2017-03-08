@@ -1,0 +1,48 @@
+
+                        Owner: User #71384
+Git Notes
+Delete a tag from the remote:
+git tag -d 12345
+git push origin :refs/tags/12345
+Updating an open-source repository from the Internet:
+
+On the low side, perform a git pull to update the repository.
+Tar the directory containing the repository and move it to the high side.
+Take note of the existing remote repository location by using git remote -v from inside the existing repository directory
+Untar the new archive over any existing archive
+Reset the remote repository using: git remote set-url origin ssh://git@stash.devlan.net:7999/opensource/<repository>.git
+
+Then push the updated repository to Stash: git push --tags
+
+
+Using Submodules
+Use submodules when using an open-source code that is separate from the rest of the git tree. For example, to add the WolfSSL library use:
+git submodule add ssh://git@stash.devlan.net:7999/opensource/wolfssl.git
+Then commit it using
+git commit -m "Add WolfSSL as a submodule."
+To supress git status messages saying that the submodule directory content is untracked, edit the .gitmodules file in the project root (the directory where git init was issued) and enter the following line:
+ignore = untracked
+under the entry for the submodule. For example:
+[submodule "wolfssl"]    path = src/wolfssl    url = ssh://git@stash.devlan.net:7999/opensource/wolfssl.git    ignore = untracked
+ 
+ 
+
+Comments:
+
+
+2015-12-02 03:24 
+[User #524297]: 
+
+Regarding submodules for open-source projects:
+Add an Open Source Library to a Stash Project
+Use Git Submodules to Manage Libraries  
+If you need any additional help, let me know.
+
+
+
+Previous versions:
+| 1 
+| 2 
+| 3 
+|
+                    

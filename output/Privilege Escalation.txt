@@ -1,0 +1,11 @@
+
+                        Privilege Escalation
+Components in here are responsible for executing code at a higher privilege level than the current level.
+
+Sub-Pages:
+
+
+Elevated COM Object UAC Bypass (WIN 7) 
+
+
+                    

@@ -1,0 +1,28 @@
+
+                        Grab Windows Symbols From The Share
+
+
+
+Describe when someone would need this information. For example "when connecting to wi-fi for the first time".
+Step-by-step guide
+
+Add the steps involved:
+
+Install "Debugging Tools for Windows" (located at \\fs-01\share\Windows Software Development Resources\Debugging Tools for Windows)
+
+Use SymChk.exe that comes with Debugging Tool for Windows and run the following:
+symchk /if c:\windows\system32\*.dll /s srv*c:\symbols*\\fs-01\share\WindowsSymbols
+Note: Using "c:\windows\system32\*.dll" for the "/if" option will find the debug symbols for all Windows DLLs. You could instead specify specific DLLs, use a manifest file, use an EXE to grab only the symbols it needs (see symchk's help for all options). Also, this command will download all symbols to "c:\symbols", you can change that to be whatever you wish.
+
+
+ 
+
+Still missing symbols? See Updating the Windows Symbol share via the Internet  
+
+
+
+Previous versions:
+| 1 
+| 2 
+|
+                    

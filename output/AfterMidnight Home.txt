@@ -1,0 +1,67 @@
+
+                        Packrat Documentation Home
+
+Packrat is an automated framework for Listening Post creation/provisioning, configuration, and maintenance.  Originally created as a NODNetwork Operations Division iTime project, it allows users to quickly spin up LPs with several different builder options (VMWare Workstation, VMWare ESXi, VirtualBox, OpenStack, KVM/QEMU, Docker, AWS, Google Compute Cloud) and automates LPListening Post setup/configuration using a combination of kickstart files and Ansible playbooks.
+
+
+Getting Started
+About Packrat  
+Getting Packrat
+ 
+
+ 
+
+Resources
+Developer Quickstart  
+
+Baseline Hardened OS  
+Packer Configurations  
+
+Ansible Playbooks  empty
+
+
+Operator Quickstart
+ 
+
+
+
+
+Recent space activity
+
+('recently-updated' missing)
+
+
+Space contributors
+
+('contributors' missing)
+
+
+ 
+
+
+Sub-Pages:
+
+
+Developer Quickstart 
+
+
+About Packrat 
+
+
+
+Previous versions:
+| 1 
+| 2 
+| 3 
+| 4 
+| 5 
+| 6 
+| 7 
+| 8 
+| 9 
+| 10 
+| 11 
+| 12 
+| 13 
+|
+                    

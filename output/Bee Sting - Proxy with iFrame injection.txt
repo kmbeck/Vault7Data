@@ -1,0 +1,29 @@
+
+                        Bee Sting - Proxy with iFrame injection
+
+
+Comments:
+
+
+2014-07-07 10:39 
+[User #11629150]: 
+
+I have taken over the iFrame injection capability and am calling it Bee Sting.
+When built and run, proxy.c and its dependencies function as a proxy server and provide target specific HTMLHypertext Markup Language content (typically iFrame) injection.
+I have created a repository in Stash (https://stash.devlan.net/projects/BEESTING) and added a lot of documentation to the readme, log, and code.
+
+
+2014-05-30 11:28 
+[User #11629150]: 
+
+iFrame injection capability: 
+ - "proxy.c" is a program that does iFrame injection (proof of concept, but not totally finished). The program acts as a proxy. It listens on port 8080 forwards the GET request from the client to port 80, receives the HTMLHypertext Markup Language webpage from the server, modifies the HTMLHypertext Markup Language page (adds the iFrame injection to redirect the target, transparently, to the specified webpage in the iFrame). 
+ - Compile and run the C program. Open the web browser and type localhost:8080, must have apache running……The program will inject an iFrame to be redirected to "https://confluence.devlan.net". 
+ - This "proxy.c" program creates a RAW socket to capture traffic, modify the HTMLHypertext Markup Language response page from the web server, reconstructs the IP header and calculates the checksum, reconstructs the TCPTransport Control Protocol header with the new payload size and calculates the checksum, modifies the HTTPHypertext Transfer Protocol protocol content-Length to correlate with the new payload size, and then send the modified payload to the target/host.
+
+
+
+Previous versions:
+| 1 
+|
+                    

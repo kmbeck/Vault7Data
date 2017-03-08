@@ -1,0 +1,19 @@
+
+                        Owner: User #7995631
+Windows symbol server
+https://msdl.microsoft.com/download/symbols works now on DEVLAN. This should now "just work" for tools like Ida Pro and Windbg.
+ 
+Setting symbol path in windbg:
+.sympath srv*https://msdl.microsoft.com/download/symbols
+or
+Set your _NT_SYMBOL_PATH to srv*https://msdl.microsoft.com/download/symbols
+ 
+The symbol repository is located on the share at \\fs-01\share\WindowsSymbols. If you find its missing symbols that you need, consider Updating the Windows Symbol share via the Internet  .
+ 
+
+Previous versions:
+| 1 
+| 2 
+| 3 
+|
+                    

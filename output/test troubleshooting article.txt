@@ -1,0 +1,134 @@
+
+                        Tech Topics and Techniques Knowledge Base
+
+
+The Tech Topics and Techniques Knowledge Base is designed to store useful articles showing relevant topics and/or techniques. Each page in the knowledge base should contain labels (as many as possible while retaining accuracy). The label structure of this particular knowledge base should be as follows:
+
+A page should be a child page of its most fitting label.
+"Label pages" are created to allow easier searching for material.
+A page should contain labels for the technical topic or technique (including parent topics) as well as labels for article source and article use (if you use code from an article create a label for the page specifying the name of the project you are using the code in). Correctly labelling pages allows for easier searching, sharing, and accounting.
+
+Label Page: A label page is a blank page with the following description - LABEL PAGE: Child pages of this page will contain articles pertaining to the XXXXXX (example: if the label is Windows, XXXXXXX = Windows Operating System).
+Use the AEDApplied Engineering Devision Knowlege Base Label Page Template when constructing a label page
+ 
+Example: For example let's say Bob found an interesting article (or created one) on Windows' CreateFile function. Bob wants to post the article so others may find it useful. The steps Bob takes to be most effective are:
+
+1. Bob finds that there is already a label page for Windows but not for File Functions. Bob creates a child page for Windows (blank template) and titles it File Functions and provides the generic label page description.
+2. Next, Bob creates a child page of File Functions and titles it "Create a System, Hidden File on Windows". He then precedes to fill out/paste the article and code on the page.
+3. Then, Bob creates labels for his page. The labels for this page would include all parents (Windows, File Functions), labels relating to the article (Create File, Hidden Files), the user and branch of the submission (Bob, OSBOperation Support Branch), the names of all the projects code from the article was used in (BobsSuperAwesomeProject) and the source of the article (MSDNMicrosoft Developer Network).
+
+ 
+*Hint: For labels with spaces, use hyphens in place of the spaces. (i.e. Wrong Label = Knowledge Base, Correct Label = Knowledge-Base)
+ 
+Searching:
+If labels are properly set searching for articles and information becomes much easier. The user can search for any of the labels in use. Also, in the search results are the label pages. Label pages let you navigate/search in a file system structure for information. For example, if you know you are looking for Windows File Functions you can navigate into Windows, see that File Functions is a child page, navigate to File Functions and see all posts related to Windows File Functions as children of the label page.
+ 
+Other thoughts:
+If you think that a post may also be useful to another branch feel free to add their branch to the list of labels for the topic.
+As more and more posts accumulate in this Knowledge Base, labels become more important - descriptive is good.
+
+
+ 
+ 
+
+('livesearch' missing)
+ 
+ 
+ 
+
+ 
+
+
+
+Frequently asked questions
+
+Add links to popular how-to and troubleshooting articles.
+Highlight important documentation.
+
+
+
+Need more help?
+
+Link to resources such as your service desk, questions & answers or a forum.
+List contacts for getting additional help.
+
+
+
+Other resources
+
+Include links to relevant external sites and services.
+Add other helpful information.
+
+
+
+
+ 
+
+ 
+
+
+
+Browse by topic
+
+('listlabels' missing)
+
+
+Recently updated articles
+
+('recently-updated' missing)
+
+
+
+
+Sub-Pages:
+
+
+Browsers 
+
+
+File lists 
+
+
+Standards and Specifications 
+
+
+Python 
+
+
+AED Liaison Libraries 
+
+
+Personal Security Products (PSPs) 
+
+
+EDG Code Libraries 
+
+
+Multiple Platforms 
+
+
+Windows 
+
+
+Troubleshooting articles 
+
+
+How-to articles 
+
+
+
+Previous versions:
+| 1 
+| 2 
+| 3 
+| 4 
+| 5 
+| 6 
+| 7 
+| 8 
+| 9 
+| 10 
+| 11 
+| 12 
+|
+                    

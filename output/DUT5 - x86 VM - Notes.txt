@@ -1,0 +1,110 @@
+
+                        Owner: User #14587667
+DUT2 - RB450G - General Info
+Perseus 1.1.0MikroTik RB450G - DUT2
+General Info
+WAN (from TR-Core) 172.20.100.8/30TR-CoreSwx: 172.20.100.9    
+DUT: 172.20.100.10 (ether1) , 192.168.88.1/24 (ether2), 10.0.0.2/30 (ether4), 192.168.20.1/24 (ether5)
+ICON: 172.20.12.101/24
+LAN Hosts
+192.168.20.2  = Perseus Test2 #2 - 1.1.0b1 - UbuntuDesktop 14.10 x64
+RIP Config
+Neighbor (RB493G) = 10.0.0.1/30
+ 
+/ip address print
+Flags: X - disabled, I - invalid, D - dynamic# ADDRESS NETWORK INTERFACE0 ;;; default configuration192.168.88.1/24 192.168.88.0 ether2-master-local1 172.20.100.10/30 172.20.100.8 ether1-gateway2 ;;; To_RB493G_ether410.0.0.2/30 10.0.0.0 ether4-slave-local3 192.168.20.1/24 192.168.20.0 ether5-slave-local
+How to Connect
+From the VMVirtual Machine named "DAB - ICON4 - COG":
+/usr/bin/tshPatcher_v1.0.4/tsh-x86_64 172.20.100.10 12345 MyPassphrase
+ 
+Perseus Files
+BusyBox location: /flash/boot/hidden/busybox
+Use "debug" mode: /flash/boot/hidden/busybox nice -n +13 /flash/boot/hidden/busybox
+Primary Files location: /flash/boot/hidden
+Startup Scripts: /flash/etc/rc.d/run.d/S99mcc, /flash/etc/rc.d/run.d/S99tsh
+Test Procedure
+
+Backup config (off the device)
+Perform netinstall to ROS6.X
+Restore config settings (if necessary).
+Capture output (screenshots) of:
+/system resource print
+/system resource monitor
+
+
+Throw CR, TSH, Flux, Perseus
+Capture output (screenshots) of:
+/system resource print
+/system resource monitor
+
+
+Compare outputs (before/after using exploits)
+
+ 
+
+Attachments:
+
+
+image2015-7-9 13:21:26.png
+
+
+image2015-7-9 13:21:2.png
+
+
+image2015-7-9 13:14:7.png
+
+
+image2015-7-9 13:12:55.png
+
+
+image2015-7-9 11:10:4.png
+
+
+image2015-7-9 11:9:34.png
+
+
+image2015-7-9 9:25:48.png
+
+
+image2015-7-9 9:25:14.png
+
+
+image2015-7-9 9:24:51.png
+
+
+image2015-7-9 9:24:31.png
+
+
+image2015-7-9 9:24:13.png
+
+
+
+Sub-Pages:
+
+
+Test Notes 
+
+
+Baseline Resource Measurements 
+
+
+
+Previous versions:
+| 1 empty
+| 2 
+| 3 
+| 4 
+| 5 
+| 6 
+| 7 
+| 8 
+| 9 
+| 10 
+| 11 
+| 12 
+| 13 
+| 14 
+| 15 
+| 16 
+|
+                    

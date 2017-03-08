@@ -1,0 +1,59 @@
+
+                        Port windows-based Medusa builder to Linux/python
+('details' missing)
+Goals
+E.g. Simplify the user experience, reduce friction etc...
+Background and strategic fit
+
+Why are you doing this? How does this relate to your overall product strategy?
+Assumptions
+List the assumptions you have such as user, technical or other business assumptions. (e.g. users will primarily access this feature from a tablet).
+Requirements
+
+
+#
+Title
+User Story
+Importance
+Notes
+
+
+1
+4.1.2.46
+The tool shall have the following builder parameters:
+Must Have
+Additional considerations or noteworthy references (links, issues)
+
+
+ 2
+ 4.1.2.49
+ A builder application that has a GUI.
+ Must Not Have
+Deleted
+
+
+3
+ 
+Port existing application to LINUX using python
+Must Have
+ 
+
+
+User interaction and design
+
+Include any mockups, diagrams or visual designs relating to these requirements.
+Questions
+Below is a list of questions to be addressed as a result of this requirements document:
+
+
+Question
+Outcome
+
+
+(e.g. How we make users more aware of this feature?)
+Communicate the decision reached
+
+
+Not Doing
+List the features discussed which are out of scope or might be revisited in a later release.
+                    

@@ -1,0 +1,77 @@
+
+                        Owner: User #3375374
+Funny Code 2011
+Funny Code post from 2011.
+
+These are some notes regarding working with net-snmp on Windows. This assumes you have downloaded and compile the net-snmp set of command line tools and are standing them up on a development box.
+
+  Setup your MIBDIRS environment variable to point to your MIBS directory.
+  Test it by translating a MIB using snmptranslate. For example: "snmptranslate 1.3.6.1.2.1.5". Observing messages like 'Cannot find module (IP-MIB): At line 0 in (none)' in the output indicates that this is not setup correctly. You will also note the intuitive translation name 'iso.3.6.1.2.1.5'.  When it is setup correctly then you will get a friendly name such as "IP-MIB::icmp".
+  Download additional MIBs from your manufacturer as needed and extract them to this directory.
+
+Given a particluar OID a text description can be obtain using the command: "snmptranslate -On -Td .1.3.6.1.2.1.1.5". User friendly names can be obtained using: "snmptranslate .1.3.6.1.2.1.1.5". The OID can be obtained from the friendly name using: "snmptranslate -On SNMPv2-MIB::sysName". It is possible to search the MIB using: "snmptranslate -TB foo".
+Once this is setup then snmpwalk can be used to interrogate a device. For example: "snmpwalk -c public -v 2c 10.3.1.34 > xero_snmpwalk_test.txt" prints a very lengthy file about one of the printers on devlan.
+
+Dumps the calling module and the dll its attempting to load.
+bp kernel32!LoadLibraryA "ln @$ra; du ecx; g"bp kernel32!LoadLibraryW "ln @$ra; du ecx; g"
+
+Insert the disk but do not mount it. If it automounts then unmount it.
+# for a cdromdd if=/dev/cdrom of=cd.iso# for a dvddd if=/dev/dvd of=dvd.iso
+
+First identify the patch in question and download it.
+
+Second extract the contents. For Security Updates you can execute the install exe, observe the unpack folder, copy the contents to another directory, and then cancel the install.
+
+
+
+ Ever see the following linker error?
+Linking...LIBCMTD.lib(wincrt0.obj) : error LNK2019: unresolved external symbol _WinMain@16 referenced in function ___tmainCRTStartupC:\Work\rdb\epione\Debug\ConfigureEpione.exe : fatal error LNK1120: 1 unresolved externals
+
+There are number of setting that can influence this error. For example your PREPROCESSOR flags or perhaps the main() declaration. The most nonintuitive setting is the subtle Linker | System | SubSystem setting. 
+
+
+#ifdef USE_BREAK_ON_START // In WinXP at service start, on breakpoint hit cancel and select debugger // In Vista at service start, Services are launched in the session 0 desktop // while the interactive debugger is in the session 1 desktop. When the  // debugger is not attached the breakpoint is handled as an application  // exception e.g. exit process. // Remote debugging at application start up, use the debug break to pause // until the debugger is connected. for (int bContinue = 1; bContinue && !IsDebuggerPresent(); )  Sleep(1000); DebugBreak();#endif // USE_BREAK_ON_START
+
+  * Start by mounting the iso image some where.    - su (or use sudo)    - mkdir /iso/repo    - mkdir -p /iso/repo/dvd    - chcon -t mnt_t /iso/repo/dvd    - mount -r -o loop /path/to/FC-5-i386-DVD.iso /iso/repo/dvd    - cd /iso/repo    - rpm -Uvh dvd/Fedora/RPMS/createrepo*    - createrepo .  * Add DVDDigital Versatile Disk ISOInternational Standard Organization to fstab to mount it at every boot    - /path/to/FC-5-i386-DVD.iso /iso/repo/dvd iso9660 ro,loop 0 0  * Edit /etc/yum.repos.d/devlan.repo
+
+file: devlan.repo
+ baseurl=file:///iso/repo/dvd
+
+
+Start by capturing the SSLSecure Socket Layer traffic in question. Search through the traffic until you find the Certificate for the Server Key Exchange.
+    - In Wireshark's packet detail pane.    - Expand the SSLSecure Socket Layer protocol.    - Expand the Certificate in the TLSTransport Layer Security record.
+
+    - Expand the Certificate handshake protocol.    - In the list of Certificates the first is the Server's Certificate and the second is its signing CA.    - Right click and select "Export selected packet bytes..."
+
+    - Save the file. If you save it with the .crt extention then you can just use the Windows GUIGraphical User Interface to view the certificate.
+
+
+Systems Internals strings tool is useful for dumping a files ASCII7-bit character set and UNICODE strings.  To do this for a large number of files its helpful to use batch processing.
+for /f %i in ('dir /b') do \work\strings -n 3 -a %i > %i.ascii.txt-or- for /f %i in ('dir /b') do \work\strings -n 3 %i > %i.unicode.txt
+
+Attachments:
+
+
+kb2508429.png
+
+
+kb2508429-x86-enu.png
+
+
+linker_subsystem_setting.png
+
+
+ssl_certificate_extraction_3.png
+
+
+ssl_certificate_extraction_2.png
+
+
+ssl_certificate_extraction_1.png
+
+
+
+Previous versions:
+| 1 
+|
+                    

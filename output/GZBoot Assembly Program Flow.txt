@@ -1,0 +1,175 @@
+
+                        GZBoot Assembly Program Flow
+/*srtbegin.S*/
+     
+     /*DISABLE MMU*/
+       0: ee112f10  mrc  15, 0, r2, cr1, cr0, {0}
+       4: e3c22001  bic  r2, r2, #1
+       8: e3c22004  bic  r2, r2, #4
+       c: e3822a01  orr  r2, r2, #4096  ; 0x1000
+      10: ee012f10  mcr  15, 0, r2, cr1, cr0, {0}
+      14: e1a00000  nop            ; (mov r0, r0)
+      18: e1a00000  nop            ; (mov r0, r0)
+      1c: e1a00000  nop            ; (mov r0, r0)
+ 
+      20: e24f4028  sub  r4, pc, #40    ; 0x28
+      24: e28f2060  add  r2, pc, #96    ; 0x60
+      28: e892000c  ldm  r2, {r2, r3}
+      2c: e1540002  cmp  r4, r2
+      30: 0a000006  beq  0x50
+ 
+      34: e1a01004  mov  r1, r4
+      38: e4d10001  ldrb r0, [r1], #1
+      3c: e4c20001  strb r0, [r2], #1
+      40: e1520003  cmp  r2, r3
+      44: 1afffffb  bne  0x38
+ 
+      48: e28f1038  add  r1, pc, #56    ; 0x38
+      4c: e591f000  ldr  pc, [r1]
+      50: e28f103c  add  r1, pc, #60    ; 0x3c
+      54: e8910006  ldm  r1, {r1, r2}
+      58: e0422001  sub  r2, r2, r1
+      5c: e3a03000  mov  r3, #0
+ 
+      60: e4c13001  strb r3, [r1], #1
+      64: e2522001  subs r2, r2, #1
+      68: cafffffc  bgt  0x60
+ 
+      6c: e28f1028  add  r1, pc, #40    ; 0x28
+      70: e591d000  ldr  sp, [r1]
+      74: e28f0010  add  r0, pc, #16
+      78: e8900003  ldm  r0, {r0, r1}
+      7c: e0410000  sub  r0, r1, r0
+      80: e0800004  add  r0, r0, r4
+      84: ea000319  b    0xcf0          /*Branch to gzboot.c: main()*/
+ 
+      88: 88000050  stmdahi   r0, {r4, r6}
+      8c: 88000000  stmdahi   r0, {}    ; <UNPREDICTABLE>
+      90: 88008164  stmdahi   r0, {r2, r5, r6, r8, pc}
+      94: 00001000  andeq     r1, r0, r0
+      98: 000014ac  andeq     r1, r0, ip, lsr #9
+      9c: 00001420  andeq     r1, r0, r0, lsr #8
+      
+     /* GZBOOT.C: MAIN() */
+     cf0:    e1a0c00d     mov    ip, sp
+     cf4:    e92dd870     push    {r4, r5, r6, fp, ip, lr, pc}
+     cf8:    e59f30cc     ldr    r3, [pc, #204]    ; 0xdcc
+     cfc:    e24cb004     sub    fp, ip, #4
+     d00:    e24dd004     sub    sp, sp, #4
+     d04:    e5936000     ldr    r6, [r3]
+     d08:    e1a04000     mov    r4, r0
+     d0c:    e59f00bc     ldr    r0, [pc, #188]    ; 0xdd0
+     d10:    eb0001b1     bl    0x13dc      /*Printing Function Branch*/
+         13dc: e1a0c00d  mov  ip, sp
+         13e0: e92d000f  push {r0, r1, r2, r3}
+         13e4: e92dd800  push {fp, ip, lr, pc}
+         13e8: e24cb014  sub  fp, ip, #20
+         13ec: e24dd008  sub  sp, sp, #8
+         13f0: e28b3008  add  r3, fp, #8
+         13f4: e1a01003  mov  r1, r3
+         13f8: e59b0004  ldr  r0, [fp, #4]
+         13fc: e50b3010  str  r3, [fp, #-16]
+         1400: eb0000e9  bl   0x17ac
+              17ac: e1a02001  mov  r2, r1
+              17b0: e1a01000  mov  r1, r0
+              17b4: e59f0000  ldr  r0, [pc]  ; 0x17bc
+              17b8: eaffff71  b    0x1584
+                   1584: e1a0c00d  mov  ip, sp
+                   1588: e92dd8f0  push {r4, r5, r6, r7, fp, ip, lr, pc}
+                   158c: e24cb004  sub  fp, ip, #4
+                   1590: e1a06000  mov  r6, r0
+                   1594: e1a07002  mov  r7, r2
+                   1598: e1a05001  mov  r5, r1
+                   159c: e4d50001  ldrb r0, [r5], #1
+                   15a0: e3500025  cmp  r0, #37   ; 0x25    /*Compares with string '%' value*/
+                   15a4: 0a00000c  beq  0x15dc
+                   15a8: e3500000  cmp  r0, #0              /*Compares with string null value*/
+                   15ac: 089da8f0  ldmeq     sp, {r4, r5, r6, r7, fp, sp, pc}
+                   15b0: e2814002  add  r4, r1, #2
+                   15b4: ea000001  b    0x15c0
+              17bc: 8800059c  stmdahi   r0, {r2, r3, r4, r7, r8, sl}
+         1404: e24bd00c  sub  sp, fp, #12
+         1408: e89da800  ldm  sp, {fp, sp, pc}
+ 
+     d14:    e59f10b8     ldr    r1, [pc, #184]    ; 0xdd4
+     d18:    e59f00b8     ldr    r0, [pc, #184]    ; 0xdd8
+     d1c:    e59f20b8     ldr    r2, [pc, #184]    ; 0xddc
+     d20:    eb0001ad     bl    0x13dc      /*Printing Function Branch*/   
+ 
+     d24:    e3560a7d     cmp    r6, #512000    ; 0x7d000
+     d28:    23a01a7d     movcs    r1, #512000    ; 0x7d000
+     d2c:    2a000001     bcs    0xd38
+     d30:    e2561000     subs    r1, r6, #0
+     d34:    0a000004     beq    0xd4c
+     d38:    e3a02000     mov    r2, #0
+     d3c:    e3a03000     mov    r3, #0
+     d40:    e4823004     str    r3, [r2], #4
+     d44:    e1510002     cmp    r1, r2
+     d48:    8afffffb     bhi    0xd3c
+     d4c:    ebfffdb5     bl    0x428
+ 
+     d50:    ebfffdc0     bl    0x458
+ 
+     d54:    e59f0084     ldr    r0, [pc, #132]    ; 0xde0
+     d58:    e1a01006     mov    r1, r6
+     d5c:    e1a02004     mov    r2, r4
+     d60:    eb00019d     bl    0x13dc      /*Printing Function Branch*/
+ 
+     d64:    e59f3078     ldr    r3, [pc, #120]    ; 0xde4
+     d68:    e5935000     ldr    r5, [r3]
+     d6c:    e3550000     cmp    r5, #0
+     d70:    1a000011     bne    0xdbc
+     d74:    e1a01005     mov    r1, r5
+     d78:    e1a00004     mov    r0, r4
+     d7c:    ebffffbb     bl    0xc70
+     
+     d80:    e1a04000     mov    r4, r0
+     d84:    e59f005c     ldr    r0, [pc, #92]    ; 0xde8
+     d88:    eb000193     bl    0x13dc      /*Printing Function Branch*/
+ 
+     d8c:    e1a02005     mov    r2, r5
+     d90:    e1a01004     mov    r1, r4
+     d94:    e1a00006     mov    r0, r6
+     d98:    ebfffec4     bl    0x8b0
+ 
+     d9c:    e59f0048     ldr    r0, [pc, #72]    ; 0xdec
+     da0:    eb00018d     bl    0x13dc      /*Printing Function Branch*/
+ 
+     da4:    e59f0044     ldr    r0, [pc, #68]    ; 0xdf0
+     da8:    e1a01006     mov    r1, r6
+     dac:    eb00018a     bl    0x13dc      /*Printing Function Branch*/
+ 
+     db0:    ebfffda2     bl    0x440
+ 
+     db4:    e12fff36     blx    r6
+     db8:    ebfffe62     bl    0x748
+ 
+     dbc:    e59f0030     ldr    r0, [pc, #48]    ; 0xdf4
+     dc0:    e1a01005     mov    r1, r5
+     dc4:    eb000184     bl    0x13dc      /*Printing Function Branch*/
+ 
+     dc8:    eaffffe9     b    0xd74
+ 
+     dcc:    8800815c     stmdahi    r0, {r2, r3, r4, r6, r8, pc}
+     dd0:    88007e90     stmdahi    r0, {r4, r7, r9, sl, fp, ip, sp, lr}
+     dd4:    88005394     stmdahi    r0, {r2, r4, r7, r8, r9, ip, lr}
+     dd8:    88007ef0     stmdahi    r0, {r4, r5, r6, r7, r9, sl, fp, ip, sp, lr}
+     ddc:    88005390     stmdahi    r0, {r4, r7, r8, r9, ip, lr}
+     de0:    88007f04     stmdahi    r0, {r2, r8, r9, sl, fp, ip, sp, lr}
+     de4:    88008160     stmdahi    r0, {r5, r6, r8, pc}
+     de8:    88007f44     stmdahi    r0, {r2, r6, r8, r9, sl, fp, ip, sp, lr}
+     dec:    88007f5c     stmdahi    r0, {r2, r3, r4, r6, r8, r9, sl, fp, ip, sp, lr}
+     df0:    88007f64     stmdahi    r0, {r2, r5, r6, r8, r9, sl, fp, ip, sp, lr}
+     df4:    88007f30     stmdahi    r0, {r4, r5, r8, r9, sl, fp, ip, sp, lr}
+
+LEGEND:
+[Label]:   [32-bit ARMProcessor manufacturer Instruction]   [Assembly Instruction]   
+Data is in blue
+My comments are in red
+ 
+
+Previous versions:
+| 1 
+| 2 
+|
+                    

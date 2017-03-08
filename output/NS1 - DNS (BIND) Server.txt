@@ -1,0 +1,32 @@
+
+                        Owner: User #14587667
+NS2 - DNS (BIND) Server
+Description: This BINDDNSDomain Name System server software server will function as a DNSDomain Name System forwarder to NS1 (172.20.13.31).  It does not host any domains itself.
+IP Address: 172.20.13.30/24
+OS: Ubuntu Server 14.04 LTSLong Term Support x64
+VM Name: BIND-ns2-UbuntuServer 14.04 172.20.13.30
+Username/Password: ubuntu/password
+Hostname: test-ns2
+Bind Config Location: /etc/bind
+ 
+BIND Installation
+
+sudo apt-get update && sudo apt-get upgrade
+sudo apt-get install bind9 bind9utils bind9-doc
+Edit /etc/bind/named.conf.options with ns2-named.conf.options changes.
+
+
+Troubleshooting
+
+rndc flush                       //Flush DNS
+
+Attachments:
+
+ns2-named.conf.options
+
+
+Previous versions:
+| 1 
+| 2 
+|
+                    

@@ -1,0 +1,240 @@
+
+                        Owner: User #3375506
+
+User #? Developer Guide
+Note: This page is under development.
+Overview
+User #? is a software tool used to build custom installers for target computers running Microsoft Windows operating systems.
+Concept of Operations
+An operator uses User #? to build a custom installation executable, execute that installation executable on a target computer, and (optionally) decode the results of that execution.
+Build
+An operator uses the User #? builder to construct a custom installation executable.
+The operator configures an installation executable to install one or more payloads using a variety of techniques. Each payload installer is built from individually configured components that implement part of the installation procedure.
+The operator may designate that installation is contingent on the evaluation of the target environment. Target conditions are described using a custom rule language.
+The operator may configure the tool to output a log file during execution for later exfiltration.
+Execute
+An operator runs the installation executable on a target computer running a Microsoft Windows operating system. The installation executable should be loaded into and executed solely within memory.
+The operator is responsible for selecting the appropriate method for gaining on-target execution for the configured User #? tool.
+If the executable has output a log file, the operator collects it from the filesystem for later analysis.
+Decode
+An operator decodes the runtime-generated log file to evaluate detailed execution results.
+The execution log stores result codes from each installer component and facts evaluated as part of the target environment validation process.
+Referenced Documents
+NOD Persistent DLLDynamic Link Library v1
+The User #? executable DLLDynamic Link Library is compliant with the NODNetwork Operations Division Persistent specification version 1. It can be safely loaded and executed in process memory.
+In-memory Code Execution (ICEIn-memory Code Execution) v3
+The User #? executable ICE-DLL is compliant with the In-memory Code Execution (ICEIn-memory Code Execution) specification version 3. It can be loaded as a module by an ICE-compliant loader using the ‘Fire’ execution mode.
+System Design
+
+User #? Composition
+A User #? executable contains one or more installers. An installer is a stack of one or more installer components. User #? invokes each component of the stack in series to operate on a payload. The ultimate purpose of an installer is to persist a payload.
+User #? will optionally evaluate rules to determine whether to execute an installation. Rules may be set on each installer and/or globally.
+Executables
+User #? executables contain and run one or more installers on a target system.
+An executable may have a global rule that will be evaluated before execution of any installers. If a global rule is provided and evaluates to false the executable aborts operation.
+Executables may be constructed for both x86 and x64 architectures and in the following formats:
+
+
+DLL
+
+Microsoft Dynamic-Link Library
+-    Compliant with NODNetwork Operations Division Persistence Specification v1
+-    Executes in a thread created in the DLLDynamic Link Library entry point (DllMain)
+-    Memory-loadable (compliant with NODNetwork Operations Division Persistence v1)
+
+
+
+ICE DLL
+
+ICEv3 Module
+-    Compliant with In-memory Code Execution (ICEIn-memory Code Execution) Specification v3
+-    Supports ‘Fire’ feature set
+
+
+
+If no rules need to be evaluated by the executable, User #? uses an alternate executable, called a Cricket. A Cricket is equivalent to a User #?, but has been stripped of the rule processing engine.
+Installers
+Installers encapsulate the process used to install a payload on a target system. Installers are constructed from one or more components that each contribute to the installation process.
+Installers run by passing a payload through each member of the component stack. An installer may invoke a component at run time or build time, depending on payload availability and the components’ execution time requirements. Installers are biased toward build-time execution of components to minimize on-target activity.
+An installer may have a rule that will be evaluated before execution. If an installer rule is provided and evaluates to false the associated installer is skipped.
+Components
+Components form the functional portion of installers. Components may be used to introduce payloads to the installer stack, modify a payload on the stack, install a payload on a target, etc.
+User #? users configure components individually before using them to construct installers. Components may be used in multiple installers.
+Components may be developed by third-parties and added to an existing User #? build system.
+Payloads
+Payloads are the software tools that an installer is meant to persist on a target. Payloads are passed through each component on the installer stack.
+Payloads are typed by format (EXE, DLL, SYS, PIC), architecture (x86, x64), and optional arguments and interface. The output type of a component must match exactly the input type of the next component on the stack.
+User #? includes a built-in payload component which is used to introduce a payload to the component stack.
+Rules
+Rules are statements that describe on-target conditions required for the successful operation of an installer or a User #? executable as a whole. Rules use boolean operators to combine simple facts into complex expressions.
+Logic
+For any given executable, including some number of installers built from some sequence of components, User #? will operate according to the following logic.
+Build Time
+At build time, User #? will validate the executable and run the build time components.
+Validation
+For each installer in an executable, User #? evaluates the payload exchanges between the constituent components. User #? ensures that both the payload types and availabilities between each component are compatible.
+Build Time Components
+Some components are designed to operate on a payload at build time. For each installer in the executable, User #? will invoke the components to operate on the payload until the first run time component is reached. The output of the last build time component will be the input of the first run time component.
+Run Time
+At run time, User #? will evaluate the target environment and run the run time components.
+Global Rule
+An executable may be configured with a global rule that describes conditions that are required for the executable as a whole. Before executing any components, User #? will evaluate this global rule.
+If the global rule does not evaluate to “true”, the User #? aborts operation.
+Installer Rules
+For each installer in the executable, a rule may be configured that describe required conditions for that particular installer. Before executing any of an installer’s run time components, User #? will evaluate its installer rule.
+If the installer rule does not evaluate to “true”, the User #? skips that installer.
+Run Time Components
+For each installer in the executable, User #? invokes each run time component to operate on the payload. If any component fails, User #? will unwind, calling the components in reverse order to undo whatever actions they had taken.
+Developing Components
+Module Interface
+The module interface is the interface that governs the interaction between User #? binaries and the component DLLs that run on target.
+The component module interface requires that the module DLLDynamic Link Library export functions that perform a set of procedures. Module functions must be exported by ordinal only.
+Install Procedure
+const unsigned short COMPONENT_INSTALL_ORDINAL = 1;
+typedef uint_64(__stdcall *InstallProcedure)(  void* config,   unsigned long config_size,   void* input_payload,   unsigned long input_payload_size,   void** output_payload,   unsigned long* output_payload_size);
+The component install procedure is called by User #? during the execution of a configured installer.
+The install procedure is exported by the module on Ordinal 1.
+The install procedure takes the following arguments:
+
+
+config
+- pointer to the configuration data associated with the component
+
+
+config_size
+- size of the configuration data in bytes
+
+
+input_payload
+- pointer to the input payload
+
+
+input_payload_size
+- size of the input payload in bytes
+
+
+output_payload
+
+- pointer to pointer to store output payload
+The input payload may be modified in place and the output payload pointer set to the input payload pointer.
+If more space is needed for the output, the module is responsible for allocating this buffer. The memory should be allocated using the User #? memory "functions".
+
+
+
+output_payload_size
+- pointer to size of the output payload in bytes
+
+
+The install procedure returns a uint_64 code. An exit code of zero indicates success and a non-zero code indicates failure.
+
+Uninstall Procedure
+
+const unsigned short COMPONENT_UNINSTALL_ORDINAL = 2;
+typedef uint_64 (__stdcall *UninstallProcedure)(  void* config,   unsigned long config_size);
+The component uninstall procedure is called by User #? when trying to reverse an installer.
+The uninstall procedure is exported by the module on Ordinal 2.
+The uninstall procedure takes the following arguments:
+
+
+config
+- pointer to the configuration data associated with the component
+
+
+config_size
+- size of the configuration data in bytes
+
+
+The uninstall procedure returns a uint_64 code. An exit code of zero indicates success and a non-zero code indicates failure.
+Memory "Functions"
+#define GHAlloc(size) HeapAlloc(GetProcessHeap(), HEAP_ZERO_MEMORY, size)#define GHReAlloc(mem, size) HeapReAlloc(GetProcessHeap(), HEAP_ZERO_MEMORY, mem, size)#define GHFree(mem) HeapFree(GetProcessHeap(), 0, mem)
+Component modules must use the specified User #? memory "functions" when allocating or deallocating shared memory. Currently, the only case when a component allocates memory shared with User #? is when allocating space for an output payload.
+Script Interface
+The script interface is the interface that governs the interaction between the User #? Builder and Decoder and the component Python module/package that runs at build time.
+The script interface requires that the component implements a Python module/package that defines and registers a 'Component' subclass.
+Component Base Class
+class Component(object):    """Object representing a User #? component instance.
+    The Component class is subclassed by component scripts to define    the interface for instantiating their components.
+    Attributes:        name (str): name of the component type        version (str): version of the component type        description (str): short, one-line description of the component type    """
+    name = ''    version = ''    description = ''
+ 
+    XML_TAG_COMPONENT = 'Component'    XML_ATTR_ID = 'id'    XML_ATTR_TYPE = 'name'    XML_ATTR_VERSION = 'version'
+ 
+    def __init__(self, instance_id):        """Initialize a new component instance.
+        Subclasses should call the Component.__init__ function.
+        Args:            instance_id (str): identifier for the component instance        """        self.instance_id = instance_id
+ 
+    def __repr__(self):        return '{}({})'.format(type(self).__name__, self.instance_id)
+ 
+    # View Functions
+    def properties(self):        """Generate a recursive series of key-value pairs describing component.
+        Property keys must be strings. Property values may be a string or a        sequence of sub-keys and value pairs.
+        Returns:            list: sequence of properties as key-value pairs        """            raise NotImplementedError('{} does not implement properties method'.format(                type(self).__name__))
+ 
+    def decode_install_result(self, code):        """Decode the component result code returned by a call to the component module's        install command.
+        A result code of zero is reserved for 'success'.
+        Args:            code (int): 64-bit unsigned integer returned by component module during install
+        Returns:            str: human-readable result message        """        raise NotImplementedError('{} does not implement decode_install_result method'.format(            type(self).__name__))
+ 
+    def decode_uninstall_result(self, code):        """Decode the component result code returned by a call to the component module's        uninstall command.
+        A result code of zero is reserved for 'success'.
+        Args:            code (int): 64-bit unsigned integer returned by component module during uninstall
+        Returns:            str: human-readable result message        """        raise NotImplementedError('{} does not implement decode_uninstall_result method'.format(            type(self).__name__))
+ 
+    # Command Line Functions
+    @classmethod    def setup_parser(cls, parser):        """Setup an argument parser for the component.
+        The parser is used to parse command-line arguments to instantiate the        component. Parser is an argparse ArgumentParser that the component        can setup for its purposes.
+        Args:           parser (argparse.ArgumentParser): parser to setup for the component        """
+        raise NotImplementedError('{} does not implement setup_parser method'.format(
+            cls.__name__))
+ 
+    @classmethod    def from_cmdline(cls, instance_id, args):        """Instantiate a component from the command line.
+        The component class is provided an argparse Namespace generated using        the parser initialized by ``setup_parser``.
+        Args:            instance_id (str): identifier for the component instance            args (argparse.Namespace): argument namespace generated from command line
+        Returns:            Component: instance of component initialized from command line        """        raise NotImplementedError('{} does not implement from_cmdline method'.format(            cls.__name__))
+ 
+    # Save/Load Functions
+    def save(self, dir_path):        """Save a component to an xml string and data files.
+        Component state/configuration are stored in XMLExtensible Markup Language with following format:            <Component id="..." type="..." version="...">...</Component>
+        The id field should match the identifier provided for the instance.        The type field should match the name of the component.        The version field is provided to support component versioning.
+        Args:            dir_path (str): path to directory to save bulk instance data
+        Returns:            str: xml-formatted representation of the component        """        raise NotImplementedError('{} does not implement save method'.format(            type(self).__name__))
+ 
+    @classmethod
+    def load(cls, instance_id, xml, dir_path):        """Load a component from an xml string and data files.
+        This function will parse the xml string and any backing data files,         initialize a new instance of the component, and return that component         object.
+        Args:            instance_id (str): identifier for the component instance            xml (str): xml-formatted representation of a component                Uses string previously generated by ``save`` function.            dir_path (str): path to directory to load bulk instance data                Uses directory previously provided to ``save`` function.
+        Returns:            Component: instance of component initialized from xml and data        """        raise NotImplementedError('{} does not implement load method'.format(            cls.__name__))
+ 
+    # Build Functions
+    def available_payloads(self, input_type, input_time, output_time):        """Generate a list of payload types available for a given input.
+        Args:            input_type (PayloadType or None): type of payload input to component            input_time (str): when payload is input to component ('build' or 'run')            output_time (str): when payload is output from component ('build' or 'run')
+        Returns:            list of PayloadType: output types available for given parameters                List may include None if no payload is output from component;                this is only valid when output_time is 'run'.        """        raise NotImplementedError('{} does not implement available_payloads '                                  'method'.format(type(self).__name__))
+ 
+    @classmethod    def buildhook(cls, step, components):        """Hook the component build process.
+        This function will be called during the User #? build process between        a variety of build steps.
+        The following steps are defined ...            prebuild : before the build has begun            prebuild-configs : before component configs/payloads built            prebuild-configs-installer : before per-installer component configs/payloads built            postbuild-configs-installer : after per-installer component configs/payloads built            postbuild-configs : after component configs/payloads built            prebuild-modules : before component modules built            postbuild-modules : after component modules built            postbuild : after the build has finished
+        Args:            step (str): current build step            components (list of Component): instances of components to hook        """        pass
+ 
+    def build_payload(self, working_dir, input_type, output_type, input_data):        """Build the output payload for the component with a given input.
+        This function may be called when output_type was returned from        available_payloads(input_type, input_time, 'build'). If the output payload        is generated at build time, the component module will not be executed        at run time.
+        Args:            working_dir (str): path to working directory for component            input_type (PayloadType): type of payload that is input            output_type (PayloadType): type of payload that shall be output            input_data (bytes): input payload data
+        Returns:            bytes: output payload data with type specified by output_type        """        raise NotImplementedError('{} does not implement build_payload method'.format(            type(self).__name__))
+ 
+    def build_config(self, working_dir, input_type, output_type, input_data=None):        """Build the runtime configuration for the component with a given input.
+        This function may be called when output_type was returned from        available_payloads(input_type, input_time, 'run'). The configuration        data will be provided to the component module at run time. Input data        may be provided if input_time was 'build'.
+        Args:            working_dir (str): path to working directory for component            input_type (PayloadType): type of payload that is input            output_type (PayloadType): type of payload that shall be output            input_data (bytes, optional): input payload data
+        Returns:            bytes, optional: configuration data provided to module at runtime        """        raise NotImplementedError('{} does not implement build_config method'.format(            type(self).__name__))
+ 
+    @classmethod    def build_module(cls, working_dir, architecture, components):        """Build a module for the component.
+        User #? will use the same module for all components of a given type.
+        The component script may customize the module based on the components        that it will be expected to execute.
+        Args:            working_dir (str): path to working directory for component            arch (str): architecture of component module to build ('x86' or 'x64')            components (list of Component): instances of component to be executed by module
+        Returns:            bytes: component module DLL        """        raise NotImplementedError('{} does not implement build_module method'.format(            cls.__name__))
+Component Registration
+The component's Python module/package must call the register_component function with their component subclass whenever the module/package is imported.
+
+Previous versions:
+| 1 empty
+| 2 
+|
+                    

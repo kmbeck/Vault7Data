@@ -1,0 +1,183 @@
+
+                        Owner: User #14587667
+Ubuntu Base VM Configuration
+Ubuntu Desktop 12.04 LTSLong Term Support x64 - 10.9.8.84
+Username/Password: ubuntu/password
+
+Change screen resolution to 1024x768.
+Edit /etc/apt/sources.list to point to devlan repo. Copy the contents of precise-sources.list.txt into sources.list
+Refresh repos and upgrade packagessudo apt-get update && apt-get upgrade
+
+Installed software:
+Wiresharksudo apt-get install wireshark
+
+Openssh-serversudo apt-get install openssh-server
+
+vmware toolsInitiate via vSphere client and then complete via CLI.
+
+
+
+Add ubuntu user to wireshark group (required to enter promiscuous mode).  Instructions can be found Configure Wireshark on Ubuntu  .
+Delete unused taskbar items.
+Turn off lock screen (All Settings -> Brightness and Lock).
+Setup NTP
+sudo apt-get -y install ntp
+
+Edit /etc/ntp.conf
+
+server 0.ntp.testrange.local
+comment out over servers
+
+
+
+edit /etc/hosts
+1.1.1.1 ntp.testrange.local
+
+sudo service ntp reload
+
+
+
+Add to taskbar:
+
+Wireshark
+Terminal
+
+
+Edit /etc/ssh/sshd_configAdd entry 'UseDNS no'
+
+Add authorized keys to SSH
+mkdir ~/.ssh
+sudo chmod 700 ~/.ssh
+sudo touch ~/.ssh/authorized_keys
+sudo chmod 644 ~/.ssh/authorized_keys
+sudo vi ~/.ssh/authorized_keysCopy OpenSSH public key to this file
+
+
+
+Place "clone_vm_checklist.sh" in /home/ubuntu.Make it executable: chmod +x ~/clone_vm_checklist.sh
+
+Reboot
+
+- Remove default routes for 'backdoor' mgmt of test VMs.- Add static route for 10.9.8.0/24 (eth1). All other traffic should go through eth0
+Ubuntu Desktop 14.10 x64 - 10.9.8.82
+Username/Password: ubuntu/password
+
+Change screen resolution to 1024x768.
+Edit /etc/apt/sources.list to point to devlan repo. Copy the contents of utopic-sources.list.txt into sources.listYou could also use vi and issue the commands: 
+:%s/us.ubuntu.com/repo.devlan.net/
+:%s/extras.ubuntu.com/repo.devlan.net/
+:%s/security.ubuntu.com/repo.devlan.net/
+
+
+
+Refresh repos and upgrade packagessudo apt-get update && apt-get upgrade
+
+Installed software:
+Wiresharksudo apt-get install -y wireshark
+
+Openssh-serversudo apt-get install -y openssh-server
+
+open-vm toolssudo apt-get install -y open-vm-tools && sudo apt-get install -y open-vm-tools-desktop
+
+
+
+Add ubuntu user to wireshark group (required to enter promiscuous mode).  Instructions can be found Configure Wireshark on Ubuntu  .
+Delete unused taskbar items.
+Turn off lock screen (All Settings -> Brightness and Lock).
+Setup NTP
+sudo apt-get -y install ntp
+
+Edit /etc/ntp.conf
+
+server 0.ntp.testrange.local
+comment out over servers
+
+
+
+edit /etc/hosts
+1.1.1.1 ntp.testrange.local
+
+sudo service ntp reload
+
+
+
+Add to taskbar:
+
+Wireshark
+Terminal
+
+
+Edit /etc/ssh/sshd_configAdd entry 'UseDNS no'
+
+Add authorized keys to SSH
+mkdir ~/.ssh
+sudo chmod 700 ~/.ssh
+sudo touch ~/.ssh/authorized_keys
+sudo chmod 644 ~/.ssh/authorized_keys
+sudo vi ~/.ssh/authorized_keysCopy OpenSSH public key to this file
+
+
+
+Place "clone_vm_checklist.sh" in /home/ubuntu.Make it executable: chmod +x ~/clone_vm_checklist.sh
+
+Reboot
+
+- Remove default routes for 'backdoor' mgmt of test VMs.- Add static route for 10.9.8.0/24 (eth1). All other traffic should go through eth0
+Ubuntu Server 14.04 LTSLong Term Support x64 - 10.9.8.80
+Username/Password: ubuntu/password
+
+Edit /etc/apt/sources.list to point to devlan repo. Copy the contents of trusty-sources.list.txt into sources.list
+Refresh repos and upgrade packagessudo apt-get update && apt-get upgrade
+
+Installed software:
+Openssh-serversudo apt-get install openssh-server
+
+open-vm-toolssudo apt-get install open-vm-tools
+
+
+
+
+Edit /etc/ssh/sshd_config
+Add entry 'UseDNS no'
+
+Reboot
+
+
+Comments:
+
+
+2015-08-24 07:32 
+[User #14587667]: 
+
+You no longer need to edit the contents of /etc/apt/sources.list for ubuntu VMs.  As long as you point your DNSDomain Name System server to 10.9.8.21, the default URLs (ubuntu.com) will resolve to repo.devlan.net
+
+
+
+Attachments:
+
+
+utopic-sources.list.txt
+
+
+trusty-sources.list.txt
+
+
+precise-sources.list.txt
+
+
+
+Previous versions:
+| 1 empty
+| 2 
+| 3 
+| 4 
+| 5 
+| 6 
+| 7 
+| 8 
+| 9 
+| 10 
+| 11 
+| 12 
+|
+                    

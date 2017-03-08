@@ -1,0 +1,68 @@
+
+                        Windows Code Snippets
+ 
+LABEL PAGE: Child pages of this page will contain code snippets pertaining to the Windows Operating System.
+ 
+
+('children' missing)
+
+Sub-Pages:
+
+
+Survey Modules (KB) 
+
+
+Windows Function Hooking 
+
+
+Payload Deployment Modules (KB) 
+
+
+Privilege Escalation Modules (KB) 
+
+
+Persistence Modules (KB) 
+
+
+Machine Information (Windows) 
+
+
+Data Transfer Modules (KB) 
+
+
+Searching 
+
+
+Windows Shortcut Files (Link Files) 
+
+
+File Typing 
+
+
+Windows File/Folder Manipulation 
+
+
+Windows Access Control Snippets 
+
+
+Execution Vector Modules (KB) 
+
+
+Windows Registry Snippets 
+
+
+Windows String Manipulation Snippets 
+
+
+Windows Process Functions 
+
+
+Windows List Snippets 
+
+
+
+Previous versions:
+| 1 
+| 2 
+|
+                    

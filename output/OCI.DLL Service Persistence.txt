@@ -1,0 +1,18 @@
+
+                        OCI.DLL Service Persistence
+Windows contains a service called “Distributed Transaction Coordinator” that is configured to “Manual” start by default. This service causes a DLL called “C:\Windows\System32\wbem\oci.dll” to load into the “Network Services” group. By placing our own DLL in this location and configuring the service to start automatially, we have a persistence mechanism with system privileges.
+Unfortunately, the service runs under the “Network Service” account, which is a restricted account that has privileges to access the network. Hikit changes the user account to SYSTEM when it uses this for persistence. We can perform this same trick, but it will probably be flagged by PSPs.
+ 
+Source
+This comes from the “Hikit” rootkit and is described on “http://blog.mandiant.com/archives/3155“. Hikit is believed to be APT malware.
+
+Issues
+This technique has been made public and will likely begin to show up in AV products. Additional testing is needed to verify that the “bogus” DLL that we insert does not cause any unwanted side effects (e.g. crashes).
+
+Component Reuse
+None
+
+Previous versions:
+| 1 
+|
+                    

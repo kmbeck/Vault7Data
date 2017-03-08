@@ -1,0 +1,60 @@
+
+                        How to click controls
+ 
+How to use mouse and keyboard commands to input to a tool under test’s GUI:
+Step-by-step guide
+Examine the tool using Resource Hacker, or equivalent, to examine the structure that defines the different controls.  Note the red * that appears beside the entry for Hide Password since I have selected the control in the representation of the GUI.
+
+Using controlClick(win,      ctlId,        instance, numClicks)
+ 
+Start Button                    'Button'          1         # This is the first occurrence of type BUTTON in the structure (not the ‘1’ in the structure)
+Exit Button                      'Button'          2        # This is the second occurrence of type BUTTON (not the ‘2’ in the structure)
+File Name                        'Edit'             2       # This is the second occurrence of type EDIT (5th entry)
+Password                        'Edit'             3      # This is the third occurrence of type BUTTON (7th entry)
+Hide Passwd                  'Button'          4     # This is the fourth occurrence of type BUTTON (the entry with the red *)
+Things needed in your code:
+from tyutils.window_and_controls_util import setup_wincon
+
+def run(self):
+    target = host.createEmissary()
+ 
+	# Setting up Windows and Controls
+    Rwincon,Rsend = setup_wincon(target)
+
+
+    # start execution of tool under test
+    # Find tool
+    proc_hwnd = Rwincon.getWindowByAppxTitle('Goldie Small')
+
+
+    # Entering Fields
+    Rsend.controlClick(proc_hwnd, 'Edit', 3, 2) # double click Password
+    Rsend.Send('LikeWow') # Write to password control
+    Rsend.controlClick(proc_hwnd, 'Button', 4, 1) # click Hide Passwd
+    Rsend.controlClick(proc_hwnd, 'Edit', 2, 2) # double click Filename
+    Rsend.Send(rarname) # Write to filename control
+    Rsend.controlClick(proc_hwnd, 'Button', 1, 1)  # Click start
+ 
+Related articles
+
+Related articles appear here based on the labels you select. Click to edit the macro and add or change labels.
+
+('contentbylabel' missing)
+('details' missing)
+
+Attachments:
+
+
+image2014-12-22 15:7:13.png
+
+
+image2014-12-22 15:6:46.png
+
+
+
+Previous versions:
+| 1 
+| 2 
+| 3 
+|
+                    

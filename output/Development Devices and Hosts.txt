@@ -1,0 +1,592 @@
+
+                        Owner: User #71384
+Development Devices and Hosts
+
+PLEASE NOTE: Due to problems in the the DEVLAN infrastructure in early December, addresses here that are in the 10.2.0.0/16 and 10.3.0.0/16 networks may have changed.
+
+NOTE: All addresses shown are class C ( /24 ) unless otherwise specified.
+
+
+DNS Servers (edb.devlan.net)
+
+
+
+IP Address
+Host Name
+Domain
+Physical Location
+POCS
+
+
+10.6.5.51
+foxtrot.edb.devlan.net
+ edb.devlan.net (primary)
+9W89B
+User #74061
+
+
+10.6.5.50
+tango.edb.devlan.net
+ edb.devlan.net (slave)
+9W89B
+User #74061
+
+
+These DNSDomain Name System servers forward all requests for devlan.net domain names to the DEVLAN DNSDomain Name System servers. They also provide internal name resolution for a number of .com, .net, and .org domain names. For example, security.ubuntu.com and mirrorlist.centos.org resolve to 10.2.0.222, repos.devlan.net.
+To add a host to the database, edit the files /var/named/chroot/data/db.edb.devlan.net (forward) and db.10 (reverse) on foxtrot (the primary), and then restart DNSDomain Name System using "service named restart".Be sure to check /var/log/messages for any anomalies and revert if necessary.
+To use these DNSDomain Name System servers, use the following lines in /etc/resolv.conf:
+domain edb.devlan.netsearch edb.devlan.net devlan.netnameserver 10.6.5.51nameserver 10.6.5.50nameserver 10.3.1.10
+Servers
+
+
+IP Address
+Host Name
+Mac Address
+Architecture
+System Description
+Physical Location
+POCS
+
+
+10.6.5.51
+foxtrot.edb.devlan.net
+AC:16:2D:79:47:CC
+x86_64
+HP Proliant DL380p Gen8 with 16 cores, 132GB of RAMRandom Access Memory and 11TB of storage
+9W89B
+User #74061
+
+
+10.6.5.50
+tango.edb.devlan.net
+AC:16:2D:79:34:E8
+x86_64
+HP Proliant DL380p Gen8 with 16 cores, 132GB of RAMRandom Access Memory and 11TB of storage
+9W89B
+User #74061
+
+
+SOHO Routers and Access Points 
+NOTE: All Mac Addresses for Hive routers refer to the eth0 interface, while another port may actually be assigned the IP address displayed.
+Shell access via ssh using: ssh devel@<IP address>          For easy command access, enter export PATH=/rw/pckg:$PATH after login on mt4 devices.
+Transfer files via scp using: scp devel@<IP address>   (Does not work for mt6-ppc)
+
+
+IP Address
+EDB DNSDomain Name System Name
+Mac Address
+Architecture
+System Description
+Physical Location
+Project
+POCS
+Access
+
+
+10.2.5.5
+mt4-ppc
+00:0C:42:99:8A:E1
+PPC
+MikroTik Router Board 1100 PowerPC, Linux 2.6.27.39 kernel, Router OSOperating System 4.13
+9W89B Rack B8 (top)
+Hive
+User #?, User #74061., or User #74047
+ssh devel@mt4-ppc
+
+
+10.2.5.6
+mt4-mips
+00:0C:42:4D:7B:DE
+MIPS
+Mikrotik MIPS Big Endian, Linux 2.6.27.39 kernel, Router OSOperating System 4.11
+9W89B Rack B8
+Hive
+User #?, User #74061., or User #74058
+ssh devel@mt4-mips
+
+
+10.6.5.105
+mt6-mips
+4C:5E:0C:D3:AD:7A
+MIPS
+MikroTik Router Board 750GL
+9E53C-025
+Hive
+User #74061
+Chimay Red
+
+
+10.6.5.111
+mt6-ppc
+4C:5E:0C:01:06:F4
+PPC
+MikroTik Router Board 1100AHx2, PowerPC, Router OSOperating System 6.24
+9W89B Rack B8 (top)
+Hive
+User #74061
+Chimay Red
+
+
+10.6.5.101
+ubiquiti-mips
+DC:9F:DB:0A:95:31
+MIPS
+
+Ubiquity PicoStation M2 HP, Linux 2.6.32.54 kernel
+WiFi access point (terminated)
+
+9E53C-025
+Hive
+User #74061
+
+Admin UID: ubnt
+Admin PW: ubnt
+
+
+
+Virtual Machines
+
+
+IP Address
+Host Name
+Mac Address
+Architecture
+Description
+Project
+POCS
+
+
+10.2.4.117
+fedora4.edb.devlan.net
+00:50:56:85:38:34
+ 
+Initial Build environment for DSL routers/modems using buildroot
+DieSeL
+
+User #?, User #74061., or User #74053
+
+
+
+10.2.4.119
+honeybee
+00:50:56:88:01:D0
+ 
+Honeycomb Tool Handler
+Hive
+
+User #?, User #74061., or User #74048
+
+
+
+10.3.2.206
+hostname-serv
+00:0C:29:82:61:F3
+ 
+Old Swindle/Blot proxy between beacons and Honeycomb shown above
+Hive
+User #74049
+
+
+down
+hive-builder (down as of Dec 2015)
+
+00:50:56:88:29:B7
+x86
+Build environment for Hive with Mikrotik versions of buildroot and patcher
+Hive
+
+User #?, User #74061., or User #74054
+
+
+
+10.3.2.22
+MikroTik
+00:0C:29:F3:C1:4A
+x86
+Linux MikroTik 2.6.27.21-smp #3 SMPSymmetric Multi-Processor Thu Aug 20 13:57:27 EEST 2009 i686 unknown
+Hive
+User #?
+
+
+10.3.2.178 (DHCPDynamic Host Configuration Protocol)
+MikroTik
+00:0C:29:8F:6F:1C
+x86
+Linux MikroTik 2.6.27.39-smp #17 SMPSymmetric Multi-Processor Mon Nov 1 14:48:50 EET 2010 i686 unknown Router OS: 4.3
+Hive
+User #?
+
+
+10.6.5.97
+
+Cross-compile for Linux/TILE-GX  
+
+52:54:00:23:84:FE
+x86_64
+Build environment for Linux/TILE-GX (32 & 64-bit) & specifically RouterOS 6.X.  Running on foxtrot.edb.devlan.net. Creds: user/10sne1
+TSH
+User #?
+
+
+Legacy Solaris Machines
+ (Use sparc8 for compiling Solaris 8 sparc, solaris9 for Solaris x86)
+
+
+IP Address
+EDB DNSDomain Name System Name
+Host Name
+Mac Address
+System Description
+Project
+POCS
+
+
+10.2.5.4 (iprb0)
+solaris9
+PenguinRelion_Solaris9_x86_20052931
+00:E0:81:24:75:25
+SunOS PenguinRelion_Solaris9_x86_20052931 5.9 Generic_112234-05 i86pc i386 i86pc
+Hive
+
+User #? or User #74056
+
+
+
+10.6.5.70 (eri0)
+sparc8
+SunFire280R_Solaris8_2005D177
+00:03:BA:86:6A:78
+SunOS SunFire280R_Solaris8_2005D177 5.8 Generic_108528-11 sun4u sparc SUNW,Sun-Fire-280R
+Hive
+
+User #? or User #74050
+
+
+
+10.2.5.8 (bge0)
+sparc10a
+SunT1000_Solaris10_2005C695
+00:14:4F:21:92:FA
+SunOS SunT1000_Solaris10_2005C696 5.10 Generic_118822-26 sun4v sparc SUNW Sun-Fire-T1000
+Hive
+
+User #? or User #74060
+
+
+
+10.2.5.9 (bge0)
+sparc10b
+SunT1000_Solaris10_2005C696
+00:14:4F:21:A8:94
+SunOS SunT1000_Solaris10_2005C696 5.10 Generic_118822-26 sun4v sparc SUNW Sun-Fire-T1000
+Hive
+
+User #? or User #74057
+
+
+
+10.2.5.10 (e1000g0)
+solaris10
+SunV60X_Solaris10_x86_2005A652
+00:0E:0C:08:A0:D0
+SunOS SunV60X_Solaris10_x86_2005A652 5.10 Generic_120012-14 i86pc i386 i86pc
+Hive
+
+User #? or User #74055
+
+
+
+10.2.5.11 (hme0)
+ 
+Sun220R_Solaris8_2005D023
+00:03:BA:14:2D:98
+SunOS Sun220R_Solaris8_2005D023 5.8 Generic_108528-11 sun4u sparc SUNW,Ultra-60 (Solaris 8 02/04)
+ 
+User #524297
+
+
+10.2.5.22 (hme0)
+ 
+unknown
+08:00:20:A0:7E:38
+Solaris 5.8 (8) Generic_108528-11 sun4U Sparc
+Hive
+
+User #?, User #74061., or User #74052
+
+
+
+DHCP (e1000g0)
+ 
+sol10_x86.udb.net
+00:0C:29:75:EF:E8
+SunOS sol10_x86.udb.net 5.10 Generic_120012-14 i86pc i386 i86pc [Virtual Machine run by User #?]
+Hive
+User #?
+
+
+Solaris Infrastructure
+As Solaris server infrastructure is recapped, move above information here.
+
+
+IP Address
+MAC Address
+Console Access
+Hostname
+System Description (uname -a)
+Comments
+Status
+POC
+
+
+10.3.2.104
+00:14:4F:AB:C6:F6
+
+10.6.3.104 (ILOM)
+00:14:4F:AB:C6:FF
+
+solaris-ai
+SunOS solaris-ai 5.11 11.1 sun4v sparc SUNW,SPARC-Enterprise-T5120
+Server running two zones for Solaris Install servers
+AVAILABLE
+
+User #524297 
+
+
+
+10.3.2.188
+02:08:20:93:5C:54
+ 
+ 
+SunOS aizone 5.11 11.1 sun4v sparc SUNW,SPARC-Enterprise-T5120
+Zone running AutomatedInstaller for Solaris 11.1
+AVAILABLE
+ 
+
+
+10.3.2.189
+02:08:20:CF:02:05
+ 
+ 
+SunOS jumpstartzone 5.10 Generic_Virtual sun4v sparc SUNW,SPARC-Enterprise-T5120
+Zone running Jumpstart Install Server for other Solaris versions
+IN PROGRESS
+ 
+
+
+ 
+ 
+00:14:4F:AC:5F:93
+ 
+SPARC-Enterprise-T5220
+upgrading firmware for 11.1 support
+IN PROGRESS
+User #524297
+
+
+
+Miscellaneous  Machines and Devices
+
+
+IP Address
+Host Name
+Mac Address
+System Description
+Project
+POCS
+NOTES
+
+
+10.2.5.3
+rx2660
+0X
+HP Unix
+Available
+
+User #? or User #74059
+
+9W89B, root/10sne1, user/10sne1, ops/opspw
+
+
+10.2.5.4
+unknown
+0X
+unknown
+Available
+User #?
+ 
+
+
+10.6.5.101
+ubiquiti-mips.edb.devlan.net
+DC:9F:DB:0A:95:31
+
+Ubiquity PicoStation M2 HP
+WiFi access point (terminated)
+
+Hive
+User #74061
+
+Admin UID: ubnt
+Admin PW: ubnt
+
+
+
+10.6.4.201
+
+IBM AIX Power7 740 PowerPC PPC 64-bit  
+
+ 
+IBM AIXIBM Unix PPC64
+TSH
+User #73580
+VPAR with developer toolchain, user creds: admin/admin
+
+
+10.6.4.202
+
+IBM AIX Power7 740 PowerPC PPC 64-bit  
+
+ 
+IBM AIXIBM Unix PPC64
+TSH
+User #73580
+VPAR, no toolchain, user creds: admin/admin
+
+
+ 
+
+DEVLAN Network connections for EDBEmbedded Devices Branch computers within 9E53C
+Default Gateway/Root should be set to 10.2.6.1.
+DNS NameServers in /etc/resolv.conf should be set to 10.3.1.10 and 10.3.1.11 with "domain devlan.net".
+Static IP Addresses (10.2.6.2-10.2.6.100) Reserved for Manual Configuration
+
+10.2.6.2, 00:17:f2:09:3f:72, Mac-Linuxs-Mac-Pro.local
+10.2.6.3, ...
+10.2.6.4, ...
+
+ 
+DHCP Leases (10.2.6.100-10.2.6.254)
+Reserved Leases require contiguous IP Addresses starting from the bottom up (IPAddress, Mac Address, Hostname)
+
+
+IP Address
+Host Name
+Mac Address
+Box Description
+Project
+POCS
+
+
+10.2.6.101
+dcs-dev-mba
+10:9a:dd:41:90:ce
+DC's Dev Computer (2005P039)
+N/A
+User #74062
+
+
+10.2.6.103
+todo
+todo
+Dev Computer
+N/A
+User #74051
+
+
+10.2.6.190
+DCs-Mac-Pro_2005I481
+00:25:00:ed:91:f9
+DC's Dev Computer (2005I481)
+N/A
+User #74062
+
+
+
+
+Sub-Pages:
+
+
+IBM AIX Power7 740 PowerPC PPC 64-bit 
+
+
+Working with MikroTik RouterOS 6.X 
+
+
+
+Previous versions:
+| 1 
+| 2 
+| 3 
+| 4 
+| 5 
+| 6 
+| 7 
+| 8 
+| 9 
+| 10 
+| 11 
+| 12 
+| 13 
+| 14 
+| 15 
+| 16 
+| 17 
+| 18 
+| 19 
+| 20 
+| 21 
+| 22 
+| 23 
+| 24 
+| 25 
+| 26 
+| 27 
+| 28 
+| 29 
+| 30 
+| 31 
+| 32 
+| 33 
+| 34 
+| 35 
+| 36 
+| 37 
+| 38 
+| 39 
+| 40 
+| 41 
+| 42 
+| 43 
+| 44 
+| 45 
+| 46 
+| 47 
+| 48 
+| 49 
+| 50 
+| 51 
+| 52 
+| 53 
+| 54 
+| 55 
+| 56 
+| 57 
+| 58 
+| 59 
+| 60 
+| 61 
+| 62 
+| 63 
+| 64 
+| 65 
+| 66 
+| 67 
+| 68 
+| 69 
+| 70 
+| 71 
+| 72 
+| 73 
+|
+                    

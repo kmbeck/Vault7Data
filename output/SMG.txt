@@ -1,0 +1,454 @@
+
+                        Rebooter Testing Herd
+
+
+Slot
+ICN
+Processor
+BV
+Device
+UUID
+Sot 01292016
+SOL 01292016
+
+
+ER1
+2005I823
+armv7s
+8.1
+iPhone5,1
+3937f67c2acbd57f198dcca09c484a683dbaf1a7
+JN pass
+RB pass
+
+
+ER2
+2005I821
+armv7f
+8.1.2
+iPad2,5
+ef82610ecafe29f27d0d1c34deddabab57b166e3
+JN pass
+RB pass
+
+
+ER3
+2005K269
+arm64
+8.1.2
+iPad4,5
+5dbac978b8c0090044a7d4c796074330b54ee8c2
+JN pass
+RB pass
+
+
+ER4
+2005I862
+armv7s
+8.1.3
+iPhone5,2
+8a75bb5e0c425e26a1ddcfee7f6d901360a4d815
+JN pass
+RB pass
+
+
+ER5
+2005K375
+arm64
+8.1.3
+iPhone6,1
+41e5a287b551548a9795d616409a141abbbcc558
+JN pass
+RB pass
+
+
+ER6
+2005I986
+armv7f
+8.1.3
+iPad2,2
+aae856e4f9dc3564d1acd141a04cf09d63aaefd2
+JN pass
+RB pass
+
+
+ER7
+2005G985
+armv7s
+8.3
+iPhone5,1
+afe3c9be55c493e882611b9a34d17ddaa0266960
+JN pass
+RB pass
+
+
+ER8
+2005K251
+arm64
+8.3
+iPad4,4
+ee254859b8a965b0ca3588743343f7a68e45a6fd
+JN pass
+RB pass
+
+
+ER9
+2005K708
+arm64
+9.1
+iPhone8,2
+dd85a7b8f9d9c3843d8d0f292598af47fe87c1ae
+JN pass
+RB pass
+
+
+ER10
+2005I784
+armv7f
+8.4
+iPad3,2
+036aaf1f531f8ac75caf9c520e91981ffadb31d1
+JN pass
+RB pass
+
+
+ER11
+2005K362
+arm64
+8.4
+iPhone6,1
+83450dd27ba5c0831995988d0ea6240bf79ffe4a
+JN pass
+RB pass
+
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+
+L1
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+
+L2
+2005K738
+arm64
+9.2
+iPhone8,1
+ec9041b43e0f17fdea032cb84bd5e7733844f12e
+ 
+SM Pass
+
+
+L3
+2005I990
+armv7s
+8.0
+iPad2,4
+2b0f9f9a3e0eb40342eeb1671b29d9d9db5789ad
+NB Fail
+NB Pass
+
+
+L4*
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+
+L5
+2005G972
+armv7f
+8.0
+iPhone4,1
+40ee37c9ad48b5004a89df008e3b9061cdfb642c
+NB Fail
+NB Pass
+
+
+L6
+2005I960
+armv7s
+8.0
+iPad3,6
+5efe5e06f3257b391f91b1efe938ab8c2633f75f
+NB Fail
+NB Pass
+
+
+L7
+2005I906
+armv7f
+8.1.1
+iPod5,1
+ab32788fc5575f1a0d42d6c7b4df84f268f396cb
+NB Fail
+NB Pass
+
+
+L8
+2005K556
+arm64
+8.0.2
+Iphone7,2
+3d1a30767e5ad6dc1c6b0c32aad37271bc61e5eb
+NB Fail
+NB Pass
+
+
+L9
+2005K252
+arm64
+8.1
+iPad4,4
+73cc59081cbacb04f513e6bddd03f3db7ace8794
+NB Fail
+NB Pass
+
+
+L10
+2005G968
+armv7f
+8.1
+iPad2,7
+85e5ef7f8bf27e55145b99eb01d6ccc549cc126e
+NB Fail
+NB Pass
+
+
+LExtra
+ 
+ 
+ 
+iPad
+ 
+ 
+ 
+
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+
+A1
+2005K418
+armv7s
+9.0
+iPhone5,4
+c97b7aaa9ac883ee69b01580f975945f691a9c21
+JN pass
+RB pass
+
+
+A2
+2005F879
+arm64
+9.0
+iPad4,8
+4a15ddcff15bebcfc146198d98f049c9e6b27e6d
+JN pass (crash, but no report)
+RB pass
+
+
+A3
+2005G962
+armv7
+9.0.1
+iPad2,6
+a4832317d877a172ce9fafe3793fcc2bf336accf
+JN pass (crash, but no report)
+RB pass
+
+
+A4
+2005K284
+arm64
+9.0.1
+iPad4,2
+d8fc5e420bf741916dbd2af42808a749970407aa
+JN pass (crash, but no report)
+SM pass
+
+
+A5
+2005I979
+armv7f
+9.0.2
+iPad2,3
+864f44501bef3ada2fd1def478d95ddf58d5264b
+JN pass (crash, but no report)
+SM pass
+
+
+A6
+2005K754
+arm64
+9.0.2
+iPhone8,2
+c00eb66a1518e769d5fa3dd83d8821692351ce25
+JN pass *
+RB pass
+
+
+A7
+2005I985
+armv7f
+9.1
+iPad2,2
+1e78d6a068fb0ebf42530567c48de2cc2731a97c
+JN pass *
+RB pass
+
+
+A8
+2005K253
+arm64
+8.0
+iPad4,4
+86dcf1bde2ea9af45367f0322a0cf0de27376cfa
+JN pass *
+SM Pass
+
+
+A9 ????
+2005I752
+armv7f
+9.2
+iPhone4,1
+9f55c6413f5841e64e80d5cc34f979d9cec85562
+ 
+ 
+
+
+A10
+2005F651
+arm64
+9.0
+iPhone7,1
+d51d8cd8eea1185cc35800d5fdddaf857568eedf
+JN pass *
+RB pass
+
+
+AExtra
+2005K815
+arm64
+9.2
+iPad6,8
+0754d956720c067464a37ce195e3fd06195fae4b
+JN pass
+RB pass
+
+
+
+Previous versions:
+| 1 
+| 2 
+| 3 
+| 4 
+| 5 
+| 6 
+| 7 
+| 8 
+| 9 
+| 10 
+| 11 
+| 12 
+| 13 
+| 14 
+| 15 
+| 16 
+| 17 
+| 18 
+| 19 
+| 20 
+| 21 
+| 22 
+| 23 
+| 24 
+| 25 
+| 26 
+| 27 
+| 28 
+| 29 
+| 30 
+| 31 
+| 32 
+| 33 
+| 34 
+| 35 
+| 36 
+| 37 
+| 38 
+| 39 
+| 40 
+| 41 
+| 42 
+| 43 
+| 44 
+| 45 
+| 46 
+| 47 
+| 48 
+| 49 
+| 50 
+| 51 
+| 52 
+| 53 
+| 54 
+| 55 
+| 56 
+| 57 
+| 58 
+| 59 
+| 60 
+| 61 
+| 62 
+| 63 
+| 64 
+| 65 
+| 66 
+| 67 
+| 68 
+| 69 
+| 70 
+| 71 
+| 72 
+| 73 
+| 74 
+| 75 
+| 76 
+| 77 
+| 78 
+| 79 
+| 80 
+| 81 
+| 82 
+| 83 
+| 84 
+| 85 
+| 86 
+|
+                    

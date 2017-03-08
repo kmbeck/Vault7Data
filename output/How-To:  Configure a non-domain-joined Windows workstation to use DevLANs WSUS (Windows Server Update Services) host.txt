@@ -1,0 +1,21 @@
+
+                        Owner: User #71475
+Shell Scripting Tricks
+
+('toc' missing)
+String contains string
+stringContains() { [ -z "${2##*$1*}" ] && [ -z "$1" -o -n "$2" ]; }
+
+# Used like so
+SRC_STRING="this is a sample string where TEST we want to check for the word 'TEST'"
+if stringContains "TEST" "$SRC_STRING"; then
+	echo "Found TEST in SRC_STRING"
+else
+	echo "Couldn't find TEST in SRC_STRING"
+fi
+This method is nice because it will work across a variety of bash-like shells making it incredibly platform independent. It will also work if the source string is empty.
+
+Previous versions:
+| 1 
+|
+                    

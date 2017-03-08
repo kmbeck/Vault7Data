@@ -1,0 +1,74 @@
+
+                        Owner: User #15728648
+Development Resources
+
+('toc' missing)
+Random One-Liners / Utilities
+ 
+Creating a read only .dmg from a folder
+$ hdiutil create ~/Desktop/newimage.dmg -volname "MyVolume" -srcfolder ~/Desktop/myfolder
+Xcode Stuff
+$ xcrun --sdk iphoneos --show-sdk-path # shows path to /Applications/Xcode.app/.../SDK/iPhoneOSX.x.sdk
+
+Homebrew  
+
+ 
+FauxPas
+Application that inspects an Xcode project and warns about possible bugs, as well ass maintainability and style issues.
+
+
+FauxPas-0.9.7.zip
+
+Comments:
+
+
+2014-08-21 09:56 
+[User #13763861]: 
+
+Note the tar command specified in the homebrew install section hung for me. I just extracted it normally and moved it from there
+
+
+
+Attachments:
+
+
+image2014-8-8 9:16:25.png
+
+
+image2014-8-8 9:14:35.png
+
+
+FauxPas-0.9.7.zip
+
+
+
+Sub-Pages:
+
+
+PyPi 
+
+
+Homebrew 
+
+
+
+Previous versions:
+| 1 
+| 2 
+| 3 
+| 4 
+| 5 
+| 6 
+| 7 
+| 8 
+| 9 
+| 10 
+| 11 
+| 12 
+| 13 
+| 14 
+| 15 
+| 16 
+| 17 
+|
+                    

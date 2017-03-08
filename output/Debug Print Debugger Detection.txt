@@ -1,0 +1,94 @@
+
+                        Debug Print Debugger Detection
+Overview
+OutputDebugString, and other functions like it, effectively causes an exception to be raised (DBG_PRINTEXCEPTION_C or 0x40010006) which Windows catches. The arguments for the exception are the debug message string, and the length of the string.When a debugger is attached, Windows will eat the exception and let the debugger know. If no debugger is attached, the exception is passed to the program (as a continuable error). If the programdoes not have a handler for the exception, then life goes on. If the program does, then that exception handler is called. The former is most likely in normal programs, since there's usually no reason for a program to handle the event when OutputDebugString has no debugger to print to.
+ 
+In the case of anti-debugging, if a program uses RaiseException to throw DBG_PRINTEXCEPTION_C, and have an exception handler ready to handle the exception, you can detect a debugger's presence by checking to see if your handler was called. This can be something as simple as follows:
+BOOL IsThereADebugger()
+{
+	__try
+	{
+	RaiseException(DBG_PRINTEXCEPTION_C, 0, 0, 0);
+	}
+	__except(GetExceptionCode() == DBG_PRINTEXCEPTION_C)
+	{
+	return FALSE;
+	}
+
+	return TRUE;
+}
+In the course of analyzing a commercial program for a requirement, Umbrage discovered that this commercial program utilized this technique in their licensing checks to prevent a debugger from starting the program, or attaching to a running instance of the program.  The following example is a rough implementation of the strategy used: 
+ 
+typedef struct _ARGS{
+DWORD_PTR one;
+DWORD_PTR two;
+} ARGS, *PARGS;
+BOOL IsThereADebugger()
+{
+	BOOL bReturn;
+	__try
+	{
+		bReturn = StackAdjust(10);
+	}
+	__except(GetExceptionCode() == DBG_PRINTEXCEPTION_C)
+	{
+		LPEXCEPTION_POINTERS pepException = GetExceptionInformation();
+
+		pepException->ExceptionRecord->ExceptionInformation[1] = 0x10;
+		<other context-record specific stuff>
+		return 0xFFFFFFFF;
+	}
+	return bReturn;
+}
+
+//Argument is placed in ECX, not on stack
+//The purpose of this function wasn't clear.  It seems to be attempting to decrease ESP far enough such that it wouldn't be obvious where the local variable being checked is stored
+BOOL StackAdjust(int iterations)
+{
+	__asm{
+	sub esp, 0x2c
+	dec ecx
+	jle RaiseExcept
+	call StackAdjust
+	Unwind:
+	add esp, 0x2c
+	ret
+	RaiseExcept:
+	call TestForDebugger
+	jmp Unwind
+	}
+}
+BOOL TestForDebugger()
+{
+	DWORD dwFlag = 0; //This local's address is sent as part of the argument struct for the Dbg print exception.  This value is changed by the program's exception handler (if called at all)
+	DWORD dwTemp; //not important, filler for second required arg for this dbg print exception
+	ARGS args;
+	args.one = &dwTemp;
+	args.two = &dwFlag;
+	
+	RaiseException(DBG_PRINTEXCEPTION_C, 0, 2, &args); //If a debugger is attached, it WILL handle this exception (tested with IDA and Olly)
+	if (dwFlag == 0)
+		return TRUE; //Debugger was present since their exception handler was not called
+	else
+		return FALSE; //Their exception handler was called, so no debugger is present
+}
+ 
+I'm not sure whether or not this more complex example is better than the simplier one presented above.
+Testing indicates that even when IDA was instructed to pass the exception to the program, this in fact did not occur.  This may be related to why they constantly decremented ESP before raising the exception.  The best work-around from the RE perspective is to patch the program to always return FALSE from TestForDebugger(), or patch the program to always initlialize the test variable (dwFlag) to start out as the passing value (in the case of the commercial product, any non-zero value would have worked).
+ 
+Issues\Limitations
+This will not prevent static analysis of a tool, nor will it prevent someone from patching the assembly to always pass the check (without some other mechanism to verify code integrity before running).
+Source
+This technique was first discovered by Umbrage while analyzing a commercial tool called FineReader.
+Component Reuse
+None
+
+Previous versions:
+| 1 
+| 2 
+| 3 
+| 4 
+| 5 
+| 6 
+|
+                    

@@ -1,0 +1,119 @@
+
+                        Owner: User #524297
+AED Development Tradecraft Home
+
+
+AED Development Tradecraft
+Reference documentation and discussion for tradecraft related to development of all things in AED.
+Starting Point
+
+
+AED Development Workflow  
+
+IOC Development Tradecraft Development Tradecraft DOs and DON'Ts  SECRET
+
+
+More Specific Topic Areas
+
+('include' missing)
+ 
+
+
+
+Recent space activity
+
+('recently-updated' missing)
+
+
+Space contributors
+
+('contributors' missing)
+
+
+ 
+
+
+Comments:
+
+
+2013-10-11 05:03 
+[User #524297]: 
+
+Honestly, that stuff is probably already dated. 
+Start a new discussion and add your valuable input!
+
+
+2013-10-10 08:22 
+[User #3375388]: 
+
+A lot of the basic tradecraft suggestions on that page seem flawed...
+
+
+2013-07-26 13:26 
+[User #71473]: 
+
+Sorry about that, its fixed
+
+
+2013-07-23 09:13 
+[User #524297]: 
+
+(Russian accent) I have administrator access, perhaps we could reach some sort of arrangement...
+
+
+2013-07-22 13:18 
+[User #2064619]: 
+
+Getting a 401 for that project... "Mr Gorbachev, tear down this wall!"
+
+
+2013-06-27 13:30 
+[User #71473]: 
+
+And my Stash Repo for that stuff: https://stash.devlan.net/projects/AVD
+
+
+2013-06-27 13:29 
+[User #71473]: 
+
+Here's some stuff that can go under the PSPPersonal Security Product (Anti-Virus) section: AV Defeats  
+
+
+2013-06-21 09:29 
+[User #524297]: 
+
+We can probably cull some good stuff (and update it) from AED Software Tradecraft Best Practices in the old Dokuwiki. 
+
+
+
+Sub-Pages:
+
+
+Persistent storage option 
+
+
+Specific Tradecraft Techniques 
+
+
+AED Development Workflow 
+
+
+Development Tradecraft DOs and DON'Ts SECRET
+
+
+
+Previous versions:
+| 1 
+| 2 
+| 3 
+| 4 
+| 5 
+| 6 
+| 7 
+| 8 
+| 9 
+| 10 
+| 11 
+| 12 
+|
+                    

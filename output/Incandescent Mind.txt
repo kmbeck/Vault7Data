@@ -1,0 +1,49 @@
+
+                        Owner: User #524297
+EDG Tricks of the Trade Home
+
+
+Area for discussion and sharing of all the little things you've discovered that make your development life just that much easier.
+Got a snippet of code to share? Try Create a New Personal Project in Stash and put it under source control!
+ 
+
+
+
+Recent space activity
+
+('recently-updated' missing)
+
+
+Space contributors
+
+('contributors' missing)
+
+
+ 
+
+
+Sub-Pages:
+
+
+Shell Scripting Tricks 
+
+
+How-To:  Install old versions of the .NET Framework on Windows 8.1 
+
+
+Creating a Winshell Test Environment 
+
+
+Strings-GUI:  A quick and easy way for Windows developers to examine strings, in binaries for delivery (without even launching CMD!) 
+
+
+How-To Articles 
+
+
+
+Previous versions:
+| 1 
+| 2 
+| 3 
+|
+                    

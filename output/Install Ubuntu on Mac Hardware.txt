@@ -1,0 +1,35 @@
+
+                        Owner: User #14587667
+Wireshark on Ubuntu
+By default, wireshark can not be run as a non-root user when attempting to capture traffic on an interface.  The following steps can rectify this issue:
+ 
+
+Install Wiresharksudo apt-get install wireshark
+
+Create a wireshark groupsudo groupadd wireshark
+
+Add your username to the wireshark groupsudo usermod -a -G wireshark YOUR_USERNAME
+
+Change the group ownership of the file dumpcap to wiresharksudo chgrp wireshark /usr/bin/dumpcap
+
+Chage the mode of the file dumpcap to allow execution by the group wiresharksudo chmod 750 /usr/bin/dumpcap
+
+Grant capabilities with setcapsudo setcap cap_net_raw,cap_net_admin=eip /usr/bin/dumpcap
+
+Verify the changesudo getcap /usr/bin/dumpcap
+
+Reboot
+
+ 
+ 
+config_wireshark-ubuntu_user.txt
+
+Attachments:
+
+config_wireshark-ubuntu_user.txt
+
+
+Previous versions:
+| 1 
+|
+                    

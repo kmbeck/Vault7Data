@@ -1,0 +1,39 @@
+
+                        HercBeetle
+Result Serialization
+"++++++++"
+    Begin deflate compressed data
+or
+"========"
+    Begin RC4 encrypted deflate compressed block
+ 
+[FILETIME timestamp][null-terminated configuration string]
+The following is repeated for each scan target
+[DWORD address][BYTE protocol{7..4}/state{3..0}]...
+if protocol is IP: [WORD port][DWORD scan script id](if scan scrip id !=0 and state is success)[WORD banner len][(banner len)BYTEs banner]
+if protocol is ICMPInternet Control Message Protocol and state is SUCCESS: [BYTE ttl][WORD rtt]
+ 
+Config Section Serialization
+[Secret (24 bytes)][Command Line (NUL terminated UTF-8)][Scripts (see below)]
+ 
+Scripts Serialization
+[WORD Script Count][Scripts...]
+where a script is:
+[DWORD id][BYTE Protocols (bit0(lsb): TCP, bit1: UDP][WORD min_bytes][WORD max_bytes]
+[WORD port_pair_count][(WORD mn_port, WORDmx_port)..]
+[WORD req_sz][... req_bytes]
+
+Previous versions:
+| 1 empty
+| 2 
+| 3 
+| 4 
+| 5 
+| 6 
+| 7 
+| 8 
+| 9 
+| 10 
+| 11 
+|
+                    

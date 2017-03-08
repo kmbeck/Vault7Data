@@ -1,0 +1,536 @@
+
+                        Owner: User #14588054
+TheIronBank 1.0 Requirements
+SECRET//NOFORN
+('details' missing)
+Goals
+Collect all TCPTransport Control Protocol connections, all open TCPTransport Control Protocol ports, all open UDPUser Datagram Protocol ports, the ARPAddress Resolution Protocol table, the DNSDomain Name System cache, and the local routing table at set intervals on a target system.
+Background and strategic fit
+Why am I doing this?  Because someone needed it.
+Assumptions
+The keys that the users are going to be giving me are not RSAEncryption algorithm public/private pairs.
+ 
+File Requirements:
+
+
+ID
+Status
+Task
+
+
+1
+incomplete
+A control DLLDynamic Link Library in the ICEIn-memory Code Execution format (Fire, Fire & Forget, and Fire & Collect (via ShellTerm))
+
+
+2
+incomplete
+A control DLLDynamic Link Library in the Winshell reflect load format (see WinShell User's Guide, Appendix F Reflectload DLLDynamic Link Library)
+
+
+3
+incomplete
+A collection DLLDynamic Link Library in the ICEIn-memory Code Execution format (Fire, Fire & Forget, and Fire & Collect (via ShellTerm))
+
+
+4
+incomplete
+A collection DLLDynamic Link Library in the Winshell reflect load format (see WinShell User's Guide, Appendix F Reflectload DLLDynamic Link Library)
+
+
+Configuration Requirements:
+
+
+ID
+Status
+Task
+
+
+5
+incomplete
+Able to configure the collection interval in seconds
+
+
+6
+incomplete
+Able to configure the collection file location with capability for environment variables
+
+
+7
+incomplete
+Able to configure the collection file name
+
+
+8
+incomplete
+Tool shall create a receipt file
+
+
+9
+incomplete
+The receipt shall have the configured key in it
+
+
+10
+incomplete
+Provide the operator with the ability to perform key management with no default key.
+
+
+11
+incomplete
+Provide the operator with a way to generate a new key
+
+
+12
+incomplete
+Provide the operator with the ability to use an already generated key (not public/private key pairs)
+
+
+Control DLLDynamic Link Library Requirements:
+
+('jira' missing)
+
+
+ID
+Status
+Task
+
+
+13
+incomplete
+Provide the operator with the running status
+
+
+14
+incomplete
+Provide the ability to command the running DLLDynamic Link Library to stop running
+
+
+15
+incomplete
+Provide the ability to command the running DLLDynamic Link Library to write out any cached data
+
+
+16
+incomplete
+Provide the ability for it to located in another process from the control DLL
+
+
+17
+incomplete
+Provide the ability for it to be owned by/under a different user account from the control DLL
+
+
+Collection DLLDynamic Link Library Requirements:
+
+('jira' missing)
+
+
+ID
+Status
+Task
+
+
+18
+complete
+Shall collect all TCPTransport Control Protocol connections
+
+
+19
+complete
+Shall collect all open TCPTransport Control Protocol ports
+
+
+20
+complete
+Shall collect all open UDPUser Datagram Protocol ports
+
+
+21
+complete
+Shall collect the ARPAddress Resolution Protocol table
+
+
+22
+complete
+Shall collect the DNSDomain Name System cache
+
+
+23
+complete
+Shall collect the local routing table
+
+
+80
+incomplete
+Shall create a new collection file upon each start (each user login?)
+
+
+Post-Processor Requirements:
+
+
+ID
+Status
+Task
+
+
+25
+incomplete
+Provide a Python based post-processor that outputs to a file
+
+
+26
+incomplete
+Parse through the unencrypted file and look for unique connections (only if there's no query)
+
+
+27
+incomplete
+Parse through the unencrypted file and combine the ARPAddress Resolution Protocol User #73998 (only if there's no query)
+
+
+28
+incomplete
+Parse through the unencrypted file and combine the routing tables (only if there's no query)
+
+
+29
+incomplete
+Allow for user based queries by destination port (output only the results)
+
+
+30
+incomplete
+Allow for user based queries by destination IP address (output only the results)
+
+
+31
+incomplete
+Allow for user based queries by source IP address (output only the results)
+
+
+Target Systems:
+
+
+ID
+Status
+Task
+
+
+32
+incomplete
+Win XPWindows operating system (Version) Pro, 32-bit
+
+
+33
+incomplete
+Win 7 Ultimate, 32-bit
+
+
+34
+incomplete
+Win 7 Ultimate, 64-bit
+
+
+35
+incomplete
+Win 8 Pro, 32-bit
+
+
+36
+incomplete
+Win 8 Pro, 64-bit
+
+
+37
+incomplete
+Win 8.1 Pro, 32-bit
+
+
+38
+incomplete
+Win 8.1 Pro, 64-bit
+
+
+Questions
+Below is a list of questions to be addressed as a result of this requirements document:
+When it says that it shall create a new collection file upon each start, does that mean on each collection or on each log-in for that user?
+Generic Tool ToDo:
+
+
+ID
+Status
+Task
+
+
+81
+complete
+Determine whether we are ICEIn-memory Code Execution or WinShell (Just make two different DLLs for the two different execution types?  I like that idea.)
+
+
+82
+complete
+Determine what behavoir of ICEIn-memory Code Execution we are using
+
+
+83
+complete
+Put the ICEIn-memory Code Execution Fire code in if the ICEIn-memory Code Execution Fire behavior is detected (aka: just call main)
+
+
+84
+complete
+Put the ICEIn-memory Code Execution Fire&Forget code in if that's detected (aka: start up a thread and do the collection in that thread)
+
+
+85
+incomplete
+Put the ICEIn-memory Code Execution Fire&Collect code in if that's detected (aka: CreateFile to the pipe that is given and then write the collection information to that file instead of storing it on the disk)
+
+
+86
+complete
+Put the WinShell reflect load code in the project
+
+
+87
+complete
+Create a configuration command line tool
+
+
+88
+complete
+Add a flag to indicate an interval time for how often to collect (will be given in seconds)
+
+
+89
+complete
+Add a flag to indicate where the collection will be saved
+
+
+90
+complete
+Add a flag to indicate what the collection file will be (we need the base name, an incremented number will be added to the end for each of the collection sessions in the case where a user logs back on)
+
+
+91
+complete
+Add a flag to indicate what the collection file extension will be (so that the user isn't tied down to a specific extension)
+
+
+92
+incomplete
+Output the receipt file to the location of where the builder is being run from with a generic file name (leave it up to the user to rename the file for their archiving)
+
+
+93
+incomplete
+Output the passphrase along with the key that is generated in case it is needed (that is if I'm not just creating a session key with no passphrase)
+
+
+94
+complete
+If the -k (key) flag is followed by "generate" then create a new key, if it is not, then open the file at the path given and use its contents as the key (need to figure out specifications for this)
+
+
+95
+incomplete
+Add the ability to the control DLLDynamic Link Library to get the operation status of the collection DLL
+
+
+96
+incomplete
+Add a command for the control DLLDynamic Link Library that will stop the collection DLLDynamic Link Library and keep it from running
+
+
+97
+incomplete
+Add a command for the control DLLDynamic Link Library to tell the collection DLLDynamic Link Library to flush the contents of the collection buffer (I doubt this is going to be needed often, but it can be used for when the stop command is sent we'll flush the buffer before halting.)
+
+
+98
+complete
+Collect TCPTransport Control Protocol connections
+
+
+99
+complete
+Collect all open TCPTransport Control Protocol ports
+
+
+100
+complete
+Collect all open UDPUser Datagram Protocol ports
+
+
+101
+complete
+Collect the ARPAddress Resolution Protocol table
+
+
+102
+complete
+Collect the DNSDomain Name System cache
+
+
+103
+complete
+Collect the local routing table
+
+
+104
+incomplete
+Read interval (in seconds) from the resources
+
+
+105
+incomplete
+Read collection save file location from the resources
+
+
+106
+incomplete
+Read the collection file name from the resources
+
+
+107
+incomplete
+Read the crypt key from resources to encrypt the session keys for each collection
+
+
+108
+incomplete
+Generate a session key for each collection
+
+
+109
+incomplete
+Encrypt just that session's collection with that generated session key
+
+
+110
+incomplete
+Encrypt the session keys with the configured encryption key
+
+
+111
+incomplete
+Either save the master encryption key as a global or pass it around, do either one but not both
+
+
+112
+incomplete
+If there is an interval for the collection, then start up a thread and have the collection DLLDynamic Link Library run from there with the interval as a sleep period
+
+
+113
+incomplete
+In the control DLLDynamic Link Library detect if a user is logging off and stop the collection DLL
+
+
+114
+incomplete
+In the control DLLDynamic Link Library detect if a user is logging in and start up a collection
+
+
+115
+incomplete
+The collection shall be formatted in this manner: [DATA][SESSIONKEY][SIZEOFDATABLOB][MASTERKEY]
+
+
+Generic Post-Processor ToDo:
+
+
+ID
+Status
+Task
+
+
+116
+incomplete
+Create a python file to put the post-processor in
+
+
+117
+incomplete
+Either get the master key from the end of the encryption blobs, or use the passphrase to regenerate the key
+
+
+118
+incomplete
+The collection is formatted in this manner: [DATA][SESSIONKEY][SIZEOFDATABLOB][MASTERKEY]
+
+
+
+119
+incomplete
+Undo the above mentioned format for each collection blob
+
+
+120
+incomplete
+The SIZEOFDATABLOB will be a DWORD that is encrypted along with the SESSIONKEY by using the MASTERKEY  (at this point I feel like I'm playing Zelda and working my way through a dungeon)
+
+
+121
+incomplete
+Output all of the collection to a file before trying to consolidate items
+
+
+122
+incomplete
+Output the consolidated items to a different text file just in case something is missed and the original collection is needed
+
+
+123
+incomplete
+If a query is run, use the consolidated file for the query and output that in its own file (delete the consolidated file since they really don't want that if they are running a query?)
+
+
+ 
+SECRET//NOFORN
+
+Previous versions:
+| 1 
+| 2 
+| 3 
+| 4 
+| 5 
+| 6 SECRET
+| 7 SECRET
+| 8 SECRET
+| 9 SECRET
+| 10 SECRET
+| 11 SECRET
+| 12 SECRET
+| 13 SECRET
+| 14 SECRET
+| 15 SECRET
+| 16 SECRET
+| 17 SECRET
+| 18 SECRET
+| 19 SECRET
+| 20 SECRET
+| 21 SECRET
+| 22 SECRET
+| 23 SECRET
+| 24 SECRET
+| 25 SECRET
+| 26 SECRET
+| 27 SECRET
+| 28 SECRET
+| 29 SECRET
+| 30 SECRET
+| 31 SECRET
+| 32 SECRET
+| 33 SECRET
+| 34 SECRET
+| 35 SECRET
+| 36 SECRET
+| 37 SECRET
+| 38 SECRET
+| 39 SECRET
+| 40 SECRET
+| 41 SECRET
+|
+                    

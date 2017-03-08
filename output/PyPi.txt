@@ -1,0 +1,63 @@
+
+                        Homebrew
+Installing Homebrew on DEVLAN
+
+cd $HOME
+git clone ssh://git@stash.devlan.net:7999/opensource/homebrew.git
+
+
+Add the following to your .bash_profile file:
+
+export HOMEBREW_CACHE=/Volumes/share/Homebrew/Caches # on fs-01.devlan.net
+export PATH=${HOME}/homebrew/bin:$PATH
+
+Note, not all "formulae" are available. Please mirror them to the above share path for others
+Installing Formulae / Packages
+
+export HOMEBREW_CACHE=/Volumes/share/Homebrew/Caches
+Install Homebrew on an internet-enabled machine
+On the internet-enabled machine, download the dependencies / bottles / whatever by doing a brew fetch --deps, which will download all the dependencies to either ~/Library/Caches/Homebrew or /Library/Caches/Homebrew.
+DTO those downloaded files to /Volumes/share/Homebrew/Caches on DEVLAN
+brew install <formula name>
+
+ 
+$ export HOMEBREW_CACHE=/Volumes/share/Homebrew/Caches
+$ cp grep-2.20.tar.xz xz-5.0.5.mavericks.bottle.3.tar.gz pcre-8.35.mavericks.bottle.tar.gz $(HOMEBREW_CACHE)/
+$ brew install grep
+ 
+Sometimes, the formula's try to fetch more files online (example, protobuf tries to fetch some python packages). If you try to fake the urls, it will still fail with insecure connection. However, you can edit the homebrew binary to do an insecure connection
+ 
+ line 177
+ 
+def curl *args
+  curl = Pathname.new '/usr/bin/curl'
+  raise "#{curl} is not executable" unless curl.exist? and curl.executable?
+  flags = HOMEBREW_CURL_ARGS
+  flags = flags.delete("#") if ARGV.verbose?
+  args = [flags, HOMEBREW_USER_AGENT, *args]
+  # See https://github.com/Homebrew/homebrew/issues/6103
+  args << "--insecure"									######## <---- remove if check for 10.6
+  args << "--verbose" if ENV['HOMEBREW_CURL_VERBOSE']
+  args << "--silent" unless $stdout.tty?
+ 
+Found an easier way
+echo '-k' >> ~/.curlrc
+ 
+
+Previous versions:
+| 1 
+| 2 
+| 3 
+| 4 
+| 5 
+| 6 
+| 7 
+| 8 
+| 9 
+| 10 
+| 11 
+| 12 
+| 13 
+| 14 
+|
+                    

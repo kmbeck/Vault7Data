@@ -1,0 +1,1576 @@
+
+                        Shellcode Database
+This page includes local links to a shellcode database discovered at shell-storm.org.
+Here are links to local copies (with small descriptions).
+ 
+AIX
+Aix - execve /bin/sh - 88 bytes by Georgi Guninski 
+ 
+Alpha
+
+
+Alpha - /bin/sh - 80 bytes by Lamont Granquist
+
+
+Alpha - execve() - 112 bytes by n/a
+
+
+Alpha - setuid() - 156 bytes by n/a
+
+
+ 
+BSD
+
+
+BSD/32bits - Passive Connection - 126 bytes by Scrippie
+
+
+BSD/ppc - execve(/bin/sh) - 128 bytes by Palante
+
+
+BSD/x86 - setreuid(geteuid(), geteuid()) and execve(/bin/sh, /bin/sh, 0) by Jihyeog Lim
+
+
+BSD/x86 - setuid/execve - 30 bytes by Marco Ivaldi
+
+
+BSD/x86 - setuid/portbind - 94 bytes by Marco Ivaldi
+
+
+BSD/x86 - break chroot - 45 bytes by Matias Sedalo
+
+
+BSD/x86 - cat /etc/master.passwd & mail root@localhost - 92 bytes by Matias Sedalo
+
+
+BSD/x86 - execve(/bin/sh) & setuid(0) - 29 bytes by Matias Sedalo
+
+
+BSD/x86 - bindshell on port 2525 - 167 bytes by beosroot
+
+
+BSD/x86 - execve /bin/sh Crypt /bin/sh - 49 bytes by dev0id
+
+
+BSD/x86 - execve(/bin/sh) - 27 bytes by n0gada
+
+
+ 
+Cisco
+
+
+Cisco IOSApple operating system for small devices - Connectback shellcode v1.0 by Gyan Chawdhary
+
+
+Cisco IOSApple operating system for small devices - Tiny shellcode v1.0 by Gyan Chawdhary
+
+
+Cisco IOSApple operating system for small devices - Bind shellcode v1.0 by Varun Uppal
+
+
+ 
+Cso
+
+Cso/x86 - execve(/bin/sh, ..., NULL) - 43 bytes by minervini
+
+ 
+FreeBSD
+Intel x86-64
+
+
+FreeBSD/x86-64 - execve - 28 bytesby Gitsnik
+
+
+FreeBSD/x86-64 - bind_tcp with passcode - 127 bytesby Gitsnik
+
+
+FreeBSD/x86-64 - exec(/bin/sh) Shellcode - 31 bytesby Hack'n Roll
+
+
+FreeBSD/x86-64 - execve /bin/sh shellcode 34 bytesby Hack'n Roll
+
+
+FreeBSD/x86-64 - Execve /bin/sh - Anti-Debuggingby c0d3_z3r0
+
+
+Intel x86
+
+
+FreeBSD/x86 - execve /tmp/sh - 34 bytesby Claes M. Nyberg
+
+
+FreeBSD/x86 - execve /bin/sh 23 bytesby IZ
+
+
+FreeBSD/x86 - reboot(RB_AUTOBOOT) - 7 bytesby IZ
+
+
+FreeBSD/x86 - bind port:4883 with auth shellcodeby MahDelin
+
+
+FreeBSD/x86 - Connect Back Port 6969 - 133 bytesby Marcetam
+
+
+FreeBSD/x86 - connect back /bin/sh. 81 bytesby Tosh
+
+
+FreeBSD/x86 - execv(/bin/sh) - 23 bytesby Tosh
+
+
+FreeBSD/x86 - portbind shell + fork - 111 bytesby Tosh
+
+
+FreeBSD/x86 - 8.0-RELEASE - //sbin/pfctl -F all Shellcode 47 Bytesby antrhacks
+
+
+FreeBSD/x86 - encrypted shellcode /bin/sh 48 bytesby c0d3_z3r0
+
+
+FreeBSD/x86 - kldload /tmp/o.o - 74 bytesby dev0id
+
+
+FreeBSD/x86 - /bin/sh - 23 bytesby marcetam
+
+
+FreeBSD/x86 - execve /bin/sh 37 bytesby preedator
+
+
+FreeBSD/x86 - portbind shellcode - 167 bytesby sbz
+
+
+FreeBSD/x86 - execve(/bin/cat & /etc/master.passwd) - 65 bytesby sm4x
+
+
+FreeBSD/x86 - reverse connect dl(shellcode) and execute, exit - 90 bytesby sm4x
+
+
+FreeBSD/x86 - reverse portbind /bin/sh - 89 bytesby sm4x
+
+
+FreeBSD/x86 - setuid(0)&execve({//sbin/ipf,-Faa,0},0); - 57 bytesby sm4x
+
+
+FreeBSD/x86 - connect back.send.exit /etc/passwd - 112 bytesby suN8Hclf
+
+
+FreeBSD/x86 - kill all processes - 12 bytesby suN8Hclf
+
+
+FreeBSD/x86 - setreuid(0, 0) & execve(pfctl -d) - 56 bytesby suN8Hclf
+
+
+FreeBSD/x86 - bind sh port 41254 - 115 bytesby zillion
+
+
+FreeBSD/x86 - reboot() - 15 bytesby zillion
+
+
+ 
+Hp-Ux
+
+Hp-Ux - execve(/bin/sh) - 58 bytes by K2
+
+ 
+Irix
+
+
+Irix - execve(/bin/sh -c) - 72 bytes by n/a
+
+
+Irix - execve(/bin/sh) - 43 bytes by n/a
+
+
+Irix - Bind Port - 364 bytes by scut/teso
+
+
+Irix - execve(/bin/sh) - 68 bytes by scut/teso
+
+
+Irix - stdin-read shellcode - 40 bytes by scut/teso
+
+
+ 
+Linux
+ARM
+
+
+Linux/ARM - chmod("/etc/passwd", 0777) - 39 bytesgunslinger_
+
+
+Linux/ARM - creat("/root/pwned", 0777) - 39 bytesgunslinger_
+
+
+Linux/ARM - execve("/bin/sh", [], [0 vars]) - 35 bytesgunslinger_
+
+
+Linux/ARM - Bind Connect UDPUser Datagram Protocol Port 68by Daniel Godas-Lopez
+
+
+Linux/ARM - Bindshell port 0x1337by Daniel Godas-Lopez
+
+
+Linux/ARM - Loader Port 0x1337by Daniel Godas-Lopez
+
+
+Linux/ARM - ifconfig eth0 and Assign Addressby Daniel Godas-Lopez
+
+
+Linux/ARM - chmod(/etc/shadow, 0777) Shellcode - 35 Bytesby Florian Gaultier
+
+
+Linux/ARM - polymorphic chmod(/etc/shadow, 0777) - 84 Bytesby Florian Gaultier
+
+
+Linux/ARM - Disable ASLRAddress Space Layout Randomization Security - 102 bytesby Jonathan Salwan
+
+
+Linux/ARM - Kill all processes (with/without _setuid) - 28 bytesby Jonathan Salwan
+
+
+Linux/ARM - Polymorphic execve("/bin/sh", ["/bin/sh"], NULL); - XOR - 78 bytesby Jonathan Salwan
+
+
+Linux/ARM - add root user with password - 151 bytesby Jonathan Salwan
+
+
+Linux/ARM - execve(/bin/sh, /bin/sh, 0) - 30 bytesby Jonathan Salwan
+
+
+Linux/ARM - execve(/bin/sh, [0], [0 vars]) - 27 bytesby Jonathan Salwan
+
+
+Linux/ARM - execve(/bin/sh,NULL,0) - 31 bytesby Jonathan Salwan
+
+
+Linux/ARM - setuid(0) & execve(/bin/sh, /bin/sh, 0) - 38 bytesby Jonathan Salwan
+
+
+Linux/ARM - connect back /bin/sh. 79 bytesby Neil Klopfenstein
+
+
+Linux/ARM - chmod(/etc/shadow, 0777) - 41 bytesby midnitesnake
+
+
+Linux/ARM - execve(/bin/sh, [0], [0 vars]) - 30 bytesby midnitesnake
+
+
+Linux/ARM - reverse_shell(tcp,10.1.1.2,0x1337)by midnitesnake
+
+
+Strong ARM
+
+
+Linux/StrongARM - bind() portshell - 203 bytesby funkysh
+
+
+Linux/StrongARM - execve() - 47 bytesby funkysh
+
+
+Linux/StrongARM - setuid() - 20 bytesby funkysh
+
+
+Super-H
+
+
+Linux/SuperH - sh4 - Bind /bin/sh on port 31337by Dad`
+
+
+Linux/SuperH - sh4 execve(/bin/sh, 0, 0) - 19 bytesby Florian Gaultier
+
+
+Linux/SuperH - sh4 - add root user with password - 143 bytesby Jonathan Salwan
+
+
+Linux/SuperH - sh4 - setuid(0) - chmod(/etc/shadow, 0666) - exit(0) - 43 bytesby Jonathan Salwan
+
+
+Linux/SuperH - sh4 - setuid(0) ; execve(/bin/sh, NULL, NULL) - 27 bytesby Jonathan Salwan
+
+
+MIPS
+
+
+Linux/mips - Reverse Shell Shellcode - 200 bytesby Jacob Holcomb
+
+
+Linux/mips - execve(/bin/sh) - 56 bytesby core
+
+
+Linux/mips - execve(/bin/sh, */bin/sh, 0) - 52 bytesby entropy
+
+
+Linux/mips - add user(UID 0) with password - 164 bytesby rigan
+
+
+Linux/mips - connect back shellcode (port 0x7a69) - 168 bytesby rigan
+
+
+Linux/mips - execve /bin/sh - 48 bytesby rigan
+
+
+Linux/mips - reboot() - 32 bytesby rigan
+
+
+Linux/mips - execve(/bin/sh,[/bin/sh],[]); - 60 bytesby vaicebine
+
+
+Linux/mips - port bind 4919 - 276 bytesby vaicebine
+
+
+PPC
+
+
+Linux/ppc - connect back execve /bin/sh - 240 bytesby Charles Stevenson
+
+
+Linux/ppc - execve /bin/sh - 60 bytesby Charles Stevenson
+
+
+Linux/ppc - read & exec shellcode - 32 bytesby Charles Stevenson
+
+
+Linux/ppc - execve /bin/sh - 112 bytesby Palante
+
+
+Sparc
+
+
+Linux/sparc - [setreuid(0,0); execve() of /bin/sh] - 64 bytesby anathema
+
+
+Linux/sparc - Portbind 8975/tcp - 284 bytesby killah
+
+
+Linux/sparc - connect back - 216 bytesby killah
+
+
+Linux/sparc - setreuid(0,0)&standard execve() - 72 bytesby michel kaempf
+
+
+Intel x86-64
+
+
+Linux/x86-64 - Reads data from /etc/passwd to /tmp/outfile - 118 bytesby Chris Higgins
+
+
+Linux/x86-64 - shell bind TCPTransport Control Protocol random port - 57 bytesby Geyslan G. Bem
+
+
+Linux/x86-64 - TCPTransport Control Protocol bind shell - 150 bytesby Russell Willis
+
+
+Linux/x86-64 - Reverse TCPTransport Control Protocol shell - 118 bytesby Russell Willis
+
+
+Linux/x86-64 - add user with passwd - 189 bytesby 0_o
+
+
+Linux/x86-64 - execve(/sbin/iptables, [/sbin/iptables, -F], NULL) - 49 bytesby 10n1z3d
+
+
+Linux/x86-64 - Execute /bin/sh - 27 bytesby Dad`
+
+
+Linux/x86-64 - bind-shell with netcat - 131 bytesby Gaussillusion
+
+
+Linux/x86-64 - connect back shell with netcat - 109 bytesby Gaussillusion
+
+
+Linux/x86-64 - Add root user with password - 390 bytesby Jonathan Salwan
+
+
+Linux/x86-64 - Disable ASLRAddress Space Layout Randomization Security - 143 bytesby Jonathan Salwan
+
+
+Linux/x86-64 - setuid(0) & chmod (/etc/passwd, 0777) & exit(0) - 63 byesby Jonathan Salwan
+
+
+Linux/x86-64 - setuid(0) & reboot - 51 bytesby Jonathan Salwan
+
+
+Linux/x86-64 - setreuid(0,0) execve(/bin/ash,NULL,NULL) + XOR - 85 bytesby egeektronic
+
+
+Linux/x86-64 - setreuid(0,0) execve(/bin/csh, [/bin/csh, NULL]) + XOR - 87 bytesby egeektronic
+
+
+Linux/x86-64 - setreuid(0,0) execve(/bin/ksh, [/bin/ksh, NULL]) + XOR - 87 bytesby egeektronic
+
+
+Linux/x86-64 - setreuid(0,0) execve(/bin/zsh, [/bin/zsh, NULL]) + XOR - 87 bytesby egeektronic
+
+
+Linux/x86-64 - bindshell port:4444 shellcode - 132 bytesby evil.xi4oyu
+
+
+Linux/x86-64 - setuid(0) + execve(/bin/sh) 49 bytesby evil.xi4oyu
+
+
+Linux/x86-64 - execve(/bin/sh, [/bin/sh], NULL) - 33 bytesby hophet
+
+
+Linux/x86-64 - execve(/bin/sh); - 30 bytesby zbt
+
+
+Linux/x86-64 - reboot(POWER_OFF) - 19 bytesby zbt
+
+
+Linux/x86-64 - sethostname() & killall - 33 bytesby zbt
+
+
+Intel x86
+
+
+Linux/x86 - Copy /etc/passwd to /tmp/outfile - 97 bytesby Paolo Stivanin
+
+
+Linux/x86 - jump-call-pop execve shell - 52 bytesby Paolo Stivanin
+
+
+Linux/x86 - Download + chmod + exec - 108 bytesby Daniel Sauder
+
+
+Linux/x86 - reads /etc/passwd and sends the content to 127.1.1.1 port 12345 - 111 bytesby Daniel Sauder
+
+
+Linux/x86 - Multi-Egghunterby Ryan Fenno
+
+
+Linux/x86 - Obfuscated tcp bind shell - 112 bytesby Russell Willis
+
+
+Linux/x86 - Obfuscated execve /bin/sh - 30 bytesby Russell Willis
+
+
+Linux/x86 - egghunter shellcodeby Russell Willis
+
+
+Linux/x86 - Reverse TCPTransport Control Protocol bind shell - 92 bytesby Russell Willis
+
+
+Linux/x86 - Set /proc/sys/net/ipv4/ip_forward to 0 & exit() - 83 bytesby Hamid Zamani
+
+
+Linux/x86 - TCPTransport Control Protocol bind shell - 108 bytesby Russell Willis
+
+
+Linux/x86 - Encrypted execve /bin/sh with uzumaki algorithm - 50 bytesby Geyslan G. Bem
+
+
+Linux/x86 - Mutated Execve Wget - 96 bytesby Geyslan G. Bem
+
+
+Linux/x86 - Mutated Fork Bomb - 15 bytesby Geyslan G. Bem
+
+
+Linux/x86 - Mutated Reboot - 55 bytesby Geyslan G. Bem
+
+
+Linux/x86 - Tiny read /etc/passwd file - 51 bytesby Geyslan G. Bem
+
+
+Linux/x86 - Tiny Execve sh Shellcode - 21 bytesby Geyslan G. Bem
+
+
+Linux/x86 - Insertion Decoder Shellcode - 33+ bytesby Geyslan G. Bem
+
+
+Linux/x86 - Egg Hunter Shellcode - 38 bytesby Geyslan G. Bem
+
+
+Linux/x86 - Tiny Shell Reverse TCPTransport Control Protocol - 67 bytesby Geyslan G. Bem
+
+
+Linux/x86 - Tiny Shell Bind TCPTransport Control Protocol Random Port - 57 bytesby Geyslan G. Bem
+
+
+Linux/x86 - Tiny Shell Bind TCPTransport Control Protocol - 73 bytesby Geyslan G. Bem
+
+
+Linux/x86 - Shell Bind TCPTransport Control Protocol (GetPC/Call/Ret Method) - 89 bytesby Geyslan G. Bem
+
+
+Linux/x86 - append /etc/passwd & exit() - 107 bytesby $andman
+
+
+Linux/x86 - unlink(/etc/passwd) & exit() - 35 bytesby $andman
+
+
+Linux/x86 - connect back&send&exit /etc/shadow - 155 byteby 0in
+
+
+Linux/x86 - execve read shellcode - 92 bytesby 0ut0fbound
+
+
+Linux/x86 - egghunt shellcode - 29 bytesby Ali Raheem
+
+
+Linux/x86 - nc -lvve/bin/sh -p13377 - 62 bytesby Anonymous
+
+
+Linux/x86 - /bin/sh Null-Free Polymorphic - 46 bytesby Aodrulez
+
+
+Linux/x86 - execve() Diassembly Obfuscation Shellcode - 32 bytesby BaCkSpAcE
+
+
+Linux/x86 - SET_IP() Connectback Shellcode - 82 bytesby Benjamin Orozco
+
+
+Linux/x86 - SET_PORT() portbind - 100 bytesby Benjamin Orozco
+
+
+Linux/x86 - netcat bindshell port 8080 - 75 bytesby Blake
+
+
+Linux/x86 - netcat connect back port 8080 - 76 bytesby Blake
+
+
+Linux/x86 - adds a root user no-passwd to /etc/passwd - 83 bytesby Bob [Dtors.net]
+
+
+Linux/x86 - chmod(//bin/sh ,04775); set sh +s - 31 bytesby Bob [Dtors.net]
+
+
+Linux/x86 - execve()/bin/ash; exit; - 34 bytesby Bob [Dtors.net]
+
+
+Linux/x86 - setuid(); execve(); exit(); - 44 bytesby Bob [Dtors.net]
+
+
+Linux/x86 - setreuid(0, 0) + execve(/bin//sh, [/bin//sh, -c, cmd], NULL);by Bunker
+
+
+Linux/x86 - dup2(0,0); dup2(0,1); dup2(0,2); 15 bytesby Charles Stevenson
+
+
+Linux/x86 - exit(1) - 7 bytesby Charles Stevenson
+
+
+Linux/x86 - if(read(fd,buf,512)<=2) _exit(1) else buf(); - 29 bytesby Charles Stevenson
+
+
+Linux/x86 - read(0,buf,2541); chmod(buf,4755); - 23 bytesby Charles Stevenson
+
+
+Linux/x86 - execve(/bin/dash) - 49 bytesby Chroniccommand
+
+
+Linux/x86 - Audio (knock knock knock) via /dev/dsp+setreuid(0,0)+execve() - 566 bytesby Cody Tubbs
+
+
+Linux/x86 - Surprise ! ! ! - 361 bytesby Florian Gaultier
+
+
+Linux/x86 - Write FSFilesystem PHP Connect Back Utility Shellcode - 508 bytesby GS2008
+
+
+Linux/x86 - Bind TCPTransport Control Protocol Port - with SO_REUSEADDR set (Avoiding SIGSEGV) - 103 bytesby Geyslan G. Bem
+
+
+Linux/x86 - Shell Bind TCPTransport Control Protocol Random Port - 65 bytesby Geyslan G. Bem
+
+
+Linux/x86 - Shell Reverse TCPTransport Control Protocol Shellcode - 72 bytesby Geyslan G. Bem
+
+
+Linux/x86 - Password Authentication portbind port 64713/tcp - 166 bytesby Gotfault Security
+
+
+Linux/x86 - portbind port 64713 - 86 bytesby Gotfault Security
+
+
+Linux/x86 - setreuid(0,0) + execve(/bin/sh, [/bin/sh, NULL]) - 33 bytesby Gotfault Security
+
+
+Linux/x86 - setuid(0) setgid(0) execve("/bin/sh", ["/bin/sh", NULL]) - 37 bytesby Gotfault Security
+
+
+Linux/x86 - Force Reboot shellcode 36 bytesby Hamza Megahed
+
+
+Linux/x86 - Remote Port forwarding - 87 bytesby Hamza Megahed
+
+
+Linux/x86 - execve /bin/sh shellcode - 23 bytesby Hamza Megahed
+
+
+Linux/x86 - execve-chmod 0777 /etc/shadow - 57 bytesby Hamza Megahed
+
+
+Linux/x86 - iptables --flush - 43 bytesby Hamza Megahed
+
+
+Linux/x86 - ASLRAddress Space Layout Randomization deactivation - 83 bytesby Jean Pascal Pereira
+
+
+Linux/x86 - chmod 666 /etc/passwd & /etc/shadow - 57 bytesby Jean Pascal Pereira
+
+
+Linux/x86 - execve(/bin/sh) - 28 bytesby Jean Pascal Pereira
+
+
+Linux/x86 - ///sbin/iptables -POUTPUT DROP - 60 bytesby John Babio
+
+
+Linux/x86 - /etc/init.d/apparmor teardown - 53 bytesby John Babio
+
+
+Linux/x86 - /usr/bin/killall snort - 46 bytesby John Babio
+
+
+Linux/x86 - /bin/sh polymorphic shellcode - 48 bytesby Jonathan Salwan
+
+
+Linux/x86 - ConnectBack with SSLSecure Socket Layer connection - 422 bytesby Jonathan Salwan
+
+
+Linux/x86 - Disable randomize stack addresse - 106 bytesby Jonathan Salwan
+
+
+Linux/x86 - Ifconfig eth0 down - 51 bytesby Jonathan Salwan
+
+
+Linux/x86 - Kill service apache2 + pure-ftpd + sshd - 81 bytesby Jonathan Salwan
+
+
+Linux/x86 - Polymorphic shellcode for disable Network Card - 75 bytesby Jonathan Salwan
+
+
+Linux/x86 - Push Reboot() - 30 bytesby Jonathan Salwan
+
+
+Linux/x86 - Remote file Download - 42 bytesby Jonathan Salwan
+
+
+Linux/x86 - Shellcode Polymorphic chmod(/etc/shadow) & exit() - 54 bytesby Jonathan Salwan
+
+
+Linux/x86 - Shutdown computer - 51 bytesby Jonathan Salwan
+
+
+Linux/x86 - SystemV killall command - 34 bytesby Jonathan Salwan
+
+
+Linux/x86 - chmod() /etc/shadow 666 & exit() - 30 bytesby Jonathan Salwan
+
+
+Linux/x86 - execve(/bin/bash, [/bin/sh, -p], NULL) - 33 bytesby Jonathan Salwan
+
+
+Linux/x86 - fork() - 6 bytesby Jonathan Salwan
+
+
+Linux/x86 - ip6tables -F - 47 bytesby Jonathan Salwan
+
+
+Linux/x86 - killall5 polymorphic shellcode - 61 bytesby Jonathan Salwan
+
+
+Linux/x86 - netcat bindshell port 6666 - 69 bytesby Jonathan Salwan
+
+
+Linux/x86 - pacman -R <package> - 59 bytesby Jonathan Salwan
+
+
+Linux/x86 - pacman -S <package> (default package: backdoor) - 64 bytesby Jonathan Salwan
+
+
+Linux/x86 - polymorphic execve(/bin/bash, [/bin/sh, -p], NULL) - 57 bytesby Jonathan Salwan
+
+
+Linux/x86 - polymorphic forkbombe - 30 bytesby Jonathan Salwan
+
+
+Linux/x86 - polymorphic ip6tables -F - 71 bytesby Jonathan Salwan
+
+
+Linux/x86 - reboot() polymorphic shellcode - 57 bytesby Jonathan Salwan
+
+
+Linux/x86 - setuid(0) & chmod(/tmp,111) & exit(0) - 25 bytesby Jonathan Salwan
+
+
+Linux/x86 - /bin/sh - 8 bytesby JungHoon Shin
+
+
+Linux/x86 - add root user (r00t) with no password to /etc/passwdby Kris Katterjohn
+
+
+Linux/x86 - chmod(/etc/shadow, 0666) & exit()by Kris Katterjohn
+
+
+Linux/x86 - execve(rm -rf /) - 45 bytesby Kris Katterjohn
+
+
+Linux/x86 - forkbomb - 7 bytesby Kris Katterjohn
+
+
+Linux/x86 - ipchains -F - 40 bytesby Kris Katterjohn
+
+
+Linux/x86 - kill all processes - 11 bytesby Kris Katterjohn
+
+
+Linux/x86 - set system time to 0 & exitby Kris Katterjohn
+
+
+Linux/x86 - setuid(0) setgid(0) execve(echo 0 > /proc/sys/kernel/randomize_va_space) - 79 bytesby LiquidWorm
+
+
+Linux/x86 - DoS-Badger-Game - 6 bytesby Magnefikko
+
+
+Linux/x86 - SLoc-DoS shellcode - 55 bytes by Magnefikko
+
+
+Linux/x86 - bind sh@64533 - 97 bytesby Magnefikko
+
+
+Linux/x86 - chmod(/etc/shadow, 0666) - 36 bytesby Magnefikko
+
+
+Linux/x86 - chmod(/etc/shadow, 0777) - 29 bytesby Magnefikko
+
+
+Linux/x86 - execve(/bin/sh) - 25 bytesby Magnefikko
+
+
+Linux/x86 - execve(a->/bin/sh) - 14 bytesby Magnefikko
+
+
+Linux/x86 - setreud(getuid(), getuid()) & execve(/bin/sh) - 34 bytesby Magnefikko
+
+
+Linux/x86 - setuid(0) ^ execve(/bin/sh, 0, 0) - 27 bytesby Magnefikko
+
+
+Linux/x86 - setuid(0) + execve(/bin/sh,...) - 29 bytesby Marcin Ulikowski
+
+
+Linux/x86 - re-use of (/bin/sh) string in .rodata - 16 bytesby Marco Ivaldi
+
+
+Linux/x86 - setuid/portbind port 31337 TCPTransport Control Protocol - 96 bytesby Marco Ivaldi
+
+
+Linux/x86 - stdin re-open and /bin/sh executeby Marco Ivaldi
+
+
+Linux/x86 - add user t00r ENCRYPT - 116 bytesby Matias Sedalo
+
+
+Linux/x86 - chmod 666 /etc/shadow - 41 bytesby Matias Sedalo
+
+
+Linux/x86 - chmod 666 shadow ENCRYPT - 75 bytesby Matias Sedalo
+
+
+Linux/x86 - execve /bin/sh encrypted - 58 bytesby Matias Sedalo
+
+
+Linux/x86 - portbind a shell in port 5074 - 92 bytesby Matias Sedalo
+
+
+Linux/x86 - execve /bin/sh anti-ids 40 bytesby NicatiN
+
+
+Linux/x86 - /bin/cp /bin/sh /tmp/katy & chmod 4555 - 126 bytesby RaiSe
+
+
+Linux/x86 - execve(/bin//sh/,[/bin//sh],NULL) - 22 bytesby Revenge
+
+
+Linux/x86 - setuid(0) + execve(/bin//sh, [/bin//sh], NULL) - 28 bytesby Revenge
+
+
+Linux/x86 - Port Bind 4444 ( xor-encoded ) - 152 bytesby Rick
+
+
+Linux/x86 - edit /etc/sudoers for full access - 86 bytesby Rick
+
+
+Linux/x86 - Connect Back shellcode - 90 bytesby Russell Sanford
+
+
+Linux/x86 - socket-proxy - 372 bytesby Russell Sanford
+
+
+Linux/x86 - socket-proxy - 372 bytesby Russell Sanford
+
+
+Linux/x86 - [setreuid()] -> [/sbin/iptables -F] -> [exit(0)] - 76 bytesby Sh3llc0d3
+
+
+Linux/x86 - Add root user /etc/passwd - 104 bytesby Shok
+
+
+Linux/x86 - iptables -F - 49 bytesby Sp4rK
+
+
+Linux/x86 - execve(/sbin/halt,/sbin/halt) - 27 bytesby TheWorm
+
+
+Linux/x86 - execve(/sbin/reboot,/sbin/reboot) - 28 bytesby TheWorm
+
+
+Linux/x86 - execve(/sbin/shutdown,/sbin/shutdown 0) - 36 bytesby TheWorm
+
+
+Linux/x86 - exit(0) 3 bytes or exit(1) 4 bytesby TheWorm
+
+
+Linux/x86 - setuid(0) & execve(/bin/sh,0) - 25 bytesby TheWorm
+
+
+Linux/x86 - setuid(0), setgid(0) & execve(/bin/sh,[/bin/sh,NULL]) - 33 bytesby TheWorm
+
+
+Linux/x86 - System Beep - 45 bytesby Thomas Rinsma
+
+
+Linux/x86 - Bindshell TCP/5074 - 226 bytesby Tora
+
+
+Linux/x86 - iptables -F - 45 bytesby UnboundeD
+
+
+Linux/x86 - Connect-Back port UDP/54321 - 151 bytesby XenoMuta
+
+
+Linux/x86 - append rsa key to /root/.ssh/authorized_keys2 - 295 bytesby XenoMuta
+
+
+Linux/x86 - listens for shellcode on tcp/5555 and jumps to it - 83 bytesby XenoMuta
+
+
+Linux/x86 - Self-modifying ShellCode for IDS evasion - 64 bytesby Xenomuta
+
+
+Linux/x86 - shellcode that forks a HTTPHypertext Transfer Protocol Server on port tcp/8800 - 166 bytesby Xenomuta
+
+
+Linux/x86 - stagger that reads second stage shellcode (127 bytes maximum) from stdin - 14 bytesby _fkz
+
+
+Linux/x86 - alphanumeric Bomb FORK Shellcode - 117 Bytesby agix
+
+
+Linux/x86 - chmod(/etc/shadow, 0666) ASCII7-bit character set - 443 bytesby agix
+
+
+Linux/x86 - pwrite(/etc/shadow, hash, 32, 8) - 89 Bytesby agix
+
+
+Linux/x86 - Polymorphic - setuid(0) + chmod(/etc/shadow, 0666) - 61 Bytesby antrhacks
+
+
+Linux/x86 - execve(/bin/cat, /etc/shadow, NULL) - 42 bytesby antrhacks
+
+
+Linux/x86 - setuid(0) + chmod(/etc/shadow, 0666) - 37 Bytesby antrhacks
+
+
+Linux/x86 - setreuid(geteuid(),geteuid()),execve(/bin/sh,0,0) - 34bytesby blue9057
+
+
+Linux/x86 - /bin/sh sysenter Opcode Array Payload - 23 Bytesby c0ntex & BaCkSpAcE
+
+
+Linux/x86 - File Reader /etc/passwd - 65 bytesby certaindeath
+
+
+Linux/x86 - sends Phuck3d! to all terminals - 60 bytesby condis
+
+
+Linux/x86 - upload & exec - 189 bytesby cybertronic
+
+
+Linux/x86 - File unlinker 18 bytes + file path lengthby darkjoker
+
+
+Linux/x86 - Perl script execution 99 bytes + script lengthby darkjoker
+
+
+Linux/x86 - back-connect TCP/2222 - 93 bytesby dev0id
+
+
+Linux/x86 - iptables -F - 58 bytesby dev0id
+
+
+Linux/x86 - symlink /bin/sh xoring - 56 bytesby dev0id
+
+
+Linux/x86 - iopl(3); asm(cli); while(1){} - 12 bytesby dun
+
+
+Linux/x86 - SWAP restore - 109 bytesby dx & spud
+
+
+Linux/x86 - SWAP store - 99 bytesby dx & spud
+
+
+Linux/x86 - /sbin/iptables --flush - 69 bytesby eSDee [Netric .org]
+
+
+Linux/x86 - connect back shellcode (port=0xb0ef) - 131 bytesby eSDee [Netric .org]
+
+
+Linux/x86 - forking portbind shellcode - port=0xb0ef(45295) - 200 bytesby eSDee [Netric .org]
+
+
+Linux/x86 - Linux x86 setreuid(0,0) execve(/bin/zsh, [/bin/zsh, NULL]) + XOR - 53 bytesby egeektronic
+
+
+Linux/x86 - setreuid(0,0) execve("/bin/csh", [/bin/csh, NULL]) + XOR - 53 bytesby egeektronic
+
+
+Linux/x86 - setreuid(0,0) execve("/bin/ksh", [/bin/ksh, NULL]) + XOR - 53 bytesby egeektronic
+
+
+Linux/x86 - setreuid(0,0) execve(/bin/ash,NULL,NULL) + XOR - 58 bytesby egeektronic
+
+
+Linux/x86 - bin/cat /etc/passwd - 43 bytesby fb1h2s
+
+
+Linux/x86 - execve() - 51bytesby fl0 fl0w
+
+
+Linux/x86 - Find all writeable folder in filesystem linux polymorphic shellcodeby gunslinger_
+
+
+Linux/x86 - Polymorphic bindport to 13123 - 125 bytesby gunslinger_
+
+
+Linux/x86 - Polymorphic bindport to 31337 with setreuid (0,0) - 131 bytesby gunslinger_
+
+
+Linux/x86 - bind port to 6678 XOR encoded polymorphic - 125 bytesby gunslinger_
+
+
+Linux/x86 - cdrom ejecting shellcode - 46 bytesby gunslinger_
+
+
+Linux/x86 - chown root:root /bin/sh - 48 bytesby gunslinger_
+
+
+Linux/x86 - force unmount /media/disk - 33 bytesby gunslinger_
+
+
+Linux/x86 - give all user root access when execute /bin/sh - 45 bytesby gunslinger_
+
+
+Linux/x86 - hard reboot (without any message) and data not lost - 33 bytesby gunslinger_
+
+
+Linux/x86 - hard reboot (without any message) and data will be lost - 29 bytesby gunslinger_
+
+
+Linux/x86 - nc -lp 31337 -e /bin//sh polymorphic - 91 bytesby gunslinger_
+
+
+Linux/x86 - polymorphic cdrom ejecting - 74 bytesby gunslinger_
+
+
+Linux/x86 - setdomainname to (th1s s3rv3r h4s b33n h1j4ck3d !!)by gunslinger_
+
+
+Linux/x86 - sys_chmod(/etc/shadow, 599) - 39 bytesby gunslinger_
+
+
+Linux/x86 - sys_execve(/bin/sh, -c, ping localhost) - 55 bytesby gunslinger_
+
+
+Linux/x86 - sys_exit(0) - 8 bytesby gunslinger_
+
+
+Linux/x86 - sys_kill(-1,9) - 11 bytesby gunslinger_
+
+
+Linux/x86 - sys_rmdir(/tmp/willdeleted) - 41 bytesby gunslinger_
+
+
+Linux/x86 - sys_sethostname(PwNeD !!, 8) - 32 bytesby gunslinger_
+
+
+Linux/x86 - sys_setuid(0) & sys_setgid(0) & execve (/bin/sh) - 39 bytesby gunslinger_
+
+
+Linux/x86 - sys_sync - 6 bytesby gunslinger_
+
+
+Linux/x86 - unlink /etc/shadow - 33 bytesby gunslinger_
+
+
+Linux/x86 - Reverse Telnetby hts
+
+
+Linux/x86 - execve /bin/sh - 21 bytesby ipv
+
+
+Linux/x86 - HTTP/1.x GET, Downloads & execve() - 111 bytes+by izik
+
+
+Linux/x86 - HTTP/1.x GET, Downloads and JMP - 68 bytes+by izik
+
+
+Linux/x86 - anti-debug trick (INT 3h trap) execve(/bin/sh, [/bin/sh, NULL], NULL) - 39 bytesby izik
+
+
+Linux/x86 - cat /dev/urandom > /dev/console, no real profit just for kicks - 63 bytesby izik
+
+
+Linux/x86 - eject & close cd-rom frenzy loop (follows /dev/cdrom symlink) - 45 bytesby izik
+
+
+Linux/x86 - execve /bin/sh xored for Intel x86 CPUID 41 bytesby izik
+
+
+Linux/x86 - execve(/bin/sh, [/bin/sh, NULL]) + Bitmap - 27 bytesby izik
+
+
+Linux/x86 - execve(/bin/sh, [/bin/sh, NULL]) + RIFF Header - 28 bytesby izik
+
+
+Linux/x86 - execve(/bin/sh, [/bin/sh, NULL]) + RTFDocument format header - 30 bytesby izik
+
+
+Linux/x86 - execve(/bin/sh, [/bin/sh, NULL]) + ZIP Header - 28 bytesby izik
+
+
+Linux/x86 - execve(/bin/sh, [/bin/sh], NULL) / encoded by +1 - 39 bytesby izik
+
+
+Linux/x86 - open cd-rom loop (follows /dev/cdrom symlink) - 39 bytesby izik
+
+
+Linux/x86 - quick (yet conditional, eax != 0 and edx == 0) exit - 4 bytesby izik
+
+
+Linux/x86 - chmod(/etc/shadow, 0666) & exit() - 33 bytesby ka0x
+
+
+Linux/x86 - setuid(0) & execve(/bin/cat /etc/shadow) - 49 bytesby ka0x
+
+
+Linux/x86 - setuid(0) & execve(/sbin/poweroff -f) - 47 bytesby ka0x
+
+
+Linux/x86 - execve (/bin/sh) - 21 Bytesby kernel_panik
+
+
+Linux/x86 - Bindport TCP/3879by lamagra
+
+
+Linux/x86 - connect back, download a file and execute - 149 bytesby militan
+
+
+Linux/x86 - raw-socket ICMP/checksum shell - 235 bytesby mu-b
+
+
+Linux/x86 - hence dropping a SUID root shell in /tmp - 126 bytesby n/a
+
+
+Linux/x86 - kill snort - 151 bytesby nob0dy
+
+
+Linux/x86 - setreuid & execve - 31 bytesby oc192
+
+
+Linux/x86 - rm -rf / which attempts to block the process from being stopped - 132 bytesby onionring
+
+
+Linux/x86 - portbind (define your own port) - 84 bytesby oveRet
+
+
+Linux/x86 - setuid(0)+setgid(0)+add user iph without password - 124 bytesby pentesters.ir
+
+
+Linux/x86 - break chroot execve /bin/sh - 80 bytesby preedator
+
+
+Linux/x86 - chroot()/execve() codeby preedator
+
+
+Linux/x86 - Search php,html writable files and add your code - 380+ bytesby rigan
+
+
+Linux/x86 - chmod 666 /etc/shadow - 27 bytesby root@thegibson
+
+
+Linux/x86 - eject /dev/cdrom - 42 bytesby root@thegibson
+
+
+Linux/x86 - kill all processes - 9 bytesby root@thegibson
+
+
+Linux/x86 - overwrite MBRMaster Boot Record on /dev/sda with LOL! - 43 bytesby root@thegibson
+
+
+Linux/x86 - execve(/bin/sh,0,0) - 21 bytesby sToRm
+
+
+Linux/x86 - portbind /bin/sh (port 64713) - 83 bytesby sToRm
+
+
+Linux/x86 - setuid(0) & execve(/bin/sh,0,0) - 28 bytesby sToRm
+
+
+Linux/x86 - setresuid(0,0,0); execve /bin/sh; exit; - 41 bytesby sacrine
+
+
+Linux/x86 - setuid(0) & execve(/bin/sh,0,0) - 28 bytesby sch3m4
+
+
+Linux/x86 - disabled modsecurity - 64 bytesby sekfault
+
+
+Linux/x86 - shared memory exec - 50 bytesby sloth
+
+
+Linux/x86 - chmod(/etc/shadow, 0777) - 33 bytesby sm0k
+
+
+Linux/x86 - setresuid(0,0,0)-/bin/sh - 35 bytesby sorrow
+
+
+Linux/x86 - Add User USER=t00r PASS=t00r - Encoder PexFnstenvSub - 116 bytesby vlad902
+
+
+Linux/x86 - disables shadowing - 42 bytesby vlan7
+
+
+Linux/x86 - setuid() & execve() - 27 bytesby vlan7
+
+
+Linux/x86 - examples of long-term payloads hide-wait-change - 187 bytes+by xort & izik
+
+
+Linux/x86 - Alpha-Numeric using IMUL Method - 88 bytesby xort
+
+
+Linux/x86 - Magic Byte Self Modifying Code for surviving - execve() _exit() - 76 bytesby xort
+
+
+Linux/x86 - Radically Self Modifying Code - execve & _exit() - 70 bytesby xort
+
+
+Linux/x86 - alpha-numeric - 64 bytesby xort
+
+
+Linux/x86 - examples of long-term payloads hide-wait-change (.s)by xort
+
+
+Linux/x86 - add a passwordless local root account w000t - 177 bytesby zillion
+
+
+Linux/x86 - execve of /bin/sh /tmp/p00p - 70 bytesby zillion
+
+
+Linux/x86 - execve of /sbin/ipchains -F - 70 bytesby zillion
+
+
+Linux/x86 - execve() of /sbin/iptables -F - 70 bytesby zillion
+
+
+Linux/x86 - mkdir() & exit() - 36 bytesby zillion
+
+
+ 
+NetBSD
+
+
+NetBSD/x86 - kill all processes shellcode - 23 bytes by Anonymous
+
+
+NetBSD/x86 - execve(/bin/sh) - 68 bytes by humble
+
+
+NetBSD/x86 - callback (port 6666) - 83 bytes by minervini
+
+
+NetBSD/x86 - setreuid(0, 0); execve(/bin//sh, ..., NULL); - 29 bytes by minervini
+
+
+ 
+OpenBSD
+
+
+OpenBSD/x86 - reboot() - 15 bytes by beosroot
+
+
+OpenBSD/x86 - execve(/bin/sh) - 23 bytes by hophet
+
+
+OpenBSD/x86 - add user w00w00 - 112 bytes by n/a
+
+
+OpenBSD/x86 - portbind port 6969 - 148 bytes by noir
+
+
+ 
+OSX
+PPC
+
+
+Osx/ppc - Add user r00t - 219 bytesby B-r00t
+
+
+Osx/ppc - add inetd backdoor - 222 bytesby B-r00t
+
+
+Osx/ppc - create /tmp/suid - 122 bytesby B-r00t
+
+
+Osx/ppc - remote findsock by recv() key shellcodeby Dino Dai Zovi
+
+
+Osx/ppc - Single Reverse TCPby H D Moore
+
+
+Osx/ppc - stager sock find peekby H D Moore
+
+
+Osx/ppc - stager sock findby H D Moore
+
+
+Osx/ppc - stager sock reverseby H D Moore
+
+
+Osx/ppc - Bind Shell PORT TCP/8000 - encoder OSXPPCLongXOR - 300 bytesby H D moore
+
+
+Osx/ppc - shellcode execve(/bin/sh)by ghandi
+
+
+Osx/ppc - execve(/bin/sh,[/bin/sh],NULL)& exit() - 72 bytesby haphet
+
+
+Osx/ppc - sync(), reboot() - 32 bytesby haphet
+
+
+Intel x86-64
+
+
+Osx/x86-64 - setuid shell x86_64 - 51 bytesby Dustin Schultz
+
+
+Osx/x86-64 - reverse tcp shellcode - 131 bytesby Jacob Hammack
+
+
+Osx/x86-64 - universal ROP shellcodeby P. Kot
+
+
+Osx/x86-64 - universal OSXApple operating system dyld ROP shellcodeby pa_kt
+
+
+Intel x86
+
+Osx/x86 - execve(/bin/sh) - 24 byteby Simon Derouineau
+
+ 
+Solaris
+MIPS
+
+
+Solaris/mips - connect-back (with XNOR encoded session) - 600 bytesby Russell Sanford
+
+
+Solaris/mips - download and execute - 278 bytesby Russell Sanford
+
+
+SPARC
+
+
+Solaris/sparc - setreuid(geteuid()), setregid(getegid()), execve /bin/shby Claes M. Nyberg
+
+
+Solaris/sparc - Bind /bin/sh TCPTransport Control Protocol port 2001by ghandi
+
+
+Solaris/sparc - portbind | port 6666 - 240 bytesby lhall
+
+
+Solaris/sparc - setreuid - 56 bytesby lhall
+
+
+Solaris/sparc - execve(/bin/sh) - 52 bytesby n/a
+
+
+Solaris/sparc - Single bind TCPTransport Control Protocol shellby vlad902
+
+
+Intel x86
+
+
+Solaris/x86 - setuid(0) /bin/cat //etc/shadow - 61by John Babio
+
+
+Solaris/x86 - Halt shellcode - 36 bytesby Jonathan Salwan
+
+
+Solaris/x86 - Reboot() - 37 bytesby Jonathan Salwan
+
+
+Solaris/x86 - Remote Download file - 79 bytesby Jonathan Salwan
+
+
+Solaris/x86 - Sync() & reboot() & exit(0) - 48 bytesby Jonathan Salwan
+
+
+Solaris/x86 - SystemV killall command - 39 bytesby Jonathan Salwan
+
+
+Solaris/x86 - execve(/bin/sh, /bin/sh, NULL) - 27 bytesby Jonathan Salwan
+
+
+Solaris/x86 - add services and execve inetd - 201 bytesby n/a
+
+
+Solaris/x86 - execve /bin/sh toupper evasion - 84 bytesby n/a
+
+
+Solaris/x86 - execve /bin/sh - 43 bytesby shellcode.com.ar
+
+
+Solaris/x86 - setuid(0)&execve(//bin/sh)&exit(0) - 39 bytesby sm4x
+
+
+Solaris/x86 - setuid(0)&execve(/bin/cat, /etc/shadow)&exit(0) - 59 bytesby sm4x
+
+
+ 
+Windows
+
+
+Windows-64 - (URLDownloadToFileA) download and execute - 218+ bytes by Weiss
+
+
+Windows-64 - Windows Seven x64 (cmd) - 61 bytes by agix
+
+
+Windows - Safari JS JITed shellcode - exec calc (ASLR/DEP bypass) by Alexey Sintsov
+
+
+Windows - Vista/7/2008 - download and execute file via reverse DNSDomain Name System channel by Alexey Sintsov
+
+
+Windows - sp2 (En + Ar) cmd.exe - 23 bytes by AnTi SeCuRe
+
+
+Windows - add new local administrator - 326 bytes by Anastasios Monachos
+
+
+Windows - pro sp3 (EN) - add new local administrator 113 bytes by Anastasios Monachos
+
+
+Windows - xp sp2 PEBPortable Environment Block ISbeingdebugged shellcode - 56 bytes by Anonymous
+
+
+Windows - XPWindows operating system (Version) Pro Sp2 English Message-Box Shellcode - 16 Bytes by Aodrulez
+
+
+Windows - XPWindows operating system (Version) Pro Sp2 English Wordpad Shellcode - 15 bytes by Aodrulez
+
+
+Windows - Write-to-file Shellcode by Brett Gervasoni
+
+
+Windows - telnetbind by winexec - 111 bytes by DATA_SNIPER
+
+
+Windows - useradd shellcode for russian systems - 318 bytes by Darkeagle
+
+
+Windows - XPWindows operating system (Version) SP3 English MessageBoxA - 87 bytes by Glafkos Charalambous
+
+
+Windows - SP2 english ( calc.exe ) - 37 bytes by Hazem mofeed
+
+
+Windows - SP3 english ( calc.exe ) - 37 bytes by Hazem mofeed
+
+
+Windows - Shellcode (cmd.exe) for XPWindows operating system (Version) SP2 Turkish - 26 Bytes by Hellcode
+
+
+Windows - Shellcode (cmd.exe) for XPWindows operating system (Version) SP3 English - 26 Bytes by Hellcode
+
+
+Windows - XPWindows operating system (Version) SP3 EN Calc Shellcode - 16 Bytes by John Leitch
+
+
+Windows - win32/PerfectXp-pc1/sp3 (Tr) Add Admin Shellcode - 112 bytes by KaHPeSeSe
+
+
+Windows - win32/PerfectXp-pc1/sp3 (Tr) Add Admin Shellcode - 112 bytes by KaHPeSeSe
+
+
+Windows - PEBPortable Environment Block Kernel32.dll ImageBase Finder - 49 Bytes by Koshi
+
+
+Windows - PEBPortable Environment Block Kernel32.dll ImageBase Finder Alphanumeric - 67 bytes by Koshi
+
+
+Windows - PEB!NtGlobalFlags shellcode - 14 bytes by Koshi
+
+
+Windows - XPWindows operating system (Version) sp3 (Ru) WinExec+ExitProcess cmd shellcode - 12 bytes by Lord Kelvin
+
+
+Windows - Reverse Generic Shellcode w/o Loader - 249 bytes by Matthieu Suiche
+
+
+Windows - Pop up message box (XP/SP2) - 110 bytes by Omega7
+
+
+Windows - sp3 (FR) Sleep - 14 bytes by Optix
+
+
+Windows - XPWindows operating system (Version) download and exec source by Peter Winter-Smith
+
+
+Windows - Allwin MessageBoxA - 238 bytes by RubberDuck
+
+
+Windows - Allwin WinExec add new local administrator + ExitProcess Shellcode - 272 bytes by RubberDuck
+
+
+Windows - Allwin WinExec cmd.exe + ExitProcess Shellcode - 195 bytes by RubberDuck
+
+
+Windows - Shellcode Collection - (calc) 19 bytes by SkuLL-HacKeR
+
+
+Windows - null-free 32-bit Windows download and LoadLibrary shellcode - 164 bytes by SkyLined
+
+
+Windows - null-free 32-bit Windows shellcode that executes calc.exe - 100 bytes by SkyLined
+
+
+Windows - null-free 32-bit Windows shellcode that shows a message box - 140 bytes by SkyLined
+
+
+Windows - null-free bindshell for Windows 5.0-6.0 all service packs by SkyLined
+
+
+Windows - XPWindows operating system (Version) sp2 (FR) Sellcode cmd.exe - 32 bytes by Stack
+
+
+Windows - XP/sp2 (EN) cmd.exe - 23 bytes by Stack
+
+
+Windows - XPWindows operating system (Version) Professional SP2 ita calc.exe - 36 bytes by Stoke
+
+
+Windows - WinExec() Command Parameter - 104 bytes by Weiss
+
+
+Windows - download and execute - 124 bytes by Weiss
+
+
+Windows - Download and Execute Shellcode Generator by YAG KOHHA
+
+
+Windows - sp3 (Tr) Add Admin Account Shellcode - 127 bytes by ZoRLu
+
+
+Windows - sp3 (Tr) MessageBoxA Shellcode - 109 bytes by ZoRLu
+
+
+Windows - sp3 (Tr) calc.exe Shellcode 53 bytes by ZoRLu
+
+
+Windows - sp3 (Tr) cmd.exe Shellcode - 42 bytes by ZoRLu
+
+
+Windows - sp3 (Tr) cmd.exe Shellcode 52 bytes by ZoRLu
+
+
+Windows - Xp Pro SP3 Fr (calc.exe) - 31 Bytes by agix
+
+
+Windows - XPWindows operating system (Version) PRO SP3 - Full ROP calc shellcode by b33f
+
+
+Windows - xp pro sp3 (calc) - 57 bytes by cr4wl3r
+
+
+Windows - win32/xp pro sp3 MessageBox shellcode - 11 bytes by d3c0der
+
+
+Windows - download & exec shellcode - 226 bytes+ by darkeagle
+
+
+Windows - Shellcode Checksum Routine by dijital1
+
+
+Windows - IsDebuggerPresent ShellCode (NT/XP) - 39 bytes by ex-pb
+
+
+Windows - IsDebuggerPresent ShellCode (NT/XP) - 39 bytes by ex-pb
+
+
+Windows - PEBPortable Environment Block method (9x/NT/2k/XP) - 29 bytes by loco
+
+
+Windows - connectback, receive, save and execute shellcode by loco
+
+
+Windows - Bind Shell (NT/XP/2000/2003) - 356 bytes by metasploit
+
+
+Windows - Create Admin User Account (NT/XP/2000) - 304 bytes by metasploit
+
+
+Windows - Vampiric Import Reverse Connect - 179 bytes by metasploit
+
+
+Windows - PEBPortable Environment Block method (9x/NT/2k/XP) by oc192
+
+
+Windows - eggsearch shellcode - 33 bytes by oxff
+
+
+Windows - XP-sp1 portshell on port 58821 - 116 bytes by silicon
+
+
+Windows - XPWindows operating system (Version) SP3 addFirewallRule by sinn3r
+
+
+Windows - PEBPortable Environment Block method (9x/NT/2k/XP) - 31 bytes by twoci
+
+
+Windows - Beep Shellcode (SP1/SP2) - 35 bytes by xnull
+
+
+ 
+ 
+
+Previous versions:
+| 1 
+| 2 
+| 3 
+| 4 
+| 5 
+| 6 
+| 7 
+| 8 
+| 9 
+| 10 
+| 11 
+| 12 
+| 13 
+| 14 
+| 15 
+| 16 
+| 17 
+| 18 
+| 19 
+| 20 
+| 21 
+| 22 
+|
+                    

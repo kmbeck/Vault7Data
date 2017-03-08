@@ -1,0 +1,63 @@
+
+                        Owner: User #14587667
+Build Felix LP
+
+Clone Ubuntu Server 14.04
+Assign static IP in VLANVirtual Local Area Network 14
+Install apache server
+apt-get install -y apache2
+sudo apt-get install -y libapache2-mod-wsgi
+Modify /var/www/html/index.html
+Edit the <title> as appropriate
+Edit <body> <div class="main_page"> <div class="page_header floating_element"> <img src="/icons/ubuntu-logo.png" alt="Ubuntu Logo" class="floating_element"/> <span class="floating_element"> Felix LP1 Cover Page </span> </div>
+
+sudo a2enmod ssl
+Make any other changes needed for cover content.
+
+
+
+
+Copy Felix files dash.pyz, house.pyz, and shade.pyz to LP.   shade.pyz should NEVER be on the LPListening Post in an operational environment.
+Create directory to store magazine filesmkdir -p /home/ubuntu/house/house_mags
+
+Create certificate
+cd /home/ubuntu
+sudo openssl ecparam -genkey -name prime256v1 -out felix-priv-key.pem
+sudo openssl req -new -key felix-priv-key.pem -out csr.pem
+sudo openssl req -x509 -days 9999 -key felix-priv-key.pem -in csr.pem -out felix-server.pem
+sudo cp felix-server.pem /etc/ssl/certs/.
+sudo cp felix-priv-key.pem /etc/ssl/private/.
+
+
+Run the house python script
+cd /home/ubuntu
+chmod +x *.pyz
+sudo python house.pyz -a=/etc/apache2/apache2.conf -c=/home/ubuntu/house/house_config -d=/home/ubuntu/house/house.db -g=www-data -f=/home/ubuntu/house/house.py -m=/home/ubuntu/house/house_mags -o=/home/ubuntu/house/house_output -w=/var/www/html -l=/index.html -pc=/etc/ssl/certs/felix-server.pem -pk=/etc/ssl/private/felix-priv-key.pem
+
+
+Copy over magazine files to /home/ubuntu/house/house_mags
+Start the LPListening Post CLIpython dash.pyz -f=/home/ubuntu/house/house_config
+
+
+ 
+Note: Copy the LPListening Post server certificate and private keys since they are needed when running the Felix configurator.
+sudo chown ubuntu:ubuntu *.pem
+/etc/ssl/certs/felix-server.pem
+/etc/ssl/private/felix-priv-key.pem
+Example:
+scp /etc/ssl/certs/felix-server.pem user1@172.20.12.100:~/felix/src/tools/felix_11/keys/.
+sudo scp /etc/ssl/private/felix-priv-key.pem user1@172.20.12.100:~/felix/src/tools/felix_11/keys/.
+ 
+ 
+ 
+
+Previous versions:
+| 1 
+| 2 
+| 3 
+| 4 
+| 5 
+| 6 
+| 7 
+|
+                    

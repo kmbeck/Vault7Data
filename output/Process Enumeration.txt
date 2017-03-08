@@ -1,0 +1,20 @@
+
+                        Owner: User #71473
+WMI Process Watcher
+A technique to asynchronously detect when a process is created using WMI.
+The technique requires an EventSink object that contains a reference to a callback.  Registering the aynchronous detection is done by calling ExecNotificationQueryAsync() with the proper WQL async query and a pointer to the EventSink object.
+The queries need to detect creation and deletion of processes are as follows:
+
+SELECT * FROM __InstanceCreationEvent WITHIN 1 WHERE TargetInstance ISA 'Win32_Process'
+SELECT * FROM __InstanceDeletionEvent WITHIN 1 WHERE TargetInstance ISA 'Win32_Process'
+
+ 
+The callbacks must have the following signature:
+void __cdecl CallBack(long lObjectCount, IWbemClassObject **apObjArray)
+ 
+ 
+
+Previous versions:
+| 1 
+|
+                    

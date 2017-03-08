@@ -1,0 +1,103 @@
+
+                        Owner: User #20251227
+Project Overview
+Current Status
+Current Activities:
+go look at the current sprint in JIRA
+
+Useful Pointers
+Stash: https://stash.devlan.net/projects/KRAK
+Jira: https://jira.ioc.local/projects/KRAK/summary
+Components/Architecture
+Client - The component that resides on a target and does things.  Communicates with a (paired) Listener.
+Listener - The component that communicates with multiple (paired) Clients and the Manager.  The Listener functions mainly as a "translator" for messages/commands between the Manager and a given client.
+Manager - The component that communicates with the Listener, User Interface (UIUser Interface), and data store(s) (e.g., database).  The Manager is responsible for noting the commands of a user and tasking/managing collections of clients via associated Listeners so that a user can achieve desired goals.
+User Interface (UIUser Interface) - A Command Line Interface (CLICommand-Line Interface) via which a user describes the actions that clients should take and, additionally, what data (historical & current) should be displayed.
+Conventions
+a)  All code comments, etc are Doxygen style, and Doxygen will be used to generate developer docs.  This is for both the Python & native components.
+b)  Ideally, there should be dev/build VMVirtual Machine image(s) under config management of some sort and the details on how they were built/modified so that they can be reproduced.
+c)  Git & Stash for version control
+
+"Feature Branch"-based workflow
+use the "--no-ff" (no 'fast-forward' switch), always.... this helps keep explicit branch history.  references here: a successful git branching model, stackoverflow.com/questions/9069061/what-is-the-difference-between-git-merge-and-git-merge-no-ffBEWARE: Git wants to do "ff" style merges...when PULLing, etc.  Git is sneaky and will do what Git wants unless you keep an eye on Git, like, a "one-eye-open-while-sleeping" kind of an eye on Git...
+
+Peer code review immediately prior to any "mainline" commits.Person-to-person, "cardboard dog" style is preferred (small team, and this forces a distribution of knowledge about separate components amongst the team, thereby enhancing fault tolerance and reducing any possible "spin up" time if someone has to pivot onto another component & start contributing)
+
+
+d)  Ideally, given proper utilization & organization of this wiki space, some of the wiki pages in this space will end up as product (user) documentation.
+e)  Python 3 w/ spaces, no tabs.  This is easily set up in GVIM/VIM in a vimrc config file and then one never has to worry about it again.  A reference can be found here:  SAMPLE VIMRC FILE
+f)  Story points are based on binary escalation... 1, 2, 4, 8, 16, 32
+ 
+Event-Based Project Timeline
+
+Get & clarify expectations.  Primarily:
+UI/UX
+Workflow
+Client Functionality
+
+
+Create Mock-Up of UI/UX and get in User's hands in order to generate feedback.  The UIUser Interface / UXHP Unix development will be done in an iterative manner and go through at least two cycles.
+What information to display & when
+Workflow:  display info about what activities, when, in what order, and with what syntax
+
+
+Define/Document UI/UX <-> Manager interface
+Design/Implement the manager
+database
+filesystem
+integration with UI/UX
+
+
+Define and Document Interfaces:
+Manager <-> Listener
+Listener <-> Client
+
+
+Design/Implement the Listener
+
+Implement a functioning Mock Client
+
+Implements full binary command protocol between Listener & Client
+may implement crypto layers
+must function in such a way as to communicate & generate messages as a native client would.
+
+
+Implement Native Client
+Utilize some kind of unit testing framework to make regression testing simple as features are added
+small, modularized functionality in separate, standalone components to test against PSPs.
+
+
+Implement installer(s) for backend components
+Documentation
+Quick Start
+Caveats/warnings
+Full user guide
+
+
+Developer-based testing & characterization
+IV&V
+
+
+Sub-Pages:
+
+
+Not Used Retrospectives 
+
+
+
+Previous versions:
+| 1 
+| 2 
+| 3 
+| 4 
+| 5 
+| 6 
+| 7 
+| 8 
+| 9 
+| 10 
+| 11 
+| 12 
+| 13 
+|
+                    

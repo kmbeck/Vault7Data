@@ -1,0 +1,23 @@
+
+                        Owner: User #524297
+DEVLAN Domain Controller Certificate Authority
+ 
+For those that didn't know, there is a new domain controller on DEVLAN, with a new certificate authority.  Please import the following to your trusted certificate store. 
+
+Hostname:     dc-03v.devlan.net
+
+Certificate:     devlan_ca.cer
+
+Signature:      82 0F 86 4E 4F 90 0A 17 71 ADActive Directory 1A ...
+
+
+Attachments:
+
+devlan_ca.cer
+
+
+Previous versions:
+| 1 empty
+| 2 
+|
+                    

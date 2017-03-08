@@ -1,0 +1,16 @@
+
+                        Process Hollowing
+Overview
+Process Hollowing involves starting a benign process (such as Internet Explorer) using Windows' CreateProcess, with a specific flag set to create the process in a suspended mode.  At this point, the component removes the benign process' code from the suspended process, injects its own malicious code, and resumes the process.  PSPs may only do an initial scan when the process is created (even though it's suspended at the start) and won't notice the code replacement.  Also, dynamic analysis tools such as Procmon will only log/show that a benign process was created.
+ 
+Source Code
+This has been observed in many malware samples, including the 'Conamie' sample DIADefence Intelligence Agency provided to UMBRAGE.  
+https://stash.devlan.net/projects/UCL/repos/componentlib/browse/ProcessHollowing
+ 
+Component Reuse
+None
+
+Previous versions:
+| 1 
+|
+                    

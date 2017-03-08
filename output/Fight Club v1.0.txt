@@ -1,0 +1,67 @@
+
+                        Fight Club v1.0
+SECRET//NOFORN
+Fight Club v1.0
+ 
+Description: 
+Fight Club is an umbrella crypt for the set of tools provided for the JQJINDISCREET QRC effort. For this effort, COGComputer Operations Group requested a prioritized development in which trojans would be built to drop and install Ricky Bobby 3.0. The trojans would be spread across 6 thumbdrives intended to be inserted into the supply chain of a target network/group. Upon opening any of the weaponized applications, the Ricky Bobby 3.0 would becom installed on the machine. This is a configured Ricky Bobby 3.0. Ricky Bobby is persisted via scheduled tasks. 
+ 
+COG provided the following prioritization of applications for trojaning: VLCMediaplayer Player, Win-Rar, TrueCrypt, ConnectifyMe, Shamela Reader, Microsoft Office Standalone Installer, Adobe Reader Installer. EDGEngineering Development Branch was able to supply the following trojans in the operational timeline: VLCMediaplayer Player, Win-Rar, TrueCrypt, Shamela. The six thumbdrives sent to the field for operational use had 4 self-extracting Win-Rars (Wraith), 2 VLCMediaplayer players, 2 TrueCrypt applications, 2 Shamela applications. Cover documents included TrueCrypt containers with keys, videos, documents, and images.
+Design:
+ 
+
+Stash Repository:   
+MelomyDropkick (TrueCrypt)
+MelomyRoundhouse (VLCMediaplayer Player)
+MelomyLeftHook (Shamela)
+MelomyKarateChop (WinRar)
+MelomySuckerPunch (ConnectifyMe) - UNUSED
+ 
+Testing Repoistory:   
+Fight Club DARTTest-Software (commercial) Tests
+ 
+Documentation:
+('section' missing)
+ 
+Latest Testing Results:
+Operational Use:
+JQJINDISCREET
+ 
+Highlights:
+ 
+Technique Tracking:
+List of techniques used by Project
+
+Artillery UACUser Account Control Bypass - PEUArtillery_x86x64
+In Admin Group - MISCIsUserInAdminGroup_NET
+User Account Control (UACUser Account Control) Level - MISCUserAccountControlLevel_WIN32
+
+ 
+Change Log:
+
+('excerpt' missing) Older Versions:
+ 
+ 
+SECRET//NOFORN
+ 
+ 
+
+Attachments:
+
+
+image2015-3-18 15:55:53.png
+
+
+image2015-3-18 15:54:42.png
+
+
+
+Previous versions:
+| 1 SECRET
+| 2 SECRET
+| 3 SECRET
+| 4 SECRET
+| 5 SECRET
+| 6 SECRET
+|
+                    

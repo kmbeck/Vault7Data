@@ -1,0 +1,23 @@
+
+                        Owner: User #71475
+Building tinc on Linux
+Specifically on Ubuntu 14.04. But should be similar anywhere
+ 
+Install dependencies
+tinc requires OpenSSL, zlib and lzo to compile.
+ 
+sudo apt-get install libssl-dev zlib1g-dev liblzo2-dev build-essential automake autoconf gettext texinfo
+ 
+Build
+autoreconf -fsi
+./confgiure
+make
+ 
+Installing
+By default, when you build tinc from source, tinc will install itself into /usr/local/. tinc will then look for its configuration in /usr/local/etc/tinc
+make install
+
+Previous versions:
+| 1 
+|
+                    

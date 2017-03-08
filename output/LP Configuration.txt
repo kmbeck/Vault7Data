@@ -1,0 +1,35 @@
+
+                        Owner: User #20251227
+2015-11-23 Retrospective
+
+
+('details' missing)
+Retrospective
+
+
+
+What did we do well?
+
+Bookkeeping (using JIRA, managing backlog, adding emergent stories, ...)
+Discipline when keeping notes
+Using JIRA,and the sprint w/ stories to stay on track.
+
+
+
+What should we have done better?
+
+Capacity Planning was off (didn't allow for other work assignments when bringing stories into the sprint), had to put stories back into the backlog.
+Undershot a little when assigning story (complexity/risk) points.
+Mistook an epic ("...want a formal requirements document") for a story.
+Did not properly account for external dependencies (e.g., getting feedback, etc) when planning/structuring stories
+
+
+
+
+What will we do differently next time to improve?
+Undershoot/Overshoot w/r/t assigning story points should naturally fix itself after a small handful of sprints.  Undershoot/Overshoot is normal.
+For Capacity Planning, be more pessimistic about taking work into the sprint.
+For the external dependencies challenge, perhaps try to have more, smaller, stories, which are attached to an overarching epic (e.g., "...want a formal requirements document"), thus bringing into the sprint mostly only stories/work whose completion is more directly dependent upon just the sprint team's efforts.
+
+
+                    

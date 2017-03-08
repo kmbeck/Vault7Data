@@ -1,0 +1,202 @@
+
+                        Port Existing Collide-Compatible Tasker to Generic Python Application
+('details' missing)
+Goals
+
+Run on Linux without the Collide overhead 
+
+Simplify the user experience
+
+Background and strategic fit
+
+Why are you doing this? How does this relate to your overall product strategy?
+Assumptions
+List the assumptions you have such as user, technical or other business assumptions. (e.g. users will primarily access this feature from a tablet).
+Requirements
+
+
+#
+Title
+User Story
+Importance
+Notes
+
+
+1
+4.1.2.19
+The tool shall have the ability to modify all configuration variables (unless explicitly marked otherwise) at runtime and persist those changes
+Must Have
+Additional considerations or noteworthy references (links, issues)
+
+
+ 
+Derived
+
+input directory
+output directory
+working directory
+intervals( beacon, jitter, uninstall)
+Max allowable beacon failures
+Internet connectivity URL
+chunk size
+Target ID
+blacklist/whitelist executables 
+
+ 
+ 
+
+
+2
+ 4.1.2.21
+ The tool shall uninstall after an absolute date.
+Must Have
+ 
+
+
+3
+4.1.2.24
+The input parameter value for the uninstall command shall accept either NOW or OFF
+Must Have
+ 
+
+
+4
+4.1.2.29
+The tool shall be able to support tasking directing it to perform the following:
+Must Have
+ 
+
+
+5
+4.1.2.29.1
+
+Retrieving files from (get) and placing files on (put) the target computer. Files shall be encrypted and optionally compressed in transit and
+shall be decrypted upon receipt by its intended recipient (either the target machine or the high side processing system).
+
+Must Have
+ 
+
+
+6
+4.1.2.29.2
+The results of a GET command shall include the metadata from the original file, to include the original full path on the target computer.
+Must Have
+ 
+
+
+7
+4.1.2.29.3
+Registry updates( create, update and delete entries) and collection
+Must Have
+ 
+
+
+8
+4.1.2.29.4
+Executing executables present on the target system and returning the results to the LP
+Must Have
+ 
+
+
+9
+4.1.2.29.5
+Results shall include the fulle STDIN/STDOUT/STDERR results
+Must Have
+ 
+
+
+10
+4.1.2.29.6
+Results shall include the executable path that the file is running from
+Must Have
+ 
+
+
+11
+4.1.2.32
+The tool shall be able to delete files from the target system
+Must Have
+ 
+
+
+12
+4.1.2.33
+The tool shall be able to search the file system based on:
+Must Have
+ 
+
+
+13
+4.1.2.34
+Shell globbing
+Must Have
+ 
+
+
+14
+4.1.2.35
+Querying the windows search service (if the service is enabled on the target box)
+Must Have
+ 
+
+
+15
+4.1.2.38
+The tool shall have the following beacon interval timer parameters
+Must Have
+ 
+
+
+16
+4.1.2.41
+
+The tool shall include a beacon interval period which measures the minimum period of time between subsequent beacons.
+This interval shall be configured as a period of time in seconds.
+
+Must Have
+ 
+
+
+17
+4.1.2.42
+Beacon jitter
+Must Have
+ 
+
+
+18
+4.1.2.43
+Beacon jitter varies between +/- 5%
+Must Have
+ 
+
+
+User interaction and design
+Using argparse to format and parse acceptable command syntax
+Use flags to tokenize values
+SEARCH command will have the following capabilities:
+-- swalkdir - recursively search for a string in a directory path
+-- sdirlist - search filenames for a string in a directory path
+-- slike - filename pattern match
+-- scontains - file name or file content pattern match
+-- sfreetext - file content pattern match
+-- sliteral - any valid WSS search command
+Questions
+Below is a list of questions to be addressed as a result of this requirements document:
+
+
+Question
+Outcome
+
+
+(e.g. How we make users more aware of this feature?)
+Communicate the decision reached
+
+
+Not Doing
+List the features discussed which are out of scope or might be revisited in a later release.
+
+Previous versions:
+| 1 
+|
+                    

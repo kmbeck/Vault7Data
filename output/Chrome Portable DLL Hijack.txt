@@ -1,0 +1,14 @@
+
+                        Owner: User #71468
+Chrome Portable DLL Hijack
+Similar to others prior...
+ 
+Chromelooks for "DWrite.dll", a system DLL, adjacent to itself (under \app\Chrome-bin) before correctly finding it
+This DLLDynamic Link Library is ideal for hijacking as it only exports one function (at ordinal #1) with the following prototype:
+HRESULT DWriteCreateFactory(DWRITE_FACTORY_TYPE, REFIID, IUnknown**)
+ 
+The DWRITE_FACTORY_TYPE is an enum defined in Dwrite.h, however we cannot #include this header as doing so will declare the function as an extern.
+Instead, we can either create a dummy enum with only two values (as the real DWRITE_FACTORY_TYPE only has two options) or simply use a INT variable in its place.
+ 
+Chrome does not appear to have the race-condition crash report that Thunderbird had
+                    

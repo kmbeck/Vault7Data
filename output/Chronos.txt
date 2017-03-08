@@ -1,0 +1,105 @@
+
+                        Spottsroide Development Setup
+('toc' missing)
+
+Environment
+The following was done on Ubuntu 64 bit 14.04.3
+
+Install ubuntu: 
+Processors and memory: 6 processors, 3000 MB memory
+2 hard disks: Both 100GB
+
+
+Follow instructions to setup Android environment on Ubuntu:
+Android Developer Setup  
+
+
+
+Description of Source
+
+ApolloThis is the music player app that is used to access the survey app
+
+bcmThis is the wiFi driver that supports monitor mode for collection. 
+
+bcmonThis is an app developed by the bcmon team. It dynamically patches the wifi driver to add monitor mode. The source was never released, so this is the "reverse engineered" source. This directory is purely for reference to potentially use for techniques/methods in the future. 
+
+ics_mon_cleanThis is the source directory for the cyanogenmod os, containing the stock broadcom wiFi drivers.
+
+ics_mon_dirtyThis is the source directory for the cyanogenmod os, containing the bcm wifi drivers (monitor mode). 
+
+SurveyThis is the spottsroide app that conducts the survey and collection. 
+
+
+Compiling/Building 
+
+
+Clone the Spottsroide repo git clone ssh://git@stash.devlan.net:7999/spot/spottsroide-3.0.git
+
+
+Acquire dependencies:apt-get install: bison build-essential curl flex git gnupg gperf libesd0-dev liblz4-tool libncurses5-dev libsdl1.2-dev libwxgtk2.8-dev libxml2 libxml2-utilslzop openjdk-6-jdk openjdk-6-jre pngcrush schedtool squashfs-tools xsltproc zip zlib1g-dev gcc-arm-linux-androideabi
+
+
+
+Ensure proper version of JavaThe build will give a warning if java 6 is not the default and will error if javac 6 is not the default.  You can have multiple versions installed and simply set your default when you need to perform this build
+sudo update-alternatives --config java
+sudo update-alternatives --config javac
+
+
+Compile:
+cd ics_mon_clean
+source build/envsetup.sh
+brunch galaxys2 (If you experience any errors, refer to the README.txt)The output is a cyanogenmod zip file. 
+
+
+
+Build: 
+Obtain a Galaxy S2 (GT-i9100) and connect to computer via USB
+Install the .zip file onto the SD card of the phone using adb
+Put the phone into Download mode hold volume down, home, and power button
+
+Flash clockwork mod recovery onto device
+cd delivery
+sudo ./flash_recovery.sh
+
+
+Disconnect the phone and remove the battery
+Install the battery in the phone
+Put the phone into Recovery mode hold volume up, home, and power button
+
+Once in recovery:
+wipe data/factory reset
+delete all user data
+mount sdcard
+
+
+Install survey app onto phone
+Connect the phone to the computer 
+cd delivery
+On the computer, type: ./adb push survey_os.zip/sdcard
+On the phone, select "install zip from sdcard" 
+Press power button to "choose zip from sdcard"
+Select "Yes- Install survey_os.zip
+Press power button to "Reboot system now"
+
+
+After phone boots:
+Connect phone to computer via USB
+On computer: ./adb install Survey3.apk
+
+
+
+
+
+ 
+ 
+
+Previous versions:
+| 1 
+| 2 
+| 3 
+| 4 
+| 5 
+| 6 
+| 7 
+|
+                    

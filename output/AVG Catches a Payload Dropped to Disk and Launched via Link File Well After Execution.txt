@@ -1,0 +1,27 @@
+
+                        Owner: User #71473
+Bitdefender Resource Defeat
+If Bitdefender is complaining about a tool and you've tried (and succeeded) to get Bitdefender to stop complaining by stripping out your configuration resources, try changing the resource type from RC_DATA to BITMAP instead.  It just might give you a pass.
+This seems to be an entropy based check – cleartext resources or simple RXOR-ed resources don't seem to cause Bitdefender to trip.
+
+Comments:
+
+
+2015-10-09 17:07 
+[User #71473]: 
+
+Whatever you finally did to make BitDefender happy, please put up an article about it so we have it in our stable of things to try the next time BitDefender gets angry with us.
+
+
+2015-10-05 14:43 
+[User #1179872]: 
+
+Alas, we've just tried this for Klaxon v1.1, and BitDefender is still mad.  
+
+
+
+
+Previous versions:
+| 1 
+|
+                    

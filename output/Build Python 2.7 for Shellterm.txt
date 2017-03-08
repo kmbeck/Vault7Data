@@ -1,0 +1,29 @@
+
+                        Owner: User #71475
+Build Python 3.4 on RHEL/CentOS/Fedora
+I prefer to install python to /opt/python34 instead of /usr/local. Just make sure to update your path to include /opt/python34/bin and add /opt/python34/lib to your LD path, or edit the prefix argument in the configure statement below.
+ 
+sudo yum install -y readline-devel sqlite-devel openssl-devel ncurses-devel bzip2-devel expat-devel gdbm-devel xz-devel tk-devel valgrind-devel 
+tar zxvf Python-3.4.3.tgz
+cd Python-3.4.3
+./configure --enable-shared --enable-loadable-sqlite-extensions --enable-ipv6 \
+            --with-system-ffi --with-system-expat --with-signal-module --with-threads --with-valgrind \
+	        --with-fpectl --with-ensurepip --prefix=/opt/python34
+make && make install
+As Root:
+echo "/opt/python34/lib" >> /etc/ld.so.conf.d/python34.conf
+ldconfig
+ 
+Related articles
+
+Related articles appear here based on the labels you select. Click to edit the macro and add or change labels.
+
+('contentbylabel' missing)
+('details' missing)
+
+Previous versions:
+| 1 
+| 2 
+| 3 
+|
+                    

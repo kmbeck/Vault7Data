@@ -1,0 +1,59 @@
+
+                        Frog Prince De-Install Tests
+Requirement(s)
+4.1.7  The implant shall include a self-delete capability
+4.1.8  The implant shall provide the operator with an explicit run time self-delete capability
+4.1.9 The implant's self-delete capability shall be operator configurable to remove the implant at a configured date/time
+4.1.10 The implant's self-delete capability shall be operator configurable to remove the implant after a relative install time
+4.1.11 The implant's self-delete capability shall  remove all files created by the implant that contain state, configuration, tasking, and results
+4.1.12 The implant's self-delete capability shall use a 1 pass overwrite when removing files.
+4.1.13 The implant's self-delete capability shall overwrite the file name with random characters when removing files.
+4.11.14 The implant's self-delete capability shall transmit a final beacon indicating that self-delete has begun.
+Preparation
+
+Find utility to restore erased files
+build implant with relative de-install time  or  set relative de-install time
+Write scripts for user interface
+de-install immediate command
+de-install  at date/time
+de-install at relative date/time
+queue status/list
+
+
+
+De-Install Tests
+Manual (command) Test
+
+run script de-install immediate
+Monitor Target
+x file(s) present
+task list check?
+system log?
+
+
+Monitor LP
+response file?
+status of child queue(s)
+
+
+
+Automated (relative time) Test
+
+load pre-configured build or send set command to configure a relative time
+wait until relative time
+Monitor Target and LPListening Post for de-install
+
+Automated (fixed time) Test
+
+load pre-configured build or send set command to configure a fixed time
+wait until fixed time
+Monitor Target and LPListening Post for de-install
+
+ 
+
+Previous versions:
+| 1 
+| 2 
+| 3 
+|
+                    

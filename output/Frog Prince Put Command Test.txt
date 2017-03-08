@@ -1,0 +1,40 @@
+
+                        Frog Prince Put Command Test
+
+CONSTRUCTION IN PROGRESS
+Requirement(s)
+4.1.6  The implant shall support the following when downloading a file from the C2 Infrastructure to the Target
+4.1.6.1  report download failure status (disconnect, transmission error, etc)
+4.1.6.2  Decrypt files being downloaded
+4.1.6.3  Decompress files being downloaded
+Preparation
+
+Identify or create a text file as a known entity
+take md5sum of file and file size
+make file large enough to easily demonstrate compression
+add multiple instances of unique string to file
+pre-stage file on C2
+
+
+Write scripts for user interface
+put command for file
+queue status to verify command was run
+
+
+
+PutTest(s)
+
+copy install vector and Frog Prince module on target
+install Frog Prince
+use script to issue put command
+wait for file to show up on Target
+md5sum to verify file was transferred correctly
+
+
+
+
+Previous versions:
+| 1 
+| 2 
+|
+                    

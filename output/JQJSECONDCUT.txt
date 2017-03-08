@@ -1,0 +1,87 @@
+
+                        Owner: User #14587612
+Cinnamon 5.0.1 cppcheck analysis
+cppcheck --template=gcc --enable=all --force ~/cmn/cin-5.0.1/ 2> ~/cmn/cppcheck-output-5.0.1.txt Ignored /BriefLZ104/*/bzip2/*/implant/Swine/*
+/implant/modules/inject/*
+Bugs
+
+CMN-13
+CMN-14
+
+ Pointer arithmetic
+
+Displayed using --enable=portability
+No compilation warnings displayed unless -Wpointer-arith or -Wpedantic used in Makefile
+implant/arch/powerpc/core.c
+1570: dest and src are void* (4 bytes), but only copying 1 byte
+1577: same
+disassembly shows it is using bytes - gcc assigns sizeof(void*) = 1 for arithmetic puposes
+
+
+implant/arch/powerpc/norb_ppc.c
+implant/beacon.c
+implant/https.c:1053
+implant/modules.c - lots
+implant/modules/survey/survey_module.c - lots
+/implant/netinet/mbuf.c:146
+/home/User #77863/cmn/cin-5.0.1/spicerack/redir_decoder.c:83: warning: Ineffective statement similar to '*A++;'. Did you intend to write '(*A)++;'?
+/home/User #77863/cmn/cin-5.0.1/spicerack/redir_decoder.c:95: warning: Ineffective statement similar to '*A++;'. Did you intend to write '(*A)++;'?Net effect doesn't seem to be causing a problem, but opened JIRA ticket (CMN-14)
+
+
+
+/home/User #77863/cmn/cin-5.0.1/implant/learning.c:233: warning: Division by result of sizeof(). memset() expects a size in bytes, did you intend to multiply instead?
+in code this is multiply, not sure why this error is here
+Null pointer dereference
+
+/home/User #77863/cmn/cin-5.0.1/implant/modules/conn_man.c:584: warning: Possible null pointer dereference: entry - otherwise it is redundant to check it against null.should check for NULL earlier in conn_add_history() before dereferencing
+
+/home/User #77863/cmn/cin-5.0.1/implant/modules/survey/surveytree.c:154: warning: Possible null pointer dereference: node - otherwise it is redundant to check it against null.
+mallocNode()
+check for null, but then just prints EMRGF and continues with dereference
+
+
+
+ 
+Incorrect args
+
+/home/User #77863/cmn/cin-5.0.1/pepper/beacon_encoder.c:201: warning: Size of pointer 'paramstr' used instead of size of its data.might cause issue with -v in pepper
+
+/home/User #77863/cmn/cin-5.0.1/pepper/pepper.c:211: warning: Size of pointer 'paramstr' used instead of size of its data.
+
+Memory/Resource leaks/init errors
+
+/home/User #77863/cmn/cin-5.0.1/pepper/beacon_encoder.c:121: error: Memory leak: - not freed when returning errors
+multiple memory leaks in pepper/inject_encoder.cnot used in 5.0.1
+
+/home/User #77863/cmn/cin-5.0.1/salt/salt.c:148: error: Memory leak: buffer
+
+/home/User #77863/cmn/cin-5.0.1/spicerack/TH_BeaconCmdFileParser.c:582: error: Memory leak: reply and noOp
+Looks like this is false positive - TH_HttpServer.c frees replyList
+
+/home/User #77863/cmn/cin-5.0.1/spicerack/TH_BeaconCmdFileParser.c:200: error: Memory is allocated but not initialized: ptr
+/home/User #77863/cmn/cin-5.0.1/spicerack/TH_BeaconCmdFileParser.c:576: error: Memory is allocated but not initialized: ptr
+
+/home/User #77863/cmn/cin-5.0.1/spicerack/TH_BeaconCmdFileParser.c:577: error: Memory is allocated but not initialized: ptr
+MALLOC macro should probably do calloc()
+
+/home/User #77863/cmn/cin-5.0.1/spicerack/TH_HttpsServer.c:949: error: Uninitialized variable: serverInfoPtrserverInfoPtr isn't assigned prior to passing to LogError() in the case where replyBufferLength == 0.  If block should swap positions with ptr setup right below it
+
+/home/User #77863/cmn/cin-5.0.1/spicerack/TH_Server.c:248: warning: Possible null pointer dereference: serverSessionPtr - otherwise it is redundant to check it against null.memset() serverSessionPtr before checking if it was NULL
+
+/home/User #77863/cmn/cin-5.0.1/spicerack/ToolHandler.c:796: error: Uninitialized variable: resultsaveConfigFile() has undefinied return value if can't get a mutex lock or configFilePtr is bad
+
+
+ 
+ 
+ 
+Order of operations
+/home/User #77863/cmn/cin-5.0.1/spicerack/table.c:116: warning: Logical conjunction always evaluates to false: !value&&value.resued code from somewhere else - needs parentheses to fix order of evaluation
+
+ 
+
+Previous versions:
+| 1 empty
+| 2 
+| 3 
+|
+                    

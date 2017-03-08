@@ -1,0 +1,27 @@
+
+                        Owner: User #71384
+Building Cross Compilers with Crosstool-NG
+Note: Use the following instructions for an UNCLASSIFIED Internet-connected host. Ct-ng has to be able to download the various software components based upon the configuration specified.
+
+Install the latest version of Crosstool-NG (ct-ng).
+Create a directory for the building the toolchains: mkdir toolchains
+
+Create a subdirectory for a given architecture: mkdir toolchains/arm
+
+In that directory run ct-ng menuconfig and then configure the toolchain.
+Within the first menu option "Paths and misc options" set the Prefix directory to a directory where the resulting toolchain is to reside. For example: /opt/x-tools/${CT_TARGET}
+
+ Also, enable Debug crosstool-NG and select: Save intermedate steps, gzip saved states, and Interactive shell on failed comands
+
+ .
+
+
+Once configured, build the toolchain using ct-ng build.
+The resulting toolchain will reside in the Prefix directory as specified in the configuration.
+
+
+Previous versions:
+| 1 
+| 2 
+|
+                    

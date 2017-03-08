@@ -1,0 +1,57 @@
+
+                        Owner: User #17072267
+
+User #77281’s Home
+
+
+About Me (User #77281)
+You may edit this page to include additional information about yourself.
+E-mail: None
+
+
+
+
+('recently-updated' missing)
+
+
+Navigate space
+
+('pagetreesearch' missing)
+
+('pagetree' missing)
+
+
+ 
+
+
+Comments:
+
+
+2015-06-09 16:44 
+[User #17072267]: 
+
+XFCE linux desktop for local development VMs: will run faster and use fewer resources than gnome
+yum install @xfce
+
+
+2015-06-05 15:44 
+[User #17072267]: 
+
+If reaper is on but resources are not reaping: probably DNSDomain Name System (copy backup /etc/resolv.conf)
+
+
+2015-06-05 15:42 
+[User #17072267]: 
+
+/tmp needs 1777 permissions
+
+
+2015-05-18 10:40 
+[User #17072267]: 
+
+Setting up new DARTTest-Software (commercial) development machine for remote_committing tests:
+SSH error: Agent admitted failure to sign using the key.
+Solution: "ssh-add" on the client (dev machine)
+
+
+                    

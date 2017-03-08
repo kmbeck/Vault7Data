@@ -1,0 +1,48 @@
+
+                        Owner: User #71475
+Post Processor Redesign
+('details' missing)
+ 
+
+('toc' missing)
+User interaction and design
+procepillar commands
+md5sum
+It works the same way the md5sum utility works. You can use globing to select what files to generate md5 sums for, and you can pipe in (or pass from a file) a list of md5 sums and file names to validate. The file name is matched in the following order:
+
+Full, absolute path of file
+File ID
+Base file name
+
+It differs from the md5sum command in it's output only by including the file ID of the file for the output. For example, md5sum outputs "{md5}  {filename}" where we print out "{md5}  {filename}  –  {fileid}". Also, we only support opening files (for creating the md5 sum) in binary mode.
+ 
+Installation Notes
+Windows Procepillar Install Notes
+=================================
+ 
+- installed python 3.4.3 from installer            (for all users, added to path)
+- installed postrgresql 9.4.1 from installer        (password: postgres, port 5432, default locale. Did not install stack builder)
+- installed erlang OTP 17.5                (defaults)
+- installed rabbitmq-server 3.5.0 from installer    (defaults)
+ 
+ 
+- ran procepillar.bat     (database was initialized, presented shell)
+- created input folder and copied pcap into input
+ 
+process -d 29144 input/5x5M_clean_port_29144_21980pkts.pcap    (answer yes)
+ 
+(shown status, no workers running)
+ 
+- run procepillar.bat
+ 
+worker start
+ 
+(processing began in status window. successfully processed all chunks and file)
+
+Previous versions:
+| 1 
+| 2 
+| 3 
+| 4 
+|
+                    

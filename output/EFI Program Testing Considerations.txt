@@ -1,0 +1,39 @@
+
+                        Owner: User #71491
+EFI Program Testing Considerations
+This page is not designed to teach how to exhaustively test EFIExtensible Firmware Interface executables, but will serve as a point of reference for different issues raised in EFIExtensible Firmware Interface that are not typically common elsewhere.
+Launching the EFIExtensible Firmware Interface Shell
+On a Mac, the easiest way to run an EFIExtensible Firmware Interface executable is to boot into the EFIExtensible Firmware Interface shell and run it from there.
+Because Macs still use EFIExtensible Firmware Interface 1.10 (versus UEFIUniversal Extendible Firmware Interface 2.5), you will need to run the EFIExtensible Firmware Interface shell version 1. You can grab that binary here: UEFIShell1.efi
+In order to run the EFIExtensible Firmware Interface shell, you need to either put in onto your EFIExtensible Firmware Interface partition or onto a bootable USBUniversal Serial Bus drive.
+Whichever you choose, the file must be placed in /EFI/BOOT on the drive, and must be named BOOTX64.efi
+Once it is there (either on your USBUniversal Serial Bus or the EFIExtensible Firmware Interface system partition), you can reboot your machine, hold down the option key on boot, and select the "EFI Boot" drive.
+ 
+Testing Considerations
+Running Your Program
+It is fairly simple to run an EFIExtensible Firmware Interface program from the EFIExtensible Firmware Interface shell.
+First, you need to find the file system that your executable is on. In order to do this, you need to find which "fs#" it is on. For example, the EFIExtensible Firmware Interface system partition is typically fs0, and the OSOperating System X Recovery partition is typically fs1.
+You can type the command "fs0:" and the shell will move you to fs0. From there, this shell is similar to a DOS shell: you can use dir to list the files in your directory, cd to move around, etc.
+If you need more help in the EFIExtensible Firmware Interface shell, type "help -b". The -b flag makes the help output show one screen at a time, similar to more in a bash shell.
+From there, find your executable. If you created HelloWorld.efi as an application, you can run it from the EFIExtensible Firmware Interface shell simply by typing HelloWorld.efi from its directory.
+If your executable is a driver, you can run it using the load command. For the HelloWorld example, you would type "load HelloWorld.efi" from its directory.
+You can also use absolute or relative paths when loading or running your executables.
+Pointers
+Pointers are irritating enough: you think you're pointing to the right part of your structure, and instead you get a seg fault, or you dereference a NULL pointer, or something else nasty.
+Normally, this will cause a crash, and you may get some sort of error message (or a core dump.) However, in EFI, if you commit this type of memory-related error, the program will simply hang.
+As of right now, I have not found a way to kill a program that has hung from within EFI. This means that if your executable hangs, you will need to power cycle your machine. (Please let me know if you find a work-around to this; that would be great.)
+Stripped Binaries
+By default, the EDKEmbedded Development Kit includes a lot of debug information when it compiles its executables, as noted in the EDK2 Compiler Information and CI Concerns   page.
+If you are trying to minimize the amount of debug strings in your executables like I did, you may be tempted to add the --strip-all flag to the set of flags to pass to objcopy. Don't do that.
+Although I have not had the time to pinpoint what exactly is being stripped, if you use --strip-all, the loader (for the application or for the driver) will not be able to find your program's entry point and your program will hang. No errors in compilation, nothing in the EFIExtensible Firmware Interface shell – it will simply hang.
+ 
+
+Attachments:
+
+UEFIShell1.efi
+
+
+Previous versions:
+| 1 
+|
+                    

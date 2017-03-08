@@ -1,0 +1,18 @@
+
+                        Owner: User #71467
+PackGen Issue with 32-bit Libraries
+PackGen 32-bit Libraries Issue
+When PackGen was installed in the TR, received error messages relted to when trying to run it for the first time.  Error message said PackGen could find PackGen/components/tools/rumble_32, even though the file is present, with execute bit set and permissions open.  Worked with User #77763/Xetron to resolve this issue.  This is a problem with the 32-bit linker, and it can be resolved in two steps:
+
+Copy the 32-bit linker file - ld-linux.so.2 from PackGen/components/Command_Post/CutThroat/2.7/Ubuntu_12.04_x86_64/ to /root/lib/ manually
+Set library path - export LD_LIBRARY_PATH=/home/ubuntu/PackGen/components/Command_Post/CutThroat/2.7/Ubuntu_12.04_x86_64/
+
+ 
+Alternate solution, connect to devlan repo and download 32 bit libraries - apt-get install ia32-libs.
+Xetron expects to have this fixed for HGUMR10 delivery.
+ 
+
+Previous versions:
+| 1 empty
+|
+                    

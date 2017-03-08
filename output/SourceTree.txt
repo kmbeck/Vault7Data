@@ -1,0 +1,177 @@
+
+                        Owner: User #15728648
+Sublime Text
+
+('toc' missing)
+Installing Plugins (sublime3)
+On Mac
+cd ~/Library/Application Support/Sublime Text 3/Packages/git clone <giturl> <plugin name>
+see https://stash.devlan.net/projects/OPENSOURCE for available packages
+ 
+Available Plugins
+
+Alignment (sux!)
+AlignTab
+
+anaconda_sublime  
+
+arm assembly
+afterglow theme
+auto docstring
+
+DashDoc  
+
+docblockr - auto document c/c++ functions. Restart Sublime after installing.
+HexViewer
+makefile improved
+markdown preview
+objective-c-autocomplete
+PlainTasks
+pythonpep8autoformat
+SideBarEnhancements
+Soda Reloaded theme
+sublime-docker
+SublimeAllAutocomplete - enables autocomplete to include all files, not just the current file.
+SublimeLinter
+SublimeLinter-contrib-clang
+SublimeLinter-pylint
+SublimeLinter-shellcheck
+SublimePrint
+Swift-for-f-ing-sublime - Swift completion
+Swift-Sublime
+
+Using PackageIO
+fs-01.devlan.net/share/MDB/OSX/Software/FreeSoftware/Editor/Sublime/Installed Packages/Package Control.sublime-package
+PackageIO is a package manager for Sublime plugins. You can install it manually by dropping it into the Installed Packages folder in:
+
+~/Library/Application Support/Sublime Text 3/Installed Packages (iOS)
+/.config/sublime-text-3/Installed Packages/ (Linux)
+
+NOTE: Restart Sublime Text after dropping the package file.
+It's likes going to the internet for everything, but I've managed to get individual packages installed on devlan:
+
+By default, PackageIO has one "channel", which it uses to figure out what packages are available. You can remove this channel and add additional ones by
+cmd + shift + p (Linux: shift+ctrl+P), type remove channel, press enter, and select the default channel
+
+Add a new channel by cmd + shift + p, type install channel, press enter, and at the bottom prompt, add http://mdbtest.devlan.net/channel_v3.json as the new channel URLUniform Resource Locator(alternatively, download the json file at https://packagecontrol.io/channel_v3.json)
+
+
+
+
+
+now the install packages option can be selected:s
+
+The packages themselves are hosted all over the place, so here's where this process breaks - you have to either
+fake the url (Sublime checks certs) or
+edit the channel_v3.json (or ask mdbtest owner nicely) to change the URLUniform Resource Locator of the package you want to somewhere on devlan. A nice idea would be for someone to pull every package known by package control and host them somewhere.
+
+
+
+ 
+ 
+ 
+Ananconda Settings
+Some useful ananconda settings
+Sublime Text -> Preferences -> Package Settings -> Ananconda -> Settings (User)
+{
+"pep8_ignore": [ "E128", "E203", "E221", "E251", "E302", "E501", ], "anaconda_linter_mark_style": "none", "anaconda_linter_underlines": true,
+}
+Sublime Tips
+You can search using regex, limiting to specific file types:
+
+ 
+ 
+Configuring How Files of <insert your extension here> Are Interpreted By Sublime 3
+ 
+
+Open the file of the extension you wish to configure(i.e. open a mycustommake.mk)
+On the lower right-hand corner, click on the current file type(probably says plain text)
+
+select "Open all with current extension as ..."
+
+Select the new file type handler
+
+
+ 
+ 
+
+Attachments:
+
+
+markdown_editor-0.5.2-fx.xpi
+
+
+Package Control.sublime-package
+
+
+image2015-2-24 16:58:53.png
+
+
+image2015-2-24 16:57:19.png
+
+
+image2015-2-24 16:55:57.png
+
+
+image2015-2-24 16:55:36.png
+
+
+image2015-2-24 16:55:15.png
+
+
+image2015-2-24 16:54:1.png
+
+
+image2014-3-20 8:41:5.png
+
+
+Screen Shot 2014-02-21 at 4.08.20 PM.png
+
+
+Screen Shot 2014-02-21 at 4.08.11 PM.png
+
+
+Screen Shot 2014-02-21 at 4.07.54 PM.png
+
+
+
+Sub-Pages:
+
+
+DashDoc 
+
+
+anaconda_sublime 
+
+
+
+Previous versions:
+| 1 
+| 2 
+| 3 
+| 4 
+| 5 
+| 6 
+| 7 
+| 8 
+| 9 
+| 10 
+| 11 
+| 12 
+| 13 
+| 14 
+| 15 
+| 16 
+| 17 
+| 18 
+| 19 
+| 20 
+| 21 
+| 22 
+| 23 
+| 24 
+| 25 
+| 26 
+| 27 
+|
+                    

@@ -1,0 +1,43 @@
+
+                        Owner: User #14587667
+Felix Automation Test Coverage
+KickstarterInteractive
+debug
+deletekickstart_interactive_smoke_tests.test_delete_command()
+
+endfelix_utils.exit_kickstart()
+
+exec
+kickstart_interactive_smoke_tests.test_delete_command()
+kickstart_interactive_smoke_tests.test_put_command()
+
+
+exit (quit)felix_utils.exit_kickstart()
+
+getkickstart_interactive_smoke_tests.test_get_command()
+
+halt
+helpkickstart_interactive_smoke_tests.test_help_command()
+
+kickfelix_utils.kick_felix()
+
+pexeckickstart_interactive_smoke_tests.test_pexec_command()
+
+printkickstart_interactive_smoke_tests.test_print_command()
+
+putkickstart_interactive_smoke_tests.test_put_command()
+
+reset
+set
+statuskickstart_interactive_smoke_tests.test_status_command()
+
+uninstall
+
+
+
+
+Previous versions:
+| 1 
+| 2 
+|
+                    

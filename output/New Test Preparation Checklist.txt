@@ -1,0 +1,33 @@
+
+                        Owner: User #14587667
+Listening Post (LP) Creation
+Below are the current Operating Systems currently readily available LPs:
+
+CentOS 6.6 (CentOS 7 coming soon)
+Debian 7.5
+Ubuntu 12.04, 14.04
+
+Note: All are 64-bit operating systems
+Changes made to the base VMVirtual Machine template (Pre-clone):
+Below are modifications that are made by COG/OSD/ONB to the vanilla OSOperating System installation before creating the VMVirtual Machine template.
+
+Disable root login
+Disable kernel module modification (post-boot).  Pre-boot kernel mods can be performed.
+
+ 
+Changes made post VMVirtual Machine cloning:
+Below are modifications that are made by COG/OSD/ONB to the VMVirtual Machine after cloning it from a template.
+
+Timezone set to UTC.
+Remove old SSHSecure Shell keys.
+Remove history log
+Remove /etc/udev/rules.d/70-persisten.rules
+Add /etc/init.d/cleanup
+Rotate/cleanup logs.
+Configure IP tables to only allow inbound port 22.  Log and drop all other traffic.
+Setup NTPNetwork Time Protocol and force update.  Points to internal NTPNetwork Time Protocol server.
+Update all packages (yum update, apt-get update && apt-get upgrade)
+Configure syslog to send to splunk.
+Remove "user" account if not used (ubuntu only).
+
+                    

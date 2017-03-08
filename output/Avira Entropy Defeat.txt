@@ -1,0 +1,8 @@
+
+                        Owner: User #71473
+Comodo 6.X Gaping Hole of DOOM
+Comodo, as you may know, is a colossal pain in the posterior.  It literally catches everything until you tell it not to, including standard windows services (say what?!?).
+...at least, that's what happens on Comodo 5.X.  In 6.X, Comodo apparently decided that catching things that were part of windows was a Bad Thing(tm).  Their "fix" was... kinda lame
+Anything running as SYSTEM is automatically legit under 6.X.  ANYTHING.  Let that sink in.  Got a kernal level exploit?  Good, because you can drop the kitchen sink and the contents of your garage and as long as you continue to run as SYSTEM you are golden.  Yeah.
+Needless to say, Comodo 6.X doesn't catch nearly as much stuff.  Comodo's user base, paranoid bastards that they are, has apparently caught wind of this and lots of them haven't upgraded to 6.X.  Kind of a shame, cuz this is a hole you could drive a very large wheeled freight carrying vehicle through.  However, if you're lucky enough to be going against a target running 6.X, have fun!
+                    

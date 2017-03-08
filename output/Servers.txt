@@ -1,0 +1,21 @@
+
+                        Owner: User #14587667
+Active Directory / DHCP / DNS
+Active Directory
+The TestRange Active Directory server is 10.9.8.21.
+AD Groups
+The group 'vCenter Administrators' has been added to vCenter to allow all members of this group to have root-like access to vCenter.  This simplifies the process of adding another user to vCenter.  Simply create a new user in Active Directory and then add the new user to the 'vCenter Administrators' group.
+DHCP
+TestRange DHCPDynamic Host Configuration Protocol is handled by a Windows 2012 R2 server (10.9.8.21).
+Address lease pool: 10.9.8.100 - 110
+Reservations:
+IXIA: 10.9.8.13
+DNS
+The TestRange Domain Controller 10.9.8.21 is also the primary DNSDomain Name System server for this domain and 10.9.8.22 is the secondary.  This DNSDomain Name System server is also configured with Conditional Forwarders for devlan.net and loki.lab.  In other words, if you point your PCPersonal Computer to this DNSDomain Name System server it will resolve the domains testrange.local, loki.lab, and devlan.net.
+Until a second DNSDomain Name System server is configured, you could also use 10.9.9.12 as your secondary DNSDomain Name System server.  This server lives in the NDBNetwork Devices Branch lab and also resolves all of the mentioned domains.
+
+Previous versions:
+| 1 
+| 2 
+|
+                    

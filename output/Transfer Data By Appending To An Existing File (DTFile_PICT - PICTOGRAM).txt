@@ -1,0 +1,294 @@
+
+                        Windows Linked List Snippet
+C++ header file for creating Linked Lists
+ 
+Check out the code on STASH: Linked List Code Snippet
+ 
+/*
+ * Filename:		LinkedList.h
+ * Classification:	UNCLASSIFIED
+ *
+ * Author:			User #72251
+ * Date Created:	8/17/2010
+ * Version 0.9:	(8/17/2010)	User #72251
+ * Version 1.0:	(1/10/2014)	User #72251
+ *
+ * This class is a LinkedList template (No shit).
+ * NOT independently thread-safe.
+ */
+
+#pragma once
+#include <Windows.h>
+
+template<class T> class LinkedList
+{
+public:
+	LinkedList();
+	virtual ~LinkedList();
+
+	T*		add(const T, DWORD index = -1);
+	void	remove(DWORD index);
+	void	removeAll();
+	DWORD	getSize();
+	T*		get(DWORD);
+	T*		operator[](DWORD);
+
+	// This function has static memory, and therefore is nonreentrant. Do not call this function from multiple threads.
+	T*		iterate(bool newIterator = false);
+
+	// This function checks if the linkedlist contains object "other"; You must provide a comparator function
+	bool	contains(T& other, bool (*comparator)(T& a, T& b) /*= NULL*/);
+
+private:
+	class Node
+	{
+		friend class LinkedList;
+	public:
+		Node(const T elem);
+		~Node();
+
+	protected:
+		T element;
+		Node *prev, *next;
+	};
+
+protected:
+	Node *head, *last;
+	DWORD currentLength;
+};
+
+template<class T> LinkedList<T>::LinkedList()
+{
+	head = last = NULL;
+	currentLength = 0;
+}
+
+template<class T> LinkedList<T>::~LinkedList()
+{
+	removeAll();
+}
+
+template<class T> T* LinkedList<T>::add(const T elem, DWORD index /*= -1*/)
+{
+	if( index != -1 && index > currentLength )
+		return NULL;
+
+	Node* newElem = new Node(elem);
+
+	// Empty List:
+	if( currentLength == 0 )
+		head = last = newElem;
+	// Last Element:
+	else if( index == -1 || index == currentLength )
+	{
+		last->next = newElem;
+		newElem->prev = last;
+		last = newElem;
+	}
+	else
+	{
+		Node* currElem = head;
+		for( DWORD i = 0; i < index; i++, currElem = currElem->next ) ;
+		newElem->next = currElem;
+		newElem->prev = currElem->prev;
+		if( currElem->prev == NULL )
+			head = newElem;
+		else
+			currElem->prev->next = newElem;
+		currElem->prev = newElem;
+	}
+
+	currentLength++;
+	return &newElem->element;
+}
+
+template<class T> void LinkedList<T>::remove(DWORD index)
+{
+	if( index >= currentLength )
+		return;
+
+	Node* currElem = head;
+	for( DWORD i = 0; i < index; i++, currElem = currElem->next ) ;
+
+	// If current element is First:
+	if( currElem->prev == NULL )
+		head = currElem->next;
+	else
+		currElem->prev->next = currElem->next;
+
+	// If current element is Last:
+	if( currElem->next == NULL )
+		last = currElem->prev;
+	else
+		currElem->next->prev = currElem->prev;
+
+	delete currElem;
+	currentLength--;
+}
+
+template<class T> void LinkedList<T>::removeAll()
+{
+	for( Node *n = last, *prev = NULL; n != NULL; n = prev )
+	{
+		prev = n->prev;
+		n->prev = n->next = NULL;
+		delete n;
+	}
+	head = last = NULL;
+	currentLength = 0;
+}
+
+template<class T> DWORD LinkedList<T>::getSize()
+{
+	return currentLength;
+}
+
+template<class T> T* LinkedList<T>::get(DWORD index)
+{
+	Node* currElem = head;
+	for( DWORD i = 0; i < index; i++, currElem = currElem->next ) ;
+	return &currElem->element;
+}
+
+template<class T> T* LinkedList<T>::operator[](DWORD index)
+{
+	return get(index);
+}
+
+// Ugh, I really wanted that NULL, dammit....
+template<class T> bool LinkedList<T>::contains(T& other, bool (*comparator)(T& a, T& b) /*= NULL*/)
+{
+	for( Node* n = head; n != NULL; n = n->next )
+		if( comparator == NULL ? /*n->element == other*/false : comparator( n->element, other ) )
+			return true;
+	return false;
+}
+
+//Node stuff:
+template<class T>LinkedList<T>::Node::Node( const T elem )
+{
+	prev = next = NULL;
+	element = elem;
+}
+ 
+template<class T>LinkedList<T>::Node::~Node( void )
+{
+	prev = next = NULL;
+}
+
+template<class T>T* LinkedList<T>::iterate( bool newIterator /*= false*/ )
+{
+	static Node* iterator = NULL;
+
+	if( iterator == NULL || newIterator )
+		iterator = head;
+	else
+		iterator = iterator->next;
+	return iterator != NULL ? &iterator->element : NULL;
+}
+// LinkedList.cpp : Defines the entry point for the console application.
+//
+
+//Mem leaks:
+//NOTE:  This will not catch leaks with HeapAlloc or VirtualAlloc.
+#ifdef _DEBUG
+#define _CRTDBG_MAP_ALLOC
+#include <stdlib.h>
+#include <crtdbg.h>
+#define DBG_NEW new ( _NORMAL_BLOCK , __FILE__ , __LINE__ )
+#define new DBG_NEW
+#else
+//#define _CrtMemState
+#define _CrtMemCheckpoint(...)
+#define _CrtMemDifference(...) false
+#define _CrtMemDumpStatistics(...)
+#define _CrtDumpMemoryLeaks()
+#define _CrtSetDbgFlag(...)
+#endif
+
+//#include <Windows.h>
+#include <stdio.h>
+#include "LinkedList.h"
+
+struct DataRuns
+{
+	// In clusters
+	ULONGLONG length, offset;
+};
+
+bool compareDataRuns(DataRuns& a, DataRuns& b)
+{
+	return ((a.length == b.length && a.offset == b.offset) ? true : false);
+}
+
+int wmain(int argc, wchar_t* argv[])
+{
+	//MEM LEAK CHECKS:
+#ifdef _DEBUG
+	_CrtSetDbgFlag( _CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF );
+#endif
+
+//	bool (*func)(int a, int b) = NULL;
+//	func( 3, 5);
+
+	{
+		LinkedList<DataRuns> dRuns;
+
+		DataRuns dataRuns;
+		dataRuns.length = 10;
+		dataRuns.offset = 10;
+
+		// Test add
+		dRuns.add(dataRuns);
+
+		// Test remove
+		dRuns.remove(0);
+		dRuns.add(dataRuns);
+
+		// Test add to different indexes
+		dataRuns.offset = 0;
+		dRuns.add(dataRuns, 0);
+		dataRuns.offset = 2;
+		dRuns.add(dataRuns, 1);
+		dataRuns.offset = 1;
+		dRuns.add(dataRuns, 1);
+
+		// Test remove from different indexes
+		dRuns.remove(0);
+		dRuns.remove(1);
+
+		dataRuns.length = 10;
+		if( dRuns.contains( dataRuns, compareDataRuns ) )
+			printf("SUCCESS\n");
+		else
+			printf("FAIL\n");
+
+		dataRuns.length = 99;
+		if( dRuns.contains( dataRuns, compareDataRuns ) )
+			printf("FAIL\n");
+		else
+			dRuns.add(dataRuns);
+
+// 		for( const void* ptr = dRuns.begin(); ptr != NULL; ptr = dRuns.next(ptr) )
+// 		{
+// 			printf("%d", dRuns.getData(ptr).length);
+// 		}
+		for( DataRuns* i = dRuns.iterate(true); i != NULL; i = dRuns.iterate() )
+		{
+			printf("%I64d\t%I64d\n", (*i).length, (*i).offset);
+		}
+
+		LinkedList<ULONGLONG> primitives;
+		ULONGLONG num = 90;
+//		if( primitives.contains(num, NULL) ) ;
+	}
+
+	return 0;
+}
+ 
+ 
+
+Previous versions:
+| 1 
+|
+                    

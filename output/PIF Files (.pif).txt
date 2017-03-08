@@ -1,0 +1,40 @@
+
+                        Control Panel Files (.cpl)
+
+('toc' missing)
+Starting a Dynamic-link Library as a Control Panel File
+So during some other research I ran across a .cpl file, also known as a Control Panel File. Not knowing what they do, I looked up the file format specification only to find out that they are .dll files that follow a specific interface. One neat thing about them though, is if you double click the .cpl file, the DllMain entry point is called. Control.exe calls rundll on the .cpl file. A normal .cpl file will open up the control panel item/window. A dll that does not follow the interface will still get loaded. However, an error (seen below) is thrown if it does not export the right functions. This shows potential for being able to execute or persist dlls as executables (for the most part). Anyway, it probably needs more research, but here's an example.
+ 
+Take ImprovedDummyDll.dll (must be architecutre specific), which prints a log file on the desktop in ProcessAttach.
+  change the extension to .cpl  
+ 
+After double-clicking the .cpl file you may get a message like this.
+
+*Update: The following message box does not appear when a manifest is left in the dll. One of the specific entry points that control.exe looks for is CPlApplet. However, if not implemented correctly, starting the applet will cause a crash. Thus, it is suggested to not have an entry point named CPlApplet, and do everything in ProcessAttach. This technique has been tested with scheduled tasks and works. 
+ 
+Currently the theory is that the pop-up comes because the dll doesn't follow the correct interface. However, execution is still gained (see below).
+
+ 
+ 
+
+Attachments:
+
+
+image2014-10-3 15:8:18.png
+
+
+image2014-10-3 15:3:6.png
+
+
+image2014-10-3 15:0:17.png
+
+
+image2014-10-3 14:58:13.png
+
+
+
+Previous versions:
+| 1 empty
+| 2 
+|
+                    

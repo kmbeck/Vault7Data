@@ -1,0 +1,77 @@
+
+                        Owner: User #3375130
+SOLDER
+ 
+Key Dates
+First Meeting (12 Jan 2016?)
+       
+Various Definitions of Mesh Network:
+PDF Documentation: Wireless mesh network - Wikipedia, the free encyclopedia.pdf
+   Wikipedia:
+A mesh network is a topology in which each node relays data for the network.  All mesh nodes cooperate in the distribution of data in the network.
+ 
+Mesh networks can relay messages using the flooding technique or a routing technique.  With routing, the message is propagated along a path by hopping from node to node until it reaches its destination.  To ensure all its paths' availability, the network must allow for continuous connections and must reconfigure itself around broken paths using a self-healing algorithms such as Shortest Path Bridging.  Self-healing allows a routing-based network to operate when a node breaks down or when a connection becomes unreliable.  As a result, the network is typically quite reliable, as there is often more than one path between a source and a destination in the network.  Although mostly used in wireless situations. this concept can also apply to wired networks and to software interaction.
+ 
+A mesh network whose nodes are all connected to each other is a fully connected network.  Fully connected wired networks have the advantages of security and reliability: problems in a cable affect only the two nodes attached to it.  However, in such networks, the number of cables, and therefore the cost, goes up rapidly as the number of nodes increases.
+ 
+Mesh networks can be considered a type of an ad-hoc network.  Thus, mesh networks are closely related to mobile ad hoc networks (MANETs), although MANETs also must deal with problems introduced by the mobility of the nodes.
+ 
+Shortest path bridging allows Ethernet switches to be connected in a mesh topology for all paths to be active.
+
+    Another internet site:
+ 
+    A mesh network topology is a decentralized design in which each node on the network connects to at least two other nodes.  Mesh networks are expected to play an important part in the Internet of Things (IoT).  Unlike nodes in a star topology, which require a router to deliver internet services, network nodes can "talk" directly to each other without the assistance of an internet connection.  A big advantage of this decentralized topology is that there cannot be a single point of failure.  If one node can no longer operate, all the rest can still communicate with each other, directly or through on or more intermediate nodes.  Mesh networks can use a full mesh topology or a partial mesh topology.  
+ 
+Examples of Mesh Networking:
+ Flux:
+First Demonstration?  Plan on last week of January
+  TINC:
+PDF Documentation: tinc.pdf 
+Source Code:   tinc-1.0.26.tar.gz
+First Demonstration? 
+  Zigbee:
+PDF Documentation: ZigBee - Wikipedia, the free encyclopedia.pdf
+  SONOS audio speakers:
+PDF Documentation: How Sonos and User #74838 Built the Perfect Wireless Speaker for Streaming Music - Businessweek.pdf
+  CJDNS:
+PDF Documentation: cjdns_Whitepaper.pdf
+Administrivia:
+Weekly meeting times?
+Availability of personnel?
+ 
+
+('roadmap' missing)
+ 
+ 
+ 
+ 
+ 
+ 
+
+Attachments:
+
+
+Wireless mesh network - Wikipedia, the free encyclopedia.pdf
+
+
+cjdns_Whitepaper.pdf
+
+
+How Sonos and User #74838 Built the Perfect Wireless Speaker for Streaming Music - Businessweek.pdf
+
+
+ZigBee - Wikipedia, the free encyclopedia.pdf
+
+
+tinc-1.0.26.tar.gz
+
+
+tinc.pdf
+
+
+
+Previous versions:
+| 1 
+| 2 
+|
+                    

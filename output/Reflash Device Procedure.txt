@@ -1,0 +1,911 @@
+
+                        Owner: User #13763861
+Reflash Log
+CONFIDENTIAL//NOFORN
+(C//NF) Log
+
+
+Date
+Phone's Serial/Inventory #
+Your Name
+Verifier's Name
+Comments
+
+
+3/6/2015
+ec2b9000d5a81e3aa4aace064a64c958cf7d5d29
+User #71316
+User #71319
+iPhone5,4 to 8.1.3
+
+
+3/6/2015
+913142a289771a504e6e97999fefafc410652fc5
+User #71317
+User #71319
+iPhone5,3 to 8.1.3
+
+
+3/6/2015
+4102ddd00ea3aa8b348557bc6428d09eb496430e
+User #71316
+User #71319
+iPad4,2 to 8.1.3
+
+
+3/6/2015
+aae856e4f9dc3564d1acd141a04cf09d63aaefd2
+User #71316
+User #71319
+iPad2,2 to 8.1.3
+
+
+3/6/2015
+9f55c6413f5841e64e80d5cc34f979d9cec85562
+User #71316
+User #71319
+iPhone4,1 to 8.1.3
+
+
+3/6/2015
+ee254859b8a965b0ca3588743343f7a68e45a6fd
+User #71316
+User #71319
+iPad4,4 to 8.1.3
+
+
+3/6/2015
+5d01c22e283e9240a452b4b14b6a99023972c7d3
+User #71316
+User #71319
+iPad2,7 to 8.1.3
+
+
+3/6/2015
+008de9fb40bdf2595e25af0ef612e653c518645b
+User #71316
+User #71317
+iPad2,3 to 8.1.3
+
+
+3/6/2015
+4481a165ee50e50e082f4f5c8d36c29840613319
+User #71316
+User #71317
+iPad3,4 to 8.1.3
+
+
+3/6/2015
+7294f65f2bad9b30f7bee3c981240c7c91c5774a
+User #71316
+User #71317
+iPhone5,3 to 8.1.3
+
+
+3/6/2015
+8a75bb5e0c425e26a1ddcfee7f6d901360a4d815
+User #71316
+User #71317
+iPhone5,2 to 8.1.3
+
+
+1/30/2015
+378e2e6d47a613bba1a6cbc6cd5f437fcd7d3f92
+
+User #71316
+User #71319
+iPhone5,2 to 8.1.2
+
+
+1/30/2015
+7af766d623e9e739457638ce6edd8ea91832b6ce
+User #71316
+User #71319
+iPhone6,2 to 8.1.2
+
+
+1/30/2015
+ef82610ecafe29f27d0d1c34deddabab57b166e3
+User #71316
+User #71319
+iPad2,5 to 8.1.2
+
+
+1/30/2015
+5dbac978b8c0090044a7d4c796074330b54ee8c2
+User #71316
+User #71319
+iPad4,5 to 8.1.2
+
+
+01/02/2014
+c93cf984e340784548d942e9f2a0b648651d7065
+User #71319
+User #71316
+first!
+
+
+01/03/2014
+ba7bd3cb2bccb692bb5e128de4a5feaeb58a5de0
+User #71319
+User #71316
+doh, wrong beta
+
+
+01/07/2014
+c93cf984e340784548d942e9f2a0b648651d7065
+User #71319
+User #?
+beta 3
+
+
+01/07/2014
+358691fbc13909038921a5ab7a96bd9679af440c
+User #71319
+User #?
+beta 3
+
+
+01/07/2014
+ba7bd3cb2bccb692bb5e128de4a5feaeb58a5de0
+User #71319
+User #?
+beta 3
+
+
+02/04/2014
+c93cf984e340784548d942e9f2a0b648651d7065
+User #71319
+User #71316
+beta 5
+
+
+02/04/2014
+358691fbc13909038921a5ab7a96bd9679af440c
+User #71319
+User #71316
+beta 5
+
+
+02/11/2014
+ba7bd3cb2bccb692bb5e128de4a5feaeb58a5de0
+User #71316
+User #71319
+7.0.4
+
+
+03/12/2014
+358691fbc13909038921a5ab7a96bd9679af440c
+User #71316
+User #71319
+iPod to 7.1
+
+
+03/12/2014
+e761dce9277dcca7e1434c52c99b277deb373adf
+User #71316
+User #71319
+iPhone 5s to 7.1
+
+
+3/26/2014
+c93cf984e340784548d942e9f2a0b648651d7065
+User #71317
+User #71316
+iPad 4,1 to 7.1
+
+
+4/07/2014
+ef82610ecafe29f27d0d1c34deddabab57b166e3
+User #71316
+User #71319
+iPad 2,5 to 7.1
+
+
+4/09/2014
+ba7bd3cb2bccb692bb5e128de4a5feaeb58a5de0
+User #71317
+User #?
+no reflashing, just restore contents
+
+
+4/11/2014
+c5c3ed362a654d0ee24ef8e52405dea96508bc63
+User #71316
+User #71319
+iPhone3,3 to 7.1
+
+
+4/11/2014
+132bbab7d0ca8b7626791134d7faa477af870e1e
+User #71316
+User #71319
+iPad2,6 to 7.1
+
+
+4/11/2014
+1e78d6a068fb0ebf42530567c48de2cc2731a97c
+User #71316
+User #71319
+iPad2,2 to 7.1
+
+
+6/23/2014
+5f0077691d6ce018bff17a1e293ea73591298cd5
+User #?
+User #71316
+ipad4,5 reflash, activate
+
+
+6/24/2014
+86dcf1bde2ea9af45367f0322a0cf0de27376cfa
+User #71316
+User #?
+iPad4,4 reactivate
+
+
+6/24/2014
+86dcf1bde2ea9af45367f0322a0cf0de27376cfa
+User #71316
+User #?
+iPad4,4 reflash
+
+
+7/03/2014
+93415e7e0dea8856375ad2cab429c1f2800075c1
+User #71319
+User #71316
+iPhone6,2 -> iOS 8 beta 2
+
+
+7/07/2014
+913142a289771a504e6e97999fefafc410652fc5
+User #71316
+User #71319
+iPhone 5,3 7.1.1->7.1.2
+
+
+7/07/2014
+93415e7e0dea8856375ad2cab429c1f2800075c1
+User #71319
+User #71316
+iPhone6,2 -> iOS 8 beta 3
+
+
+7/08/2014
+69d98877549a5d5addaf2fb8b7e2fd5e016cb76a
+User #71316
+User #71319
+iPad4,1 iOS 7.1.1 -> iOS 8 beta 3
+
+
+7/08/2014
+1aec62117965249df93751bad506c56d856e597c
+User #71316
+User #71319
+iPhone 6,1 iOS 7.1.1 -> iOS 8 beta 3
+
+
+7/21/2014
+1aec62117965249df93751bad506c56d856e597c
+User #71316
+User #71319
+iPhone 6,1 iOS 7.1.1 -> iOS 8 beta 4
+
+
+7/25/2014
+7af766d623e9e739457638ce6edd8ea91832b6ce
+User #71316
+User #?
+iPhone6,2 iOS 7.1.1 -> 7.1.2
+
+
+7/25/2014
+465162de85c2a3c329b03977ec967a1be122c076
+User #71316
+User #?
+iPhone5,2 iOS 7.1.1 -> 7.1.2
+
+
+7/25/2014
+7294f65f2bad9b30f7bee3c981240c7c91c5774a
+User #71316
+User #?
+iPhone5,3 iOS 7.1.1 -> 7.1.2
+
+
+7/25/2014
+94a5e1998e9cce6b1f1f5551a1264f858cb82ba6
+User #71316
+User #?
+iPhone5,4 iOS 7.1.1 -> 7.1.2
+
+
+7/25/2014
+278897b186c1bab25ebf0779cdffc89651187482
+User #71316
+User #?
+iPad4,1 iOS 7.1.1 -> 7.1.2
+
+
+7/25/2014
+ee254859b8a965b0ca3588743343f7a68e45a6fd
+User #71316
+User #?
+iPad 4,4 iOS 7.1.1 -> 7.1.2
+
+
+7/25/2014
+5dbac978b8c0090044a7d4c796074330b54ee8c2
+User #71316
+User #?
+iPad4,5 iOS 7.1.1 -> 7.1.2
+
+
+7/25/2014
+41e5a287b551548a9795d616409a141abbbcc558
+User #71316
+User #?
+iPhone6,1 7.1.1 -> 7.1.2
+
+
+812/2014
+1aec62117965249df93751bad506c56d856e597c
+User #71319
+User #?
+iPhone 6,1 iOS 8 beta 4 -> iOS 8 beta 5
+
+
+9/18/2014
+83450dd27ba5c0831995988d0ea6240bf79ffe4a
+User #?
+User #71321
+iPhone6,2, --> ios 8 release
+
+
+9/18/2014
+41e5a287b551548a9795d616409a141abbbcc558
+User #?
+User #71321
+iPhone6,1 --> ios 8 release
+
+
+9/22/2014
+4481a165ee50e50e082f4f5c8d36c29840613319
+User #?
+User #71405
+iPad3,4 -> ios 8
+
+
+9/22/2014
+69d98877549a5d5addaf2fb8b7e2fd5e016cb76a
+User #?
+User #71405
+ipad4,1 -> ios 8
+
+
+2014-09-22
+ 2b0f9f9a3e0eb40342eeb1671b29d9d9db5789ad
+ User #?
+ User #71405
+ iPad2_4_7.1.2 -> ios 8
+
+
+2014-09-22
+ 86dcf1bde2ea9af45367f0322a0cf0de27376cfa
+ User #?
+ User #71405
+ iPad4_4_8.0 -> ios8
+
+
+2014-09-22
+ 69d98877549a5d5addaf2fb8b7e2fd5e016cb76a
+ User #?
+ User #71405
+ iPad4_1_8.0 -> ios8
+
+
+2014-09-22
+ 69d98877549a5d5addaf2fb8b7e2fd5e016cb76a
+User #?
+ User #71405
+ iPad4_1_8.0 -> ios8
+
+
+2014-09-22
+ 4807667009a80be561505b794338e542d48779be
+ User #?
+ User #71405
+ iPad2_1_7.1.2 -> ios8
+
+
+2014-09-23
+358691fbc13909038921a5ab7a96bd9679af440c
+hp
+User #71405
+iPod5,1 -> ios8
+
+
+2014-09-23
+913142a289771a504e6e97999fefafc410652fc5
+User #?
+User #71409
+iPhone5,3 -> ios 8
+
+
+2014-09-23
+378e2e6d47a613bba1a6cbc6cd5f437fcd7d3f92
+User #?
+User #71405
+iPhone5_2_7.1.2 -> ios8
+
+
+2014-09-23
+40ee37c9ad48b5004a89df008e3b9061cdfb642c
+User #?
+User #71405
+iPhone4_1_7.1.2 -> ios8
+
+
+2014-09-23
+afe3c9be55c493e882611b9a34d17ddaa0266960
+User #?
+User #71405
+iPhone5_1_7.1.2 -> ios8
+
+
+2014-09-23
+c97b7aaa9ac883ee69b01580f975945f691a9c21
+User #?
+User #71405
+iPhone5_4_7.1.2 -> ios8
+
+
+2014-09-23
+1aec62117965249df93751bad506c56d856e597c
+User #?
+User #71405
+iPhone6_1_8.0 -> ios8
+
+
+2014-09-23
+381ebe2d4e560b4b16a764cb9be7dd5bfbf56ec0
+User #?
+User #71405
+iPad4_2_7.1.1 -> ios8
+
+
+2014-09-23
+5f0077691d6ce018bff17a1e293ea73591298cd5
+User #?
+User #71405
+iPad4_5_7.1.1 -> ios8
+
+
+2014-09-23
+1363fc0e789edf40daeaf76f1f43814e5bb96055
+User #?
+User #71405
+iPad2_7_6.0.2 -> ios8
+
+
+2014-09-23
+4102ddd00ea3aa8b348557bc6428d09eb496430e
+User #?
+User #71405
+iPad4_2_7.1.2 -> ios8
+
+
+2014-09-23
+5d01c22e283e9240a452b4b14b6a99023972c7d3
+User #?
+User #71405
+iPad2_7_7.1.2 -> ios8
+
+
+2014-09-23
+1255377a18ee9c5371c876d71fc4c3214f5bf24d
+User #?
+User #71405
+iPad3_5_7.1.2 -> ios8
+
+
+2014-09-23
+5efe5e06f3257b391f91b1efe938ab8c2633f75f
+User #?
+User #71405
+iPad3_6_7.1.2 -> ios8
+
+
+2014-09-23
+026e9ae8ea5aeca8806fdba7fc8439ab2dc7b848
+User #?
+User #?
+iPad3_3_7.1.2 -> ios8
+
+
+2014-09-23
+036aaf1f531f8ac75caf9c520e91981ffadb31d1
+User #?
+User #?
+iPad3_2_7.1.2 -> ios8
+
+
+2014-09-23
+1e78d6a068fb0ebf42530567c48de2cc2731a97c
+User #?
+User #?
+iPad2_2_7.1.2 -> ios8
+
+
+2014-09-23
+864f44501bef3ada2fd1def478d95ddf58d5264b
+User #?
+User #?
+iPad2_3_7.1.2 -> ios8
+
+
+2014-09-24
+d49a9da45eaa3a4f399fcbeefa04b5c5161325fd
+User #?
+User #71322
+iPad2_7 -> ios8
+
+
+2014-09-24
+a4832317d877a172ce9fafe3793fcc2bf336accf
+User #?
+User #71322
+iPad2_6 -> ios8
+
+
+2014-10-02
+dd85a7b8f9d9c3843d8d0f292598af47fe87c1ae
+User #71316
+User #71319
+iPhone7,2 -> iOS 8.0.2
+
+
+2014-10-2
+132bbab7d0ca8b7626791134d7faa477af870e1e
+User #71316
+User #71319
+iPadMini -> iOS 8.0.2
+
+
+2014-10-17
+dd85a7b8f9d9c3843d8d0f292598af47fe87c1ae
+User #71316
+User #71405
+iPhone7,2 -> iOS 8.0.2
+
+
+2014-10-17
+d51d8cd8eea1185cc35800d5fdddaf857568eedf
+User #71316
+User #71405
+iPhone7,1 -> iOS 8.0.2
+
+
+2014-10-20
+dd85a7b8f9d9c3843d8d0f292598af47fe87c1ae
+User #71319
+User #71316
+iPhone7,2 -> iOS 8.1
+
+
+2014-10-30
+9f55c6413f5841e64e80d5cc34f979d9cec85562
+User #71316
+User #?
+iPhone4,1 -> iOS 8.1
+
+
+2014-11-4
+d51d8cd8eea1185cc35800d5fdddaf857568eedf
+User #71316
+User #71321
+iPhone7,1 -> iOS 8.1
+
+
+2014-11-4
+d9d20da57dfeedcd38706f6532efdf493fed5317
+User #71317
+User #?
+iPhone5,2-> iOS 8.1
+
+
+2014-11-5
+73cc59081cbacb04f513e6bddd03f3db7ace8794
+User #71316
+User #71405
+iPad4,4 -> iOS 8.1
+
+
+2014-12-3
+ab32788fc5575f1a0d42d6c7b4df84f268f396cb
+User #71317
+User #71319
+iPod5,1 -> iOS 8.1.1
+
+
+2015-01-07
+d51d8cd8eea1185cc35800d5fdddaf857568eedf
+User #71317
+User #?
+iPhone7,1 -> iOS 8.1.2
+
+
+2015-01-08
+d51d8cd8eea1185cc35800d5fdddaf857568eedf
+User #71317
+User #71321
+iPhone7,1 -> iOS 8.1.2
+
+
+2015-01-08
+d51d8cd8eea1185cc35800d5fdddaf857568eedf
+User #71317
+User #71321
+iPhone7,1 -> iOS 8.1.2 (5 times)
+
+
+2015-01-09
+d51d8cd8eea1185cc35800d5fdddaf857568eedf
+User #71317
+User #71319
+iPhone7,1 -> iOS 8.1.2
+
+
+2015-01-09
+d51d8cd8eea1185cc35800d5fdddaf857568eedf
+User #71317
+User #71406
+iPhone7,1 -> iOS 8.1.2
+
+
+2015-03-03
+913142a289771a504e6e97999fefafc410652fc5
+User #71317
+User #71321
+iPhone5,3 -> iOS 8.1.3
+
+
+2015-03-13
+7294f65f2bad9b30f7bee3c981240c7c91c5774a
+User #71319
+User #?
+iPhone5,3 -> 8.2
+
+
+2015-03-13
+ee254859b8a965b0ca3588743343f7a68e45a6fd
+User #71319
+User #?
+iPad4,4 -> 8.2
+
+
+2015-03-13
+7294f65f2bad9b30f7bee3c981240c7c91c5774a
+User #71317
+User #71319
+iPhone5,3 -> 8.2
+
+
+2015-03-13
+7294f65f2bad9b30f7bee3c981240c7c91c5774a
+User #71317
+User #71319
+iPhone5,3 -> 8.2
+
+
+2015-03-26
+7294f65f2bad9b30f7bee3c981240c7c91c5774a
+User #71317
+User #71316
+iPhone5,3 -> 8.2
+
+
+2015-04-09
+afe3c9be55c493e882611b9a34d17ddaa0266960
+User #71317
+User #71319
+iPhone5,1 -> 8.3
+
+
+2015-04-09
+1aec62117965249df93751bad506c56d856e597c
+User #71319
+User #71317
+iPhone6,1 -> 8.3 (several times)
+
+
+2015-04-23
+ee254859b8a965b0ca3588743343f7a68e45a6fd
+User #71317
+User #71319
+iPad4,4 -> 8.2
+
+
+2015-05-04
+1aec62117965249df93751bad506c56d856e597c
+User #71319
+User #?
+iPhone6,1 -> 8.4 beta 2
+
+
+2015-05-13
+ee254859b8a965b0ca3588743343f7a68e45a6fd
+User #71317
+User #71412
+iPad4,4 -> 8.3
+
+
+2015-06-10
+d51d8cd8eea1185cc35800d5fdddaf857568eedf
+ User #71317
+
+
+User #71319 
+iPhone7,1 -> 8.3 
+
+
+2015-06-10
+7af766d623e9e739457638ce6edd8ea91832b6ce
+User #71316
+User #71408
+iPhone6,2 -> 8.4 beta 4
+
+
+2015-06-10
+1aec62117965249df93751bad506c56d856e597c
+User #71316
+User #71410
+iPhone6,1 -> 9.0 beta 1
+
+
+2015-06-24
+1aec62117965249df93751bad506c56d856e597c
+User #71316
+User #?
+iPhone6,1 -> 9.0 beta 2
+
+
+2015-06-30
+7af766d623e9e739457638ce6edd8ea91832b6ce
+User #71316
+User #71319
+iPhone6,2 -> 8.4
+
+
+2015-07-06
+036aaf1f531f8ac75caf9c520e91981ffadb31d1
+User #71407
+User #?
+iPad3,2 -> 8.4
+
+
+2015-07-06
+036aaf1f531f8ac75caf9c520e91981ffadb31d1
+User #71411
+User #?
+iPad3,2 -> 8.4
+
+
+2015-07-07
+4a15ddcff15bebcfc146198d98f049c9e6b27e6d
+User #71404
+User #71316
+iPad4,8 -> 8.4
+
+
+2015-07-09
+0000009982185D8B
+User #71319
+User #71403
+iPhone5,4 -> 9beta3
+
+
+ 
+(U//FOUO) Log any and all instances where a device from the Highside (DEVLAN) is re-flashed - reconnected to the Lowside (Internet) to restore the OS.(U) When to Use
+(U) Definitions/Where to Find
+(U) Date - the date when the re-flashed occurred
+(U) Serial Number - Found from the settings menu on the phone. Note: this value is considered CONFIDENTIAL//NOFORN
+Settings > General > Serial Number
+(U) Inventory Number - The number found under the CIC barcode (should be an eight (8) digit number). Note: this value is considered CONFIDENTIAL//NOFORN.
+(U//FOUO) On the back of the phone look for something matching the following:
+
+CIC 2005 SC2
+BARODE
+1234A123
+
+(U) Name - The name of the person who is doing the re-flash
+(U) Verifier's Name - The name of the person who inspected the device to ensure all classified information has been removed
+(U) Comments - an optional section for comments about the re-flash.
+ 
+CONFIDENTIAL//NOFORN
+
+Previous versions:
+| 1 
+| 2 CONFIDENTIAL
+| 3 CONFIDENTIAL
+| 4 CONFIDENTIAL
+| 5 CONFIDENTIAL
+| 6 CONFIDENTIAL
+| 7 CONFIDENTIAL
+| 8 CONFIDENTIAL
+| 9 CONFIDENTIAL
+| 10 CONFIDENTIAL
+| 11 CONFIDENTIAL
+| 12 CONFIDENTIAL
+| 13 CONFIDENTIAL
+| 14 CONFIDENTIAL
+| 15 CONFIDENTIAL
+| 16 CONFIDENTIAL
+| 17 CONFIDENTIAL
+| 18 CONFIDENTIAL
+| 19 CONFIDENTIAL
+| 20 CONFIDENTIAL
+| 21 CONFIDENTIAL
+| 22 CONFIDENTIAL
+| 23 CONFIDENTIAL
+| 24 CONFIDENTIAL
+| 25 CONFIDENTIAL
+| 26 CONFIDENTIAL
+| 27 CONFIDENTIAL
+| 28 CONFIDENTIAL
+| 29 CONFIDENTIAL
+| 30 CONFIDENTIAL
+| 31 CONFIDENTIAL
+| 32 CONFIDENTIAL
+| 33 CONFIDENTIAL
+| 34 CONFIDENTIAL
+| 35 CONFIDENTIAL
+| 36 CONFIDENTIAL
+| 37 CONFIDENTIAL
+| 38 CONFIDENTIAL
+| 39 CONFIDENTIAL
+| 40 CONFIDENTIAL
+| 41 CONFIDENTIAL
+| 42 CONFIDENTIAL
+| 43 CONFIDENTIAL
+| 44 CONFIDENTIAL
+| 45 CONFIDENTIAL
+| 46 CONFIDENTIAL
+| 47 CONFIDENTIAL
+| 48 CONFIDENTIAL
+| 49 CONFIDENTIAL
+| 50 CONFIDENTIAL
+| 51 CONFIDENTIAL
+| 52 CONFIDENTIAL
+| 53 CONFIDENTIAL
+| 54 CONFIDENTIAL
+| 55 CONFIDENTIAL
+| 56 CONFIDENTIAL
+| 57 CONFIDENTIAL
+| 58 CONFIDENTIAL
+| 59 CONFIDENTIAL
+| 60 CONFIDENTIAL
+| 61 CONFIDENTIAL
+| 62 CONFIDENTIAL
+| 63 CONFIDENTIAL
+| 64 CONFIDENTIAL
+| 65 CONFIDENTIAL
+| 66 CONFIDENTIAL
+| 67 CONFIDENTIAL
+| 68 CONFIDENTIAL
+| 69 CONFIDENTIAL
+| 70 CONFIDENTIAL
+| 71 CONFIDENTIAL
+| 72 CONFIDENTIAL
+| 73 CONFIDENTIAL
+| 74 CONFIDENTIAL
+| 75 CONFIDENTIAL
+| 76 CONFIDENTIAL
+| 77 CONFIDENTIAL
+| 78 CONFIDENTIAL
+| 79 CONFIDENTIAL
+| 80 CONFIDENTIAL
+| 81 CONFIDENTIAL
+|
+                    

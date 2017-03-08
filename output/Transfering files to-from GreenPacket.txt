@@ -1,0 +1,16 @@
+
+                        Owner: User #20873326
+Transfering files to/from GreenPacket
+File transfer to/from the GreenPacket is very limited. 
+To get files onto the router
+
+host the files on a webserver and use wget from the router to pull them.
+use tftp (no ftp)
+
+ You can't use scp to send files/to from the router (no scp binary). 
+The router has nc but it has no listen function.  So you can use nc to send files from the router to another machine but not receive.
+
+Previous versions:
+| 1 
+|
+                    

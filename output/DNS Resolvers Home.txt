@@ -1,0 +1,271 @@
+
+                        Owner: User #524297
+EDG Tools of the Trade Home
+
+
+Area for discussion of tools used within the Division.  Discuss everything from libraries to editors to debuggers to decompilers!  How to get started and get the most mileage out of these tools.
+
+
+Microsoft Products
+ 
+
+
+
+KMS Keys  
+
+If you have an active MSDNMicrosoft Developer Network account, please use these keys on DEVLAN for automatic activation
+
+
+MSDN
+Coming soon, list of MSDNMicrosoft Developer Network accounts and who is assigned what.
+
+
+
+
+Build Systems
+ 
+
+
+
+Make  
+
+Make build system, either BSD or GNU
+
+
+
+
+Editors/Integrated Development Environments (IDEs)
+ 
+
+
+
+010 Editor  
+
+Hex editor for Windows
+
+
+
+Winhex  
+
+Hex editor for Windows
+
+
+
+Vim  
+
+The obtuse text editor based on minimal hand movement
+
+
+
+Sublime Text  
+
+Mac editor designed for source code editing
+
+
+
+Visual Assist  
+
+Visual Studio plugin that you need
+
+
+
+
+Virtual Machine Management
+ 
+
+
+
+VMware Workstation  
+
+Tool for creating and using virtual machines
+
+
+
+VMWare Fusion Professional  
+
+Tool for creating and using virtual machines (OSXApple operating system)
+
+
+VSphere Client
+Client used to attach to ESXi servers to manage virtual machines
+
+
+
+
+Reverse Engineering
+ 
+
+
+
+Ghidra  
+
+Reverse Engineering environment created by NSA
+
+
+IDA Pro
+Commercial Reverse Engineering tool
+
+
+
+Cuckoo Sandbox  
+
+Open source sandbox for static and dynamic analysis of "malware"
+
+
+
+Incandescent Mind  
+
+Attribution and Signature Analysis
+
+
+
+
+Source Control
+ 
+
+
+Git Distributed Version Control
+So amazing (and complex) that it gets its own space.
+
+
+
+SourceTree  
+
+Git GUIGraphical User Interface wrapper
+
+
+
+
+Misc. Tools
+ 
+
+
+
+Dia  
+
+Diagramming tool with build-in support for UML
+
+
+
+Docker  
+
+Linux KVM container management. Quickly spin up "lite" VMs for testing/building/whatever
+
+
+ 
+ 
+ 
+
+
+
+Recent space activity
+
+('recently-updated' missing)
+
+
+Space contributors
+
+('contributors' missing)
+
+
+ 
+
+
+Comments:
+
+
+2014-01-10 09:06 
+[User #524297]: 
+
+agreed!  write up a resource on it and post it here! 
+
+
+
+2014-01-10 08:58 
+[User #3375388]: 
+
+valgrind...
+
+
+
+Sub-Pages:
+
+
+Winhex 
+
+
+SourceTree 
+
+
+VMWare Fusion Professional 
+
+
+Ghidra 
+
+
+Incandescent Mind 
+
+
+Visual Assist 
+
+
+KMS Keys 
+
+
+VMware Workstation 
+
+
+Docker 
+
+
+Dia 
+
+
+Cuckoo Sandbox 
+
+
+Make 
+
+
+010 Editor 
+
+
+Sublime Text 
+
+
+Google Mock 
+
+
+Google Test Library 
+
+
+Vim 
+
+
+
+Previous versions:
+| 1 
+| 2 
+| 3 
+| 4 
+| 5 
+| 6 
+| 7 
+| 8 
+| 9 
+| 10 
+| 11 
+| 12 
+| 13 
+| 14 
+| 15 
+| 16 
+| 17 
+| 18 
+| 19 
+| 20 
+| 21 
+| 22 
+| 23 
+|
+                    

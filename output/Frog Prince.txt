@@ -1,0 +1,97 @@
+
+                        Frog Prince
+Introduction
+Frog Prince is a FI implant system ...
+Design
+System
+Components
+C2
+LP
+Implant
+Test
+Unit testing
+System Testing
+Goal
+System testing is directed at the Frog Prince system (i,e.  C2, LP, and implant).   The battery of tests concentrate on round trip functionality, i.e., demonstrating correct operations starting at the C2 and traversing through the LP, to the implant and back to the C2.  
+Methodology
+The testing uses DART as the primary test tool.   Additional tools, are comprised of  scripts,  user input files,  tailored utilities, and Linux utilities.    
+Test cases,   test artifacts (logs, output files),  test documentation (description, goal),  test results, 
+System testing comprises three levels,   A, B, and C,  with level A being the highest priority, broadest tests  and level C the lowest priority,  detailed or isolated tests.   Level A tests can only be done in the context of the system.   Level C tests only differ from unit tests in the sense that they are run within the system instead of within test wrappers.  
+A - high level end-to-end tests
+
+create a get command (via the UIUser Interface),  send to implant,  inspect returned queue state(s) and data
+memory load a DLL,  execute it,  validate the results
+
+B - high level one-way tests
+
+implant a target, verify it installs and beacons
+verify a new implant beacon creates a new queue
+verify a file retrieved by get  - arrives at C2 compressed and encrypted
+
+C - detailed specific tests
+ 
+Test Configuration
+The following  configurations are used for the DARTTest-Software (commercial) tests.   This essentially refers to the Virtual Machines configured for testing.
+C2
+This is a configured Linux (Ubuntu) system  with the xxx transport and Frog Prince code installed and configured.    A snapshot is available for reverting to the known state
+LP
+This is a configured Linux (Ubuntu) system  with the xxx transport and Frog Prince code installed and configured.    A snapshot is available for reverting to the known state.    The C2 and LPListening Post are, optionally, co-located on one VM.
+The current FrogPrince LPListening Post is accessed via VMSphere.  It is located on Dart-vcenter.devlan.net   under Dart Datacenter/dart-esxi-b.devlan.net.   It will be migrated in the menu to be under  non-import-pool-linux
+Target System
+These are standard DARTTest-Software (commercial) provided Windows configurations.   Each test will  apply the Frog Prince implant as its first step.
+Test cases
+Frog Prince Install Test  
+Frog Prince De-Install Tests  
+Frog Prince Get Command Test  
+Frog Prince Put Command Test  
+Frog Prince Execute Command Test  
+Frog Prince Memory Load Command  
+Frog Prince Memory Unload Command  
+Frog Prince Set Command  
+ 
+ 
+ 
+
+
+Sub-Pages:
+
+
+Frog Prince Set Command 
+
+
+Frog Prince Memory Unload Command 
+
+
+Frog Prince Memory Load Command 
+
+
+Frog Prince Execute Command Test 
+
+
+Frog Prince Put Command Test 
+
+
+Frog Prince Get Command Test 
+
+
+Frog Prince De-Install Tests 
+
+
+Frog Prince Install Test 
+
+
+
+Previous versions:
+| 1 
+| 2 
+| 3 
+| 4 
+| 5 
+| 6 
+| 7 
+| 8 
+| 9 
+| 10 
+| 11 
+|
+                    

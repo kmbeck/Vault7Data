@@ -1,0 +1,25 @@
+
+                        Owner: User #14587667
+MikroTik
+Persistence
+
+For RouterOS 5.x
+Most of file system is R/W
+For ops, place binary in "/nova/bin", and place script in "/etc/rc.d/"
+
+
+For RouterOS 6.xFor ops, place binary in "/flash/bin", and place script in "/flash/etc/rc.d/"
+
+
+
+Sub-Pages:
+
+
+MikroTik Hotspot / Paywall Analysis 
+
+
+
+Previous versions:
+| 1 empty
+|
+                    

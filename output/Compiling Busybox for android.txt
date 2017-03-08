@@ -1,0 +1,81 @@
+
+                        Operations Support
+To know how to build the tools used in JQJGUNSHY, please see: JQJGUNSHY: how to build tools  
+
+We have tested the following ROMRead-Only Memory with dragonfly/beracuda (remote), chronos (priv), legba (elf-loader), bowtie.jar (survey tool) using Flashtool (located in share/MDB/Android/Software/Xperia/flashtool-0.9.18.5-mac.dmg):
+
+
+
+ID
+Status
+Task
+
+
+1
+complete
+LT29_9.2.A.0.295_MEA Mena Arabic: working
+
+
+2
+complete
+LT29_7.0.A.3.212_1266-6178_RU(PCT).ftf: fail silently error 1003
+
+
+3
+complete
+SXTX LT29i_9.2.A.0.295_Thailand (1266-3318).ftf: working
+
+
+4
+complete
+Xperia TX_LT29i_9.1.B.0.411_Global.ftf: OSOperating System 4.1.2; fail silently error 1003 on both stock browser and Chrome 18
+
+
+5
+complete
+Xperia_TX_9.1.B.1.67_HK.ftf: OSOperating System 4.1.2, fail silently error 1003 on both stock browser and Chrome 18
+
+
+Note that all the LT29 ROMs are located in share/MDB/Android/Software/Xperia/ROMs.
+As of March 1st, bowtie.jar (survey tool) is built using the bowtie's branch "new_adt."
+
+
+Sub-Pages:
+
+
+Current Ops Requests 
+
+
+HeliosYolo 
+
+
+JQJGUNSHY: Samsung Galaxy Tab 2 GT-P3100 
+
+
+JQJGUNSHY: how to build tools 
+
+
+
+Previous versions:
+| 1 
+| 2 
+| 3 
+| 4 
+| 5 
+| 6 
+| 7 
+| 8 
+| 9 
+| 10 
+| 11 
+| 12 
+| 13 
+| 14 
+| 15 
+| 16 
+| 17 
+| 18 
+| 19 
+| 20 
+|
+                    

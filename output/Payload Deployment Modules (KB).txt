@@ -1,0 +1,96 @@
+
+                        Create Process And Choose A User To Run As Via The Task Scheduler (TaskSchedulerRun_SPKL - Speckled)
+SECRET//NOFORN
+ 
+OSB Library: Payload Deployment
+
+Module Name: TaskSchedulerRun_SPKL - Speckled
+ 
+Module Description: This module uses Microsoft's Task Scheduler 1.0 to create a process or execute a command. The payload, if supplied, is written to a user specified location with user specified attributes. A scheduled task is created, run, and immediately deleted (following verification of process creation). This technique adds a level of indirection in the process creation chain.
+ 
+PSP/OS Issues: No known PSPPersonal Security Product (Anti-Virus) issues. PSPs should be tested on a case by case basis as this technique may be alerting enough to tip the scale.
+ 
+('excerpt' missing)
+ 
+Sharing Level: Unilateral (Probably used in the wild)
+ 
+Technique Origin: In-house (Probably used in the wild)
+ 
+Notes: 
+
+Will let you create a process as any user
+To ensure execution as the correct user, provide domain and username
+If no user name is supplied, SYSTEM is used
+If executing as a user who is part of the Administrators group, and the calling process is Administrator+, the process is created with the Administrator token.
+
+ 
+Module Specific Structures: 
+
+struct PARAM_SPKL
+{
+	WCHAR *wcUser;		    //The name of the user you wish to execute as - if NULL the SYSTEM user is used. Include Domain\\Username if required
+	WCHAR *wcTaskName;		//Name of the task being used
+	WCHAR *wcTargetPath;	//The target path of the executable to drop to disk
+	WCHAR *wcArgs;			//Arguments for the payload on disk
+	DWORD dwAttribs;		//The attributes of the target payload on disk
+};
+
+
+ 
+Example Code:
+ 
+HANDLE hHandle = NULL;
+
+
+IPayload *myPayload = new TaskSchedulerRun_SPKL();
+
+
+PARAM_SPKL params;
+SecureZeroMemory(¶ms, sizeof(PARAM_SPKL));
+params.dwAttribs = FILE_ATTRIBUTE_HIDDEN | FILE_ATTRIBUTE_SYSTEM;
+params.wcTargetPath = L"C:\\Test Folder\\MyTest.exe";
+params.wcArgs = L"1 2 3";
+params.wcTaskName = L"TaskName";
+
+
+IPayload::PayloadErr pErr = myPayload->execute(improvedDummy, sizeof(improvedDummy), ¶ms, sizeof(params), &hHandle);
+ 
+ 
+SECRET//NOFORN
+
+Comments:
+
+
+2015-01-30 07:45 
+[User #1179925]: 
+
+Yeah, I don't know why the COM would be failing. I'll have to take a look at it.
+
+
+2015-01-30 07:44 
+[User #1179925]: 
+
+Good catch. I probably wrote the comments for the structure before I actually wrote the function. Making the mods.
+
+
+2015-01-29 19:03 
+[User #71473]: 
+
+One other thing I just noticed.  In the code for the PARAM_SPKL structure, it says a NULL wcUser uses the current user, but under notes it says it uses SYSTEM.  The code is using "", which should be system, but the struct is documented otherwise.
+
+
+2015-01-29 18:34 
+[User #71473]: 
+
+So, not sure where else to leave this since I don't see a place to comment on tests failing in Bamboo, but your TaskSchedulerRun_SPKL_ValidPayload  unit test is failing with a -72 error code, which indicates that COM Class creation failed (i.e., couldn't make the stupid task or run it)  However... dummy payload still pops up on screen, so... yeah.  No idea from looking at the code how you could make it past the .Run() method of the task without return ePD_ERROR_SUCCESS unless the .Run() is lying about failing?  Maybe its one of those weird COM "failed, but not really" conditions.
+FYI, this only happens when running as user.
+I am checking in a SkipList(SKIP_USER) into develop for now just to see if I can get Bamboo to stop griping.  I had to comment out one of User #77009's ICEFireAndForget tests too because it takes two minutes to run and seems to be the most likely candidate for the timeouts we are seeing.
+
+
+
+Previous versions:
+| 1 SECRET
+| 2 SECRET
+| 3 SECRET
+|
+                    

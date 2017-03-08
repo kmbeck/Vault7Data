@@ -1,0 +1,44 @@
+
+                        Owner: User #524297
+Git Tutorials
+Coming to Git from Subversion?  
+Try the Git Reference  
+Git Immersion –
+Step-by-step walkthrough of typical git usage on the command line. 
+   
+Download:  git_immersion_tutorial.zip ,  load html/index.html in your browser.
+ 
+Git Flow – "A successful Git branching model" – Workflow
+An option for branching workflow during development to separately track feature branches, release preparations & tagging, and hotfixes.
+
+Download:  successful-git-branching-model.pdf and Git-branching-model.pdf
+Git Flow add-on available in Git Tools  , is included by default in Git Tools  !
+ 
+Stay tuned for more additions!
+
+Attachments:
+
+
+git_immersion_tutorial.zip
+
+
+gitimmersion_ss.png
+
+
+gitimmersion_ss2.png
+
+
+gitflow.png
+
+
+successful-git-branching-model.pdf
+
+
+Git-branching-model.pdf
+
+
+
+Previous versions:
+| 1 
+|
+                    

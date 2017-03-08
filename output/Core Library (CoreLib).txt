@@ -1,0 +1,30 @@
+
+                        Owner: User #1179751
+GoogleTest
+
+
+Comments:
+
+
+2014-07-23 09:13 
+[User #1179751]: 
+
+Appreciate the point out, this is going to focus on a stripped down version that is going to be included with our ProjectWizard.
+
+
+2014-07-22 10:48 
+[User #524297]: 
+
+Google Test Library  , Google Mock  
+
+
+
+Attachments:
+
+workedin.jpg
+
+
+Previous versions:
+| 1 empty
+|
+                    

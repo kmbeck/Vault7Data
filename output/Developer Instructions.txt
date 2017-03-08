@@ -1,0 +1,27 @@
+
+                        Owner: User #8650754
+Master Interface
+There is a master interface that is linked with all the modules.  These functions allow for a more seamless interface between modules.  These functions are imported via a library DLLDynamic Link Library and bound to the executable code during the load process.
+MasterMain
+The MasterMain function is the first function called by the loading mechanism.  It will simply expand the packaged data, load the code (calling ordinal function 1) and loading the PLAN into memory. 
+extern HANDLE __stdcall MasterMain(PMASTER_MAIN_STRUCT pData);
+MasterAMPLoader
+The MasterAMPLoader will load all the modules from the AfterMidnight Package (AMPArbitrary Map (data file format)).  During debug builds, the modules will reside on disk and will be loaded with LoadLibrary/GetProcAddress.  This is the simplest way to test modules.
+extern ULONG __stdcall MasterAMPLoader(void *pBuffer);
+MasterPKGLoader
+The MasterPKGLoader will load a specific deploymen package into memory.  The main difference between PKG and AMPArbitrary Map (data file format) is the header information.  A PKG file is a shell code implementation of the loader that will bootstrap the master.dll into memory and load the AMPArbitrary Map (data file format) modules embedded in the buffer. 
+extern HANDLE __stdcall MasterPKGLoader(DWORD_PTR dDebugMode, void *pBuffer);
+MasterInterfaceInstance
+The MasterInterfaceInstance will retrieve a specific module instance from that package manager.  This function will return a common interface for all modules.  This allows a pluggable interface that doesn’t depend on static bindings.  The two available flags change the way the interface retrieval logic performs.  With the MASTER_INTERFACE_FLAG_CREATE set, the interface instance will create a new instance internally for this module ID.  This feature is mainly used during the PLAN initialization phase.  With the MASTER_INTERFACE_FLAG_FUZZY_MATCH set, the interface instance will not match the module id directly with the loaded module ID but will perform two tests.  The first test will search for a module with the exact match of the module ID entered in dModuleID.  Should no modules be found when this feature is selected, any module that has the same parent module ID will be selected.  This feature allows child modules (i.e. GREMLIN_MODULE_HASH_JENKINS is a child of GREMLIN_MODULE_HASH) to be included in the module plan without specifically calling out the actual module ID during processing.
+ 
+#define MASTER_INTERFACE_FLAG_CREATE         0x0001        // create a new instance
+#define MASTER_INTERFACE_FLAG_FUZZY_MATCH    0x0002        // use any with the same base type
+ 
+extern PGREMLIN_INTERFACE __stdcall MasterInterfaceInstance(ULONG dModuleID, ULONG dFlags);
+MasterCommandInterface
+The MasterCommandInterface will call into a specific interface COMMAND function with a specific ID and optional arguments.  It is up to the module writing to define and expose specific commands for consumption.
+extern ULONG __stdcall MasterCommandInterface(PGREMLIN_INTERFACE pInterface, ULONG dID, void *arg0, void *arg1, void *arg2);
+MasterCommandInterface
+The MasterCommandInterface will call into a specific interface based on an interface ID reference number that will call the COMMAND function with a specific ID and optional arguments.  It is up to the module writing to define and expose specific commands for consumption.
+extern ULONG __stdcall MasterCommand(ULONG dModuleID, ULONG dID, void *arg0, void *arg1, void *arg2);
+                    

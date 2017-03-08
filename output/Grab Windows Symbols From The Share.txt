@@ -1,0 +1,64 @@
+
+                        How-To:  Configure a non-domain-joined Windows workstation to use DevLAN's WSUS (Windows Server Update Services) host
+Hello again, everyone!  Today I wanted to share something else I came across yesterday – the method to configure a non-domain-joined Windows client to access DevLAN's WSUSWindows Server Update Service server.(WSUSWindows Server Update Service == "Windows Server Update Services", which is basically Microsoft's mechanism for allowing enterprises to run their own internal "Windows Update" servers.)This might be useful to anyone else who, like me, prefers to have at least one non-domain-joined host for testing, but still wants to be able to install updates.
+Step-by-step guide
+
+
+Download the following Registry file:WindowsUpdate_DevLAN_settings.reg(If you're a curious Registry hacker, below are the contents of the file:
+ Windows Registry Editor Version 5.00
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate]
+"ElevateNonAdmins"=dword:00000001
+"WUServer"="http://wsus.devlan.net:8530"
+"WUStatusServer"="http://wsus.devlan.net:8530"
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate\AU]
+"NoAutoUpdate"=dword:00000000
+"AUOptions"=dword:00000003
+"ScheduledInstallDay"=dword:00000000
+"ScheduledInstallTime"=dword:0000000f
+"AutoInstallMinorUpdates"=dword:00000001
+"UseWUServer"=dword:00000001
+
+
+)
+
+Merge the Registry file with your system (you can do this by double-clicking it, or from the command line using "REG.EXE").
+
+
+Reboot the system.
+
+Open the Windows Update settings (in the Control Panel), and click on the link at the bottom of the dialog box, titled"Check for updates managed by your system administrator" (as in the following example).
+
+Your computer should display a progress bar for a few moments, and then the Windows Update Control Panel window shouldchange to look like the following:
+
+Sit back and enjoy your drink, while your computer installs dozens and dozens of Windows updates... 
+
+
+ 
+I hope you find this useful!  Please let me know if you have any questions or comments!
+ 
+Related articles
+
+Related articles appear here based on the labels you select. Click to edit the macro and add or change labels.
+
+('contentbylabel' missing)
+
+Attachments:
+
+
+WindowsUpdate_ControlPanel_dialog_after.png
+
+
+WindowsUpdate_ControlPanel_dialog.png
+
+
+WindowsUpdate_DevLAN_settings.reg
+
+
+
+Previous versions:
+| 1 
+| 2 
+|
+                    

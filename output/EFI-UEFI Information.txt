@@ -1,0 +1,44 @@
+
+                        Owner: User #71491
+EFI/UEFI Information
+LABEL PAGE: Child pages of this page will pertain information about UEFIUniversal Extendible Firmware Interface and EFI, including EFIExtensible Firmware Interface programming basics and links to current projects that are using it.
+If you want to access the UEFIUniversal Extendible Firmware Interface spec on Devlan, you can grab it here: UEFI 2_5.pdf
+ 
+ 
+Other pages that contain some helpful EFI/UEFI information include:
+Persistent storage option  
+ 
+
+Attachments:
+
+UEFI 2_5.pdf
+
+
+Sub-Pages:
+
+
+ExitBootServices Hooking 
+
+
+EFI Program Testing Considerations 
+
+
+EDK2 Compiler Information and CI Concerns 
+
+
+Setting Up a Linux Build Environment for EFI 
+
+
+EFI Basics: NVRAM Variables 
+
+
+Active EFI/UEFI Projects 
+
+
+
+Previous versions:
+| 1 
+| 2 
+| 3 
+|
+                    

@@ -1,0 +1,62 @@
+
+                        AntHill
+
+AntHill 2.0  
+
+AntHill Commands
+Multiple commands allowed on single line, delimited with semicolons.
+FS Centric
+fs view <output path>
+fs add <file_id>|*
+fs remove <file_id>|*
+fs execute <file_id> <env args>
+List Centric
+list view <output path>
+list set <list_id> (<file_id> <env_args>...)
+list execute <list_id>
+Command Line Atoms
+<cmdline> - <cmd> ; <cmd>...
+<file_id> - alphanum UPPER _ -
+<list_id> - <file_id>
+<env args> - <env arg>...
+<env arg> - [name=val]
+Examples
+list set my_list assassin [inpath=c:\foobar] [outpath=c:\foobar2] menupolice [listen=yes]
+fs execute menupolice [listen=no]
+AntHill Config Info
+Key is patched in over "KANTKANTKANTKANTKANTKANTKANTKANT"
+Path is a resource (utf-8 null-terminated string) with a random ID and a type of 0x8201
+All binaries are seperate resources with random IDs and a type of 0x8200
+- binary data (ie not path) are compressed via zlib but not encrypted
+- Format of the binaries is  [id][dword size][compressed bytes...]
+PersistAnt
+Config Info
+Key is patched in over "KANTKANTKANTKANTKANTKANTKANTKANT"
+Config is a resource with a random ID and a type of 0x8202
+- Format of the config binary is [path][list name] where both fields are utf-8 encoded, null-terminated strings
+- binary data is encrypted using the key, with padding
+Behavior
+Exit If
+
+The FSFilesystem file is not a valid FS
+The FSFilesystem does not include the configured list name
+
+Uninstall If
+The FSFilesystem file is not present
+
+Sub-Pages:
+
+
+AntHill 2.0 
+
+
+
+Previous versions:
+| 1 
+| 2 
+| 3 
+| 4 
+| 5 
+| 6 
+|
+                    

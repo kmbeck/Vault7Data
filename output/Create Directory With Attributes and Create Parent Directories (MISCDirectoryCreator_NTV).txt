@@ -1,0 +1,288 @@
+
+                        Relative Path Generation (MISCRelativePathGenerator_CUST)
+SECRET//NOFORN
+ 
+Miscellaneous Module
+Stash Repository: Miscellaneous Library
+
+Module Name: MISCRelativePathGenerator_CUST (Custom implementation)
+ 
+Module Description: Give an origin and destination path, this module allows for the generation of the relative path between the two locations. This is comparable to PathRelativePathTo in the Windows API. This function differs by including relative path generation for UNCUniversal Naming Convention paths as well.
+ 
+Usage: 
+BOOL GenerateRelativePath(WCHAR *wcTargetPath, WCHAR *wcOriginPath, WCHAR *&wcRelativePath);
+ 
+wcTargetPath: The intended target of the relative path.
+wcOriginPath: The current directory or origin. The path that defines the start of the relative path.
+wcRelativePath: A pointer to the a string that receives the resulting relative path. The string is allocated by malloc and the caller must call free() when finished with the string. Return NULL on failure.
+Returns TRUE when successful.
+ 
+PSP/OS Issues: No known issues.
+ 
+('excerpt' missing)
+ 
+Sharing Level: Unilateral
+ 
+Technique Origin: In-house
+ 
+Notes: 
+
+Expected results matrix listed below
+Use free() to release the returned relative path
+
+ 
+Module Specific Structures: N/A
+ 
+Module Return Codes: N/A
+ 
+Example Code:
+ 
+ 	MISCRelativePathGenerator_CUST rpgGenerator;
+	WCHAR *wcRelativePath = NULL;
+	
+	//Works on share drives too
+	BOOL bRet = rpgGenerator.GenerateRelativePath(L"\\\\FS-01\\Share\\Temp", L"\\\\FS-01\\Share\\Temp2", wcRelativePath);
+	EXPECT_TRUE(wcsicmp(L"..\\Temp", wcRelativePath) == 0);
+	
+	//Cleanup
+	if (wcRelativePath)
+		free(wcRelativePath);
+	EXPECT_TRUE(bRet);
+ 
+Expected Results Matrix:
+
+
+    
+
+
+ 
+Target
+Origin
+Expected Result
+
+
+Invalid Arguments
+ 
+ 
+ 
+
+
+ 
+""
+H:\Test\Test1
+NULL
+
+
+ 
+H:\Test2
+""
+NULL
+
+
+ 
+NULL
+H:\Test\Test3
+NULL
+
+
+ 
+H:\Test4
+NULL
+NULL
+
+
+ 
+ 
+ 
+ 
+
+
+Target Above
+ 
+ 
+ 
+
+
+ 
+H:\
+H:\Test\Test1
+..\..\
+
+
+ 
+H:\Test
+H:\Test\Test2
+..\..\Test
+
+
+ 
+H:\Test3
+H:\Test\Test3
+..\..\Test3
+
+
+ 
+H:\Test4\Test4
+H:\Test5\Test5
+..\..\Test4\Test4
+
+
+ 
+ 
+ 
+ 
+
+
+Target Same Directory
+ 
+ 
+ 
+
+
+ 
+H:\Test1\Test1
+H:\Test1\Test1
+..\Test1
+
+
+ 
+H:\
+H:\
+""
+
+
+ 
+ 
+ 
+ 
+
+
+Non-Drive Letter Paths
+ 
+ 
+ 
+
+
+ 
+\\FS-01\Share\Temp
+\\FS-01\Share\Temp2
+..\Temp
+
+
+ 
+ 
+ 
+ 
+
+
+Different Drives
+ 
+ 
+ 
+
+
+ 
+H:\Test1\Test1
+Q:\Test1\Test1
+..\..\..\H:\Test1\Test1
+
+
+ 
+ 
+ 
+ 
+
+
+Target Below
+ 
+ 
+ 
+
+
+ 
+H:\Test\Test1
+H:\
+Test\Test1
+
+
+ 
+\\FS-01\Share\Temp
+\\FS-01\
+Share\Temp
+
+
+ 
+\\FS-01\Share\Temp
+\\FS-01
+..\FS-01\Share\Temp
+
+
+ 
+H:\Test\Test2
+H:\Test
+..\Test\Test2
+
+
+ 
+H:\Test\Test3
+H:\Test3
+..\Test\Test3
+
+
+ 
+H:\Test5\Test5
+H:\Test5\Test4
+..\..\Test5\Test5
+
+
+ 
+ 
+ 
+ 
+
+
+Forward Slashes
+ 
+ 
+ 
+
+
+ 
+H:/Test/Test1
+H:/Test1/Test
+..\..\Test/Test1
+
+
+ 
+ 
+ 
+ 
+
+
+Trailing Backslashes
+ 
+ 
+ 
+
+
+ 
+H:\Test\Test1\
+H:\Test
+..\Test\Test1\
+
+
+ 
+H:\Test
+H:\Test\Test2\
+..\..\Test
+
+
+
+ 
+ 
+SECRET//NOFORN
+
+Previous versions:
+| 1 SECRET
+|
+                    

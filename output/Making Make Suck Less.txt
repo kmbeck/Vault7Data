@@ -1,0 +1,116 @@
+
+                        Mac OS Kernel Debugging
+Ethernet Debugging Instructions
+Setup the debug target system
+On OSOperating System X El Capitan, you might have to disable system integrity protection before you can debug the kernel:
+
+Boot into recovery mode with cmd-R
+Open Terminal and run: csrutil disable
+
+ 
+Here are the rest of the steps:
+
+
+Find the precise kernel version
+sw_vers | grep BuildVersion
+
+Install the KDK for the precise kernel version
+Copy the kernel.development kernel from the KDK to /System/Library/Kernels/
+Identify the proper network interface for debugging.  In this example it's en0
+
+Configure nvram boot-args
+nvram boot-args="debug=0x146 kcsuffix=development pmuflags=1 kext-dev-mode=1 slide=0 kdp_match_name=en0 -v"
+
+Reboot the target system
+Get the IP address
+
+ 
+Setup the host debugger system
+
+Install the KDK matching the target system's kernel version
+Install the XNU sources for the target system's kernel version
+
+Run LLDB for the matching kernel
+xcrun lldb /Library/Developer/KDKs/KDK_XXX/System/Library/Kernels/kernel.development
+
+
+Begin Debugging
+
+
+Trigger a breakpoint on the debug target, since you can't do left-cmd + right-cmd + power on a VM, you can also do this:
+dtrace -w -n "BEGIN { breakpoint(); }"
+
+
+Attach to the debug target from the host debugger's lldb session
+settings set target.load-script-from-symbol-file true
+kdp-remote X.X.X.X
+settings set target.source-map /SourceCache/xnu/xnu-XXXX /path/to/xnu/xnu-XXXX
+
+
+You should have an active debug session now.  Have fun, hope you had a snapshot.
+Thunderbolt/Firewire Debugging (on El Capitan)
+You can debug OSXApple operating system machines using Firewire using Thunderbolt->FireWire adapters.  It's similar to the usual debug setup with a few key differences:
+1. The target system uses boot-args that indicate firewire debugging will happen using a non-built-in firewire adapter
+2. The debugger system uses the fwkdp command to proxy debug command on localhost to the target system using firewire
+Debuger Host setup
+
+As root, run fwkdp -v to begin listening for firewire debug events.  This tool will allow lldb to attach to proxy debug commands through localhost
+lldb the kernel/KDK of choice (see above) Use 127.0.0.1 as the host
+
+Debug Target setup
+
+
+Set boot-args:
+nvram boot-args="debug=0x146 kdp_match_name=firewire fwkdp=0x8000 fwdebug=0x40 pmuflags=1 -v"
+You can view all of the debug= options in osfmk/kern/debug.h.  The fwkdp=0x8000 option instructs IOFireWireFamily.kext's AppleFWOHCI_KDP plugin to use a non-built-in firewire/thunderbolt adapter for debugging.  The fwdebug=0x40 option tells the AppleFWOHCI_KDP driver to be more verbose (helpful for troubleshooting).
+
+Optionally, disable system integrity protection, as documented above.
+reboot
+
+Known debug options
+According to osfmk/kern/debug.h (10.10.5):
+#define DB_HALT         0x1			// (broken) halt on startup                                                                                   
+#define DB_PRT          0x2			// (useful) send kernel debugging printf to console                                                            
+#define DB_NMI          0x4			// (essential) drop into debugger on NMI (cmd-power, lcmd+rcmd+power, cmd-opt-ctrl-shift + esc, power)                                   
+#define DB_KPRT         0x8			// (useless) send kernel debugging kprintf to serial port
+#define DB_KDB          0x10		// (useless) use ddb/custom kernel debugger
+#define DB_SLOG         0x20		// (useful) send some diagnostics to syslog
+#define DB_ARP          0x40		// (essential) allow debugger to use ARP
+#define DB_KDP_BP_DIS   0x80		// (useless) support old gdb versions
+#define DB_LOG_PI_SCRN  0x100		// (essential) disable graphical panic dialog                                  
+#define DB_KDP_GETC_ENA 0x200		// (useful) enable kdp_getc() prompt for (c) continue/(r) reboot                                  
+                                                                                                                 
+#define DB_KERN_DUMP_ON_PANIC	0x400	// Trigger core dump on panic               
+#define DB_KERN_DUMP_ON_NMI		0x800	// Trigger core dump on NMI 
+#define DB_DBG_POST_CORE		0x1000	// Wait in debugger after NMI core    
+#define DB_PANICLOG_DUMP		0x2000	// Send paniclog on panic, not core
+#define DB_REBOOT_POST_CORE		0x4000 /* Attempt to reboot after                                         
+                                        * post-panic crashdump/paniclog                                   
+                                        * dump.                                                           
+                                        */                                                                
+
+#define DB_NMI_BTN_ENA  0x8000		// (useful) Enable power button to directly trigger NMI                              
+#define DB_PRT_KDEBUG   0x10000		// kprintf KDEBUG traces
+ 
+Other debugging options
+You can potentially also debug the current host by using /dev/mem.  This is enabled by setting boot-args="kmem=1".  The Internets say you can attach to localhost after this.
+ 
+
+Previous versions:
+| 1 
+| 2 
+| 3 
+| 4 
+| 5 
+| 6 
+| 7 
+| 8 
+| 9 
+| 10 
+| 11 
+| 12 
+| 13 
+| 14 
+| 15 
+|
+                    

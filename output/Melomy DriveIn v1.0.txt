@@ -1,0 +1,46 @@
+
+                        Owner: User #7995631
+Melomy DriveIn v1.0
+SECRET//NOFORN
+Melomy DriveIn v1.0
+ 
+Description:
+Melomy DriveIn uses a DLLDynamic Link Library hijack in VLCMediaplayer player that once launched will drop and run RickyBobby  SECRET 4. It uses simple buffer to encrypt the RB header using the volume serial number as the key.
+ 
+ 
+Design:
+Stash Repository:   Project Repoistory
+
+ 
+Testing Repoistory:   Project Tests Repository
+
+ 
+Documentation:
+('section' missing)
+ 
+Latest Testing Results:
+Operational Use:
+JQJSMITTEN
+ 
+Highlights:
+ 
+Technique Tracking:
+List of techniques used by Project
+
+Technique 1
+Technique 2
+
+ 
+Change Log:
+
+('excerpt' missing) Older Versions:
+ 
+ 
+SECRET//NOFORN
+ 
+ 
+
+Previous versions:
+| 1 SECRET
+|
+                    

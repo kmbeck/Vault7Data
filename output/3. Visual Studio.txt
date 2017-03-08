@@ -1,0 +1,119 @@
+
+                        Owner: User #1179751
+3. Visual Studio
+SECRET//NOFORN
+ 
+Alright, now that you've practiced the version control, let's get into something a little more fun...
+ 
+Setting up color schemes
+To change the color scheme of visual studio can be changed by going to Tools->Options->Environment->General
+ 
+('section' missing)
+ 
+Setting up Keyboard Shortcuts (Hotkeys)
+To configure hotkeys for Visual Studio go to Tools->Options->Keyboard and specify key combinations for certain actions. Good actions to create shortcuts for are Build.BuildSolution, Build.BatchBuild, Build.CleanSolution, Build.CancelBuild, Build.RebuildSolution, Build.*, Debug.Step*
+ 
+
+ 
+Project Settings Overview
+This section will identify and/or explain only the most often modified sections of a project's properties. Let's start with the general section:
+ 
+
+Identifies which configuration you are changing properties for
+The type of build (usually matches the target extension)
+We usually default to using UnicodeNext, we'll head to the C/C++ section:
+
+ 
+
+General->Additional Include Directories: Any extra directories containing files you want to include in your project. This tells visual studio where to search for included files if they are not in the expected locations.
+Optimization->Optimization: We tend to favor smaller size over speed, but this can vary depending upon the project
+Precompiled Headers->Precompiled Header: Usually we set this to Not Using Precompiled Headers. Although it can help reduce build time (rarely is it a significant change) it is more likely to cause build issues when including third party libraries. 
+
+ 
+
+ 
+And now the linker section:
+ 
+
+Input->Additional Dependencies: Here you can list all of the libraries (.lib) files that your project depends on. You can also use this section to specify either the Win200 or Win_XP CRT.
+Input->Module Definition File: If you are generating a dll and using a definition file (.def) specify it here.
+Manifest File->Generate Manifest: Specify whether or not you want a manifest included in your binary (varying preferences on this one). You can also use this section to specify whether UACUser Account Control should prompt the user for Administrator privileges.
+Debugging->Generate Debug Info: Yes on debug builds and No on Release builds.
+
+ 
+
+ 
+Using the EDGEngineering Development Branch Project Wizard
+The EDGEngineering Development Branch Project Wizard is an add-on for Visual Studio that helps automate setting project settings, build dependencies and git initialization. The project wizard also provides the capability to add libraries or shared code to your projects (EDGEngineering Development Branch Libraries). Here's a walk through of what it will look like:
+Create New Project - Select EDGEngineering Development Branch Project Wizard
+
+ 
+2.   Specify project type, and the repository (if one has been created on Stash) for the project
+ 
+
+ 
+3.   Select any Submodules you think you might need for your project (Note: If you do use submodules it should be documented on Confluence)
+ 
+
+ 
+ 
+4.   Specify Requirement Number, Version, Customer, Operation, Author, Description and Classification and that's it!
+ 
+
+ 
+ 
+SECRET//NOFORN
+ 
+ 
+
+Attachments:
+
+
+image2015-5-6 8:46:29.png
+
+
+image2015-5-6 8:45:36.png
+
+
+image2015-5-6 8:44:18.png
+
+
+image2015-5-6 8:41:46.png
+
+
+image2015-5-6 8:24:53.png
+
+
+image2015-5-6 8:13:41.png
+
+
+image2015-5-6 7:59:1.png
+
+
+image2015-5-5 16:25:7.png
+
+
+image2015-5-5 16:20:17.png
+
+
+image2015-5-5 16:18:53.png
+
+
+
+Previous versions:
+| 1 empty
+| 2 empty
+| 3 
+| 4 
+| 5 
+| 6 
+| 7 
+| 8 
+| 9 
+| 10 SECRET
+| 11 SECRET
+| 12 SECRET
+| 13 SECRET
+| 14 SECRET
+|
+                    

@@ -1,0 +1,44 @@
+
+                        Owner: User #71473
+HammerDrill v2.0
+SECRET//NOFORN
+HammerDrill v2.0
+ 
+Description:
+HammerDrill is a CD/DVD collection tool that collects directory walks and files to a configured directory and filename pattern as well as logging CD/DVD insertion and removal events.  v2.0 adds a gap jumping capability that Trojans 32-bit executables as they are being burned to disc by Nero.  Additionally, v2.0 adds an status, termination and an on-demand collection feature controlled by HammerDrillStatus.dll, HammerDrillKiller.dll and HammerDrillCollector.dll.  The logging now also fingerprints discs by hashing the first two blocks of the ISOInternational Standard Organization image, which enables unique identification of multi-sessions discs even as data is added and removed.  The log also logs anytime a HammerDrill trojaned binary is seen on a disc. 
+ 
+Design:
+Stash Repository:   Project Repository
+
+ 
+Testing Repository:   N/A
+ 
+Documentation:
+('section' missing)
+ 
+Latest Testing Results:
+Operational Use:
+JQJCRUSH
+ 
+Highlights:
+ 
+Technique Tracking:
+List of techniques used by Project
+Inception
+ 
+Change Log:
+
+('excerpt' missing) Older Versions:
+ 
+ 
+SECRET//NOFORN
+ 
+ 
+
+Sub-Pages:
+
+
+HammerDrill v2.0 Developer Notes SECRET
+
+
+                    

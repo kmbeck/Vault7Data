@@ -1,0 +1,39 @@
+
+                        Owner: User #14587667
+Key-Based SSH Login
+ 
+These instructions are specific for Ubuntu.
+1. Generate a public/private keypair
+If using Windows, you can use PuTTYgen.  Copy your public key (OpenSSH) format.  It will look similar to this in PuTTY.
+
+2. Upload Public Key to Server
+You authorized_keys file should reside in your home directory inside the .ssh directory (~/.ssh/authorized_keys).
+If either the .ssh directory or the authorized_keys file doesn't exist, then you need to create it.
+
+mkdir ~/.ssh
+touch ~/.ssh/authorized_keys
+chmod go-w ~/
+chmod 700 ~/.ssh
+chmod 600 ~/.ssh/authorized_keys
+
+Paste your public key in ~/.ssh/authorized_keys.
+3. Connect via SSH
+Connect to your server via SSH.  Be sure to specify the associated private key on your client before attempting to connect.  If you SSHSecure Shell into your server without needing to type a password (except for the private key password if you set one), then you have been successful.
+You may now want to turn off password authentication.
+ 
+For troubleshooting, reference this article.
+ 
+ 
+
+Attachments:
+
+image2015-4-16 7:18:20.png
+
+
+Previous versions:
+| 1 empty
+| 2 
+| 3 
+| 4 
+|
+                    

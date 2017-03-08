@@ -1,0 +1,38 @@
+
+                        The Gibson
+Programs
+Queue Proxy
+The Que Proxy runs on the C2.   It takes commands from the Transport and User Interfaces.
+Queue Proxy  
+ Queue
+The Queue runs on the LP.   It takes commands from the Transport and Beacon (cgi script) Interfaces.
+Queue  
+Queue Tar File
+This is the single file package transported between CP and LP.   
+Queue Tar File Format  
+ 
+
+Sub-Pages:
+
+
+Queue Tar File Format 
+
+
+Queue 
+
+
+Queue Proxy 
+
+
+
+Previous versions:
+| 1 empty
+| 2 
+| 3 
+| 4 
+| 5 
+| 6 
+| 7 
+| 8 
+|
+                    

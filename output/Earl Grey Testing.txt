@@ -1,0 +1,109 @@
+
+                        Owner: User #13205547
+JQJTHRESHER
+Date
+
+Attendees
+
+User #13205547, User #14587612, User #11629142, User #14587667, User #71467, User #1179928, User #1179907, User #14588536 
+ 
+
+Goals
+Successfully test 2960-S in Test Range environment
+Action Items
+
+
+Item
+Who
+Notes
+
+
+Coordinate with Bartwell 
+
+User #73861 / User #73860
+
+Understand what information is avaialbe, show commands, SNMP, etc. 
+
+
+Transfer VMs 
+
+User #73858 
+
+Windex, Seeds, Windex Target, RANCID
+Create network diagram
+
+
+
+Build VMs
+
+User #73859 / User #73858
+
+DNS Proxy, DNSDomain Name System Authority, Cover WWW, Web Server, ICON, Flux, Blot Proxy, Onslaught
+
+
+Get 2960S from PW
+User #73857
+
+User #73857 to request, TR team to pick up from PW  
+
+
+Discuss test scope
+Team
+Delivery to Ops is urgent, need to define stopping point for delivery. e.g., " after TR team has completed X,Y,Z, okay to deliver"  
+
+
+Build out infrastructure
+
+User #72905 / TR Team  
+
+User #72905 to lead build out of 2960S testbed, confirm understanding of network with BARTWELL
+
+
+ 
+Progress / Notes
+
+TR team has performed initial review of configuration and Ops provided diagrams
+TR team is moving required VMs at this time
+Created Blot-Proxy, Blot-Onslaught, Blot-CoverWeb, ICON-CutThroat VMs.  Copied Fedora10-hg2960-Seeds VMVirtual Machine from NDBNetwork Devices Branch Lab to use for seed traffic.
+Built test network with 2960S-24TS-L target switch, 3750G-24T Router and 3 2960-24TT-L switches.
+Upgraded IOSApple operating system for small devices on target 2960S switch to c2960s-universalk9-mz.122-55.SE7.bin.  Updated confiugration to match config obtained from COG.
+Uploaded Aquaman delivery package to ICON-CutThroat VMVirtual Machine and installed in /home/ubuntu.
+Successfully attacked target 2960S switch with SSHIAC and installed Hun-Grrr. Note:
+On ICON-CutThroat VMVirtual Machine - had to move to Devlan temporarily to download the ia32-lib from the repo in order for SSHIAC to run
+Must enable the root account and su - root in each window you use when you attack with SSHIAC and use CutThroat
+
+
+Modified Seeds scripts on Fedora10-hg2960-Seeds VMVirtual Machine to generate ICMP/ARP, DNSDomain Name System and HTTPHypertext Transfer Protocol traffic in our test network.
+Working on getting comms up between Hun-Grrr and ICON-Cuthroat VM.
+IXIA added to the topology for traffic generation. Port 11 on IXIA to 0/1 on 3750 and IXIA Port 20 to 2960S 1/0/24
+Re-configured topology based on latest 2960 configs from BARTWELL
+
+
+Sub-Pages:
+
+
+Aquaman-5h HG 3.3.1 - Full Test [Xetron]
+
+
+Aquaman-5h-Without-Snooping Test Notes [Xetron]
+
+
+JQJTHRESHER Command Notes 
+
+
+Aquaman-5h Test Notes TOP SECRET [Xetron]
+
+
+
+Previous versions:
+| 1 
+| 2 
+| 3 
+| 4 
+| 5 
+| 6 
+| 7 
+| 8 
+| 9 
+|
+                    

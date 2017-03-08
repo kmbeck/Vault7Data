@@ -1,0 +1,104 @@
+
+                        Owner: User #524297
+Git Workflows
+Choose the Git Workflow that works best for your team
+
+
+Workflow
+Pros +++
+Cons ---
+
+
+
+
+Centralized
+(not recommended)
+
+
+Easy to implement
+Closely replicates Subversion workflow
+Creates clear and linear revision history.
+
+
+Easy to have source conflicts in team
+Closely replicates Subversion workflow
+Conflicts can be more complicated to resolve
+Does not use pull requests to merge code changes or initiate code reviews
+
+
+
+Feature Branch
+
+Separate development of individual features into branches
+Goal of keeping master clean, no broken builds
+
+Isolated branches allows developers to work independently
+Can use pull requests to merge code changes in a managed way
+
+
+Less organization
+Too many branches can become harder to manage
+
+
+
+Git Flow
+
+Strict branch-based management of feature development, releases, and hotfixes
+Goal of keeping master clean, no broken builds
+
+Provides structure for larger projects
+Can use pull requests to merge code changes in a managed way
+Easy to implement with Git Tools   for git
+Built-in to Git Tools  , supported in Stash and Jira
+
+
+Can be more complicated
+Harder to implement in existing project
+Plugins require learning new git commands
+Works best with a Project Maintainer role
+Requires strict branch management policies
+
+
+
+Forking
+
+Easily accept input from large teams
+Easily accept input from untrusted contributors
+Good for loosely-knit teams
+Can use pull requests to merge code changes in a managed way
+
+
+Requires a Project Maintainer role
+Multiple repositories can impact disaster recovery
+
+
+
+Best Suggestion:  Use Pull Requests
+
+Using Pull Requests in Stash
+OSB Blog Post on using [BLOGPOST] posting-day="2014/02/03" space-key="IM" content-title="Pull Requests!" on small teams
+
+ 
+
+('excerpt-include' missing)
+ 
+
+Comments:
+
+
+2015-03-30 11:13 
+[User #524297]: 
+
+Relevant:
+
+
+
+
+Previous versions:
+| 1 
+| 2 
+| 3 
+| 4 
+| 5 
+|
+                    

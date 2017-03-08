@@ -1,0 +1,50 @@
+
+                        Queue Tar File Format
+Notes
+
+The tar file is comprised of a command file and optional data files.   
+The first file added to the tar must be the command file.
+The command file is JSONJavascript Object Model encoded.  
+The outer layer is a dictionary of command meta-data,   timestamp, user, command code, etc.
+The embedded layer, under the key "data" is it's own JSONJavascript Object Model dictionary format.  There are two now,  change_list (from C2), and queue_state (from LPListening Post)
+
+
+command sequence (cmdseq) is from C2,  response sequence (respseq) is from LP,  both are one-up
+sequence numbers are exchanged between C2 and LP
+an echoed cmdseq from LPListening Post lets C2 know the last command seen
+an echoed respseq from C2 lets LPListening Post know any updates (i.e. task uploaded to implant) it made were seen by C2
+
+
+
+Format
+cmd_file [task_files] //cmd_file must be first in tar file, no nested folders
+task_files = [task_file] [task_files]
+task-file = binary file representing tasks // required for append, prepend, insert
+cmd_file = <json_cmds>
+json_cmds = command <cmd> queue <que_id> timestamp < time> user <userid> data <data>
+// the literals (e.g, command) above are json tags or keys in the python dictionaries
+cmd = 1 // create queue
+2 // delete queue
+3 // update queue
+que_id - alphanumeric, at least 5 alphanumeric (fisrt 4 are parent id)
+time = numberic time // int(mktime(gmtime())) when command sent
+userid = os userid, numeric
+data = [change_list | queue_state]
+change_list = < json_changes>
+json_changes = cmdseq <seq> respseq <seq> updates <changes>
+// the literals (e.g, updates) above are json tags or keys in the python dictionaries
+seq = numeric // one-up numbers for que updates cmd from qproxy, resp from queue
+changes = change [changes]// a python list of change strings
+change = <verb> [to] [from] [filename]
+verb =
+0 // NOP
+1 // insert
+2 //append
+3 //prepend
+4 // move
+5 // delete
+to = <slot | id>
+from = <slot | id>
+id - alphanumeric, fails on conversion to number
+slot - digits only / numeric
+                    

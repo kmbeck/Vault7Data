@@ -1,0 +1,211 @@
+
+                        Owner: User #13763861
+Devices On Loan
+
+
+Device
+Version
+Person to
+Receiving Office
+EDG officer
+Date out
+Date back
+CIC #
+
+
+iPhone6,2
+7.1.1
+User #76650
+COG/NOD/CTWZ
+User #73587
+21 Jan 2015
+ 
+2005K349
+
+
+iPhone5,2
+7.1.2
+User #75461
+COG/NOD/NEB
+User #73587
+19 Dec 2014
+7 Jan 2015
+2005I956
+
+
+iPhone5,2
+7.2
+User #76651
+COG/NOD/CTWZ
+User #73587
+18 Dec 2014
+7 Jan 2015
+2005I954
+
+
+iPhone5,1
+7.1.2
+User #76651
+COG/NOD/CTWZ
+User #73587
+18 Dec 2014
+7 Jan 2015
+2005I907
+
+
+iPad4,4
+7.1.1
+User #76651
+COG/NOD/CTWZ
+User #73587
+18 Dec 2014
+7 Jan 2015
+2005K257
+
+
+iPad2,5
+7.1.2
+User #76651
+COG/NOD/CTWZ
+User #73587
+18 Dec 2014
+7 Jan 2015
+2005K348
+
+
+iPhone3,1
+6.1.2
+User #76650
+COG/NOD/CTWZ
+User #73587
+21 Nov 2014
+7 Jan 2015
+2005I755
+
+
+iPhone4,1
+7.1.1
+User #76650
+COG/NOD/CTWZ
+User #73587
+19 Nov 2014
+21 Jan 2015
+2005I753
+
+
+iPhone6,1
+7.0.4
+User #76650
+COG/NOD/CTWZ
+User #73587
+19 Nov 2014
+21 Jan 2015
+2005K381
+
+
+iPhone6,2
+7.0.4
+User #76650
+COG/NOD/CTWZ
+User #73587
+19 Nov 2014
+21 Jan 2015
+2005K217
+
+
+iPhone5,2
+7.1.2
+User #76649
+EDG/ESD/WGB
+User #73587
+17 Nov 2014
+19 Dec 2014
+2005I956
+
+
+iPhone6,1
+7.1.1
+User #76651
+COG/NOD/CTWZ
+User #73587
+28 Oct 2014
+7 Jan 2015
+2005K373
+
+
+iPhone4,1
+7.1.2
+User #76651
+COG/NOD/CTWZ
+User #73587
+28 Oct 2014
+7 Jan 2015
+2005K123
+
+
+iPhone5,2
+7.1.2
+User #76651
+COG/NOD/CTWZ
+User #73587
+28 Oct 2014
+17 Nov 2014
+2005I956
+
+
+iPad2,2
+7.1.2
+User #76651
+COG/NOD/CTWZ
+User #73587
+28 Oct 2014
+ 
+2005K329
+
+
+iPhone6,2
+7.1.1
+User #76648
+COG/ICE/TOE
+User #73587
+7 Nov 2014
+7 Jan 2015
+2005K349
+
+
+iPhone4,1
+8.1
+User #76647
+EDG/ESD/WGB
+User #73587
+12 Nov 2014
+ 
+2005I915
+
+
+
+Comments:
+
+
+2014-10-28 17:00 
+[User #13763861]: 
+
+I want to turn this into a SQLite DB, but this was arguable faster in the interim
+
+
+
+Previous versions:
+| 1 
+| 2 
+| 3 
+| 4 
+| 5 
+| 6 
+| 7 
+| 8 
+| 9 
+| 10 
+| 11 
+| 12 
+|
+                    

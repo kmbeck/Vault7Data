@@ -1,0 +1,36 @@
+
+                        Workshop Stuff
+Moving Code for workshops
+ 
+$ cd ~/work
+$ mkdir allprojs
+$ repo init --depth=1 -g shareable -u ssh://stash/ios/ios_manifest.git
+ 
+# be sure to update the default.xml manifest to include any new projects and put them in the "shareable" group
+# make sure you have permission for it to be shareable (including station if working with international partners)
+ 
+$ export root_project=adderall
+$ export w_month="feb"
+$ export w_year="2016"
+$ cd ${root_project}  # can be any project, we are going to make export
+$ make export
+$ cp ../Export/${root_project}_export.tar.gz /tmp
+$ mkdir /tmp/t 
+$ cd /tmp/t
+$ rm -rf bare ${root_project}_export; tar xvf /tmp/${root_project}_export.tar.gz && mkdir bare
+$ tar xvf /tmp/${root_project}_export.tar.gz
+
+$ cd ~/work/${root_project}
+# Note: ${REPO_PATH} is defined in the repo forall command
+$ repo forall  -v -p -c 'cd /tmp/t/${root_project}_export/${REPO_PATH} && git init && git add *; git add \\.*; git commit -m "triclops_${w_month}_${w_year}" --author="moo <moo@moo.moo>" && cd /tmp/t/bare && git clone --bare ../${root_project}_export/${REPO_PATH}'
+ 
+ 
+
+Previous versions:
+| 1 
+| 2 
+| 3 
+| 4 
+| 5 
+|
+                    

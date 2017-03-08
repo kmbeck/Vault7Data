@@ -1,0 +1,31 @@
+
+                        Rain Maker v1.0 Developer Notes
+ 
+====================================================DEVELOPER NOTES RAINMAKER V1.0================================================================================================================================================================================ SECRET//NOFORN
+RainMaker Configurator:
+The Configurator code configures the payloads and infects media.   Notes:
+ 
+- On each run of the configurator, all past generated files are deleted (IMPORTANT - save private key in another place if needed). - Pubic/Private keys are generated for each configuration, unless a public key is provided by the user - The configuration can be split into two steps, payload configuration and media infection. - Next all supplied options are packed into a serialized structure and added to the resources of both the stub dll and RainMaker dll. - The target collection directories file must be a single unicode file with only the collection directory list string inside - The configured RainMaker dll is encrypted. - Next all appropriate files are copied to the thumbdrive, any previous payloads will be securely deleted from the drive.
+ 
+RainMaker Stub DLL:
+ The Rain Maker Stub DLLDynamic Link Library is loaded initially and is used to prevent the decryption of RainMaker on any volume other than the one it is running from.  Notes:
+ - Rain Maker Stub gets loaded by vlc.exe. A modification of the external manifest forces an insecure loading of psapi.dll. Rain Maker Stub forwards all calls to psapi.dll to the actual psapi.dll. - Rain Maker Stub gets the volume serial number of the volume it is executing on. - Rain Maker uses the serial number to generate a key and decrypt (in memory) the Rain Maker payload - The LoadFromMemory_INTD module is then used to kick off the decrypted dll in memory.
+ 
+Rain Maker DLL:
+ 
+Rain Maker DLLDynamic Link Library does a survey and targeted file collection. All collect is stored back to ADSs off the root of the volume.
+ Notes:
+ - DLLDynamic Link Library Main starts a new thread "Run Thread" - The configuration options are loaded from the resources and deserialized into a structure - Checks to see if the drive is too full according to the config options - Uses DTNtfsAds_BK and inits storage off of the root of the volume (E:\\:$DataIdN) - Executes SWMI_RoadRunner survey - Keeps hash list of survey (MD5 of computer name and last survey filetime) - If computer doesn't have a survey or if last survey is older than 7 days, a new survey is taken - Creates file collection parameters - Loops through list of directories to collect from (semi-colon delimited), conducts file collection one at a time - If drive becomes full, collection is not stored. - Cleanup
+ 
+Rain Maker Post Processor:
+ 
+Rain Maker Post Processor decrypts collected data, formats it, and restructures the data.
+ Notes:
+ - Takes args: Path to media, private key for decryption, optional output directory - Loops through each ADSAda Specification (file) file, reconstructs chunks using headers - Creates separate folder for each collection time in output directory - If exists, places survey in root of collection directory - Reconstructs directory structure of collected files
+==================================================================================================================================================================================================================================================================== SECRET//NOFORN
+
+Previous versions:
+| 1 SECRET
+| 2 SECRET
+|
+                    

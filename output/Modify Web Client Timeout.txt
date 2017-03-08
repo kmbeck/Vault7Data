@@ -1,0 +1,39 @@
+
+                        Owner: User #14587667
+Workaround for OVF Deployment Failed
+Problem: When deploying VMs received from PW from OVF template and browsing to an OVA file, deployment fails with the following error message:
+"OVF Deployment Failed: File ds:///vmfs/volumes/uuid/_deviceImage-0.iso was not found"
+Cause: The CDCompact Disk drive was connected when OVA file was created, so now import process is attempting to mount a non-existent drive
+Step-by-step guide
+
+Add the steps involved:
+
+Use 7-zip to extract the contents of the OVA file (this is just a tar file)
+Edit the .ovf file to change "vmware.cdrom.iso" to "vmware.cdrom.remotepassthrough"
+Use Hashcalc to recalculate the SHA1 sum of the .ovf file and update this value in the .mf file
+Re-tar the files to create a new OVA file
+I used an Ubuntu linux VMVirtual Machine to do this becuase I couldn't make 7-zip work.
+Note that the .ovf file must the first file in the new OVA file - the following process will work, but feel free to accomplish this how you see fit:
+Copy the three files to be tar'd onto the //server_ip/Share folder
+Log in to an Ubuntu VMVirtual Machine with access 
+Create a dir named share in /mnt if one does not already exist
+Mount the share - mount -t cifs -o username=administrator,password=<password> //server_ip/Share /mnt/share
+Change directory into /mnt/share - you should see your files here
+Create the tar first with the .ovf file, being sure to name it with a .ova extension - tar cvf vm.ova vm.ovf
+Then add the .mf and .vmdk files - tar uvf vm.ova *.mf *.vmdk
+The new OVA file can now be imported to VMware
+
+
+
+
+You can also copy and paste or drag and drop images into your instructions.
+
+ 
+You may also want to use visual panels to communicate related information, tips or things users need to be aware of.
+Related articles
+
+Related articles appear here based on the labels you select. Click to edit the macro and add or change labels.
+
+('contentbylabel' missing)
+('details' missing)
+                    

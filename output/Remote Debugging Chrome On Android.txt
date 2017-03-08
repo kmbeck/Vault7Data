@@ -1,0 +1,164 @@
+
+                        AngerManagement
+What is AngerManagerment?
+AngerManagement is a collection of Hamr plugins for Android remote exploitation framework.
+
+AMSupported  
+
+How to get the AngerManagement project
+
+In Stash, go to angermanagement_manifest project and copy the link from "Clone" (on the left hand side). ie. SSH: ssh://git@stash.devlan.net:7999/droid/angermanagement_manifest.git
+
+
+In your desired repo directory:
+repo init -u ssh://stash/droid/angermanagement_manifest.git --no-repo-verify
+repo sync
+
+
+
+**NOTE: AngerMangement repo project contains multiple git projects
+Components of AngerManagement 
+
+('image' missing)
+ 
+AngerManagement repo project contains multiple git projects where the goal is to output an executable that builds the necessary plugins for Mission Control (MC) to target a particular Android mobile device. This executable is a python zip file called angerquake, but in the future, it will be renamed to angermanagement to fit with the naming convention of all the plugins. The reason why it's called angerquake is because the first plugin incorporated was Dugtrio, and as a Pokemon, Dugtrio's ability is to quake; therefore, it is named angerquake. 
+To build a Mission Control Server based on the output of AngerManagement, please see the section "How to Build Mission Control Server using AngerManagement."
+To understand what exploits we integrate with AngerManagement (remote exploit, privilege escalation, information leak, etc), please see Android Exploits and Techniques
+ 
+Plugins / Components:
+Enumeration Stage Plugins
+
+Androidua - A plugin that produces a device enumeration by parsing the browser user agent (UA) to include the device and build info, OS, platform, webkit version, and browser name and version. Written in Python. 
+
+
+Information Leak Stage Plugins - To do: define!
+
+Dugtrio info leak
+
+
+Access Stage Plugins / Remote Execution Exploits (RCE) - To do: define!
+
+
+
+Remote Code Execution (RCE) Exploits - Helios  
+Barracuda - a RCE for Chrome.
+Dragonfly - a RCE for Chrome.
+Orion - a webkit exploit for Android 4.0, 4.1, and 4.2.
+Sparta - a RCE for Chrome.
+
+
+Dugtrio access plugin
+
+
+
+Resource (Hamr) Plugins 
+
+
+Privilege Escalation
+
+Chronos - exploits a vulnerability that affects Android devices running 4.0 and greater using a Qualcomm Snapdragon chipset. A privesc for Samsung GrandPrime and Mini4 devices. Written in C.
+
+Flameskimmer - exploits devices which use a Broadcom WiFi chipset. A privesc for Broadcom wifi chipset devices such as Galaxy Note 4. Written in C.
+Hyperion - covers devices using a Samsung Exynos (version 4212 and greater) chipset.
+Freedroid - is an extremely generic vulnerability involving an oversight in data translation in the ARMProcessor manufacturer port of the Linux kernel, affecting most Android ARMProcessor manufacturer v7 devices running 4.0 - 4.3.
+
+
+
+Post Exploits - non-persistence tool that collect data from targeted device.
+
+Bowtie
+Downloader
+Suckerpunch
+
+
+
+Implants - persitence-based data collection tool 
+RoidRage
+
+
+
+
+How to build AngerManagement
+From your Angermanagement repo directory:
+
+"make -j hamrtime all C=Debug "
+To display verbose, use "V=1" flag ("make -j V=1 runtests")
+To build in debug mode, use "C=Debug" ("make -j C=Debug V=1 runtests")
+
+Plugins/ Components
+
+Angry - Written in C. 
+Bleak - An infoleak. Written in C.
+Bowtie - A payload survey tool. Written in Java. Non-persitent.
+Debug_log - 
+
+Downloader - a Java program that is used to fetch a RoidRage download or an arbitrary payload. 
+Dropper - Dropper is a library that adds drop and execute support to those privs that include/need it, such as Bowtie.
+Dugtrio -  
+Freedroid -  
+Googletest - a simple wrapper to get Googletest libs built using NDK.
+Hamdroid - To do!
+Hamrtest - A set of testing resources for hamr plugins
+Hamrtime - a tool to test interactions with all the various Hamr plugins. Its for development/testing purposes and **not** to be released.
+Helios - a family of RCEs that provides the remote access via JavaScript. See above for a list of the RCEs that are part of Helios.
+Hyperion -  
+Legba - a 3rd party utility to wrap elf binaries with a bit shellcode to be run from a browser.
+
+Makederps - To do!
+Quafflehamr - replaced Mission Control. Hamr is a new framework for packaging and throwing browser exploits and payloads. It includes a set of tools to create HTTPHypertext Transfer Protocol serves used to throw RCEs and a 
+Tahoma - RoidRage's installer
+SELinux - To do!
+Sepol_thirdparty - a subproject under the SELinux Project on github.com. It has been slightly modified for AM framework. SEPol is necessary for enumerating, reading, and injecting new rules into an SELinux policy on a device.
+Stringobfuscation - To do!
+Stubbydroid - provides supports utilities for shared objects found on devices such as Libcutils. 
+Webutils - To do!
+
+
+
+How to deploy AngerManagement
+
+Configure a HTTPHypertext Transfer Protocol and NGINX server
+Build AngerManagement (make -j delivery)
+Reference AngerManagemnt User Guide for instructions to build a FEL using make-plist utility.
+
+ 
+ 
+
+Sub-Pages:
+
+
+AMSupported 
+
+
+AngerManagement_Legacy 
+
+
+
+Previous versions:
+| 1 
+| 2 
+| 3 
+| 4 
+| 5 
+| 6 
+| 7 
+| 8 
+| 9 
+| 10 
+| 11 
+| 12 
+| 13 
+| 14 
+| 15 
+| 16 
+| 17 
+| 18 
+| 19 
+| 20 
+| 21 
+| 22 
+| 23 
+| 24 
+| 25 
+|
+                    

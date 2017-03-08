@@ -1,0 +1,366 @@
+
+                        Owner: User #71473
+NERDS (Networking, Engineering, Research, and Development Symposium)
+
+
+
+Have you ever...
+
+had a great idea for a product that you wanted to implement, but wanted some feedback?
+developed a solution to share with other developers who may encounter the same or similar problems?
+written a neat piece of code that you wanted to show it off to some of your peers?
+
+
+ 
+Previously, you’d have to organize a brainstorming session, design review, and/or code review by picking a time and date when interested folks might be available, reserve a space for it, etc. We all know how difficult that stuff can be.... We’d like to solve all those problems for you! ('image' missing)
+
+ 
+
+
+
+Announcing the NERDS tech talk series
+
+
+Starting Fridays, 1:15 PM - 2:30 PM (yes, that’s squeezed between lunch and Cookie Time – you know you weren’t doing anything productive anyway!); we’re hosting the first Networking, Engineering, Research, and Development Symposium (NERDS) tech talk!
+The intent is to provide an informal and voluntary group to talk about projects, tools, techniques, or interesting aspects of a project that a wider audience (beyond the development team) might be interested in learning more about. There won’t be a right way or a wrong way, just examples. We don’t anticipate much structure or a set format, so come to the first session and see how it works out.
+For example, if you want to present an architectural idea, bring some slides if you have ‘em, or just be prepared to diagram it on the whiteboard. If you want to show off some code, bring it on a CDCompact Disk or make sure it’s checked in somewhere.
+ 
+
+
+Details
+
+
+
+What: Network, Engineering, Research, and Development Symposium tech talk series
+
+When: non-payday Fridays, 1:15 PM to 2:30 PM
+
+Where: 9E53C demonstration room (EDBEmbedded Devices Branch Lab, 9E53C in DD2)
+
+Questions: See co-chairs User #76084, User #76083, or User #76086
+
+
+Mailing List: The NERDS mailing list can be found on CWE at S:\DO\IOC\EDG ALL\EDG_AED\Technical_Exchange\NERDS\NERDS-mail-list.txt
+
+ 
+
+For presenters, the demonstration room does have a DEVLAN drop, so if your slides/demos/whatever are on a DEVLAN machine with network access, you should be fine. The NERDS staff has a classified laptop running Ubuntu Linux, though you may also feel free to bring your own devices. The presentation stand has a VGA input, and any VGA-compatible laptop should work. (The NERDS team can also put our hands on a DVI-VGA adapter if necessary. Just make sure that your machine has working network drivers. 
+('image' missing))
+ 
+(Incidentally, the NERDS team is also working on finding a MacBook Pro that we can set up to triple-boot into Mac OSOperating System X, Linux, and Windows, so that we’ll have the right environment for almost any presentation. We’ll let you know when we have such a machine up and running.)
+ 
+
+
+Schedule of Upcoming Talks
+
+ 
+
+
+Date
+Topic
+Branch
+Responsible Party
+Scheduler
+
+
+Feb. 13, 2015
+Available
+ 
+User #76077
+User #76064
+
+
+Feb. 20, 2015
+NFC research
+
+User #71529, LATECH
+User #76055
+User #76070
+
+
+Feb. 27, 2015
+Available
+ 
+User #76056
+User #76035
+
+
+Mar. 13, 2015
+Available
+ 
+User #76048
+User #76071
+
+
+Mar. 27, 2015
+Available
+ 
+User #76066
+User #76080
+
+
+Apr. 3, 2015
+Available
+ 
+User #76049
+User #76065
+
+
+Apr. 17, 2015
+Available 
+ 
+User #76050
+User #76036
+
+
+Apr. 31, 2015
+Available
+ 
+User #76078
+User #76075
+
+
+May 8, 2015
+Available 
+ 
+User #76057
+User #76051
+
+
+May 28, 2015
+Git Better ([BLOGPOST] content-title="Slides for 28 May 2015 NERDS Talks : How to Git Better & How to Code Review" posting-day="2015/05/29" space-key="~User #524297")
+
+User #524297, User #?
+
+User #76044
+User #76037
+
+
+Jun. 5, 2015
+Available 
+ 
+User #76038
+User #76062
+
+
+Jun. 19, 2015
+Available 
+ 
+User #76072
+User #76073
+
+
+Jul. 17, 2015
+Available
+ 
+User #76081
+User #76058
+
+
+Jul. 31, 2015
+Available
+ 
+User #76045
+User #76039
+
+
+Aug. 14, 2015
+Available 
+ 
+User #76052
+User #76040
+
+
+Aug. 28, 2015
+Available 
+ 
+User #76046
+User #76041
+
+
+Sep. 11, 2015
+Available
+ 
+User #76059
+User #76060
+
+
+Sep. 25, 2015
+Available 
+ 
+User #76042
+User #76047
+
+
+Oct. 9, 2015
+Available
+ 
+User #76043
+User #76053
+
+
+Oct. 23, 2015
+Available 
+ 
+User #76079
+User #76069
+
+
+Nov. 6, 2015
+Available 
+ 
+User #76067
+User #76074
+
+
+Nov. 20, 2015
+Available 
+ 
+User #76076
+User #76082
+
+
+Dec. 4, 2015
+Available 
+ 
+User #76068
+User #76054
+
+
+Dec. 18, 2015
+Available
+ 
+User #76063
+User #76061
+
+
+ 
+
+
+Talks to be Scheduled
+
+ 
+
+
+User #76085
+DirtNap - Skeleton Key capability for OSXApple operating system (Screen unlock)
+
+
+TBD
+TBD
+
+
+TBD
+TBD
+
+
+TBD
+TBD
+
+
+TBD
+TBD
+
+
+TBD
+TBD
+
+
+TBD
+TBD
+
+
+TBD
+TBD
+
+
+TBD
+TBD
+
+
+ 
+Other Topics: Black hat, Shmoocon, JDW, DEFCON, Scamp, SWSW
+
+Proposed Topics
+
+
+ Seeking Feedback, Ideas, & Presenters 
+
+Source Forge
+Ruby on Rails
+Key Logger implementation considerations
+Listening post communication protocols
+Configuration files
+Implant configuration & deployment mechanisms
+Patchers
+Strings
+USB Covert channels, covert data storage
+Covert store-and-forward package routing
+Packet chunking (breaking long uploads/downloads into smaller pieces).
+Automated Build and Regression Testing Systems
+Google Test Framework
+Happiness
+
+
+
+
+
+Recent space activity
+
+('recently-updated' missing)
+
+
+Space contributors
+
+('contributors' missing)
+
+
+ 
+
+
+Sub-Pages:
+
+
+Past Presentations 
+
+
+
+Previous versions:
+| 1 
+| 2 
+| 3 
+| 4 
+| 5 
+| 6 
+| 7 
+| 8 
+| 9 
+| 10 
+| 11 
+| 12 
+| 13 
+| 14 
+| 15 
+| 16 
+| 17 
+| 18 
+| 19 
+| 20 
+| 21 
+| 22 
+| 23 
+| 24 
+| 25 
+| 26 
+| 27 
+| 28 
+| 29 
+| 30 
+| 31 
+| 32 
+| 33 
+| 34 
+| 35 
+| 36 
+|
+                    

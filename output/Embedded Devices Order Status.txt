@@ -1,0 +1,95 @@
+
+                        Owner: User #3375130
+Embedded Devices Order Status
+Devices Ordered
+ 
+
+
+Device Name/Model
+Sterility Code
+Quantity
+Users
+Comments
+
+
+Raspberry Pi
+2
+8
+
+User #77099, User #524297, User #77096, (4 Stored in Cabinet)
+ 
+
+
+Cotton Candy
+2
+5
+
+User #77098 (2),
+ 
+
+
+Rikomagic MK802 II New Generation Mini4 Android 4.0 PC
+2
+2
+Stored in Cabinet
+ 
+
+
+Rikomagic MK802 III Dual Core Android8 4.1 Jelly Bean Mini PC
+2
+2
+Stored in Cabinet
+ 
+
+
+Gumstix Card
+1
+ 
+
+User #77099, Cabinet
+ 
+
+
+Zoom Torpedo Development Kit SDK-DM3730-30-256512R
+2
+5
+On Order with EIB(Branch) (8 Jul 2013)
+ 
+
+
+Torpedo AM3703
+2
+8
+On Order with EIB(Branch) (8 Jul 2013)
+ 
+
+
+FaceDancer (assembled)
+2
+10
+On Order with EIB(Branch) (8 Jul 2013)
+ 
+
+
+Face Dancer (unassembled)
+2
+5
+On Order with EIB(Branch) (8 Jul 2013)
+ 
+
+
+BeagleBoneBlack
+0
+10
+User #77099, User #77097, User #77098
+ 
+
+
+
+Previous versions:
+| 1 
+| 2 
+| 3 
+| 4 
+|
+                    

@@ -1,0 +1,107 @@
+
+                        MDB static leases
+ 
+static leases
+
+
+mac
+hostname
+user
+current ip
+notes
+
+
+00:3e:e1:c5:93:99
+orangespots.devlan.net
+User #?
+10.3.2.183
+ 
+
+
+08:00:27:7C:FD:F2
+longnecks.devlan.net
+User #?
+10.3.2.83
+(vm)
+
+
+60:02:92:37:f6:e3
+penguin.com
+User #74841
+10.3.2.54
+ 
+
+
+40:6c:8f:b9:d5:d0
+desired ptmacpro.devlan.net
+
+User #?
+10.3.2.122
+
+doesn't have a hostname set yet - I would like
+it to be ptmacpro.devlan.net. 
+
+
+
+00:3e:e1:c4:31:2e
+ardbag.devlan.net -> change to ardbeg.devlan.net
+User #?
+10.3.2.185
+ 
+
+
+00:3e:e1:be:0b:96
+trashcan.devlan.net
+User #?
+10.3.2.144
+ 
+
+
+00:50:56:af:30:2a
+none -> would like wildturkey.devlan.net
+User #73587
+10.2.3.105
+(vm) DNSDomain Name System entry only
+
+
+00:3e:e1:c4:24:bf
+eaglerare.devlan.net
+
+User #73587 
+10.3.2.47
+ 
+
+
+00:3e:e1:c4:22:6a
+laphroig.devlan.net
+User #73587
+10.3.2.142
+
+ 
+
+
+
+Comments:
+
+
+2015-09-01 11:29 
+[User #15728648]: 
+
+copy paste fail
+
+
+2015-09-01 11:27 
+[User #524297]: 
+
+Damn... still haven't fixed "ardbag" yet?
+
+
+
+Previous versions:
+| 1 
+| 2 
+| 3 
+| 4 
+| 5 
+|
+                    

@@ -1,0 +1,54 @@
+
+                        Owner: User #71473
+Avast
+Avast Product Line:
+TODO: Something
+ 
+Avast Processes:
+ 
+['\r', '"AVASTSVC.EXE"', '"AFWSERV.EXE"', '"AVASTEMUPDATE.EXE"', '"AVASTUI.EXE"', '"UNSECAPP.EXE"'] 
+
+
+Process Names
+Avast Internet Security
+Avast AntiVirus
+
+
+ 
+avastsvc.exe
+ 
+
+
+ 
+afwserv.exe
+ 
+
+
+ 
+avastemupdate.exe
+ 
+
+
+ 
+avastui.exe
+ 
+
+
+ 
+unsecapp.exe
+ 
+
+
+ 
+ 
+Notes:
+ 
+Defeats:
+ 
+ 
+ 
+
+Previous versions:
+| 1 empty
+|
+                    

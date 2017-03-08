@@ -1,0 +1,68 @@
+
+                        Create A Process Via COM Class Creation (COMLocalServerRun_SHTA - Shasta)
+SECRET//NOFORN
+ 
+OSB Library: Payload Deployment
+
+Module Name: COMLocalServerRun_SHTA - Shasta
+ 
+Module Description: This module uses COM to create a process. The payload, if supplied, is written to disk at a user specified location with user specified attributes. Registry keys are written to HKEY_LOCAL_MACHINE to set up a COM LocalServer32. CoCreateInstance then forces the COM service to execute the command, cmd.exe /C start /MIN /Separated <exe target path>. The COM service creates the process with "Show Window" flags. Thus, this module should only be run as SYSTEM and appropriate precautions should be taken. Also, since there is chaining, no process handle is returned, a cmd window is shown during the execution (on SYSTEM's desktop), and paths should not include spaces (if spaces are in the path, please use short path names). This module could be modified to start the process with no chaining, however, if no class is registered in 2 minutes after starting the process the process is terminated by the COM Service.
+ 
+PSP/OS Issues: No known issues. This module must be run as system (process creation is called with "Show Window" flags).
+ 
+('excerpt' missing)
+ 
+Sharing Level: Unilateral
+ 
+Technique Origin: In-house
+ 
+Notes:
+
+Run only as SYSTEM
+Creates a cmd window on SYSTEM desktop on initial execution
+Writes to HKEY_LOCAL_MACHINE and cleans up after execution
+Runs with "Show Window" flags
+Helps bypass PSPs as it takes the parent process out of the chain (the caller of this module is not a parent of the created process).
+If payload is already written, NULL can be passed into the function.
+Payload Attributes can be set by the caller
+
+ 
+Module Specific Structures:
+ 
+
+struct PARAM_SHTA
+{
+	DWORD dwAttribs; //The attributes of the target payload on disk
+	WCHAR *wcArgs; //Arguments for the payload on disk
+	WCHAR *wcTargetPath; //The target path of the executable to drop to disk
+};
+
+
+ 
+Example Code:
+ 
+HANDLE hRet = NULL;
+
+
+IPayload *myPayload = new COMLocalServerRun_SHTA();
+
+
+PARAM_SHTA params;
+SecureZeroMemory(¶ms, sizeof(params));
+params.dwAttribs = FILE_ATTRIBUTE_HIDDEN | FILE_ATTRIBUTE_SYSTEM;
+params.wcTargetPath = L"C:\\TestFolder\\MyTest.exe";
+params.wcArgs = L"1 2 3";
+
+
+//Create Process
+IPayload::PayloadErr pErr = myPayload->execute(improvedDummy, sizeof(improvedDummy), ¶ms, sizeof(params), &hRet);
+ 
+ 
+SECRET//NOFORN
+
+Previous versions:
+| 1 SECRET
+| 2 SECRET
+| 3 SECRET
+|
+                    

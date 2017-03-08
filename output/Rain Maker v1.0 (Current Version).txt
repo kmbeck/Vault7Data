@@ -1,0 +1,137 @@
+
+                        Rain Maker v1.0 (Current Version)
+SECRET//NOFORN
+Rain Maker v1.0
+ 
+Description:
+RainMaker v1.0 is a survey and file collection tool built for a FINO QRC operation. IOC/FINO is looking to expand asset-assisted operations. The intended CONOPS involves using an asset to gain access to a target network. The asset has the ability to plug in a personal thumbdrive to the network. In this scenario, the asset will have "downloaded" the portable version of VLCMediaplayer player (2.1.5)  and will listen to music during work hours. While she is listening to music, the tool will execute the survey and a prioritized file collection. All collected data will be stored to the root of the removable media it is executing from. When the asset next meets with the case officer, the thumbdrive is retrieved and the collection is processed. 
+ 
+The configuration of RainMaker allows to the user to split or combine the configuration and infection steps. This was done to allow for expansion in future efforts that may require a different infections step. When configuring Rain Maker v1.0 the user is given the following options:
+
+Priotitized list of directories to collect files from (environment variables allowed)
+A list of extensions or patterns the file name must meet (*.doc*)
+The amount of free space to be left on the drive
+The path to the VLCMediaplayer player to infect
+The relative path from the VLCMediaplayer player where the encrypted container should be stored
+
+
+In the infection phase of the configuration, RainMaker v1.0 alters the external manifest of VLCMediaplayer player (vlc.exe.manifest). This is a new technique (see Manifest files) that forces a "side-by-side" or "SxS" loading of a dll. For RainMaker v1.0 the chosen dll to hijack is psapi.dll. A stub dll is renamed to psapi.dll and placed in the directory containing vlc.exe. The stub dll forwards all functions to the actual psapi.dll. The stub, upon execution grabs the volume serial number of the volume from which it is executing. It uses the volume serial number to generate an AESAdvanced Encryption Standard key. The AESAdvanced Encryption Standard key is then used to decrypt RainMaker and memory loads the dll (in the vlc.exe process). This ensures that RainMaker is only run from the media for which it was configured.
+ 
+When post processing the Rain Maker v1.0 collection the user specifies the volume containing the collect and the private key (generated at configuration time). Optionally, the user may specify a folder where the output is stored. If not specified, the output is generated on the executing user's Desktop in a folder named RainMaker. Inside the output folder will be folders for each collection time. Surveys are conducted only when there has not been a survey for the machine or when the last survey was less than 7 days old. This is enforced by a survey hash list that keeps a list of computer name hashes (MD5) and last survey filetimes. During file collection, any file over 100MBs is excluded from the list of files to collect. 
+ 
+Design:
+
+Stash Repository:   Rain Maker
+
+ 
+Testing Repoistory:   Rain Maker Dart Tests
+
+ 
+Documentation:
+('section' missing)
+ 
+Latest Testing Results:
+Operational Use:
+JQJHEADSMAN (JQJPOPSTARS/1)
+ 
+Highlights:
+ 
+Technique Tracking:
+Rain Maker (Unclass)
+
+Buffers - Secure Buffer (needs added)
+Survey - SWMI_RoadRunner (needs added)
+File Collection - FC_PRI_ORevFCC - FileCriteriaChecker (needs added)
+Data Storage - DTNtfsAds_BK
+ArrayList
+HashList - hashlist2 (needs added)
+MD5Functions (needs added)
+
+ 
+Rain Maker Stub (Unclass)
+
+Buffers - Secure Buffer (needs added)
+Payload Deployment - LoadLibraryFromMemory_INTD
+
+ 
+Rain Maker Configurator (Secret//NOFORN)
+
+Misc - MISCFileStateCapture_WIN
+Buffers - Secure Buffer (needs added)
+
+ 
+Rain Maker Post Processor (Secret//NOFORN)
+
+Data Storage - DTNtfsAds_BK  
+Buffers - Secure Buffer (needs added)
+
+ 
+Change Log:
+
+('excerpt' missing) Older Versions:
+ 
+ 
+SECRET//NOFORN
+ 
+ 
+ 
+
+Attachments:
+
+
+image2015-3-9 16:52:24.png
+
+
+Rain Maker Design.pptx
+
+
+image2015-3-9 16:33:41.png
+
+
+
+Previous versions:
+| 1 empty
+| 2 
+| 3 
+| 4 
+| 5 
+| 6 
+| 7 SECRET
+| 8 SECRET
+| 9 SECRET
+| 10 SECRET
+| 11 SECRET
+| 12 SECRET
+| 13 SECRET
+| 14 SECRET
+| 15 SECRET
+| 16 SECRET
+| 17 SECRET
+| 18 SECRET
+| 19 SECRET
+| 20 SECRET
+| 21 SECRET
+| 22 SECRET
+| 23 SECRET
+| 24 SECRET
+| 25 SECRET
+| 26 SECRET
+| 27 SECRET
+| 28 SECRET
+| 29 SECRET
+| 30 SECRET
+| 31 SECRET
+| 32 SECRET
+| 33 SECRET
+| 34 SECRET
+| 35 SECRET
+| 36 SECRET
+| 37 SECRET
+| 38 SECRET
+| 39 SECRET
+| 40 SECRET
+| 41 SECRET
+| 42 SECRET
+| 43 SECRET
+|
+                    

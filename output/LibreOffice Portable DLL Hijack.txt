@@ -1,0 +1,114 @@
+
+                        Owner: User #71468
+LibreOffice Portable DLL Hijack
+Procmon screenshot of some vulnerable DLLDynamic Link Library loads:
+
+Out of these, I tested both "MSIMG32.dll" and "dbgcore.dll" and both were successful
+ 
+Althogh we have the prototypes of all exported functions of both these lbiraries, I'd recommend using the dbgcore.dll as it appears to be unloaded as soon as it is loaded.  In contrast, msimg32 stays loaded for the lenght of the process' life.  The "program" directory is a great place to store files as there are serveral DLLs occuring naturally
+ 
+dbgcore function exports:
+ 
+Add the following include to get the struct definitions... no extern function declaration problems with the header (thank God)
+#include <DbgHelp.h>
+ 
+typedef BOOL(WINAPIWindows Application Programming Interface *REAL_MiniDumpReadDumpStream)(PVOID, ULONG, PMINIDUMP_DIRECTORY, PVOID, ULONG);typedef BOOL(WINAPIWindows Application Programming Interface *REAL_MiniDumpWriteDump)(HANDLE, DWORD, HANDLE, MINIDUMP_TYPE, PMINIDUMP_EXCEPTION_INFORMATION, PMINIDUMP_USER_STREAM_INFORMATION, PMINIDUMP_CALLBACK_INFORMATION);
+ 
+TL;DR: use dbgcore.dll in \app\libreoffice\program
+
+Languages Available:
+
+
+Language
+%PAL:LanguageCustom% Replacement
+
+
+Arabic
+ar
+
+
+Bengali
+bn
+
+
+Chinese (Simplified)
+zh-CN
+
+
+Chinese (Traditional)
+zh-TW
+
+
+Dutch
+nl
+
+
+English
+en-US
+
+
+French
+fr
+
+
+German
+de
+
+
+Hindi
+hi
+
+
+Italian
+it
+
+
+Japanese
+ja
+
+
+Korean
+ko
+
+
+Farsi
+fa
+
+
+Portugese
+pt
+
+
+Portugese (Brazilian)
+pt-BR
+
+
+Punjabi (Indian)
+pa-IN
+
+
+Russian
+ru
+
+
+Spanish
+es
+
+
+Turkish
+tr
+
+
+
+Attachments:
+
+libre office procmon.png
+
+
+Previous versions:
+| 1 
+| 2 
+| 3 
+| 4 
+|
+                    

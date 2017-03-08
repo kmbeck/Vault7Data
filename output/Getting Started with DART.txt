@@ -1,0 +1,51 @@
+
+                        Owner: User #524297
+What is What in DART
+FIXME
+
+DART Decoder Ring
+
+DART Name
+Role/Purpose
+Other Information
+
+
+Tyrant
+Overall term for entire system
+ 
+
+
+JACAL
+ 
+ 
+
+
+Undermine
+Tool responsible for execution of one single test on a single resource
+ 
+
+
+Overmind
+Tool responsible for running many tests automatically as resources become available
+ 
+
+
+Palantir
+Client on VMVirtual Machine that takes direction from Undermine
+ 
+
+
+Leafbag
+A python module that resides in the $TYRANT_HOME/leafbags directory
+(usually a symlink to somewhere else)
+
+
+ 
+
+
+Previous versions:
+| 1 
+| 2 
+| 3 
+|
+                    

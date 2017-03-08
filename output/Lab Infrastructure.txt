@@ -1,0 +1,39 @@
+
+                        Owner: User #71467
+Obselete VMs - Pruned from Inventory
+The following VMs were identified by as obselete.  They were removed from inventory on the ESX 3.5 servers and migrated to the new NetApp SATA datastore for retention, however they were not registered with a new ESXi 5.5 host.
+
+Oasis - ADActive Directory - Windows Server 2003 Standard Edition R2
+Oasis - Debian Etch r8
+Oasis - Fedora 10 - Control Post
+Oasis - Fedora 6 - Proxy
+Oasis - LPDP
+Oasis - PM v2.3
+Oasis - Windows Server 2003 SP1 w/SQL 2000
+Oasis - Windows Server 2003 w/Exchange 2003
+Oasis - XPWindows operating system (Version) SP3 - VS DP
+Oasis Archival Storage and ADActive Directory Server
+Oasis Control Post Terminal
+Oasis Data Processing
+Oasis Database
+Oasis Listening Post - Drop Point
+Oasis PM CM App Server
+Oasis PM CM Op Terminal
+Oasis Virus Scan
+Crystal Castles Ubuntu
+Fedora_Metasploit
+ICON-Image-Fedora-Core-14 (1)
+JQC_SARAH
+Ubuntu Metasploit
+Ubuntu server 10.0.4
+Ubuntu Test
+Win2k3-DC
+
+ 
+
+Previous versions:
+| 1 
+| 2 
+| 3 
+|
+                    

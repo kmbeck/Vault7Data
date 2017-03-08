@@ -1,0 +1,33 @@
+
+                        Owner: User #14587667
+Authenticate vCenter with AD
+
+Use the vCenter Appliance Web Console: https://10.9.8.16:5480/
+
+Ensure the DNSDomain Name System server and suffic on the vCenter Server Appliance (vCSA) are correct
+Go to vCenter Server -> Authentication.
+Check Active Directory Enabled. Provide Username and Password and click Save Settings.
+A message should appear indicating that vCenter was successfully added to the domain.
+After this step, you will notice that a computer account gets added in Active Directory under the Computers OU.  Do NOT delete this computer account.
+Setting up ADActive Directory will require the certificate for the vCSA to be regenerated.  Go to the Admin tab, select 'Yes' for Certificate regeneration enabled and click 'Submit'.
+Reboot vCSA by selecting System -> Reboot.  Confirm Reboot.
+After rebooting, log into the vSphere web client (https://10.9.8.16:9443/) as administrator@vsphere.local 
+Now you need to add an identity source in order to use the security constructs withing SSO.
+Click Administration -> Configuration -> Identity Sources.
+Select the + sign to add an identity source and fill in the fields using the figure below.
+
+Test the connection and once successful, click OK.
+In the vSphere Web Client select Administration -> Users and Groups.  If you change the domain dropdown to testrange.local, you should see your users and groups from AD.
+
+ 
+
+Attachments:
+
+image2015-2-6 12:47:57.png
+
+
+Previous versions:
+| 1 
+| 2 
+|
+                    

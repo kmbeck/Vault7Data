@@ -1,0 +1,111 @@
+
+                        Owner: User #524297
+Maslow's Hierarchy of Code Review
+Thought this was an interesting blog post, copied it here to provoke discussion.  Based on Maslow's Hierarchy of Needs, which if you're not familiar with, you should probably look up first.
+ 
+
+Code should be:
+Correct:
+
+Does the code do what it’s supposed to? 
+Does it handle edge cases? 
+Is it adequately tested to make sure that it stays correct even when other engineers modify it? 
+Is it performant enough for this use case?
+
+Secure:
+
+Does the code have vulnerabilities? 
+Is the data stored safely? 
+Is personal identification information (PII) handled correctly? 
+Could the code be used to induce a DOS? 
+Is input validation comprehensive enough?
+
+Readable:
+
+Is the code easy to read and comprehend? 
+Does it make clear what the business requirements are (code is written to be read by a human, not by a computer)? 
+Are tests concise enough? 
+Are variables, functions and classes named appropriately? 
+Do the domain models cleanly map the real world to reduce cognitive load? 
+Does it use consistent coding convention?
+
+Elegant:
+
+Does the code leverage well-known patterns? 
+Does it achieve what it needs to do without sacrificing simplicity and conciseness? 
+Would you be excited to work in this code? 
+Would you be proud of this code?
+
+Altruistic:
+
+Does the code leave the codebase better than what it was? 
+Does it inspire other engineers to improve their code as well? 
+Is it cleaning up unused code, improving documentation, introducing better patterns? 
+Is it taking on huge refactors, making everybody’s life easier?
+
+
+Comments:
+
+
+2015-02-23 16:33 
+[User #71473]: 
+
+Maybe I am a pedant, but what has been seen cannot be unseen.  Therefore, I felt compelled to fix it.
+
+
+2015-02-23 11:58 
+[User #524297]: 
+
+i agree... the point of the pyramid is that the bottom layers must happen before the top layers can.  (see original Maslow's Hierarchy)
+sorry User #73966.
+
+
+2015-02-23 11:56 
+[User #524297]: 
+
+hah hah... pedant
+
+
+2015-02-20 16:59 
+[User #71473]: 
+
+I have to point this out:
+Altruist should be Altruistic to match the part of speech of the other words in the pyramid.  All of the others are adjectives, while Altruist is a noun.
+I feel like item number one on Maslow's Hierarchy of Needs is a good proofreader...
+ 
+
+
+2015-02-20 16:57 
+[User #71473]: 
+
+Notice that its a pyramid... if the code isn't readable it can't really be elegant or altruistic.  We all know how readable your code is...
+
+
+2015-02-19 14:24 
+[User #4849738]: 
+
+Wow, no one has ever called me an altruist before... Thanks...
+
+
+2015-02-19 12:16 
+[User #524297]: 
+
+So, to make it a little more relevant to what we do, I would alter the following:
+
+Is personal identification information (PII) handled correctly? -> Is operational information handled correctly?
+
+Could the code be used to induce a DOS? -> Can the operator inadvertently "shoot themselves in the foot" with this tool?
+
+
+
+
+
+Attachments:
+
+maslow-codereview.png
+
+
+Previous versions:
+| 1 
+|
+                    

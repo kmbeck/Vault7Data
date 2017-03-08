@@ -1,0 +1,151 @@
+
+                        Weeping Angel (Extending) Engineering Notes
+SECRET // REL USA,UK
+Accomplishments during joint workshop with MI5/BTSS (week of Jun 16, 2014)
+
+Discovered delete and download keyfiles are sensitive to any newline characters.
+Found configuration file and setting that manages automatic updates.
+Added feature to periodically re-acquire alsa (audio) device while in Fake-Off mode.
+Suppress LEDs to improve look of Fake-Off mode.
+Ported and modified TinyShell to provide shell, command execution, file transfer.  This version is known as pshell since it's shell functionality is really a wrapper around popen() calls to emulate shell like functionality.
+Added feature to prevent updates (an iptables rule -- ported iptables application to this platform).
+Received sanitized source code from UK with comms and encryption removed.
+Tested on firmware versions 1111, 1112, and 1116 and characterized various recording qualities (wrt file size) and noise cancellation.
+
+Factory reset:  With TV powered off, enter the following key presses on the remote:  
+{{MUTE}} 182 {{POWER}}
+ToDo / Future Work:
+
+Build a console cable
+Turn on or leave WiFi turned on in Fake-Off mode
+Parse unencrypted audio collection
+Clean-up the file format of saved audio.  Add encryption??
+Streaming audio
+Video capture / Video snapshots
+Samsung offers remote support – is this an area of functionality to investigate?
+Is the browser or any default apps vulnerability to MitM attacks?
+Disable auto-upgrade by changing the configuration file
+
+Noted Anomalies or Limitations
+
+Updating firmware over internet may remove implant (not tested) or portions of the implant
+Firmware version 1118+ eliminated the current USBUniversal Serial Bus installation method
+Blue LEDLight Emitting Diode on back remains powered when in Fake-Off mode
+WiFi interface is disabled in Fake-Off mode
+Max possible storage usage is 700MB (of 1.6GB).  Increasing requires a change to (& recompile of) the source.
+In Fake-Off mode, the Samsung and SmartHub logos are not shown.
+
+Development Notes:
+
+Build environment uses Ubuntu 12.10 and g++-4.7 compiler due to dependencies (on DEVLAN, use 10.6.5.73)
+Current build system references compilers without the version number.  To accommodate, create the following symbolic links:
+/usr/bin/arm-linux-gnueabi-g++ -> /usr/bin/arm-linux-gnueabi-g++-4.7
+/usr/bin/arm-linux-gnueabi-gcc -> /usr/bin/arm-linux-gnueabi-gcc-4.7
+
+
+use "unset VD_PRINT_DISABLE;" when running commands through telnet; otherwise, output to stdout may not be displayed
+per.zip provides Persistence
+start is the same as empDownload
+Update/data/files.zip/files contains busybox and dreamhost.
+gcc-arm-linux-gnu-abi used to cross compile tools.
+
+Detailed Notes regarding Samsung F8000 Smart TV networking  
+
+
+Installer Notes:
+
+Installation process is similar to a standard Samsung app
+UEP.b -> app killer that checks signatures on installed apps
+UEP.d -> kills UEP.b and kills it when it restarts (every 15-20 minutes)
+UEP.f -> hooking one of the main Samsung apps by injecting a shared object (libt.so)
+empDownload -> the binary that downloads other apps or adverts and is executed by the system
+empDownload is replaced by our binary that we need to be executed.  The installer backsup the real empDownload and then replaces it with our's.  The installer uses the APIApplication Programming Interface to initiate a download which then causes our empDownload to execute.  After installation, the original empDownload is restored.
+AutoStart -> file put in moip/engines
+start -> binary is very similar to empDownload.  Both, initially look for the "block" file which is an encrypted shell script.
+libt.so -> shared object used by UEF.f and injected into one of the main threads to hook several functions of interest
+dreamhost -> telnet server.  same as remshd
+busybox -> fully featured version to include an FTPFile Transfer Protocol server
+when Extending starts, it looks for dreamhost and busybox, and if they exist, starts them.
+After Extending installed, the system must reboot.
+For system power up, the control flow is roughly: AutoStart > libDownload.so > start > block > UEF.*
+
+System Details:
+
+Some of the primary Samsung applications are exe, exeApp, and exeDSP
+Linux 3.0.33 SMPSymmetric Multi-Processor armv71
+libc-2.14.1
+compiled with gcc 4.6.4
+/mtd_rwcommon - writable partition
+/mtd_rwarea - writable partition
+/mtd_rwcommon/widgets/normal - apps stored here
+/mtd_rwcommon/tempS - audio stored here
+/bin - busybox
+/dtv - tempoary directory clear upon reboot
+/mtd_swu/stb - SmartHub configuration file (STANDBYDOWNOFF = 0 -> turns off automatic updates)
+/webkit/webbrowser/settings.db - browser sqlite database. may contain credentials.
+
+Audio Processing:
+
+During initial development, a rough approximation of bit rates for different audio quality settings were made.  Quality 1 settings required 100 kB/minutes.  Quality 5 settings required 250 kB/minutes.  Quality 7 settings required 350 kB/min.  Quality 5 seemed to provide very nice results and is usually used.
+All audio files saved are speex encoded files encapsulated within an Ogg header structure.  The Ogg headers are not all properly filled out.  All audio files are named fileUVWXYZn where UVWXYZ are random alphanumeric characters and n is a one up counter that starts at 1.  It is believed that the 1 up file counter is used to maintain audio sequence information and this explains why some ogg headers appear incorrect or corrupt when speex decoded and the granular time increments have not been set.
+A linux bash script named "processAudio.bsh" will process all audio files within the same directory as the script.  It concatenates all audio files into one contiguous speex encoded file named speexfile_timeStamp.spx where the timeStamp is pulled from the system time running the script.  It subsequently performs speex decoding at a 32000 Hz sampling rate to yield a wave file named processedFile_timeStamp.wav with all speex decoding output placed within the logFile_timeStamp.log file.  It then uses aplay to play the processedFile_timeStamp.wav file.
+
+Time and Clock:
+View notes Weeping Angel Time Research  SECRET
+
+ 
+Related articles
+
+Related articles appear here based on the labels you select. Click to edit the macro and add or change labels.
+
+('contentbylabel' missing)
+SECRET // REL USA,UK
+ 
+ 
+
+Sub-Pages:
+
+
+Weeping Angel -- Things you might do 
+
+
+Weeping Angel Research Ideas & Next Steps 
+
+
+Weeping Angel Time Research SECRET
+
+
+Weeping Angel DR | Approach and Developer Testing Notes 
+
+
+Network Related Strings in EXTENDING | Building a WiFi interface watchdog 
+
+
+Weeping Angel Testing Ideas 
+
+
+Detailed Notes regarding Samsung F8000 Smart TV networking 
+
+
+
+Previous versions:
+| 1 
+| 2 
+| 3 
+| 4 
+| 5 
+| 6 
+| 7 
+| 8 
+| 9 
+| 10 
+| 11 
+| 12 
+| 13 
+| 14 
+| 15 
+| 16 
+| 17 
+| 18 
+|
+                    

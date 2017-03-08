@@ -1,0 +1,72 @@
+
+                        Owner: User #14587667
+VTP Configuration
+VTP is configured on the TestRange Core Switch (TR-CORE-1) and the Top of Rack (TOR) switches.  TR-CORE is the VTPVLAN Trunk Protocol server and the TOR switches are VTPVLAN Trunk Protocol clients.
+Once a client has been added to a VTPVLAN Trunk Protocol domain, VLANs can not be added on the client.  All VLANS must be configured on the VTPVLAN Trunk Protocol server (TR-CORE-1).
+VTP Server Configuration
+
+
+Enable VTPVLAN Trunk Protocol Server mode version 3
+# config t
+
+# (config) vtp version 3
+
+# (config) vtp mode server
+# (config) vtp domain testrange
+# (config) end
+
+
+You can check that VTPVLAN Trunk Protocol was in fact configured by issuing the command 'show vtp status'.
+
+Add VLANS (if necessary)
+# config t
+# (config-vlan) vlan <vlan #>
+# (config-vlan) exit
+# (config) exit
+
+
+
+Make this the primary VTPVLAN Trunk Protocol server.
+# vtp primary vlan
+Note: This command is executed in privilege EXEC mode, NOT config mode
+
+
+Save Config
+# copy run start
+# exit
+
+
+
+ 
+VTP Client Configuration
+
+Enable VTPVLAN Trunk Protocol Client mode version 3
+# config t
+# (config) vtp version 3
+
+# (config) vtp mode client
+
+
+
+Add to VTPVLAN Trunk Protocol domain
+# (config) vtp domain testrange
+# (config) end
+
+
+You can check the VTPVLAN Trunk Protocol settings by issuing the command 'show vtp status'.
+You can also check that VLANVirtual Local Area Network IDs populate from the VTPVLAN Trunk Protocol server to the VTPVLAN Trunk Protocol client by using the command 'show vlan brief'.Note:  Not sure how long it may take for the VLANVirtual Local Area Network settings to propogate.
+
+Save the Configuration
+# copy run start
+# exit
+
+
+
+ 
+
+Previous versions:
+| 1 
+| 2 
+| 3 
+|
+                    

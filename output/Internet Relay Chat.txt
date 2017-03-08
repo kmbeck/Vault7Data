@@ -1,0 +1,120 @@
+
+                        Owner: User #4849738
+DEVLAN Resources
+
+
+Resources Available on DEVLAN
+Network Resources
+
+DEVLAN DEVLAN Domain Controller Certificate Authority  
+
+Time Server (NTPNetwork Time Protocol): 10.0.0.60
+
+Operating System Resources
+
+
+Linux Package Repository Mirrors setup   (Centos, RHEL, Fedora, Ubuntu)  : http://repo.devlan.net/
+
+
+Solaris Automated Install Server  
+
+Solaris 11 Package Repository : http://10.2.5.12 
+Perl CPAN Mirror : http://repo.devlan.net/
+
+MSDN ISOs Mirror : http://repo.devlan.net/
+
+
+Development Utilities
+
+Source Control - Stash
+
+Source Browsing - Fisheye
+
+Continuous Integration - Bamboo
+
+Issue Tracking/Project Management- Jira  
+
+Chrome Plugins  
+
+
+Collaboration Utilities
+
+Discussion/Documentation - Confluence
+DEVLANInternet Relay Chat (IRC)  
+
+
+Old Wiki  
+
+
+
+
+
+Recent space activity
+
+('recently-updated' missing)
+
+
+Space contributors
+
+('contributors' missing)
+
+
+ 
+
+
+Sub-Pages:
+
+
+Partial OpenBSD Mirror 
+
+
+Linux Package Repository Mirrors setup 
+
+
+Chrome Plugins 
+
+
+Solaris Automated Install Server 
+
+
+Old Wiki 
+
+
+DEVLAN Domain Controller Certificate Authority 
+
+
+Internet Relay Chat (IRC) 
+
+
+
+Previous versions:
+| 1 
+| 2 
+| 3 
+| 4 
+| 5 
+| 6 
+| 7 
+| 8 
+| 9 
+| 10 
+| 11 
+| 12 
+| 13 
+| 14 
+| 15 
+| 16 
+| 17 
+| 18 
+| 19 
+| 20 
+| 21 
+| 22 
+| 23 
+| 24 
+| 25 
+| 26 
+| 27 
+| 28 
+|
+                    

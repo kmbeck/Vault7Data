@@ -1,0 +1,50 @@
+
+                        Concepts: EDG Project Wizard
+EDG Project Wizard:
+
+Works for Visual Studio 2010 through Visual Studio 2013
+Optimizes project settings
+Allows you to choose submodules (including the Dynamic Libraries)
+Sets up author/req #/desc etc
+Sets up a git local repository on creation of a new project
+Using the Project Wizard ensures compatibility
+
+ 
+The EDGEngineering Development Branch project wizard will help setup the project to allow you to use any and all of the EDGEngineering Development Branch Libraries.
+ 
+Located at \\fs-01\share\EDG Project Wizard\ProjectInstaller.exe
+ 
+NOTE: If you wish to add a submodule to an existing project or solution, you can add a new EDGEngineering Development Branch Project to the solution and use the wizard to select the submodules.  Once the submodules are added, you can remove the new project from the solution.
+Concepts: Git/Stash >>
+Related articles
+
+Related articles appear here based on the labels you select. Click to edit the macro and add or change labels.
+
+('contentbylabel' missing)
+
+Previous versions:
+| 1 
+| 2 
+| 3 
+| 4 
+| 5 
+| 6 
+| 7 
+| 8 
+| 9 
+| 10 
+| 11 
+| 12 
+| 13 
+| 14 
+| 15 
+| 16 
+| 17 
+| 18 
+| 19 
+| 20 
+| 21 
+| 22 
+| 23 
+|
+                    

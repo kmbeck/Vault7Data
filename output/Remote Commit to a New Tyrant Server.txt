@@ -1,0 +1,207 @@
+
+                        Manually Add a Computer to Tyrant
+The following procedures describe how to manually add a computer to Tyrant in an environment without JACAL.
+Most of the Tyrant-managed computers on Devlan are imported from the low-side with no need to do anything manually, but these procedures describe what you can do to add a computer that already exists on Devlan. For instance, a VMVirtual Machine may have been cloned in vSphere, imported in some way, or created from scratch outside of the Tyrant system's involvement.
+ 
+These procedures do not apply if you are running JACAL in your environment along with Tyrant.
+ 
+Step-by-step guide
+
+Ensure the computer is configured to use DHCP.
+Connect the computer to one of Tyrant's VLANs. If the VLANVirtual Local Area Network if you're using isn't yet in Tyrant's database, you can add it later in the step that covers the db_admin utility.
+Find a free IP for your computer.
+To get an IP, you can either manually check Overview to find a free IP associated with the VLANVirtual Local Area Network to which your computer is connected or simply power on the computer and let it grab an IP address from Tyrant's DHCPDynamic Host Configuration Protocol server.
+
+If you let the computer obtain the IP address from Tyrant's DHCPDynamic Host Configuration Protocol server:
+
+Ensure the IP isn't already in use by another Tyrant-managed computer. You can use Overview to verify.
+
+If you find that the IP you obtained is assigned to another Tyrant-managed computer, you will need to either power-up the computer that is using the IP in order to renew its lease and then attempt to obtain another address automatically for your new computer (or just go ahead and manually pick an IP that's free in the VLANVirtual Local Area Network to which the new computer is connected. You can use Overview to see what's available).
+Even though the DHCPDynamic Host Configuration Protocol addresses assigned by Tyrant are fixed in Tyrant's dhcpd.conf file, it is possible to grab an IP already in-use if the computer associated with that IP has been disconnected from the network for a while and has lost its DHCPDynamic Host Configuration Protocol lease.
+
+
+
+
+
+
+Once you have a free IP address, add it to /etc/dhcp/dhcpd.conf on the Tyrant server. Use the following format:
+ 
+host <computer_name> {   hardware ethernet <MAC>;   fixed-address <IP>;}
+The host_name in the dhcpd.conf file should not contain spaces. While the computer_name in the dhcpd.conf file does not need to match the computer's actual hostname (or the VSphere display name if it's a VMVirtual Machine), it's probably a good idea to try to do so, but just make sure to remove or replace the whitespace if any exists.
+
+
+Restart dhcp on Tyrant.
+service dhcpd restart
+ 
+
+
+If the dhcpd service fails to start, check the syntax:
+dhcpd -t
+
+After fixing any syntax errors (like forgetting a semicolon), try restarting dhcp again as described in the parent step.
+
+
+Power up the computer and renew the IP address to ensure it's what you expect.
+Perform any last-minute configuration changes you might need for testing. For instance, you might need to configure to the computer to auto-login.
+
+Check that Palentir is running properly and can communicate by running a service_ping test. A successful test should display True at the end. If you see False, then Palantir is not properly installed. From either the Tyrant server or your remote commit environment, navigate to tybase and run the test as shown below (note that the path to the tybase directory may differ depending on the Tyrant setup):
+ 
+
+cd /proj/testing/tybase
+bin/palantir_admin -s <vm_ip> service_ping
+
+
+If the service_ping test failed, ensure Palantir is installed on the computer and that the appropriate ports are open. Note that in some cases, you may need to tweak the firewall to prevent Palantir from being blocked.
+In Windows:
+
+You should see two processes named pythonw.exe running,where one of the processes is running as system and the other as administrator. One way to check is by running the following from the command prompt on the new computer:
+tasklist /v | find "pythonw"
+
+
+Also ensure that ports 51134 and 51135 are listening. One way to check is by running the following from the command prompt on the new computer:
+ 
+netstat -an | findstr "51134 51135"
+ 
+ 
+
+
+
+In Linux
+
+You should see a process named pythonw running. One way to check is by running the following from a terminal on the new computer:
+ps aux | grep pythonw
+
+
+Also ensure that port 51134 is listening. One way to check is by running the following from a terminal on the new computer:
+netstat -an | grep 51134
+
+
+ 
+Example Firewall Tweak
+
+
+
+If Palentir is not installed on the new computer, install it.
+
+Copy the appropriate Palantir installation directory to your new computer. You can find the installation directories in the following location on the Tyrant server or in your remote commit environment if you built tybase (note that the path to the tybase directory may differ depending on the Tyrant setup):
+/proj/testing/tybase/src/tybase/palantir/installer/distro/
+
+On the new computer, run the installation script from the installation directory. For Windows, the installation script is named setup.bat. For Linux, the script is named setup_service.sh.
+Once the installation is complete, go back to the step that verifies that Palentir is running correctly and can communicate.
+
+
+If the computer is a VM, create a snapshot while it is powered-on and logged-in. 
+
+Add the computer to the Tyrant database using the db_admin utility.
+For more information about using db_admin, see the DARTTest-Software (commercial) User Manual and/or DARTTest-Software (commercial) Administrator Manual.
+ 
+
+
+Navigate to tyworkflow on the Tyrant server. Note that the path to tyworkflow may differ depending on the Tyrant setup.
+ 
+cd /proj/testing/tyworkflow
+ 
+ 
+
+
+View the help if needed.
+bin/db_admin -h
+
+
+If the VLANVirtual Local Area Network associated with the new computer is not already in Tyrant's DB, add it.
+
+
+Create a csv file in the following format:
+
+<name>,<ip_min>,<ip_max>,<mac_min>,<mac_max>,<netmask>,<gateway>,<dns_server1>,<dns_server2>...
+ 
+For example:
+frontchannel,192.168.5.100,192.168.5.200,00:50:56:3e:00:00,00:50:56:3e:ff:ff,255.255.255.0,192.168.5.1,192.168.5.10;192.168.5.11backchannel,XXX.X.X.XX (US),XXX.X.X.XX (US),00:50:56:00:00:00,00:50:56:00:00:ff,255.255.0.0,,thumb,0.0.0.0,0.0.0.0,00:00:00:00:00:00,FF:FF:FF:FF:FF:FF,0.0.0.0,,
+
+
+
+Import the VLAN.
+ 
+bin/db_admin import_vlans <vlan_csv_file>
+ 
+ 
+
+Check Overview to make sure the VLANVirtual Local Area Network appears as you expect.
+
+You can delete a VLANVirtual Local Area Network if something isn't right.
+ 
+bin/db_admin del_vlan <vlan_name>
+ 
+ 
+
+
+
+If the recipe associated with the new computer is not already in Tyrant's DB, add it.
+
+Create a csv file in the following format (note that you would include the last comma if no there are no apps and note that the first field is the recipe name):
+
+<family-os-ossp-lang-arch-apps>,<family>,<os>,<ossp>,<lang>,<arch>,<apps>
+ 
+For example:
+win-7ult-sp1-en-x86,win,7ult,sp0,en,x86,win-7ult_pp-sp1-en-x64-pp,win,7ult_pp,sp1,en,x64,ppwin-8.1pro_pp-sp0-en-x64-pp,win,8.1pro_pp,sp0,en,x64,ppthumbdrive-sandisk-cruser-td-4gb,thumbdrive,sandisk,cruzer,td,4gb,
+
+
+
+Import the recipe.
+bin/db_admin import_recipes <recipe_csv_file>
+
+Check Overview to make sure the recipe appears as you expect.
+
+You can delete a recipe if something isn't right.
+ 
+bin/db_admin del_recipe <recipe_name>
+ 
+ 
+
+
+
+
+Finally, add the computer to Tyrant's database.
+
+
+Create a csv file in the following format (note that the each computer entry is two lines: one containing the basic computer information and one containing the snapshot information):
+
+<computer_name>,<ip>,<mac>,<hwtype>,<model>,<pool>,<vlan>,<state_type>,<reaper>,vm_host=<esxi_host_name>@snapshot,<recipe_name>,<snapshot>
+ 
+For example:
+win-7ult-en-x64-pp-base-vlan93,10.9.3.170,00:50:56:ab:1f:fc,vm,esxi8,pp,VLAN93,esxi,dart-esxi-b.devlan.net,vm_host=dart-esxi-b.devlan.net@snapshot,win-7ult_pp-sp1-en-x64-pp,latestPP Win8.1 x64 KaspIS2015,10.9.3.169,00:50:56:ab:0d:6b,vm,esxi8,pp,VLAN93,esxi,dart-esxi-b.devlan.net,vm_host=dart-esxi-b.devlan.net@snapshot,win-8.1pro_pp-sp0-en-x64-pp,latestdart-esxi-02-1.0.2-thumbdrive-sandisk,dart-esxi-02:1.0.2,00:16:3e:06:ef:4e,thumbdrive,sandisk,dart-esxi-02,thumb,nop,nop@snapshot,thumbdrive-sandisk-td-4gb,latest
+
+
+
+Import the computer.
+bin/db_admin import_computers <computer_csv_file>
+
+Check Overview to make sure the computer appears as you expect.
+
+You can delete a computer if something isn't right.
+bin/db_admin del_computer <computer_name>
+More csv files are usually available for your viewing pleasure in the tyworkflow directory.
+
+
+ 
+
+
+
+
+Related articles
+Get database information about VM's (or fun with db_admin)  
+
+('contentbylabel' missing)
+('details' missing)
+
+Previous versions:
+| 1 
+| 2 
+| 3 
+| 4 
+| 5 
+| 6 
+| 7 
+| 8 
+|
+                    

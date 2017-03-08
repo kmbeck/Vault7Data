@@ -1,0 +1,114 @@
+
+                        Owner: User #15728648
+Tips & Tricks
+Installing an application using the commandline
+ 
+
+Provision a device.
+Build the app (using the debug configuration if RE-REDUXing).
+Using the mdf project, upload the application using:
+python mdf afc transfer <path to the .app directory on your local machine, i.e. ~/myproject/Build/Products/.../myapp.app). this uploads the .app to the /var/mobile/Media/PublicStaging directory
+python mdf install installapp <appname>. This moves the app from /var/mobile/Media/PublicStaging/myapp.app to the right directory.
+
+
+Application should be installed and its icon shown on Springboard.
+
+ 
+Example:
+Build, copy path to signed application
+
+Transfer application
+
+Install application
+
+
+ 
+ 
+Displaying the list of Xcode environment variables. These are accessible a script in a build phase.
+xcodebuild -project machinjection.xcodeproj -target "machinjection" -showBuildSettings
+ 
+
+Dumping kernelcache on iOS 8
+
+Build el_read from the elutil project.
+cd into the '12' directory.
+run el_read as follows:
+For 64 bit, you need to read 24 MB from the kernel base address:$ python redux execute – Build/Release-iPhoneOS/elutil/12/el_read -rs 0xffffff8002002000 0x1800000 > /tmp/kernelcache_ascii
+
+For 32 bit, you need to read 16 MB from the kernel base address:$ python redux execute – Build/Release-iPhoneOS/elutil/12/el_read -rs 0xffffff8002002000 0x1000000 > /tmp/kernelcache_ascii
+
+
+
+The output kernelcache is in ASCII, so convert to raw binary:cat /tmp/kernelcache_ascii | xxd -r -ps > /tmp/kernelcache_raw
+
+Finally, process it using mop to move kernel extensions into the right place for better disassembly:python mop/mach_o.py -u kernelcache /tmp/kernelcache_raw
+
+
+
+ 
+ 
+Applying patches using patch to a root directory of stuff 
+patch -p 1 -i ../ixr_25Jun2014.patch
+ 
+
+Disable not charging Popups
+sudo defaults write com.apple.usbd NoIPadNotifications \-bool YES
+sudo defaults write com.apple.usbd NoIPhoneNotifications \-bool YES
+ 
+ 
+ 
+Xcode Build Errors
+Xcode's clean command doesn't remove the 'DerivedData' folder, so If you ever see a message like so:
+
+fatal error: file '/Users/User #71317/Library/Developer/Xcode/DerivedData/Build/Products/Debug-iphoneos/../generated_strings/network_strings.h' has been modified since the precompiled header '/Users/User #71317/Library/Developer/Xcode/DerivedData/Build/Intermediates/PrecompiledHeaders/network-Prefix-fkgnbsyedizgtzeeyxepphumzwbs/network-Prefix.pch.pch' was built
+note: please rebuild precompiled header '/Users/User #71317/Library/Developer/Xcode/DerivedData/Build/Intermediates/PrecompiledHeaders/network-Prefix-fkgnbsyedizgtzeeyxepphumzwbs/network-Prefix.pch.pch'
+1 error generated.
+
+you need to rm -rf that DerivedData folder
+ 
+ 
+ 
+
+Attachments:
+
+
+image2015-1-20 15:30:42.png
+
+
+image2015-1-20 15:29:24.png
+
+
+image2015-1-20 15:27:25.png
+
+
+image2015-1-20 15:26:31.png
+
+
+image2015-1-20 15:25:16.png
+
+
+
+Sub-Pages:
+
+
+Random bits of knowledge 
+
+
+
+Previous versions:
+| 1 
+| 2 
+| 3 
+| 4 
+| 5 
+| 6 
+| 7 
+| 8 
+| 9 
+| 10 
+| 11 
+| 12 
+| 13 
+| 14 
+|
+                    

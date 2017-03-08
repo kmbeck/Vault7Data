@@ -1,0 +1,8 @@
+
+                        Owner: User #71475
+tinc Connectivity
+This document describes how nodes in a VPNVirtual Private Network find and connect to eachother andmaintain a stable network.1. SynchronisationEach tinc daemon has zero or more connections to other tinc daemons. It willtry to keep its own information synchronised with the other tinc daemons. Ifone of its peers sends information, the tinc daemon will check if it is newinformation. If so, it will update its own information and forward the newinformation to all the other peers.This scheme will make sure that after a short amount of time all tinc daemonsshare the same information. It will also almost completely prevent informationfrom looping, because "new" information that is already known is ignored andnot forwarded any further. However, since information can also be deletedthere's the possibility of a looping sequence of add/delete messages. This isresolved by additionaly adding a unique identifier to each broadcasted message.Messages are dropped if the same message with that identifier has already beenseen.
+2. Routing
+Every node tells its peers to which other peers it is connected. This wayevery node will eventually know every connection every node has on the VPN.Each node will use graph algorithms to determine if other nodes are reachable or not andwhat the best route is to other nodes.Because all nodes share the same information, using a deterministic algorithmeach node will calculate the same minimum spanning tree for the entire VPN.The MST will be used to send broadcast VPNVirtual Private Network packets.
+ 
+                    

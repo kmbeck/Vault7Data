@@ -1,0 +1,42 @@
+
+                        Creating a Winshell Test Environment
+So you've created a new tool but you need to test it using winshell (NOD's FIO shell tool)... Have no fear, the latest Winshell updates have made the configuration process easier.
+Step-by-step guide
+Setup the "Execution Platform Environment"
+
+Install a base Ubuntu VMVirtual Machine with a Desktop GUI.
+sudo apt-get update
+sudo apt-get install build-essential
+sudo apt-get install libc6:i386
+sudo apt-get install libssl0.9.8:i386
+sudo apt-get install libssl1.0.0:i386
+sudo apt-get install libstdc++6:i386
+(optional) sudo apt-get install vim
+Change directory to /opt
+Unzip WP_C_Python-2.7.3-binaries.tgz inside of /opt
+Unzip the Winshell-unconfigured/bin folder to /opt/winshell
+
+
+The Winshell-unconfigured/bin folder can be acquired from User #77732 in NOD. Refer to Appendix C of the Winshell 2.3 User's Guide for more information.
+Configure a winshell for testing
+
+cd /opt/winshell
+vi testtools/beacon.confEdit the Servers variable with the correct hostname and IP address of your beacon server.
+
+make credsUse a passphrase that is easy to remember for testing.
+
+sh export_creds.shcreds.tgz contains several files that you will need later.
+
+make configSeveral EXEs and a config folder will be created in the testtools directory.
+
+
+Setup a Winshell Beacon Server (LPListening Post)
+TODO
+Setup a Winshell Controller (Interactive LPListening Post)
+TODO
+Related articles
+
+Related articles appear here based on the labels you select. Click to edit the macro and add or change labels.
+
+('contentbylabel' missing)
+                    

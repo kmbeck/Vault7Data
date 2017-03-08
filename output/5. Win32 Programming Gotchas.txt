@@ -1,0 +1,23 @@
+
+                        Owner: User #1179751
+5. Win32 Programming Gotchas
+
+SECRET//NOFORN
+ 
+
+
+Trying to find out whether a token other than your own (i.e., NULL) has admin privileges?  Its so much harder than you would think... [BLOGPOST] content-title="I Just Want To Know If That Process Is Running As Admin... Is That So Wrong?" posting-day="2015/02/05" space-key="~User #71473"
+
+Calling CreateProcessW and your program isn't working?  Its probably crashing, and here's why:  [BLOGPOST] content-title="When Creating A Process Is Destroying *Your* Process" posting-day="2015/02/05" space-key="~User #71473"
+
+OSVERSIONINFO: When using GetVersionInfo and the OSVERSIONINFO you should note that Windows 8.1 will report as Windows 8 unless a specific modification to the manifest is made (see MSDNMicrosoft Developer Network)
+
+ 
+SECRET//NOFORN
+
+Previous versions:
+| 1 empty
+| 2 
+| 3 
+|
+                    

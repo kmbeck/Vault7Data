@@ -1,0 +1,189 @@
+
+                        ShoulderSurfer
+
+
+Introduction
+ShoulderSurfer is a tool that can extract data from an Exchange Database (versions 1.0 & 1.1 targeting Exchange 2010).
+
+
+Source Code
+You can find the source code repository at the following git repository
+https://stash.devlan.net/scm/surf/shouldersurfer.git
+ 
+
+
+Concept
+ShoulderSurfer utilizes existing access to the native Exchange data store to retrieve data without the need for individual credentials. The Exchange Data Store (as best I can tell) is based on the Extensible Storage Engine (ESEExtensible storage engine)[1] – the same technology that runs Windows Desktop Search among other things. The ESEExtensible storage engine API, also known as the Joint Engine Technology (JET) Blue API, is a published (but mostly abandoned) C & C# API. Therefore, the data stored (emails, contacts, etc) in the files can be accessed via these APIs. However, the managing process holds a lock on the files that represent the Exchange data store. So, ShoulderSurfer accomplishes its access by injecting in the Datastore manager process (store.exe) and executing ESEExtensible storage engine APIApplication Programming Interface calls.  Once a running thread is established in this process, JET APIApplication Programming Interface calls can be made to retrieve the data.
+
+
+Tools for Understanding an ESEExtensible storage engine Database
+
+ESE file viewers – be sure to unmount (via the Exchange Management Console) the database before copying/viewing.
+EseDbViewer v1.05
+
+esedatabaseview(new).zip v1.0 (recommended)
+Kernel Exchange EDBEmbedded Devices Branch Viewer
+
+
+
+Exchange.pdf – RE'd in public space
+
+libesedb-20120102.zip– a library that was build in-step with the Schema. Its a very interesting and (seemingly) complete library, but none of which is currently used in ShoulderSurfer. It was helpful in validating what was already known about the ESEExtensible storage engine API. Also, in dumping databases. Although, might be a better design choice to use it for pulling data.
+
+
+
+Notes from injecting into store.exe and attempting to query Exchange via the JET API
+
+All function calls need to come from the ese.dll, and not esent.dll. The APIApplication Programming Interface appears the same, but exchange does not use esent.dll. Therefore all JET function calls need to be from ese.dll space. Thankfully, its already loaded into mem. :)
+store.exe seems to export a wonderful function EcGetJetInstanceForMDB() that takes a GUIDGlobally Unique Identifier and returns a valid JET instance handle that has already been initialized and setup for use. Appears there is no need to figure out all the right SystemParameters, etc. and inorder to create our own sessions from this instance.
+Use UuidFromString() to convert from String GUIDGlobally Unique Identifier to binary.
+However, this function isn't really need as once we are injected in, calling JetGetInstanceInfo() gives us everything we need.
+
+
+
+Notes from RE'ing an Exchange 2010 EDB
+
+MSysObjects Table can be used to take a table name and get a tableid
+Use MAPITags.h and also PropTags.cs to look up column names. Its not 100% guaranteed for a column to have a matching property name in the tags, but most seem to.
+PropTags.cs was decompiled from Microsoft.Exchange.StoreProvider.dll
+MAPITags.h is from the Outlook 2010 developer resources
+
+
+
+Interesting content column ids
+N1013 - HTMLHypertext Markup Language Body (sometimes this is compressed -- but doesn't matter really because JetRetrieveColumn(...) calls appear to decompress/decode it for us)
+S1000 - Plain Text Body
+J1009 - RTFDocument format Compressed Body
+
+
+"DeliveredTo" Table -- Perhaps good xref for dates to messages
+T39   = Client Submit Time
+Q6764 = Message Header Fid (ex. 571700001BC5A0) -- seems like the first two bytes are little endian, the rest is not. Odd. Also seems to be a cooresponding table names like MsgHeader-1757-1BC5A0 and Body-1757-1BC5A0
+Q676e = LCID (unclear what this is)
+Te06  = Delivery Time (looks like it might be GMT)
+Q676f = Fid Table RowID (ex 571700001578C)
+
+
+Can jump from rows in DeliveredTo, using a value in Q6764, to MsgHeader-<*Q6764>, and then using the Fid Table RowId from DeliveredTo, isolate the row of the message header(ie. where MsgHeader-<Fid>.N67b0 = DeliveredTo.Q676f). The same works in Body-<Fid>.N67b0 User #73998 to get content (N1013 HTMLHypertext Markup Language Body content)
+Mailbox Table -- Can be used to get all the users that have mailboxes in the Database.
+Q6764 = User Fid? Mailbox id -- seems to be the first two bytes are treated as little endian, the rest are just bytes...
+S6773 = Full Name
+S66a0 = NTMicrosoft operating system Username (ie Domain\Userid) -- seems to be blank if they've never logged into mail.
+T66a2 = Last Login Time
+T66a3 = Last Logoff Time
+
+
+Folder Table -- Lists all of folders in a users account
+Q6748 = Folder ID
+Q6749 = Parent Folder ID (this appears to possibly be a parent folder ID based on looking at the values in the database dump)
+L3602 = Message count for the folder. The value seems to be one higher than the actually number of messages
+L3603 = Unread Message count. The value seems to be one higher than the actually number of messages
+S3001 = Folder name string
+Q66b3 = Size of data in the folder
+
+
+Body Table – Contains the email data for a user.  There is a body table for each user
+S3001 = Possibly the name of the attachment on an email
+S3707 = Possibly the name of the attachment on an email
+S3703 = File extension of the attachment on an email
+S3704 = Shortened Attachment File name.
+N3701 = Binary attachment data.  Maybe compressed and/or base64 encoded
+S370e = Content/Email type? - looks to specify weither an entry is in text/plain, message/rfc822, or application/octet-stream (attachments?) format.
+N67b3 = Attachment(s) id field.  This field has a list of ids that link to the attachements of the email.  Each entry is separated by 0xFFFFFF (-1)
+S3712 = Inline Attachment name
+S7d     = Message Headers
+
+
+Message Header Table – while these have interesting fields, its best to try to get all the headers via the Body-<userid> Transport Headers column (S7d). Its best to use this table as a join table.
+Q6748 = Folder ID field - folder that email is stored under
+N67b0 = Message Body ID - ID for the body of the email in the body table
+T3007 = Message Creation Time
+Se1d   = Normalized Subject
+Se02   = BCC Line
+Se03   = CC Line
+Se04   = To line
+S42     = From line
+
+S1035 = Message-ID
+T39     = Client submit time
+
+
+Notes for Exchange 2007
+
+Unlike Exchange 2010 the individual user folder User #73998 do not exist. Instead their is just one giant folder table with the user id field identifying which user the folder belongs to. After some further research it looks like mail is stored in User #73998 named with the user's GUID.
+Folders table - Contains all the folders for each user.
+Q6764 = User ID that the folder belongs to
+Q6748 = Folder ID
+Q6749 = Parent Folder ID (this appears to possibly be a parent folder ID based on looking at the values in the database dump)
+S3001 = Folder name string
+L3602 = Message count for the folder. The value seems to be one higher than the actually number of messages
+L3603 = Unread Message count. The value seems to be one higher than the actually number of messages
+Q66b3 = Size of data in the folder
+
+
+Msg Table - Has the message content of every "email". References and msg-header information (like to, from, etc) is from the user-folder specific table.
+LE08 - Message Size
+L3FFD - Codepage
+L3FF1 - Message locale ID
+S7d - Message headers
+
+
+"MDB Attachments Folder" - This folder is owned by the MDBMobile Development Branch system account and contains the attachments for every user in the system.Q3f88 - Attachment Id
+
+
+ 
+
+1 - For more information on the Extensible Storage Engine JET APIApplication Programming Interface – See MSDNMicrosoft Developer Network documentation.
+
+
+Attachments:
+
+
+libesedb-20120102.zip
+
+
+Exchange.pdf
+
+
+esedatabaseview(new).zip
+
+
+
+Previous versions:
+| 1 empty
+| 2 
+| 3 
+| 4 
+| 5 
+| 6 
+| 7 
+| 8 
+| 9 
+| 10 
+| 11 
+| 12 
+| 13 
+| 14 
+| 15 
+| 16 
+| 17 
+| 18 
+| 19 
+| 20 
+| 21 
+| 22 
+| 23 
+| 24 
+| 25 
+| 26 
+| 27 
+| 28 
+| 29 
+| 30 
+| 31 
+| 32 
+| 33 
+| 34 
+| 35 
+|
+                    

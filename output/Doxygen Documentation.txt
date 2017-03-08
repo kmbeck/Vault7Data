@@ -1,0 +1,71 @@
+
+                        Owner: User #1179751
+Doxygen Documentation
+OSB is adopting DOXYGEN for documenting the code libraries, and to make this a little bit easier here is an overview of what you should be doing to ensure your code is properly documented.  We will start with an overview of the five types of comment blocks all projects should have, and then we will look through a good example project.
+Example Code Blocks:
+('section' missing)
+('section' missing)
+('section' missing)
+('section' missing)
+('section' missing)
+
+Example Project:
+Below is sample project that I documented to highlight some of the documentation details.  This project can be cloned from stash via ssh://git@stash.devlan.net:7999/~User #1179751/documentationexample.git and the resulting documentation can be found HERE.
+('section' missing)
+('section' missing)
+ 
+Related articles
+
+Related articles appear here based on the labels you select. Click to edit the macro and add or change labels.
+
+('contentbylabel' missing)
+('details' missing)
+
+Comments:
+
+
+2015-12-30 14:00 
+[User #20251227]: 
+
+heh heh, TIL that Python 3's 'xmlrpc.client' library has doxygen-style docs in the double-octothorp style.
+import inspectimport xmlrpc.clientfor aline in inspect.getsource(xmlrpc.client).split("\n"):  print(aline)to see the practical examples.  Stumbled across this while reading source to determine usage of something. heh...
+
+
+2015-12-23 11:14 
+[User #1179751]: 
+
+Yeah, it is a fine line definitely.  We are starting with our shared libraries where it makes the most sense, but I'm going to see about getting other projects documented as well.
+
+
+2015-12-23 11:13 
+[User #1179751]: 
+
+Thanks for the input User #?, I'll have to look at Doxygen for python but eveyone seems pretty sold on ReadTheDocks (and by eveyone I mean AIBAutomated Implants Branch).  I've been trying to figure out how to use Breath so I can convert Doxygen to RTD but it is proving to be a pain, so I might just do this.  Also, as for the doxyfiles, I'm still trying to figure out what settings I like, but once I do I'll be publishing those here too.
+
+
+2015-12-17 09:03 
+[User #524297]: 
+
+I used to promote the use of Doxygen, but I found in practice that the signal-to-noise ratio is too high on the documentation it generates.  I also found that it (like all documentation) gets stale too quickly, and can be problematic to update.
+If your Branch decided to move on it as a standard, that's awesome that you see the problem and agree on a way forward to correct it.  "Developer" documentation is definitely something that the Division as a whole has never done very well.  
+My opinion these days is that I would rather have clearly labeled, defined, and concise source code with sparse commentary as required (then again, I don't use Hungarian Notation... ;p ) and a well-written developer README outlining the code at a high level.  Overall, treating the code as the "source of truth". Of course, just because I hold value in that kind of quality of production, doesn't mean others on my team do (if I have a team... ).  Which is why I will always promote the use of working agreements for development teams!
+
+
+2015-12-16 17:50 
+[User #20251227]: 
+
+FYI, it is stupid easy to also use Doxygen w/ Python, instead of having to use something separate like epydoc for Python & Doxygen for C/C++.  Even though there are a couple of ways to do the markup (listed in the Doxygen docs), IMHO, using the one with the double octothorp '##@<doxygen tag>' is the most compatible with the C/C++ style..easier to remember, plus everything ends up looking like comments which can potentially be stripped.  Also, OPTIMIZE_OUTPUT_JAVA needs to be set in the project's doxyfile.
+Also, it might be helpful to mention if there are preferred options/settings you want in folks' doxyfiles (config files).
+
+
+
+Previous versions:
+| 1 
+| 2 
+| 3 
+| 4 
+| 5 
+| 6 
+| 7 
+|
+                    

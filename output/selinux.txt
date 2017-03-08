@@ -1,0 +1,17 @@
+
+                        Installing APK
+Chrome.apk (com.android.chrome)
+Installing Chrome.apk
+To install an updated version of Chrome.apk in Android OSOperating System 4.3 and above, you can use the -r option to reinstall it.
+
+On your computer: adb install -r com.android.chrome-chrome.version.apk
+On your mobile device (phone or tablet): pm install -r com.android.chrome-chrome.version.apk
+
+Removing it and then install it again with the updated version might be more difficult because Chrome.apk is a system app.
+Checking the version of Chrome.apk
+If you don't know the version of Chrome installed on your mobile device, you can check it by typing "about:version" or "chrome:version" on the browser.
+
+Previous versions:
+| 1 
+|
+                    

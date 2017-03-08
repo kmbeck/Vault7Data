@@ -1,0 +1,19 @@
+
+                        Owner: User #1179751
+OSBTest
+I have no idea what I'm doing, but I'm going to give this a shot.  Hopefully this will be a template for how to use this tool properly...
+ 
+Managing JIRAUser Managment Software (Atlassian) and Bamboo from Visual Studio.
+Looks like there is a plugin from Atlassian that allows you to manage Bamboo and JIRAUser Managment Software (Atlassian) workflow items from 2008, 2010, and 2012 IDE.  To install it simply run the below executable.  Once installed when you open a solution you should be able to toggle the window from the TOOLS menu.  This is as far as I've gotten so far.
+\\FS-01\home\KeithT\GitTest\atlassian-vs-connector-setup-1.3.8-STABLE-20130327-1514.exe
+ 
+Git Navigation
+Sourcetree is a free tool that allows you to connect to stash repos.
+ 
+
+Previous versions:
+| 1 
+| 2 
+| 3 
+|
+                    

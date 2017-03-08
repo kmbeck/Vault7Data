@@ -1,0 +1,61 @@
+
+                        Repo
+Repo is a Python script created by Google to manage multiple git repositories in one project. It uses a XMLExtensible Markup Language based manifest file.
+Git-submodule is similar, but manages git submodules.
+Install
+Clone the git repository and copy or add the script to your PATH. Note that the script was updated to work on Devlan so you cannot just use the Internet version.
+Useful Commands
+repo start -> Start a new branch
+repo sync -d -> WARNING: DO NOT RUN THIS IF YOU HAVE UNCOMMITTED UNPUSHED CHANGES
+# shows all commits since last release for all projects
+ 
+$ repo forall -v -p -c  'git log angermanagement_v2.0..HEAD --pretty="%-s%w(0,0,9)% %b"' --name-status -M
+ 
+# check out a group within a manifest (example)
+ 
+$ repo init -u ssh://stash/droid/angermanagement_manifest.git -b shiv -g default,shiv
+ 
+Repo Sync Gotcha
+
+Comments:
+
+
+2015-04-28 15:48 
+[User #524328]: 
+
+repo forall -vpc does the first part of that (find -maxdepth stuff)
+
+
+2015-04-28 15:45 
+[User #524328]: 
+
+One issue that has come up is when you are using repo, how do you go into all of the git repositories beneath your repo and print out all the hashes to see what their status is?  The following command will do this:
+find . -maxdepth 1 -type d -print -exec sh -c '(cd {} && git branch;git log --pretty=format:'%H' -n 1)' ';'
+
+
+
+Attachments:
+
+repo
+
+
+Previous versions:
+| 1 
+| 2 
+| 3 
+| 4 
+| 5 
+| 6 
+| 7 
+| 8 
+| 9 
+| 10 
+| 11 
+| 12 
+| 13 
+| 14 
+| 15 
+| 16 
+| 17 
+|
+                    

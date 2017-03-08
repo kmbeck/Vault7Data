@@ -1,0 +1,46 @@
+
+                        RoidRage
+Setting up to build Roid Rage v3.x
+Install/extract a current NDK
+Extract NDKNative Development Kit compressed package to local directory
+Install standalone NDKNative Development Kit to a path:
+
+
+$NDK/build/tools/make-standalone-toolchain.sh --arch=arm --platform=android-9 --install-dir=/tmp/my-android-toolchain 
+Note: Do not use ~ to represent your home directory, as the NDKNative Development Kit toolchain script will not properly evaluate it
+
+Clone stash repositories for Roid Rage and common aquarius files.  Note that these projects must be cloned into the specific pathnames cited below.
+git clone ssh://stash/aq/aqrr.git AQ_RR 
+git clone ssh://stash/aq/aqcommon.git AQ_Common AQ_Common
+
+
+Define environment variables
+RRBASEDIR=<path containing AQ_RR>/AQ_RR/build/android
+STANDALONE=<path to installed NDKNative Development Kit standalone>
+
+
+
+ 
+Setting up a test Roid Rage with Poseidon:
+
+Go to Poseidon (http://poseidon.devlan.net) and create a package and a job for the target device.
+When configuring the Roid Rage package, configure the comms manager's LPListening Post to mdbtest.devlan.net.  
+Once the Roid Rage package is created and downloaded, open the readme file included in the download package and follow the instructions.  
+Go to mdbtest.devlan.net to setup the LPListening Post (Listening Post) in Poseidon for this test setup.
+To be continued....
+
+
+Sub-Pages:
+
+
+Uninstalling 
+
+
+
+Previous versions:
+| 1 
+| 2 
+| 3 
+| 4 
+|
+                    

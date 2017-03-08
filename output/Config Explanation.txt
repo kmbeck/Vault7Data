@@ -1,0 +1,106 @@
+
+                        Owner: User #14587667
+HP CLI Cheatsheet
+
+
+Cisco Equivalent
+HP
+Comment
+
+
+enable
+system-view
+ 
+
+
+show run
+display current-configuration
+ 
+
+
+copy run start
+save
+You will be asked to confirm
+
+
+show ip int brief
+display ip int brief
+ 
+
+
+no <cmd>
+undo <cmd>
+Negate a command
+
+
+exit
+quit
+ 
+
+
+ 
+ 
+ 
+
+
+ 
+ 
+ 
+
+
+ 
+ 
+ 
+
+
+ 
+ 
+ 
+
+
+ 
+ 
+ 
+
+
+ 
+ 
+ 
+
+
+ 
+ 
+ 
+
+
+ 
+ 
+ 
+
+
+ 
+ 
+ 
+
+
+ 
+ 
+ 
+
+
+ 
+ 
+ 
+
+
+ 
+ 
+ 
+
+
+ 
+ 
+ 
+
+
+                    

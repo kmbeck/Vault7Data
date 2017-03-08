@@ -1,0 +1,88 @@
+
+                        Owner: User #1179928
+JQJDISRUPT - WAG200G
+ 
+ 
+ 
+Config steps:
+
+
+Created DHCPDynamic Host Configuration Protocol space from CoreSW for 172.20.100.248/29
+Assigned Linksys WAG200G "LAN" address of 172.20.100.254
+LAN VMVirtual Machine client pulled 172.20.100.252 .... connected to LANLocal Area Network port of Linksys
+WAN port, DHCPDynamic Host Configuration Protocol turned off on Linksys per CONOP
+
+
+
+On Cannoli LP:
+Unzipped Cannoli 2.0 zip in: /home/ndb/aquifer/canoli_v2.0.0/
+In /bin/ folder, copied the .cfg example file and make a linksys.cfg file with the LPListening Post IP as the #1 LPListening Post (172.20.13.50)
+Run the following command to create client & server files: ./CCT ../bin/mips-32-LE-static/client/client mod-client ../bin/mips-32-LE-static/server/server mod-server linksys.cfg
+
+The next step is apparently to use "puppetmon" to put Cannoli onto the target Linksys... unable to find puppetmon utility or any instructions on it... waiting for User #76675 to get back to me.After speaking with User #?... it was determined that puppetmon.py was not going to work to get Cannoli on the Linksys target. When running puppetmon.py it eventually always returns errors. User #? advised that it would only work if the targe twas in the 192.168.x.x space
+
+
+
+
+On LANLocal Area Network VM
+Put installer script on LANLocal Area Network VMVirtual Machine in /home/ndb/aquifer/WAG200G
+Also scp'd "mod-client" to the same folder above
+Ran script as directed in instructions: ./linksys-wag20g-installer.sh mod-client admin admin
+
+Seems to fail since it's looking for 192.168.1.1
+Replaced all the 192.168.1.1 fields in the installer.sh with the actual IP on the target of 172.20.100.254
+
+Ran scrip again: /linksys-wag20g-installer.sh mod-client admin adminAfter about 15-20 minutes, the mod-client is uploaded 100% successful
+
+
+
+
+
+From Cannoli LP:
+
+With the "./mod-server 9000" already running on the LP... implant beacons back with it's source IP of 172.20.100.254 and the two addresses it has in it's table:
+LAN VM: 172.20.100.252
+Upstream router: 172.20.100.249
+
+
+Beacon was originally set to beacon every 24 hours... therefore... rebooted target to remove implant. Once rebooted, the above LANLocal Area Network VMVirtual Machine steps were followed again.
+On LP... issued the following command to change beacon rate once the target does it's inital beacon back:
+./upload.sh beacon_rate_file /tmp.gj4giHWu
+Once install comepletes and beacons, it ingests the new command to change the beacon rate to 120 seconds.
+
+
+Issued "./shell.sh" command after this to get a shell once the target beacons back again.
+type "ls" at new shell prompt and the file system on target is seen
+native shell commands are available
+
+
+
+
+ 
+
+Various testing scenarios
+With beacon continueing every two minutes from the previous setup:
+Remove gateway on the Linksys to see if Cannoli is still able to find the gateway to beacon out through.... 
+Under setup>advanced routing> deleted static routing entry
+With static route NOT on the target to the gateway, beacon does NOT return to LP
+
+
+Added static default route with gateway back on the target LinksysBeacon's have stopped since I surpassed the max fail beacons
+
+
+Note: Without static route/gateway configured, the LANLocal Area Network hosts still have connectivity to outside networks
+
+
+
+ 
+
+Previous versions:
+| 1 empty
+| 2 
+| 3 
+| 4 
+| 5 
+| 6 
+| 7 
+|
+                    

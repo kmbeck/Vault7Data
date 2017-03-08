@@ -1,0 +1,88 @@
+
+                        Transferring Data Using NTFS Alternate Data Streams (DTNtfsAds_BK - Brutal Kangaroo)
+SECRET//NOFORN
+ 
+OSB Library: Data Transfer
+
+Module Name: DTNtfsAds_BK (Brutal Kangaroo)
+ 
+Module Description: This module allows for transfer or storage of data by placing it in NTFSNT filesystem (Windows) Alternate Data Streams. Each chunk (call to addFile) creates a new stream. Chunks are identified by the ProgramID. Using FindFirst/FindNext with a progID of 0 will match all files that have been written by this module. deleteFile is unsupported by this module. This module overloads the constructor (see Module Specific Structures) to set the destination of the data.
+ 
+PSP/OS Issues: No known issues.
+ 
+('excerpt' missing)
+ 
+Sharing Level: Unilateral
+ 
+Technique Origin: In-house (known vector)
+ 
+Notes: 
+
+The constructor takes a path to a file/directory/volume.
+The supplied destination path should reside (or be) an NTFSNT filesystem (Windows) volume.
+Program IDs should be tracked in the tool list section
+A Program ID of 0 allows you to search all files
+Currently, deleteFIle is unsupported for this module.
+Multiple program IDs can be written to the same path. The module knows which ones are yours based upon ProgramId
+Stream names are of the format :ObjIdX where X is an incremented number for each addFile call - could be an attribution issue if not changed
+A read and write chunk index are stored for optimization. FindFirst resets the read chunk index.
+
+ 
+Module Specific Structures:
+
+/*
+	The constructor takes a path to the directory/file to which the ADSAda Specification (file) files should be added.
+*/
+DTNtfsAds_BK(wchar_t* filenameToAppendADS);
+
+  
+Example Code:
+ 
+WCHAR wcDrivePath[] = L"I:\\";
+
+
+IDataTransfer *dtTransfer = new DTNtfsAds_BK(wcDrivePath);
+
+
+DWORD dwChunkSize = 0;
+DWORD dwFileProgID = 0;
+
+
+//Add the file to storage file
+DataTransErr dtErr = dtTransfer->addFile(5, byData1, dwData1Len);
+
+
+//find first file - no header
+dtErr = dtTransfer->findFirstFile(5, dwChunkSize, &dwFileProgID, 0, NULL);
+
+
+//Allocate memory - read in file just identified by findFirstFile
+LPBYTE lpbData = (LPBYTE)malloc(dwChunkSize);
+DWORD dwBytesRead = dtTransfer->readFile(lpbData, dwChunkSize);
+free(lpbData);
+
+
+//Cleanup
+WCHAR wcTemp[MAX_PATH] = { 0 };
+swprintf(wcTemp, L"%s:$ObjId0", wcDrivePath);
+DeleteFile(wcTemp);
+delete dtTransfer;
+ 
+ 
+SECRET//NOFORN
+
+Attachments:
+
+index.html
+
+
+Previous versions:
+| 1 SECRET
+| 2 SECRET
+| 3 SECRET
+| 4 SECRET
+| 5 SECRET
+| 6 SECRET
+| 7 SECRET
+|
+                    

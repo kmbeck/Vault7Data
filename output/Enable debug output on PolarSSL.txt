@@ -1,0 +1,39 @@
+
+                        Enable debug output on PolarSSL
+The PolarSSL library has debug output, but you have to enable it.
+Step-by-step guide
+
+Add the steps involved:
+
+Uncomment the DEBUG defines in include/polarssl/config.h.  Specifically, POLARSSL_SSL_DEBUG_ALL, and POLARSSL_DEBUG_C.  As this file changes, there may be others.  This debugging is primarily focused on SSLSecure Socket Layer operations and other crypto operations do not seem to have the same level of debugging messages built-in.  Hopefully, you aren't debugging the crypto, but I have and you may need to, too.
+
+In your application, define a debug function.  The following illustrates the necessary function prototype and a possible implementation:
+
+#define DEBUG_LEVEL 5
+void my_debug( void *ctx, int level, const char *str ) {
+	if ( level > DEBUG_LEVEL ) return;
+	fprintf( (FILE *)ctx, "%s", str );
+	fflush ( (FILE *)ctx );
+}
+
+
+Define DEBUG_LEVEL to be greater than zero in the same file as my_debug().
+
+Set my_debug() as the debug function callback in the SSL/TLS configuration
+ssl_set_dbg( &ssl, my_debug, stdout );
+
+
+ 
+Related articles
+
+Related articles appear here based on the labels you select. Click to edit the macro and add or change labels.
+
+('contentbylabel' missing)
+
+Previous versions:
+| 1 
+| 2 
+| 3 
+| 4 
+|
+                    

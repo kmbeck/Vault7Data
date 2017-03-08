@@ -1,0 +1,19 @@
+
+                        Owner: User #71384
+MIPS Cross-compile of ngrep (open source)
+
+
+Build libpcap-1.6.1 using the following for configuration:
+./configure \--host=mips \--disable-option-checking \--disable-largefile --with-pcap=linux \CC=/opt/buildroot/buildroot-2010.11-mipsbe/output/staging/usr/bin/mips-linux-gcc \CFLAGS=-I/opt/buildroot/buildroot-2010.11-mipsbe/output/staging/usr/include \LDFLAGS=-L/opt/buildroot/buildroot-2010.11-mipsbe/output/staging/usr/lib
+
+
+Build ngrep-1.45 using the following configuration:
+./configure \--build=i686-linux \--host=mips-linux \--target=mips \--disable-option-checking \--disable-largefile \--with-pcap-includes=../libpcap-1.6.1 \--enable-ipv6 \--disable-dropprivs \CC=/opt/buildroot/buildroot-2010.11-mipsbe/output/staging/usr/bin/mips-linux-gcc \CFLAGS=-'I/opt/buildroot/buildroot-2010.11-mipsbe/output/staging/usr/include -DLINUX -D__USE_POSIX2'\LDFLAGS='-L/opt/buildroot/buildroot-2010.11-mipsbe/output/staging/usr/lib -L../libpcap-1.6.1'
+
+
+
+Previous versions:
+| 1 empty
+| 2 
+|
+                    

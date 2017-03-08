@@ -1,0 +1,28 @@
+
+                        Owner: User #1179751
+8. Bamboo And Dart
+SECRET//NOFORN
+ 
+Bamboo Your Build
+Text Here
+ 
+Bamboo Exercise
+Text Here
+ 
+Creating DARTTest-Software (commercial) Tests For Your Project
+Firstly, you'll want to go to Dart Home  , wander around a bit, go through the process of setting it up for your system and running your first test. Alright, so your back and have run your first tests. In our development we want to use DARTTest-Software (commercial) to test functionality (by using our unit tests across a larger set of combinations), integration tests, and PSPs. The nice thing about integrating this with our Bamboo build servers is that now, when we update our repos, we can have Bamboo grab our latest version and run it against DART. So, the functional test should be test that run your tool's unit tests and parse the results for failures. Integration tests in DARTTest-Software (commercial) should verify that things are still functioning well when merged together. PSPPersonal Security Product (Anti-Virus) test should contain some light functionality testing as well as use the PSPPersonal Security Product (Anti-Virus) scripts built to alert of PSPPersonal Security Product (Anti-Virus) interaction. 
+ 
+DART Exercise
+Text Here
+ 
+ 
+ 
+ 
+SECRET//NOFORN
+
+Previous versions:
+| 1 empty
+| 2 SECRET
+| 3 SECRET
+|
+                    

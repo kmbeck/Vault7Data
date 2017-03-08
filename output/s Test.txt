@@ -1,0 +1,10 @@
+
+                        Owner: User #26968069
+Ubuntu-Foo
+Get time from NTPNetwork Time Protocol server
+modify /etc/ntp.conf
+add "server [ntpserver] iburst
+install ntp
+sudo apt-get install ntp
+
+                    

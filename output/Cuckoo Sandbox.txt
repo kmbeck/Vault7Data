@@ -1,0 +1,49 @@
+
+                        Owner: User #524297
+Google Mock
+Google Mocking Library for Unit Testing
+ 
+Manual Installation on Linux/OS X
+# unzip archive into ${GMOCK_ROOT}
+ 
+cd ${GMOCK_ROOT}
+mkdir mybuild
+cd mybuild
+g++ -I../gtest/include -I../gtest -I../include -I.. -c ../gtest/src/gtest-all.cc
+g++ -I../gtest/include -I../gtest -I../include -I.. -c ../src/gmock-all.cc
+ar -rv libgmock.a gtest-all.o gmock-all.o
+ 
+# the manual installation part, to make libraries available on your system in a sane place
+sudo cp -r ../include/gmock /usr/local/include
+sudo cp libgmock.a /usr/local/lib
+ 
+Resources
+
+gmock-fordummies.pdf
+gmock-faq.pdf
+gmock-cookbook.pdf
+gmock-cheatsheet.pdf
+
+ 
+
+Attachments:
+
+
+gmock-cheatsheet.pdf
+
+
+gmock-cookbook.pdf
+
+
+gmock-faq.pdf
+
+
+gmock-fordummies.pdf
+
+
+
+Previous versions:
+| 1 
+| 2 
+|
+                    

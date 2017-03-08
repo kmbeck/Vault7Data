@@ -1,0 +1,46 @@
+
+                        Weeping Angel Research Ideas & Next Steps
+
+Reduce the number of iptables insert attempts when the TV is first booted. (currently about 5 – and each generates a DNSDomain Name System lookup of a Samsung website)
+Extract and study the SamyGo image
+Search and study the extracted firmware image.
+file . -name "*.sh" – a number of script files found
+grep -irn "private key" *
+grep -irn "/bin/sh" *
+grep -rn "Signature" *
+grep -irn "/bin/ash" *
+grep -rn "samsungotn" *
+
+
+Streaming audio
+100kb of audio at quality 5 is 24 seconds
+Once TV is in steady state, are the list of updates pulled with every reboot?
+There are several utilities that may be useful in the SamyGo toolset (i.e. tcpdump)
+Setup MitM gateway to further study the network traffic
+In /mtd_rwcommon/moip/engines/Download, there is a empDownload.xml file with a Signature field.  Where does the Signature field come from?  Where does the empDownload.xml file come from?  If the system is creating it, then there must be a private key on the system to create the signature.
+To modify updates mid-stream, it would be nice to unzip to absolute path so a trojanized zip file could laydown files to other directories to emulate implant installation, but this does not appear to be a support feature of unzip – only relative paths.
+Look in more detail about how the system starts.  grep filesystem image for "/bin/ash" and "/bin/sh"
+How do the updates work?  Are signatures checked?  Can http links in the manifest be replaced with https links?  How are the Signatures in the packages created?  What happens if there is no value in the Signature field?  What happens if the .xml file is missing altogether?  The signature appears to be a 1024 bits (bytes?) RSAEncryption algorithm signature.
+Does the browser update in the same way as empDownload?  Does empDownload only update when the system is first registered?
+Look for keys in the filesytem image — *.pem, BEGIN PUBLIC KEY, END PUBLIC KEY
+Encrypted client private key – /mtd_exe/Comp_LIB/MSC_Client_chain.pem
+RSA private key – /mtd_exe/InfoLink/lib/cert/SamsungDeviceCertificateKey.pem
+Encrypted Private DES key – /mtd_exe/InfoLink/lib/cert/SamsungDeviceCertificateKey_des3.pem
+RSA private key – /mtd_exe/InfoLink/lib/cert/keyTV_bbc_p.pem
+
+
+Study the Handex install & persistence techniques – The HandEx methods of persistent involve:
+modifying file content in /mtd_down/emps/empWebBrowser/bin
+overwriting start-up script /mtd_rwarea/network/insmod_qca.shThere are a number of start up scripts that could probably also be overwritten.  To locate other candidates (also helpful for understanding the system): file . -name "*.sh"
+
+modifying file content in /mtd_rwarea/yahoo/nuts/com.yahoo.connectedtv.mainserver
+
+
+
+
+Previous versions:
+| 1 
+| 2 
+| 3 
+|
+                    

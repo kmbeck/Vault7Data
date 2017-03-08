@@ -1,0 +1,23 @@
+
+                        Persistence
+Contains components related to maintaining some kind of persistence on a target
+
+Sub-Pages:
+
+
+VBR Persistence 
+
+
+Image File Execution Options 
+
+
+OCI.DLL Service Persistence 
+
+
+Shell Extension Persistence 
+
+
+Windows FAX DLL Injection 
+
+
+                    

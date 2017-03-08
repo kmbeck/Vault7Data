@@ -1,0 +1,41 @@
+
+                        Owner: User #71473
+Basic Bit v1.1
+SECRET//NOFORN
+Basic Bit v1.1
+ 
+Description:
+Win32/C++ Liaison-releasable keylogger.
+ 
+Design:
+Stash Repository:   Project Repository
+
+ 
+Testing Repoistory:   Project Tests Repository
+
+ 
+Documentation:
+('section' missing)
+ 
+Latest Testing Results:
+Operational Use:
+ 
+ 
+Highlights:
+ 
+Technique Tracking:
+List of techniques used by Project
+
+Technique 1
+Technique 2
+
+ 
+Change Log:
+
+('excerpt' missing) Older Versions:
+ 
+ 
+SECRET//NOFORN
+ 
+ 
+                    

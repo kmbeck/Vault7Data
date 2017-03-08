@@ -1,0 +1,68 @@
+
+                        Create Process And Pipe The Results (CreateProcessPipe_GHRN - Greenhorn)
+SECRET//NOFORN
+ 
+OSB Library: Payload Deployment
+
+Module Name: CreateProcessPipe_GHRN - Greenhorn
+ 
+Module Description: This module uses the CreateProcess Windows APIApplication Programming Interface call. The payload, if specified, is written to a user specified location with user specified attributes. The process is created and the pipe to read StdOut and StdErr is returned to the caller. The caller is responsible for closing the read pipe handle when finished. This module can also be used to run command line surveys.
+ 
+PSP/OS Issues: Any tool using this module should test against expected PSPs. This technique could tip the scale of alerting behavior.
+ 
+('excerpt' missing)
+ 
+Sharing Level: Liaison (Well-known, heavily documented)
+ 
+Technique Origin: Windows APIApplication Programming Interface example code
+ 
+Notes: 
+
+Uses CreateProcess
+A handled to the read pipe for StdOut and StdErr is always returned, and must be closed by the caller on success
+Quotations are placed around the target path.
+
+ 
+Module Specific Structures:
+
+struct PARAM_GHRN
+{
+	DWORD dwAttribs;		//The attributes of the target payload on disk
+	WCHAR *wcArgs;			//Arguments for the payload on disk
+	WCHAR *wcTargetPath;	//The target path of the executable to drop to disk
+	BOOL bRetHandle;		//Specifies whether the module should fill returnHandle or close the handle itself
+	DWORD dwFlags;			//Flags for process creation. Default: ...
+	HANDLE hStdOutRead;		//Pipe of the StdOut and StdErr of the created process - used to read
+};
+
+
+ 
+Example Code:
+ 
+HANDLE hHandle = NULL;
+
+
+IPayload *myPayload = new CreateProcessPipe_GHRN();
+
+
+PARAM_GHRN params;
+params.dwAttribs = FILE_ATTRIBUTE_HIDDEN | FILE_ATTRIBUTE_SYSTEM;
+params.wcTargetPath = L"C:\\Test Folder\\MyTest.exe";
+params.wcArgs = L"1 2 3";
+params.dwFlags = CREATE_UNICODE_ENVIRONMENT | CREATE_NO_WINDOW;
+params.bRetHandle = TRUE;
+params.hStdOutRead = NULL;
+
+
+//execute payload normally
+IPayload::PayloadErr pErr = myPayload->execute(improvedDummy, sizeof(improvedDummy), ¶ms, sizeof(params), &hHandle);
+ 
+ 
+SECRET//NOFORN
+
+Previous versions:
+| 1 SECRET
+| 2 SECRET
+| 3 SECRET
+|
+                    

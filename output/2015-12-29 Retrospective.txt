@@ -1,0 +1,39 @@
+
+                        Owner: User #20251227
+2016-02-16 Retrospective
+
+
+('details' missing)
+Retrospective
+
+
+
+What did we do well?
+
+first sprint that there wasn't a leftover story!
+given the weather/shutdown constraints, we got a lot accomplished.
+
+
+
+What should we have done better?
+Balancing capacity planning
+
+
+
+What will we do differently next time to improve?
+ 
+
+
+ID
+Status
+Task
+
+
+1
+incomplete
+@mention a person to assign them an action item
+
+
+
+
+                    

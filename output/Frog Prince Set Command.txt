@@ -1,0 +1,38 @@
+
+                        Frog Prince Set Command
+Requirement(s)
+4.1.23  The implant shall be capable of updating its persistent configuration.
+4.1.25  The implant shall  be able to store its configuration across reboots.
+Preparation
+
+create Frog Prince install 
+with known config file name
+writetodisk false
+uninstall date at specific time a year out
+
+
+Write user interface scripts
+set writetodisk to T
+set writetodisk to F
+set uninstall time to relative time - 10 minutes
+
+Set Test(s)
+
+copy install vector and Frog Prince module to target
+install Frog Prince
+check for absence of config file
+run script writetodisk T
+check for presence of config file, get md5sum
+alter script (sed?) to set uninstall time to near future, run script
+check for presence of config file, get md5sum, verify changed
+reboot target
+run script set writetodisk F
+check for absence of config file
+wait until new uninstall time
+
+
+Previous versions:
+| 1 
+| 2 
+|
+                    

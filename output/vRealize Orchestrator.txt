@@ -1,0 +1,26 @@
+
+                        Owner: User #1179928
+Solarwinds
+Solarwinds configuration and account info
+Solarwinds server on testrange: monitor.testrange.local (10.9.8.22)
+Solarwinds Account Information
+Website: https://customerportal.solarwinds.com
+Initial customer ID/Password: SW22080468 / XFE833
+Registered customer ID/Password: XXXXXXX_XXXXXXXXXXX@XXX.XXX / SWiloveIPV4
+Support/Maintenance expiration: 14 April 2016  (1 year renewal $3170/yr for NPM and NTA 500 license)
+Activation keys:
+
+
+Orion Network Performance Monitor SL500:  AB19-03AD-37BA-4C9B-9E65-A704-473F-7D67
+
+Orion Netflow Traffic Analyzer SL500:  E31B-188B-47D3-424D-AABF-C05C-9869-8363
+
+Netflow:
+Netflow should be configured on devices to egress to 10.9.8.22 port 2055Ex: #ip flow-export destination 10.9.8.22 2055
+
+ 
+
+Previous versions:
+| 1 
+|
+                    

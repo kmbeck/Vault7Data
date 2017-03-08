@@ -1,0 +1,1042 @@
+
+                        Grasshopper OS/PSP Characterization
+
+('toc' missing)
+Table Key
+
+
+Result
+Description
+
+
+detection
+The PSPPersonal Security Product (Anti-Virus) actively flagged the tool in some way
+
+
+error
+An unknown error occurred, not necessarily a detection
+
+
+success
+Execution of the tool generated no reaction from the PSP
+
+
+Run Module
+Data collected 20141204 using a release distribution with debug messages turned on
+Cricket Install Results
+
+
+ 
+No PSP
+MS Security Essentials
+Rising
+Symantec Endpoint
+Kaspersky IS
+
+
+XP x86 SP3
+success
+success
+success
+success
+success
+
+
+Windows 7 Ult x86
+success
+success
+success
+success
+success
+
+
+Windows 7 Ult x64
+success
+success
+success
+ 
+ 
+
+
+Windows 8.1 x86
+success
+ 
+ 
+ 
+success
+
+
+Windows 8.1 x64
+success
+ 
+ 
+ 
+success
+
+
+Server 2003 SP2 x86
+success
+ 
+ 
+ 
+ 
+
+
+Server 2008 SP2 x64
+success
+ 
+ 
+ 
+ 
+
+
+Server 2008 R2 SP1 x64
+success
+ 
+ 
+ 
+ 
+
+
+Cricket Uninstall Results
+
+
+ 
+No PSP
+MS Security Essentials
+Rising
+Symantec Endpoint
+Kaspersky IS
+
+
+XP x86 SP3
+success
+success
+success
+success
+success
+
+
+Windows 7 Ult x86
+success
+success
+success
+success
+success
+
+
+Windows 7 Ult x64
+success
+success
+success
+ 
+ 
+
+
+Windows 8.1 x86
+success
+ 
+ 
+ 
+success
+
+
+Windows 8.1 x64
+success
+ 
+ 
+ 
+success
+
+
+Server 2003 ent SP2 x86
+error - drop file still exists
+ 
+ 
+ 
+ 
+
+
+Server 2008 SP2 x64
+success
+ 
+ 
+ 
+ 
+
+
+Server 2008 R2 SP1 x64
+success
+ 
+ 
+ 
+ 
+
+
+Grasshopper Install
+Tests were ran using the "super.rule" that exercises all of the available grasshopper facts.
+
+
+ 
+No PSP
+MS Security Essentials
+Rising
+Symantec Endpoint
+Kaspersky IS
+
+
+XP x86 SP3
+success
+success
+success
+success
+success
+
+
+Windows 7 Ult x86
+success
+success
+success
+success
+success
+
+
+Windows 7 Ult x64
+success
+success
+success
+ 
+ 
+
+
+Windows 8.1 x86
+success
+ 
+ 
+ 
+success
+
+
+Windows 8.1 x64
+success
+ 
+ 
+ 
+success
+
+
+Server 2003 SP2 x86
+success
+ 
+ 
+ 
+ 
+
+
+Server 2008 SP2 x64
+success
+ 
+ 
+ 
+ 
+
+
+Server 2008 R2 SP1 x64
+success
+ 
+ 
+ 
+ 
+
+
+Drop Module
+Data collected 20150521 using a release distribution with debug messages turned on
+Cricket Install Results
+
+
+ 
+No PSP
+MS Security Essentials
+Rising
+Symantec Endpoint
+Kaspersky IS
+
+
+XP x86 SP3
+success
+success
+success
+success
+success
+
+
+Windows 7 Ult x86
+success
+success
+success
+success
+success
+
+
+Windows 7 Ult x64
+success
+success
+success
+success
+ 
+
+
+Windows 8.1 x86
+success
+success
+success
+success
+success
+
+
+Windows 8.1 x64
+success
+success
+success
+success
+success
+
+
+Server 2003 SP2 x86
+success
+ 
+ 
+ 
+ 
+
+
+Server 2008 SP2 x64
+success
+ 
+ 
+ 
+ 
+
+
+Server 2008 R2 SP1 x64
+success
+ 
+ 
+ 
+ 
+
+
+
+Scheduled Task DLL
+Data collected 20141204 using a release distribution with debug messages turned on
+Cricket Install
+
+
+ 
+No PSP
+MS Security Essentials
+Rising
+Symantec Endpoint
+Kaspersky IS
+
+
+XP x86 SP3
+success
+success
+success
+success
+success
+
+
+Windows 7 Ult x86
+success
+error - timeout
+success
+success
+success
+
+
+Windows 7 Ult x64
+success
+success
+success
+ 
+ 
+
+
+Windows 8.1 x86
+success
+ 
+ 
+ 
+success
+
+
+Windows 8.1 x64
+success
+ 
+ 
+ 
+success
+
+
+Server 2003 SP2 x86
+success
+ 
+ 
+ 
+ 
+
+
+Server 2008 SP2 x64
+success
+ 
+ 
+ 
+ 
+
+
+Server 2008 R2 SP1 x64
+success
+ 
+ 
+ 
+ 
+
+
+Cricket Uninstall
+
+
+ 
+No PSP
+MS Security Essentials
+Rising
+Symantec Endpoint
+Kaspersky IS
+
+
+XP x86 SP3
+success
+success
+success
+error - timeout
+success
+
+
+Windows 7 Ult x86
+success
+success
+success
+success
+success
+
+
+Windows 7 Ult x64
+success
+success
+success
+ 
+ 
+
+
+Windows 8.1 x86
+success
+ 
+ 
+ 
+success
+
+
+Windows 8.1 x64
+success
+ 
+ 
+ 
+success
+
+
+Server 2003 SP2 x86
+success
+ 
+ 
+ 
+ 
+
+
+Server 2008 SP2 x64
+success
+ 
+ 
+ 
+ 
+
+
+Server 2008 R2 SP1 x64
+success
+ 
+ 
+ 
+ 
+
+
+ 
+Scheduled Task EXE default variant and VARIANT1
+Data collected 20141204 using a release distribution with debug messages turned on
+Cricket Install
+
+
+ 
+No PSP
+MS Security Essentials
+Rising
+Symantec Endpoint
+Kaspersky IS
+
+
+XP x86 SP3
+success
+success
+success
+success
+success
+
+
+Windows 7 Ult x86
+success
+success
+success
+success
+success
+
+
+Windows 7 Ult x64
+success
+success
+success
+ 
+ 
+
+
+Windows 8.1 x86
+success
+ 
+ 
+ 
+success
+
+
+Windows 8.1 x64
+success
+ 
+ 
+ 
+success
+
+
+Server 2003 SP2 x86
+success
+ 
+ 
+ 
+ 
+
+
+Server 2008 SP2 x64
+success
+ 
+ 
+ 
+ 
+
+
+Server 2008 R2 SP1 x64
+success
+ 
+ 
+ 
+ 
+
+
+Cricket Uninstall
+
+
+ 
+No PSP
+MS Security Essentials
+Rising
+Symantec Endpoint
+Kaspersky IS
+
+
+XP x86 SP3
+success
+success
+success
+success
+success
+
+
+Windows 7 Ult x86
+success
+success
+success
+success
+success
+
+
+Windows 7 Ult x64
+success
+success
+success
+ 
+ 
+
+
+Windows 8.1 x86
+success
+ 
+ 
+ 
+success
+
+
+Windows 8.1 x64
+success
+ 
+ 
+ 
+success
+
+
+Server 2003 SP2 x86
+success
+ 
+ 
+ 
+ 
+
+
+Server 2008 SP2 x64
+success
+ 
+ 
+ 
+ 
+
+
+Server 2008 R2 SP1 x64
+success
+ 
+ 
+ 
+ 
+
+
+Scheduled Task EXE VARIANTESET
+Data collected 20141204 using a release distribution with debug messages turned on
+Cricket Install
+
+
+ 
+No PSP
+MS Security Essentials
+Rising
+Symantec Endpoint
+Kaspersky IS
+
+
+XP x86 SP3
+success
+success
+success
+detection
+success
+
+
+Windows 7 Ult x86
+success
+success
+success
+detection
+success
+
+
+Windows 7 Ult x64
+success
+success
+success
+detection
+ 
+
+
+Windows 8.1 x86
+success
+ 
+ 
+detection
+success
+
+
+Windows 8.1 x64
+success
+ 
+ 
+detection
+success
+
+
+Server 2003 SP2 x86
+success
+ 
+ 
+ 
+ 
+
+
+Server 2008 SP2 x64
+success
+ 
+ 
+ 
+ 
+
+
+Service DLLDynamic Link Library all variants
+Data collected 20141211 using a release distribution with debug messages turned on.
+Install
+Non-Hijack Mode
+
+
+Non-hijack Mode
+No PSP
+MS Security Essentials
+Rising
+Symantec Endpoint
+Kaspersky IS
+
+
+XP x86
+success
+success
+detection
+success
+success
+
+
+Windows 7 x86
+success
+success
+detection
+success
+success
+
+
+Windows 7 x64
+success
+success
+success
+success
+success
+
+
+Windows 8.1 x86
+success
+ 
+ 
+success
+success
+
+
+Windows 8.1 x64
+success
+ 
+ 
+success
+success
+
+
+Server 2003 x86
+success
+ 
+ 
+ 
+ 
+
+
+Server 2003 x64
+success
+ 
+ 
+ 
+ 
+
+
+Server 2008 R2 x64
+success
+ 
+ 
+ 
+ 
+
+
+Hijack Mode
+
+
+Hijack Mode
+No PSP
+MS Security Essentials
+Rising
+Symantec Endpoint
+Kaspersky IS
+
+
+XP x86
+not valid
+not valid
+not valid
+not valid
+not valid
+
+
+Windows 7 x86
+success
+success
+detection
+success
+success
+
+
+Windows 7 x64
+success
+success
+success
+success
+success
+
+
+Windows 8.1 x86
+success
+ 
+ 
+success
+success
+
+
+Windows 8.1 x64
+success
+ 
+ 
+success
+success
+
+
+Server 2003 x86
+success
+ 
+ 
+ 
+ 
+
+
+Server 2003 x64
+success
+ 
+ 
+ 
+ 
+
+
+Server 2008 R2 x64
+success
+ 
+ 
+ 
+ 
+
+
+Uninstall
+Non-Hijack Mode
+
+
+Non-hijack Mode
+No PSP
+MS Security Essentials
+Rising
+Symantec Endpoint
+Kaspersky IS
+
+
+XP x86
+success
+success
+success*
+success
+success
+
+
+Windows 7 x86
+ 
+success
+ 
+success
+success
+
+
+Windows 7 x64
+ 
+success
+success
+success
+ 
+
+
+Windows 8.1 x86
+success
+not valid
+not valid
+success
+success
+
+
+Windows 8.1 x64
+success
+not valid
+not valid
+success
+success
+
+
+Server 2003 x86
+success
+ 
+ 
+ 
+ 
+
+
+Server 2003 x64
+ 
+ 
+ 
+ 
+ 
+
+
+Server 2008 R2 x64
+success
+ 
+ 
+ 
+ 
+
+
+Hijack Mode
+
+
+Hijack Mode
+No PSP
+MS Security Essentials
+Rising
+Symantec Endpoint
+Kaspersky IS
+
+
+XP x86
+not valid
+not valid
+not valid
+not valid
+not valid
+
+
+Windows 7 x86
+ 
+success
+ 
+success
+success
+
+
+Windows 7 x64
+ 
+success
+success
+success
+ 
+
+
+Windows 8.1 x86
+success
+not valid
+not valid
+success
+success
+
+
+Windows 8.1 x64
+success
+not valid
+not valid
+success
+success
+
+
+Server 2003 x86
+success
+ 
+ 
+ 
+ 
+
+
+Server 2003 x64
+ 
+ 
+ 
+ 
+ 
+
+
+Server 2008 R2 x64
+success
+ 
+ 
+ 
+ 
+
+
+
+Previous versions:
+| 1 empty
+| 2 
+| 3 
+| 4 
+| 5 
+| 6 
+| 7 
+| 8 
+| 9 
+| 10 
+| 11 
+| 12 
+| 13 
+| 14 
+| 15 
+| 16 
+| 17 
+| 18 
+| 19 
+| 20 
+| 21 
+| 22 
+| 23 
+| 24 
+| 25 
+| 26 
+| 27 
+| 28 
+| 29 
+| 30 
+| 31 
+|
+                    

@@ -1,0 +1,82 @@
+
+                        Owner: User #14587667
+New Test Preparation Checklist
+When creating Virtual Machines for a test, follow this checklist:
+
+
+ID
+Status
+Task
+
+
+21
+incomplete
+Create a new Tag with the name of your test (ie. Perseus 1.1.0b1).
+
+
+22
+incomplete
+Tag all the VMs you use with the tag specific for your test.
+
+
+ 
+Prior to adding a new network device to a test, perform the following configuration changes:
+
+
+ID
+Status
+Task
+
+
+17
+incomplete
+Change VTPVLAN Trunk Protocol to Transparent mode
+
+
+(config)# vtp mode transparent - An alternative solution is to change the VTPVLAN Trunk Protocol domain.
+
+
+ID
+Status
+Task
+
+
+18
+incomplete
+Add to RANCID (add RANCID instructions here)
+
+
+19
+incomplete
+Turn off vty timeout
+
+
+
+(config)# line vty 0 4
+(config-line)# exec-timeout 0
+
+
+
+ID
+Status
+Task
+
+
+20
+incomplete
+
+
+
+ 
+
+Previous versions:
+| 1 
+| 2 
+| 3 
+| 4 
+| 5 
+| 6 
+| 7 
+| 8 
+|
+                    

@@ -1,0 +1,43 @@
+
+                        Owner: User #524297
+Developer Testing
+THOU MUST
+
+Consider that we don't have beta testers. 
+Test all components of your software.
+
+THOU SHOULD
+
+Write unit tests to assist with regression testing.
+Test code components in isolation from other components.If components cannot be isolated, consider dependency Google Mock   or look into ways of modifying your design.
+
+Utilize industry standard testing libraries like Google Test Library  , WinUnit, or PyUnit.
+If manual tests are required, document what those tests are so future developers are aware
+When writing tests, focus on "The Good, the Bad, and the Ugly"
+Good - Expected values
+Bad - Acceptable but extreme values
+Ugly - Out of range values (does the function fail as expected)
+
+
+Follow a consistent naming pattern for your tests
+
+THOU SHOULD NOT
+
+Test TRULY trivial code (think getters and setters)
+Test non-deterministic code or write non-deterministic tests (think random numbers) (if you must, look into Google Mock   to abstract away what you are truly trying to test)
+
+
+THOU MUST NOT
+
+Consider the fact that compilation was successful as sufficient testing. 
+Write your own unit testing framework
+
+
+Previous versions:
+| 1 
+| 2 
+| 3 
+| 4 
+| 5 
+|
+                    

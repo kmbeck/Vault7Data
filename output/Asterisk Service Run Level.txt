@@ -1,0 +1,114 @@
+
+                        Owner: User #14587667
+BIND (DNS) Server
+Description: This server will function as a DNSDomain Name System server to forward DNSDomain Name System queries to the appropriate authoritative DNSDomain Name System server (loki.lab, devlan.net, testrange.local).  Currently, there is no way to resolve to multiple internal domains.  By pointing at this server, it will forward the DNSDomain Name System request to the appropriate DNSDomain Name System server.  It is important to note that this service only FORWARDS requests for the mentioned domains (It is not a slave DNSDomain Name System server).  There is one exception to this however - this server does have DNSDomain Name System entries for vcenter, esxi-1, esxi-2, esxi-3, and esxi-4 for the loki.lab domain.  This is so that it can function as a backup (for these 4 hosts) if the Windows DNSDomain Name System server goes down.
+IP Address: 10.9.9.12 /24
+OS: Ubuntu Server 14.04 LTSLong Term Support x64
+VM Name: BINDDNS server software DNSDomain Name System Server - 10.9.9.12
+username: ubuntu
+hostname: ns1.loki.lab
+ 
+Steps to Setup Server
+
+Clone Ubuntu Server 14.04 from VMVirtual Machine Template (ubuntu server x64 14.04 LTSLong Term Support)
+Using vCenter, perform the following:
+Tag VMVirtual Machine as 'Production Server'.
+Edit VMVirtual Machine settings:
+Delete NIC2.
+Add NIC1 to vmcli-29
+
+
+Power on VM
+Open Console to VMVirtual Machine and change IP address settings:
+$ sudo vi /etc/network/interfaces
+address 10.9.9.12
+netmask 255.255.255.0
+network 10.9.9.0
+broadcast 10.9.9.255
+gateway 10.9.9.1
+dns-nameservers 10.9.9.12
+
+
+$ sudo reboot
+
+
+
+
+Once rebooted, access the VMVirtual Machine via PuTTY.
+Update hostname
+$ sudo /etc/hostname
+Change to 'ns1'
+$ sudo vi /etc/hosts
+Change the IP address line to the following:10.9.9.12 ns1.loki.lab ns1
+
+
+
+Update apt repo$ sudo apt-get update
+
+Install BIND9$ sudo apt-get install bind9 bind9utils bind9-doc
+
+Edit BINDDNS server software config
+Edit /etc/bind/named.conf.local and add the lines from the sample file 'etc-bind-named.conf.local.txt' attached.
+Edit /etc/bind/named.conf.options and add the lines from the sample file 'etc-bind-named.conf.options.txt' attached
+Check BINDDNSDomain Name System server software config$ named-checkconf
+
+
+
+Create zone files
+$ cd /etc/bind
+$ sudo cp db.local db.loki.lab
+Edit the forward zone file (/etc/bind/db.loki.lab) like the attached file 'etc-bind-db.loki.lab.txt'
+Check the zone file by running the following command
+$ sudo named-checkzone loki.lab db.loki.lab
+
+
+Reload BINDDNSDomain Name System server software config$ sudo service bind9 reload
+
+Test that the DNSDomain Name System server is working by using another computer and pointing to 10.9.9.12 as your DNSDomain Name System server.  Issue the following commands and make sure they resolve.
+$ nslookup tr-01.testrange.local
+$ nslookup golf.loki.lab
+$ nslookup repo.devlan.net
+
+
+
+
+
+Sample Config Files
+etc-bind-db.loki.lab.txt
+etc-bind-named.conf.local.txt
+etc-bind-named.conf.options.txt
+
+
+Attachments:
+
+
+etc-bind-named.conf.options.txt
+
+
+etc-bind-named.conf.local.txt
+
+
+etc-bind-db.loki.lab.txt
+
+
+
+Previous versions:
+| 1 
+| 2 
+| 3 
+| 4 
+| 5 
+| 6 
+| 7 
+| 8 
+| 9 
+| 10 
+| 11 
+| 12 
+| 13 
+| 14 
+| 15 
+| 16 
+| 17 
+|
+                    

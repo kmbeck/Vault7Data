@@ -1,0 +1,52 @@
+
+                        Volume to Drive Partition (MISCGetActiveDrivePartition_IOCTL)
+SECRET//NOFORN
+ 
+Miscellaneous Module
+Stash Repository: Miscellaneous Library
+
+Module Name: MISCGetActiveDrivePartition_IOCTL (Uses IOCTL call)
+ 
+Module Description: Given the volume letter this module will return the partition number associated with the volume. This is necessary when trying to create items using the path \\.\GlobalRoot\Device\HardDiskX\PartitionY\. This function give you Y.
+ 
+Usage:
+
+ static BOOL VolumeToPartitionNumber(WCHAR wcDriveLetter, ULONG &ulPartition);
+
+
+
+wcDriveLetter: The volume letter of the volume being queried.
+ulPartition: This ULONG is filled with partition number that corresponds to the volume letter. ulPartition defaults to 0 on failure.
+Returns TRUE when successful. 
+ 
+PSP/OS Issues: No Known Issues (XPWindows operating system (Version) - 8.1)
+ 
+('excerpt' missing)
+ 
+Sharing Level: Unilateral
+ 
+Technique Origin: In-house (uses DeviceIoControl - IOCTL_STORAGE_GET_DEVICE_NUMBER)
+ 
+Notes: 
+
+To get a handle to the volume, the function opens the drive with FILE_READ_ATTRIBUTES
+Gets Partition Number using IOCTL_STORAGE_GET_DEVICE_NUMBER - (undocumented results for things like TrueCrypt volumes)
+
+ 
+Module Return Codes: Returns TRUE when successful.
+ 
+Example Code:
+ 
+ULONG ulPartition = 0;
+BOOL bRet = MISCGetActiveDrivePartition_IOCTL::VolumeToPartitionNumber(L'C', ulPartition);
+ 
+ 
+SECRET//NOFORN
+
+Previous versions:
+| 1 SECRET
+| 2 SECRET
+| 3 SECRET
+| 4 SECRET
+|
+                    

@@ -1,0 +1,24 @@
+
+                        Owner: User #71473
+Windows Function Hooking
+LABEL PAGE: Child pages of this page will contain articles pertaining to Function Hooking in Windows
+ 
+
+('children' missing)
+
+Sub-Pages:
+
+
+Hook Functions via Export Address Table (MISCHookFunctions_EAT_NTRN) SECRET
+
+
+Hook Functions via Microsoft Detours (MISCHookFunctions_DTRS) SECRET
+
+
+Hook Functions by Replacing References (MISCHookFunctions_RPRF_NTRN) SECRET
+
+
+Hook Functions via Import Address Table (MISCHookFunctions_IAT_NTRN) SECRET
+
+
+                    

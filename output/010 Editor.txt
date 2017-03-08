@@ -1,0 +1,571 @@
+
+                        Compound File Binary File Format Template (Microsoft Office Word)
+ 
+ 
+Only partially complete. Will allow you to parse identify header of a compound binary file format (Used in all kinds of Windows files (.doc, .xls, .ppt, .bin (sometimes), .db (sometimes)). Also, includes structures to help identify structues inside of the document stream in Word documents (.doc).
+ 
+typedef unsigned long ULONG;
+typedef unsigned short USHORT;
+typedef short OFFSET;
+typedef DWORD SECT;
+typedef DWORD FSINDEX;
+typedef USHORT FSOFFSET;
+typedef ULONG DFSIGNATURE;
+typedef ULONG DFSIGNATURE;
+typedef unsigned char BYTE;
+typedef unsigned short WORD;
+typedef unsigned long DWORD;
+typedef WORD DFPROPTYPE;
+typedef ULONG SID;
+struct FILE
+{
+    struct STRUCTURED_STORAGE_HEADER
+    {
+        BYTE Signature[8];
+        BYTE CLSID[16];
+        USHORT MinorVersion;
+        USHORT MajorVersion;
+        USHORT ByteOrder;
+        USHORT SectorShift;
+        USHORT MiniSectorShift;
+        BYTE HeaderReserved[6];
+        DWORD NumberOfDirectorySectors <bgcolor=cLtBlue>;
+        DWORD NumberOfFATSectors <bgcolor=cRed>;
+        DWORD FirstDirectorySectorLocation;
+        DWORD TransactionSignatureNumber;
+        DWORD MiniStreamCutoffSize;
+        DWORD FirstMiniFATSector <bgcolor=cGreen>;
+        DWORD NumberOfMiniFATSectors <bgcolor=cYellow>;
+        DWORD FirstDIFATSector;
+        DWORD NumberOfDIFATSectors;
+        DWORD DIFAT[109];   
+    } header <bgcolor=cLtGray>;
+    struct File_Information_Block
+    {
+        struct FibBase
+        {
+            USHORT wId;
+            USHORT nFib;
+            USHORT unused;
+            USHORT lid;
+            USHORT pnNext;
+            unsigned char flags1;
+            unsigned char flags2;
+            USHORT nFibBack;
+            ULONG lKey;
+            char envr;
+            char flags3;
+            USHORT reserved3;
+            USHORT reserved4;
+            ULONG reserved5;
+            ULONG reserved6;
+            
+        }fibbase <bgcolor=cAqua>;
+        USHORT csw;
+        struct FibRgW97
+        {
+            USHORT r1;
+            USHORT r2;
+            USHORT r3;
+            USHORT r4;
+            USHORT r5;
+            USHORT r6;
+            USHORT r7;
+            USHORT r8;
+            USHORT r9;
+            USHORT r10;
+            USHORT r11;
+            USHORT r12;
+            USHORT r13;
+            USHORT lidFE;
+        }fibRgW97 <bgcolor=cPurple>;
+        USHORT cslw;            
+        struct FibRgLw97
+        {
+            ULONG cbMac;
+            ULONG r1;
+            ULONG r2;
+            ULONG ccpText;
+            ULONG ccpFtn;
+            ULONG ccpHdd;
+            ULONG r3;
+            ULONG ccpAtn;
+            ULONG ccpEdn;
+            ULONG ccpTxbx;
+            ULONG ccpHdrTxbx;
+            ULONG r4;
+            ULONG r5;
+            ULONG r6;
+            ULONG r7;
+            ULONG r8;
+            ULONG r9;
+            ULONG r10;
+            ULONG r11;
+            ULONG r12;
+            ULONG r13;
+            ULONG r14;
+        }fibRgLw97 <bgcolor=cYellow>;
+        USHORT cbRgFcLcb;
+        if(file.fib.cbRgFcLcb == 183)//112-B7
+        {
+            struct FibRgFcLcb2007
+            {
+               
+                    struct FibRgFcLcb2003 rgFcLcb2003;
+                    ULONG fcPlcfmthd;
+                    ULONG lcbPlcfmthd;
+                    ULONG fcSttbfBkmkMoveFrom;
+                    ULONG lcbSttbfBkmkMoveFrom;
+                    ULONG fcPlcBkfMoveFrom;
+                    ULONG lcbPlcBkfMoveFrom;
+                    ULONG fcPlcBklMoveFrom;
+                    ULONG lcbPlcfBklMoveFrom;
+                    ULONG fcSttbfBkmkMoveTo;
+                    ULONG lcbSttbfBkmkMoveTo;
+                    ULONG fcPlcBkfMoveTo;
+                    ULONG lcbPlcBkfMoveTo;
+                    ULONG fcPlcBklMoveTo;
+                    ULONG lcbPlcfBklMoveTo;
+                    ULONG fcUnused1;
+                    ULONG lcbUnused1;
+                    ULONG fcUnused2;
+                    ULONG lcbUnused2;
+                    ULONG fcUnused3;
+                    ULONG lcbUnused3;
+                    ULONG fcStbfBkmkArto;
+                    ULONG lcbSttbfBkmkArto;
+                    ULONG fcPlcfBkfArto;
+                    ULONG lcbPlcBkfArto;
+                    ULONG fcPlcfBklArto;
+                    ULONG lcbPlcfBklArto;
+                    ULONG fcArtoData;
+                    ULONG lcbArtoData;
+                    ULONG fcUnused4;
+                    ULONG lcbUnused4;
+                    ULONG fcUnused5;
+                    ULONG lcbUnused5;
+                    ULONG fcUnused6;
+                    ULONG lcbUnused6;
+                    ULONG fcOssTheme;
+                    ULONG lcbOssTheme;
+                    ULONG fcColorSchemingMapping;
+                    ULONG lcbColorSchemeMapping;
+            } fibRgFcLcb2007;
+            
+        }
+        if(file.fib.cbRgFcLcb == 164)//10C-A4
+        {
+            struct FibRgFcLcb2003
+            {
+               
+                    struct FibRgFcLcb2002 rgFcLcb2002;
+                    ULONG fcHplxsdr;
+                    ULONG lcbHplxsdr;
+                    ULONG fcSttbfBkmkSdt;
+                    ULONG lcbSttbfBkmkSdt;
+                    ULONG fcPlcBkfSdt;
+                    ULONG lcbPlcBkfSdt;
+                    ULONG fcPlcBklSdt;
+                    ULONG lcbPlcBklSdt;
+                    ULONG fcCustomXForm;
+                    ULONG lcbCustomXForm;
+                    ULONG fcSttbBkmkProt;
+                    ULONG lcbSttbBkmkProt;
+                    ULONG fcPlcBkfProt;
+                    ULONG lcbPlcBkfProt;
+                    ULONG fcPlcBklProt;
+                    ULONG lcbPlcBklProt;
+                    ULONG fcSttbProtUser;
+                    ULONG lcbSttbProtUser;
+                    ULONG fcUnused;
+                    ULONG lcbUnused;
+                    ULONG fcPlcfpmiOld;
+                    ULONG lcbPlcfpmiOld;
+                    ULONG fcPlcfpmiOldInline;
+                    ULONG lcbPlcfpmiOldInline;
+                    ULONG fcPlcfpmiNew;
+                    ULONG lcbPlcfpmiNew;
+                    ULONG fcPlcfpmiNewInline;
+                    ULONG lcbPlcfpmiNewInline;
+                    ULONG fcPlcflvcOld;
+                    ULONG lcbPlcflvcOld;
+                    ULONG fcPlcflvcOldInline;
+                    ULONG lcbPlcflvcOldInline;
+                    ULONG fcPlcflvcNew;
+                    ULONG lcbPlcflvcNew;
+                    ULONG fcPlcflvcNewInline;
+                    ULONG lcbPlcflvcNewInline;
+                    ULONG fcPgdMother;
+                    ULONG lcbPgdMother;
+                    ULONG fcBkdMother;
+                    ULONG lcbBkdMother;
+                    ULONG fcAfdMother;
+                    ULONG lcbAfdMother;
+                    ULONG fcPgdFtn;
+                    ULONG lcbPgdFtn;
+                    ULONG fcBkdFtn;
+                    ULONG lcbBkdFtn;
+                    ULONG fcAfdFtn;
+                    ULONG lcbAfdFtn;
+                    ULONG fcPgdEdn;
+                    ULONG lcbPgdEdn;
+                    ULONG fcBkdEdn;
+                    ULONG lcbBkdEdn;
+                    ULONG fcAfdEdn;
+                    ULONG lcbAfdEdn;
+                    ULONG fcAfd;
+                    ULONG lcbAfd;
+            } fibRgFcLcb2003;
+        }
+        if(file.fib.cbRgFcLcb == 136)//101-88
+        {
+            struct FibRgFcLcb2002
+            {
+               
+                    struct FibRgFcLcb2000 rgFcLcb2000;
+                    ULONG fcUnused1;
+                    ULONG lcbUnused1;
+                    ULONG fcPlcfPgp;
+                    ULONG lcbPlcfPgp;
+                    ULONG fcPlcfuim;                  
+                    ULONG lcbPlcfuim;
+                    ULONG fcPlfguidUim;
+                    ULONG lcbPlfguidUim;
+                    ULONG fcAtrdExtra;
+                    ULONG lcbAtrdExtra;
+                    ULONG fcPlrsid;
+                    ULONG lcbPlrsid;
+                    ULONG fcSttbfBkmkFactoid;
+                    ULONG lcbSttbfBkmkFactoid;
+                    ULONG fcPlcfBkfFactoid;
+                    ULONG lcbPlcfBkfFactoid;
+                    ULONG fcPlcfcookie;
+                    ULONG lcbPlcfcookie;
+                    ULONG fcPlcfBklFactoid;
+                    ULONG lcbPlcfBklFactoid;
+                    ULONG fcFactoidData;
+                    ULONG lcbFactoidData;
+                    ULONG fcDocUndo;
+                    ULONG lcbDocUndo;
+                    ULONG fcStbfBkmkFcc;
+                    ULONG lcbStbfBkmkFcc;
+                    ULONG fcPlcfBkfFcc;
+                    ULONG lcbPlcfBkfFcc;
+                    ULONG fcPlcfBklFcc;
+                    ULONG lcbPlcfBklFcc;
+                    ULONG fcSttbfbkmkBPRepairs;
+                    ULONG lcbSttbfbkmkBPRepairs;
+                    ULONG fcPlcfbkfBPRepairs;
+                    ULONG lcbPlcfbkfBPRepairs;
+                    ULONG fcPlcfbklBPRepairs;
+                    ULONG lcbPlcfbklBPRepairs;
+                    ULONG fcPmsNew;
+                    ULONG lcbPmsNew;
+                    ULONG fcODSO;
+                    ULONG lcbODSO;
+                    ULONG fcPlcfpmiOldXP;
+                    ULONG lcbPlcfpmiOldXP;
+                    ULONG fcPlcfpmiNewXP;
+                    ULONG lcbPlcfpmiNewXP;
+                    ULONG fcPlcfpmiMixedXP;
+                    ULONG lcbPlcfpmiMixedXP;
+                    ULONG fcUnused2;
+                    ULONG lcbUnused2;
+                    ULONG fcPlcffactoid;
+                    ULONG lcbPlcffactoid;
+                    ULONG fcPlcflvcOldXP;
+                    ULONG lcbPlcflvcOldXP;
+                    ULONG fcPlcflvcNewXP;
+                    ULONG lcbPlcflvcNewXP;
+                    ULONG fcPlcflvcMixedXP;
+                    ULONG lcbPlcflvcMixedXP;
+            } fibRgFcLcb2002;
+        }
+        if(file.fib.cbRgFcLcb == 108)//D9-6C
+        {
+            struct FibRgFcLcb2000
+            {
+               
+                    struct FibRgFcLcb97 rgFcLcb97;
+                    ULONG fcPlcfTch;
+                    ULONG lcbPlcfTch;
+                    ULONG fcRmdThreading;
+                    ULONG lcbRmdThreading;
+                    ULONG fcMid;                  
+                    ULONG lcbMid;
+                    ULONG fcSttbRgtplc;
+                    ULONG lcbSttbRgtplc;
+                    ULONG fcMsoEnvelope;
+                    ULONG lcbMsoEnvelope;
+                    ULONG fcPlcfLad;
+                    ULONG lcbPlcfLad;
+                    ULONG fcRgDofr;
+                    ULONG lcbRgDofr;
+                    ULONG fcPlcosl;
+                    ULONG lcbPlcosl;
+                    ULONG fcPlcfCookieOld;
+                    ULONG lcbPlcfCookieOld;
+                    ULONG fcPgdMotherOld;
+                    ULONG lcbPgdMotherOld;
+                    ULONG fcBkdMotherOld;
+                    ULONG lcbBkdMotherOld;
+                    ULONG fcPgdFtnOld;
+                    ULONG lcbPgdFtnOld;
+                    ULONG fcBkdFtnOld;
+                    ULONG lcbBkdFtnOld;
+                    ULONG fcPgdEdnOld;
+                    ULONG lcbPgdEdnOld;
+                    ULONG fcBkdEdnOld;
+                    ULONG lcbBkdEdnOld;
+            } fibRgFcLcb2000;
+        }
+        if(file.fib.cbRgFcLcb == 93)//c1-5d
+        {
+            struct FibRgFcLcb97
+            {
+               
+                    ULONG fcStshfOrig;
+                    ULONG lcbStshfOrig;
+                    ULONG fcStshf;
+                    ULONG lcbStshf;
+                    ULONG fcPlcffndRef;
+                    ULONG lcbPlcffndRef;
+                    ULONG fcPlcffndTxt;
+                    ULONG lcbPlcffndTxt;
+                    ULONG fcPlcfandRef;
+                    ULONG lcbPlcfandRef;
+                    ULONG fcPlcfandTxt;
+                    ULONG lcbPlcfandTxt;
+                    ULONG fcPlcfSed;
+                    ULONG lcbPlcfSed;
+                    ULONG fcPlcPad;
+                    ULONG lcbPlcPad;
+                    ULONG fcPlcfPhe;
+                    ULONG lcbPlcfPhe;
+                    ULONG fcSttbfGlsy;
+                    ULONG lcbSttbfGlsy;
+                    ULONG fcPlcfGlsy;
+                    ULONG lcbPlcfGlsy;
+                    ULONG fcPlcfHdd;
+                    ULONG lcbPlcfHdd;
+                    ULONG fcPlcBteChpx;
+                    ULONG lcbPlcBteChpx;
+                    ULONG fcPlcBtePapx;
+                    ULONG lcbPlcBtePapx;
+                    ULONG fcPlcfSea;
+                    ULONG lcbPlcfSea;
+                    ULONG fcSttbfFfn;
+                    ULONG lcbSttbfFfn;
+                    ULONG fcPlcfFldMom;
+                    ULONG lcbPlcfFldMom;
+                    ULONG fcPlcfFldHdr;
+                    ULONG lcbPlcfFldHdr;
+                    ULONG fcPlcfFldFtn;
+                    ULONG lcbPlcfFldFtn;
+                    ULONG fcPlcfFldAtn;
+                    ULONG lcbPlcfFldAtn;
+                    ULONG fcPlcfFldMcr;
+                    ULONG lcbPlcfFldMcr;
+                    ULONG fcSttbfBkmk;
+                    ULONG lcbSttbfBkmk;
+                    ULONG fcPlcfBkf;
+                    ULONG lcbPlcfBkf;
+                    ULONG fcPlcfBkl;
+                    ULONG lcbPlcfBkl;
+                    ULONG fcCmds;
+                    ULONG lcbCmds;
+                    ULONG fcUnused1;
+                    ULONG lcbUnused1;
+                    ULONG fcSttbfMcr;
+                    ULONG lcbSttbfMcr;
+                    ULONG fcPrDrvr;
+                    ULONG lcbPrDrvr;
+                    ULONG fcPrEnvPort;
+                    ULONG lcbPrEnvPort;
+                    ULONG fcPrEnvLand;
+                    ULONG lcbPrEnvLand;
+                    ULONG fcWss;
+                    ULONG lcbWss;  
+                    ULONG fcDop;
+                    ULONG lcbDop;
+                    ULONG fcSttbfAssoc;
+                    ULONG lcbSttbfAssoc;  
+                    ULONG fcClx;
+                    ULONG lcbClx;
+                    ULONG fcPlcPgdFtn;
+                    ULONG lcbPlcPgdFtn;
+                    ULONG fcAutosaveSource;
+                    ULONG lcbAutosaveSource;
+                    ULONG fcGrpXstAtnOwners;
+                    ULONG lcbGrpXstAtnOwners;
+                    ULONG fcSttbfAtnBkmk;
+                    ULONG lcbSttbfAtnBkmk;
+                    ULONG fcUnused2;
+                    ULONG lcbUnused2;
+                    ULONG fcUnused3;
+                    ULONG lcbUnused3;
+                    ULONG fcPlcSpaMom;
+                    ULONG lcbPlcSpaMom;
+                    ULONG fcPlcSpaHdr;
+                    ULONG lcbPlcSpaHdr;
+                    ULONG fcPlcfAtnBkf;
+                    ULONG lcbPlcfAtnBkf;
+                    ULONG fcPlcAfAtnBkl;
+                    ULONG lcbPlcAfAtnBkl;
+                    ULONG fcPms;
+                    ULONG lcbPms;
+                    ULONG fcFormFldSttbs;
+                    ULONG lcbFormFldSttbs;
+                    ULONG fcPlcfendRef;
+                    ULONG lcbPlcfendRef;
+                    ULONG fcPlcfendTxt;
+                    ULONG lcbPlcfendTxt;
+                    ULONG fcPlcfFldEdn;
+                    ULONG lcbPlcfFldEdn;
+                    ULONG fcUnused4;
+                    ULONG lcbUnused4;
+                    ULONG fcDggInfo;
+                    ULONG lcbDggInfo;
+                    ULONG fcSttbfRMark;
+                    ULONG lcbSttbfRMark;
+                    ULONG fcSttbfCaption;
+                    ULONG lcbSttbfCaption;
+                    ULONG fcSttbfAutoCaption;
+                    ULONG lcbSttbfAutoCaption;
+                    ULONG fcPlcfWkb;
+                    ULONG lcbPlcfWkb;
+                    ULONG fcPlcfSpl;
+                    ULONG lcbPlcfSpl;
+                    ULONG fcPlcftxbxTxt;
+                    ULONG lcbPlcftxbxTxt;
+                    ULONG fcPlcfFldTxbx;
+                    ULONG lcbPlcfFldTxbx;
+                    ULONG fcPlcfHdrtxbxTxt;
+                    ULONG lcbPlcfHdrtxbxTxt;
+                    ULONG fcPlcffldHdrTxbx;
+                    ULONG lcbPlcffldHdrTxbx;
+                    ULONG fcStwUser;
+                    ULONG lcbStwUser;
+                    ULONG fcSttbTtmbd;
+                    ULONG lcbSttbTtmbd;
+                    ULONG fcCookieData;
+                    ULONG lcbCookieData;
+                    ULONG fcPgdMotherOldOld;
+                    ULONG lcbPgdMotherOldOld;
+                    ULONG fcBkdMotherOldOld;
+                    ULONG lcbBkdMotherOldOld;
+                    ULONG fcPgdFtnOldOld;
+                    ULONG lcbPgdFtnOldOld;
+                    ULONG fcBkdFtnOldOld;
+                    ULONG lcbBkdFtnOldOld;
+                    ULONG fcPgdEdnOldOld;
+                    ULONG lcbPgdEdnOldOld;
+                    ULONG fcBkdEdnOldOld;
+                    ULONG lcbBkdEdnOldOld;
+                    ULONG fcSttbfIntlFld;
+                    ULONG lcbSttbfIntlFld;
+                    ULONG fcRouteSlip;
+                    ULONG lcbRouteSlip;
+                    ULONG fcSttbSavedBy;
+                    ULONG lcbSttbSavedBy;
+                    ULONG fcSttbFnm;
+                    ULONG lcbSttbFnm;
+                    ULONG fcPlfLst;
+                    ULONG lcbPlfLst;
+                    ULONG fcPlfLfo;
+                    ULONG lcbPlfLfo;
+                    ULONG fcPlcfTxbxBkd;
+                    ULONG lcbPlcfTxbxBkd;
+                    ULONG fcPlcfTxbxHdrBkd;
+                    ULONG lcbPlcfTxbxHdrBkd;
+                    ULONG fcDocUndoWord9;
+                    ULONG lcbDocUndoWord9;
+                    ULONG fcRgbUse;
+                    ULONG lcbRgbUse;
+                    ULONG fcUsp;
+                    ULONG lcbUsp;
+                    ULONG fcUskf;
+                    ULONG lcbUskf;
+                    ULONG fcPlcupcRgbUse;
+                    ULONG lcbPlcupcRgbUse;
+                    ULONG fcPlcupcUsp;
+                    ULONG lcbPlcupcUsp;
+                    ULONG fcSttbGlsyStyle;
+                    ULONG lcbSttbGlsyStyle;
+                    ULONG fcPlgosl;
+                    ULONG lcbPlgosl;
+                    ULONG fcPlcocx;
+                    ULONG lcbPlcocx;
+                    ULONG fcPlcfBteLvc;
+                    ULONG lcbPlcfBteLvc;
+                    ULONG fcLowDateTime;
+                    ULONG lcbHighDateTime;
+                    ULONG fcPlcfLvcPre10;
+                    ULONG lcbPlcfLvcPre10;
+                    ULONG fcAsumy;
+                    ULONG lcbAsumy;
+                    ULONG fcPlcfGram;
+                    ULONG lcbPlcfGram;
+                    ULONG fcSttbListNames;
+                    ULONG lcbSttbListNames;
+                    ULONG fcSttbfUssr;
+                    ULONG lcbSttbfUssr;
+
+            } fibRgFcLcb97;
+        }
+        
+        USHORT cswNew;
+        if(file.fib.cbRgFcLcb == 183)
+        {
+            USHORT rgCswNewData2000;
+            USHORT lidThemeOther;
+            USHORT lidThemeFE;
+            USHORT lidThemeCS;
+        }
+        else
+        {
+            USHORT cQuickSavesNew;
+        }
+
+    }fib;
+        /*( = 18)
+        {
+           //search table 1
+        }
+        else
+        {
+            //searcj table 0
+        }*/
+
+}file;
+ 
+Attached is the binary template to be used with 010 editor. Also, attached are specification documents regarding the file format specification and other office file format specifications.
+ 
+[MS-PPT].pdf
+ 
+
+Attachments:
+
+
+[MS-PPT].pdf
+
+
+[MS-OSHARED] (1).pdf
+
+
+[MS-OLEPS].pdf
+
+
+[MS-DOC].pdf
+
+
+Word97-2007BinaryFileFormat(doc)Specification.pdf
+
+
+[MS-CFB].pdf
+
+
+CompoundBinaryTemplate.bt
+
+
+                    

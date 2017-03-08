@@ -1,0 +1,130 @@
+
+                        Owner: User #3375374
+Funny Code 2010
+Funny Code post from 2010.
+
+This is my method for mounting share in ubuntu linux.
+mkdir /share/computer_name/share_name
+Example: mkdir /share/zagyg/work
+Edit /etc/fstab and add the mount information.
+//zagyg/work /share/zagyg/work cifs uid=User #77120,username=devlan\User #77120,rw 0 0
+Mount the remote share using sudo.
+sudo mount /share/zagyg/work
+Note don't forget to install smbfs e.g. sudo apt-get install smbfs.
+
+
+sxe ld [module name]
+sxe ud [module name]
+
+Example: sxe ld foo
+
+Copy the following text to a text file.
+.echo dumping iat for module ${arg1}.echo usage: $$>a< c:\work\windbg_dump_iat.txt ws2_32
+r $t0 = poi(${$arg1}+poi(${$arg1}+0x3c)+0xd8)r $t1 = poi(${$arg1}+poi(${$arg1}+0x3c)+0xdc)dps ${$arg1}+$t0 L? (($t1+4)/4)
+
+Invoke it from the windbg command prompt.
+$$>a< c:\work\windbg_dump_iat.txt ws2_32
+Note this is 32 bit images.  0x3c is dos_elfawnew, 0xd8 is IAT, and 0xdc is IAT Size.
+Alternate ways to do this. Dump the PEPrivilege Escalation header and look up the IAT virtual address and size. For example:pImageBase is at 00000001`80000000 and !dh shows the following for the IAT table.
+57000 [     368] address [size] of Import Address Table Directory 
+ !dh poi(pImageBase) for x86 images dds poi(pImageBase)+57000 L368/4 for x64 miages dqs poi(pImageBase)+57000 L368/8
+The following sample shows how to dump the import descriptor table.
+
+0:000> dt _IMAGE_IMPORT_DESCRIPTORloader_unit_test!_IMAGE_IMPORT_DESCRIPTOR   +0x000 Characteristics  : Uint4B   +0x000 OriginalFirstThunk : Uint4B   +0x004 TimeDateStamp    : Uint4B   +0x008 ForwarderChain   : Uint4B   +0x00c Name             : Uint4B   +0x010 FirstThunk       : Uint4B0:000> dt _IMAGE_IMPORT_DESCRIPTOR poi(pImageBase)+6873C loader_unit_test!_IMAGE_IMPORT_DESCRIPTOR   +0x000 Characteristics  : 0x68790   +0x000 OriginalFirstThunk : 0x68790   +0x004 TimeDateStamp    : 0x4a5bdfdf   +0x008 ForwarderChain   : 0x776e0000   +0x00c Name             : 0x68c20   +0x010 FirstThunk       : 0x570180:000> dqs poi(pImageBase)+57018 L368/800000001`80057018  00000000`77702c00 kernel32!CloseHandleImplementation00000001`80057020  00000000`77702890 kernel32!WaitForSingleObject00000001`80057028  00000000`776f53c0 kernel32!SetEventStub
+...
+
+
+Some python code to geterate formatted text for a C program. The output looks like : { 0xf93b2c0c },  { 0xbf69a146 },
+import osimport sysimport binasciib = os.urandom(128)a = binascii.hexlify(b)for i in range(0, len(a)-1, 8): e = "\t{ 0x" + a[i + 0] + a[i + 1] + a[i + 2] + a[i + 3] + a[i + 4] + a[i + 5] + a[i + 6] + a[i + 7] + " }, " print e
+
+import osimport sysimport binasciib = os.urandom(2048)a = binascii.hexlify(b)
+# write out a c source code for the binary datafd1 = open("config.cpp","wb")fd1.write("#ifdef __cplusplus\nextern \"C\" {\n#endif //__cplusplus\n\n\nunsigned int config[] = \n{\n")nop = [ fd1.write("\t{ 0x" + a[i + 0] + a[i + 1] + a[i + 2] + a[i + 3] + a[i + 4] + a[i + 5] + a[i + 6] + a[i + 7] + " }, \n") for i in xrange(0, len(a)-1, 8)]fd1.write("};\n\n\nunsigned int config_size = sizeof(config) / sizeof(config[0]);\n\n#ifdef __cplusplus\n} // extern \"C\"\n#endif //__cplusplus\n")fd1.close()
+# write out a binary templatefd2 = open("config.bin","wb") for i in xrange(0, len(b), 4):  for j in xrange(i+3, i-1, -1):   fd2.write(b[j])fd2.close()
+
+ 
+
+Here are the steps for obtaining symbol information for Windows. These pictures are from my NERDS talk on the subject. Its something I do every now and then.
+
+The above slide shows the general steps for getting the hashes needed for a particular system.
+
+This slide shows how to create a dump file. The dump file is then used to generate a list of symbols.
+
+I recently received a bug report for one of our beaconing products. It has been a hard bug to reproduce. One of the performance aspects I am investigating is heap fragmentation and I thought it would make a good wiki topic.
+Heap fragmentation is a problem that can appear in long running or long lived services. It's fairly rare and can be difficult to detect. The easiest way that I am aware of to detect this condition is to overdrive your server during testing. Specifically, run a large number of requests that simulate months of uptime for the service.  During this test measure the heap memory allocations calculate the average block size of a heap allocation.  The next step is to walk the heap and look for blocks that are free but too small to meet the average block size. Make a count of these blocks and perform this measurement over several time periods.  Take the counts and plot them on an excel spread sheet. A monotonically increasing graph likely indicates a problem.
+Now to the neat trick I found. The engineers at Sysinternals released this great tool called VMMap shown below.
+
+Size Minimization with OPT:REF
+This was falling off the Windows Trivia blog and I wanted to save it.  --- //User #77120 2010/02/25 09:06//
+** /OPT:REF **
+Removing unreferenced functions from your program is a huge part of minimizing the size of your final executable. This comes into play when linking against libraries that define a bunch of functions that you may or may not need. Say your library defines func1(), func2(), and func3() in one source file. You call func2() in your code. When the linker looks for and finds func2() in the library, it also brings in func1() and func3() since they were in the same source file. Any and all functions or global data that those three functions reference is also pulled in. So if func1() calls func4(), defined in another file, the linker goes and loads that one too. Depending on how the library was built, you can end up with quite a large set of functions that never get called.
+It is during the /OPT:REF stage of linking that that set of functions is pruned down to just the referenced functions. Turn on /VERBOSE if you want to see the list of functions the linker throws away. It's usually a long list.
+//**Distressing exception:**//
+Global data does **not** get pruned. If one of the library's source files includes a global, and that file is loaded by the linker, that global stays. End of story. If that global data references other data or functions, those stay too. There is probably a good reason for this, but it is very annoying.
+Trying to minimize the size of an executable with TinyLibC is a perfect example of this. I cut several K out of a test exe just by moving a global into its own file.
+UPDATE: After some more thought, it may be that if the data were declared with <nowiki>__</nowiki>declspec(selectany), the linker would be able to prune it. This makes the data item a COMDAT, which is what the functions are by default. Global data is not as easy to deal with unless it has that declspec on it. I'm going to go try that now.
+UPDATE2: Indeed, if you use <nowiki>__</nowiki>declspec(selectany), your global data can be discarded right along with the unused functions. Yay.
+ --- //User #? 2008/09/24 15:33//
+ 
+What do I need to do to get IE8 to accept a self signed certificate? 
+How to make IE8 trust a self-signed certificate in 20 irritating steps. (reprinted from stackoverflow.com)
+
+ Browse to the site whose certificate you want to trust.
+ When told 'There is a problem with this website's security certificate.', choose 'Continue to this website (not recommended).'
+ Select Tools->Internet Options.
+ Select Security->Trusted sites->Sites.
+ Confirm the URLUniform Resource Locator matches, and click 'Add' then 'Close'
+ Close the 'Internet Options' dialog box with either 'OK' or 'Cancel'.
+ Refresh the current pages.
+ When told 'There is a problem with this website's security certificate.', choose 'Continue to this website (not recommended).'
+ Click on 'Certificate Error' at the right of the address bar and select 'View Certificates'.
+ Click on 'Install Certificate...', then in the wizard, click 'Next'.
+ On the next page select 'Place all certificates in the following store'.
+ Click 'Browse', select 'Trusted Root Certificate Authorities', and click 'OK'.
+ Back in the wizard, click 'Next', then 'Finish'.
+ If you get a 'Security Warning' message box, click 'Yes'.
+ Dismiss the message box with 'OK'.
+ Select Tools->Internet Options.
+ Select Security->Trusted sites->Sites.
+ Select the URLUniform Resource Locator you just added, click 'Remove', then 'Close'.
+ Now shut down all running instances of IE, and start up IEInternet Explorer again.
+ The site's certificate should now be trusted.
+
+How do I get IEInternet Explorer to stop warning me about Certificates Address mismatches?
+
+ Select Tools->Internet Options.
+ Select Advanced.
+ Scroll down to Security.
+ Uncheck 'Warn about certificate address mismatch*'.
+ Click Ok.
+
+ 
+
+Issue (bug) tracking software is your own personal tool.  You don't need to use to just track bugs and requirements which is just plain awful (painful). I find issue tracking software is really useful in two areas (1) large teams and (2) creating transparency.  In large teams issue tracking can be helpful for communicating what is going on in the project.  The very fact that the data is online, readable, and updated makes it very hard to make the case that one is not being transparent. Transparency is criteria for building trust.
+For example, in the past I would track my DTOData Transfer Object from the Internet to DEVLAN on CWE in the DTOData Transfer Object database.  Just the other day Close Support took the database offline and the new database does not support this capability so I needed another logging mechanism.  An excel spread sheet is ok but it leaves much to be desired.  For instance, I need easy access to the file from various terminals on DEVLAN.  What if I crash my box?  While the SoureForge UIUser Interface is ugly it is convenient for my purpose.
+
+ 
+
+Attachments:
+
+
+using_sourceforge_for_dtos_2.jpg
+
+
+mikel_find_heap_fragmentation.jpg
+
+
+mikel_obtain_symbols_for_a_vm.jpg
+
+
+mikel_obtain_symbols.jpg
+
+
+
+Previous versions:
+| 1 
+| 2 
+| 3 
+| 4 
+| 5 
+|
+                    

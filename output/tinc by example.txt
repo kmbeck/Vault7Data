@@ -1,0 +1,120 @@
+
+                        tinc Protocol List
+This is a complete list of TINC's meta-protocol commands.  Handlers are defined in the protocol.c request_handlers array.  The implementations are scattered in the protocol_* files.
+
+('toc' missing)
+Authentication
+ID
+Syntax: ID(0), STRING my_name, INT version
+Send: Identify self to a foreign client.
+Recv: Set allow_request to METAKEY and respond with a METAKEY command
+METAKEY
+Syntax: METAKEY(1), INT cipher, INT digest, INT mac_len, INT compression, STRING buffer
+Send: Generates random session key, encrypts it w/ out's pub key, sends new key + all cipher info.  All future comms will be done with this new key.
+Recv: Initializes crypto w/ cipher info and, uses it's privkey to decrypt.  Set's allow_request to CHALLENGE and sends a CHALLENGE command
+CHALLENGE
+Syntax: CHALLENGE(2), STRING buffer
+Send: Fill c->hischallenge w/ random data and send it (note it will be encrypted because this comes after a METAKEY)
+Recv: Write data to c->mychallenge, set allow_request to CHAL_REPLY, send a CHAL_REPLY command
+CHAL_REPLY
+Syntax: CHAL_REPLY(3), STRING buffer
+Send: Hash c->mychallenge and send to other side
+Recv: Check hash against hash of c->hischallenge.  Set allow_request to ACKAcknowledge and send an ACKAcknowledge command.
+ACK
+Syntax: ACKAcknowledge(4), STRING my_port, INT estimated_weight, %x options
+Send: Uses the difference between now() and the start of the connection as the weight.
+Recv: Initialize node_t, create edge_t for this connection, send ADD_EDGE to everyone, update graph.  Set allow_request to ALL
+Misc
+STATUS
+Syntax: STATUS(5), INT status_num, STRING status_str
+Send: Sends my status information
+Recv: Log message.
+ERROR
+Syntax: ERROR(6), INT error_num, STRING error_str
+Send: Sends an error message
+Recv: Log message, end connection.
+TERMREQ
+Syntax: TERMREQ(7) (no arguments)
+Send: Sends a request for the other side to terminate
+Recv: Terminate the connection
+PING
+Syntax: PING(8) (no arguments)
+Send: Set c->status.pinged to true, set c->last_ping_time to now
+Recv: Send a PONG
+PONG
+Syntax: PONG(9) (no arguments)
+Send: Nothing.
+Recv: Set c->status.pinged to false, reset various timeouts because this is a known-good connection
+PACKET
+Syntax: PACKET(17), SHORT len, ... BYTE* raw_byte_data
+Send: Send a vpn_packet_t over the meta-link'
+Recv: Flag the length so that receive_meta() knows that a tcppacket follows immediately.
+Subnet
+ADD_SUBNET
+Syntax: ADD_SUBNET(10), %x rand(), STRING owner, STRING name
+Recv:
+
+Look up owner.  If they don''t exist, create them
+If we already know this subnet, finish
+If we're the alleged owner but we don't know the subnet retaliate with a DEL_SUBNET and finish
+Update our routing
+Forward the ADD_SUBNET
+
+DEL_SUBNET
+Syntax: DEL_SUBNET(11), %x rand(), STRING owner, STRING name
+Recv:
+
+If we don't know the owner, skip
+If we're the owner, retaliate with an ADD_SUBNET and finish
+Forward the DEL_SUBNET, if it seems like we should
+Update our routing
+
+Edge
+ADD_EDGE
+Syntax: ADD_EDGE(12), %x rand(), STRING from_name, STRING to_name, STRING address, STRING port, %x options, INT weight
+Recv:
+
+If we know about the edge already
+But it doesn't match a real thing, send an update ADD_EDGE to people with the real info
+Or sometimes delete the edge and redraw the graph (not sure...)
+
+
+Add the edge to our table
+Forward the message, if appropriate
+Redraw the graph
+
+DEL_EDGE
+Syntax: DEL_EDGE(13), %x rand(), STRING from_name, STRING to_name
+Recv:
+
+Ignore if we don't know either of the owners or the edge itself
+If someone is telling us to delete our own edge, send them an ADD_EDGE
+Forward the message, if appropriate
+Delete the edge from our table
+Redraw graph
+If the "to" node is no longer reachable, but it had an IN route to us, DEL_EDGE it to everyone
+
+Key
+KEY_CHANGED
+Syntax: KEY_CHANGED(14), %x rand(), STRING my_name
+Send: Send KEY_CHANGED, then immediately send ANS_KEY to all connected nodes
+Recv: Mark the current key as invalid, forward to other's as appropriate
+REQ_KEY
+Syntax: REQ_KEY(15), STRING my_name, STRING to_name
+Recv: If we're the to_name, send an ANS_KEY with our key.  Otherwise, forward to the next hop
+ANS_KEY
+Syntax: ANS_KEY(16), STRING my_name, STRING to_name, STRING key, INT cipher, INT digest, INT mac_len, INT compression
+Send: Generate and send a new key.  Reset our crypto machine
+Recv: Forward if it's not to us.  Otherwise, read in the new key data and update info.
+ 
+
+Previous versions:
+| 1 
+| 2 
+| 3 
+| 4 
+| 5 
+| 6 
+| 7 
+|
+                    

@@ -1,0 +1,404 @@
+
+                        Owner: User #15728648
+TRICLOPS FALL 2014
+(TS // SI / REL UK, CAN)
+('toc' missing)
+
+ 
+
+User #? Notes:
+ 
+What didn’t work
+ xpcd cache trick that worked at Triclops 3 no longer tricks xpcd to load xpc services from disk.
+ launchctl will load plist from somewhere not on /System/Library/LaunchDaemons, but could not find a way to have launchctl do that from a reboot.
+ 
+Persistence via UserEventPlugins / UserEventAgent
+UserEventAgent Tries to load plugins by dlopen, then dlsym’ing plugins in /System/Library/UserEventPlugins/*.plugin, reading the symbol to call in the Info.plist of the plugin. parsed in alphabetical order.
+Update Ramdisk
+“Decrypting” the H6SURamDisk.dmg
+ 
+
+Open in Hex Editor
+Remove the initial 30 84 02 D8 00 15 16 04 49 4D 34 50 16 04 72 64 73 6B 16 01 30 04 84 02 D8 bytes(might look slightly different) until the start of the big section of 0x00’s.
+jump to the decimal 1024 offset.
+Find where the “H+” / 0x482B is starts, and remove 0’s until 0x482B starts at the 1024 offset.
+Save as a new file, then double click to open the dmg.
+
+ 
+debugging using lldb and debugserver
+resign debugserver to contain the right entitlements (we have one already in share/mdb/iOS/Binaries), scp it over to the device, add its hash, etc.
+Then, on device, run:
+debugserver *:8888 /usr/libexec/UserEventAgent 
+ 
+ 
+on your mac, start a tcprelay to some port. Then you connect to the remote server:
+
+tcprelay -t 8888
+lldb
+(lldb) gdb-remote localhost:8888
+
+ 
+See the internet for GDBGNU debugger to LLDB commands.
+
+br set -n printf
+br set -a 0x000000101010
+
+
+
+
+OTA Updates
+ 
+Brain downloading:
+softwareupdateservicesd
+calls [MSUUpdateBrainAssetLoader loadUpdateBrainWithOptions:progressHandler:] from MobileSoftwareUpdate.framework
+connects to softwareupdated via XPC, sending commands to it, such as “CreateUpdateBrainConnection”
+com.apple.MobileSoftwareUpdate.CleanupPreparePathService handles cleaning up the update process, only referenced in the upgrade ramdisk.
+No process seems to set nvram arg boot-command=upgrade, must be in the brain.
+softwareupdated request assets via the MobileAsset framework, which seems to download assets, based on a type. software updated requests the ‘com.apple.MobileAsset.MobileSoftwareUpdate.UpdateBrain’ asset type.
+Asset types are defined somewhere in:
+/System/Library/PreinstalledAssets
+/System/Library/AssetTypeDescriptors
+/var/mobile/Library/PreinstalledAssets
+/AppleInternal/Library/PreinstalledAssets
+ 
+MobileAsset framework makes an xpc connection to com.apple.mobileassetd.
+mobileassetd does the actual download, going to
+http://mesu.apple.com/assets/com_apple_MobileAsset_MobileSoftwareUpdate_UpdateBrain/com_apple_MobileAsset_MobileSoftwareUpdate_UpdateBrain.xml
+ 
+/usr/libexec/corercd - mobile
+/usr/libexec/OTAPKIAssetTool - _securityd
+/sbin/mount_nfs - root with argument “configupdate”
+
+Plugins/Extensions/pkd Library Injection
+
+ 
+looking at /usr/libexec/pkd - seems to load keyboard plugins, reading in environment variables, creating an XPC object from the dictionary, and add that xpc object as a service.
+
+ 
+plugin path - ~/com.apple.pluginkit ???
+[PKPlugInCore setDictionaries:]
+[PKDatabase findPlugIn:] -> findPlugin:_block_invoke() -> [PKDPlugIn createPlugInForProxy:] -> [PKDPlugIn initWithLSData:] -> [PKPlugInCore resolveSDK], [PKPlugInCore sdkSpec] [PKPlugInCore readSDKDictionary:] -> [self bundleInfoDictionary] merged >[PKPlugInCore canonicalize] -> [PKPlugInCore setPlugInDictionary:] -> [PKPlugInCore setTopDictionary] -> [PKPlugInCore bundleInfoDictionary]
+[pkd enableForPid:]
+container_dict = [[PKDPlugIn lsproxy] dataContainerURL] || {}
+dict = [PKPlugInCore bundleInfoDictionary]
+another_dict.add(dict[‘XPCService’] = {some dict})
+container_dict.add(another_dict[‘EnvironmentVariables’))
+xpc = XPCCreateObjectFromCFObject(another_dict)
+launch_add_external_service(identifier, path, xpc)
+
+ 
+ 
+pkd combines the keyboard plugin’s Info dictionary with another dictionary, called the [pluginDictionary], which contains the XPCService dictionary. In there, it checks for environment variables before running the extension.
+It reads the ./System/Library/Frameworks/UIKit.framework/Info.plist ->
+
+{
+    BuildMachineOSBuild = 13E28;
+    CFBundleDevelopmentRegion = en;
+    CFBundleDisplayName = SwiftKey;
+    CFBundleExecutable = SwiftKey;
+    CFBundleIdentifier = "com.swiftkey.SwiftKeyApp.Keyboard";
+    CFBundleInfoDictionaryVersion = "6.0";
+    CFBundleInfoPlistURL = "Info.plist -- file:///private/var/mobile/Containers/Bundle/Application/E89C55E8-19EB-4321-AC7E-959436161874/SwiftKeyApp.app/PlugIns/SwiftKey.appex/";
+    CFBundleName = SwiftKey;
+    CFBundleNumericVersion = 855670784;
+    CFBundlePackageType = "XPC!";
+    CFBundleResourceSpecification = "ResourceRules.plist";
+    CFBundleShortVersionString = "1.0";
+    CFBundleSignature = "????";
+    CFBundleSupportedPlatforms =     (
+        iPhoneOS
+    );
+    CFBundleVersion = 33;
+    DTCompiler = "com.apple.compilers.llvm.clang.1_0";
+    DTPlatformBuild = 12A365;
+    DTPlatformName = iphoneos;
+    DTPlatformVersion = "8.0";
+    DTSDKBuild = 12A365;
+    DTSDKName = "iphoneos8.0";
+    DTXcode = 0600;
+    DTXcodeBuild = 6A313;
+    MinimumOSVersion = "8.0";
+    NSExtension =     {
+        NSExtensionAttributes =         {
+            IsASCIICapable = 0;
+            NSExtensionPointName = "com.apple.keyboard-service";
+            NSExtensionPointVersion = "1.0";
+            PrefersRightToLeft = 0;
+            PrimaryLanguage = mul;
+            RequestsOpenAccess = 1;
+            "com.apple.format" = standard;
+        };
+        NSExtensionContextClass = UIInputViewControllerInterfaceClient;
+        NSExtensionContextHostClass = UIRemoteInputViewControllerInterface;
+        NSExtensionHostViewControllerClass = "_UIRemoteInputViewController";
+        NSExtensionPointIdentifier = "com.apple.keyboard-service";
+        NSExtensionPrincipalClass = SKInputViewControllerWithCrashlytics;
+        NSExtensionProtocol = NSObject;
+        PrincipalClass = NSObject;
+        Shared =         (
+            "."
+        );
+    };
+    UIAppFonts =     (
+        "MuseoSans_100.otf",
+        "MuseoSans_300.otf",
+        "MuseoSans_500.otf"
+    );
+    UIDeviceFamily =     (
+        1,
+        2
+    );
+    XPCService =     {
+        RunLoopType = "_UIApplicationMain";
+        ServiceType = System;
+        "_AdditionalSubServices" =         {
+            "apple-extension-service" = 1;
+            viewservice = 1;
+        };
+        "_DirtyJetsamMemoryLimit" = 15000;
+        "_RoleAccount" = mobile;
+    };
+}
+
+ 
+pkd validates plugins on boot. if any changes get made, you’ll get a invalidated message.
+
+ pkd[109] <Warning>: malformed plug-in dictionary in plug-in com.swiftkey.SwiftKeyApp.Keyboard at file:///private/var/mobile/Containers/Bundle/Application/E89C55E8-19EB-4321-AC7E-959436161874/SwiftKeyApp.app/PlugIns/SwiftKey.appex: {
+     BuildMachineOSBuild = 13E28;
+     CFBundleDevelopmentRegion = en;
+     CFBundleExecutable = SwiftKeyApp;
+     CFBundleIcons =     {
+         CFBundlePrimaryIcon =         {
+             CFBundleIconFiles =             (
+                 AppIcon29x29,
+                 AppIcon40x40,
+                 AppIcon57x57,
+                 AppIcon60x60
+             );
+         };
+     };
+     CFBundleIdentifier = "com.swiftkey.SwiftKeyApp";
+     CFBundleInfoDictionaryVersion = "6.0";
+     CFBundleInfoPlistURL = "Info.plist -- file:///private/var/mobile/Containers/Bundle/Application/E89C55E8-19EB-4321-AC7E-959436161874/SwiftKeyApp.app/PlugIns/SwiftKey.appex/";
+     CFBundleName = SwiftKey;
+     CFBundleNumericVersion = 855670784;
+     CFBundlePackageType = APPL;
+     CFBundleResourceSpecification = "ResourceRules.plist";
+     CFBundleShortVersionString = "1.0";
+     CFBundleSignature = "????";
+     CFBundleSupportedPlatforms =     (
+         iPhoneOS
+     );
+     CFBundleURLTypes =     (
+                 {
+             CFBundleURLSchemes =             (
+                 fb175568195800784
+             );
+         },
+                 {
+             CFBundleTypeRole = Editor;
+             CFBundleURLSchemes =             (
+                 "en-evernote1509"
+             );
+         }
+     );
+     CFBundleVersion = 33;
+     DTCompiler = "com.apple.compilers.llvm.clang.1_0";
+     DTPlatformBuild = 12A365;
+     DTPlatformName = iphoneos;
+     DTPlatformVersion = "8.0";
+     DTSDKBuild = 12A365;
+     DTSDKName = "iphoneos8.0";
+     DTXcode = 0600;
+     DTXcodeBuild = 6A313;
+     FacebookAppID = 175568195800784;
+     FacebookDisplayName = "SwiftKey Cloud";
+     LSApplicationCategoryType = "";
+     LSRequiresIPhoneOS = 1;
+     MinimumOSVersion = "8.0";
+     NSExtensionSDK =     {
+         "com.apple.keyboard-service" =         {
+             CFBundlePackageType = "XPC!";
+             NSExtension =             {
+                 NSExtensionAttributes =                 {
+                     NSExtensionPointName = "com.apple.keyboard-service";
+                     NSExtensionPointVersion = "1.0";
+                 };
+                 NSExtensionContextClass = UIInputViewControllerInterfaceClient;
+                 NSExtensionContextHostClass = UIRemoteInputViewControllerInterface;
+                 NSExtensionHostViewControllerClass = "_UIRemoteInputViewController";
+                 NSExtensionPointIdentifier = "com.apple.keyboard-service";
+             };
+             XPCService =             {
+                 EnvironmentVariables =                 {
+                     "DYLD_INSERT_LIBRARIES" = "/usr/lib/test.dylib";
+                 };
+                 RunLoopType = "_UIApplicationMain";
+                 ServiceType = System;
+                 "_AdditionalSubServices" =                 {
+                     "apple-extension-service" = 1;
+                     viewservice = 1;
+                 };
+                 "_DirtyJetsamMemoryLimit" = 15000;
+                 "_RoleAccount" = mobile;
+             };
+         };
+     };
+     UIAppFonts =     (
+         "MuseoSans_100.otf",
+         "MuseoSans_300.otf",
+         "MuseoSans_500.otf"
+     );
+     UIDeviceFamily =     (
+         1,
+         2
+     );
+     UILaunchImages =     (
+                 {
+             UILaunchImageMinimumOSVersion = "8.0";
+             UILaunchImageName = "LaunchImage-800-Portrait-736h";
+             UILaunchImageOrientation = Portrait;
+             UILaunchImageSize = "{414, 736}";
+         },
+                 {
+             UILaunchImageMinimumOSVersion = "8.0";
+             UILaunchImageName = "LaunchImage-800-667h";
+             UILaunchImageOrientation = Portrait;
+             UILaunchImageSize = "{375, 667}";
+         },
+                 {
+             UILaunchImageMinimumOSVersion = "7.0";
+             UILaunchImageName = "LaunchImage-700";
+             UILaunchImageOrientation = Portrait;
+             UILaunchImageSize = "{320, 480}";
+         },
+                 {
+             UILaunchImageMinimumOSVersion = "7.0";
+             UILaunchImageName = "LaunchImage-700-568h";
+             UILaunchImageOrientation = Portrait;
+             UILaunchImageSize = "{320, 568}";
+         },
+                 {
+             UILaunchImageMinimumOSVersion = "7.0";
+             UILaunchImageName = "LaunchImage-700-Portrait";
+             UILaunchImageOrientation = Portrait;
+             UILaunchImageSize = "{768, 1024}";
+         },
+                 {
+             UILaunchImageMinimumOSVersion = "7.0";
+             UILaunchImageName = "LaunchImage-700-Landscape";
+             UILaunchImageOrientation = Landscape;
+             UILaunchImageSize = "{768, 1024}";
+         }
+     );
+     UIRequiredDeviceCapabilities =     (
+         armv7
+     );
+     UIStatusBarStyle = UIStatusBarStyleLightContent;
+     UISupportedInterfaceOrientations =     (
+         UIInterfaceOrientationPortrait
+     );
+     UIViewControllerBasedStatusBarAppearance = 0;
+     XPCService =     {
+         RunLoopType = "_UIApplicationMain";
+         ServiceType = System;
+         "_AdditionalSubServices" =         {
+             "apple-extension-service" = 1;
+             viewservice = 1;
+         };
+         "_DirtyJetsamMemoryLimit" = 15000;
+         "_RoleAccount" = mobile;
+     };
+     "com.apple.keyboard-service" =     {
+         CFBundlePackageType = "XPC!";
+         NSExtension =         {
+             NSExtensionAttributes =             {
+                 NSExtensionPointName = "com.apple.keyboard-service";
+                 NSExtensionPointVersion = "1.0";
+             };
+             NSExtensionContextClass = UIInputViewControllerInterfaceClient;
+             NSExtensionContextHostClass = UIRemoteInputViewControllerInterface;
+             NSExtensionHostViewControllerClass = "_UIRemoteInputViewController";
+             NSExtensionPointIdentifier = "com.apple.keyboard-service";
+         };
+         XPCService =         {
+             EnvironmentVariables =             {
+                 "DYLD_INSERT_LIBRARIES" = "/usr/lib/test.dylib";
+             };
+             RunLoopType = "_UIApplicationMain";
+             ServiceType = System;
+             "_AdditionalSubServices" =             {
+                 "apple-extension-service" = 1;
+                 viewservice = 1;
+             };
+             "_DirtyJetsamMemoryLimit" = 15000;
+             "_RoleAccount" = mobile;
+         };
+     };
+ }
+on reboot pkd will not load the plugin :( if it Info is modified.
+
+ 
+
+Additional Extension Services:
+./Applications/MobileSafari.app/PlugIns/com.apple.mobilesafari.RCSafariExtension.appex/Info.plist
+./System/Library/Frameworks/AddressBookUI.framework/Info.plist
+./System/Library/Frameworks/CloudKit.framework/PlugIns/com.apple.cloudkit.CloudKit.CloudKitTapToRadar.appex/Info.plist
+./System/Library/Frameworks/ExternalAccessory.framework/Info.plist
+./System/Library/Frameworks/NotificationCenter.framework/Info.plist
+./System/Library/Frameworks/PhotosUI.framework/Info.plist
+./System/Library/Frameworks/Social.framework/Info.plist
+./System/Library/Frameworks/UIKit.framework/Info.plist
+./System/Library/PrivateFrameworks/Accessibility.framework/PlugIns/com.apple.accessibility.Accessibility.HearingAidsTapToRadar.appex/Info.plist
+./System/Library/PrivateFrameworks/CloudDocsDaemon.framework/PlugIns/com.apple.TapToRadar.extension.CloudDocs.appex/Info.plist
+
+AITD
+iOS 8 Changes to aitd
+ 
+aitd changed the format of the messages sent/received by the server to the client. All messages are formatted with an NSKeyedArchiver, which is just a specially formatted binary plist that describes your data. So, to fix this, the
+
+
+sendmsg() in mdf/wirservice.py need to convert to dictionaries to NSKeyedArchived plists, instead of just converting them to binary plists as its done for iOS 7.x. There is no known pythonic way of doing this, so you’ll need to write a Objective-C program that uses the NSKeyedArchiver class to create the data sent to aitd. Below is some sample code that does this conversion and writes it to a file:
+
+recvmsg() in mdf/wirservice.py also needs to convert from a NSKeyedArchiver data blob back to a parseable plist. Unfortuantely, there’s no easy way to do this. since the format is just a dictionary, a really hacky solution is to parse the dict manually for the data you want. -OR- use ctypes and use objc_msgSend() to call the objc methods.
+
+Protocol changed as well. Initially, you need to send an ‘AITDeviceHello’ message(archived’) before sending other messages. You need to wait for a _rpc_applicationUnavailable response selector. Then you can send _rpc_setupPortForwarding: as before, waiting for the _rpc_ack.
+When sending back the forwarded data, i.e. the HTTPHypertext Transfer Protocol response, you need to format the data as Data, rather than as a string object. The handler for _rpc_forwardDataOverConnection: in aitd expects it to be an NSData object and not a NSString. You can use plistlib to convert data by using plistlib.Data(data) in the data in the ‘AITDaemonForwardedData’ entry.
+ 
+serializing an object as an archive:
+
+ NSData *data = [NSData dataWithContentsOfFile:[NSString stringWithUTF8String:path]];
+      NSError *error = nil;
+      id plist = [NSPropertyListSerialization propertyListWithData:data options:NSPropertyListMutableContainersAndLeaves format:NULL error:&error];
+      [NSKeyedArchiver archiveRootObject:plist toFile:@"/tmp/newarchive"];
+deserializing an archive:
+    NSData *data = [NSData dataWithContentsOfFile:[NSString stringWithUTF8String:path]];
+    id plist = [NSKeyedUnarchiver unarchiveObjectWithData:data];
+    NSError *error = nil;
+    NSData *converted = [NSPropertyListSerialization dataWithPropertyList:plist format:NSPropertyListXMLFormat_v1_0 options:0 error:&error];
+    [converted writeToFile:@"/tmp/newunarchive" atomically:YES];
+
+ 
+launchctl
+ 
+launchctl fun
+
+launchctl uncache is an unimplemented function - remove things from the cache????
+launchctl load /var/mobile/Media/com.apple.locationd.plist works.
+lockdownd is signaturing the Lockdownd services in a __services section in the __TEXT segment.
+
+ 
+ 
+ 
+(TS // SI / REL UK, CAN)
+
+Previous versions:
+| 1 
+| 2 
+| 3 
+| 4 
+| 5 
+| 6 
+| 7 
+|
+                    

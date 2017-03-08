@@ -1,0 +1,22 @@
+
+                        Windows String Manipulation Snippets
+ 
+LABEL PAGE: Child pages of this page will contain code snippets pertaining to the string manipulation in Windows
+ 
+
+('children' missing)
+
+Sub-Pages:
+
+
+Convert to UTF-8 (String Encoding Class - MISCStringEncoder_WIN32) SECRET
+
+
+Expanding Environment Variables Windows Snippet 
+
+
+
+Previous versions:
+| 1 
+|
+                    

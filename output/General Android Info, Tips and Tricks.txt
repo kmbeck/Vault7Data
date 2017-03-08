@@ -1,0 +1,81 @@
+
+                        adb shell commands
+# start browser
+$ am start -a android.intent.action.VIEW -d <url> (com.android.browser | com.android.chrome | com.sec.android.sbrowser)
+
+
+# install facebook
+# start facebook webview. must be root
+$ am start -n com.facebook.katana/com.facebook.ui.browser.BrowserActivity -d http://10.3.2.161:4343/?id=moobowtie
+ 
+# Map DNSDomain Name System entries via /system/etc/hosts via bind mount (Requires root).  Note this will not persist through reboots.
+# Edit a hosts file to contain the entries you want to map.  Example:
+127.0.0.1                   localhost
+10.3.2.26                   www.google.com
+10.3.2.26                   clients3.google.com
+ 
+# Push your hosts file to /data/local/tmp
+$ adb push ~/my_hosts_file /data/local/tmp/hosts
+ 
+# From a root shell on the device, map /system/etc/hosts to /data/local/tmp/hosts
+shell@zeroflte:/ #  mount -o bind /data/local/tmp/hosts /system/etc/hosts
+ 
+shell@zeroflte:/ $ ping clients3.google.com
+PING clients3.google.com (10.3.2.26) 56(84) bytes of data.
+64 bytes from www.google.com (10.3.2.26): icmp_seq=1 ttl=64 time=16.6 ms
+64 bytes from www.google.com (10.3.2.26): icmp_seq=2 ttl=64 time=16.3 ms
+64 bytes from www.google.com (10.3.2.26): icmp_seq=3 ttl=64 time=15.9 ms
+64 bytes from www.google.com (10.3.2.26): icmp_seq=4 ttl=64 time=15.8 ms
+
+
+# show activities/intents
+adb shell dumpsys package r | grep -i capti
+adb shell am start -n com.android.settings/.wifi.CaptivePortalWebViewActivity
+S75xx
+adb shell am start -n com.android.settings/.wifi.WifiCaptiveActivity
+ 
+ 
+Sbrowser/Chrome on some versions 4.2.2
+adb logcat browser:V *:S
+ 
+Useful logcat aliases to reduce the amount of crap being spewed onto the screen
+alias llogcats='while true; do logcats; sleep 2; done'
+alias logcats='adb logcat -c && echo connecting && adb logcat | grep -av -E -e "(Keyguard|daemonapp|wpa_supp|Light|AlarmManager|hawaii|E/SMD|lights-sniffer|Brightness|LockPatttern|DisplayPowerCon|WifiState|LightSensor|accuweather|AwesomePlayer|AudioFl|SSRM|SPen|AudioPolicy|ExynosCamera|AudioHardware|PowerManagerService|D/Battery|KeyguardUpdate|STATUSBAR|StatusBar|SignalCluster)"'
+ 
+
+Comments:
+
+
+2015-10-06 11:15 
+[User #524328]: 
+
+you needs the roots for this
+
+
+2015-07-20 09:14 
+[User #524328]: 
+
+am start -n com.facebook.katana/com.facebook.ui.browser.BrowserActivity -d http://www.rhino.net/pwnme.html
+ 
+ 
+
+
+
+
+Previous versions:
+| 1 
+| 2 
+| 3 
+| 4 
+| 5 
+| 6 
+| 7 
+| 8 
+| 9 
+| 10 
+| 11 
+| 12 
+| 13 
+| 14 
+|
+                    

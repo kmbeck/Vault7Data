@@ -1,0 +1,22 @@
+
+                        Owner: User #524297
+Vim Editing Tips
+ 
+Switch to a quick Hex mode (Linux) 
+Editing a binary file ends up looking something like this in Vim  : 
+^B-^@^@^E^X^@^@�^@^M^@^[[38;5;4m^@^@^C^\^?^U^D��^@^Q^S^Z^Y^R^O^W^V^@^@^@^@0^@l^A^@^@^@^@^B-^@^@^E
+^@^@^@�^@^M^@^[~J^@^@^C^\^?^U^D��^@^Q^S^Z^Y^R^O^W^V^@^@^@^@^B-^@^@^E^X^@^@�^@^M^@^[~J\^?^U^D��^@
+^Q^S^Z^Y^R^O^W^V^@^@^@^@^B-^@^@^E^@^@^@�^@^M^@^[~J^@^@^C^\^?^U^D��^@^Q^S^Z^Y^R^O^W^V^@^@
+^@^@^B-^@^@^E^X^@^@�^@^M^@^[~J^@^@^C^\^?^U^D��^@^Q^S^Z^Y^R^O^W^V^@^@^@^@^B-^@^@^E^@
+Type the following to run the buffer through the xxd hex dump command on Linux:
+:%!xxd
+The buffer will change to the following:
+0000000: 022d 0000 0518 0000 bd00 0d00 1bca 0000 .-.............. 0000010: 031c 7f15 04ff ff00 1113 1a19 120f 1716 ................ 0000020: 0000 0000 3000 6c01 0000 0000 022d 0000 ....0.l......-.. 0000030: 0500 0000 bd00 0d00 1b8a 0000 031c 7f15 ................
+This is not a true hex editor!  Only changes in the hex columns will carry through a restore!
+Restore the original with the following:
+:%!xxd -r
+
+Previous versions:
+| 1 
+|
+                    

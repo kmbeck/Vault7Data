@@ -1,0 +1,92 @@
+
+                        SOT RAM Size Per Model
+512MB Devices
+
+iPad2,1, iPad2,2, iPad2,4, & iPad2,7         **iPad2,1 Jetsamed** JetsamEvent-iPad2,1 2005L247.ips
+hw_memsize = 527417344
+filesize_max = 10548346
+
+
+iPod5,1
+hw_memsize = 528130048
+filesize_max = 10562600
+
+
+
+1GB Devices
+
+iPad3,2, & iPad3,5
+hw_memsize = 1035976704
+filesize_max = 20719534
+
+
+iPad4,1
+hw_memsize = 1022865408
+filesize_max = 20457308
+
+
+iPad4,4 & iPad4,5
+hw_memsize = 1020768256
+filesize_max = 20415365
+
+
+iPad4,8
+hw_memsize = 1017118720
+filesize_max = 20342374
+
+
+iPhone5,1 & iPhone5,2
+hw_memsize = 1065000960
+filesize_max = 21300019
+
+
+iPhone5,4
+hw_memsize = 1064304640
+filesize_max = 21286092
+
+
+iPhone6,1
+hw_memsize = 1047695360
+filesize_max = 20953907
+
+
+iPhone7,1, & iPhone7,2
+hw_memsize = 1035988992
+filesize_max = 20719779
+
+
+iPhone8,2
+hw_memsize = 2083520512
+filesize_max = 41670410
+
+
+iPod7,1
+hw_memsize = 1044381696
+filesize_max = 20887633
+
+
+
+2GB Devices
+iPad5,1
+hw_memsize = 2084569088
+filesize_max = 41691381
+
+
+ 
+
+Attachments:
+
+JetsamEvent-iPad2,1 2005L247.ips
+
+
+Previous versions:
+| 1 
+| 2 
+| 3 
+| 4 
+| 5 
+| 6 
+| 7 
+| 8 
+|
+                    

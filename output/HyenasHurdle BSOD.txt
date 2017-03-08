@@ -1,0 +1,118 @@
+
+                        Owner: User #54198274
+HyenasHurdle BSOD
+So when developing HyenasHurdle I found a BSODBlue Screen of Death condition when writing the ICMPInternet Control Message Protocol ping scanner for identify live machines on a subnet.
+ 
+When a debugger is attached to the HH process (either visual studio or via the remote debugger) and the process is terminated (via Task manager, etc.) while executing the loop before IcmpCloseHandle(hICMPFile) is called it will cause the BSODBlue Screen of Death with the error code PROCESS_HAS_LOCKED_PAGES.
+Can reliably reproduce on Win 8.1 and Win 7.
+Memory Dump file: fs-01\home\User #78056\HH\MEMORY.DMP
+Stash Branch: BSOD branch
+ 
+The following is the function that the BSODBlue Screen of Death occurs in.
+ 
+
+CScanner::eScanErr CActiveScanner::Scan(ArrayList<DECIMAL_DOT_NOTATION> * pSkipList, ArrayList<DECIMAL_DOT_NOTATION> * targetDeck)
+{
+	targetDeck->erase();
+	DEBUGPRINT(eMT_Info, L"Started Active Listener Scan");
+	DWORD dwStartAddress = 0; //going to be our starting ip
+	DWORD dwMask = 0;
+	DWORD dwEndAddress = 0;
+	char sendData[] = "abcdefghijklmnopqrstuvwabcdefghi";
+	for (int i = 0; i < m_SubnetMasks.getSize(); i++)
+	{
+		dwStartAddress = m_SubnetWhiteList.get(i).ip[0] << 24 | m_SubnetWhiteList.get(i).ip[1] << 16 | m_SubnetWhiteList.get(i).ip[2] << 8 | m_SubnetWhiteList.get(i).ip[3];
+		dwMask = m_SubnetMasks.get(i).ip[0] << 24 | m_SubnetMasks.get(i).ip[1] << 16 | m_SubnetMasks.get(i).ip[2] << 8 | m_SubnetMasks.get(i).ip[3];
+		//now we have the DWORD versions of our starting address and mask.
+ 
+		//the end address is going to be our prefix (start & mask) with all 1 bits after it set: End address = prefix + (prefix ^ FFFFFFFF)
+		dwEndAddress = (dwStartAddress & dwMask) + ~dwMask;
+		for (DWORD dwCurrentAddress = dwStartAddress; dwCurrentAddress <= dwEndAddress; dwCurrentAddress++)
+		{
+			HANDLE hICMPFile = IcmpCreateFile();
+			if (hICMPFile == INVALID_HANDLE_VALUE)
+				return eScanErr_Handle;
+			IPAddr ipAddress;
+ 
+			DWORD dwReplySize = sizeof(ICMP_ECHO_REPLY) + sizeof(sendData);
+			char* pReplyBuffer = (char *)malloc(dwReplySize);
+			if (pReplyBuffer == NULL)
+			{
+				IcmpCloseHandle(hICMPFile);
+				return eScanErr_Alloc;
+			}
+			SecureZeroMemory(pReplyBuffer, dwReplySize);
+			DECIMAL_DOT_NOTATION targetDDN;
+			targetDDN.ip[0] = (dwCurrentAddress >> 24) & 0xFF;
+			targetDDN.ip[1] = (dwCurrentAddress >> 16) & 0xFF;
+			targetDDN.ip[2] = (dwCurrentAddress >> 8) & 0xFF;
+			targetDDN.ip[3] = (dwCurrentAddress)& 0xFF;
+ 
+			ipAddress = ntohl(dwCurrentAddress);
+			//Step through past hits to determine if we've already hit this address
+			//TODO this is so inefficient it scares me.
+			bool bHitIT = false;
+			for (int pastHitCounter = 0; pastHitCounter < pSkipList->getSize() && bHitIT == true; pastHitCounter++)
+			{
+				if (memcmp(&targetDDN, &pSkipList->get(pastHitCounter), sizeof(DECIMAL_DOT_NOTATION)) == 0)
+				{
+					DEBUGPRINT(eMT_Warning, L"%d.%d.%d.%d has been hit and is %s %d", targetDDN.ip[0], targetDDN.ip[1], targetDDN.ip[2], targetDDN.ip[3], L"index ", pastHitCounter);
+					continue;
+				}
+			}
+			for (int i = 0; i < 2; i++)
+			{
+				DEBUGPRINT(eMT_Info, L"Pinging Target %i.%i.%i.%i", targetDDN.ip[0], targetDDN.ip[1], targetDDN.ip[2], targetDDN.ip[3]);
+				if (!IcmpSendEcho(hICMPFile, (IPAddr)ipAddress, &sendData, sizeof(sendData), NULL, pReplyBuffer, dwReplySize, m_dwPingWait))
+				{
+					if (i == 0)
+					{
+						DEBUGPRINT(eMT_Debug, L"Failed on First ping, trying second...");
+					}
+					else
+					{
+						DEBUGPRINT(eMT_Debug, L"Failed on Second ping,bail Out...");
+					}
+				}
+				else
+				{
+					PICMP_ECHO_REPLY pEchoReply = (PICMP_ECHO_REPLY)pReplyBuffer;
+					if (pEchoReply->Status != IP_SUCCESS)
+					{
+						if (i == 0)
+						{
+							DEBUGPRINT(eMT_Debug, L" first Ping successed BUT bad Status, trying second...");
+							DEBUGPRINT(eMT_Debug, L"STATUS: %i", (int)pEchoReply->Status);
+						}
+						else
+						{
+							DEBUGPRINT(eMT_Debug, L" second Ping successed BUT bad Status, bailing out...");
+							DEBUGPRINT(eMT_Debug, L"STATUS: %i", (int)pEchoReply->Status);
+						}
+					}
+					else
+					{
+						DEBUGPRINT(eMT_Info, L"Target: %i.%i.%i.%i pinged successfully!", targetDDN.ip[0], targetDDN.ip[1], targetDDN.ip[2], targetDDN.ip[3]);
+						targetDeck->add(targetDDN);
+						break; //just in case we're ping one, we don't go around again
+					}
+				}
+			}
+			free(pReplyBuffer);
+			IcmpCloseHandle(hICMPFile);
+			
+		}
+	}
+ 
+	return eScanErr_Success;
+}
+
+
+
+Previous versions:
+| 1 
+| 2 
+| 3 
+| 4 
+|
+                    

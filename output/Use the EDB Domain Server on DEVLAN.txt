@@ -1,0 +1,30 @@
+
+                        Owner: User #3375130
+Use the EDB Domain Server on DEVLAN
+DNS Settings:
+User #71384 runs our own DNSDomain Name System server.  To use these DNSDomain Name System servers, copy the following lines to the /etc/resolv.conf file:
+
+domain edb.devlan.netsearch edb.devlan.net devlan.netnameserver 10.6.5.51nameserver 10.6.5.50nameserver 10.3.1.10
+
+
+Original DNSDomain Name System Reference Link
+Step-by-step guide
+
+Add the steps involved:
+
+Insert your steps.
+You can also copy and paste or drag and drop images into your instructions.
+
+ 
+You may also want to use visual panels to communicate related information, tips or things users need to be aware of.
+Related articles
+
+Related articles appear here based on the labels you select. Click to edit the macro and add or change labels.
+
+('contentbylabel' missing)
+
+Previous versions:
+| 1 
+| 2 
+|
+                    

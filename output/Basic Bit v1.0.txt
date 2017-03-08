@@ -1,0 +1,79 @@
+
+                        Owner: User #71473
+Basic Bit v1.0
+SECRET//NOFORN
+Basic Bit
+ 
+Description: 
+ 
+Design:
+ 
+Stash Repository:   Basic Bit v1.0 Repository
+
+ 
+Testing Repository:   Project Tests Repository
+
+ 
+Documentation:
+('section' missing)
+ 
+Latest Testing Results:
+Operational Use:
+JQJTENTACLE, JQJOMINOUS
+ 
+Highlights:
+ 
+Technique Tracking:
+List of techniques used by Project
+
+Technique 1
+Technique 2
+
+ 
+Change Log:
+
+('excerpt' missing) Older Versions:
+ 
+ 
+SECRET//NOFORN
+ 
+ 
+
+Comments:
+
+
+2015-07-17 10:26 
+[User #71473]: 
+
+Gotcha – that's a lot more clear.  For this one it may not matter, I don't anticipate a v2.0 at this time, but I guess we'll burn that bridge when we get there.
+
+
+2015-07-16 10:59 
+[User #524297]: 
+
+Hmm... you are right...  not what was intended. Will modify.  
+My point was that if you are severing history, then you should create a new repo.  
+If you are not, then it should remain in the same repo and you should use tags. 
+ 
+To be fair, it also says under DON'T:
+Incorporate version numbers into your Stash project names or repositories
+ 
+
+
+2015-07-16 10:37 
+[User #71473]: 
+
+Wait... I thought having a separate repo for every version under the project was recommended?  Stash Project DOs and DON'Ts seems to imply that...
+When starting a new version or full rewrite of an existing project, make a new source repository  for it located in the existing project.
+I currently use tags for released versions numbers and release candidates, so I can separate out v1.0 from, say, v1.0.1 or v1.1.
+v2.0 would get its own repo.
+
+
+2015-07-16 03:29 
+[User #524297]: 
+
+Use of version numbers in Git repository names are not recommended!  (Reason being, it's not specific enough).
+Use Git tags for tracking version numbers, as a tag will be directly associated with a specific commit hash object.
+
+
+                    

@@ -1,0 +1,36 @@
+
+                        Interesting and Useful Registry Keys
+ 
+Repository of registry keys that could be useful in development. When adding entries, please add full registry key path (and value if needed) and a small blurb about the key.
+ 
+Windows Product Key - This key holds the obfuscated product key for the licensed version of Windows. Check Getting Windows License for code snippets to deobfuscate the key.
+HKLM\Software\Microsoft\Windows NT\CurrentVersion\DigitalProductId
+ 
+Microsoft Office Product Keys - These keys hold the obfuscated product key for the licensed version(s) of Office on the machine. Check Getting Office Licenses for code snippets to deobfuscate the keys.
+HKLM\Software\Microsoft\Office\11.0\\Registration\DigitalProductId       //Office 2003
+HKLM\Software\Microsoft\Office\*\Registration\DigitalProductId             //Office 2007 = 12.0   Office 2010 = 14.0    Office 2013 = 15.0
+HKLM\Software\WOW6432Node\Microsoft\Office\*\Registration\DigitalProductId     //64-bit versions for Office
+ 
+Machine GUID/Cryptography GUID  -  This key is often used as a unique identifier for a machine. It has also been used to link two machines together - in some cases the machine GUIDGlobally Unique Identifier is passed along to/from devices (MP3 players, etc). 
+HKLM\Software\Microsoft\Cryptography\MachineGuid
+ 
+Explorer Settings - Key holding various Windows Explorer Settings
+HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer
+Advanced\Hidden - Show hidden files
+Advanced\ShowSuperHidden - Show System/Super Hidden Files
+Advanced\HideFileExt - Hide common file extensions TODO: see if there's a list where you can add your extension to be automatically hidden
+ 
+AutoplayHandlers\DisableAutoplay - Whether the user has disabled AutoPlay TODO: See what values can be placed in EventHandlersDefaultSelection\AutorunINFLegacyArrival (MSAutoRun - MSPromptEachTime)
+ 
+ 
+MRU (Most Recently Used) -
+ 
+UAC (User Account Control) Settings - 
+
+Previous versions:
+| 1 
+| 2 
+| 3 
+| 4 
+|
+                    

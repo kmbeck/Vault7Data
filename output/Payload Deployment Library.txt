@@ -1,0 +1,118 @@
+
+                        Persistence Library
+SECRET//NOFORN
+ 
+Persistence API
+<iframe src="https://osb-doxygen.devlan.net/persistence/" noborder="0" width="100%" height="1000" scrolling="yes" seamless></iframe>
+ 
+Stash Repository: Persistence Library
+ 
+Interface Description:  The interface for the Persistence Vectors Library (IPersistence - IPersist is used already in Windows) specifies two functions: PersistPayload and RemovePersistence. The prototypes are as follows:
+
+/*
+	Persist your payload. Provide the target path of the payload residing on disk. A pvoid struct allows you to pass a module specific structure. This should include an identifier that should also be used in deciding which item to remove persistence from.
+*/
+virtual PersistErr PersistPayload(WCHAR *wcTargetPath, PVOID pvStruct) = 0;
+
+
+ 
+wcTargetPath: The path to the payload that you wish to persist.
+pvStruct: A module specific structure (should be defined on the module page) allowing for configuration and identification of a persisting item.
+Returns PersistErr documented in the error code description section.
+ 
+
+/*
+	Remove persistence for a given payload. Supply a module specific structure that should help in identifying which item to remove persistence from.
+*/
+virtual PersistErr RemovePersistence(PVOID pvStruct) = 0;
+
+
+ 
+pvStruct: A module specific structure (should be defined on the module page) specifying an identifier for the persisting item to be removed.
+Returns PersistErr documented in the error code description section.
+ 
+Library Conventions: 
+Naming convention of classes in the Persistence Library:
+
+Prefix PS (Persist)
+Indication of supported payload types (E = .exe, D = .dll, ED = supports both .exe and .dll persistence, etc)
+Description of method/technique (scheduled task, run key, etc)
+_Crypt specifying the tool/technique. 2-5 lettersExample:PSEDSchedTask_TPPS = PersistenceED = both .exe and .dll persistenceSchedTask = Scheduled Task_TP = TrickPlay
+
+ 
+All modules should be compatible with Windows XPWindows operating system (Version) through the current version of Windows. This does not mean that all functionality be present. It does mean, however, that code should not crash the parent process of the library when running on Windows XPWindows operating system (Version) or greater.
+ 
+Persistence Library Member List: 
+
+Scheduled Task Persistence (PSEDSchedTask_TP - TrickPlay)
+COM + Junction Folder User Persistence (PSDComJunction_HCLS - HighClass)
+Run and RunOnce Registry Key Persistence (PSEDRunKey_QW - Quick Work)
+Group Policy Startup Script (PSEDStartupScript_LDGR - Ledger)
+WMI Event Persistence (PSEDWMIEvent_SU - SystemUptime)
+
+Service Persistence (PSEDService_CF - Constant Flow)
+Error Code Descriptions: 
+Return code type for the Persistence Library: enum PersistErr : int
+Error codes >= 0 are successful. The return codes will work with the SUCCESS() and FAILED() macros.
+
+enum PersistErr : int
+{
+	// SUCCESS CODES: >= 0
+	// GENERIC_SUCCESS
+	ePERSIST_SUCCESS = 0,
+	
+	// ERROR CODES: < 0
+	// GENERIC_ERROR
+	ePERSIST_UNKNOWN = -1,				//Unknown Failure : Unimplemented or undefined
+	ePERSIST_INVALID_ARGS = -2,			//Invalid Arguments
+	ePERSIST_BAD_PATH = -3,				//Path Not Valid
+	ePERSIST_UNSUPPORTED = -4,			//Unsupported function of the interface
+
+	//PSEDSchedTask_TP
+	ePERSIST_FAIL_COM_INIT = -5,		//Failed to init COM 
+	ePERSIST_FAIL_TASK_DELETE = -6,		//Failed to delete the task
+	ePERSIST_FAIL_TASK_CREATE = -7,		//Failed to create task
+
+	//PSDComJunction_HCLS
+	ePERSIST_FAIL_REG_CREATE = -8,		//Failed to write to registry
+	ePERSIST_FAIL_JUNCTION_CREATE = -9,	//Failed to create the junction folder
+	ePERSIST_CLSID_ALREADY_EXISTS = -10	//The CLSID already exists in HKLM or HKCU
+};
+
+
+ 
+Code Sample Using The Library Interface:
+IPersistence *pPersist = new PSEDSchedTask_TP();
+ 
+//Create .exe Task MyTaskName
+SchedTask_TP stTask;
+stTask.wcTaskName = L"MyTaskName";
+stTask.wcArgs = NULL;
+ 
+PersistErr psErr = pPersist->PersistPayload(L"C:\\TestFolder\\Payload.exe", &stTask);
+ 
+//Clear exe task
+psErr = pPersist->RemovePersistence(L"MyTaskName");
+ 
+delete pPersist;
+ 
+ 
+SECRET//NOFORN
+
+Previous versions:
+| 1 SECRET
+| 2 SECRET
+| 3 SECRET
+| 4 SECRET
+| 5 SECRET
+| 6 SECRET
+| 7 SECRET
+| 8 SECRET
+| 9 SECRET
+| 10 SECRET
+| 11 SECRET
+| 12 SECRET
+| 13 SECRET
+| 14 SECRET
+|
+                    

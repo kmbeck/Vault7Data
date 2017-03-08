@@ -1,0 +1,39 @@
+
+                        Owner: User #14587612
+cppcheck analysis
+ 
+Ran: ~/cppcheck/cppcheck-1.68/cppcheck --template=gcc --enable=all --force client/ common/ server/ util/ 2> ../../../cannoli_v2.0_cppcheck.txt
+Ignored results that were in open source code - e.g. md5, nc, untar
+Ignored "style: The scope of the variable X can be reduced"
+
+client/client_lib.c:158: portability: scanf without field width limits can crash with huge input data on some versions of libc.already opened CAN-2
+
+
+client/client_lib.c:734: error: Uninitialized variable: tlsh
+used as dest to read(), could have a situation where it's not completely filled and then invalid values are at the end
+probably should be checking that sizeof(struct tls_header) bytes were read after do while() is done
+
+
+server/server.c:325: warning: %d in format string (no. 1) requires 'int' but the argument type is 'unsigned int'.same for other fprintf() calls 
+
+server/server.c:622: style: Variable 'n' is assigned a value that is never used.technically should be checking n before testing value of res
+
+server/server.c:670: error: Read and write operations without a call to a positioning function (fseek, fsetpos or rewind) or fflush in between result in undefined behaviour.there's a call to fscanf two lines above
+
+
+server/server.c:628: error: Memory pointed to by 'bconn' is freed twice
+free() on line 603; condition should never happen, cppcheck prob doesn't parse pthread_exit() to know the function returns
+
+server/server.c:320: error: Uninitialized variable: tlshsame as above in client_lib.c
+
+util/CCT/CCT_Core.hpp:82: performance: Function parameter 'filename' should be passed by reference.sure 
+
+
+ 
+ 
+ 
+
+Previous versions:
+| 1 
+|
+                    

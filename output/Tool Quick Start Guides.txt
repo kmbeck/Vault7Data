@@ -1,0 +1,17 @@
+
+                        Owner: User #71467
+Windex 5.3
+ProxyCage
+Run netstat -atn to check if it is listening on 443.  If not, run: sudo /usr/sbin/nginx -c /usr/local/nginx/conf/demo_windex_nginx_proxycage.conf
+Front End
+start shellterm - $python /srv/shellterm/stserver
+
+Back End
+ 
+Iframe - https://X.X.X.XX (LVLT-GOGL-8-8-8[US])/test/?wdx=&promo_code=1z45rdj
+
+Previous versions:
+| 1 
+| 2 
+|
+                    

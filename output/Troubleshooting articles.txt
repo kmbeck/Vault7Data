@@ -1,0 +1,34 @@
+
+                        Use Visual Studio as GIT diff/merge tool
+Add the following to your .gitconfig:
+ 
+[diff]
+  tool = vsdiffmerge
+[difftool]
+  prompt = false
+[difftool "vsdiffmerge"]
+  cmd = '"C:/Program Files (x86)/Microsoft Visual Studio 12.0/Common7/IDE/vsDiffMerge.exe"' "$LOCAL" "$REMOTE" //t
+  keepBackup = false
+  trustexitcode = true
+[merge]
+   tool = vsdiffmerge
+[mergetool]
+   prompt = false
+[mergetool "vsdiffmerge"]
+   cmd = '"C:/Program Files (x86)/Microsoft Visual Studio 12.0/Common7/IDE/vsDiffMerge.exe"' "$REMOTE" "$LOCAL" "$BASE" "$MERGED" //m
+   keepBackup = false
+   trustexitcode = true
+ 
+"Microsoft Visual Studio 12.0" = Visual Studio 2013
+"Microsoft Visual Studio 11.0" = Visual Studio 2012
+
+Attachments:
+
+.gitconfig
+
+
+Previous versions:
+| 1 
+| 2 
+|
+                    

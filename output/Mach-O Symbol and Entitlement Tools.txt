@@ -1,0 +1,31 @@
+
+                        OS X Security Product Paths
+OS-X PSPPersonal Security Product (Anti-Virus) Locations:
+
+/System/Library/Extensions/LittleSnitch.kext
+/Library/Little Snitch
+/System/Library/Extensions/klif.kext
+/Library/Application Support/Kaspersky Lab
+/System/Library/TrendMicro
+/Library/StartupItems/SymAutoProtect
+/Library/Application Support/Symantex
+/Library/Sophos Anti-Virus
+/usr/local/McAfee
+
+Kaspersky 2015 on El Capitan
+
+/Library/Extensions/klif.kext
+/Library/Extensions/klnke.kext
+/Library/LaunchDaemons/com.kaspersky.kav.plist
+/Library/LaunchAgents/com.kaspersky.kav.gui.plist
+/Applications/Kaspersky Internet Security.app
+
+Little Snitch on El Capitan
+/Library/Extensions/LittleSnitch.kext
+
+Previous versions:
+| 1 
+| 2 
+| 3 
+|
+                    

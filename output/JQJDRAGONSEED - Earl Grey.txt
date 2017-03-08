@@ -1,0 +1,63 @@
+
+                        Owner: User #14587612
+Earl Grey v1.0.2 cppcheck analysis
+./cppcheck --template=gcc --enable=all --force ~/cmn/Earl_Grey_v1.0.2/ 2> ~/cmn/earl_grey_v1.0.2_cppcheck.txt
+
+In Makefiles, cppcheck is being run every build: cppcheck -f ${INCLUDES} ${C2_MODULE_SRCS}Missing some checks, only reports error messaages by default, need to add more with "--enable="
+
+Ignored any errors that are in DEBUG() macros, since they won't affect release builds
+
+
+
+/home/User #77498/cmn/earl-grey-1.0.2/common/randomNumber.c:164: style: Assignment of function parameter has no effect outside the function.
+
+looks like they meant to pass a seed to init random number generator, but instead are using the current time (in secs)
+implant/rp/c2_manager.c calls randomInit(time(NULL))
+redundant but no material effect
+
+
+
+/home/User #77498/cmn/earl-grey-1.0.2/exploit/clear_history_on_sip.c:28: portability: scanf without field width limits can crash with huge input data on some versions of libc.
+sscanf() has potential portability issues - if porting to another ASRAzure Site Recovery target then there's potential this call will read in the wrong number of bytes
+
+verified recalc_csum() is now only called by recalc_csum_int() (EG-5)
+implant/qfp/trigger.chas issues; dead code, not compiled into current baseline; may want to remove from repo so no one decides to borrow from it in the future
+
+home/User #77498/cmn/earl-grey-1.0.2/implant/rp/c2_manager.c:850: portability: scanf without field width limits can crash with huge input data on some versions of libc.scanf() same as above, potential issue if code is ported to new ASRAzure Site Recovery target
+
+implant/rp/remote-gdb.c
+line 385: fflush(stdout); 
+looks like it's leftover for debug printing - implant isn't writing to stdout in release build, can be removed, but also shouldn't be causing any issues
+
+
+
+/home/User #77498/cmn/earl-grey-1.0.2/implant/rp/util.c:77: warning: Storing fgetc() return value in char variable and then comparing with EOF./home/User #77498/cmn/earl-grey-1.0.2/implant/rp/util.c:84: warning: Storing fgetc() return value in char variable and then comparing with EOF.
+char/int casting - fgetc() returns an int, or EOF 
+
+/home/User #77498/cmn/earl-grey-1.0.2/server/server_cli.c:392: portability: fflush() called on input stream 'stdin' may result in undefined behaviour on non-linux systems.C std says flushing input streams results in undefined behavior; gcc should handle, but you never know between different versions
+
+/home/User #77498/cmn/earl-grey-1.0.2/server/server_cli.c:873: error: Memory leak: local_inputvalidate_cidr_ip() never frees local_input char buff
+
+
+/home/User #77498/cmn/earl-grey-1.0.2/utilities/obfuscator/ppc_obfs.cpp:225: error: Invalid pointer 'elf_header' after push_back()./home/User #77498/cmn/earl-grey-1.0.2/utilities/obfuscator/ppc_obfs.cpp:215: error: Invalid pointer 'program_header' after push_back().
+push_back() creates a new copy of the string.  both elf_header and program_header are pointing to the original copies, and working with the old data
+
+
+when doing make clean release, -DDEBUG_ON during build
+server/Makefile line 68: gcc ${LINKER} ${INCLUDES} ${WARNINGS} -Os -std=gnu99 ${D_DEFS} ${DEBUG_DEFS} -o $@ ${LP_CLI_SRCS} gcc -Wl,-T script.ld -I . -I ../common/ -Werror -Wall -Wextra -Wshadow -Wpointer-arith -Wundef -Os -std=gnu99 -DDEBUG_ON -o lp server_cli.c fixup_modules.c ../common/aes256.c ../common/md5sum.c ../common/protocol.c ../common/shared_utils.c====> this is the LPListening Post binary; should be fine, but no reason to be passing DEBUG_ON in release mode
+
+Previous versions:
+| 1 empty
+| 2 
+| 3 
+| 4 
+| 5 
+| 6 
+| 7 
+| 8 
+| 9 
+| 10 
+| 11 
+| 12 
+|
+                    

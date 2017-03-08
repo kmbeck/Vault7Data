@@ -1,0 +1,22 @@
+
+                        Owner: User #15728648
+Tools / Software Transfer Procedure
+ 
+Create a readme.txt that contains the following:
+
+Changelog
+Manifest of files on the disk
+Sample / simple usage
+
+ 
+Example Below
+ 
+
+Changelog=========
+* Support for iOS 8.4.1* Bugfix on deactivate for 8.4.1
+Manifest========
+1. nsinstaller.tar - tar file containing nsinstaller, nspkg.pyz files2. nsinstaller.tar.sha1 - SHA1 of nsinstaller.tar3. readme.txt - this file
+Usage=====
+1. verify SHA1 hash of nsinstaller.tar matches the nsinstaller.tar.sha1 file before continuing2. extract nsinstaller.tar3. cd into the extracted ns-Release directory4. connect a device, unlock it, trust it.5. Run the nsinstaller script to install (see DRBOOM documentation). Example: ./nsinstaller nspkg.pyz —dmg-path resources files.zip
+
+                    

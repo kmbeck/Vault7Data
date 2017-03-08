@@ -1,0 +1,238 @@
+
+                        Owner: User #5341226
+Reforge bytecode specification
+This document is intended to document the details of Reforge's compiled bytecode.  This will be a living document for several weeks.
+TODO: fix up formatting once I get all my initial thoughts recorded here.
+ 
+When a reforge script file is compiled, several steps will need to be taken to produce the compiled bytecode.
+All values and variables will be listed with ids in a vtable that contains their type and any initial value information.
+All opcodes used in the bytecode will be randomly assigned, and recorded in a ctable that includes which module or core command it represents.
+All instructions will be reduced down to bytecode instructions (as detailed in this document) that reference the information in the vtable as operand ids and information in the ctable as opcodes.
+All non-core modules that were used will be packed into the compiled binary in an mtable that includes the offsets and sizes needed to locate the packed module.
+ 
+The bytecode will be organized as 64-bit aligned instructions.
+Each opcode will be 16-bits in length, with the first 12-bits as the randomized (at compile time) command id and the last 4-bits reserved as bitflags.
+Each operand id will be 16-bits in length, and will match an id in the compiled vtable.  (NOTE: I don't know if 16-bit operand ids is sufficient to future-proof this design, but it makes the byte packing work out nicely.  It does limit us to 65,535 operand ids in any one script.  If, during testing, we notice our test scripts getting upwards of 5000 active operand ids, I will change this to 24-bit operand ids to give us room for 16,777,216 in one script.)
+These bitflags will identify how the operands are laid out.  One bitflag will indicate that the first 16-bit operand is the total number of operands needed.  If this number is >2, the next 64-bit instruction will be read and interpreted as 4 additional 16-bit operand ids.  This will continue until a sufficient number of operands have been read.  Any excess operand id space can be filled in with random data as it will be ignored. 
+One opcode will be randomly assigned to the extended opcode value.  This will indicate that the 48-bits set aside for operand ids are to be interpreted as an extended opcode, whose operands can be found in subsequent 64-bit instruction blocks.  As with the other opcodes, the last 4-bits of the original extended opcode value (the 16-bit one) will be bitflags as discussed above.  (NOTE: I don't think Reforge will actually need to use this for a very long time, if ever.  But I'm future-proofing the design just in case.  We would need to require >4095 opcodes in a single compiled script to need this feature.)
+ 
+Bytecode Instructions: (Format: <OPCODE> <DESTINATION> <SOURCE> [<INDEX>]) (NOTE: all bytes packed in little endian format)
+List operations:
+LAD - Set the value stored in the list specified in the destination operand after the index specified in the index operand to the value in the source operand (if index is not provided, add to end)
+LRM - Remove the value stored in the list specified in the source operand at the index specified in the index operand and store it in the destination operand
+LST - Set the value stored in the list specified in the destination operand at the index specified in the index operand to the value in the source operand
+LGT - Get the value stored in the list specified in the source operand at the index specified in the index operand and store it in the destination operand
+LSZ - Get the number of elements in the list specified in the source operand and store it in the destination operand
+Integer operations:
+ADD - Add source operand to destination operand and store the result in destination operand (NOTE: if the index operand is provided, it is also added to the result)
+SUB - Subtract source operand from destination operand and store the result in destination operand (NOTE: if the index operand is provided, it is also subtracted from the result)
+DIV - Divide destination operand by source operand and store the result in destination operand (NOTE: will store remainder of division in index operand if specified)
+MOD - Divide destination operand by source operand and store the remainder in destination operand (NOTE: will store result of division in index operand if specified)
+MUL - Multiply source operand by destination operand and store the result in destination operand (NOTE: if the index operand is provided, the result is also multiplied by it)
+String operations:
+SAP - Append the string stored in the source operand to the string stored in the destination operand and store the resulting string in the destination operand (NOTE: if the index operand is provided, this command inserts the string stored in the source operand into the string stored in the destination operand at the index specified)
+Stream operations:
+ESO - Open an encrypted stream on the location specified in the source operand and set the destination operand to the created encrypted stream
+PSO - Open a plaintext stream on the location specified in the source operand and set the destination operand to the created plaintext stream
+PIP - Pipe the remaining contents of the stream in the source operand to the the stream in the destination operand (NOTE: the index operand is a byte count to limit amount read)
+Control Flow operations: (NOTE: this should cover all loop types now that we have indexing in lists to handle things like for each loops)
+JMP - Jump to the instruction located at the offset specified by the index operand (NOTE: if the source operand is specified, the index value is considered a relative jump from the source value)
+CMP - Compare the source operand to the index operand and set condition flags (NOTE: this is the ONLY way to set the condition flags, math operations do not call this implicitly)
+CLR - Clear the condition flags.  (NOTE: any operands passed in are set to zero if integers, empty strings if strings, empty lists if lists, and new in-memory streams if streams)
+JNE - Jump to the instruction located at the offset specified by the index operand if the equal condition flag is not set (NOTE: if the source operand is specified, the index value is considered a relative jump from the source value)
+JEQ - Jump to the instruction located at the offset specified by the index operand if the equal condition flag is set (NOTE: if the source operand is specified, the index value is considered a relative jump from the source value)
+JLE - Jump to the instruction located at the offset specified by the index operand if the equal or less than condition flags are set (NOTE: if the source operand is specified, the index value is considered a relative jump from the source value)
+JGE - Jump to the instruction located at the offset specified by the index operand if the equal or greater than condition flags are set (NOTE: if the source operand is specified, the index value is considered a relative jump from the source value)
+JLS - Jump to the instruction located at the offset specified by the index operand if the the less than condition flag is set (NOTE: if the source operand is specified, the index value is considered a relative jump from the source value)
+JGR - Jump to the instruction located at the offset specified by the index operand if the greater than condition flags are set (NOTE: if the source operand is specified, the index value is considered a relative jump from the source value)
+Core operations: (NOTE: might add more like Run, Start, Unpack, etc... but for now I'm planning on those being separate modules)
+EHO - Echo the contents of the source operand to the stream specified by the destination operand
+PSE - Pause execution for a number of seconds specified by the index operand
+DRL - Populate the list specified in the destination operand with the files contained in the directory specified in the source operand string.  (NOTE: The subdirectories, if any, are stored to the list operand specified in the index operand if provided.)
+CMD - Call the module specified in the index operand with the parameter list specified in the source operand.  Store the return value(s) to the list specified in the destination operand.  The value of the index operand must match an entry in the loaded mtable.
+ 
+All Destination operands are treated as operand ids and must match an entity in the vtable.  The Source and Index operands can either be operand ids or literal numbers.  The remaining three bitflags (in addition to the treat the first operand as a number of operands flag mentioned before) are used to indicate if and how literals are being used.  The second bitflag indicates if any literals used should be treated as signed values or not.  If the flag is set, the literals are treated as signed values.  The third bitflag indicates whether the value given as the source operand is a literal or not.  if the flag is set, the operand is treated as a literal.  The fourth bitflag indicates whether the value given as the index operand is a literal or not.  if the flag is set, the operand is treated as a literal.  It is not possible to have both an unsigned literal and a signed literal in one command.  Some commands will throw an error if a literal is used in the source operand.  These commands are usually list commands that require the source operand to specify the list to operate on.  All literal values must be of the integer type.  If using signed literals, the value must be >=-32768 and <=32767.  If using unsigned literals, the value must be >=0 and <=65536.  If you need to use values outside these ranges, you must store the value in an operand in the vtable and then reference it via an operand id.
+ 
+opcode bitflags:
+
+operand count present
+signed literals present
+source operand is literal
+index operand is literal
+
+condition flags:
+
+equal
+greater than
+less than
+zero
+error
+
+ 
+The NUL operand:
+Any operand not used can be set to the NUL operand id.  Alternatively, to not provide the index operand, set the operand count present bitflag and set the operand count to 2
+(ADD x, y, NUL) is equivalent to (ADD 2, x, y when the operand count present bitflag is set)
+NUL can also be used in place of a destination operand id to indicate that any result of the command does not need to be stored.
+(LRM NUL, y, 4) removes index 4 from list y and discards the value
+NUL can also be used in place of a source operand id to indicate a source value of 0. (NOTE: DIV and MOD treat NUL operands as 1 instead of 0, to prevent division by 0 errors)
+(ADD x, NUL) is equivalent to (ADD x, 0 when the literal source bitflag is set)
+NUL is treated as a void type, meaning it can be used in place of any type.  NUL does not maintain a reference count, and no value stored to NUL can ever be retrieved.
+Some commands will error if NUL is used in place of a necessary operand.  For example, LGT will error if NUL is used as the source operand since NUL is treated as an empty list in that case.  NUL has a special use with the ESO and PSO commands.  If the source operand is set to NUL, those commands open a new in-memory stream.  Other commands serve no useful purpose if NUL is used in certain operands.  For example, a SAP command with NUL set as the destination operand does not cause an error, but does not perform any meaningful purpose.  In this case, NUL is treated as an empty string and regardless of the value stored in the source operand, the resulting string can never be retrieved once it is stored to the NUL operand.
+
+(LGT x, NUL, 3) will cause an error, because NUL is treated as an empty list and therefore has no index 3.
+(SAP NUL, 'test') will do nothing, because NUL is treated as an empty string and any value stored to NUL is lost.
+(SAP x, NUL) will also do nothing, because NUL is treated as an empty string and appending an empty string to a string has no effect.
+(ADD x, NUL) will do nothing, because NUL is treated as the integer value 0 and adding 0 to any integer does not change its value.
+(ADD NUL, x) will also do nothing, because NUL is treated as the integer value 0 and any value stored to NUL is lost.
+(ADD x, NUL, 3) will store x+3 into x, because NUL is treated as the integer value 0.
+(ADD x, 3, NUL) will store x+3 into x, because NUL is treated as the integer value 0.
+(ESO x, NUL) will create a new in-memory encryptedstream named x.
+(ESO NUL, x) will do nothing, because NUL is treated as an empty in-memory encryptedstream and any changes to NUL are lost.
+(PSO x, NUL) will create a new in-memory plaintextstream named x.
+(PSO NUL, x) will do nothing, because NUL is treated as an empty in-memory plaintextstream and any changes to NUL are lost.
+
+The NUL operand is NOT a literal, it is just a reserved entity in the vtable that has special behavior.
+ 
+Mapping of Reforge commands to bytecode:
+TODO: add mapping of Reforge commands here
+ 
+vtable:
+
+x, int, 0         #all integers in the vtable are treated as signed values and have an allowed value range of >= -9223372036854775808 and <= 9223372036854775807
+y, list, []        #all lists are initialized in the vtable as empty, then dynamically created using bytecode instructions
+z, int, 0
+t1, string, 'test'      #all strings in the vtable are null terminated   (TODO: consider how to support obfuscated vtables and possible maximum string lengths)
+t2, string, '.txt'
+t3, string, ' - plaintext'
+t4, string, ''
+filename, string, ''
+output, encryptedstream, ''
+output2, plaintextstream, ''
+
+list y = [1, 2, 3]
+
+LAD y, 1       #the literal source bitflag in the opcode must be set
+LAD y, 2       #the literal source bitflag in the opcode must be set
+LAD y, 3       #the literal source bitflag in the opcode must be set
+
+int x = y[2]
+LGT x, y, 2       #LGT does NOT perform type checking, however subsequent use of the x operand with integer operations will attempt to force the value in x to be an integer                         #the literal index bitflag in the opcode must be set
+y[1] = 4
+LST y, 4, 1       #the literal source and index bitflags in the opcode must be set
+int z = x + y[1] + 8
+
+LGT z, y, 1       #the literal index bitflag in the opcode must be set
+ADD z, x, 8       #the literal index bitflag in the opcode must be set                         #alternatively: ADD z, x then ADD z, 8
+
+z = x + y[1] + 8 - 3
+
+LGT z, y, 1       #the literal index bitflag in the opcode must be set
+ADD z, x, 5       #the literal index bitflag in the opcode must be set                         #alternatively: ADD z, x then ADD z, 8 then SUB z, 3
+
+z = x + y[1] - 3
+
+LGT z, y, 1       #the literal index bitflag in the opcode must be set
+ADD z, x, -3      #the literal index and signed literals bitflags in the opcode must be set                         #alternatively: ADD z, x then SUB z, 3
+
+add_to_list y 'test'
+LAD y, t1
+remove_from_list y, 0
+LRM NUL, y, 0       #the literal index bitflag in the opcode must be set                              #NUL is a reserved operand id that is of void type and maintains no reference count.  it's used when you have a mandatory operand that you don't need/care about
+string filename = y[3] + '.txt'
+
+LGT filename, y, 3       #the literal index bitflag in the opcode must be set
+SAP filename, t2
+
+encryptedstream output = filename
+ESO output, filename
+plaintextstream output2 = filename + ' - plaintext'
+
+SAP t4, filename
+SAP t4, t3
+PSO output2, t4
+
+ 
+Control-flow mapping:
+if else:
+int x = 1if x > 0{    echo 'x is positive'}else{    echo 'x is not positive'}echo 'done'
+generates the following vtable and bytecode:
+vtable:
+
+x, int, 1
+s1, string, 'x is positive'
+s2, string, 'x is not positive'
+s3, string, 'done'
+
+bytecode:
+
+CMP NUL, x, 0                     #literal index operand flag set
+JLE NUL, NUL, 5                 #literal index operand flag set
+EHO env.stdout, s1, NUL
+JMP NUL, NUL, 6                #literal index operand flag set
+EHO env.stdout, s2, NUL
+EHO env.stdout, s3, NUL
+
+ 
+while:
+int x = 0int y = 1while (x<10){    y = y * 2    x = x + 1}echo x
+generates the following vtable and bytecode:
+vtable:
+
+x, int, 0
+y, int, 1
+
+bytecode:
+
+CMP NUL, x, 10               #literal index operand flag set
+JGE NUL, NUL, 6             #literal index operand flag set
+MUL y, 2, NUL                 #literal source operand flag set
+ADD x, 1, NUL                 #literal source operand flag set
+JMP NUL, NUL, 1            #literal index operand flag set 
+EHO env.stdout, x, NUL
+
+ 
+for each:
+list y = [1, 2, 3]for x in y{    echo x}echo 'done'
+generates the following vtable and bytecode:
+vtable:
+
+x, int, 0
+x1, int, 0
+x2, int, 0
+y, list, []
+s1, string, 'done'
+
+bytecode:
+
+LAD y, 1, NUL                     #literal source operand flag set
+LAD y, 2, NUL                     #literal source operand flag set
+LAD y, 3, NUL                     #literal source operand flag set
+LSZ x1, y, NUL
+CMP NUL, x2, x1              
+JGE NUL, NUL, 10              #literal index operand flag set
+LGT x, y, x2
+EHO env.stdout, x, NUL
+ADD x2, 1, NUL                   #literal source operand flag set
+JMP NUL, NUL, 4                #literal index operand flag set
+EHO env.stdout, s1, NUL
+
+ 
+ 
+
+Previous versions:
+| 1 
+| 2 
+| 3 
+| 4 
+| 5 
+| 6 
+| 7 
+| 8 
+| 9 
+| 10 
+| 11 
+| 12 
+| 13 
+| 14 
+|
+                    

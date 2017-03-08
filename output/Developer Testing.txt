@@ -1,0 +1,48 @@
+
+                        Owner: User #524297
+Source Control
+ 
+THOU MUST
+
+ Use source control, and agree on a Git Workflows   with your team.
+Ensure delivered revisions are properly tagged
+
+Ensure all projects under source control can be built after checkout.
+No need to seek guidance from the developer
+No code modification to make it work
+External dependencies are ok, but must be well documented
+
+
+
+THOU SHOULD
+
+Use Git for source control (it is an industry standard, and has good support on Windows).
+Use Stash as your primary remote (called origin by default)
+Maintain two long-lived branches (see Git Workflows  )
+
+master - Officially delivered code (always stable, tagged versions).
+
+develop - Stable branch from which development is based.
+
+
+Focus development work into short-lived branches that implement specific requirements (e.g. features, bugfixes, hotfixes, release planning) (see Git Workflows  ).
+Limit the number of developers who can commit to develop and master (because things can and will go wrong if you don't).
+Manage merging of code into develop and master via pull requests.
+
+
+THOU SHOULD NOT
+
+Commit directly to master (or develop), or use the "Centralized" workflow
+Maintain a source control repository (Git or otherwise) entirely disconnected from Stash.
+
+
+THOU MUST NOT
+Consider "source control" to be multiple copies of your source being saved to FS-01.
+
+Previous versions:
+| 1 
+| 2 
+| 3 
+| 4 
+|
+                    

@@ -1,0 +1,48 @@
+
+                        PSP/Debugger/RE Avoidance
+Contains components related to avoiding/bypassing PSPPersonal Security Product (Anti-Virus) detection, frustrate efforts to attach/run program in a debugger, and frustrate efforts to Reverse Engineer the program.
+
+Comments:
+
+
+2015-07-31 16:45 
+[User #71473]: 
+
+We should probably copy or move these pages over to the AEDApplied Engineering Devision Tradecraft space.  There's not a lot of overlap so I think many of these could be moved as-is
+
+
+2013-06-21 09:17 
+[User #524297]: 
+
+Ideally, I'd even like to see an AEDApplied Engineering Devision Tradecraft space with offshoots into subtopic areas like these.  Heck, I'll create one right now. 
+
+
+2013-06-20 17:33 
+[User #71473]: 
+
+Just FYI, I have some similar stuff out of OSBOperation Support Branch that I am cataloging for PSPPersonal Security Product (Anti-Virus) avoidance.  Maybe we should combine our powers, Captain Planet style?
+
+
+
+Sub-Pages:
+
+
+Run Out The Clock (PSP Avoidance) 
+
+
+Process Hollowing 
+
+
+Anti-Sandboxing: Wait for Mouse Click 
+
+
+Debug Print Debugger Detection 
+
+
+API Memcpy 
+
+
+MBR File Handle 
+
+
+                    

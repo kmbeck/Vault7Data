@@ -1,0 +1,266 @@
+
+                        Owner: User #524297
+Pterodactyl
+
+Feature Progress Matrix
+
+
+Feature
+GUMSTIX
+RASPBERRY PI
+COTTON CANDY
+
+
+Operating System
+Linux (Yocto)
+ 
+
+Linux (Android)
+Linux (Ubuntu)
+
+
+
+Cross-compiler Suite
+
+included in Ubuntu
+(gnueabi)
+
+
+included in Ubuntu
+(gnueabi-hf)
+
+
+included in Ubuntu
+(gnueabi)
+
+
+
+USB support for external floppy
+VERIFIED
+verified
+verified
+
+
+Copy script runs successfully
+verified
+verified
+verified
+
+
+Systemd Service script
+verified
+verified
+UNverified
+
+
+External hardware support
+GPIO
+GPIO
+ 
+
+
+Visual Indicator (LEDLight Emitting Diode)
+verified
+verified
+verified
+
+
+Haptic Indicator (PWM Thumper)
+verified
+verified
+UNverified
+
+
+On-SD card Storage
+verified
+ 
+ 
+
+
+ 
+Tentative EDBEmbedded Devices Branch Development Schedule
+
+1 Jul 2013-  Internal demonstration of 3 devices with pros/cons/observations 
+
+ 
+8 Jul 2013- Requirements List used for evaluation
+Pterodactyl Requirements  
+ 
+
+
+11 Jul 2013- User #77554- Code Review (Time TBD)
+Systemd scripts- (User #77554)
+
+C Source Code- (User #77554)
+
+
+
+
+15 Jul 2013- Architecture Selection
+
+29 Jul 2013- Final Package Selection
+
+
+Gumstix Overo EarthSTORM + Pinto-TH Breakout Board
+Building a Gumstix SD Card
+
+Requires: factory/mlo-updated, factory/u-boot, sakoman/uImage, sakoman/images/(root_filesystem_tarball)
+
+
+Using User #77555's unsupported Yocto Linux 3.5 image (sakoman-usb-gadget-multi-getty-image.tar.bz2), 
+
+
+includes USBUniversal Serial Bus multi-gadget kernel module (g_multi.ko), which contains:
+mass storage (g_mass_storage.ko)
+serial console (g_serial.ko)
+
+ethernet (g_ether.ko)
+
+
+
+Console over USBUniversal Serial Bus on Mac OSOperating System X
+Requires drivers, install and reboot:   FTDIUSBSerialDriver_v2_2_18.dmg
+
+Running Services on the Gumstix
+
+uses Linux systemd for process/service management
+
+/etc/systemd/system/*.target.wants/ – stores links to systemd configure files for services that are enabled
+
+
+/lib/systemd/system – stores systemd configure files for all services
+
+/usr/lib/systemd/scripts – stores support scripts for systemd services
+
+
+
+[Unit]
+Description=Benign Service Description
+After=syslog.target
+ 
+[Service]
+Type=simple
+ExecStart=/path/to/script.sh
+Restart=always
+ 
+[Install]
+WantedBy=multi-user.target
+ 
+$ sudo systemctl enable imaged.service  # <--- creates symlinks to start imaged.service at bootup
+					# equivalent to:
+					#   ln -sf /lib/systemd/system/imaged.service /etc/systemd/system/basic.target.wants/imaged.service
+ 
+$ sudo systemctl poweroff               # <--- causes system to shut down cleanly and power off
+Gumstix Diagram Resources
+
+
+gum-pinto-PCB30011.pdf (Breakout board with single USBUniversal Serial Bus OTG port)
+
+gum-thumbo-PCB30021.pdf (Breakout board with USBUniversal Serial Bus device port)   
+
+gum-thumbo-PCB30021.bot.png
+
+gum-janus-PCB30029.pdf (Tweener board that provides console over USBUniversal Serial Bus)
+
+pinto_pinout.png (easiest reference for Pinto)
+
+Controlling GPIO from User Space
+# setup 
+$ echo 146 > /sys/class/gpio/export
+$ echo out > /sys/class/gpio/gpio146/direction
+# echo to value: 1 for on, 0 for off.
+$ echo 1 > /sys/class/gpio/gpio146/value 
+LED and Thumper Tester Circuits
+   
+ 
+ 
+ 
+
+('jiraissues' missing)
+
+Attachments:
+
+
+pinto_pinout.png
+
+
+thumper-tester-circuit.png
+
+
+FTDIUSBSerialDriver_v2_2_18.dmg
+
+
+gum-thumbo-PCB30021.bot.png
+
+
+gum-pinto-PCB30011.pdf
+
+
+gum-thumbo-PCB30021.pdf
+
+
+gum-janus-PCB30029.pdf
+
+
+flashLeds.bsh
+
+
+turnAllLedsOff.bsh
+
+
+led-tester-circuit.png
+
+
+ptero-logo.png
+
+
+
+Sub-Pages:
+
+
+Cotton Candy 
+
+
+
+Previous versions:
+| 1 
+| 2 
+| 3 
+| 4 
+| 5 
+| 6 
+| 7 
+| 8 
+| 9 
+| 10 
+| 11 
+| 12 
+| 13 
+| 14 
+| 15 
+| 16 
+| 17 
+| 18 
+| 19 
+| 20 
+| 21 
+| 22 
+| 23 
+| 24 
+| 25 
+| 26 
+| 27 
+| 28 
+| 29 
+| 30 
+| 31 
+| 32 
+| 33 
+| 34 
+| 35 
+| 36 
+| 37 
+| 38 
+| 39 
+|
+                    

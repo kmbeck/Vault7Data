@@ -1,0 +1,10 @@
+
+                        IBM AIX Power7 740 PowerPC PPC 64-bit
+AED has an IBM AIXIBM Unix Power7 server on DevLAN.  Troubleshooting can be tricky in addition to the usual legacy UNIXOperating system challenges.  This page attempts to document several lessons learned about this unique system.
+Server requires 220V power.  When plugged into 110V power, the front operator panel and ILOM card will power up, but the server itself will not power up.To power up the server, there are several methods:(1) serial console (19200 8N1)(2) HMC (https://169.254.2.147)(3) Perhaps holding down the white button on the operator panel will also work (untested)The serial console cable is currently connected to an AIBAutomated Implants Branch server in the adjoining rack (puffy.devlan.net, 10.6.3.78, sshd listens on 22022, OpenBSD).  See User #73580 for access to puffy.  Creds for serial connection are admin/admin.Unfortunately, the HMC (Hardware Management Console? i.e. ILOM, https://169.254.2.147) a private network directly connected with puffy.  Puffy does not have X or a browser, but you can access HMC with ssh SOCKS proxy or ssh port forwarding (-L option) through puffy.  HMC creds are admin/admin.Both the HMC and serial admin interfaces provide various options to power up, power down, or reboot the server.
+The server is configured with two VPARs (i.e. UNIXOperating system containers).  The VPAR with the developer toolchain is aix6dev.apple.net (10.6.4.202) admin/admin.  A second VPAR for testing (i.e. no developer tools) is aix6prod.apple.net (10.6.4.203) admin/admin.
+
+Previous versions:
+| 1 
+|
+                    

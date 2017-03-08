@@ -1,0 +1,67 @@
+
+                        Get User Account Control (UAC) Level (MISCUserAccountControlLevel_WIN32)
+SECRET//NOFORN
+ 
+Miscellaneous Module
+Stash Repository: Miscellaneous Library
+
+Module Name: MISCUserAccessControlLevel_WIN32 (Uses Windows Registry APIApplication Programming Interface)
+ 
+Module Description: This module determines the current UACUser Account Control (User Account Control) setting on a machine. The module scans the registry for two registry keys that are associated with the UACUser Account Control Level as controlled by the user. The UACUser Account Control level ranges from 1 to 4 where 1 is UACUser Account Control off and 4 is the highest UACUser Account Control setting. This module only works for Vista+ machines as XPWindows operating system (Version) does not use UAC. 
+ 
+Usage: 
+
+/*
+	This function determines the current UACUser Account Control level on the machine. The function returns the level in a range from 1-4. Returns
+	FALSE on failure and TRUE on success. dwLevel is considered an invalid level if dwLevel == INVALID_UAC_LEVEL (-1)
+	
+	1 = UACUser Account Control Turned Off
+	2 = UACUser Account Control Low Setting
+	3 = UACUser Account Control Medium Setting (Default Win7)
+	4 = UACUser Account Control Highest Setting
+*/
+static BOOL GetUACLevel(DWORD &dwLevel);
+
+ dwLevel [out]: Returns the level of UACUser Account Control as described by the machine settings 
+Returns TRUE on success and FALSE on failure. The dwLevel is returned with a value of INVALID_UAC_LEVEL (-1) on failure.
+ 
+PSP/OS Issues: Vista+ (Fails gracefully on XPWindows operating system (Version)).
+ 
+('excerpt' missing)
+ 
+Sharing Level: Unilateral
+ 
+Technique Origin: In-house (Windows APIApplication Programming Interface Calls - Specific Registry Keys)
+ 
+Notes: 
+
+This module only checks registry settings is not a result of reverse engineering UAC. If UACUser Account Control ignores these settings in some cases (not yet seen), this module could be unreliable.
+Vista+
+
+ 
+Module Return Codes: 
+Returns TRUE on success and FALSE on failure.
+ 
+Example Code:
+ 
+//Get the current UACUser Account Control level
+DWORD dwLevel = 0;
+BOOL bRet = MISCUserAccountControlLevel_WIN32::GetUACLevel(dwLevel);
+
+
+printf("Current UACUser Account Control Level: %d\n", dwLevel);
+ 
+ 
+ 
+SECRET//NOFORN
+
+Previous versions:
+| 1 SECRET
+| 2 SECRET
+| 3 SECRET
+| 4 SECRET
+| 5 SECRET
+| 6 SECRET
+| 7 SECRET
+|
+                    

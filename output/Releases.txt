@@ -1,0 +1,71 @@
+
+                        Owner: User #13763861
+Binary Verifier
+Overview
+When creating a binary to bring from the high side to the low (either for a delivery, or for an internal lab tool) typically requires moving and reviewing files several megabytes in size. A review process must involve two people checking the binary to make sure it does not have any classified information embedded in it. This onerous process relies only on human review, which may or may not be consistent depending on the reviewers, time of day, and other external factors. The Binary Verifier will simplify this process by turning the review into a two step process. Step one generates a list of strings that require human review (still by two people). The Verifier filters out any perviously verified strings - as determined by a whitelist. Additionally it immediately alerts if the binary contains any strings from a blacklist. Finally, if the Verifier knows that a binary is valid, it notifies that the binary has been previously verified. Step two updates the Verifier of new valid strings, new invalid strings, and/or new valid binaries. These feed back into the step one to make future reviews easier and less error prone.
+Process
+Processing a binary involves:
+
+Loading the list of valid strings, the list of invalid strings, and valid binaries
+Creating a hash of the binary and comparing against the list of valid binariesContinue if, and only if, the binary is not in that list
+
+Pulling a listing of all unique strings in the binary
+For each string in the binary, check to see if it it is in the invalid string listContinue if, and only if, none are in that listing
+
+For each string in the binary add it to a to_review list if it does not exist in the valid strings listing
+Export the review listing to the filesystem (or command line) for user review
+
+Notes
+
+The binary should recursively unzip/untar any compressed file for scanning
+The initial list of strings must include ASCII7-bit character set and Unicode
+Strings on the whitelist must have a minimum of two people agree that they are indeed valid
+If an invalid string is in a binary, do not export the unknown strings - this will force the binary to be recreated and reviewed after removing the incriminating string(s)
+All strings should be checked against the invalid list and all invalid strings shown, not just the first one
+
+Augment
+Augmenting the listing involves either:
+
+Providing a list of valid strings and the name of the reviewer who certifies them
+Providing an invalid string and the name of the reviewer to asserts it
+Providing a binary and the name of the reviewer who certifies it
+
+Notes
+
+A string will be checked against the opposite list before being added and be rejected if found in that list
+A binary will only be add if it contains only strings already found in the valid listing
+Rejecting anything requires an explanation shown to the user
+
+ 
+Mac People
+Use the following command to recursively get all the strings for each file in a directoryfind . -type f -exec grep -a -o -e '[A-Za-z0-9]\+' {} \; | sort -u
+
+ 
+The DradisContact (so say we all) project has been created - it's goal is to make the binary verification process as automated and painless as possible. 
+ 
+See Also
+
+Strings-GUI:  A quick and easy way for Windows developers to examine strings, in binaries for delivery (without even launching CMD!)  
+
+ 
+ 
+ 
+
+Comments:
+
+
+2014-03-27 10:45 
+[User #524297]: 
+
+Yes!  GMTA.  I would like to see this implemented as a step in a Bamboo release process.  Bamboo allows you to define a manual step that will pause the process until manual confirmation is made.  Happy to assist on this where I can. 
+
+
+
+Previous versions:
+| 1 
+| 2 
+| 3 
+| 4 
+| 5 
+|
+                    

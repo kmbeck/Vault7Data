@@ -1,0 +1,77 @@
+
+                        Bitdefender
+SECRET//NOFORN
+Bitdefender Product Line:
+ 
+ 
+ 
+Bitdefender Processes:
+ 
+
+
+Process Names
+Bitdefender
+Bitdefender Free
+
+
+ 
+ bdagent.exe
+gziface.exe
+
+
+ 
+ seccenter.exe
+gzserv.exe 
+
+
+ 
+ vsserv.exe
+ 
+
+
+ 
+ livesrv.exe
+ 
+
+
+ 
+ 
+ 
+
+
+ 
+ 
+ 
+
+
+ 
+ 
+ 
+
+
+ 
+ 
+ 
+
+
+ 
+ 
+Notes:
+ 
+Defeats:
+ Bitdefender Resource Type Defeat
+
+('include' missing)
+   
+ 
+ 
+ 
+SECRET//NOFORN
+ 
+ 
+
+Previous versions:
+| 1 SECRET
+| 2 SECRET
+|
+                    

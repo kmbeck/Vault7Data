@@ -1,0 +1,87 @@
+
+                        Error Munger
+SECRET//NOFORN
+Error Munge
+ 
+Description:
+The Error Munger utility is designed to work hand-in-hand with the EDGEngineering Development Branch Library Framework. In the interfaces for each library exists an enum containing the error codes for the library. Error codes conform to the SUCCEEDED and FAILED macro standard for all libraries. The Error Munger utility has two parts: a pre and post buid event for each library. In the pre-build event, Error Munger, parses the library interface looking for the specific enum containing the error codes. Once the enum is found, Error Munger modifies each nonzero value in the enum with a random number that has the same sign (i.e. positive values remain positive and negative values remain negative). The ErrorRestore post build event will restore the interface to its original state. Thus, the files never appear modified to the user, but the error codes are modified for the build. Before applying this to a new interface, it is recommended that you test the munger manually to ensure all of the values intended to be munged are actually getting munged. This can work for other enums but was built for integration with EDGEngineering Development Branch libraries. Also, in the case where an explicit value is not specified in an enum a munged value will not be provided. For example, in the line "eERROR_BAD_FILE," the value of eERROR_BAD_FILE will not be munged because no value has been provided. The interface would need to be modified to assign a value like "eERROR_BAD_FILE = -15,". 
+ 
+Design:
+ 
+
+ 
+Stash Repository:   Core Library
+
+ 
+ 
+Example:
+ 
+
+enum eAsymEncErr
+{
+	eAsymEncErr_Success			= 0,
+	eAsymEncErr_ZeroBytes		= 1,
+	eAsymEncErr_RSAZeroed		= 2,
+ 
+	eAsymEncErr_BadParam		= -1,
+	eAsymEncErr_InitEncrypt		= -2,	//There was an error initializing the encryption stuff
+	eAsymEncErr_ShortBuff		= -3,	//The buffer passed to GenerateRSAKeyPair was to small. Check the sizes, and reallocate a larger buffer
+	eAsymEncErr_ReadKey			= -4,	//Failed to read key passed in. Invalid SecureBuffer data
+	eAsymEncErr_Symm_Key		= -5,	//Failed to create/set the AESAdvanced Encryption Standard key or IV.
+	eAsymEncErr_Asym_Key		= -6,	//Failed to create/set RSAEncryption algorithm key
+	eAsymEncErr_Symm_Failed		= -7,	//Failed to AESAdvanced Encryption Standard encrypt/decrypt the buffer.
+	eAsymEncErr_Asym_Failed		= -8,	//Failed to RSAEncryption algorithm encrypt/decrypt the session key.
+	eAsymEncErr_Symm_Append		= -9,	//Failed to append the AESAdvanced Encryption Standard key and header.  We are really screwed if we see this one...
+	eAsymEncErr_Symmundefined	= -10,
+	eAsymEncErr_Asymundefined	= -11
+};
+
+
+
+enum eAsymEncErr
+{
+	eAsymEncErr_Success			= 0,
+	eAsymEncErr_ZeroBytes		= 27992,
+	eAsymEncErr_RSAZeroed		= 29507,
+
+	eAsymEncErr_BadParam		= -5036,
+	eAsymEncErr_InitEncrypt		= -1319,	//There was an error initializing the encryption stuff
+	eAsymEncErr_ShortBuff		= -15619,	//The buffer passed to GenerateRSAKeyPair was to small. Check the sizes, and reallocate a larger buffer
+	eAsymEncErr_ReadKey			= -9016,	//Failed to read key passed in. Invalid SecureBuffer data
+	eAsymEncErr_Symm_Key		= -28461,	//Failed to create/set the AESAdvanced Encryption Standard key or IV.
+	eAsymEncErr_Asym_Key		= -22465,	//Failed to create/set RSAEncryption algorithm key
+	eAsymEncErr_Symm_Failed		= -8219,	//Failed to AESAdvanced Encryption Standard encrypt/decrypt the buffer.
+	eAsymEncErr_Asym_Failed		= -19066,	//Failed to RSAEncryption algorithm encrypt/decrypt the session key.
+	eAsymEncErr_Symm_Append		= -25608,	//Failed to append the AESAdvanced Encryption Standard key and header.  We are really screwed if we see this one...
+	eAsymEncErr_Symmundefined	= -9353,
+	eAsymEncErr_Asymundefined	= -30195
+};
+
+ Manual Setup Of Error Munger
+To manually set up error munger you should first download the Corelib repository as a submodule to your project. In the project settings for Corelib (in the Release_Dynamic and Release_Static builds) you should see prebuild events for ErrorMunge and ErrorRestore. If your project does not contain builds for Release_Dynamic or Release_Static, or the prebuild events are missing, the following lines should be set as prebuild events of the first built project for your release configurations:
+CALL "$(Subs)Corelib\CoreLib_Utils\ErrorMunge\ErrorRestore.exe" "$(Subs)Corelib"CALL "$(Subs)Corelib\CoreLib_Utils\ErrorMunge\ErrorMunge.exe" "$(Subs)Corelib"
+Even if you have downloaded Corelib, you will need to set the following postbuild event on your last built project:
+CALL "$(Subs)Corelib\CoreLib_Utils\ErrorMunge\ErrorRestore.exe" "$(Subs)Corelib"
+By setting these build events on your first and last built projects you guarantee that the error codes are the same across all project built.(they won't be changed in between builds of projects.
+Change Log:
+ 
+('excerpt' missing)  
+SECRET//NOFORN
+ 
+ 
+
+Attachments:
+
+image2015-4-24 12:59:8.png
+
+
+Previous versions:
+| 1 SECRET
+| 2 SECRET
+| 3 SECRET
+| 4 SECRET
+| 5 SECRET
+| 6 SECRET
+| 7 SECRET
+|
+                    

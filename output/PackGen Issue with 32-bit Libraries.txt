@@ -1,0 +1,60 @@
+
+                        Owner: User #14587667
+Create new NDB custom JIRA project
+You must be a JIRAUser Managment Software (Atlassian) administrator to perform these instructions.
+Step-by-step guide
+
+Add the steps involved:
+
+Create new "Simple Issue Tracking" project in JIRA.
+Open the Administration section and go to your new project.
+Select Issue Types (from the left-hand menu), and then Actions -> Use a different scheme.
+Change the theme to NDB: Default Issue Type Scheme and click OK.
+Select Workflows (from the left-hand menu), and then Switch Scheme.
+
+Select NDB Workflow Scheme and click Associate (you will have to click Associate twice).
+Select Screens (from the left-hand menu), and then Actions -> Use a different scheme.
+Change the theme to NDB Type Screen Scheme and click Associate.
+Select Fields (from the left-hand menu), and then Actions -> Use a different scheme.
+Change the theme to JIRA Field Configuration Scheme for NDBNetwork Devices Branch Projects  and click Associate.
+Select Versions (from the left-hand menu).
+Add a version of the tool you would like to start tracking (ie. 3.3.0).
+Select Components (from the left-hand menu).
+Add a component called Base.  If there are any other components you would like to track, add those as well (ie. NetworkSurvey).
+Select Roles (from the left-hand menu).
+The role permissions should be as follows (see figure):
+
+
+ 
+role_permissions.txt
+ 
+You may also want to use visual panels to communicate related information, tips or things users need to be aware of.
+Related articles
+
+Related articles appear here based on the labels you select. Click to edit the macro and add or change labels.
+
+('contentbylabel' missing)
+('details' missing)
+
+Attachments:
+
+
+role_permissions.txt
+
+
+image2015-5-5 12:52:29.png
+
+
+image2015-5-1 9:0:50.png
+
+
+
+Previous versions:
+| 1 
+| 2 
+| 3 
+| 4 
+| 5 
+| 6 
+|
+                    

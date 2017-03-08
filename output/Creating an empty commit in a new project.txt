@@ -1,0 +1,52 @@
+
+                        Owner: User #4849738
+Merge Git Repositories?
+I've run into problems where I needed to merge two GITSource code management software repositories... This probably isn't a very common scenario.. For instance, I was simply trying to convert over separate repositories in our "OSB Classes && Code Snippets" project into our "Misc" Library. In doing so, these are the two best methods I've discovered.. If there's a better way, then please feel free to edit!
+For the purpose of the step-by-step guide, Let's assume two repositories exist:
+
+
+Repository A: The base repository that you want Repository B merged into
+
+Repository B: The secondary repository that you want to merge into Repository A
+
+Step-by-step guide: GITSource code management software Subtrees
+This is probably the only legitimate reason for attempting to use GITSource code management software Subtrees that I've seen...
+
+From repository A, add a link to a subtree
+Copy the source path / URLUniform Resource Locator of Repostory B as if you were cloning
+Select the commit/branch of Repostory B
+Local Relative Path: (This is the best part of the subtree) Select a non-existing directory you want to dump Repository B
+
+
+All of your commit history is retained, and now you just have to push to your remote
+
+DELETE THE LINK TO THE SUBTREE!
+You no longer need this subtree, and can safely delete it.
+Commit history is still retained
+
+
+
+Step-by-step guide: Push to second Remote
+The only problem with this method is you can't select the directory structure for Repository B to be merged into
+
+From repository B, add a second remote pointing to Repository A
+From repository B, make sure the branch you want to push into Repository A does not conflict with the naming of any branches in Repository A
+From repository B, push the specified branch to Repository A.
+All of your commit history is retained, and now you just have to push to your remote
+Everything is dumped relative to the GITSource code management software root, so you will need to move stuff around and may run into conflicts with GITSource code management software files such as gitmodules, gitignore, etc.
+
+ 
+Related articles
+
+Related articles appear here based on the labels you select. Click to edit the macro and add or change labels.
+
+('contentbylabel' missing)
+('details' missing)
+
+Previous versions:
+| 1 
+| 2 
+| 3 
+| 4 
+|
+                    

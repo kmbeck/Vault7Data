@@ -1,0 +1,35 @@
+
+                        Owner: User #71473
+Hook Functions via Export Address Table (MISCHookFunctions_EAT_NTRN)
+SECRET//NOFORN
+ 
+Miscellaneous Module
+Stash Repository: Miscellaneous Library
+
+Module Name: MISCHookFunctions_EAT_NTRN (Uses Windows APIApplication Programming Interface and winternl.h data structures)
+ 
+Module Description: Hooks functions in the target DLLDynamic Link Library by modifying entries in the EAT.  Works for libraries that are delay loaded;  the best way to ensure this works properly is to start the target process suspended, create a thread that loads the target DLLDynamic Link Library and performs the hook, then resume the process.  Subsequent calls to LoadLibrary on the target DLLDynamic Link Library will return the reference to the already loaded library that has had its EAT entry for the target process  patched.
+ 
+Usage: Forthcoming
+ 
+PSP/OS Issues: Any PSP/OS issues associated with the technique.
+ 
+('excerpt' missing)
+*Miscellaneous modules should also contain "Excerpt Includes" from every non-miscellaneous module that uses it.
+ 
+Sharing Level: Unilateral, Liaison, Intelligence Community (Default: Unilateral - until otherwise noted)
+ 
+Technique Origin: In-house, internet/open-source, reversed malware, stolen, etc.
+ 
+Notes: Any information that could be useful to anyone maintaining the code or using the code. i.e. This module uses Alternate Data Streams which are only available on NTFSNTMicrosoft operating system filesystem (Windows) volumes.
+ 
+Module Specific Structures: Any module specific data structures. 
+ 
+Module Return Codes: Any module error/return codes should be described here.
+ 
+Example Code:
+ 
+ 
+INCLUDE DESCRIPTIVE LABELS FOR EACH MODULE
+SECRET//NOFORN
+                    

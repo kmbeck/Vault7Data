@@ -1,0 +1,210 @@
+
+                        DerStarke 2.0
+
+('toc' missing)
+ 
+Building DerStarke (Developer)
+Top-Level Builder (build.py)
+build.py is intended to be a top-level builder that combines bokor (OSXApple operating system kernel injection), darkmatter (EFIExtensible Firmware Interface persistence), and a sample OSXApple operating system bundle.  It can be used to create a fully configurable DerStarke release or used to setup a building environment for darkmatter testing/development.  Note that there is a debug.plist and release.plist that has default values for a fully debug or release options.  Feel free to use these files, but it is not recommended to modify them in that other files used them to make release builds (make_release.sh).  If you need to tweak specific options, use preconfig.plist, or rename to anything you like.
+Options
+
+
+-c <FILE>, --config=<FILE>
+(required) configuration plist that defines the build parameters
+See preconfig.plist for example... some notable options:CMOS DebugUsed by darkmatter when serial or screen printing is not available.  This is used in all darkmatter PEIPre-EFI Initialization drivers and parts of S3Sleep.efi when it is waking up from the S3 sleep.  It is not recommended to turn this on unless you are debugging those specific drivers.
+
+
+
+
+-d, --darkmatterbuild(optional) Will only setup an environment to start building within externals/darkmatter.  Will build kernel implant with options in the config plist and a sample bundle and place them in the proper darkmatter locations.  It will also modify the INF files.  See section 'Building Inside externals/darkmatter' for me information. 
+
+-n, --noninteractive(optional) Will not prompt user
+
+-p, --package_only(optional) This flag will create a full release of DerStarke, but will not build bokor or darkmatter.  It uses previously generated binaries.  This flag is very using if you are making modifications to the configuration pyz (derstarke_builder.pyz), and don't want to rebuild bokor/darkmatter.
+
+
+Building Inside externals/darkmatter
+A lot of EFIExtensible Firmware Interface functionality can be testing without needing to modify bokor code or needed to be written down to flash.  If the functionality can be tested by running the EFIExtensible Firmware Interface executable in an EFIExtensible Firmware Interface Shell, execute the top-level builder with the '-d' option and follow the instructions below.  If you need to do full end to end testing or need to be in the flash, it's easier to just build a debug DerStarke release, and use the ISOInternational Standard Organization image to create a flashable thumb stick.
+Binaries Generated
+The following are binaries generated from darkmatter:
+
+Loader (L.efi) - This is the core brains code of darkmatter.  It processes all the variables to know when to inject or uninstall.  It allocates space for the kernel and user implants.  It setups the callback after the kernel is loaded and hooks the sysctl for execution.
+VerboseInstaller (VI.efi) - DXEDriver Execution Environment application that is responsible to write the needed DXEDriver Execution Environment drivers to FVMain and PEIPre-EFI Initialization drivers to FVRecovery.
+AppInstaller (AI.efi) - DXEDriver Execution Environment application that will load the DarkDream exploit if the flash is locked, or load VerboseInstaller if it is unlocked.  It will also remove any PeiUnlock files on the system.
+S3Sleep (S.efi) - DXEDriver Execution Environment driver that contains the DarkDream exploit.  It will initiate an S3 sleep after the OSOperating System has setup the ACPI table, will then write a PeiUnlock file, and reboots the system.  The system will be unlocked on subsequent boots.
+PeiUnlock (PU.efi) - PEIPre-EFI Initialization driver that keeps flash unlocked by modification of the HOB list.  It is normally removed after the permanent solution of writing the patched flash lock file to DxeMain.
+PeiLoader (PL.efi) - PEIPre-EFI Initialization driver used to hook firmware update code when detected
+DxeInjector (DI.efi) - DXEDriver Execution Environment driver that is used by PeiLoader to inject the old implants from firmware into the new update capsule.
+FwUpdate (FW.efi) - DXEDriver Execution Environment driver that is used to write a new Loader and PeiLoader into flash form a remote update CONOP.
+
+darkmatter.plist (new config)
+Darkmatter has a lot configuration values required to build an instance of darkmatter (initial values for things like enable time, guid values of it's NVRAMNon-volatile Random Access Memory variables, the file guid for files it uses, etc).  These use to be separated out into individual files, but has been combined into one plist in version 2.0.  Note that the default darkmatter.plist contains all required values for a build.  scripts/build_config.py will auto generate the rest of the values (encryption keys, files guid, etc).  An output of all values that the build of darkmatter used is located in out/dm_out.plist.  If you require any of these values to be fixed when testing, you can modify the original darkmatter.plist.  
+A good example of wanting a fixed value that is normally auto generated would be the xxtea encryption key.  If you are doing multiple builds of Loader.efi and running them at shell that uses an encrypted bundle loaded off the filesystem, you would have to copy both L.efi and bundle to your testing stick.  If you fixed the xxtea key, you can use the same bundle on different builds of Loader.  The easiest way to make sure you have the correct format would be to build once and copy the desired parameter from out/dm_out.plist (in this case it would be Root->General->Xxtea Key).
+Note that modifications of darkmatter.plist will only affect the output binaries in out/ for testing.  Even with a modified darkmatter.plist, if you move a level up and do a top-level build, the deployment configurable DerStarke will get new patched in values.  (i.e, don't worry that added a fixed xxtea key will propagate to a release build of DerStarke).
+setupudk.py
+Once you're inside /externals/darkmatter, you will need to run setupudk.py before using the Makefile. AED/EDB's UDK build uses a disk image (UDK2010.UP4_DarkBuilder.dmg) to build all their EFIExtensible Firmware Interface binaries.  setupudk.py will modify the necessary UDK files inside the diskimage and setup symlinks to the CWD with respects to the configuration (can view the config at top of setupudk.py).  Since the location of the source code is symlink'd inside the disk image, you would have to run setupudk.py if you checked out two copies of darkmatter on disk and were switching between the two.
+You would only need to modify setupudk.py if you needed to add another INF file to your project (adding another EFIExtensible Firmware Interface driver or application) or was creating a new EFIExtensible Firmware Interface project.  Read the top section of setupudk.py for more information on how to configure for either cases.  Note that if you are using setupudk.py for a new project, this file will auto generate a Makefile to build your EFIExtensible Firmware Interface binary with basic options.  If a non-autogenerated Makefile exist, it will not modify it, such as the case in the darkmatter Makefile.  If you are creating a new project and wish to add options to the autogen Makefile and keep those changes, remove the "Autogeneration" comments at the top of the generated Makefile.
+Makefile
+Once you run setupudk.py, you can utilize the Makefile.  Note a "make clean && make all" will generate all darkmatter binaries for a full deployment of derstarke.  Some common Makefile options:
+
+make loader
+This option will only build L.efi (Loader) and the encrypted bundle (kernel.dmg) inside the out folder.  
+Will also output an encrypted loader on-disk solution (load.dmg)
+
+
+make ReadFirmwareCreates a single application ReadFirmware.efi that can be run at an EFIExtensible Firmware Interface shell.
+
+make aiMakes the AppInstaller, PeiUnlock, and the S3Sleep exploit application.
+
+make viMakes the VerboseInstaller, Loader, PeiLoader, DxeInjector
+
+make sleepMakes the S3 DarkDream driver
+
+make fw_udpate
+Makes FwUdpate, Loader, PeiLoader, DxeInjector
+Will also output an encrypted FwUpdate on-disk (update.dmg)
+
+
+
+ 
+Configuring DerStarke (Operator/Testing)
+config.plist (for v2.0)
+The config has been refactored in 2.0.  The Persistence config options have been broken into subcategories (OSXApple operating system Support, Installation, General, and Remote Update).  The following section will talk about the new options.  Refer to old documentation for other configuration options.
+Persistence Config
+
+(Remote Update) Old Deployment config (local path): The relative or absolute path to the old build configuration plist.  This plist is self-generated on each deployment of DerStarke, and contains all the auto-generated values (encryption keys, GUIDGlobally Unique Identifier variable values, etc).  The reason that this file is required is to be able to clean up any variables of an old deployment during a filed update.  This option is only required if 'Enable Remote Deploy' == TRUE.
+(Remote Update) Filepath of on-disk EFIExtensible Firmware Interface update (remote path): This option allows an operator to drop an encrypted blob to the filesystem in the event that the EFIExtensible Firmware Interface functionality needs to be updated in the field.  On every system boot, the implant will try locate this filepath/filename on every FAT32 or HFS+ partition on the system.  Once located, it will decrypt than decompress the blob.  If the file has a valid header after decompress, it will load the new driver and the original implant will not execute any functionality. If decryption/decompression fails, the implant will move on to the next partition.  Thus, a collision of filepath/filename on different partitions is supported, but not recommended.
+(Remote Update) Replace EFI: Boolean value to determine if remote updater will update the EFIExtensible Firmware Interface functionality.  This option is only required if 'Enable Remote Deploy' == TRUE.
+(Remote Update) Replace User Implant: Boolean value to determine if remote updater will update the user implant bundle to be injected into the OS.  This option is only required if 'Enable Remote Deploy' == TRUE.
+
+User Payload Config
+
+Filepath to injected bundle (local path):  The relative or absolute path of the bundle to be injected into the OS.  It requires that the bundle have a valid MachO header.
+Filepath of on-disk bundle update (remote path): This option allows an operator to drop an encrypted blob in the event that the user implant needs to be updated.  It goes through the same process as the on-disk EFIExtensible Firmware Interface update to located the blob, but will look for a valid MachO bundle instead.  If a valid MachO is found, the EFIExtensible Firmware Interface implant will inject the new bundle instead of the baked in bundle at build time.  Note that if the encrypted bundle gets removed from the filesystem, the EFIExtensible Firmware Interface implant will fallback and load the original baked in bundle.  If this functionality is not desired, look into doing the remote field update.
+
+TODOs
+Coding Changes
+The following needs to be completed before a 2.0 delivery
+
+Creating FFS for encrypted bundle
+The bundle that is given by the operator needs to be compressed/encrypted and then turned into an FFS file in order to reside on the flash.  Verbose installer will take this FFS file and write it to flash.
+The change will have to be done in externals/darkmatter/Makefile and ds_patch.py
+externals/darkmatter/Makefile
+When you're inside this directory, this is for testing and you'll need to FFS the bundle that is located at 'out/kernel.dmg'
+Lots of FFS are created in this makefile... look at LOADER_DXE or PEI_LOADER_FFS as examples
+They use bash scripts files located in 'scripts'... see CreateDxe.sh as example
+You'll need to create a CreateRaw.sh script, but very basicOnly needs GenFfs of type EFI_FV_FILETYPE_FREEFORM
+
+
+
+inside ds_patch.py
+Have to do the same thing in the python code that patches what the operators give you
+This should be done in patch_persistence()... goto line 327 in ds_patch.py
+Here you will have to also compress then encrypt the bundle (basically create kernel.dmg... which the darkmatter/Makefile already did)sample code on who to compress is on line 333
+
+Python function generate_ffs_from_efi is basically CreateDxe.shUse that as a model to create a raw section as above
+
+You'll have to create a new GUIDGlobally Unique Identifier for FFS: newguid = build_config.get_guid(dm_file['User Bundle'])Don't forget to patch this value into LoaderPatchLoaderPatch.payloadGuid = dsutil.string2guid(newguid)
+
+
+
+
+
+
+Modify VerboseInstall to also write the generated FFS from above
+Genreal idea is after creating FFS blob, name it something static and copy it to the USBUniversal Serial Bus install stick
+VI will look for that file and write that file to DxeMain
+Steps...
+Create static path inside Payloads/Config.hinside scripts/build_config.py line 198
+user_bundle_name = 'L"\\\\UB.bin"'
+write_def(c_file, "USER_BUNDLE_NAME_PATH", user_bundle_name)
+
+
+
+Find and Write in PackageInstaller.c
+Anytime after you find DXE_CORE (line 299) you use FVAppendFile to append the bundle
+Use SimpleFileSystem to locate the bundleUse FindFileSystemByVolume() to get the file handle
+
+
+
+Future idea to write all implants (Loader, PeiLoader) this way... no more patchingIf you standardize the way you write, the file could be refactored to probably a 3rd of this size
+
+
+
+
+
+FwUpdate
+Use new config parameters updateEFI and updateBundle to do proper functionality
+Currently FwUpdate's ReadyToBootHandler will update the EFIExtensible Firmware Interface implant... there's not concept of a user bundle in FVMain
+use gFwUpdateConfigPatch.c.updateEFI to bypass if FALSEFrom line 520-627... This is the EFIExtensible Firmware Interface Update part
+
+use gFwUpdateConfigPatch.c.updateBundle to create new path if TRUE
+on line 628... start new if
+Will have to add to FwUpdateConfigPatch a payload and payloadSize
+Use the creation of LOADER_LZMA and LOADER_LZMA_SIZE as examples
+Modify FwUpdateConfigPatch for those guys
+Added to top of FwUpdate.c
+Modify Makefile to xxd the generated FFS bundle created above (in the same way LOADER_LZMA was)
+You can then use gFwUpdateConfigPatch.c.payload and gFwUpdateConfigPatch.c.payloadSize with FVAppendFile to replace your implantWe cannot use FVReplaceFile because the way it calculates CRC32 will screw us since we are writing this "out of band"
+
+
+
+
+
+
+
+Implement set_name for ImplantGuidName in dsutil.py
+All the patch structures (LoaderConfigPatch, FwUpdateConfigPatch, etc) have a set_stauts_name function because EFIExtensible Firmware Interface uses CHAR16 and there's no easy way to set those chars when reading in from a plist.
+During the refactor, I create a new C struct ImplantGuidName which is on line 222 of dsutil.py
+This guy will need a 'set_name' method similar to the other set_status_name
+This method will need to be used to patch LoaderPatch and FwUpdatePatch in ds_patch.py (lines 214, 221, 223) 
+
+
+Remote DeploymentIn dsconfig.py.... if persist_remote['Enable Remote Deploy'] is TRUE
+Make option for operator if they want to deploy FwUpdate or L.eficompress then xxtea that binary... output to directory
+
+Repeat for implant bundle
+
+
+
+
+Testing
+
+Persist across firmware updates
+NVRAM variable persist across CMD+OPT+P+RTest if User Payload Config Vars persist (both when all 5 are set or if 1 is just set... and that it doesn't break if 0 are set)
+
+validate.pyz (will have to modded to also verify the bundle)
+
+Future Improvements
+
+Make User Payload names more customizable (more than just 4 hex chars)
+Change crypto algorithm to something better than XXTEA
+Write some kind of verification that the mkusb.sh created a valid installer... md5 of all the EFIExtensible Firmware Interface binaries on the USB?
+Better interface to import User Payload Config Variables and User Payload Status
+
+
+The following would be nice to be in for a 2.0 deliver
+
+Previous versions:
+| 1 empty
+| 2 
+| 3 
+| 4 
+| 5 
+| 6 
+| 7 
+| 8 
+| 9 
+| 10 
+| 11 
+| 12 
+| 13 
+| 14 
+| 15 
+| 16 
+| 17 
+| 18 
+| 19 
+| 20 
+|
+                    

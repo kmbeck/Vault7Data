@@ -1,0 +1,68 @@
+
+                        Owner: User #71468
+Infector Config XML Schema
+<xml>
+	<!-- The following 4 attributes are required -->
+	<!-- The Infector will fail if the version number is not an exact match -->
+	<version>1.0</version>
+	<!-- The root folder on the drive we wish to infect -->
+	<InfectPath>H:\sample\folder</InfectPath>
+	<!-- Forced language on Execution Vector.  This value is used to replace "__LANGUAGE_ID__" in ReplaceInFile actions -->
+	<LanguageID>English</LanguageID>
+	<!-- Path relative to the InfectPath where the DLLDynamic Link Library hijack occurs and our stub should be placed -->
+	<StubPath>sub\example.dll</StubPath>
+	<!-- End of require attributes -->
+	<!-- List of actions to take.  Infector will loop through as man as present -->
+	<Actions>
+		<!-- Example to run "MyRunner.exe" with the arguments "arg1 arg2" -->
+		<ExecCMD>
+			<file>c:\MyRunner.exe</file>
+			<args>arg1 arg2</args>
+		</ExecCMD>
+		
+		<!-- Example to copy a payload called "payload.exe"  and encrypt it inside of "container.dat" on the infection path with maxRuns of 5-->
+		<!-- MaxRuns is only checked if isPayload is set to true. If this attribute is excluded, maxRuns is set to 1 -->
+		<CopyFile isPayload="true" maxRuns="5">
+			<!-- The source of the copy file should be full path, but the destination is appended to the InfectPath -->
+			<src>c:\copyfrom.dat</src>
+			<dst>appended\to\infectpath\container.dat</dst>
+			
+			<!-- Following attributes are optional.  MaxRuns is only checked if isPayload is set to true -->
+			
+			<!-- If this attribute is excluded, maxRuns is set to 1 -->
+			<maxRuns>5</maxRuns>
+		</CopyFile>
+		
+		<!-- Example to copy a file from "here.norm" to "there.norm".  Does not encrypt nor make any other changes to the original file-->
+		<CopyFile>
+			<!-- The source of the copy file should be full path -->
+			<src>c:\here.norm</src>
+			<!-- The destination path is still relative to the InfectPath -->
+			<dst>another\relpath\there.norm</dst>
+		</CopyFile>
+		
+		<!-- Example to replace all instances of "bananas" in a file with "apples" -->
+		<ReplaceInFile>
+			<filePath>c:\ReplaceThisFile.fruit</filePath>
+			<findValue>bananas</findValue>
+			<replaceValue>apples</replaceValue>
+		</ReplaceInFile>
+		
+		<!-- Example to replace all instances of "lang" in a file with our (earlier) specified LanguageID -->
+		<ReplaceInFile>
+			<filePath>c:\ReplaceLanguage.lang</filePath>
+			<findValue>lang</findValue>
+			<!-- __LANGUAGE_ID__ is a special identifier that will be replaced with "English" in this case -->
+			<replaceValue>__LANGUAGE_ID__</replaceValue>
+		</ReplaceInFile>
+		
+	</Actions>
+</xml>
+
+Previous versions:
+| 1 empty
+| 2 
+| 3 
+| 4 
+|
+                    

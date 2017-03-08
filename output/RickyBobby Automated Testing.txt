@@ -1,0 +1,38 @@
+
+                        Owner: User #54198274
+RickyBobby Automated Testing
+We're looking to get RickyBobby on the new EDGEngineering Development Branch Project Lifecycle with automated testing. Currently, there are unit tests in place for some of the RickyBobby Tasking Dlls, but some are outdated and others don't have any at all.
+The Cal LPListening Post has no unit tests to speak of... we had some at one point but things evolved and we'rer at the point where the LPListening Post really needs some unit tests backing it up.
+Current Status
+Implant:
+Some unit tests.
+Taskings:
+Some have unit tests, others do not
+Cal (LPListening Post):
+no Unit tests to speak of.
+The Way Forward
+
+Comprehensive Unit Tests:
+Implant
+Taskings
+Cal
+
+
+System independent LPListening Post testingbeing able to test the LPListening Post using the django test server on Windows without having to pull everything over to a separate CentOS VMVirtual Machine would be super helpful.
+
+DART functionality tests
+
+ 
+ 
+ 
+
+Comments:
+
+
+2015-03-03 11:29 
+[User #524297]: 
+
+I think a big part of this is going to be deciding what parts of the build process can be automated versus what cannot.  I plan on stopping by later today to chat with you and User #75642 about this. 
+
+
+                    

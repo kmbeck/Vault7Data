@@ -1,0 +1,40 @@
+
+                        Owner: User #14587667
+Modify Web Client Timeout
+Follow these instructions in order to modify the vSphere Web Client timeout interval.  The default is 120 minutes.
+These instructions only apply to the vCenter Server Appliance.
+Step-by-step guide
+For vCenter 5.X:
+
+SSH to vCenter server appliance.
+vi /var/lib/vmware/vsphere-client/webclient.properties
+Modify the session.timeout value with the new timeout in minutes.
+Restart web client service: /etc/init.d/vsphere-client restart
+
+ 
+For vCenter 6.X:
+
+SSH to vCenter server appliance.
+Enable and launch the bash shell.
+Command> shell.set --enabled True
+Command> shell
+
+
+vi /etc/vmware/vsphere-client/webclient.properties
+Modify the session.timeout value with the new timeout in minutes.
+Restart web client service: /etc/init.d/vsphere-client restart
+
+ 
+ 
+You may also want to use visual panels to communicate related information, tips or things users need to be aware of.
+Related articles
+
+Related articles appear here based on the labels you select. Click to edit the macro and add or change labels.
+
+('contentbylabel' missing)
+('details' missing)
+
+Previous versions:
+| 1 
+|
+                    

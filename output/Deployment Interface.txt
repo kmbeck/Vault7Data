@@ -1,0 +1,10 @@
+
+                        Owner: User #8650754
+Gremlin Interface
+The DLLs are standard PEPrivilege Escalation files with the restriction that imports must reside on the box.  Each DLLDynamic Link Library will export 2 functions.  The first function is the initialization function.  It will return the size of the data structure interface and the global ID of the module being referenced.  This function is only called once during the bootstrapping process.
+// ordinal 1
+typedef ULONG(__stdcall *PFN_GREMLIN_INIT)(PULONG pdID, PULONG pdSize);                                                      
+The second function handles all the commands.  Once the module is loaded, a command can be sent at any time.  The PLAN module defines the specific order of operation and module interface inheritance. 
+// ordinal 2
+typedef ULONG(__stdcall *PFN_GREMLIN_COMMAND)(PGREMLIN_INTERFACE pInterface, ULONG id, void *arg0, void *arg1, void *arg2);              
+                    

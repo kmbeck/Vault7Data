@@ -1,0 +1,37 @@
+
+                        Owner: User #524297
+2015-11-09 Retrospective
+
+
+('details' missing)
+Retrospective
+
+
+
+What did we do well?
+List all items that you did well.
+
+
+What should we have done better?
+List all items that you should have done better.
+
+
+
+What will we do differently next time to improve?
+
+Create actionable ways of improving 
+
+
+ID
+Status
+Task
+
+
+1
+incomplete
+@mention a person to assign them an action item
+
+
+
+
+                    

@@ -1,0 +1,206 @@
+
+                        Updating DerStarke v1.4 to Yosemite
+Prerequisite (non code changes):
+
+Xcode 6 for 10.10 SDK
+Since Xcode 6 is also in beta, it is recommended to do this in a VMVirtual Machine or non-primary dev boxnote beta Xcode's will install as Xcode6-Beta.app, so it won't overwrite current working Xcode, but have expereinced issues in the past
+
+Open Xcode and set build paths to 'Legacy', under Xcode->Preferences->Locations->Advanced
+
+
+Xcode 6 Command line tools for which ever OSOperating System you're developing on
+Should work on either Mavericks or Yosemite
+Have to point xcode-select to beta version of Xcode 6sudo xcode-select -switch /Applications/Xcode6-Beta2.app/Contents/Developer
+
+
+
+
+
+Checkout DerStarke (ssh://git@stash.devlan.net:7999/derstarke/derstarke.git)
+
+Make sure to do a recursive clone or submodule update to get all submodules
+Create 'yosemite' branches in derstarke, extern/bokor, and extern/darkmatterbokor and darkmatter will be the only two submodules we need to modify on new OSOperating System release(let User #73580 handle the triton stuff ;b)
+
+
+
+
+Changes to DerStarke (top level builder)
+Top level builder needs to pass build arguments to DerStarke submodules
+
+in file preconfig.plist (and the two sample debug.plist and release.plist)
+Add a new plist entry for Yosemite under Persistence optionsconfig['Persistence Config']['Yosemite Support']
+
+Set this option to true, but might want to set Mountain Support to false since Xcode usually only ships with latest 2 SDK'sYou can add MLion SDKSoftware Development Kit from previous Xcode if wanted to support more than two OSXs
+
+
+
+in file darkmatter.pyin function modify_inf
+All darkmatter components (drivers and apps) use INF files for build options; modify_inf modifies the actual INF text files under extern/darkmatter 
+Add 'if statement' for existence of config['Persistence Config']['Yosemite Support']
+note the added build option of '-DYOSEMITE_IMPLANT ' only needs to be given to loader_inf since no other component of darkmatter cares about OS
+note the space at the end of the build string is important
+
+
+
+
+
+build1p4.py
+
+
+in function build_kernal_payloadAdd 'if clause' to TWO places for yosemite checks at beginning of function(One while iterating through plist config, and one while building bokor build string)
+
+
+Would also not be a bad idea to mod the help intro
+
+
+Changes to Bokor (extern/bokor)
+We need to add schemes and targets for Yosemite SDKSoftware Development Kit for the kernel_loader.  Each target gives the resultant bokor different options given from the high level builder.
+
+Open in Xcode (or use open bash command) src/kernel_loader/bokor.xcodeproj(not to be confused with src/bokor.xcodeproj)
+
+There should be an expand arrow to see all the targets in the current bokor project (currently 35)
+
+
+We will need to add Yosemite targets.  Easiest way I found is to use the 'Duplicate' functionality:
+To create a yosemite_bokor target, right-click on mavericks_bokor and select 'Duplicate' (CMD+D)
+This will create 'mavericks_bokor copy' target
+Double click to change name to 'yosemite_bokor'
+Change the following under Build Settings
+Architectures -> Base SDKSoftware Development Kit -> OSOperating System X 10.10
+Deployment -> OSOperating System X 10.10
+Packaging -> Info.plist File -> bokor/bokor-Info.plist
+Product Name -> yosemite_bokor
+Apple LLVM 6.0 - Preprocessing -> Preprocessor Macos:For both Debug and Release, substitute MAVERICKS for YOSEMITE
+
+
+
+
+
+Repeat for the rest of the mavericks target... note Product Name -> should match the target name
+For each 8 copies you made, it auto makes a plist file under Products... just delete them
+
+
+
+
+
+Now we need to edit the autogen scheme with the matching target name
+Top Menu -> Product -> Scheme -> Manage Scheme...
+Click 'Shared' Checkbox, and make the copied scheme match the new yosemite namenote, double-clicking will bring you scheme options... simply press enter to modify the name
+
+File to add to git
+kernel_loader/bokor.xcodeproj/project.pbxproj
+kernel_loader/bokor.xcodeproj/xcshareddata/*
+(do not add anything from xcuserdata)
+
+
+
+in bokor.cApprox on line 744, we define which sysctl to hook.  For legacy OSXApple operating system Leopard, we used a vm_shared handle.  For all other OSXApple operating system (and current), we use sysctl_hw_memsize_handler().  I will assume Yosemite will also be able to use this, but if the hook goes away, we would need to add another hookpoint.Added #if (.... ) || defined YOSEMITE to hw_memsize hook
+
+
+in config.cpayload_target_names[] defines which processes to attempt to inject in.  We stop using syslogd because after Lion, OSXApple operating system does not allow syslog to write to syslog (hard to debug).  We only inject into diskabritationd, and will assume for now Yosemite will be okay with diskarbitrationd... might have to change if it's sandbox or something.Add #if (....) || defined YOSEMITE to diskarbitrationd clause
+
+
+
+
+Changes to Darkmatter (extern/darkmatter)
+Loader.dxe will look for which OSXApple operating system version is loaded on boot... need to add cases for Yosemite version.
+
+create file src/EFI/Loader/Yosemite.h
+This file determines Kernal location (non-slide) and structure of OSX's sysent and sysctl
+Can use GDBGNU debugger and Kernel Debug Kit to determine these locations
+to see type struct in lldb: image lookup --type <type>exp: image lookup --type sysctl_oid
+
+If KDK is not available, I would try Mavericks values to see if they still work
+
+
+
+
+create file src/EFI/Loader/Yosemite64Implant.h
+This file contains the externs of all values from an auto generated  .c file that processes the bokor implant
+Look at Mavericks64Implant.h for a template
+After you do a compilation of darkmatter, an auto generated src/EFI/Payloads/yosemite_x86_64.c will populate all these values
+
+
+Modify src/EFI/Loader/MachOUtil.hAdd to enum OSVerision_e a value of MAC_OSX_10_10_64
+
+Modify src/EFI/Loader/MachOUtil.cAdd to function GetMacOSXVersion():
+CHAR8 YosemiteVersion[] = {'1', '4', '.'};
+Add if case for Strncmp of YosemiteVersion
+
+
+
+Modify src/EFI/Loader/Loader.c
+Just have to add Yosemite hook points into all the different case statements 
+add #ifdef for YOSEMITE_IMPLANT to add #include "Yosemite.h" and "Yosemite64Implant.h"
+There is a switch statement for each OSOperating System case in the following functions... add Yosemite case to each:
+LoadLinkRelocateImplant() - 2 cases
+HookSysentTable() - note we don't add defaults to switch on purpose to make sure to throw a compile error if a developer did not make a case for each OSXApple operating system version
+HookSysctl()
+SetVirtualAddressMapHandler() - 3 cases
+AllocateImplant()
+
+
+
+
+Files to add to git:
+Do not add anything in EFI/Payloads (these are all auto generated)
+Do not add any INF unless you are modifying new includes paths or source filesnote that a "yosemite_x86_64.c" will be auto added from the darkmatter.py from above
+
+
+
+
+
+Testing Tips
+
+You can do make clean && make from extern/darkmatter to test OSOperating System injection (and not a full build)
+After doing one ./build1p4.py at the top level, there will be the binary builds of bokor (in/kern_implant*) and a default triton (in/user_implant)
+You have to remove the -DMAKE_PATCHABLE from Loader.infThis flag is designed keep freespace in the binary so a COGComputer Operations Group builder can patch it
+
+Copy resultant L.efi to a thumb stick, and run it from an EFIExtensible Firmware Interface Shell (load command), and let OSOperating System boot (exit command)
+Make sure -DSERIAL_PRINT is on... will make debugging through the VirtualAddressMapChange easier
+
+
+If everything looks for from DarkMatter, you should see the implant getting allocated with the following three messages:
+HookSysctl Success 
+Loading implant Success
+Returning to kernel
+
+
+After successful EFIExtensible Firmware Interface allocation, open 'Console' on OSX, and you should see bokor output every time a new process starts (waiting for 60 sec time delay)
+Afer 60 secs, you'll have to fire some process that uses diskarbitrationd (opening a PDFPortable Document Format or browsing around in Finder
+after bokor states it finds diskarbitrationd, triton should start it's run loop under system.logYou won't be able to test full beacons because had dummy keys backed in
+
+If everything looks good from L.efi... try high high level build with correct LPListening Post info and patched parametersIf you made any changes to Loader.inf (-DMAKE_PATCHABLE or -DSERIAL_PRINT), you don't need to change it... the darkmatter.py takes care of all of that
+
+
+
+
+Attachments:
+
+
+xcode2.png
+
+
+xcode6_bokor.png
+
+
+xcode6.png
+
+
+
+Previous versions:
+| 1 
+| 2 
+| 3 
+| 4 
+| 5 
+| 6 
+| 7 
+| 8 
+| 9 
+| 10 
+| 11 
+| 12 
+| 13 
+|
+                    

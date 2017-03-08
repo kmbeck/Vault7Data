@@ -1,0 +1,72 @@
+
+                        Lock and Unlock System Volume Information (MISCFolderAccessControl_SVI)
+SECRET//NOFORN
+ 
+Miscellaneous Module
+Stash Repository: Miscellaneous Library
+
+Module Name: MISCFolderAccessControl_SVI (System Volume Information)
+ 
+Module Description: This module exposes three functions: LockDirectory, UnlockDirectory, and CreateUnderLockedDirectory. These functions allow you to unlock a folder where only System has accesses, create a file/folder under that directory with access rights that allows access to everyone, and re-lock the folder. These functions can also be used to just unlock or lock a directory. However, if you want sub-files/subfolders to remain accessible to everyone after using LockDirectory you must use CreateUnderLockedDirecory instead of CreateDirectory or CreateFile (at least for the parent folder). If CreateUnderLockedDirectory is not used, LockDirectory sets the ACLAccess Control List of the parent folder and all sub-file/folders will inherit the new ACL. For example, if I want to create a folder underneath "System Volume Information" I would first call UnlockDirectory. Then I would create a directory "MyDirectory" using CreateUnderLockDirectory. Using LockDirectory I would then re-lock "System Volume Information". At this point "System Volume Information" would only be accessible by SYSTEM and "MyDirectory" would be accessible by everyone. Now, I can use CreateFile or CreateDirectory to create sub-files/folders underneath "MyDirectory" and the ACLs will be inherited from "MyDirectory".
+ 
+Usage: 
+This module exposes three functions:
+BOOL UnlockDirectory(WCHAR *wcPath);
+ 
+wcPath: Path to the file/folder to be modified. The Everyone group will be added to the ACLAccess Control List with full access rights. 
+ 
+Returns TRUE when successful. 
+ 
+BOOL LockDirectory(WCHAR *wcPath, BOOL bIncludeSubFolders = FALSE);
+
+wcPath: Path to the file/folder to be modified. The System group will be given sole (and full) access to this object.
+bIncludeSubFolders: Force the flag SUB_CONTAINERS_AND_OBJECTS_INHERIT to be used in modifying the ACL. This will force all sub-files/folders created under this folder to inherit from it.
+
+Returns TRUE when successful.
+
+BOOL CreateUnderLockedDirectory(WCHAR *wcPath, BOOL bIsDirectory = TRUE);
+ 
+wcPath: Path to the file folder to be created. The file will be created with access rights given to the Everyone group.
+bIsDirectory: Specify whether the object to be created is a directory or a file.
+ 
+Returns TRUE when successful.
+ 
+PSP/OS Issues: No PSP/OS issues have been observed. Designed for XP+.
+ 
+('excerpt' missing)
+ 
+Sharing Level: Unilateral
+ 
+Technique Origin: In-house (Windows APIApplication Programming Interface)
+ 
+Notes:
+
+This module requires administrator privileges to modify an ACLAccess Control List owned by SYSTEM. 
+This module modifes ACLs (Access Control Lists) and therefore will not be useful on file systems that don't support ACLs.
+Does not provide much flexibility as it is designed to create objects under "System Volume Information".
+
+ 
+Module Specific Structures: N/A
+ 
+Module Return Codes: All three functions have a boolean return where TRUE means SUCCESS and FALSE means FAILURE.
+ 
+Example Code:
+ 
+	//Unlock Directory
+	MISCFolderAccessControl_SVI faFolderControl;
+	BOOL bRet = faFolderControl.UnlockDirectory(L"H:\\System Volume Information");
+	
+	//Create a file or folder underneath
+	BOOL bCreate = faFolderControl.CreateUnderLockedDirectory(L"H:\\System Volume Information\\Test");
+
+	//Lock Again
+	faFolderControl.LockDirectory(L"H:\\System Volume Information", TRUE);
+ 
+ 
+SECRET//NOFORN
+
+Previous versions:
+| 1 SECRET
+| 2 SECRET
+|
+                    

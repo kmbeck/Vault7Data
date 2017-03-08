@@ -1,0 +1,54 @@
+
+                        Owner: User #14587667
+MikroTik Hotspot / Paywall Analysis
+Platform: RB493G (mipsbe) ROS 6.28
+MT IPs: 192.168.88.1, 192.168.0.1, 10.0.0.1
+The IP 192.168.0.11 is a non-existent host.
+
+Configured MT Hotspot (paywall) feature.  This creates several firewall rules on the MT and applies them to the interface the hotspot was enabled on.
+Enabling the hotspot features disables WebFig on that interface.  Winbox is still accessible on that interface.
+If authenticated, WebFig can be accessbile at another IP of the MT (ie another LANLocal Area Network or the WANWide Area Network)
+Can obtain WANWide Area Network IP from /proc/net/arp.  Can Chikorita be ported to grab this file (unauthenticated)?
+The following results were obtained when run unauthenticated to the paywall.
+"nmap -sS" shows IPs as up but really is just MT IP (false positive).
+"ping" says 'Destination Net Prohibited'.
+"nmap -PU" performs a UDPUser Datagram Protocol scan and receives results (appears to bypass MT FW). ie. "nmap -PU <IP> -p 80"
+
+
+When doing an nmap TCPTransport Control Protocol scan, the MT spoofs each IP that is scanned.  Results returned are those that pertain to the MT itself.
+
+The following were run from the host 192.168.88.3 without being authenticated.  The router and VMVirtual Machine were rebooted.
+
+sudo nmap -PU 192.168.0.1 -p 80
+
+sudo nmap -PU 192.168.0.11 -p 80
+
+sudo nmap -sS 192.168.0.1 -p 80
+
+sudo nmap -sS 192.168.0.1 -p 80
+
+
+ 
+
+Attachments:
+
+
+image2015-10-8 9:1:55.png
+
+
+image2015-10-8 9:0:3.png
+
+
+image2015-10-8 8:59:10.png
+
+
+image2015-10-8 8:58:10.png
+
+
+
+Previous versions:
+| 1 
+| 2 
+| 3 
+|
+                    

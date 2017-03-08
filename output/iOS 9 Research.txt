@@ -1,0 +1,19 @@
+
+                        IOKit
+How to find a IOSomeClassMetaClass
+Find string "IOSomeClass"
+Find a (pc relative) code reference to string "IOSomeClass", this is a IOSomeClass::MetaClass constructor. 
+Follow the code below for a value loaded into r0 and then stored in the newly constructed object, this is the vtable for IOSomeClass::MetaClass.
+Above that vtable is the vtable for IOSomeClass.
+Above that is the super class pointer IOSomeClass::superClass = &IOSomeSuperClass::gMetaClass.
+Above that is super class pointer IOSomeClass::metaClass = &IOSomeClass::gMetaClass
+To find all of the subclasses of a class IOSomeClass, simply find all of the direct references to IOSomeClass::gMetaClass
+ 
+
+Previous versions:
+| 1 
+| 2 
+| 3 
+| 4 
+|
+                    

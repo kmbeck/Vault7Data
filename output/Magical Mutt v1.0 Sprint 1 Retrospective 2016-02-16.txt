@@ -1,0 +1,46 @@
+
+                        Owner: User #71473
+Magical Mutt v1.0 Sprint 1 Retrospective 2016-02-16
+
+
+('details' missing)
+Retrospective
+
+
+
+What did we do well?
+I totally made some projects.  Yeah!
+
+
+What should we have done better?
+
+My first commit I forgot to include the JIRAUser Managment Software (Atlassian) issues
+When I did include the JIRAUser Managment Software (Atlassian) issues, I commited them to master instead of develop
+Need to remember to setup repository permissions and visibility for JIRAUser Managment Software (Atlassian) filters so that everything is visible to the whole project team.
+
+
+
+
+What will we do differently next time to improve?
+Don't noob it up so hard next time.
+
+
+ID
+Status
+Task
+
+
+1
+complete
+
+User #71473 needs to stop noobing it up when setting up repositories and JIRAUser Managment Software (Atlassian) boards.
+
+
+
+
+
+Previous versions:
+| 1 
+| 2 
+|
+                    

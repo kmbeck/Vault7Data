@@ -1,0 +1,248 @@
+
+                        Archive Grammer notes
+ 
+
+int <variable_name> = <value>
+whole integers only
+name is restricted to A-Z, a-z, 0-9, and may contain an underscore
+
+
+str <variable_name> = "<value>"
+value must be quoted
+name is restricted to A-Z, a-z, 0-9, and may contain an underscore
+
+
+list <variable_name> = [<value1>, <value2>, ...]
+name is restricted to A-Z, a-z, 0-9, and may contain an underscore
+value list must be comma seperated
+value list must be wrapped in [ ]
+
+
+encryptedstream <variable_name> = <file_path>
+name is restricted to A-Z, a-z, 0-9, and may contain an underscore
+filepath must be a valid windows filepath
+output will always be compressed and encrypted
+declaring a stream as stream <variable_name> or stream <variable_name> = '' will make the stream an in memory stream
+
+
+plaintextstream <variable_name> = <file_path>
+name is restricted to A-Z, a-z, 0-9, and may contain an underscore
+filepath must be a valid windows filepath
+output will always be uncompressed and unencrypted
+declaring a stream as stream <variable_name> or stream <variable_name> = '' will make the stream an in memory stream
+
+NOTES on Streams: streams are read/write. In-memory streams are cleared when their reference count drops to 0. Changing a stream variable's file_path will close the stream and open a new one to the new path.
+
+Commands
+we need a method to return values from module commands
+we also need to support environment variables as part of filepaths;  the core will take responsibility for expanding them prior to use on the target system
+module commands need to be able to support the '.' character to allow pseudo-namespacing for modules
+ 
+
+remove - securely deletes  a file
+remove <path_to_file/filename.ext>
+input can be a raw string or variable of type str
+input must be a valid windows filepath
+
+
+returns a status code which will indicate success or failure
+
+
+pause - pause execution for a specified amount of time; input must be positivepause <time_in_seconds>
+input can be a raw number or a variable of type int
+time must be a whole integer and is specified in seconds
+
+
+
+echo - echo a string out to a streamecho <string/int value> <stream>
+string/int value can be a raw string/int or a variable of type string
+stream must be a user defined stream type or a reserved stream type
+
+
+
+dirlist - performs a dir walk starting at a specified location; depth and other considerations might be extra options to this
+dirlist <start path> <stream>
+start path must be a valid windows file path
+stream must be a user defined stream type or a reserved stream type
+
+
+returns a list of containing the results of the dir walk
+
+
+archive - combine a file into an archive
+archive <filepath/archivename> <filepath/filename>; 
+archive <filepath/archivename> <list of files>
+filepaths must be valid windows filepaths
+the file combined should be secure deleted
+
+
+returns a status code which indicates success or failure
+
+
+unpack - pack another executable into the reforge package and extract it to a specified location on target
+unpack <filepath to execuable> <extract location>
+executable path can be a valid linux or windows filepath
+extract location must be a valid windows filepath
+both inputs can be a raw string or a variable
+
+
+returns a status code indicating success or failure
+
+
+proclist - get a process list
+proclist <stream>stream must be a user defined stream type or a reserved stream type
+
+returns a list of lists containing process related information
+
+
+netstat - get a netstat
+netstat <stream>stream must be a user defined stream type or a reserved stream type
+
+returns a list of strings containing netstat information
+
+
+registry - set, edit, or delete a registry key
+registry <operation> <key> <type> <value>
+operation can be create, set, or delete
+key can be a raw string or a variable of type string
+type can be REG_BINARY, REG_SZ, REG_DWORD
+value can be a raw string, raw int, or a variable of type int or str
+
+
+returns a status code indicating success or failure
+
+
+enzip - compress and encrypt a file
+enzip <input file> <output file>; this command may be obsolete if encrypted stream supports compression
+input/output files must be valid windows file paths
+input/output files can be raw strings or variables of type string
+input can also be a stream which causes the stream to close
+should we allow compress and encrypt of the same file in place?
+
+
+returns a status code to indicate success or failure
+
+
+run - run a program or a system command on the command line and wait for its completion
+run <cmd> <stream>
+cmd can be a raw string or a variable of type string
+cmd must contain full path to the executable to run and any args if these things are necessary
+run must wait till the command is finished
+stream must be a user defined stream type or a reserved stream type
+
+
+return a status code to indicate success or failure and a string containing the results of the command?
+
+
+start - run a command or program on the command line but don't wait for its completion
+start <cmd>
+cmd can be a raw string or a variable of type string
+cmd must contain full path to the executable to run and any args if these things are necessary
+start does not wait till the command is finished
+
+
+return a status code to indicate success or failure
+
+
+for - for each loop
+for <x> in <y> { <cmds> }
+
+for each <x> item in <y> do the commands in the <cmds> block
+<y> is a list of items or the base of a directory to iterate over
+if <y> is a base dir then it must be a valid windows filepath
+the cmds block can contain any command supported by reforge 
+For loop can take a path as the <y> param that allows the for to do a for each in pathfor <files>[,<dirs>] in <path>
+if only files is specified the for loop will not follow sub directories
+if dirs param is provided a second for loop can be used to follow subdirectories.
+
+
+
+
+
+
+while - loop while a condition is truewhile( <condition>) { <cmds> }
+condition must be in the form <x> <operator> <y> where x and y are of the same type
+condition operators can be <,>, <=,>=, or =
+x and y can be raw str/int or variables of type str/int
+
+
+the cmds block can contain any command supported by reforge 
+
+
+
+if / if...else - conditional statementif( <condition> ) { <cmds> } else { <cmds> }
+condition must be in the form <x> <operator> <y> where x and y are of the same type
+condition operators can be <,>, <=,>=, or =
+x and y can be raw str/int or variables of type str/int
+
+
+the cmds block can contain any command supported by reforge 
+the else part of this command is optional
+
+
+
+break - break out of a loopbreakwill stop execution of a for, while, if or else statement and exit the loop/code block
+
+
+continue - skip over the rest of the current loop iterationcontinue
+only usefull in for and while loops.
+If used in an if statement it will affect the loop the if belongs to or it will do nothing if not in a loop
+
+
+
+add_to_list - add an element to the end of a listadd_to_list <list> <value>
+
+remove_from_list - remove an element from a listremove_from_list <list> <element number>
+
+set_value_in_list - change the value of a list index to a new value<list>[<index>] = <value>
+
+get_value_from_list - get the value stored in a list index<list>[<index>]
+
+pipe/flush - read the contents of a stream and write them to a second streampipe/flush <stream> <stream>either <stream> can be plaintextstream or encryptedstream types
+
+
+
+Other
+ 
+ 
+ 
+
+Arithmetic operations
+" + " - addition (can also be used to append a string)
+" - " - subtraction
+" / " - division
+"%" - modulo
+" * " - multiplication
+
+
+comparison operations
+"<" - less than
+"<=" - less than or equal to
+">" - greater than
+">=" - greater than or equal to
+"==" - equal to
+
+
+
+
+env - holds global variables/streams 
+Reserved streams - used via env.<stream_name>
+stdin
+stdout
+stderr
+
+
+Reserved environment variables - used via env.
+temp - holds the base directory path to the windows temp directory
+computername - holds the current name of the computer
+windir - holds the base directory path to the windows path
+systemroot - holds the base directory path to the systemroot
+path - holds the current path values
+
+
+
+
+commentssignified by the # symbol
+
+
+                    

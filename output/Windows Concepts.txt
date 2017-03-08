@@ -1,0 +1,40 @@
+
+                        Interesting Microsoft Files
+LABEL PAGE: Child pages of this page will contain articles pertaining to unique/interesting microsoft files/file formats.
+
+('children' missing)
+
+Sub-Pages:
+
+
+MUM Files (.mum) empty
+
+
+PIF Files (.pif) empty
+
+
+Control Panel Files (.cpl) 
+
+
+NTFS Alternate Data Streams (ADS) 
+
+
+Manifest files (.manifest) empty
+
+
+Local files (.local) empty
+
+
+Windows Theme Files (.theme) 
+
+
+Windows Library Files (.library-ms) 
+
+
+Autorun.inf empty
+
+
+Desktop.ini empty
+
+
+                    

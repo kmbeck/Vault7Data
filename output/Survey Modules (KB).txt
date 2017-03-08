@@ -1,0 +1,80 @@
+
+                        Capture and Reset File State (MISCFileStateCapture_WIN)
+SECRET//NOFORN
+ 
+Miscellaneous Module
+Stash Repository: Miscellaneous Library
+
+Module Name: MISCFileStateCapture_WIN (Windows APIApplication Programming Interface)
+ 
+Module Description: This module allows you to caputre and store a file/directory state (attributes and timestamps), and reset it. Designed to allow a user to capture a file state, make all accesses and modifications to the file, and reset the file state. 
+ 
+Usage: 
+BOOL CaptureFileState(WCHAR *wcFilePath, FileSnapShot *fsSnap);
+ 
+wcFilePath: The path to the file or directory you want to capture the state of. The state is described under the module specific structures section.
+fsSnap: A FileSnapShot structure that is filled with the attributes and timestamps of wcFilePath.
+ 
+BOOL ResetFileState(WCHAR * wcFilePath, FileSnapShot *fsSnap);
+ 
+wcFilePath: The path to the file or directory you want to set the state of. The state is described under the module specific structures section.
+fsSnap: A FileSnapShot structure that contains the attributes and timestamps that should be used when setting the state of wcFilePath.
+ 
+PSP/OS Issues: No known issues. Designed for XP+.
+ 
+('excerpt' missing)
+ 
+Sharing Level: Unilateral
+ 
+Technique Origin: In-house (Windows APIApplication Programming Interface)
+ 
+Notes: 
+
+Only resets the attributes of a file/folder and the timestamps (creation, access, modified). Does not do anything with the stored files sizes.
+No memory is allocated for the FileSnapShot object.
+
+ 
+Module Specific Structures:
+ 
+This structure is filled using CaptureFileState. This structure is used in ResetFileState to set the Attributes and timestamps of a file/folder.
+struct FileSnapShot
+{
+	DWORD dwAttributeConstants;
+	FILETIME ftCreationDate;
+	FILETIME ftModifiedDate;
+	FILETIME ftAccessDate;
+	DWORD dwFileSizeHigh;
+	DWORD dwFileSizeLow;
+};
+ 
+Module Return Codes: TRUE = SUCCESS
+ 
+Example Code:
+ 
+ 	HANDLE hText = CreateFile(L"C:\\TestDir\\abc.txt", GENERIC_READ | GENERIC_WRITE, FILE_SHARE_READ | FILE_SHARE_WRITE, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
+	if (hText != INVALID_HANDLE_VALUE)
+	{
+		CloseHandle(hText);
+	}
+	else EXPECT_TRUE(false);
+	
+	//Grab a snapshot of attributes and timestamps and set them back
+	FileSnapShot fsSnap;
+	MISCFileStateCapture_WIN fsCapture;
+	BOOL bRet = fsCapture.CaptureFileState(L"C:\\TestDir\\abc.txt", &fsSnap);
+
+
+	//Modify file here	
+
+	bRet = fsCapture.ResetFileState(L"C:\\TestDir\\abc.txt", &fsSnap);
+ 
+ 
+ 
+SECRET//NOFORN
+
+Previous versions:
+| 1 SECRET
+| 2 SECRET
+| 3 SECRET
+|
+                    

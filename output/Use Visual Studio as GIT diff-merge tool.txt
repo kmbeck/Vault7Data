@@ -1,0 +1,47 @@
+
+                        Owner: User #54198274
+Python List Comprehensions
+I have received many questions about constructing lists in python from other lists or a set of classes. Python's list comprehensions make it super easy to create lists.
+#so let's say I have a list of lists, and I want to create a separate list with only the first elements of my list of lists
+listOfLists = [ ['red','cow'],
+    ['blue','fox'],
+    ['orange','flamingo'],
+    ['purple','people eater'],
+    ]
+adjectives = [i[0] for i in listOfLists]
+nouns = [i[1] for i in listOfLists]
+print adjectives
+#['red', 'blue', 'orange', 'purple']
+print nouns
+#['cow', 'fox', 'flamingo', 'people eater']
+
+
+NOTE: it's important to note that the iterating variable (i, in this case) is used before the for keyword.
+pretty cool huh? Yeah, you're probably not super impressed, but list comprehension can get you some pretty short and eloquent bits of code.
+#so lets get all the non prime and prime numbers between 1 and 100
+nonprimes = [j for i in range(2,8) for j in range(i*2,100,i)]
+primes = [i for i in range(2,100) if i not in nonprimes]
+print primes
+#[2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97]
+
+#all permuatations of 2 sets
+x = ('hello','yo','cat')
+y = ('world','mama','in the hat')
+z = [(x1,y2) for x1 in x for y2 in y]
+print z
+#[('hello', 'world'), ('hello', 'mama'), ('hello', 'in the hat'), ('yo', 'world'), ('yo', 'mama'), ('yo', 'in the hat'), ('cat', 'world'), ('cat', 'mama'), ('cat', 'in the hat')]
+ 
+Now there is also generator comprehension, but that is for another article.
+Related articles
+
+Related articles appear here based on the labels you select. Click to edit the macro and add or change labels.
+
+('contentbylabel' missing)
+('details' missing)
+
+Previous versions:
+| 1 
+| 2 
+| 3 
+|
+                    

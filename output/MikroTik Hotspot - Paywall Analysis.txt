@@ -1,0 +1,132 @@
+
+                        Owner: User #71467
+JQJSECONDCUT
+ 
+Cisco 881 - Cinnamon 5.0 for PPC
+Tests we should perform
+
+Smaller (<1500) MTUMaximum Transmission Unit sizes in beacons to Blot -COMPLETE - test 21
+
+"Realistic" web servers for Internet detection (DNSDomain Name System and HTTPHypertext Transfer Protocol GET) - 
+DNS forwarding server - Completed - test 15 - Internet detection succeeds using 4.4.4.4 DNSDomain Name System server Seed traffic
+
+Authoritative DNSDomain Name System Server - Completed test 15 - Internet detection succeeds using X.X.X.X (LVLT-GOGL-8-8-8[US]) DNSDomain Name System server seeds traffic.
+
+Non-recursive DNSDomain Name System server - Completed - test 16
+
+New DNS_PROBE# list in cinnamon.cfg - what probe sites should be configured for ops delivery?  
+
+
+
+Different beacon intervals and jitter rates (cinnamon.cfg) - tested different beacon intervals throughout
+
+Inspect wireshark of beacons (TLSTransport Layer Security handshake with Blot) - COMPLETE - test 20
+
+Upgrading (and downgrading) IOSApple operating system for small devices while Cinnamon installed - COMPLETE - test 13
+
+Uninstall - COMPLETE - test 4, 5
+
+IAC/Norb install -> device_stick command to persist - COMPLETE - test 11
+
+Test tool_upgrade feature - COMPLETE - test 14
+
+Breaking Point 
+Small office profile - complete
+
+Packet scrambler (fuzzing)
+VoIP traffic
+Traffic Survey - complete
+
+Redirection - complete
+SNMP - get CPU utilization - complete
+
+Other SNMPSimple Network Management Protocol we want? - complete - solarwinds collecting
+
+Tunnel traffic - complete
+
+
+
+tc (traffic conditioning) - linux - COMPLETE - test 33
+
+What ROMMONRead-Only Memory Monitor Cisco bootstrap program to use for ops delivery? - using ops ROMMONRead-Only Memory Monitor Cisco bootstrap program in test - 12.4(22r)YB5, only ROMMONRead-Only Memory Monitor Cisco bootstrap program version available per User #78099/CMN
+
+Use active filters for both survey and redirect at the same time - COMPLETE - test 17 - this is not recommended as a best practice by developper as they have not tested this
+
+Inspect survey and redirect output with different rules and verify that correct traffic was captured as expected - COMPLETE - test 18 for survey, test 28 for redir
+
+Persist CMNCaiman (Codename)? and then reload, test re-uploading and using modules - COMPLETE - test 17
+
+Test restarting modules/loading/unloading without reboot - COMPLETE - test 10
+
+Monitor for memory leaks (with multiple module reloads or reboots, traffic, etc) - long term monitoring - COMPLETE - multiple IXIA tests
+
+Perform system administrator functions while cmn present/active - create and delete interfaces - COMPLETE - test 30
+
+Reload nodes behind/adjacent to DUTDevice Under Test while CMNCaiman (Codename)? active
+Configure DUTDevice Under Test for SNMPSimple Network Management Protocol Traps, tac_plus authentication, Solarwinds and verify CIConcern concerns with logging - Monitoring SNMPSimple Network Management Protocol and traps throughout testing
+
+Reload times with Persistent CMNCaiman (Codename)? - COMPLETE - test 12 - CMNCaiman (Codename)? adds about 40 seconds
+
+
+Cinnamon 5.0.1 cppcheck analysis   - COMPLETE
+
+Nmap of implanted 881 - COMPLETE - test 24
+
+Test triggering with an ACLAccess Control List that blocks traffic applied to the interface that receives the trigger- COMPLETE - test 25
+
+Bounce tunnel while traffic running through it with CMNCaiman (Codename)? active - COMPLETE - test 26
+
+Test redir bounce with NATNetwork Address Translation - COMPLETE - test 28
+
+Test redir with wget script to larger web page - COMPLETE - test 35
+
+Test fix for CMNCaiman (Codename)? bug regarding DNSDomain Name System squelch - COMPLETE - test 23
+
+
+ 
+
+Sub-Pages:
+
+
+Cinnamon 5.0.1 cppcheck analysis 
+
+
+Cinnamon Cisco881 Testing [Xetron]
+
+
+
+Previous versions:
+| 1 empty
+| 2 
+| 3 
+| 4 
+| 5 
+| 6 
+| 7 
+| 8 
+| 9 
+| 10 
+| 11 
+| 12 
+| 13 
+| 14 
+| 15 
+| 16 
+| 17 
+| 18 
+| 19 
+| 20 
+| 21 
+| 22 
+| 23 
+| 24 
+| 25 
+| 26 
+| 27 
+| 28 
+| 29 
+| 30 
+| 31 
+| 32 
+|
+                    

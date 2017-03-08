@@ -1,0 +1,198 @@
+
+                        File Collection Library
+
+
+SECRET//NOFORN
+ 
+File Collection API
+<iframe src="https://osb-doxygen.devlan.net/filecollection/" noborder="0" width="100%" height="1000" scrolling="yes" seamless></iframe>
+Stash Repository: File Collection Library
+ 
+
+
+
+Interface Description
+The interfaces for the File Collection Library are intended to be unilateral. 
+There exist three file collection interfaces, the second two building off the first, most basic interface. The File Collection library requires use of the Data Packager Library  SECRETinterface. The purpose is to make the actual data collection (compression, encryption, IO, storage) more portable and separate from the collection algorithm. All constructors for FileCollection classes want an IDataPackager object. See Data Packager page for more information.
+IFileCollectionBase - The base interface for the following two interfaces. It can be the base for any file collection class, but provides for only the most basic file matching, or whatever method the developer wants to implement.
+IFileCollection_NoPriority - Provides the definition of a collection parameter that allows for more detailed collection specs base on size, dates, locations, etc.
+IFileCollection_Priority - Provides the definition of a collection parameter that allows for more detailed collection specs, but with the addition of a spec priority field.
+
+
+
+('toc' missing)
+
+
+
+Functions
+IFileCollectionBase
+virtual FileCollectErr Initialize(PWCHAR pszFileSpecs, DWORD dwSpecsBufSize, PWCHAR pszRoot = NULL, void * pParam = NULL) = 0; 
+Description: Allocates any needed memory and initializes any implementation specific class and member variables. 
+ pszFileSpecs [in]: List of file specs to be used as search criteria. If prioritizing collection, specs must be in order of importance, first to least. May be NULL if user plans on setting criteria later.
+dwSpecsBufSize [in]: Size of pszFileSpecs in bytes. 
+pszRoot [in, opt]: Root directory of search. If NULL, file collection will traverse ALL eligible drives. 
+pParam [in, opt]: Additional, implementation specific data.
+ Returns: FileCollectErr
+ 
+virtual FileCollectErr EnumerateFiles(HANDLE * hEnumerationThread = NULL);
+Description: Optional. Traverses files, searching for files that match a predefined search criteria, adding them to an implementation specific list of files, to be collected at a later time. May return immediately in some implementations.
+hEnumerationThread [in, opt]: Returns a handle to the background thread used to enumerate files.  Returns: FileCollectErr
+ 
+virtual FileCollectErr CollectFiles(void * pParam = NULL) = 0;
+Description: Collects files via implementation specific algorithm. If using EnumerateFiles(), it will likely only go through a list of paths and feed them to the instance's DataPackager.
+pParam [in, opt]: Additional, implantation specific data.
+Returns: FileCollectErr 
+ 
+virtual FileCollectErr StopCollection() = 0;
+Description: Optional. Provides user with a way to cease collection immediately. Mostly compatible with asynchronous collection.
+Returns: FileCollectErr
+IFileCollection_NoPriority
+typedef struct ADVANCED_CRITERIA{
+    DWORD cb;                 	    //Total size of the entire, filled struct.
+    FILETIME ftMinCreate;     	    //Minimum create datetime.
+    FILETIME ftMaxCreate;     	    //Maximum create datetime.
+    FILETIME ftMinMod;        	    //Minimum modified datetime.
+    FILETIME ftMaxMod;        	    //Maximum modified datetime.
+    FILETIME ftMinAcc;        	    //Minimum last access datetime. 
+    FILETIME ftMaxAcc;        	    //Maximum last access datetime.
+    unsigned long long ullMinSize;  //Minimum file size.
+    unsigned long long ullMaxSize;  //Maximum file size.
+    WCHAR szExts[0];          	  //0-byte array for a string of file specs appended after ullMaxSize. 			   	  //Set cb if using this field.
+}*PADVANCED_CRITERIA;
+ 
+virtual FileCollectErr SetAdvancedCriteria(ADVANCED_CRITERIA *pAC, DWORD dwNumCriteria) = 0; 
+Description: Overrides any list of file specs passed into Initialize(). Sets the advanced search criteria for traversing files.
+pAC [in]: Pointer to an array of ADVANCED_CRITERIA structs.
+dwNumCriteria [in]: Number of structs in the array pointed to by pAC.
+Returns: FileCollectErr 
+IFileCollection_Priority
+typedef struct ADVANCED_CRITERIA_PRIORITY{
+    DWORD cb;       		    //Total size of the entire, filled struct.
+    WORD wPriority;      	    //Priority level of this specific set of criteria.
+    FILETIME ftMinCreate;    	    //Minimum create datetime.
+    FILETIME ftMaxCreate;           //Maximum create datetime.
+    FILETIME ftMinMod;     	    //Minimum modified datetime.
+    FILETIME ftMaxMod;     	    //Maximum modified datetime.
+    FILETIME ftMinAcc;     	    //Minimum last access datetime. 
+    FILETIME ftMaxAcc;     	    //Maximum last access datetime.
+    unsigned long long ullMinSize;  //Minimum file size.
+    unsigned long long ullMaxSize;  //Maximum file size.
+    WCHAR szExts[0];     	    //0-byte array for a string of file specs appended after ullMaxSize. 				//Set cb if using this field.
+}*PADVANCED_CRITERIA_PRIORITY;
+ 
+virtual FileCollectErr SetAdvancedCriteria(ADVANCED_CRITERIA_PRIORITY *pACP, DWORD dwNumCriteria) = 0;
+Description: Overrides any list of file specs passed into Initialize(). Sets the advanced search criteria for traversing files, builds an internal, linked list of Criteria based nodes.
+pACP [in]: Pointer to an array of ADVANCED_CRITERIA_PRIORITY structs.
+dwNumCriteria [in]: Number of structs in the array pointed to by pACP.
+Returns: FileCollectErr 
+ 
+virtual FileCollectErr AddFileToPriorityList(PWCHAR pszPath, WORD wPriority) = 0;
+Description: Add an individual file to the CRITERIA_NODE of the specified priority. No matching performed.
+pszPath [in]: Full path of the file to be added.
+wPriority [in]: Priority of the file.
+Returns: FileCollectErr 
+ 
+
+
+Library Conventions
+Prefix: FC (FileCollector)
+File Collection Type:  PRI (Prioritized Collection)
+Enumerated Files: E
+Short one or two word description of method/algorithm used. (Recursive, depth first, anything that is unique.)
+ 
+Examples:
+FC_BasicNonRecursive : File Collection class that uses a non-recursive algorithm to traverse file system. No priority based collection, no file enumeration.
+FC_PRI_E_Asynchronous: A file collection class that allows prioritization of collection constraints, and enumerates files using asynchronous methods.
+ 
+File Collection Member List
+Non-recursive algorithm that inherits from IFileCollectionBase - (FC_BasicNonRecursive -  BorgCollective)
+Error Code Descriptions
+Error codes are compatible with the SUCCEEDED() and FAILED() macros
+enum FileCollectErr : int
+{
+ // Success
+ eFC_SUCCESS = 0,        	//Successful operation
+
+
+ // Failure
+ eFC_ERROR_GENERIC = -1,        		//General error
+ eFC_ERROR_NOT_SUPPORTED = -2,      	//Function is not supported/implemented
+ eFC_ERROR_OUT_OF_MEMORY = -3,      	//Unable to allocate memory
+ eFC_ERROR_ROOT_NOT_FOUND = -4,      	//Given root not found
+ eFC_ERROR_ROOT_ACCESS_DENIED = -5,     //Given root not accessible
+ eFC_ERROR_ROOT_INVALID = -6,      		//Given root is an invalid path
+ eFC_ERROR_BAD_ARG = -7,       			//Bad arguments
+ eFC_ERROR_PACKAGER_BUFFER = -8,      	//Generic DataPackager error regarding buffer
+ eFC_ERROR_PACKAGER_DATATRANSFER = -9,  //Generic DataPackager error regarding transfer
+ eFC_ERROR_PACKAGER_DEST_FULL = -10,    //Destination media for collected files is full.
+ eFC_ERROR_NO_DATA_PACKAGER = -11,     	//No DataPackager initialized.
+ eFC_ERROR_NO_CRITERIA = -12,      		//No search criteria defined.
+ eFC_ERROR_OPERATION_ABORTED = -13     	//Collection aborted (via Stop function or other means)
+};
+ 
+
+Code Sample Using The Library Interface
+ 
+WCHAR szMatchPatterns[] = L"*.blah\0C:\\*\\FileCollection\\*.cpp\0\0";WCHAR szRoot[] = L"C:\\"; 
+DataPackagerClass * dp = new DataPackagerClass;
+dp->Initialize();
+ 
+FileCollectionClass fc(FC_DriveType::eFC_DRIVE_FIXED, dp);
+ 
+if(eFC_SUCCESS != fc.Initialize(szMatchPatterns, sizeof szMatchPatterns, szRoot))
+	return;
+ 
+//The following call is optional, depending on implementation.
+HANDLE hWaitThread = INVALID_HANDLE_VALUE;
+if(eFC_SUCCESS != fc.EnumerateFiles(&hWaitThread))
+	return;
+//
+//  ...Do other work...
+//  Call fc.StopCollection() if needed/implemented.
+//
+ 
+WaitForSingleObject(hWaitThread, INFINITE);
+ 
+if(eFC_SUCCESS != fc.CollectFiles())
+	return;
+ 
+ 
+ 
+SECRET//NOFORN
+ 
+ 
+
+
+
+Comments:
+
+
+2015-01-21 14:27 
+[User #71473]: 
+
+Likewise.
+
+
+2015-01-12 09:54 
+[User #1179925]: 
+
+I'm digging the detail.
+
+
+
+Previous versions:
+| 1 SECRET
+| 2 SECRET
+| 3 SECRET
+| 4 SECRET
+| 5 SECRET
+| 6 SECRET
+| 7 SECRET
+| 8 SECRET
+| 9 SECRET
+| 10 SECRET
+| 11 SECRET
+| 12 SECRET
+| 13 SECRET
+|
+                    

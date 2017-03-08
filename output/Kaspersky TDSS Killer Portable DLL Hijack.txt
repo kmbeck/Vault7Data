@@ -1,0 +1,14 @@
+
+                        Owner: User #71468
+Kaspersky TDSS Killer Portable DLL Hijack
+The following is a screenshot of a selected number of DLLDynamic Link Library misses from Kaspersky TDSS Killer Portable:
+
+Although \app\TDSSKiller\ui\SwDRM.dll is a miss for the Portable splash EXE, placing a DLLDynamic Link Library here odes not result in code execution.
+ 
+"SHFOLDER.dll" will load and can return FALSE from PROCESS_ATTACH, "riched20.dll" and "version.dll" require function forwarding
+
+Attachments:
+
+kasp procmon.png
+
+                    

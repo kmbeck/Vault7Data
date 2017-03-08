@@ -1,0 +1,74 @@
+
+                        Owner: User #524297
+Code Review
+THOU MUST
+
+Review code on a project for the following reasons:
+
+Correctness - Code should be not only error-free but also functional.
+
+Tradecraft - Code should follow tradecraft practices.
+
+Maintainability - Code should be easy to maintain by other developers.
+
+
+Read code at your own workstation.
+
+If you are reviewing code:
+Take the time to understand code changes fully and their effect on project as a whole
+Provide constructive commentary.
+Promote discussion amongst the development team.
+
+
+
+If your code is being reviewed: 
+
+Address all provided comments. 
+Fix it: Create additional commits to fix issue.
+Flag it: Create a JIRAUser Managment Software (Atlassian) issue to track the issue and ensure that it will be fixed later.
+Fight it:  Defend your decision/reasoning in a civil way to promote discussion.
+
+
+It takes a lot of time to read and understand code, so you should respectfully respond to all comments.
+
+
+
+THOU SHOULD
+
+
+Use available tools (i.e. Stash pull requests) to make this communication easierConfigure Stash to Enforce Workflows and Pull Requests
+
+Clone, build, and run (if you can't do this easily, this is a problem)
+Provide only constructive comments to the original developer.
+Review in small logical chunks of code (a source file or module, small commits lead to faster and easier code reviews)
+
+THOU SHOULD NOT
+
+Skim code superficially and blindly click 'Accept'
+Read code on a projector in a conference room (zzzzzz...)
+
+Make code style comments just to start a flame war
+
+
+THOU MUST NOT
+
+Conduct a Code Review after a release candidate has already been delivered to IV&V.  (What's the point? You can't incorporate any recommendations, and you'll bore everyone walking through the entire codebase!)
+
+
+Attachments:
+
+CodeReview.key.zip
+
+
+Previous versions:
+| 1 
+| 2 
+| 3 
+| 4 
+| 5 
+| 6 
+| 7 
+| 8 
+| 9 
+|
+                    

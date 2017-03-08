@@ -1,0 +1,12 @@
+
+                        Owner: User #14587667
+JQJSTEPCHILD - Op1
+TR 2911 Info
+Cisco IOSApple operating system for small devices Software, C2900 Software (C2900-UNIVERSALK9-M), Version 15.2(3)T1, RELEASE SOFTWARE (fc1)
+c2900-universalk9-mz.SPA.152-3.T1.bin
+ROM: System Bootstrap, Version 15.0(1r)M15, RELEASE SOFTWARE (fc1)
+ 
+The Cisco 2911 Config has both GRE configured and VPDN (pptp) configured.
+To use pptp, connect from a Windows machine using the VPNVirtual Private Network utility and use the cisco credentials to authenticate the VPN.
+The "Attack VMVirtual Machine Network Config.txt" is just used if wanting to establish a GRE tunnel. It is not used for pptp.
+                    

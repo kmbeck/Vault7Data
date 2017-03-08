@@ -1,0 +1,77 @@
+
+                        Owner: User #3375130
+DNS Resolvers Home
+
+
+# Open DNSDomain Name System Resolvers## 2012.06.24#
+The two .csv files contain a listing of "open" DNSDomain Name System servers by IP address knownto successfully resolve queries from Internet clients (as of 12/2012). Thereare 5401 unique IP addresses in the files and some appear multiple timesbecause they were associated with more than one nameserver hostname.
+- open_resolvers_cc.csv - This file contains the DNSDomain Name System server IP addresses annotated with their associated country as determined from a lookupin the MaxMind GeoLite IP geolocation data set.
+- open_resolvers_whois.csv - This file contains the DNSDomain Name System server IP addressesannotated with BGP and WHOIS information as retrieved from Team Cymru'sbulk WHOIS query service.
+Complete these tasks to get started
+
+
+ID
+Status
+Task
+
+
+87
+incomplete
+
+Edit this home page - Click Edit in the top right of this screen to customize your Space home page
+
+
+88
+incomplete
+
+Create your first page - Click the Create button in the header to get started
+
+
+89
+incomplete
+
+Brand your Space - Click Configure Sidebar in the left panel to update space details and logo
+
+
+90
+incomplete
+
+Set permissions - Click Space Tools in the left sidebar to update permissions and give others access
+
+
+ 
+
+
+
+Recent space activity
+
+('recently-updated' missing)
+
+
+Space contributors
+
+('contributors' missing)
+
+
+ 
+
+
+Attachments:
+
+
+open_resolvers_whois.csv
+
+
+open_resolvers_cc.csv
+
+
+
+Previous versions:
+| 1 
+| 2 
+| 3 
+| 4 
+| 5 
+| 6 
+|
+                    

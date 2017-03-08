@@ -1,0 +1,25 @@
+
+                        Owner: User #26968069
+Install Ubuntu on Mac Hardware
+Good step by step guide on how to do this can be found on the interwebs at http://heeris.id.au/2014/ubuntu-plus-mac-pure-efi-boot/
+A number of packages are needed, all are on the distribution repos except for mactel-boot.  This can be found on the share at //fs-01.devlan.net/share/Linux/utilities/mactel-boot_0.9-1-trusty_amd64.User #75201
+Tips
+Enable Apple USBUniversal Serial Bus superdrive
+This is necessary to make the superdrive worth with ubuntu.  It does not persist if the superdrive is unplugged.
+
+plug in the superdrive
+install sg3-utils
+Find which device is assigned to the superdrive (e.g. /dev/sr0)
+run "sg_raw /dev/sr0 EA 00 00 00 00 00 01"
+
+ 
+ 
+ 
+
+Previous versions:
+| 1 
+| 2 
+| 3 
+| 4 
+|
+                    

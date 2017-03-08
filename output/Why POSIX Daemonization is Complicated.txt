@@ -1,0 +1,10 @@
+
+                        OS X Kext Development Tips
+You can develop kexts against XNU sources instead of the Apple-provided public headers by doing this:
+
+Change your includes so that xnu-XXX/bsd, xnu-XXX/osfmk and xnu-XXX/libkern come before the normal Framework includes
+Add some macro definitions: PRIVATE,  BSD_KERNEL_PRIVATE, XNU_KERNEL_PRIVATE
+
+
+ 
+                    

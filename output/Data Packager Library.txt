@@ -1,0 +1,68 @@
+
+                        Privilege Escalation Library
+SECRET//NOFORN
+ 
+PrivEsc API
+<iframe src="https://osb-doxygen.devlan.net/privesc/" noborder="0" width="100%" height="1000" scrolling="yes" seamless></iframe>
+ 
+Stash Repository: Privilege Escalation
+ 
+Interface Description:
+The interfaces for the Privilege Escalation Library specifies the following functions be available:
+Kernel Mode Privilege Escalation (IKernelPrivEsc):
+
+virtual PrivEscErr elevatePrivs( DWORD dwPID ) = 0;
+
+ dwPID [in]: Specify the PIDProcess ID (process ID) of the process you wish to elevate. 
+Returns a PrivEscErr described in the Error Code Descriptions section.
+ 
+User Mode Privilege Escalation (IUserPrivEsc):
+
+virtual PrivEscErr elevatePrivs(WCHAR *wcPath, PVOID pvParams) = 0;
+
+ wcPath [in]: The path to the payload you wish to start as a privileged user (admin or system privileges). Depening on the module this could also be the command line that gets executed when starting an executable with privileges.
+pvParams [in, opt]: A module specific structure that contains configuration options for the module. In some modules this argument can be left NULL. See module documentation for information regarding this argument.
+Returns a PrivEscErr described in the Error Code Descriptions section.
+ 
+Library Conventions: Describe any and all conventions submissions should adhere to for this library. Applying a naming convention can help with the organization of the library. Any organizational requirements or notes go here as well.
+Naming convention of projects in the Privilege Escalation Library:
+
+Prefix PEPrivilege Escalation (Privilege Escalation)
+Exploit name/crypt
+_ architecture supported. x86, x64, x86x64
+
+ 
+Example:
+PEVanguard_x86x64
+PE = Privilege EscalationVanguard = Exploit name _x86x64 = This library supports both x86 and x64 processors.
+ 
+Privilege Escalation Member List: 
+
+Vanguard Kernel Exploit (PEKVanguard_x86x64)
+INF File Install UACUser Account Control Bypass (PEUSandWorm_x86x64)
+LinkedIn User Mode LPE (PEULinkedIn_x86x64)
+LinkedOut User Mode LPE (PEULinkedOut_x86x64)
+Calvary UACUser Account Control Bypass (PEUCalvary_x86x64)
+Artillery UACUser Account Control Bypass (PEUArtillery_x86x64)
+
+SECRET//NOFORN
+
+Previous versions:
+| 1 SECRET
+| 2 SECRET
+| 3 SECRET
+| 4 SECRET
+| 5 SECRET
+| 6 SECRET
+| 7 SECRET
+| 8 SECRET
+| 9 SECRET
+| 10 SECRET
+| 11 SECRET
+| 12 SECRET
+| 13 SECRET
+| 14 SECRET
+| 15 SECRET
+| 16 SECRET
+|
+                    

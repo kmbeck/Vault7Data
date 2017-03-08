@@ -1,0 +1,52 @@
+
+                        Convert a Mercurial Repository to Git on Windows
+Follow the steps below to convert your Mercurial repository to a Git repository. 
+Step-by-step guide
+Install required software and setup the environment.
+
+Install Git for Windows
+Install Mercurial using the msi installer (\\FS-01\Share\Windows Software Development Resources\Mercurial Tools\Mercurial)
+Install Python 2.7.6 or higher (\\FS-01\Share\Windows Software Development Resources\Python)
+Add the Python root directory to PATH
+Set an environment variable for PYTHON to point to the python executable> (PATH=C:\Python27\python.exe)
+
+     2.  Open a terminal and verify all tools are available in PATH ( hg, git, python).
+     3.  Get the Mercurial source files.
+          Assuming we'll be working in the c:\projects\source directory and the Mercurial baseline has been locally copied to c:\projects\hg_repo:
+
+Open a terminal window and change directory to c:\projects\source
+Clone the Mercurial baseline: git clone hg::c:\projects\hg_repo
+
+You should now see source code files in c:\projects\source.
+
+     4.  Create an empty Git repository and clone it: git clone ssh://git@stash.devlan.net:7999/targ/target.git c:\projects\target
+     5.  Unzip the fast-export tool to the target directory (\\FS-01\Share\Windows Software Development Resources\Mercurial Tools\fast-export-edited for windows.zip), ignoring the .git folder
+     6.  Change directories to the target directory
+     7.  Run the shell script to import the Mercurial repo into Git (hg-fast-export.sh -r c:\projects\source)
+     8.  Checkout HEAD to check that everything looks good (git checkout HEAD)
+     9.  Remove the conversion files
+
+git clean -f
+del /Q hg2git.pyc
+
+     10.  Rename .hgignore to .gitignore (ren .hgignore .gitignore)
+
+Add the new file to the baseline
+git add .gitignore
+git commit -m ".hgignore renamed to .gitignore"
+
+     11.  Push the new Git repository to GitHub ( git push -u origin master )
+You can also copy and paste or drag and drop images into your instructions.
+ 
+You may also want to use visual panels to communicate related information, tips or things users need to be aware of.
+Related articles
+
+Related articles appear here based on the labels you select. Click to edit the macro and add or change labels.
+
+('contentbylabel' missing)
+('details' missing)
+
+Previous versions:
+| 1 
+|
+                    

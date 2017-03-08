@@ -1,0 +1,90 @@
+
+                        Giraffe Link Files (MISCLinkWriter_GRF)
+SECRET//NOFORN
+ 
+Miscellaneous Module
+Stash Repository: Miscellaneous Library
+
+Module Name: MISCLinkWriter_GRF (Giraffe Link FIles, EZHOOKUP, EZCHEESE)
+ 
+Module Description: This module allows the user to create Giraffe link files. This allows creation of the null-termination technique (Okapi) as well as the Giraffe technique.
+ 
+Usage: 
+ LnkWriteErr CreateLink(WCHAR *wcLinkPath /*Directory Holding Link Files*/, WCHAR *wcLinkName /*Name of specific link file*/, WCHAR *wcLinkTarget /*Target of link file (path to dll)*/, DWORD dwFolderAttribs = FILE_ATTRIBUTE_NORMAL, BOOL bNullTerm = FALSE);
+ 
+wcLinkPath: The path to where the link file should be written. Ex: C:\test\linkshere
+wcLinkName: The name of the link file (concatenated with wcLinkPath). Ex: C:\test\linkshere\abc.lnk
+wcLinkTarget: The target of the link file. Ex: E:\test\linkshere\abc.lnk
+dwFolderAttribs: Attributes of any parent folders created during the creation of the link file.
+bNullTerm: Boolean flag specifying whether to use null termination (Okapi) or not (Giraffe).
+Returns LnkWriteErr described in the module return codes section.
+ 
+PSP/OS Issues: Iranian PSPPersonal Security Product (Anti-Virus) Padvish catches TAOTailored Access Operation version of GIRAFFE (may catch this one as well - 7/14).
+ 
+('excerpt' missing)
+ 
+Sharing Level: Unilateral
+ 
+Technique Origin: Same underlying vulnerability used by Five Eyes. Not same MD5 as others. Received from NSANational Security Agency ??
+ 
+Notes: 
+
+Only writes link files (does not generate target strings).
+Will most likely get caught by Padvish (Iranian PSPPersonal Security Product (Anti-Virus)).
+Can be used on any file system - requires user to navigate to directory containing the link file.
+Null termination has different capabilities (different code paths).
+
+ 
+Module Specific Structures: N/A
+ 
+Module Return Codes: 
+enum LnkWriteErr : int
+{
+	// SUCCESS CODES: >= 0
+	eLNKWRITE_SUCCESS = 0,
+	eLNKWRITE_LNK_FILE_ALREADY_EXISTS = 1,	//A file already exists at the same location
+	// ERROR CODES: < 0
+	eLNKWRITE_INVALID_ARGS = -1,			//Invalid Arguments
+	eLNKWRITE_INSUFFICIENT_MEM = -2,		//Out of memory
+	eLNKWRITE_BAD_LNK_PATH = -3,			//Bad link file path
+	eLNKWRITE_TARG_PATH_TOO_LONG = -4,		//The target of the link is too long
+};
+ 
+ 
+Example Code:
+ 
+	//Create a link using valid arguments
+	MISCLinkWriter_GRF lnkWriter;
+	LnkWriteErr lnkErr = lnkWriter.CreateLink(L"C:\\TestDir", L"abc.dat", L"E:\\temp\\abc.dll");
+	EXPECT_TRUE(SUCCEEDED(lnkErr));
+	
+	//Check to see if the file's there
+	DWORD dwAttribs = GetFileAttributes(L"C:\\TestDir\\abc.dat");
+	if (dwAttribs == INVALID_FILE_ATTRIBUTES || dwAttribs == 0)
+		EXPECT_TRUE(false);
+	else EXPECT_TRUE(true);
+	
+	//Write the same file again - success file already exists
+	lnkErr = lnkWriter.CreateLink(L"C:\\TestDir", L"abc.dat", L"E:\\temp\\abc.dll");
+	EXPECT_TRUE(SUCCEEDED(lnkErr));
+	
+	//Change up arguments a little 
+	lnkErr = lnkWriter.CreateLink(L"C:\\TestDir\\", L"def.dat", L"E:\\temp\\abc.dll");
+	EXPECT_TRUE(SUCCEEDED(lnkErr));
+	
+	lnkErr = lnkWriter.CreateLink(L"C:\\TestDir\\TestDir2", L"ghi.dat", L"E:\\temp\\abc.dll", FILE_ATTRIBUTE_SYSTEM | FILE_ATTRIBUTE_HIDDEN, TRUE);
+	EXPECT_TRUE(SUCCEEDED(lnkErr));
+ 
+ 
+SECRET//NOFORN
+
+Previous versions:
+| 1 SECRET
+| 2 SECRET
+| 3 SECRET
+| 4 SECRET
+| 5 SECRET
+| 6 SECRET
+| 7 SECRET
+|
+                    

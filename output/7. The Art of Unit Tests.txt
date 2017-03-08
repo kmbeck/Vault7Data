@@ -1,0 +1,93 @@
+
+                        Owner: User #1179751
+7. The Art of Unit Tests
+SECRET//NOFORN
+ 
+EDG Unit Testing
+Unit testing as you may already know is intended to test functionality for each function. Unit tests should examine the good, the bad, and the ugly. The good being the expected arguments to the function, the bad being invalid arguments and the ugly being all the applicable edge cases. In EDGEngineering Development Branch we have found Google Test to provide a pretty helpful unit testing framework. We have also added on to the Google Unit Test Framework to help improve our test coverage and for DARTTest-Software (commercial) integration. The repository for Google Test can be individually cloned or added via the EDGEngineering Development Branch Project Wizard (easier). 
+ 
+If you haven't already done so, you should setup the GoogleTestRunner plugin for Visual Studio (\\fs-01\Share\Windows Software Development Resources\Visual Studio Plugins\GoogleTestRunner.vsix) 
+ 
+Alright, so let's get into some of the syntax Google Test uses (the internet has more comprehensive documentation and examples). A simple test contains a TestCaseName and a TestName. These names allow you to group and identify your tests. At the beginning of the test function you can use the CrtCheckMemory object to test against memory leaks in the test. Next, execute your tests and validate your return values. Google Test has two types of failure recognitions. ASSERT_* means that if the evaluation fails, the unit tests stop. EXPECT_* identifies the failure but does not prevent further execution of unit tests. Below are some examples of unit tests that show each of these capabilities as well as some tips on how to filter your test executable.
+Unit Test Examples
+Example 1: Verify function return and functionality
+('section' missing)
+ 
+ 
+Example 2: Expect vs Assert and some operands
+('section' missing)
+Note: The third test never gets tested because the ASSERT failed.
+ 
+ 
+Example 3: Using Google Test Plugin
+('section' missing)
+Note: The failures show line numbers, expected results and actual results.
+ 
+ 
+Example 4: CrtCheckMemory
+('section' missing)
+ 
+ 
+Example 5: List All Tests
+('section' missing)
+ 
+ 
+Example 6: Run groups of Tests
+('section' missing)
+ 
+Unit Test Exercise
+ 
+Step 1: Clone New Developer Exercise 5
+Step 2: Open up the tests in Visual Studio and compile. Note all of the unit tests will reside in UnitTests.cpp.
+Step 3: If you're using the Google Test Add-On, open the google test view. Otherwise, you can run the executable in a console window.
+Step 4: Analyze the results of the tests, note the issues and the line numbers.
+Step 5: Follow the instructions posted inside of each unit test. There should be four.
+Step 6: Once complete, create a new branch with your name, push the branch, set User #1179751 or User #71473 as the approvers.
+ 
+ 
+SECRET//NOFORN
+
+Attachments:
+
+
+image2015-5-6 16:52:50.png
+
+
+image2015-5-6 16:51:54.png
+
+
+image2015-5-6 16:49:51.png
+
+
+image2015-5-6 16:44:45.png
+
+
+image2015-5-6 16:43:49.png
+
+
+image2015-5-6 16:43:9.png
+
+
+image2015-5-6 16:31:3.png
+
+
+
+Previous versions:
+| 1 empty
+| 2 SECRET
+| 3 SECRET
+| 4 SECRET
+| 5 SECRET
+| 6 SECRET
+| 7 SECRET
+| 8 SECRET
+| 9 SECRET
+| 10 SECRET
+| 11 SECRET
+| 12 SECRET
+| 13 SECRET
+| 14 SECRET
+| 15 SECRET
+| 16 SECRET
+|
+                    

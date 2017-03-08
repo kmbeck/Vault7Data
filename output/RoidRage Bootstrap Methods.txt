@@ -1,0 +1,31 @@
+
+                        RoidRage Debuggerd Startup (kitkat)
+The debuggerd startup method for RoidRage on kitkat phones follows the following process:
+
+Debuggerd service starts, started by the 'init' process per the 'init.rc' script
+Inside of the do_server function, we have added a call to our own function, start_rr
+Initialize the hook for the ril by changing the rild.libpath property so that our library will be loaded in place of the original ril library.  Our ril library (referred to as the 'ril shim') then loads the original and man-in-the-middle's function calls that go to and from the actual library.
+Load the flag file that is used to determine state in the case of a crash (IEInternet Explorer determine if RRRoidRage (Malware) is already running and if so, what is its PIDProcess ID)
+Create the startup thread, which:calls do_fork(), which
+uses ptrace to attach to the init process
+injects a few instructions into unused space in the init process' text section, which will call a syscall and then segfault (intentionally)
+get the current register state of the init process (so that we can restore it later)
+set the register state to point to the instructions we injected, and so that it will perform a fork when it resumes
+signal init to continue execution, thereby forking
+drop the precore stub to the ramdisk from an array in memory which is encrypted, decrypting it in the process
+when init segfaults as designed, we catch the signal since we are attached via ptrace and restore it to its original state
+when the forked init signals us, we reset its state to the syscall, this time setting the register state to that when it resumes, it will call exec on the precore stub
+detach from both init and from the forked init process which is now executing the RoidRage precore stub (followed by the RoidRage precore, followed by RoidRage itself)
+
+
+
+Create the property thread which:
+waits for rild to start up
+checks to see if rild has been successfully hooked
+kills rild if it is not hooked
+once it has been hooked, it restores the rild.libpath to the value that it should be so that it does not appear to have been changed
+
+
+
+ 
+                    

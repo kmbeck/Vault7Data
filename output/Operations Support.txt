@@ -1,0 +1,11 @@
+
+                        JQJGUNSHY: Samsung Galaxy Tab 2 GT-P3100
+For Samsung Galaxy Tab 2 GT-P3100, we have used Orion (remote exploit), Freedroid (privilege escalation), and RoidRage (implant).
+How it's rewritten:
+
+Once exploited, target device will request a bundle from Mission Control. The bundle will consist of a basic dropper (called dropper.bin) that is written in assembly and remr appended to the end of the basic dropper. The Mission Control plugin will set the url needed to communicate with Mission Control. This stage is called the request_handler stage.
+After this, remr will unpack itself, root, call itself again, and call downloader.jar to start downloading the RoidRage bundle. This request by the target device is handled as the v_handler stage.
+The target will receive the RoidRage implant in chunks. It will call to Mission Control multiple times, and this is handled as the r_handler stage. 
+Remr will then installed the RoidRage bundle after download.jar has downloaded RoidRage.
+
+                    

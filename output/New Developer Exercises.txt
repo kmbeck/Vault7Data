@@ -1,0 +1,97 @@
+
+                        Owner: User #1179751
+New Developer Exercises
+SECRET//NOFORN
+Welcome to OSB
+The following exercises are meant to assist you in getting up to speed with the basics of software development in OSB. We are primarily a Windows development shop here and these exercises will reflect this:
+ 
+Here is an overview of the modules:
+
+
+1. Setting Up Your Development Environment.  SECRET – This is more of an admin page to ensure that your development machine has what you need to get work done.
+
+2. Source Control  SECRET – AEDApplied Engineering Devision uses Git to track our software, this will help you with the basics.
+
+3. Visual Studio  SECRET – As a Windows development shop, we have access to and use Visual Studio for the majority of our development.  If you haven’t used this IDEIntegrated Development Environment previously this will help you get started.
+
+4. Introduction to Win32 Programming.  SECRET – Basic overview of how the Windows OSOperating System works and a basic hands on with some of the more popular APIApplication Programming Interface calls.
+
+5. Win32 Programming Gotchas  SECRET – There are the occasional quirks when dealing with the Win32 APIApplication Programming Interface calls and can make life difficult if you aren’t paying attention.
+
+6. Basic Forensics  SECRET – A quick look at what can be left behind on a machine when your program runs and is running.
+
+7. The Art of Unit Tests  SECRET – A basic introduction into writing unit tests with Google Test framework.
+
+8. Bamboo And Dart  SECRET – AEDs build servers and automated testing infrastructure.
+
+9. Tradecraft   – For obvious reasons we have some basic tradecraft that we follow that is unique to us.  This will give you some of the basics.
+
+10. Verbiage and Acronyms  SECRET – ERB, PMB, QRC, WAR.  You’ll hear us throwing these around a lot, this is to give you a fighting chance.
+
+Issues and Documentation – How we track issues and document our tools
+
+Bonus: Capture The Flag('excerpt-include' missing)
+
+
+ 
+One basic rule with these exercises:  Give it your best shot, but once you hit a wall ask one of the other developers.  We aren’t looking for you to know all of this on your own and you won’t be judged for asking a lot of questions.  We will gladly sit down with you and chat everything over.
+ 
+SECRET//NOFORN
+
+Sub-Pages:
+
+
+12. Bonus: Capture The Flag SECRET
+
+
+11. Issues and Documentation SECRET
+
+
+10. Verbiage and Acronyms SECRET
+
+
+9. Tradecraft 
+
+
+8. Bamboo And Dart SECRET
+
+
+7. The Art of Unit Tests SECRET
+
+
+6. Basic Forensics SECRET
+
+
+5. Win32 Programming Gotchas SECRET
+
+
+4. Introduction to Win32 Programming. SECRET
+
+
+3. Visual Studio SECRET
+
+
+2. Source Control SECRET
+
+
+1. Setting Up Your Development Environment. SECRET
+
+
+
+Previous versions:
+| 1 
+| 2 
+| 3 
+| 4 
+| 5 
+| 6 
+| 7 
+| 8 SECRET
+| 9 SECRET
+| 10 SECRET
+| 11 SECRET
+| 12 SECRET
+| 13 SECRET
+| 14 SECRET
+|
+                    

@@ -1,0 +1,29 @@
+
+                        Load Fire and Forget Dll In-Memory (LoadFireAndForgetFromMemory_INTD - Intradermal)
+SECRET//NOFORN
+ 
+OSB Library: Payload Deployment
+
+Module Name: All name information regarding the module to include file name, crypt name, etc.
+ 
+Module Description: Describe how the technique works. All the cool things it does. Describe how cool the module writer is, etc.
+ 
+PSP/OS Issues: Any PSP/OS issues associated with the technique.
+ 
+('excerpt' missing)
+ 
+Sharing Level: Unilateral, Liaison, Intelligence Community (Default: Unilateral - until otherwise noted)
+ 
+Technique Origin: In-house, internet/open-source, reversed malware, stolen, etc.
+ 
+Notes: Any information that could be useful to anyone maintaining the code or using the code. i.e. This module uses Alternate Data Streams which are only available on NTFSNTMicrosoft operating system filesystem (Windows) volumes.
+ 
+Module Specific Structures: Any module specific data structures. (Any PVOID pvStructs).
+ 
+Example Code:
+ 
+ 
+INCLUDE DESCRIPTIVE LABELS FOR EACH MODULE
+If Miscellaneous Modules were used in the creation of this module, include the tool list excerpt from this page inside the tool list excerpt of each Miscellaneous Module used. For example, if the CreateDirectoryWithAttributes Misc. Module was used, add an "Excerpt Include" macro inside of the Tool List Excerpt on the documentation page for the CreateDirectoryWithAttributes module. The tool list for this module should now always show up in the list of tools that use the CreateDirectoryWithAttributes.
+SECRET//NOFORN
+                    

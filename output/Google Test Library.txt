@@ -1,0 +1,58 @@
+
+                        Owner: User #1179751
+Incandescent Mind
+New IMInstant Messaging delivery coming soon
+Introduction
+Incandescent Mind is an attribution and signature analysis tool focused on finding signatures between CCI's tools.  Delivery of version 1.0 was on 2/11/2016 and a few branches in EDGEngineering Development Branch are piloting the tool to see how it can best be used.  The hope for this page is to create a list of best practices for IMInstant Messaging which can eventually lead to a single instance of IMInstant Messaging running for all of EDG.
+Running Your Own Instance
+The IMInstant Messaging delivery is a VMVirtual Machine so starting a new instance is relatively simple.  Please reach out to User #77161 (ESD/SDB) to get a copy of the VM.  Once you are in possession of your VMVirtual Machine follow these steps:
+<TO BE FILLED IN>
+Current Instances
+Here is a list of IMInstant Messaging instances currently available on DEVLAN.  Please feel free to view the websites, and if "Random Submissions Acceptable" is "yes" feel free to submit you own samples (you may want to check with the POCPoint of Contact, Proof of Concept for naming conventions etc).
+
+
+IP Address
+Owner Branch
+POC
+Random Submissions Acceptable
+Description
+
+
+10.2.8.XXX
+AED/OSB
+User #1179751
+No
+Collection of OSB's latest deliveries
+
+
+10.2.8.XXX
+AED/OSB
+User #1179751
+Yes
+Smaller random collection of binaries
+
+
+ 
+ 
+ 
+ 
+ 
+
+
+Best Practices
+TBD
+
+Comments:
+
+
+2016-02-11 16:26 
+[User #1179751]: 
+
+User #12353672, feel free to chime in here.
+
+
+
+Previous versions:
+| 1 
+|
+                    

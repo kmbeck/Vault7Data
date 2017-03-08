@@ -1,0 +1,77 @@
+
+                        Owner: User #71475
+AntHill 2.0
+Supported Functions
+
+
+Function
+Notes
+
+
+CreateFile[W/A]
+ 
+
+
+WriteFile
+ 
+
+
+ReadFile
+ 
+
+
+SetFilePointer[Ex]
+ 
+
+
+CloseHandle
+ 
+
+
+GetFileAttributes[W/A]
+ 
+
+
+CreateDirectory[W/A]
+ 
+
+
+RemoveDirectory[W/A]
+ 
+
+
+DeleteFile[W/A]
+ 
+
+
+MoveFileEx[W/A]
+Treats the MOVE_ON_REBOOT flag as "move now" and MOVE_ON_REBOOT with NULL dest as "delete now"
+
+
+CopyFile[W/A]
+ 
+
+
+FindFirstFile[W/A]
+ 
+
+
+FindNextFile[W/A]
+ 
+
+
+FindClose
+ 
+
+
+Common Gotchas and Limitations
+Creating recursive directories
+You must create directories recursively manually if required, CreateDirectory[W/A] are the only available functions
+Checking if path exists
+Use GetFileAttributes[W/A] for checking for the existence of a file/directory rather than using PathFileExsts, etc.
+
+Previous versions:
+| 1 
+| 2 
+|
+                    

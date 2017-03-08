@@ -1,0 +1,195 @@
+
+                        Owner: User #524297
+2014-01-09 Retrospective for Sparrowhawk
+
+
+
+
+Date
+Jan 09, 2014
+
+
+Project
+
+Sparrowhawk  
+
+
+
+Participants
+
+User #524297, User #11628962, User #71380
+
+
+
+Retrospective
+
+
+
+What did we do well?
+
+common userspace client components, eased porting to new platform
+use of automated build tool (GNU Autotools)
+accessibility of project lead resources for consultation
+Solaris platform solution: STREAMS modulesvery portable across Solaris versions and architectures
+
+
+
+
+What should we have done better?
+Requirements 
+
+initial requirement drawn for too many different platforms at once
+8 in all: Solaris 8,9,10,11 on sparc; Solaris 10,11 on x86 (32/64bit)
+Solaris 11 on 32-bit x86 not supported by Oracle
+would this have been better as incremental delivery?
+unsuccessful delivery to Solaris 8 sparc
+
+
+lacked incorporation of regular customer demosprevent drift from customer expectation
+
+assumptions made about requirements
+that local console is always handled virtually
+/dev/console does not always use the pseudoterminal driver (pts)
+additional time spent adding code to manually attach module to local console
+
+
+
+Resources/Deliveries
+
+
+ Autotools only partially implemented across the product
+
+Autotools creates additional complexity, build requirements
+A partially automated build process cannot be automated across build servers
+
+
+lack of automated testing capabilitydifficult to test across multiple platforms
+
+lack of available Sparc/Solaris resources hardware for development
+either undocumented, outdated, or "claimed" for other projects
+Solaris 8 04/04 (last release) not purchased by AED, obtained from IV&V
+Mirror of Sun Freeware packages outdated
+
+
+OpenOffice for documentation is not cooperative
+documentation should be clear & concise, meant to be read
+Option: Plaintext documentation standards
+can be held/tracked in source control
+README, INSTALL, GOTCHAS : plain text (markdown?)
+
+
+Option: Confluence export to PDF
+
+
+
+Coding Style/Preferences 
+
+use of forward declarations of exposed component functions
+why not expose through C header files?
+components should have single responsibility, encapsulate functionality
+
+
+wholesale copying of code from publicly available proof-of-concept (POCPoint of Contact, Proof of Concept)
+building does not equal working
+no break from POC, strings and other signatures need to be removed
+
+
+debug/error handling capability neededcumbersome syntax for debug macros
+
+compiler specific instructions
+GCC-specific structure packing produced problems across different platforms
+Solaris dev tools (cc) did not honor structure packing
+
+
+different compilers used for different components
+Solaris dev tools (cc) used for kernel component -- is this necessary?
+GCC did not seem to compile a working kernel module -- more research?
+
+
+keeping code DRY (don't repeat yourself)
+swabbing endianness of bytes back and forth as needed instead of only once
+opening/closing file descriptors for devices multiple times
+common structures used in both userspace & kernel defined by separate files
+
+
+use of plain integer (int) type for data values
+
+sufficient only preferred if size, sign, or endianness of value are never used
+clearer intent with types that include sign & bit length: int32_t, uint32_t, etc.
+
+User #11628962: Also dependent on APIApplication Programming Interface requirements
+
+
+
+
+
+
+What will we do differently next time to improve?
+
+
+ID
+Status
+Task
+
+
+1
+incomplete
+Due diligence on incoming requirements to scope platform support to logical constraints.
+
+
+8
+incomplete
+Scope requirements to do incremental delivery of platforms.
+
+
+2
+incomplete
+Incorporate regular customer demonstrations during development to prevent drift from customer expectation.
+
+
+3
+incomplete
+Recapitalize all Sun/Sparc hardware for Solaris into reusable shared infrastructure for building and testing of Solaris applications.
+
+
+4
+incomplete
+Obtain reliable mirror of Solaris packages (OpenCSW?) that can be updated.
+
+
+5
+incomplete
+Decide (as a division) if AEDApplied Engineering Devision will support Solaris as a development target for future requirements. 
+
+
+9
+incomplete
+Consider communication method to keep Project Management/Leadership informed of progress (or lack thereof), schedule, hurdles.   Are Jira metrics the solution for this?  
+
+
+
+
+
+Comments:
+
+
+2014-01-14 15:55 
+[User #524297]: 
+
+When I finished the sprint out in Jira, it asked me to create a Retrospective page.  There's something iffy w/ the rendering on the Retrospectives page within the EDBEmbedded Devices Branch Space however. When I figure out better instructions, I'll let you know.
+
+
+2014-01-14 15:07 
+[User #71473]: 
+
+Inquiring minds (me) want to know... how'd you add dat fancy JIRA link?!?
+
+
+
+Previous versions:
+| 1 
+| 2 
+| 3 
+| 4 
+|
+                    

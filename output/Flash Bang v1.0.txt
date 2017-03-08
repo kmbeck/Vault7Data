@@ -1,0 +1,67 @@
+
+                        Flash Bang v1.0
+SECRET//NOFORN
+Flash Bang v1.0
+ 
+Description:
+Flash Bang is a tool designed to be able to migrate from a browser process, escalate privileges, and memory load a NODNetwork Operations Division Persistence Spec dll. Flash Bang does not currently include a sandbox breakout. To do these things Flash Bang is broken into two parts: FlashBangLoader.dll and FlashBang.dll. FlashBangLoader.dll runs from within the browser process for the duration of execution. FlashBang.dll is written to disk and never runs from within the browser. When loaded into the browser process (Fire and Forget Spec), FlashBangLoader.dll writes FlashBang.dll to disk and then uses a shell folder identified by a COM class to force explorer.exe to load FlashBang.dll. Once Flash Bang is loaded into explorer.exe, the tool escalates privileges and memory loads a NODNetwork Operations Division Persistence spec dll. 
+ 
+This tool was built for a specific CONOPConcealed Operation but could be modified to fit a wider set of CONOPS. Currently, it is assumed that the target is exploited initially by Windex. It is also assumed that all browser sandboxes are defeated. Then, the ShellTerm instance running inside the browser loads the FlashBangLoader.dll. For this specific build Flash Bang is configured to install a Grasshopper/Anthill/Assassin package.
+Design and Concept of Operations (JQJVIGOR):
+ 
+
+Malformed MHT file is sent to target. The .mht extension by default opens in Internet Explorer. 
+An IFRAMEEmbedded Webpage inside of the MHT allows IOCInformation Operation Center to Windex the machine, loading ShellTerm into the process space of the sandboxed IEInternet Explorer process (no longer sandboxed due to malformed MHT). 
+FlashBang is loaded into the IEInternet Explorer process by ShellTerm. 
+FlashBang then exits IEInternet Explorer process and is loaded into explorer. 
+A privilege escalation is executed and the Grasshopper/Anthill/Assassin package is installed on the target machine.  
+
+ 
+
+Stash Repository:   Flash Bang Repository
+
+ 
+Testing Repoistory:   N/A
+ 
+Documentation:
+('section' missing)
+ 
+Latest Testing Results:
+Operational Use:
+JQJVIGOR
+ 
+Highlights:
+ 
+Technique Tracking:
+List of techniques used by Project
+
+LinkedIn User Mode LPE - PEULinkedIn_x86x64
+COM + Junction Folder User Persistence - PSDComJunction_HCLS
+
+ 
+Change Log:
+
+('excerpt' missing) Older Versions:
+ 
+ 
+SECRET//NOFORN
+ 
+ 
+
+Attachments:
+
+image2015-3-30 9:53:17.png
+
+
+Previous versions:
+| 1 SECRET
+| 2 SECRET
+| 3 SECRET
+| 4 SECRET
+| 5 SECRET
+| 6 SECRET
+| 7 SECRET
+| 8 SECRET
+| 9 SECRET
+|
+                    

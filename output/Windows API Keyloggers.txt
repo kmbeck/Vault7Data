@@ -1,0 +1,43 @@
+
+                        Windows API Keyloggers
+Overview
+The following techniques are user-land Windows APIApplication Programming Interface methods of logging keystrokes:
+GetRawInputData API
+Regsiter a device to receive raw input including keyboard events. (not yet evaluated)
+GetKeyboardState/GetAsyncKeyboardState API
+Another user-space technique that does not involve using hooks is to continuously make calls to GetKeyboardState(). The problem with this approach is the high CPU utilization that will be incurred by spinning in this loop. It may be possible to use this method in a more targeted fashion, for example, only when a particular windows has the focus (e.g. password entry).
+Another potential issue with this approach is that there are a couple "caches" of key state data (Kaspersky's SecureList blog has a nifty post which discusses this), an asynchronous one, shared by all threads and a per-thread thread one that is updated to reflect reality whenever Windows feels like updating it.  This makes it complicated if, say, one is trying to get key(board) data when a different thread, which is likely in another process, is updating said data. 
+
+Component Reuse
+None
+ 
+
+Comments:
+
+
+2015-09-02 16:36 
+[User #71473]: 
+
+I agree, but then again, this isn't historical just yet.  It hasn't been released 
+
+
+
+2015-09-01 04:17 
+[User #524297]: 
+
+It's almost as if this historical tool technique information should be documented somewhere... like some sort of tool pedigree database or something... 
+
+
+2015-08-31 20:27 
+[User #71473]: 
+
+Just FYI, we’ve used the RawInput APIApplication Programming Interface to implement a liaison-releasable keylogger called Basic Bit  SECRET.  This was based on a Proof-of-Concept one of our co-ops (User #20873348) did last summer called Night Stalker.
+
+
+
+Previous versions:
+| 1 empty
+| 2 
+| 3 
+|
+                    

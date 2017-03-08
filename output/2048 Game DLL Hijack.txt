@@ -1,0 +1,23 @@
+
+                        Owner: User #71468
+2048 Game DLL Hijack
+This is a silly game... it even has a "floppy 2048" mode that I got a good lol out of
+Procmon screenshot:
+
+2048 seems to love "D3dCompiler_46.dll" which doesn't exist anywhere... returning FALSE from PROCESS_ATTACH is no problem
+ 
+"dbgcore.DLL" is loaded and kept for the life of the process.  This is an ideal DLLDynamic Link Library though, as the function prototypes are documented on MSDN
+ 
+Languages Available:
+English only
+ 
+
+Attachments:
+
+2048 procmon.png
+
+
+Previous versions:
+| 1 
+|
+                    

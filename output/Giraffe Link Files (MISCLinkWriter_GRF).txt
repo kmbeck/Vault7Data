@@ -1,0 +1,94 @@
+
+                        Data Transfer Via Data File (DTFile_GLPH - GLYPH)
+SECRET//NOFORN
+ 
+OSB Library: Data Transfer
+
+Module Name: DTFile_GLPH (GLYPH)
+ 
+Module Description: This module transfers or stores data by writing it to a file. Multiple chunks (calls to addFile) from multiple programs can be written to the same file. The Program ID is used to identify the owner of a specific chunk. If a Program ID of 0 is specified in calls to FindFirst/FindNext, all files will be a match. The constructor for this module is overridden (see Module Specific Structures). In the constructor the user should specify the file path where data should be stored, and the attributes of the file storing the data. If the target file has not been created, this module will create it. If there are no more chunks stored in the file, the file is deleted by this module.
+ 
+PSP/OS Issues: No known issues.
+ 
+('excerpt' missing)
+ 
+Sharing Level: Unilateral
+ 
+Technique Origin: In-house (not a novel concept)
+ 
+Notes: 
+
+Overridden constructor should specify the file path where the data should be stored and the file attributes of the file storing the data
+The Program ID should be tracked in the Tool List section
+Multiple program ids can be written to the same path.
+A read chunk index is kept for optimization. A call to FindFirst resets the read chunk index.
+Empty target storage files are deleted by this module
+If the target file has not been created, this module will create the file.
+
+ 
+Module Specific Structures:
+The header used in data chunk storage.
+struct DATA_HEAD_GLPH
+{
+	DWORD dwProgramId;
+	DWORD dwDataLen;
+};
+
+
+/*
+	Constructor takes path to the file you wish to store data in. And the attributes of the file.
+*/
+DTFile_GLPH(WCHAR *wcStoragePath, DWORD dwFileAttributes);
+
+  
+Example Code:
+ 
+WCHAR wcDrivePath[] = L"H:\\MyFile.dat";
+DWORD dwAttribs = FILE_ATTRIBUTE_HIDDEN | FILE_ATTRIBUTE_SYSTEM | FILE_ATTRIBUTE_READONLY;
+
+
+IDataTransfer *dtTransfer = new DTFile_GLPH(wcDrivePath, dwAttribs);
+
+
+//Write one chunk, find file, read file, delete file
+DWORD dwChunkSize = 0;
+DWORD dwFileProgID = 0;
+
+
+//Add the file to storage file
+DataTransErr dtErr = dtTransfer->addFile(5, byData1, dwData1Len);
+
+
+//find first file - no header
+dtErr = dtTransfer->findFirstFile(5, dwChunkSize, &dwFileProgID, 0, NULL);
+
+
+//Allocate memory - read in file just identified by findFirstFile
+LPBYTE lpbData = (LPBYTE)malloc(dwChunkSize);
+DWORD dwBytesRead = dtTransfer->readFile(lpbData, dwChunkSize);
+free(lpbData);
+
+
+//Delete file identified by findFirstFile
+dtErr = dtTransfer->deleteFile();
+
+
+//No more file - that was the only chunk
+dwAttribs = GetFileAttributes(wcDrivePath);
+delete dtTransfer;
+ 
+ 
+ 
+SECRET//NOFORN
+
+Previous versions:
+| 1 SECRET
+| 2 SECRET
+| 3 SECRET
+| 4 SECRET
+| 5 SECRET
+| 6 SECRET
+| 7 SECRET
+| 8 SECRET
+|
+                    

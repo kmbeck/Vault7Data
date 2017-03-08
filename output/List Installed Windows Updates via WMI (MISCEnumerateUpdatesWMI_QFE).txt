@@ -1,0 +1,93 @@
+
+                        List Installed Window Updates on WSUS Connected Machines (MISCEnumerateUpdatesCOM_WSUS)
+SECRET//NOFORN
+ 
+Miscellaneous Module
+Stash Repository: Miscellaneous Library
+
+Module Name: MISCEnumerateUpdatesCOM_WSUS (Works when machine can connect to a WSUSWindows Server Update Service server).
+ 
+Module Description: This module uses the COM object for the Windows Update Agent to query for Installed updates. This query only runs when the Windows Update Agent can connect to a WSUSWindows Server Update Service server. The module will return a linked list describing the KB Article IDs of all of the installed Windows Updates. 
+ 
+Usage:
+
+/*
+	This function returns a linked list of the updates installed on the machine as detected by the Windows Update Agent. This module
+	requires that the update agent have access to a WSUSWindows Server Update Service server. The function returns TRUE on success and FALSE on failure.
+*/
+static BOOL GetUpdateList(PUPDATE_LIST_WSUS &pList);
+
+
+/*
+	This function clears/frees all the data in an UPDATE_ENTRY_WSUS linked list
+*/
+static BOOL FreeUpdateList(PUPDATE_LIST_WSUS &pList);
+
+ pList [in/out]: A pointer to a linked list of update KB Article IDs that are installed on the system. In GetUpdateList the pList is set to a linked list of update Article IDs. In FreeUpdateList, pList, is cleared and freed. 
+Returns TRUE on success and FALSE on failure.
+ 
+PSP/OS Issues: No known issues.
+ 
+('excerpt' missing)
+ 
+Sharing Level: Unilateral
+ 
+Technique Origin: In-house (Uses COM object for the Windows Update Agent).
+ 
+Notes: 
+
+Windows 2000 SP3+
+Must be connected to a WSUSWindows Server Update Service server
+The KB Article IDs come are returned without the KB prefix
+
+ 
+Module Specific Structures:
+
+typedef struct _UPDATE_ENTRY_WSUS
+{
+	WCHAR *wcKB; //The KB number of the installed update
+	_UPDATE_ENTRY_WSUS *pNextEntry; //Next entry in the linked list
+}UPDATE_ENTRY_WSUS, *PUPDATE_ENTRY_WSUS, UPDATE_LIST_WSUS, *PUPDATE_LIST_WSUS;
+
+  
+Module Return Codes: 
+Returns TRUE on success and FALSE on failure.
+ 
+Example Code:
+ 
+//KB2817301
+WCHAR wcKB[] = L"2817301";
+ 
+//Get the list of updates on the machine
+PUPDATE_LIST_WSUS pList;
+
+
+BOOL bRet = MISCEnumerateUpdatesCOM_WSUS::GetUpdateList(pList);
+
+
+//print KBs and find match
+BOOL bFoundMatch = FALSE;
+PUPDATE_ENTRY_WSUS pNode = pList;
+while (pNode != NULL)
+{
+	if (pNode->wcKB != NULL)
+	{
+		if (wcsicmp(pNode->wcKB, wcKB) == 0)
+			bFoundMatch = TRUE;
+		//print out article id
+		wprintf(L"%s\n", pNode->wcKB);
+	}
+	pNode = pNode->pNextEntry;
+}
+
+//Free the list
+bRet = MISCEnumerateUpdatesCOM_WSUS::FreeUpdateList(pList);
+ 
+ 
+ 
+SECRET//NOFORN
+
+Previous versions:
+| 1 SECRET
+|
+                    

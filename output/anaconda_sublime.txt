@@ -1,0 +1,23 @@
+
+                        DashDoc
+Dash is a documentation viewer for OSX. To install:
+
+unzip fs-01.devlan.net/share/mdb/OSX/Software/FreeSoftware/Docs/Dash.zip
+copy it to Applications (do the next two steps before launching)
+cd /tmp
+unzip  fs-01.devlan.net/share/mdb/OSX/Software/FreeSoftware/Docs/docsets.tar
+
+launch Dash -> manage docsets. import all the docsets above.
+install the sublime plugin (DashDocs)
+
+DashDocs.tar is a zip of javascript, python, and a few other cheatsheet stuff.
+ 
+
+Previous versions:
+| 1 
+| 2 
+| 3 
+| 4 
+| 5 
+|
+                    

@@ -1,0 +1,43 @@
+
+                        Triage SOHO device
+
+Describe when someone would need this information. For example "when connecting to wi-fi for the first time".
+Step-by-step guide
+Info For Operators:
+
+Nmap all TCP/UDP on WAN/LAN/WLAN
+Wireshark capture for all WANWide Area Network services and WEB UI
+Wireshark capture of normal boot an WAN/LAN
+Any UPNP requested ports/forwards
+
+Info for VR:
+
+If serial, grab serial output of normal boot
+
+if console:
+/etc/init.d
+/etc/passwd
+/proc/mounts
+/proc/net/tcp
+/proc/net/udp
+uname -a
+sh -c `which busybox`
+ls /bin /sbin /usr/bin /usr/sbin 
+lsmod
+ps -ef
+get service bins off box (bind mount to graphic and fetch with web server, ssh, nc, ftp, tftp, over terminal? whatever works) 
+
+
+Take apart, catalog flash part #, SOC part#, radio part#, HDD?SSD?
+Dump Flash if necessary
+
+
+ 
+You may also want to use visual panels to communicate related information, tips or things users need to be aware of.
+Related articles
+
+Related articles appear here based on the labels you select. Click to edit the macro and add or change labels.
+
+('contentbylabel' missing)
+('details' missing)
+                    

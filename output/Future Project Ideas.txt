@@ -1,0 +1,64 @@
+
+                        Owner: User #524297
+Future Project Ideas
+Potential Future Projects for EDB
+ 
+Feel free to make changes/additions to this entry.  This should be where the IDEAS HAPPEN (tm).
+ 
+
+
+Concept
+Platform
+Type of Tool
+Why
+
+
+Hive Rewrite
+Embedded Linux
+Network Redirection Implant
+
+Redesign for modularity
+Provide ability to develop automated test framework
+
+
+
+Tbot Rewrite
+Linux/Unix
+Interactive Remote Access
+
+10+ year old source base, difficulty keeping up with changes to Linux API
+Provide ability to develop automated test framework
+Provide ability to incorporate new features easily (eg. IPv6, application layer obfuscation)
+
+
+
+CherryBlossom Rewrite
+Embedded Linux
+Wireless Access Point Implant
+
+Contractor-provided source base difficult to maintain/reproduce development environment
+Wireless access/collect functionality still relevant to customer
+
+
+
+JQC Competitor
+Linux/Unix/Solaris
+Tier 1 Implant with C2
+
+Another 10+ year old source base
+O&M Issues may lead to it falling behind technically with no alternative for customer
+
+
+
+ 
+ 
+ 
+ 
+
+
+
+Previous versions:
+| 1 
+| 2 
+|
+                    

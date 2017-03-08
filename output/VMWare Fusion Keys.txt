@@ -1,0 +1,51 @@
+
+                        OSX 10.11 El Capitan Changes
+Problem
+1.)com.apple.ifdreader_2015-09-17-123848_users-MacBook-Pro.crash     (com.apple.ifdreader_2015-09-17-123848_users-MacBook-Pro.crash)
+(but self signed seems to work)
+Thread 0 Crashed:: Dispatch queue: com.apple.main-thread0 dyld 0x00007fff6f7c8c3a ImageLoaderMachO::crashIfInvalidCodeSignature() + 881 dyld 0x00007fff6f7ceba8 ImageLoaderMachOCompressed::instantiateFromFile(char const*, int, unsigned char const*, unsigned long, unsigned long long, unsigned long long, stat const&, unsigned int, unsigned int, linkedit_data_command const*, encryption_info_command const*, ImageLoader::LinkContext const&) + 3282 dyld 0x00007fff6f7c8a6f ImageLoaderMachO::instantiateFromFile(char const*, int, unsigned char const*, unsigned long long, unsigned long long, stat const&, ImageLoader::LinkContext const&) + 2993 dyld 0x00007fff6f7bb8c3 dyld::loadPhase6(int, stat const&, char const*, dyld::LoadContext const&) + 4024 dyld 0x00007fff6f7c0469 dyld::loadPhase5(char const*, char const*, dyld::LoadContext const&, std::__1::vector<char const*, std::__1::allocator<char const*> >*) + 7105 dyld 0x00007fff6f7c0189 dyld::loadPhase4(char const*, char const*, dyld::LoadContext const&, std::__1::vector<char const*, std::__1::allocator<char const*> >*) + 1806 dyld 0x00007fff6f7bfeee dyld::loadPhase3(char const*, char const*, dyld::LoadContext const&, std::__1::vector<char const*, std::__1::allocator<char const*> >*) + 16107 dyld 0x00007fff6f7bf643 dyld::loadPhase1(char const*, char const*, dyld::LoadContext const&, std::__1::vector<char const*, std::__1::allocator<char const*> >*) + 1358 dyld 0x00007fff6f7bb47b dyld::loadPhase0(char const*, char const*, dyld::LoadContext const&, std::__1::vector<char const*, std::__1::allocator<char const*> >*) + 2139 dyld 0x00007fff6f7bb15f dyld::load(char const*, dyld::LoadContext const&) + 18010 dyld 0x00007fff6f7c4071 dlopen + 38811 libdyld.dylib 0x00007fff940bc79c dlopen + 5912 com.apple.CoreFoundation 0x00007fff935ef07b _CFBundleDlfcnLoadFramework + 13913 com.apple.CoreFoundation 0x00007fff935b888a _CFBundleLoadExecutableAndReturnError + 634
+ 
+2.) com.apple.rootless.kext-management entitlement necessary to load kexts
+
+
+
+3.) task gated enforces entitlements at some level:
+taskagated killed my program when self-signing and giving the mach-o com.apple.rootless.kext-management entitlement
+
+4.) launchd does not allow unloading in restricted folders
+
+
+
+Attachments:
+
+
+launchctl_unload_error.png
+
+
+launchctl_unload.png
+
+
+taskgated.png
+
+
+kextloader_debug.png
+
+
+kextd-entitlements.png
+
+
+Not_entitled_kextload.png
+
+
+com.apple.ifdreader_2015-09-17-123848_users-MacBook-Pro.crash
+
+
+
+Previous versions:
+| 1 
+| 2 
+| 3 
+| 4 
+| 5 
+|
+                    

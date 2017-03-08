@@ -1,0 +1,257 @@
+
+                        Owner: User #14587667
+DUT1 - RB493G - Notes
+Perseus 1.1.0MikroTik RB493G
+General Info
+WAN (from TR-Core) 172.20.100.4/30TR-CoreSwx: 172.20.100.5    Perseus: 172.20.100.6
+TR-Core Switch Route: 192.168.88.0/27 -> 172.20.100.6  (This gives the Perseus LANLocal Area Network 30 host IPs)
+ICON-CR: 172.20.12.23/24
+LAN Hosts:
+192.168.88.2  Perseus Test1 -1.1.0b1 - UbuntuDesktop 14.10 x64
+192.168.88.3  Windows 7 VM
+VLAN 10 IP: 192.168.0.1
+Cisco 2960: 192.168.0.2
+Test Notes
+7/7/2015
+Threw CR, Tsh, and Perseus onto DUT1.
+7/8/2015
+
+Observed Tsh showing up in firewall connections list.
+Reported bug PS-8, but proved to be a Flux user error.
+Found bug PS-9.
+
+7/10/2015
+Turned on console logging (/system logging add action=echo topics=!ntp,!dhcp,!rip,!snmp)
+7/13/2015
+1:35pm - Started ping flood from VMVirtual Machine #5.  Also started 'yes' from tsh.  MT CPU is pegged at 100%.
+ 
+Observations
+Tsh connection shows up in Firewall Connections list (/ip firewall connection print): 
+
+
+Flux connections show up in Firewall Connectins list: 
+
+RouterOS attempts to connect to cloud.mikrotik.com.  It is unknown what this attempt is for. 
+
+
+Access List Configuration
+Create ACL
+ip access-list ext Perseus-WANpermit ip host 172.20.100.6 host 172.20.12.23deny ip any any log
+show access-list
+Apply ACLAccess Control List to VLAN
+int vlan 601ip access-group Perseus-WAN in
+show access-list Perseus-WAN
+Add statement to ACLAccess Control List and resequence
+ip access-list ext Perseus-WAN15 permit ip host 172.20.100.6 host 172.20.100.5ip access-list resequence Perseus-WAN 10 10
+Show Access List hits
+show log | inc list Perseus-WAN
+Areas to test
+
+
+ID
+Status
+Task
+
+
+8
+incomplete
+Perseus 1.1.0b1 was installed.  I performed a Netinstall from 6.27 to 6.28 and selected to keep the configuration, but the config was deleted after the netinstall finished.  I then manually loaded the config and performed a netinstall again (from 6.27 to 6.28) and the config did persist.  Bug or Coincidence?
+
+
+32
+incomplete
+stapmer.py
+
+
+def parse_args(self, args): # XXX TODO Bounds checks # XXX Add checking for os version file, mcc, hide_files
+
+
+ID
+Status
+Task
+
+
+9
+incomplete
+Network latency
+
+
+Decreate network latency <40%
+
+
+ID
+Status
+Task
+
+
+10
+incomplete
+File remnants after Perseus removal
+
+
+11
+complete
+Running processes ("ps ax")
+
+
+12
+incomplete
+bouncing VMVirtual Machine / restarting networking service
+
+
+17
+incomplete
+change MTU
+
+
+18
+incomplete
+change latency
+
+
+30
+incomplete
+Use MT Torch tool while implanting and see if anything is detected.
+
+
+19
+complete
+Check available disk space (does it change after implanted?)
+
+
+ 
+
+Attachments:
+
+
+image2015-7-13 9:35:50.png
+
+
+image2015-7-10 11:23:16.png
+
+
+image2015-7-10 11:22:44.png
+
+
+image2015-7-10 11:20:4.png
+
+
+image2015-7-10 11:18:33.png
+
+
+image2015-7-8 8:28:54.png
+
+
+image2015-4-8 8:27:37.png
+
+
+image2015-4-9 6:46:6.png
+
+
+image2015-4-9 7:41:29.png
+
+
+image2015-4-9 7:47:39.png
+
+
+image2015-4-14 10:0:41.png
+
+
+image2015-4-14 10:39:20.png
+
+
+image2015-4-14 10:50:58.png
+
+
+image2015-4-14 10:52:7.png
+
+
+image2015-4-14 11:3:2.png
+
+
+image2015-4-14 12:33:50.png
+
+
+image2015-4-14 12:35:37.png
+
+
+2015-04-16_063833-Perseus-Install_Log.log
+
+
+image2015-4-27 10:36:26.png
+
+
+image2015-4-27 10:46:9.png
+
+
+image2015-4-27 10:46:48.png
+
+
+image2015-4-27 11:59:25.png
+
+
+image2015-4-27 11:59:50.png
+
+
+image2015-4-27 12:13:25.png
+
+
+image2015-4-28 11:4:9.png
+
+
+image2015-4-29 13:23:56.png
+
+
+image2015-4-29 13:24:20.png
+
+
+image2015-5-5 9:44:14.png
+
+
+image2015-5-11 8:56:55.png
+
+
+image2015-5-12 8:23:12.png
+
+
+image2015-5-12 8:23:25.png
+
+
+image2015-5-12 8:23:57.png
+
+
+image2015-5-12 12:17:45.png
+
+
+image2015-5-12 12:18:52.png
+
+
+image2015-5-12 13:11:0.png
+
+
+image2015-5-12 13:11:35.png
+
+
+image2015-5-12 13:13:4.png
+
+
+image2015-5-12 13:14:30.png
+
+
+
+Previous versions:
+| 1 
+| 2 
+| 3 
+| 4 
+| 5 
+| 6 
+| 7 
+| 8 
+| 9 
+| 10 
+| 11 
+| 12 
+| 13 
+|
+                    

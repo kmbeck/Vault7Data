@@ -1,0 +1,47 @@
+
+                        Owner: User #15728648
+Generating and Installing Provisioning Profiles for Xcode
+If you want to run unit tests, sample apps, etc on a test device, follow these steps:
+NOTE: Instead of following the first 9 steps to get a new identity, you can use the one located at MDB/OSX/DeveloperAccount/ on the shared drive.
+
+Launch Xcode on an internet-connected machine.
+Go to Preferences -> Accounts and add your Apple ID.
+Once logged in, click on View Details... button.
+Find a valid signing identify(or add one), and click the gear icon, and select Export...
+
+Save the *.p12 and DTOData Transfer Object it to wherever you want to use it.
+On the internet-connected machine, log into developer.apple.com.
+Select Certificates, Identifiers & Profiles link.
+Under provisioning profiles, select an existing profile.if you generated a new identity in step 4, create a new provisioning profile.
+
+Download this profile and DTOData Transfer Object it.
+On the target dev machine, double click the p12 and mobile provisioning files, with a device connected.
+In the Xcode project, select the newly-added signing identity under Build Phases -> Code Signing Identity. (In XCode 6.3 this was under Build Settings -> Code Signing -> Code Signing Identity)
+Run and install your application.
+
+ 
+
+Comments:
+
+
+2015-04-21 16:33 
+[User #16384660]: 
+
+
+
+
+
+Attachments:
+
+
+Screen Shot 2015-04-21 at 4.37.24 PM.png
+
+
+Screen Shot 2015-04-21 at 4.36.28 PM.png
+
+
+
+Previous versions:
+| 1 
+|
+                    

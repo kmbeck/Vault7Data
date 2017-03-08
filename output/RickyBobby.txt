@@ -1,0 +1,96 @@
+
+                        Owner: User #54198274
+RickyBobby
+SECRET//NOFORN
+ 
+
+Page Purpose
+In short, this page is meant to be a scratch area. A place where I can put all my notes for RickyBobby and future development of the project. So this isn't official, just an area for brainstorming. JIRAUser Managment Software (Atlassian) will be used for all official bug fixes, release notes, and ideas that become full fledged features of RickyBobby.
+About RickyBobby v4.x.x
+ 
+(S) RickyBobby 4.x is developed by IOC/EDG/AED/Operational Support Branch (OSBOperation Support Branch) as a lightweight implant for target computers running newer versions of Microsoft Windows and Windows Server. The RickyBobby implant enables COGComputer Operations Group operators to upload and download files and execute commands and executables on the target computer without detection as malicious software by personal security products (PSPs). RickyBobby 4.x improves upon previous versions of RickyBobby by being easier to install, task using the Listening Post (LPListening Post), and manage multiple implant installations.
+(S) RickyBobby 4.x is comprised of several .NET DLLs and a Windows PowerShell script. RickyBobby uses Windows PowerShell to download and dynamically execute the .NET DLLs in memory. OSBOperation Support Branch chose Windows PowerShell as the execution vector because it is installed by default on all Microsoft’s operating systems since Windows Vista and it runs as trusted, Microsoft-signed process. RickyBobby 4.x can be installed remotely or with physical access to the target computers using batch files.
+What/Who is Cal?
+
+Simply put, Cal is RickyBobby's best friend: SHAKE N BAKE!
+(S)Cal is a python/cython Django Framework project that operates as the Listening Post for RickyBobby. COGComputer Operations Group insists that the LPListening Post be run under apache on CentOS currently, but maybe in the future we can convince them that apache is terrible and to use nginx or maybe work in Passenger. Django is meant to be a python web framework for dynamic AJAX webpages. Django works mostly on the MVC philosophy, but we don't have any views because we're not an actual web application, so we simply have our own set of models(python objects that correlate to db entries) and controls(various python code paths for processing beacons). We have wrapped the django APIApplication Programming Interface and created an interactive shell for operator interaction with the LP, Cal_Shell.py. Version 4.0 had Cal is the usual plain text python scripts on the LP, but we decided to compile some of the files with cython in order to obfuscate their function a bit better, in case an LPListening Post is knocked over.
+Release Notes
+4.0: First iteration of RB as a set of C# dlls dynamically loaded from the LP. First iteration with Cal django LP.
+4.0.1: Fixed Deadlocking condition with Task 5 and 8.
+4.1: Cal "cythonized". Memory execution of dlls and exes with command line arguments. Get/Put capability added.
+4.1.1: Fix to secureDelete functionality on Foreign language systems with different date formatting. Change to Stage 2 communications dll to get rid of MS default 100 second time out on webrequests.
+4.1.2: Fix to support collection of files with non-english characters in Path name, and attempt to avoid Kaspersky Cloud silent signaturing
+ 
+DEVLAN Infrastructure
+The Version of Cal delivered with RB 4.1.2 is available on OSB's ESXi Server   at cal.devlan.net(10.2.8.224). Please revert to Snapshot "All Clear" after use.
+Testing
+Currently working on getting DARTTest-Software (commercial) scripts put together for RB and Cal. Need to come up with a way to automate testing Cal_Shell.py as well.
+Current Ideas
+
+Encrypted Database and take This will take some maneuvering. Collected files are sent back to the LPListening Post encrypted by the targets private key, but we must store the targets public key in order to confirm communication with target. In reality the data is encrypted in AESAdvanced Encryption Standard and the associated key is encrpted by the target's priv key. So I think we could have a separate set of priv/pub keys. A take priv key for the server, and the pub key for the high side decryptor. When data arrives to the LP, we verify the signature with the target pub, and only decrypt the AESAdvanced Encryption Standard key. We then reencrypt the key with the take priv key and store datablob on disk with the RSAEncryption algorithm encrypted AESAdvanced Encryption Standard key. 
+
+Different types of persistence
+RB has always used a scheduled task for persistence.
+Co-op User #73851 has already started work on WMIWindows Management Instrumentation persistence
+We would also like to look into group policy objects for persistence
+
+
+Easier LPListening Post setup
+I would like to dive in a bit to the python setup-utils. If we can arrange for Cal to install using the standard "python setup.py install" command.
+making setup OSOperating System independent would be awesome.
+
+
+Secure Deletecurrently, The setup bat scripts generated by builder.ps1 doesn't have any form of secure self delete. It also does not secure delete the generated tmp.xml file that is used to setup the scheduled task
+
+Actually use cythoncurrently, we use cython to just obscure the LPListening Post source files a bit, but cython is powerful enough that it could actually speed up the LPListening Post if implemented well.
+
+Make Cal more modularcurrently, there is no easy way to swap in Cal modules. The tasks are modular to a point, but being able to dynamically put up new taskings without having to rewrite cal_shell.py or models.pyx everytime would be a lot easier to plug and play. It could also possibly let Cal work with other implants besides RB.
+
+Simplify 'addTask" command on Cal_Shell:
+make it not case sensitive
+TTL, bRet and priority defaults
+maxfire really needed?
+
+
+Automate deployment and testing of LP.
+
+ 
+Resources:
+Stash:https://stash.devlan.net/projects/RB/repos/rickybobby_csharp
+JIRA: https://jira.ioc.local/browse/RB/
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+SECRET//NOFORN
+ 
+ 
+ 
+
+Attachments:
+
+
+cal.jpg
+
+
+1334103658_Ricky-Bobby.jpg
+
+
+
+Sub-Pages:
+
+
+RickyBobby Automated Testing 
+
+
+
+Previous versions:
+| 1 SECRET
+|
+                    

@@ -1,0 +1,93 @@
+
+                        Transfer Data By Appending To An Existing File (DTFile_PICT - PICTOGRAM)
+SECRET//NOFORN
+ 
+OSB Library: Data Transfer
+
+Module Name: DTFile_PICT (PICTOGRAM)
+ 
+Module Description: This module transfers or stores data by appending the data to an already existing file such as a jpg or png. This module overrides the constructor (see Module Specific Structures). The overridden constructor takes a file path to where the data should be stored and a 32-byte signature that is used to identify the start of the data storage. Multiple chunks (calls to addFile) and multiple programs can store data in the same file. The user may use a Program ID of 0 when using FindFirst/FindNext to match all files in the file system.
+ 
+PSP/OS Issues: No known issues.
+ 
+('excerpt' missing)
+ 
+Sharing Level: Unilateral
+ 
+Technique Origin: In-house
+ 
+Notes:
+
+This module has an overridden constructor that requires a target file path and a 32-byte signature.
+A Program ID of 0 can be used to match all files in calls to FindFirst/FindNext
+Multiple programs can write to the smae file.
+A read index is stored for optiimization. Calls to FindFirst reset the read index
+A signature is used to identify the storage portion of the file starts (hex 32 bytes). If the signature is not present, one is written to the file. If a signature is not supplied 32 0x00 bytes are used as the signature. This could cause false flags.
+Verify files you are appending to will not be corrupted by the addition of data.
+This module will never create the target file, only append to an existing file.
+
+ 
+Module Specific Structures:
+Header used for storage of data.
+struct DATA_HEAD_PICT
+{
+	DWORD dwProgramId;
+	DWORD dwDataLen;
+};
+
+
+/*
+	Constructor takes path to the file you wish to store data in. The signature is a 32 byte buffer
+	that identifies a file as a carrier of data and identifies the start position of the data.
+*/
+DTFile_PICT(WCHAR *wcFilePath, LPBYTE lpbSig);
+
+  
+Example Code:
+ 
+WCHAR wcDrivePath[] = L"H:\\sloth.jpg";
+CHAR cSig[] = "Test1234Test1234Test1234Test1234Test1234";
+
+
+IDataTransfer *dtTransfer = new DTFile_PICT(wcDrivePath, (LPBYTE)cSig);
+
+
+//Write one chunk, find file, read file, delete file
+DWORD dwChunkSize = 0;
+DWORD dwFileProgID = 0;
+
+
+//Add the file to storage file
+DataTransErr dtErr = dtTransfer->addFile(5, byData1, dwData1Len);
+
+
+//find first file - no header
+dtErr = dtTransfer->findFirstFile(5, dwChunkSize, &dwFileProgID, 0, NULL);
+
+
+//Allocate memory - read in file just identified by findFirstFile
+LPBYTE lpbData = (LPBYTE)malloc(dwChunkSize);
+DWORD dwBytesRead = dtTransfer->readFile(lpbData, dwChunkSize);
+free(lpbData);
+
+
+//Delete file identified by findFirstFile
+dtErr = dtTransfer->deleteFile();
+
+
+//No more file - that was the only chunk
+delete dtTransfer;
+ 
+ 
+ 
+SECRET//NOFORN
+
+Previous versions:
+| 1 SECRET
+| 2 SECRET
+| 3 SECRET
+| 4 SECRET
+| 5 SECRET
+| 6 SECRET
+|
+                    

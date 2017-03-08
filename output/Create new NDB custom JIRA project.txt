@@ -1,0 +1,50 @@
+
+                        Owner: User #14587667
+Cloning a VM Checklist - Linux
+These steps should be performed whenever a linux VMVirtual Machine is cloned via a VMVirtual Machine Template or directly from another VM.
+ 
+If the VMVirtual Machine you are cloning has a script named "clone_vm_checklist.sh" in the user's home directory, you can run the script and it will perform steps A & B for you.  Step C is usually not necessary as it is already installed on all the Base VMs.
+A. Change IP Address
+Edit /etc/network/interfacesSample DHCPDynamic Host Configuration Protocol IP Config:
+
+# The loopback network interfaceauto loiface lo inet loopback
+# The primary network nterfaceauto eth0iface eth0 inet dhcp
+Sample Static IP Config:
+# The loopback network interfaceauto loiface lo inet loopback
+# The primary network interfaceauto eth0iface eth0 inet static address 10.9.8.99 netmask 255.255.255.0 network 10.9.8.0 broadcast 10.9.8.255 gateway 10.9.8.1 # dns-* options are implemented by the resolvconf package, if installed dns-nameservers 10.9.8.21 dns-search testrange.local
+B. Edit the hostname
+
+/etc/hostname
+/etc/hosts
+If using a static IP address, add the line "<static IP>   <hostname>.<domain name>  <hostname>"
+If using an IP address from DHCP, add the line "127.0.1.1   <hostname>.<domain name>  <hostname>"
+
+
+
+C. Install VMware tools (if applicable)
+Install open-vm-tools
+On a server use the command "sudo apt-get install open-vm-tools"
+On a desktop use the command "sudo apt-get install open-vm-tools && sudo apt-get install open-vm-tools-desktop"
+
+
+D. Assign Tag(s) to the VMVirtual Machine in vSphere
+ 
+
+Sub-Pages:
+
+
+Install Fluxwire v2.3 
+
+
+
+Previous versions:
+| 1 
+| 2 
+| 3 
+| 4 
+| 5 
+| 6 
+| 7 
+| 8 
+|
+                    

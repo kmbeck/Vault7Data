@@ -1,0 +1,36 @@
+
+                        Owner: User #26968069
+Hamrtoe Test Harness
+
+('toc' missing)
+General
+Hamrtoe (Hamr Testing Operational Environment) is a test harness for executing hamr tests on actual devices running in a simulated operational environment.  Infrastructure servers (fel, redirectors, etc) are simulated using docker containers.  Docker containers provide an easy method for deploying, configuring and destroying operational environments in a consistent manner, free of contamination from development environments.
+To get started with the MDBMobile Development Branch Hamrtoe server, visit Hamrtoe repo
+To build your own Hamrtoe server, visit the Hamrtoe developer instructions
+Design
+insert diagram here...
+Docker
+Docker is used to easily build and destroy lite-weight virtual machines (containers) from scratch that aid in simulating non-development environments.  Hamrtoe deploys fels and other servers in a new set of containers for each test iteration.  This ensures tests are being executed in prestine environments... and that all dependencies don't only exist on the devleoper's machine :)'Containers' are specific instances of 'Images' View the developer.md files in the respective docker subfolders (smb://FS-01/share/MDB/HamrToe/reference/docker) for detailed information about the docker images and how to start them manually
+adbpy
+Hamrtoe uses the adbpy project to communicate with devices over USB.  Test scripts use adbpy to simulate user interaction (e.g. screen unlocking, key presses, URLUniform Resource Locator browsing, etc) and task devices in an automated fashion.
+ 
+
+Attachments:
+
+Dockerfile
+
+
+Previous versions:
+| 1 
+| 2 
+| 3 
+| 4 
+| 5 
+| 6 
+| 7 
+| 8 
+| 9 
+| 10 
+| 11 
+|
+                    

@@ -1,0 +1,347 @@
+
+                        Android Developer Setup
+
+('toc' missing)
+Set Up SSHSecure Shell key pair
+Using ssh-keygen, create a private/public key pair:
+
+$ ssh-keygen
+Generating public/private rsa key pair.
+Enter file in which to save the key (~/.ssh/id_rsa): 
+Enter passphrase (empty for no passphrase): 
+Enter same passphrase again: 
+Your identification has been saved in ~/.ssh/id_rsa.
+Your public key has been saved in ~/.ssh/id_rsa.pub.
+The key fingerprint is:
+...
+ 
+
+Setup Stash
+On Stash, go to "Manage Account" under the user menu icon on the upper right (it may have a non-image display). On the left, navigate to "SSH Keys," and then click "Add Key." On your host, open the file ~/.ssh/id_rsa.pub and copy the contents into text box on the Add Key page.=
+Update apt sources
+Update the source list for apt
+
+edit /etc/apt/sources.list (Ubuntu)
+comment or remove the public servers
+add the list of servers found on the Devlan page
+
+Install Git
+
+
+ sudo apt-get install git
+git config --global user.email "[username]@devlan.net"
+git config --global user.name "who you be?"
+
+
+Configure /etc/hosts
+Add the following hosts to the /etc/hosts file 
+add "172.31.1.2 jira.ioc.local jira"
+Configure SSH
+Open ~/.ssh/config and add the following:
+
+host stash
+        hostname stash.devlan.net
+        port 7999
+        user git
+
+SSH will determine your username from the key you created. Test this by checking out a
+project from git (try ssh://stash/dto/dto_logger).
+git clone ssh://stash/dto/dto_logger
+Setup Password-less Access to Another Machine via SSH
+From the client from where you would like to connect, you can simply send your SSHSecure Shell public key as generated above to the remote machine.  
+ssh-copy-id <remote userid>@<remote server>
+Install Repo
+Download Repo   from the link and place it in either /usr/local/bin or /usr/bin
+If you already have repo installed, check that the REPO_URL points to the following url: 
+REPO_URL = 'ssh://git@stash.devlan.net:7999/gitrepo/git-repo.git'
+It is located at the top of the repo script.
+Setting up Environment on OSXApple operating system 10.10.2
+ 
+
+
+Homebrew  
+
+sudo echo "10.2.3.102 pypi.python.org" >> /etc/hosts
+brew install ant 
+install pip:
+
+
+Go to the pip hyperlink (http://10.3.2.212/packages/) and download the binaries for pip (pip-1.5.6.tar.gz
+
+Extract the tar content to your Home directory or desired location. Open a terminal to that location and run "sudo python setup.py install" to install pip. 
+The URLUniform Resource Locator can be set permanently for your user by creating the file ~/.pip/pip.conf with the following contents:
+
+[global]
+index-url = http://pypi.python.org/simple/
+**Refer to "Devlan simple pip index  " for info on how to use pip.
+5. Once pip is installed run "sudo pip install pycrypto" to install the PYcrypto python suite. (If issues locating the pypi server, try this alternate command: "sudo pip install -i http://10.3.2.212/simple/ pycrypto") 
+ 6. brew install protobuf
+7. mkdir -p /Users/USER/Library/Python/2.7/lib/python/site-packages
+8. echo 'import site; site.addsitedir("/Users/USER/brew/lib/python2.7/site-packages")' >> /Users/USER/Library/Python/2.7/lib/python/site-packages/homebrew.pth
+9. python  -c "import google.protobuf"
+ 10. cp smb://FS-01/share/MDB/Android/Software/SDK/android-sdk-macosx-platforms-3-21.tar.gz to your machine, then untar it. 
+11. mv android-sdk-macosx directory to /opt/ 
+12. Define the following environment variables in your .bashrc:
+ 
+
+export NDK=/usr/local/Cellar/android-ndk/r10d # <-- make sure this matches the next step when install NDK
+export NDK_BIN=${NDK}/toolchains/arm-linux-androideabi-4.8/prebuilt/darwin-x86_64/bin
+export NDK_BIN64=${NDK}/toolchains/aarch64-linux-android-4.9/prebuilt/darwin-x86_64/bin
+export ANT_HOME=/usr/local/Cellar/ant/1.9.4/libexec
+export ANDROID_SDK=/opt/android-sdk-macosx
+export ANDROID_HOME=/usr/local/opt/android-sdk
+
+export PATH=$PATH:${ANDROID_SDK}/platform-tools:/path/to/homebrew/bin 
+
+export BOWTIE_URL='http://[your local ip]/bt.php'
+export HAMR_URL='http://[your local ip]:4343
+
+ 
+Install Xcode
+Install Xcode from smb://fs-01.devlan.net/share/share-udb-net/public/osx/software/Xcode.
+Install NDK
+Copy appropriate self-extracting NDKNative Development Kit bin from smb://FS-01/share/MDB/Android/Software/NDK (use r10d). Do not run this on the share drive.
+chmod u+x <NDK bin file>
+./<NDK bin file> 
+Install Pandoc
+Using pandoc to generate pdfs from markdown. 
+For OSX, copy below pkg files to local drive:
+
+
+smb://FS-01/share/MDB/OSX/Software/FreeSoftware/Utility/BasicTex.pkg
+
+
+smb://FS-01/share/MDB/OSX/Software/FreeSoftware/Utility/pandoc-1.14.0.1-osx.pkg
+
+Double click these files to install the applications.
+
+For Ubuntu, use "apt-get install" (See below apt-get command for all tools to install)
+Setting up Environment on Ubuntu
+Install SDK
+From  smb://FS-01/share/MDB/Android/Software
+unzip depending on your platform android-sdk-linux-platforms.tar.gz or android-sdk-macosx-platforms-3-21.tar.gz
+Setup apt path
+Go to applications/software and updates in VM. Under "ubuntu software" uncheck all of the boxes. Under "other software" click the add button and add the following:
+https://confluence.devlan.net/download/attachments/11629089/Screenshot%20from%202015-10-13%2015%3A18%3A22.png?api=v2
+ 
+Install Dev tools
+sudo apt-get install ant pandoc texlive build-essential cifs-utils git zip python-protobuf protobuf-compiler
+Install JDK
+sudo apt-get install openjdk-6-jdk
+Automount Share drive
+Install cifs (Ubuntu)
+sudo apt-get install cifs-utils
+Create share folder
+
+sudo mkdir /media/fs01
+sudo chmod 766 /media/fs01
+
+Create a ~/.smbcredentials
+username=<devlan username>
+password=<devlan password>
+domain=DEVLAN
+chmod 600 ~/.smbcredentials
+ 
+append to  fstab (linux). Use automount for mac. wiki sea
+//fs-01.devlan.net/share /media/fs01 cifs  credentials=/home/<USERNAME>/.smbcredentials,uid=<USERNAME>,gid=<USERNAME>,iocharset=utf8,sec=ntlm 0 0
+make sure uid/gid point to your user id/gid, same w/ path to credentials.
+ 
+Setup Environment Variables
+Put the following in your bashrc or environment. make sure it points to the correct location of your sdk, ndk, ant, etc...
+export NDK=/opt/android-ndk-r10d
+export NDK_BIN=${NDK}/toolchains/arm-linux-androideabi-4.8/prebuilt/linux-x86_64/bin
+export NDK_BIN64=${NDK}/toolchains/aarch64-linux-android-4.9/prebuilt/linux-x86_64/bin
+export ANT_HOME=/usr/local/apache-ant-1.9.3
+export ANDROID_SDK=/opt/android-sdk-linux
+export ANDROID_PLATFORM_TOOLS=${ANDROID_SDK}/platform-tools
+
+ 
+export LOCALHOST_IP=`ifconfig | sed -En 's/127.0.0.1//;s/.*inet (addr:)?(([0-9]*\.){3}[0-9]*).*/\2/p' | head -1`
+export BOWTIE_URL="http://$LOCALHOST_IP/bt.php"
+export HAMR_URL="http://$LOCALHOST_IP:4343/?id=moobowtie"
+export SUCKERPUNCH_URL="http://$LOCALHOST_IP:1337"
+Install 32bit libs (if running on x86_64)
+sudo apt-get install lib32z1 lib32ncurses5 lib32bz2-1.0 libglib2.0-0:i386 lib32stdc++6 libfreetype6:i386
+Some tools seem to require a 32bit env to build. Looking at you legba.
+Setup NGINX redirector
+
+
+NGINX proxy/redirector  
+
+Additional configuration example: NGinx Redirector Configuration  
+
+
+Troubleshooting
+Proguard errors (on OSXApple operating system 10.9.x)
+BUILD FAILED
+... Can't read /Library/Java/JavaVirtualMachines/1.6.0_37-b06-434.jdk/Contents/lib/jsse.jar ...
+cd /Library/Java/JavaVirtualMachines/1.6.0_37-b06-434.jdk/Contents/Home/lib
+sudo ln -s ../../Classes/jsse.jar .
+sudo ln -s ../../Classes/classes.jar rt.jar
+The proguard configuration is looking for JARs in the wrong place. This will symlink the jar files to where they are expected
+ 
+
+Android Studio Errors (on OSXApple operating system 10.10)
+setup
+ 
+put in your host file
+#mdbtest
+10.2.3.102 dl.google.com
+When setting up, just ignore the errors, and select custom install. Unselect everything possible.
+Set the sdk path to whatever you configured above.
+It tries to download two files from the internets.
+
+http://dl.google.com/android/repository/repository-10.xml
+
+http://dl.google.com/android/repository/build-tools_r21.1.1-macosx.zip (on mac)
+
+ 
+If it crashes immediately, verify or set your default jdk for Android Studio. It should be 1.7 or newer.
+$  /usr/libexec/java_home -V
+Matching Java Virtual Machines (3):
+    1.7.0_71, x86_64:	"Java SE 7"	/Library/Java/JavaVirtualMachines/jdk1.7.0_71.jdk/Contents/Home
+    1.6.0_37-b06-434, x86_64:	"Java SE 6"	/Library/Java/JavaVirtualMachines/1.6.0_37-b06-434.jdk/Contents/Home
+    1.6.0_37-b06-434, i386:	"Java SE 6"	/Library/Java/JavaVirtualMachines/1.6.0_37-b06-434.jdk/Contents/Home
+
+
+$ launchctl setenv STUDIO_JDK /Library/Java/JavaVirtualMachines/jdk1.7.0_71.jdk/
+ 
+Optional cool stuff
+Private Key with passwords
+Secure your private key, but save your password with keychain. When creating your public/private key, use a good password. OSXApple operating system will store the password in your login keychain. To avoid entering your password more than once per boot, you can use keychain on Linux. 
+apt-get install keychain
+ 
+# in your bashrc, put the following
+eval $(keychain --eval id_rsa)
+ 
+Trust the devlan.net Certificate (Useful for avoiding constant Chrome popups regarding self-signed certs)
+ 
+certutil -d sql:$HOME/.pki/nssdb -A -t "P,," -n "devlan.net" -i <path to your exported *.devlan.net cert>
+ 
+Show your Git branch name (current branch you are pointed to) on the Terminal prompt
+Steps:
+    1. Go to your home directory
+    2. type
+gedit .bashrc
+    3. Find the block of code that looks like this and replace it with this code
+
+# uncomment for a colored prompt, if the terminal has the capability; turned
+# off by default to not distract the user: the focus in a terminal window
+# should be on the output of commands, not on the prompt
+force_color_prompt=yes
+if [ -n "$force_color_prompt" ]; then
+    if [ -x /usr/bin/tput ] && tput setaf 1 >&/dev/null; then
+    # We have color support; assume it's compliant with Ecma-48
+    # (ISO/IEC-6429). (Lack of such support is extremely rare, and such
+    # a case would tend to support setf rather than setaf.)
+    color_prompt=yes
+    else
+    color_prompt=
+    fi
+fi
+parse_git_branch() {
+    git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/(\1)/'
+}
+if [ "$color_prompt" = yes ]; then
+    PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[01;31m\]$(parse_git_branch)\[\033[00m\]\$ '
+else
+    PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w$(parse_git_branch)\$ '
+fi
+unset color_prompt force_color_prompt
+
+Alternatively, on Ubuntu, you will need to substitute $(parse_git_branch) above with $(__git_ps1)
+Test Setup
+Follow the instructions to build the anger management repo in order to test your setup.
+Sublime
+Follow these instructions for setting up sublime...
+ 
+ 
+
+Sub-Pages:
+
+
+MDB DNS Entries 
+
+
+Using Poseidon and the NSX LP (used for NightSkies and RoidRage) 
+
+
+
+Previous versions:
+| 1 
+| 2 
+| 3 
+| 4 
+| 5 
+| 6 
+| 7 
+| 8 
+| 9 
+| 10 
+| 11 
+| 12 
+| 13 
+| 14 
+| 15 
+| 16 
+| 17 
+| 18 
+| 19 
+| 20 
+| 21 
+| 22 
+| 23 
+| 24 
+| 25 
+| 26 
+| 27 
+| 28 
+| 29 
+| 30 
+| 31 
+| 32 
+| 33 
+| 34 
+| 35 
+| 36 
+| 37 
+| 38 
+| 39 
+| 40 
+| 41 
+| 42 
+| 43 
+| 44 
+| 45 
+| 46 
+| 47 
+| 48 
+| 49 
+| 50 
+| 51 
+| 52 
+| 53 
+| 54 
+| 55 
+| 56 
+| 57 
+| 58 
+| 59 
+| 60 
+| 61 
+| 62 
+| 63 
+| 64 
+| 65 
+| 66 
+| 67 
+| 68 
+| 69 
+| 70 
+| 71 
+| 72 
+| 73 
+| 74 
+| 75 
+|
+                    

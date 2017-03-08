@@ -1,0 +1,35 @@
+
+                        Owner: User #71473
+Hook Functions via Import Address Table (MISCHookFunctions_IAT_NTRN)
+SECRET//NOFORN
+ 
+Miscellaneous Module
+Stash Repository: Miscellaneous Library
+
+Module Name: MISCHookFunction_IAT_NTRN (Uses Windows APIApplication Programming Interface and winternl.h data structures)
+ 
+Module Description: Class that allows for easy hooking of Windows APIApplication Programming Interface calls in the import address table
+ 
+Usage: Forthcoming
+ 
+PSP/OS Issues: Any PSP/OS issues associated with the technique.
+ 
+('excerpt' missing)
+*Miscellaneous modules should also contain "Excerpt Includes" from every non-miscellaneous module that uses it.
+ 
+Sharing Level: Unilateral, Liaison, Intelligence Community (Default: Unilateral - until otherwise noted)
+ 
+Technique Origin: Open source
+ 
+Notes:
+ 
+Module Specific Structures:
+ 
+Module Return Codes:
+ 
+Example Code:
+ 
+ 
+INCLUDE DESCRIPTIVE LABELS FOR EACH MODULE
+SECRET//NOFORN
+                    

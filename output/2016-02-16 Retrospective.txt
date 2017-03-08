@@ -1,0 +1,54 @@
+
+                        Owner: User #20251227
+2015-11-09 Retrospective
+
+
+('details' missing)
+Retrospective
+
+
+
+What did we do well?
+
+Got accustomed to this JIRAUser Managment Software (Atlassian) instance
+Got familiar with project admin in JIRA, not just as a user
+Found out how to model Agile "Tasks" by utilizing this JIRA's "sub-issue" of a story
+Setting up of JIRAUser Managment Software (Atlassian) project
+Standing up wiki space, creation of initial "developer docs", initial system architecture
+Re-baseline of project
+Peer review, soliciting of opinions, taking advantage of existing expertise.
+
+
+
+What should we have done better?
+
+Had "customer" meeting(s) & customer involvement waaaaaayyyy sooner.
+Should have addressed staffing model waaaaaaaayyyy sooner
+
+
+
+
+What will we do differently next time to improve?
+Scrum/Agile should encourage & take care of regular customer comms due to (regular, periodic) activities such as backlog prioritization, sprint planning, & retrospectives
+Expectations for staffing model are now clear. 
+Make the architecture & design modular (i.e., specify interfaces FIRST when possible) so that "surge" staffing (if available) can quickly pick up and work on tasks in parallel.
+Continue to take advantage of existing expertise so that design/build decisions are properly informed.  There ain't no time for preventable do-overs.  We ain't got time to bleed.
+
+
+ID
+Status
+Task
+
+
+1
+incomplete
+@mention a person to assign them an action item
+
+
+
+
+
+Previous versions:
+| 1 
+|
+                    

@@ -1,0 +1,133 @@
+
+                        About Packrat
+ 
+Packrat was a NODNetwork Operations Division iTime project designed to simplify and automate creating Listening Posts using open source and COTSCommercial Off-The-Shelf software.  Packrat starts with a hardened Operating System baseline and configures additional service hardening (Apache, DNS, etc) depending on the LPListening Post software.
+The basic tenants of Packrat are:
+
+Hardened-by-default Operating System
+Must facilitate < 20 minute LPListening Post deployment per LP
+Must facilitate <10 minute LPListening Post maintenance per LP
+
+Supported Operating Systems
+
+
+Operating System
+Version
+Status
+Notes
+
+
+CentOS
+6.4
+
+ 
+
+
+CentOS
+6.5
+
+ 
+
+
+CentOS
+7
+
+Needs testing...
+
+
+Scientific Linux
+6.4
+
+ 
+
+
+Scientific Linux
+6.5
+
+ 
+
+
+RHEL
+6.x
+
+Needs testing...
+
+
+Fedora Core
+19
+
+Needs testing...
+
+
+Fedora Core
+20
+
+Needs testing...
+
+
+Ubuntu
+12.04 LTS
+
+Future support
+
+
+Ubuntu
+14.04.1 LTS
+
+Future support
+
+
+Debian
+6
+
+Future support
+
+
+Debian
+7
+
+Future support
+
+
+ 
+COTS/Open Source Tools Used
+
+Ansible: http://github.com/ansible/ansible
+Packer: packer.io
+VMWare Workstation 10: vmware.com
+
+Basic Workflow
+
+Required software installed on DEVLAN workstation: Packer, VMWare Workstation 10
+Packer configuration created
+SSH public/private keypair created
+Kickstart (w/ updated SSHSecure Shell public key, root password, and (if needed) network configuration)
+Run Packer to provision and create hardened base LPListening Post VM
+(Optional) Create Ansible playbook to configure LPListening Post software (i.e. Sandshark LPListening Post)
+(Optional) Run Ansible-playbook to perform LPListening Post configuration
+
+FAQs
+
+Why are the Ansible playbook steps optional?  Packer recently introduced an Ansible Local provisioner which means Packer can run Ansible after the initial kickstart process has completed.  Currently, NODNetwork Operations Division uses Ansible Playbook mode instead of Ansible Local so that the playbook is never saved on the LP.
+ 
+ 
+
+Previous versions:
+| 1 
+| 2 
+| 3 
+| 4 
+| 5 
+| 6 
+| 7 
+| 8 
+| 9 
+| 10 
+| 11 
+| 12 
+| 13 
+| 14 
+| 15 
+| 16 
+|
+                    

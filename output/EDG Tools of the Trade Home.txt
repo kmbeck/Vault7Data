@@ -1,0 +1,66 @@
+
+                        Owner: User #7995631
+SourceTree
+Here be the page for SourceTree, yee put useful information here.
+ 
+Installing version 1.8.2:
+I got this account info from bugmenot.com but then manually edited the the accounts.json file and replaced the email address with a@a.com. If this bothers you, feel free to make your own account, install SourceTree online, sign in with that account, and copy the account.json file.
+
+
+Download and run the installer from \\fs-01\share\Windows Software Development Resources\git\SourceTree\SourceTreeSetup_1.8.2.exe
+I want you to know I tried to make the path above a link but was defeated 
+
+
+Click through the installer taking the default options
+When asked to sign into your Atlassian account close the installer.
+Copy accounts.json file to %localappdata%/Atlassian/SourceTree/accounts.json
+Start SourceTree
+
+Done
+ 
+
+
+
+Comments:
+
+
+2016-02-24 11:55 
+[User #71473]: 
+
+...that's just dumb.
+
+
+2016-02-24 10:48 
+[User #1179751]: 
+
+Their excuse is to ensure you are accepting the terms of agreement.  In reality they just want people to have atlassian accounts so they can drive up their business (Bitbucket has a cloud version that is a competitor to GitHub).
+
+
+2016-02-24 09:45 
+[User #71473]: 
+
+So what's the point of the license if you don't have to pay for it?  Or do you just mean the SourceTree license is included with our Atlassian licenses?
+
+
+2016-02-24 09:33 
+[User #1179751]: 
+
+We've never paid for a sourcetree license, it appears they've just changed the format of their key and don't advertise this hack.  There is however a huge amount of annoyance at the enterprise level over this, it would be nice if this could point to crowd to generate a license.
+
+
+2016-02-24 09:21 
+[User #71473]: 
+
+So... the newer versions don't just use the normal license files that we've been paying for?  That's annoying :-/
+
+
+
+Attachments:
+
+accounts.json
+
+
+Previous versions:
+| 1 
+|
+                    

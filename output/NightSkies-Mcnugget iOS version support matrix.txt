@@ -1,0 +1,19 @@
+
+                        Device Out of Space?
+
+One possible source of your space bing consumes is Crash logs.  You can use your favorite method to remove remove the logs.
+
+One more strange location of collecting files is:
+/private/var/mobile/Library/Caches/com.apple.springboard.sharedimagecache/Persistent
+
+SpringBoard related .cpbitmap files may start to collect here
+
+Not if there are a ton of file in the directory, try the following command to remove them
+echo SBUIControlCenterButton._backgroundImageWithGlyphImage.bg_<optional add file numbers here>* | xargs rm
+
+
+
+
+
+ 
+                    

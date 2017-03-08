@@ -1,0 +1,68 @@
+
+                        Owner: User #1179751
+OSB Workflow In Git
+
+
+This exercise will introduce you to Stash, Git, and Visual Studio.  By the end of this exercise you should be able to:
+
+Check out a project in Git
+Open and build a project in Visual Studio
+Create a pull request
+
+A note about this exercise before we proceed, this article assumes you are using SourceTree to navigate Git.  Feel free to use Git Bash if you are comfortable with the command line and prefer it (you sadist) but you are on your own.
+Onto the excercise:
+
+
+To begin, navigate to https://stash.devlan.net/projects/NDE/repos/exercise-1---intro-to-git/browseLogin to Stash using your Devlan account information and be sure your SSHSecure Shell RSAEncryption algorithm public key is addedOn the left fly out there is a “Clone” command, you can either use the link provided to checkout via the git command line, or if you have SourceTree installed simply click on “Clone in SourceTree”.Git has now downloaded a complete copy of the branch (and all its history) to your local machine.  The beauty of Git is you can work on this code without fear of destroying anything because you won’t have the ability to modify master or develop on origin (origin is the main repo which is hosted on Stash).
+
+
+
+Before we modify any code, let’s follow Git Flow and create a new feature branch where your changes will be made.  We do this because develop should always be in a stable state, so if another developer wishes to work on this project they don’t have to undo any half-finished changes.The easiest way to do this is to initialize Git Flow within SourceTree.  Simply click the “Git Flow” icon in SourceTree’s ribbon (it is the third from the right) and accept the default values.Once this is done select the “Git Flow” icon again then select “Start New Feature”.  In the New Feature dialog give the branch a name using your name (The branch name is supposed to describe what you are doing, having it be your name will make sense in a second) and select “OK”.You should now have something that looks similar to the right.You are now on your own branch and won't modify develop or master at all. 
+
+
+
+Now navigate to the location you checked out the project to.  Inside the folder you should see a file called GitIntro.sln, this is the Solution file for this exercise.  Open this in visual studio and you should see something similar to the image on the right.In GitIntro.cpp add a wprintf statement that says your name and something about you (hence why your name was a good name for the branch).Select “Build” -> “Build Solution” and ensure you get no errors.Select “Debug” -> “Start Debugging” and ensure you get the expected output.Once you are satisfied with your changes, save everything and let's commit it.
+
+
+
+Returning to SourceTree you should see  “Uncommited Changes”.  Add GitIntro.cpp (should be the only file with changes) to your staging area by selecting it in the “Working Copy Changes” area and moving it to the “Staged Changes” area.  Doing this tells Git that you would like to commit those specific changes to the repo.On the ribbon select “Commit” and put a descriptive message into the box before committing the changes.  If you want SourceTree to automatically push your changes to the remote server, check the box labelled "Push changes immediately to ..." before hitting the commit button.  If you choose not to check this, the changes are committed locally only; before proceeding you will need to hit the "Push" button on the ribbon to ensure your changes are synced to the remote repository.
+
+
+
+The final part of this exercise will cover creating a pull request. A pull request is a fancy way of saying “my code is ready to be merged into a parent branch”.  Develop is our stable branch that approved code will be merged into, but before we do that we should do a mini code review.  Stash makes this nice and easy to set up so navigate to https://stash.devlan.net/projects/NDE/repos/exercise-1---intro-to-git/browse.This time select “Create pull request” from the fly-outSource is going to be your branch, destination is going to be developAdd User #1179751 and User #71473 to the reviewers.  One of these two will walk you through the remainder of the exercise.
+
+
+
+
+Attachments:
+
+
+image2014-7-25 17:1:9.png
+
+
+image2014-7-25 16:55:7.png
+
+
+image2014-7-25 16:47:18.png
+
+
+image2014-7-25 16:33:56.png
+
+
+image2014-7-25 16:20:41.png
+
+
+image2014-7-25 16:10:49.png
+
+
+
+Previous versions:
+| 1 empty
+| 2 
+| 3 
+| 4 
+| 5 
+| 6 
+| 7 
+|
+                    

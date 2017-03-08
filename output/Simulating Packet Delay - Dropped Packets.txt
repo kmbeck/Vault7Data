@@ -1,0 +1,211 @@
+
+                        NGinx Redirector Configuration
+See below for an example Redirector configuration which supports multiple SSLSecure Socket Layer certificates and serves the right certificate depending on the site name.  In this setup, I am actually running Apache on 8080/4430 and Nginx on 80/443.
+Acquire certificates for SSL
+
+If testing with a real cert + cert chains, nginx requires that the certificate contain the entire certificate chain in a single file
+If still getting cert errors on device/browser, double check the time and/or expiration date.
+
+$ cat host.crt intermeidate.crt > host_for_nginx.crt
+
+One can acquire valid certs from the following locations:
+MDBTest server:
+
+mdbtest.devlan.net:/etc/certs
+Certs are already include the intermediate cert and are ready to be used by NGinx
+
+Devlan share:
+/fs01/MDB/Android/Operations/e.g. /media/fs01/MDB/Android/Operations/jqjhorde/certs/aztele.net/host.aztele.net
+
+Default Site Configuration:
+In /etc/nginx/sites-available, we configure all of the servers, including all SSLSecure Socket Layer certificates:
+ 
+server {
+	listen 80 default_server;
+	listen [::]:80 default_server ipv6only=on;
+
+
+	#Note: I overrode the root dir to point to the same directory as Apache (which I also have running on another port):
+	root /var/www/html;
+	index index.html index.htm;
+	disable_symlinks off;
+
+
+	# you can create multiple servers by name on 80, but there isn't much need unless you are using SSL
+	server_name localhost;
+ 
+	# pass this page to Apache:
+	location /bt.php {
+		proxy_pass http://localhost:8080/bt.php;
+	}
+	location /lp/ini.php {
+		proxy_pass http://localhost:8080/lp/ini.php;
+	}
+	location /admin {
+		proxy_pass http://localhost:8080/admin;
+	}
+
+
+	# pass this page to HAMR on 4343 (non-SSL since the input connection came in non-SSL)
+	location /hamr {
+		proxy_pass http://localhost:4343;
+	}
+	location / {
+		# First attempt to serve request as file, then
+		# as directory, then fall back to displaying a 404.
+		try_files $uri $uri/ =404;
+	}
+}
+
+
+
+# HTTPSHypertext Transfer Protocol Secure server
+#
+server {
+	listen 443;
+	server_name host.aztele.net;
+	ssl on;
+	ssl_certificate /etc/certs/host.abcxyz.net.crt;
+	ssl_certificate_key /etc/certs/host.abcxyz.net.pem;
+	include /etc/nginx/sites-available/ssl_options;
+}
+server {
+	listen 443;
+	server_name www2.arfunnyvideos.com;
+	ssl on;
+	ssl_certificate /etc/certs/www2.defghi.com.crt;
+	ssl_certificate_key /etc/certs/www2.defghi.com.pem;
+	include /etc/nginx/sites-available/ssl_options;
+	
+	location /vfel1 {
+		proxy_pass https://localhost:46025;
+	}
+	location /vfel2 {
+		proxy_pass https://localhost:46026;
+	}
+}
+server {
+	listen 443;
+	server_name www2.newshighlights.net;
+	ssl on;
+	ssl_certificate /etc/certs/www2.ghijkl.net.crt;
+	ssl_certificate_key /etc/certs/www2.ghijkl.net.pem;
+	include /etc/nginx/sites-available/ssl_options;
+}
+server {
+	listen 443;
+	server_name www.bigbronies.com;
+	ssl on;
+	ssl_certificate /etc/certs/www.jklmno.com.crt;
+	ssl_certificate_key /etc/certs/www.jklmno.com.pem;
+	include /etc/nginx/sites-available/ssl_options;
+}
+server {
+	listen 443;
+	server_name www2.bigbronies.com;
+	ssl on;
+	ssl_certificate /etc/certs/www2.mnopqr.com.crt;
+	ssl_certificate_key /etc/certs/www2.mnopqr.com.pem;
+	include /etc/nginx/sites-available/ssl_options;
+}
+server {
+	listen 443;
+	server_name www2.hihi2.org;
+	ssl on;
+	ssl_certificate /etc/certs/www2.pqrstu.org.crt;
+	ssl_certificate_key /etc/certs/www2.pqrstu.org.pem;
+	include /etc/nginx/sites-available/ssl_options;
+}
+server {
+	listen 443;
+	server_name www.deliverynetads.com;
+	ssl on;
+	ssl_certificate /etc/certs/www.stuvwx.com.crt;
+	ssl_certificate_key /etc/certs/www.stuvwx.com.pem;
+	include /etc/nginx/sites-available/ssl_options;
+}
+server {
+	listen 443;
+	server_name www2.firstclassads.com;
+	ssl on;
+	ssl_certificate /etc/certs/www2.vwzyza.com.crt;
+	ssl_certificate_key /etc/certs/www2.vwzyza.com.pem;
+	include /etc/nginx/sites-available/ssl_options;
+}
+
+
+ 
+ssl_options Config:
+In the config "/etc/nginx/sites-available/ssl_options", I can then configure the behavior of the pages that are configured for all of the above SSLSecure Socket Layer servers:
+	# Common SSLSecure Socket Layer Options for all SSLSecure Socket Layer Servers:
+	root /var/www/html;
+	index index.html index.htm;
+	disable_symlinks off;
+	ssl_session_timeout 5m;
+	ssl_protocols SSLv3 TLSv1 TLSv1.1 TLSv1.2;
+	ssl_ciphers "HIGH:!aNULL:!MD5 or HIGH:!aNULL:!MD5:!3DES";
+	ssl_prefer_server_ciphers on;
+	ssl_verify_client off;
+
+
+	# Pass these sites on to the apache server (running on 8080, localhost)
+	location /aosp {
+		autoindex on;
+		proxy_pass http://127.0.0.1:8080;
+	}
+	location /mirror {
+		autoindex on;
+		proxy_pass http://127.0.0.1:8080;
+	}
+	location /bt.php {
+		proxy_pass https://127.0.0.1:4430/bt.php;
+	}
+
+
+	# Pass these sites on to the apache server over SSLSecure Socket Layer (running on 4430, localhost)
+	location /lp/ini.php {
+		proxy_pass https://127.0.0.1:4430/lp/ini.php;
+	}
+	location /admin/ {
+		proxy_pass https://127.0.0.1:4430/admin/;
+	}
+
+
+	# Pass this on to HAMR, running on 4343
+	location /hamr/ {
+		proxy_pass https://127.0.0.1:4343/;
+	}
+	# Pass this on to HAMR, running on 46025
+	location /videos/e5a08a1a/ {
+		proxy_pass https://127.0.0.1:46025/;
+	}
+	# Pass this on to Bowtie on the apache server over SSLSecure Socket Layer (running on 4430, localhost)
+	location /videos/e5a08a1a/stats.php {
+		proxy_pass https://127.0.0.1:4430/bt.php;
+	}
+	# Pass this on to HAMR, running on 46025
+	location /videos/ {
+		proxy_pass https://127.0.0.1:46025/;
+	}
+	location /vigor/ {
+		proxy_pass https://127.0.0.1:46025/;
+	}
+	# Otherwise, try to serve it up using Nginx itself:
+	location / {
+		#try_files $uri $uri/ =404;
+		proxy_pass http://127.0.0.1:8080/;
+	}
+ 
+ 
+ 
+ 
+
+Previous versions:
+| 1 
+| 2 
+| 3 
+| 4 
+| 5 
+| 6 
+|
+                    

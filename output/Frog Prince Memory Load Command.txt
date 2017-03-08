@@ -1,0 +1,36 @@
+
+                        Frog Prince Memory Load Command
+Requirement(s)
+4.1.17  The implant shall be capable of loading a DLLDynamic Link Library and calling DLLmain on that DLL.  The implant shall not unload this DLLDynamic Link Library until command to by the operator.
+Preparation
+
+Write scripts for user interface
+memload command for a DLL
+queue status to verify command was run
+
+
+Write a DLLDynamic Link Library that outputs a text file
+writes to known location  e.g.  c:\testload.txt  when loaded
+writes to known location  e.g. c:\testunload.txt when unloaded
+writes a known string  e.g.   "DLL load"
+name DLLDynamic Link Library something easy to identify
+NOTE - a Hello World DLLDynamic Link Library is already in test folder
+
+MemLoad Test(s)
+
+copy install vector and Frog Prince module on target
+install Frog Prince
+memload test DLL
+verify text file is output to expected location
+verify text file for unloaded condition is not found  i.e.  DLLDynamic Link Library remains in memory
+
+
+
+
+Previous versions:
+| 1 
+| 2 
+| 3 
+| 4 
+|
+                    

@@ -1,0 +1,36 @@
+
+                        Owner: User #14587667
+Bumble 3.2.1 Test Notes
+Smoke/Ad hoc Tests Performed
+
+Smoke tests using automation scripts (w/ and w/o latency).  Test results were manually inspected. IXIA StackScrambler was running.
+Manually reboot slot 0 (with Bumble installed on slot 0).
+Saved transtable to FTPFile Transfer Protocol server and viewed with new print_ttrans binary
+Install to slot 0 (Master)
+Activate then Deactivate swiffer
+Reboot slot 0.
+tp swiffer show
+
+
+
+ 
+Test Timeline
+1/19 Ad-hoc testing. Ran automated tests 100 times overnight (w/o latency).
+1/20 Ran automated tests ~40 times.  Overnight ran automation tests 120 times.  No latency was used.
+ 
+Test notes
+The following messages appears when rebooting slot 0 when slot 0 is the master MPU.  This message is not caused by bumble since this message was witnessed without Bumble installed.
+%Jan 19 11:41:26:697 2016 H3C DEV/2/BOARD_STATE_FAULT: Board state changes to FAULT on Slot 0, type is unknown.%Jan 19 11:41:27:416 2016 H3C DEV/5/BOARD_STATE_NORMAL: Board state changes to NORMAL on Slot 0, type is MPU-100.%Jan 19 11:41:30:138 2016 H3C HA/5/HA_BATCHBACKUP_STARTED: Batch backup of standby board in slot 0 started.
+Operator Notes
+ 
+ 
+
+Previous versions:
+| 1 
+| 2 
+| 3 
+| 4 
+| 5 
+| 6 
+|
+                    

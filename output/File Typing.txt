@@ -1,0 +1,29 @@
+
+                        Execution Vector Modules (KB)
+LABEL PAGE: Child pages of this page will contain code snippets pertaining to execution vectors on the Windows operating system.
+ 
+
+('children' missing)
+
+Sub-Pages:
+
+
+Removable Media Link File Execution (EVRemovableMediaLink_EZC - EZCheese) SECRET
+
+
+Link File Execution Utilizing .library-ms (EVLink_RVRJ - RiverJack) SECRET
+
+
+Link File Execution Utilizing Desktop.ini (EVLink_BOOM - Boomslang) SECRET
+
+
+Removable Media Link File Exploitation with Autorun.inf (EVRemovableMediaLink_LACH - Lachesis) SECRET
+
+
+
+Previous versions:
+| 1 
+| 2 
+| 3 
+|
+                    

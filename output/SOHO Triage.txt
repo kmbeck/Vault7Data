@@ -1,0 +1,32 @@
+
+                        Owner: User #14587667
+Add vCenter Tester Account With Limited Permissions
+This type of account would be used when someone outside of the NDBNetwork Devices Branch TestRange wants to use the TR infrastructure for testing.  By following these instructions, you can quickly and easily provide the user with the required resources to manage their VMs without giving them too much permission to accidentally interfere with the remainder of the virtual infrastructure.
+Step-by-step guide
+On the TR Domain Controller:
+
+Create a new domain user account
+Add the new user account to the Group name "vCenterLimitedTester"
+
+At the vSphere Web Client:
+
+Browse to the VMVirtual Machine you would like to give access to.
+Right-click on the VMVirtual Machine and select Add Permission...
+
+In the Users and Groups section click Add...
+
+Change the domain to TR.
+From the Users and Groups list, select the user account you just created on the Domain Controller and then click Add.  The click OK.
+Under the Assigned Role section, click on the drop-down and select LimitedTester.
+Click OK.
+
+ 
+ 
+You may also want to use visual panels to communicate related information, tips or things users need to be aware of.
+Related articles
+
+Related articles appear here based on the labels you select. Click to edit the macro and add or change labels.
+
+('contentbylabel' missing)
+('details' missing)
+                    

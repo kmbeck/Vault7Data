@@ -1,0 +1,14 @@
+
+                        Owner: User #71468
+Thunderbird Portable DLL Hijack
+ 
+Thunderbird looks for "DWrite.dll", a system DLL, adjacent to itself (under \app\thunderbird) before correctly finding it
+This DLLDynamic Link Library is ideal for hijacking as it only exports one function (at ordinal #1) with the following prototype:
+HRESULT DWriteCreateFactory(DWRITE_FACTORY_TYPE, REFIID, IUnknown**)
+ 
+The DWRITE_FACTORY_TYPE is an enum defined in Dwrite.h, however we cannot #include this header as doing so will declare the function as an extern.
+Instead, we can either create a dummy enum with only two values (as the real DWRITE_FACTORY_TYPE only has two options) or simply use a INT variable in its place.
+ 
+Thunderbird will present a crash report if the function does not return fast enough (the exported function is called upon intialization).  In PROCESS_ATTACH, load the proper system DLLDynamic Link Library (check to see if you should load from SysWOW64 first) and store the function as a global variable.  Don't do anything in your fake function except return the true function's result.
+ 
+                    

@@ -1,0 +1,15 @@
+
+                        Owner: User #524297
+Vimrc Tips
+Add to your Vim configuration:
+ 
+" :w!! 
+" write the file when you accidentally opened it without the right (root) privileges
+cmap w!! w !sudo tee % > /dev/null
+
+Previous versions:
+| 1 
+| 2 
+| 3 
+|
+                    

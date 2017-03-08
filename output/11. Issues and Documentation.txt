@@ -1,0 +1,56 @@
+
+                        11. Issues and Documentation
+SECRET//NOFORN
+ 
+ 
+Project Issues/Issue Tracking
+There will be more an better documentation elsewhere. In EDGEngineering Development Branch we use JIRAUser Managment Software (Atlassian) to track issues on projects. JIRAUser Managment Software (Atlassian) sits on Hickock which is shared between us and COG. In each branch there should be two JIRAUser Managment Software (Atlassian) administrators who can create projects. There are many different types of projects and pages upon pages of documentation for them. Once you have a project, you can then assign issues and tasks, track progress, mitigations/resolutions, and time. Currently, if you view the EDGEngineering Development Branch Library pages you will see issues associated with each library, the person assigned (unassigned), progress, and the resolution. Talk with your appropriate branch and/or development team on how you want to structure your JIRAUser Managment Software (Atlassian) instance.
+ 
+
+ 
+ 
+Project Documentation
+Ahhh, documentation. I'm not sure I know anyone who enjoys doing documentation. If you do like documenation it is suggested that you take sick leave and rest until you feel better. That being said, this isn't a rodeo. We can't be sustainable by slinging code together and throwing tools without understanding the details. To EDGEngineering Development Branch there are a few different sets of things we need to document. Number one is our code. People do leave to other jobs or go on vacation and at some time you will have to take over someone else's projects. Be nice and not lazy. The next thing we as developers need to document is the tools we create and deliver. This means documenting the conceptual level (CONOPS) as well as the capabilities, limitations, and testing results of the tool (usage would be nice as well but we can't always do that unfortunately). The final thing that EDGEngineering Development Branch stresses to document is code sharing/reuse. This one's a toughie. It's never as simple as yes or no. In fact, most of code reuse falls somewhere in the middle of the spectrum of exact copy to completely changed. What we can do, at a minimum, is note that there is a correlation. That way we can make the judgement when we come back to it later (with new/more information). So let's discuss how we do this:
+ 
+Code Documentation:  This one we can't provide too much guidance on as everyone has their own style. However, some suggestions include using a Doxygen compatible documentation for your tool. Having Doxygen compatible code documentation will help automate the process of documenting your tool on Confluence. Another suggestion would be to comment throughout your code supplying conceptual comments as well as any odd numbers (wcslen(wcMyVar) + 13). Also, please don't tell us in a comment that for(int i = 0; i < dwSumNum; i++) is a for loop. Please.
+ 
+Tool Documentation:   Tool documentation (in the form of a User Guide) is given to the customer on delivery of a tool. Attached is a template that is used when creating a User Guide. ToolTemplate vX.X.X User Guide Rev A.doc
+ 
+Code Sharing/Technique Tracking: Documenting any code sharing or technique usage is a little harder to enforce. This we depend on the developer for (and you should want to do it - I'll explain why). Currently, all of this is being documented on Confluence. When doing Confluence documentation it is encouraged that you use the templates provided (EDGEngineering Development Branch Project Display Page Template or EDGEngineering Development Branch Project Version Page).
+
+ 
+A project version page should be created for each version of the tool. Hint: Confluence allows you to copy and move pages. If you want an example of what a Project's Confluence page should look like, take a look at Rain Maker  SECRET. In the Version template you will note a specific section where you can specify the techniques used as they relate to a known technique or shared technique.
+
+For example, let's say John has a cool technique to steg data into an image file. The arguments look like this: StegJpeg(wchar_t *wcJpeg, byte *byData, int iDataSize, int iProgramID). John names the technique StegPeg and documents it on Confluence. Susan has a short timeline to develop a tool and wants to store data in an image. When searching Confluence she notices StegPeg. Despite the poor naming quality of the technique, Susan talks to John about using the technique and finds that it's a good match (she's sees on Confluence where else it's been used and all parties agree it's ok). John being fictious and created solely to help the plot of this example, reminds Susan to document both on her tool page as well as the technique page that she is using it and any notes about how she used it. Susan ended up adding a signature value to the technique. Her documentation in both places look something like this. Susan's tool page: StegPeg | Program ID = 53 | Added variable to embed specified signature. StegPeg Documentation Page: Susan's Cool Tool | Program ID = 53 | Added variable to embed specified signature. 
+ 
+Note: If you are adding to the EDGEngineering Development Branch libraries, please review the process for tracking your module and it's submodules usage.
+ 
+ 
+SECRET//NOFORN
+
+Attachments:
+
+
+image2015-5-6 12:23:42.png
+
+
+ToolTemplate vX.X.X User Guide Rev A.doc
+
+
+image2015-5-6 10:53:3.png
+
+
+image2015-5-6 10:47:1.png
+
+
+
+Previous versions:
+| 1 SECRET
+| 2 SECRET
+| 3 SECRET
+| 4 SECRET
+| 5 SECRET
+| 6 SECRET
+| 7 SECRET
+|
+                    

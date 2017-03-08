@@ -1,0 +1,211 @@
+
+                        Owner: User #7995631
+ConnectifyMe Research
+SECRET//NOFORN
+IPADDRESS: 10.3.2.131
+Connectify Hotspot Version: 2015.0.5.34877
+ 
+Associated processes before creating a wireless network:
+
+
+Process Name
+DEP
+ASLR
+Ports
+Notes
+
+
+Connectify.exe
+N
+ 
+
+TCP:2987
+UDP connections come and go on different addresses
+
+ 
+
+
+Connectifyd.exe
+Y
+ 
+ 
+ 
+
+
+ConnectifyService.exe
+Y
+ 
+ 
+ 
+
+
+ConnectifyNetServices.exe
+ 
+ 
+ 
+Showed up when starting a hotspot but then ends.
+
+
+ 
+Associated processes after creating a wireless network:
+ 
+
+
+Process Name
+DEP
+ASLR
+Ports
+Notes
+
+
+Connectify.exe
+N
+ 
+
+TCP:2987
+UDP connections come and go on different addresses
+
+ 
+
+
+Connectifyd.exe
+Y
+ 
+
+TCP:51722 (???)
+UDP:1900 (SSDP)
+UDP:50499
+
+ 
+
+
+ConnectifyService.exe
+Y
+ 
+ 
+ 
+
+
+ConnectifyNetServices.exe
+ 
+ 
+
+TCP/UDP:53 (DNSDomain Name System)
+TCP:6789 (????)
+UDP:67 (DHCP??)
+
+Shows up when a client connects
+
+
+ 
+Program data:
+Settings are stored in C:\ProgramData\Connectify\
+C:\ProgramData\Connectify\cache\natstats.sqlite has tables about clients connected including their mac address
+Google-analytics: I'm not 100% sure what this is, but they seem to be giving google some information on usage. Maybe fisa collect on this?
+DHCP logs in C:\programData\Connectify\logs\ConnectifyNetServices<Date yyyy-mm-dd>.log
+ 
+Defensive features:
+  It logs the DNSDomain Name System server IP addresses at the start of the hotspot. This helps it detect DNSDomain Name System hijacks
+ 
+Attack surface:
+Wireless password:
+default wireless password has a schema that would make a brute force attack pretty easy.
+Can show the plaintext password, which means its stored in plaintext somewhere.
+Plaintext password stored in C:\ProgramData\Connectify\settings\daemon
+ 
+Program data (often programs treat their own config files and such as safe, but are they..)
+Fuss the config files in C:\ProgramData\Connectify and see if we can crash it.
+ 
+Plugins(Stored in C:\Program Files (x86)\Connectify\plugins\<Plugin Name>\<dll here>
+It seems to load plugins, can we make one for it? if it loads us what data can we get access to.
+ 
+Automatic updater(Calls out to updates.connectify.me)
+How does this work?? Does the updater run something? If so, does it check if what it is running is signed?
+If we hijack the DNSDomain Name System what can we do?
+Does this make any web request, if so can we inject an I-Frame into it?
+Networking:
+It seems to support SSDP (WTH is SSDP??  UPnP-arch-DeviceArchitecture-v1.1.pdf see section 1)
+More info on SSDP: Sans_UPNP_SSDP.xps
+
+The DHCPDynamic Host Configuration Protocol and DNSDomain Name System webpage logs are located on port 6789
+Its always looking for other connectify hotspots by trying to connect to IPs on 2987
+
+It finds these IPs by doing a ping scan (pinging every IP) on the subnet.The ping scan is triggered every 10 minutes or by the user pressing the refresh button.
+
+Good news, you can spoof being a connectify peer hotspotThe connect on 2987 is a http request for the file connectify/INFO. If you supply a valid file it will add you to the list of connectify peers. Not really sure what that gets us (It then tries to connect you us on several ports look below)???After spoofing it tries to connect on ports: 22 (SSHSecure Shell), 2987 (wait what?? we just did this), 21 & 990 (FTP/FTPS), 445 (SMB/Windows Shares), 23 (Telnet, really?), 5500 & 5800 & 5900 (VNC remote desktop)
+
+
+
+ 
+It seems like if the server is hosting a file it will try to GET that file from other peers (What does it do with that file after it gets it???)
+ 
+Attack ideas:
+SQL injection into DBSoftware Development Branch through INFO file when spoofing peer request
+fuzz the fields in the INFO file to try to get a crash
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+SECRET//NOFORN
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+"wmic /node:%d.%d.%d.%d /user:\"%s\" /password:\"%s\" cpu get addresswidth /format:list";
+
+Attachments:
+
+
+Sans_UPNP_SSDP.xps
+
+
+UPnP-arch-DeviceArchitecture-v1.1.pdf
+
+
+
+Previous versions:
+| 1 SECRET
+| 2 SECRET
+| 3 SECRET
+| 4 SECRET
+| 5 SECRET
+| 6 SECRET
+| 7 SECRET
+| 8 SECRET
+| 9 SECRET
+| 10 SECRET
+| 11 SECRET
+| 12 SECRET
+| 13 SECRET
+| 14 SECRET
+| 15 SECRET
+| 16 SECRET
+|
+                    

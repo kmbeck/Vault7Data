@@ -1,0 +1,41 @@
+
+                        Owner: User #11629142
+Lab Demonstrations
+
+NDB Demos 
+
+Panda Poke - Huawei credless exploit
+Drillbit - Cisco HG Covert Tunnel (available on router or switch)
+VOIP - Huawei VOIPVoice over Internet Protocol (Internet telephony) Collection
+MITM - Cisco HG redirection integrated with Windex
+Panda Flight - Huawei Covert Tunnel
+AAC (DIVRTDigital Imaging & Video Recovery Team & SMITE) - Cisco HG iframe injection integration w/ Windex & DNSDomain Name System record tampering
+ROCEM - Cisco catalyst HG credless exploit
+Cinnamon (Redirection & Network Survey) - Cisco Cinnamon web page redirection
+IAC & SPL V10
+HG VOIP
+HG Curveball
+PaPr/PaNs
+
+ 
+Check Demos script
+The Check Demos script is used to get a quick idea of the status of the network devices, virtual machines, and IP phones used in a particular demo.  The script just pings each of the devices associated with a demo and displays the results.
+The latest and most up-to-date script lives on the LokiRepository (10.0.0.104).  It is in the 'Check Demos script' folder.
+Initial Script Setup
+
+Download the latest script from the LokiRepository (\\10.0.0.104\LokiRepository) to Documents/check_demos (you will have to create the check_demos folder)
+Add python to your PATH environment variable.  You can either edit this manually under 'System Properties' or add it via a PowerShell profile (click PowerShell Notes  for instructions on the later).
+
+Using the script
+The simplest way to run the demo is using PowerShell.  Open a PowerShell window.
+Issue the command:
+> python C:\Users\user1\Documents\scripts\check_demos\CheckDemos.py
+If you run the above command, it will show how to use the script.
+
+Previous versions:
+| 1 
+| 2 
+| 3 
+| 4 
+|
+                    

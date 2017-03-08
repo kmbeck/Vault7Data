@@ -1,0 +1,444 @@
+
+                        Component Library
+The UMBRAGE team maintains a library of application development techniques borrowed from in-the-wild malware. The goal of this repository is to provide functional code snippets that can be rapidly combined into custom solutions. Rather than building feature-rich tools, which are often costly and can have significant CI value, this effort focuses on developing smaller and more targeted solutions built to operational specifications.
+This page organizes this collection based on its functionality and captures relevant technical information. When possible, each item should include a working example of the technique (and/or pointer to code in the SVN repository), documentation describing application of the technique, and notes concerning our use of these techniques in delivered tools.
+The Umbrage Component Library git repository (located in Stash) contains example code for many of these techniques.
+ 
+Data Collection Components
+
+
+ 
+Component Reuse
+Source
+Reference
+Description
+
+
+
+DirectInput Keylogger  
+
+None
+Known Malware
+ 
+Used the Microsoft DirectX APIApplication Programming Interface to collect keystrokes from any running application.
+
+
+
+Internet Explorer Password Collection  
+
+None
+Known Malware
+ 
+ 
+
+
+
+SetWindowsHookEx WH_KEYBOARD and WH_KEYBOARD_LL Key Logger  
+
+UNKL 1.0/2.x
+Known Malware
+MSDN
+Microsoft-supported method of collecting keystrokes from applications running at the same or lower privilege level.
+
+
+
+Webcam Capture  
+
+None
+Known Malware/Public Samples
+ 
+ 
+
+
+
+Windows API Keyloggers  
+
+None
+Known Malware
+ 
+ 
+
+
+Data Destruction Components
+
+
+ 
+Component Reuse
+Source
+Reference
+Description
+
+
+
+Wiped Locked Files  
+
+Rebound 1.0
+Shamoon
+ 
+Drops a signed driver (with an easily abused license key) that provides raw disk access to the file system.
+
+
+Persistence Components
+
+
+ 
+Component Reuse
+Source
+Reference
+Description
+
+
+
+Image File Execution Options  
+
+None
+(Autoruns)
+ 
+Registry key that was designed to assist with debugging and allows the user to specifiy an executable that should be run instead of the specified application. Lol.
+
+
+
+OCI.DLL Service Persistence  
+
+None
+HiKit Rootkit
+ 
+DLL hijack.
+
+
+
+Shell Extension Persistence  
+
+Stepstool
+Public Source Sample
+ 
+Abuses Windows Explorer shell extensions to provide persistence.
+
+
+
+Windows FAX DLL Injection  
+
+Sandshark, UNKL
+Known Malware
+ 
+DLL hijack, notable because the original DLLDynamic Link Library is not typically required by the system.
+
+
+TLS Library Injection
+None
+ 
+LL TLS
+Modifies a Windows PEPrivilege Escalation file to include a TLSTransport Layer Security section that causes the specified DLLDynamic Link Library to be loaded.
+
+
+Privilege Escalation Components
+
+
+ 
+Component Reuse
+Source
+Reference
+Description
+
+
+
+Elevated COM Object UAC Bypass (WIN 7)  
+
+Sandshark
+Public Sample
+ 
+Created an elevated COM file system object that can be used to manipulate files that would otherwise required UACUser Account Control approval.
+
+
+Sticky Keys Process Launch
+None
+ 
+PIQUE 2014-10 Sticky Keys
+Uses the image execution options registry key to redirect the "stick keys" hot-key combination to run an arbitrary executable.
+
+
+Sysprep UACUser Account Control Bypass using Process Injection
+None
+ 
+PIQUE 2014-11 Sysprep
+Exploits DLLDynamic Link Library load order by dropping a DLLDynamic Link Library into the Sysprep folder then invoking the Sysprep utility to load it with elevation.
+
+
+Windows File Protection Bypass using SFC
+None
+ 
+
+PIQUE 2014-11 Window File Protection
+Uses the "sfc_os.dll" APIApplication Programming Interface to temporarily disable WFP and allow the replacement of system files.
+
+
+Stealth Components
+
+
+ 
+Component Reuse
+Source
+Reference
+Description
+
+
+
+Anti-Sandboxing: Wait for Mouse Click  emote DLLDynamic Link Library Injection via Mapping
+Duggernaut, Shellfish
+ 
+LL - Archimedes Loader
+Directly maps a DLLDynamic Link Library into a remote process through a combination of writing to the remote process and forcing it to load library dependecies.
+
+
+Remote DLLDynamic Link Library Injection via Reflection
+None
+ 
+LL - Odysseus Loader
+Injects a specially crafted DLLDynamic Link Library into a remote process and causes it to load itself.
+
+
+
+Process Hollowing   Implementation #0
+None
+Known Malware
+ 
+ 
+
+
+Process Hollowing Implementation #1
+None
+ 
+
+PIQUE 2014-10 Process Hollowing
+PIQUE 2014-12 Advanced Process Hollowing
+
+Starts a benign executable with suspended threads and replaces the address space with another executable before resuming the threads.
+
+
+Process Hollowing #2
+None
+PIQUE PoC
+
+PIQUE 2015-09
+"Process Hollowing II"
+
+Create a process (suspended), and then use section mapping to achieve the process hollowing
+
+
+Process Injection using SetWindowsLong
+None
+ 
+PIQUE 2014-10 Sticky Keys
+Uses a callback function in the SetWindowsLong APIApplication Programming Interface to start a remote thread without using the CreateRemoteThread API.
+
+
+DLL Memory Loading with Exception Support
+Icepick, Shellfish
+ 
+NPS 2012-11
+Memory loads a DLLDynamic Link Library into the current process and adds the new DLLDynamic Link Library to the inverted function table to support SEH exception handling.
+
+
+Code Injection using ZwContinue
+None
+ 
+PIQUE 2014-12 ZwContinue Injection
+Hooks the ZwContinue APIApplication Programming Interface in a remote process to gain thread execution without calling CreateRemoteThread.
+
+
+DLL Hide & DLLDynamic Link Library file delete
+None
+PIQUE PoC
+PIQUE 2015-09 "HIDE DLL"
+Copies in-memory DLLDynamic Link Library image, decrements DLLDynamic Link Library ref count, frees then reallocates original DLLDynamic Link Library addy, then moves the copy back into the original memory location.
+
+
+PSP/Debugger/RE Avoidance Components
+
+
+ 
+Component Reuse
+Source
+Reference
+Description
+
+
+
+Anti-Sandboxing: Wait for Mouse Click  
+
+None
+Upclicker
+ 
+Detects a "live" system by looking for clicks.
+
+
+
+API Memcpy  
+
+None
+Known Malware (Nuclear Exploit Pack)
+ 
+ 
+
+
+
+Debug Print Debugger Detection  
+
+None
+Public Source Examples, FineReader
+ 
+ 
+
+
+
+MBR File Handle  
+
+StolenGoods
+Known FIO Tool
+ 
+ 
+
+
+
+Run Out The Clock (PSP Avoidance)  
+
+None
+Known Malware
+ 
+Performs time-delaying operations that are difficult for a PSPPersonal Security Product (Anti-Virus) to optimize out.
+
+
+API Obfuscation using Hashes
+None
+ 
+PIQUE 2014-10 Advanced Function Call Obfuscation
+Enables an application to locate DLLs and exported functions via a hash of the APIApplication Programming Interface name. Used to obfuscate APIApplication Programming Interface calls.
+
+
+Software Target Keying
+None
+ 
+NPS 2012-11
+Binds an application to a dynamically generated system key.
+
+
+Disable System Tray Popups
+None
+ 
+PIQUE 2014-12 Disable AVAnti-Virus Popup
+Disables the system tray's redraw message. Can be used to temporarily block messages from many system tray applications.
+
+
+Survey Components
+
+
+ 
+Component Reuse
+Source
+Reference
+Description
+
+
+NetBIOS MACApple Operating System Enumeration
+None
+ 
+PIQUE 2014-09 NetBIOS MAC
+Uses the NetBIOS APIApplication Programming Interface to enumerate the MACApple Operating System address of each adapter found on the target system.
+
+
+File/Registry Change Notification
+The Hound
+ 
+PIQUE 2014-09 Persistence
+Demonstrates the use of Windows APIApplication Programming Interface calls to monitor modifications to the file system or registry.
+
+
+Miscellaneous
+
+
+ 
+Component Reuse
+Source
+Reference
+Description
+
+
+Blind File Handle Enumeration
+None
+ 
+
+PIQUE 2014-10 File Handle Enumeration
+PIQUE 2014-11 Advanced File Handle Enumeration
+
+Tests each possible handle value to determine whether it is a Windows file handle and identifies the mapped file for valid handles. Can be used by code that is injected into a target process.
+
+
+
+Comments:
+
+
+2015-01-09 14:26 
+[User #524297]: 
+
+done, looks like you are on your way already though at the Stash link above.
+
+
+2015-01-07 16:29 
+[User #1179891]: 
+
+User #524297 - I do not have access to the page you mentioned above. Do you mind giving us (the Umbrage team) read-only access to it so we can see how User #? layed it out? 
+
+
+2013-06-19 09:27 
+[User #524297]: 
+
+As far as Stash organization, I would recommend that you create one larger "Umbrage" project, and then create separate repositories within that project for each component.  Then there is one central point on the site for 'all things Umbrage'.   Check out how User #1179891 set up the iOS stuff: https://stash.devlan.net/projects/IOS
+
+
+
+Sub-Pages:
+
+
+Kernel Land 
+
+
+Stealth 
+
+
+Privilege Escalation 
+
+
+Data Collection 
+
+
+Data Destruction 
+
+
+PSP/Debugger/RE Avoidance 
+
+
+Persistence 
+
+
+
+Previous versions:
+| 1 
+| 2 
+| 3 
+| 4 
+| 5 
+| 6 
+| 7 
+| 8 
+| 9 
+| 10 
+| 11 
+| 12 
+| 13 
+| 14 
+| 15 
+| 16 
+| 17 
+| 18 
+|
+                    

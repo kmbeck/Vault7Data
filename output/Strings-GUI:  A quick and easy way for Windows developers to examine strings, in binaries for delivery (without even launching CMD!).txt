@@ -1,0 +1,50 @@
+
+                        How-To:  Install old versions of the .NET Framework on Windows 8.1
+ 
+Hello, all!  I wanted to share a technique that I came across this afternoon when I needed to install anolder version of the .NET Framework on Windows 8.1.  (I needed to do this in order to run my Strings-GUIapplication to do a peer review of someone's binary.)
+Step-by-step guide
+
+Begin by finding (or uploading) the ISOInternational Standard Organization for your particular operating system to the file share:"\\FS-01\share\Windows Software Development Resources\Operating System ISOs\Windows 8.x"
+Double-click on the ISOInternational Standard Organization to mount it, and note which drive is being used.  (In this example, it'sbeen mounted as the "F:" drive.)
+
+Open an Administrator Command Prompt, however you like.  (One easy way is to right-clickon the Start Button and choose "Command Prompt (Admin)" from the menu.)
+
+Replace the "/Source:" path in the following command, and then run it:"DISM /online /enable-feature /featurename:NetFx3 /All /Source:F:\sources\sxs /LimitAccess"
+Success!  See:
+
+
+
+
+Related articles
+
+Related articles appear here based on the labels you select. Click to edit the macro and add or change labels.
+
+('contentbylabel' missing)
+
+Comments:
+
+
+2015-07-01 18:43 
+[User #1179872]: 
+
+Glad you like it.  I can't tell you how many times I've referenced it, either, but that number is certainly larger than I can count on one hand 
+
+
+
+2015-06-24 18:00 
+[User #1179751]: 
+
+User #?, I can't tell you how many times I've referenced this article....
+
+
+
+Attachments:
+
+Screenshot.png
+
+
+Previous versions:
+| 1 
+| 2 
+|
+                    

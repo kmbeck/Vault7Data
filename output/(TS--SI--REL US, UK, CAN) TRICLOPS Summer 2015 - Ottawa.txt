@@ -1,0 +1,84 @@
+
+                        Design Notes
+NSPKG
+
+
+('view-file' missing)
+Furtive Syringe (bootstrapper)
+needs to uninstall command if elinit fails.
+Bootstrapper (FURTIVESYRINGE) Design  
+Remote Exploitation with Persistence (on-disk)
+
+use EVE to exploit browser
+use SOL to break out of sandbox and escalate privileges
+mount system partition as writable, 
+fetch NightSkies, 
+write to flash (dyonedo(fs))
+add cdhash to trustcache
+posix_spawn(furtivesyringe)
+
+
+FurtiveSyringe
+add NS.precore to trustcache
+use launchctl api to set DYLD_INSERT_LIBRARIES=NS.precore and reload locationdNew option is to use SAL instead of launchctl method to inject code directly into locationd.Caveats: hooks/interposing that depended on DYLD_FORCE_FLAT_NAMESPACE can no longer be used, so to hook symbols, the implant / modules / whatever needs to use the gancho project.
+
+
+
+
+
+NS dlopen()s its modules
+interpose/hook notification to prevent gps pop ups
+if launchctl'ed, use interposing
+if sal'ed, use gancho to hook.
+
+
+
+exit
+
+Remote Exploitation without Persistence (in-memory)
+
+use EVE to exploit browser
+use SOL to break out of sandbox and escalate privileges
+fetch NightSkies, write to memory
+use SAL to inject NS pre-core into a process (locationd)
+Map NS database into NS pre-core process
+NS pre-core uses Machinjection to shootup() NS core from in-memory database
+NS pre-core uses Machinjection to load NS modules from in-memory database into process
+NS core uses machmessage to to IPCInterprocess Communications from locationd to other modules(CORE <--- ---> call audio module)
+
+
+Attachments:
+
+
+nspkg design.png
+
+
+nspkg design.pdf
+
+
+nspkg design.graffle
+
+
+
+Sub-Pages:
+
+
+Bootstrapper (FURTIVESYRINGE) Design 
+
+
+
+Previous versions:
+| 1 
+| 2 
+| 3 
+| 4 
+| 5 
+| 6 
+| 7 
+| 8 
+| 9 
+| 10 
+| 11 
+| 12 
+|
+                    

@@ -1,0 +1,61 @@
+
+                        Owner: User #1179751
+2. Source Control
+SECRET//NOFORN
+ 
+AED has recently moved towards using Git for source control and uses it for all projects.  We won’t go too in depth here because there is a better resource on confluence that can be found Git Tutorials  .  There are a few things to go over though:
+
+I highly recommend going to FIN or 4STAR and navigating to http://pcottle.github.io/learnGitBranching/
+
+Read about Git Flow, the workflow we have begun to adopt in OSB, which can be found Git Workflows  .
+Take a look around stash.devlan.net, you’ll get a chance to see some of the many projects that AEDApplied Engineering Devision has going on.
+
+ 
+Setting up GIT:
+
+Navigate to the share \\fs-01\Share\Windows Software Development Resources\git
+Install the latest GIT: Git-X.X.X-previewX.exe
+Install the latest SourceTree: SourceTreeSetup_X.X.X.exe
+(OPTIONAL) Install TortoiseGit (if you like nice pretty green checkmarks or simply as an alternative to SourceTree: 
+
+
+Generate GITSource code management software ssh-keypair:
+Open GITSource code management software bash (recently installed)
+ssh-keygen -t rsa -C YOUR_DEVLAN_USERNAME@devlan.net -b 4096
+
+
+
+ 
+As stated earlier, we use the workflow outlined in Git Flow and I wanted to highlight some key things.  Git Flow is a fancy way of saying we follow a branching model that uses specific names.  The branches are as follows:
+
+Master: Official releases, commits to this are tied to software available for use.
+Develop: Latest stable code.  This code should be ready to be released at any given time and means it should be bug free.
+Feature/<BranchName>: This is where you get to play.  Feature branches tend to belong to a single developer and should be focused on a specific requirement.  Feature branches can be in any state.
+Hotfix: A branch off of Master that is meant to fix a specific small problem out of the traditional development cycle.
+
+This brings us to our first new developer exercise:  OSB Workflow In Git  .
+ 
+SECRET//NOFORN
+
+Sub-Pages:
+
+
+OSB Workflow In Git 
+
+
+
+Previous versions:
+| 1 empty
+| 2 empty
+| 3 
+| 4 
+| 5 
+| 6 
+| 7 
+| 8 
+| 9 
+| 10 
+| 11 
+| 12 
+|
+                    

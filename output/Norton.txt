@@ -1,0 +1,38 @@
+
+                        Avira
+SECRET//NOFORN
+Avira is a PSPPersonal Security Product (Anti-Virus) vendor headquartered in Tettnang, Germany.  Avira has historically been a popular product among CTCounter Terrorism targets, but is typically easy to evade.  Similar to F-Secure, Avira has an apparent entropy-based heuristic that flags binaries containing encrypted/compressed payloads, but there are two known defeats.
+ 
+Avira Entropy Defeat  
+F-Secure Entropy Defeat   (also works against Avira)
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+SECRET//NOFORN
+
+Previous versions:
+| 1 SECRET
+|
+                    

@@ -1,0 +1,51 @@
+
+                        Owner: User #14587667
+Perseus 1.1.0
+Test Approach
+
+Long Term Test
+
+Setup RB450 with Perseus installed.  Take baseline and let it run, periodically taking memory/CPU "snapshots".
+Have a VMVirtual Machine running HTTPHypertext Transfer Protocol Seed.
+ 
+
+
+ 
+MIPSBE
+DUT1 (RB493G) and DUT2 (RB450) are connected together via a LAN-side interface running RIP between them.
+192.168.88.0/24 will not route between DUT1 and DUT2 because each of these devices has that same subnet configured on an internal interface.
+192.168.0.4 is running HTTPHypertext Transfer Protocol Seed traffic to 172.20.11.104.
+ 
+DUT3 (RB450)
+ 
+ 
+ 
+PowerPC
+DUT4
+
+Sub-Pages:
+
+
+DUT5 - x86 VM - Notes 
+
+
+DUT4 - RB1100AH - v1.1.0 Notes 
+
+
+DUT2 - RB450G - General Info 
+
+
+DUT3 - RB450G - Long Term Test 
+
+
+DUT1 - RB493G - Notes 
+
+
+
+Previous versions:
+| 1 empty
+| 2 
+| 3 
+| 4 
+|
+                    

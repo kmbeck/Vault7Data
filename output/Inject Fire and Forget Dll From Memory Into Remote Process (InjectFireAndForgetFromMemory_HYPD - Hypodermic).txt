@@ -1,0 +1,86 @@
+
+                        Inject Dll From Memory Into A Remote Process (InjectLibraryFromMemory_HYPD - Hypodermic)
+SECRET//NOFORN
+ 
+OSB Library: Payload Deployment
+
+Module Name: InjectLibraryFromMemory_HYPD - Hypodermic
+ 
+Module Description: The module allocates memory in another remote process and copies a DLLDynamic Link Library image into the loaded memory then performs base relocations, resolves imports, finalizes sections by restoring the appropriate memory permissions and then calls the DllMain entrypoint with PROCESS_ATTACH.  All of the fixups are handled by the loading process.  The payload never touches disk.
+ 
+PSP/OS Issues: PSPs should be tested on a per tool basis.
+ 
+('excerpt' missing) Sharing Level: Unilateral
+ 
+Technique Origin: Internet/open-source – loosely based on MemoryModule but heavily modified to support remote injection
+ 
+Notes: 
+
+Supports reflect-load DLLs, where all initialization and thread creation is done in the PROCESS_ATTACH case of DllMain.
+Does not automatically unload/free the remote module when the InjectLibraryFromMemory_HYPD object is destroyed due to the inability to guarantee the state of the remote DLL.  If the state of the remote DLLDynamic Link Library can be guaranteed through some kind of signaling mechanism, the caller can explicitly call memoryUnload()
+Does not currently free libraries loaded in the remote process.  Needs a data structure to track the remote loaded module handles and remotely call FreeLibrary.
+Supports crossing session boundaries on Windows Vista/2008+ by using RtlCreateUserThread.  Uses CreateRemoteThread on XP/2003 to avoid an issue that causes CPU to max out when calling RtlCreateUserThread.
+Contains helper functions to Open target processes by PID, Name and Name with Command Line.  Command Line matching supports partial matches and is intended to help target multiple instances of the same executable that are called in different ways (i.e., svchost -k netsvcs)
+Uses direct function injection to call DllMain in the remote process.  This requires disabling incremental linking, optimization, runtime checks and adds a separate code segment (.text$A) to ensure that the injectable function is properly built.
+
+ 
+Module Specific Structures: The LPVOID params argument to execute() takes a HMODULE to the remote process.  paramsSize should be set to sizeof(HMODULE)
+ 
+Example Code:
+ 
+ // Injects improvedDummyDll into notepad.exe
+ 
+IPayload::PayloadErr retVal;
+HANDLE hProc = NULL;
+ 
+retVal = InjectFromMemory::OpenProcessByName(&hProc, L"notepad.exe");
+ 
+if (SUCCEEDED(retVal) && hProc != NULL)
+{
+	InjectLibraryFromMemory_HYPD myInject;
+	retVal = myInject.execute(improvedDummyDll, sizeof(improvedDummyDll), hProc, sizeof(HANDLE), NULL);
+	CloseHandle(hProc);
+}
+If Miscellaneous Modules were used in the creation of this module, include the tool list excerpt from this page inside the tool list excerpt of each Miscellaneous Module used. For example, if the CreateDirectoryWithAttributes Misc. Module was used, add an "Excerpt Include" macro inside of the Tool List Excerpt on the documentation page for the CreateDirectoryWithAttributes module. The tool list for this module should now always show up in the list of tools that use the CreateDirectoryWithAttributes.
+ 
+Notes:
+InjectLibraryFromMemory and InjectFireAndForgetFromMemory: Since CreateRemoteThread can only be used to call thread functions (i.e., functions that have signatures matching that of THREAD_START_ROUTINE), a workaround was needed to call DLLMain in the remote process in order to implement processAttach() and processDetach().  The loader contains the static, extern "C" function CallDllMain , which is a thread function that accepts a pointer to the CallDllMainArgs struct.  The loader fills the fields of the struct with the base address of the remote DLL, the remote address of the entrypoint (DllMain) and the reason for call, then allocates memory and copies both the struct and the function itself into the remote process before calling CreateRemoteThread with pointers to the injected function and injected arguments structure.  In order for this technique to work successfully, several compile/link time tricks are used to ensure that the functions are capable of being injected without causing undesirable side effects in the remote process.
+In order to calculate the size of the injected function, an empty function (CallDllMain_end) is declared immediately after the actual function, and the size of CallDllMain is calculated by subtracting CallDllMain from CallDllMain_end.  To help avoid function reordering, the two functions are stored in their own code segment .text$A.
+Additionally, if certain build settings are enabled, the linker may generate a jump table rather than a direct call, which means that the pointers are not to the actual functions but to the entries in the jump table.  To avoid this situation, incremental linking must be turned off.  Optimizations are also turned off, as are runtime checks, as runtime checks add an additional call to _RTC_CheckEsp at an absolute address to the end of the function that will crash the remote process.
+The voodoo required to get these functions to work looks like this:
+// turn off incremental linking -- should force this to *not* use a jump table
+#pragma comment(linker, "/incremental:no")
+// turn off optimizations
+#pragma optimize( "", off )
+// turn off pesky runtime checks that add an extra call to _RTC_CheckEsp to the end of our function
+#pragma runtime_checks( "", off)
+// put both functions in the same section.  as long as there are only two, they should be in order
+#pragma code_seg( ".text$A" )
+extern "C"
+{
+	// no optimization
+	static DWORD WINAPIWindows Application Programming Interface CallDllMain(PCallDllMainArgs pArgs)
+	{
+		return pArgs->dllMain(pArgs->dllBaseAddress, pArgs->dwReasonForCall, NULL);
+	}
+	static void __stdcall CallDllMain_end()
+	{
+	}
+};
+#pragma code_seg()
+#pragma runtime_checks ("", restore)
+#pragma optimize ("", restore)
+SECRET//NOFORN
+
+Previous versions:
+| 1 SECRET
+| 2 SECRET
+| 3 SECRET
+| 4 SECRET
+| 5 SECRET
+| 6 SECRET
+| 7 SECRET
+| 8 SECRET
+| 9 SECRET
+|
+                    

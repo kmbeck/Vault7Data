@@ -1,0 +1,94 @@
+
+                        Owner: User #14587667
+JQJSTEPCHILD - Op2
+Testing
+IP Addresses
+2911
+gi0/0: 192.168.80.6/30  (TOR5 1/0/13)
+gi0/1: XXX.XXX.XX.XXX (HFZ[CN])/28  (TOR5 1/0/3)
+TRCore
+VLANs used: 501,502, 503
+Testing Notes:
+6/29/2015
+
+If I remove the 192.168.80.6 interface from the CoreSwx, then I can no long access the 2911.
+If I remove the XXX.XXX.XX.XXX (HFZ[CN]) interface from vlan501 on the CoreSwx, then I can still access the 2911.  I placed a route on the CoreSwx (ip route XXX.XXX.XX.XXX (HFZ[CN]) 255.255.255.240 192.168.80.6).
+
+7/2/2015
+Tested config (see "Test Log") below for steps performed.
+8/20 - 8/21/2015
+
+Final testing of VPDN config.  
+Folder containing operator instructions:  \\10.9.8.21\share\Testing\JQJSTEPCHILD\Op2
+
+Test Log
+
+Reload initial config
+configure replace flash:/2015-06-29_Base_Config
+reload
+
+
+show run
+Compare running-config with base config (using WinMerge).
+show history all
+show clock
+Copy ConfigResults in this message: Jul 2 15:13:30.855: %IP_VFR-7-FEATURE_DISABLE_IN: VFR(in) is manually disabled through CLI; VFR support for features that have internally enabled, will be made available only when VFR is enabled manually on interface Virtual-Access1.1
+
+
+Connect to VPNVirtual Private Network from Windows VMVirtual Machine (10.9.8.97)
+On Windows VM, confirm IP address of 10.10.10.X.
+On Windows VM, browse to http://172.20.11.104/whatismyip.php
+On Windows VM, disconnect from VPN.
+Clear up logs and reload router.
+After reload, log back into router and perform show run.
+Copy show run output and diff using WinMerge.  Result should be identical to original config.
+
+Ops Notes / Lessons Learned
+We attempted to connect to router4 (Cisco 2911) again using the same config as last time.  The VPDN connection was successful, but no traffic would pass.  After trying to resolve this for a couple of hours, we decided to move on to router6 (another Cisco 2911).  The config for router6 worked perfectly fine during the first attempt.  For the ops script, see \\10.9.8.21\share\Testing\JQJSTEPCHILD\Op2
+After the operation, we attempted to reproduce in the lab the issue we were having with router4.  The issue can be reproduced inconsistently.  It seems that the issue appears after reconnecting to VPDN when a new IP address is assigned to the client.  A couple "issues" were experienced which included: 1. not being able to reach any IP addresses at all, 2. being able to intermittently ping the router's IP address, 3. long VPNVirtual Private Network connection times (took long to establish vpn).
+There appears that there may be a bug on the 2911 router with regards to VPDN configurations.  Adding the command "no ip route-cache cef" to the physical interfaces (particularly the public interface) seemed to resolve the issue.  Although the issue was not consistently reproducable, once the "no ip route-cache cef" command was applied, there were no issues in connecting to or routing through the vpn.
+ 
+During testing several things were tried, including:
+
+Creating a loopback interface with a private IP address and then assigning the DHCPDynamic Host Configuration Protocol pool part of the loopback's subnet.  In this configuration, the "int virtual-template 1" did not receive an IP address
+Use "ip unnumbered" on the public and private interfaces.  Also tried no using this command at all.
+
+ 
+ 
+
+Attachments:
+
+
+image2015-7-2 11:19:48.png
+
+
+image2015-6-26 6:56:10.png
+
+
+image2015-6-26 6:55:54.png
+
+
+image2015-6-25 14:5:5.png
+
+
+image2015-6-25 13:55:12.png
+
+
+image2015-6-25 13:51:59.png
+
+
+
+Previous versions:
+| 1 
+| 2 
+| 3 
+| 4 
+| 5 
+| 6 
+| 7 
+| 8 
+| 9 
+| 10 
+| 11 
+|
+                    

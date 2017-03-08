@@ -1,0 +1,27 @@
+
+                        Owner: User #14587667
+CactiEZ Syslog Fix
+If you install CactiEZ, and configure remote logging on a device, you may notice that is doesn't show up in Cacti.  This is due to a bug in the rsyslog config on the Cacti server.  To fix the configuration, follow the step below:
+
+Log into Cacti server CLICommand-Line Interface using the username 'root' and the password you set for the 'admin' user.
+Edit the following in /etc/rsyslog.conf (You may want to create a backup of the config file first)
+Uncomment the lines:
+$ModLoad imudp
+$ModLoad imtcp
+
+
+Change %syslogfacility%, %syslogpriority%, to '%syslogfacility-text%', '%syslogpriority-text%', 
+
+Notice the variables are now in quotes
+
+
+Restart syslog serviceservice rsyslog restart
+
+If you have a device configured to send syslog messages to Cacti, you should now see them appear in the Syslog tab.
+
+
+Attachments:
+
+image2015-5-12 7:34:1.png
+
+                    

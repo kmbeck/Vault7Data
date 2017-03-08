@@ -1,0 +1,49 @@
+
+                        Owner: User #71473
+Magical Mutt v1.0 Sprint 2 Retrospective 2016-02-24
+
+
+('details' missing)
+Retrospective
+
+
+
+What did we do well?
+
+Code reviews went well and were effective in finding issues
+Fleshed out most of the structure that will drive the rest of development
+
+User #14588054 found the setting to get default reviewers onto our pull requests
+Effectively used JIRAUser Managment Software (Atlassian) issues in the commit messages to track development
+
+
+
+What should we have done better?
+
+User #71473 seriously messed up the repository and it had to be recreated.
+
+
+
+
+What will we do differently next time to improve?
+When creating a project with the wizard it is important to let the wizard create the main project folder and do the initial push.  Nesting a new solution inside an empty GITSource code management software repo causes major issues
+
+
+ID
+Status
+Task
+
+
+1
+incomplete
+@mention a person to assign them an action item
+
+
+
+
+
+Previous versions:
+| 1 
+| 2 
+|
+                    

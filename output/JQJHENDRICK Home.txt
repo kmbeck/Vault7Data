@@ -1,0 +1,113 @@
+
+                        Owner: User #1179751
+IMPROVISE
+
+    
+        
+            Welcome!
+            Next, you might want to:
+            
+
+ID
+Status
+Task
+
+                
+                    1
+                    incomplete
+                    
+Customise the home page - Click "Edit" to start editing your home page
+                
+                
+                    2
+                    incomplete
+                    
+Create additional pages - Click "Create" to choose a blank page or template
+                
+                
+                    3
+                    incomplete
+                    
+Write a blog post - Click "Create" and select "Blog Post" to share news
+                
+                
+                    4
+                    incomplete
+                    
+Manage permissions - Click "Space Tools" and select "Permissions" in the sidebar to manage what team members see
+                
+            
+        
+    
+    
+        
+             
+        
+    
+    
+        
+            The team
+            
+                
+                    
+
+User #1179751
+User #1179751
+
+
+                
+            
+        
+        
+            About us
+            
+        
+    
+    
+        
+             
+        
+    
+    
+        
+            Blog stream
+            
+                
+('blog-posts' missing)
+            
+        
+        
+                Recently updated
+                
+                    
+('recently-updated' missing)
+                
+        
+    
+
+
+Sub-Pages:
+
+
+1. Project Status empty
+
+
+3. Developer Guide empty
+
+
+2. User Guide empty
+
+
+
+Previous versions:
+| 1 
+| 2 
+| 3 
+| 4 
+| 5 
+| 6 
+| 7 
+| 8 
+| 9 
+|
+                    

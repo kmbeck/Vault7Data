@@ -1,0 +1,72 @@
+
+                        Concepts: High Level
+ 
+Goals of Creating and Maintaining EDGEngineering Development Branch Code Libraries
+
+Provide sets of reliable code for use in EDGEngineering Development Branch toolsets (most important in tools that require timely development). Improving quality of code is important in evading detection.
+Document techniques and modules for sharing amongst developers. 
+Track technique usage
+Operations
+Areas of Responsibilities
+Tools
+
+
+Track technique limitations (operationally and technically).
+Releasability
+Technique Orgins
+PSP and OSOperating System issues
+
+
+Provide developers with an understanding of current techniques
+Track depth of techniques
+Create a platform for measured signature diversity
+A common interface for modular development
+Multiple/Diverse sets of the similar techniques for signature diversity.
+Direct developer time to researching new techniques and more complex tools. 
+
+
+ 
+Current Library List
+Core Library - Maintains all interfaces and debugging modules
+Execution Vectors
+Privilege Escalation
+Data Transfer (Exfil/Infil/Covert Storage)
+Buffers
+Payload Deployment
+Survey
+File Collection
+System Monitoring and Manipulation
+Persistence
+Miscellaneous (EDGEngineering Development Branch APIApplication Programming Interface)
+ 
+ 
+EDG Library Model
+
+
+
+When creating a new tool:
+
+Find the modules you wish to implement.
+Track usage of any modules on the appropriate documentation pages
+Note any bugs/issues to the user, jira, and/or the module documentation pages.
+If there are too few modules of the type you want, create your own.
+If you wish to change the signature of a module do so and add the module to the appropriate library.
+
+
+
+
+
+
+Attachments:
+
+image2014-11-24 11:56:9.png
+
+
+Previous versions:
+| 1 
+| 2 
+| 3 
+| 4 
+| 5 
+|
+                    

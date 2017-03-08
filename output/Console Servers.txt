@@ -1,0 +1,186 @@
+
+                        Owner: User #71467
+NDB Lab SAN Switch Port Mapping
+NDB Lab SAN Switch Port mapping
+
+
+g2/0/1
+g2/0/3
+g2/0/5
+g2/0/7
+g2/0/9
+g2/0/11
+g2/0/13
+g2/0/15
+g2/0/17
+g2/0/19
+g2/0/21
+g2/0/23
+
+
+HP1 vmnic1
+HP3 vmnic1
+ 
+ 
+ 
+ 
+ 
+HP32 vmnic1
+ 
+NetApp Mgmt
+NetApp2 Controller B
+NetApp2 Controller B
+
+
+vlan 901
+vlan 901
+vlan 901
+vlan 901
+vlan 901
+vlan 901
+vlan 901
+trunk
+vlan 901
+vlan 900
+vlan 901
+vlan 901
+
+
+g2/0/2
+g2/0/4
+g2/0/6
+g2/0/8
+g2/0/10
+g2/0/12
+g2/0/14
+g2/0/16
+g2/0/18
+g2/0/20
+g2/0/22
+g2/0/24
+
+
+HP2 vmnic1
+HP4 vmnic1
+ 
+ 
+ 
+ 
+HP31 vmnic1
+ 
+ 
+NetApp2 Controller B
+NetApp2 Controller B
+NetApp e0a
+
+
+vlan 901
+vlan 901
+vlan 901
+vlan 901
+vlan 901
+vlan 901
+trunk
+vlan 901
+vlan 901
+vlan 901
+vlan 901
+vlan 901
+
+
+ 
+ 
+
+
+g1/0/1
+g1/0/3
+g1/0/5
+g1/0/7
+g1/0/9
+g1/0/11
+g1/0/13
+g1/0/15
+g1/0/17
+g1/0/19
+g1/0/21
+g1/0/23
+
+
+HP1 vmnic0
+HP3 vmnic0
+ 
+ 
+ 
+ 
+SRV-SW g1/0/24
+HP32 vminc3
+HP34 vmnic3
+NetApp Mgmt
+NetApp2 Controller A
+NetApp2 Controller A
+
+
+vlan 901
+vlan 901
+vlan 901
+vlan 901
+vlan 901
+vlan 1
+trunk
+trunk
+vlan 901
+vlan 900
+vlan 901
+vlan 901
+
+
+g1/0/2
+g1/0/4
+g1/0/6
+g1/0/8
+g1/0/10
+g1/0/12
+g1/0/14
+g1/0/16
+g1/0/18
+g1/0/20
+g1/0/22
+g1/0/24
+
+
+HP2 vmnic0
+HP4 vmnic0
+ 
+ 
+ 
+ 
+HP31 vmnic3
+HP33 vmnic3
+ 
+NetApp2 Controller A
+NetApp2 Controller A
+NetApp e0b
+
+
+vlan 901
+vlan 901
+vlan 901
+vlan 901
+vlan 901
+vlan 901
+trunk
+vlan 901
+vlan 901
+vlan 901
+vlan 901
+vlan 901
+
+
+ 
+ 
+
+Previous versions:
+| 1 
+| 2 
+|
+                    

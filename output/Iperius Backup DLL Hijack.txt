@@ -1,0 +1,67 @@
+
+                        Owner: User #71468
+Iperius Backup DLL Hijack
+Not a PortableApp... but the free version might be portable? Could build it as such ourselves via PortableApps builder
+Iperius.exe attempts to load the DLLDynamic Link Library "unicows.dll" adjacent to itself, but upon failing to find it, does not search for it further.  Thus we can run whatever in PROCESS_ATTACH and return FALSE from DllMain
+ 
+It is also worth noting, to get the window to pop-up, the exe expectsthe argument "show" — ie.: C:\folder\iperius.exe show
+Without this argument, the program will start minimized to the tray
+ 
+Languages Available:
+Must change the value of "LanguageFile=" in the "IperiusConfig.ini" file.  This by default is located in "C:\ProgramData\IperiusBackup" ... but will likely have to change if we are to make the program truly portable.
+
+
+Language
+Value
+
+
+Italian
+Italian
+
+
+English
+English
+
+
+Spanish
+Spanish
+
+
+Dutch
+Dutch
+
+
+German
+German
+
+
+French
+French
+
+
+Russian
+Russian
+
+
+Brazilian Portuguese
+PortugueseBr
+
+
+Simplified Chinese
+ChineseSimpl
+
+
+Korean
+Korean
+
+
+Polish
+Polish
+
+
+
+Previous versions:
+| 1 
+| 2 
+|
+                    

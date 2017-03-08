@@ -1,0 +1,216 @@
+
+                        AVG
+SECRET//NOFORN
+ 
+AVG Product Line:
+
+AVG AntiVirus Free:
+AVG AntiVirus:
+AVG Internet Security:
+AVG AntiVirus Free for Android:
+AVG AntiVirus for Mac:
+AVG Ultimate:
+AVG AntiVirus Business
+
+ 
+AVG Processes:
+ 
+
+
+Process Names
+AVG AntiVirus Free
+AVG AntiVirus
+AVG Internet Security (64-bit)
+AVG Internet Security (32-bit) 
+AVG AntiVirus Free Android
+AVG AntiVirus Mac
+AVG Ultimate
+AVG AntiVirus Business
+
+
+ 
+ 
+ 
+avgcsrva.exe
+AVGCSRVX.EXE
+ 
+ 
+ 
+ 
+
+
+ 
+ 
+ 
+avgemca.exe
+AVGUI.EXE
+ 
+ 
+ 
+ 
+
+
+ 
+ 
+ 
+avgfws.exe
+AVGIDSAGENT.EXE
+ 
+ 
+ 
+ 
+
+
+ 
+ 
+ 
+avgidsagent.exe
+AVGEMCX.EXE
+ 
+ 
+ 
+ 
+
+
+ 
+ 
+ 
+avgnsa.exe
+AVGMFAPX.EXE
+ 
+ 
+ 
+ 
+
+
+ 
+ 
+ 
+avgrsa.exe
+AVGWDSVC.EXE
+ 
+ 
+ 
+ 
+
+
+ 
+ 
+ 
+avgui.exe
+AVGCMGR.EXE
+ 
+ 
+ 
+ 
+
+
+ 
+ 
+ 
+avgwdsvc.exe
+AVGRSX.EXE
+ 
+ 
+ 
+ 
+
+
+ 
+ 
+ 
+avgmfapx.exe
+AVGFWS.EXE
+ 
+ 
+ 
+ 
+
+
+ 
+ 
+ 
+avgcefrend.exe (secure search feature)
+ AVGNSX.EXE
+ 
+ 
+ 
+ 
+
+
+ 
+ 
+ 
+toolbarupdater.exe (secure search feature)
+ 
+ 
+ 
+ 
+ 
+
+
+ 
+ 
+ 
+loggingserver,exe (secure search feature)
+ 
+ 
+ 
+ 
+ 
+
+
+ 
+ 
+ 
+wtusystemsuport.exe (web tuneup feature) 
+ 
+ 
+ 
+ 
+ 
+
+
+ 
+Notes:
+ 
+Defeats:
+AVG Fake Installer Trick:
+
+('include' missing)
+AVG Catches a Payload Dropped to Disk and Launched via Link File Well After Execution (Process Hollowing):
+
+('include' missing)
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+SECRET//NOFORN
+ 
+ 
+
+Previous versions:
+| 1 SECRET
+| 2 SECRET
+| 3 SECRET
+| 4 SECRET
+| 5 SECRET
+| 6 SECRET
+|
+                    

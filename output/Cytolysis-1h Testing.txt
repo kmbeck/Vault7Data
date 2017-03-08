@@ -1,0 +1,169 @@
+
+                        Owner: User #71467
+Cytolysis-1h HG v3.1.6 Test Plan
+Test Plan for Cytolysis-1h v3.1.6
+
+Review open EARs for HG, in particular for the capabilties used in this CONOP
+Review test report and other documentation provided by Xetron with delivery
+Review HG commands document for capabilties used in this CONOP
+Confirm OSOperating System on ICON machine with Operator - complete - Debian 8.2
+
+HG Base -
+Install - complete - test 1
+IAC attack via admin subnet flux node
+Use remote to upload HG via admin subnet flux node
+Establish CTCounter Terrorism connection by triggering admin IP of DUT, call back via HTTPSHypertext Transfer Protocol Secure to external web server flux node
+Record CPU and memory impacts throughout, verify no syslogs, traps or other alerting behavior
+
+
+Uninstall - complete test 2
+Uninstall HG using CTCounter Terrorism command
+Collect "show tech" and other info (look for assists on linecards)
+Reload
+Collect "show tech" and other info
+After install, uninstall by just reloading deviceCollect  "show tech" and other info
+
+After intsall, uninstall by hard reset of deviceCollect  "show tech" and other info
+
+
+
+Restart HG modules from CTCounter Terrorism session - complete test 3, 6
+Verify no syslogs, traps or other alerting behavior
+Verify functionality of modules
+
+
+CT session - HTTPSHypertext Transfer Protocol Secure comms only - complete Test 7
+Verify CTCounter Terrorism session functionality using different hosts to impersonate
+Capture and review wireshark of CTCounter Terrorism session establishment and operation
+Test what logs are produced when trigger sent with incorrect sequence number - show snmp output, syslogs, prints to console, snmp traps, access-lists
+Test impersonation of hosts from different VLANs
+
+
+
+
+Sup Failover Testing - Complete Test 11
+Verify state after failover
+Install on one SUP and then force failover through IOSApple operating system for small devices command
+Install on one SUP and then test crash to cause failover to other SUP
+Install on one SUP and then pull active SUP module to cause failover to other SUP
+
+
+Instlal on new SUPfail back to original and re-install
+
+Fail back to original and re-install
+
+
+ACE - complete - test 9
+Enter all commands foreseen during op, variety of show commands
+Boundary testing - test entering commands that don't exist, typos
+Enter unsupported non-show commands
+Verify command history - show history, show history all
+Verify no syslogs, traps or other alerting behavior
+
+
+SMITE - focus on options -ac -sm -t - complete Test 12
+test that rules can be created/deleted/enabled/disabled with all parameters expected during op - timed rule, max times to affect, max per host
+test creating multiple rules at a time
+Test creating a rule that targets multiple source hosts to single destination as well as single source to single destination
+test that filterbroker can be restarted with active rules, with rules that are inactive, new rules can be entered after restart
+test iframe/exploitation of target
+Verify that counters increment in CTCounter Terrorism show commands related to SMITE
+Run wireshark on target and examen output of SIMTE session
+Verify no syslogs, DNSDomain Name System queries or SNMPSimple Network Management Protocol Traps sent during Iframe
+verify iframe not injected for traffic that does not match SMITE rule - from other hosts, from target host to different destination, traffic to other ports (test 443)
+Use SMITE while pps threshold is reached - this no longer relevant, no assist.
+Verify that traffic from other hosts that are not targeted in SMITE rule is not impacted by SMITE rule
+
+
+ARP survey - complete Test 8
+Verify results of socket get_arp_survey_data output
+Verify no syslogs, traps or other alerting behavior
+
+
+Tunnel - complete Test 10
+Establish Tunnel to host not on VLANVirtual Local Area Network 2 or VLANVirtual Local Area Network 19, calling back via HTTPSHypertext Transfer Protocol Secure comms
+Verify CTCounter Terrorism Tunnel show commands
+Attempt to run nmap against VLANVirtual Local Area Network 19 subnet
+Test impersonating different hosts for tunnel traffic
+Teardown tunnel - both normal and abnormal termination
+Re-establish tunnel
+Test pps limitation - tunnel teardown due to pps threshold reached
+Test tunnel behavior when TAPVirtual Network kernel device IP becomes active on network
+Test tunnel timeout parameter
+Test triggering as well as tun init 
+Verify no syslogs, traps or other alerting behavior
+Collect and analyze wireshark of tunnel establishment and activity
+
+
+Performance Testing - Characterize CPU impact of capabilties - underway
+Establish Baselines for low, medium, high traffic levels
+impact of Tunnel at each level
+impact of SMITE at each level
+
+
+OPSEC Testing - completed in previous testing
+On-device
+Compare output of show tech without HG, with HG, and after HG uninstall
+Test Crash DUT
+
+
+On-net - review wireshark of CTCounter Terrorism session and Tunnel session
+
+
+Smoke Test - complete
+Redirection - test15
+Packet Collection test16
+DIVRT - complete test 14
+
+
+Ad-hoc Testing - completed in previous testing
+line cards being taken out/added/reloaded
+loss of ICON connectivity during HG install
+changing/adding to NATNetwork Address Translation configuration
+explico
+
+
+MTU changes since hopping through so many flux nodes
+IAC and HG re-attack
+Perform system admin commands
+Add latency
+Run Stack Scrambler
+reload device during HG install
+perform system admin during HG upload
+Impact to SP and linecard CPU
+input queue buffer checks
+test RAA assists dropped when HG uninstalled
+test RAA dropped when packet assist threshold exceeded
+verify if assist for flux 4 ip is present during CTCounter Terrorism session
+Verify that impersonated host can still get to flx 4 ip and other places
+verify assist is dropped once max number of matches occur on smite rule, or time duration expires
+Verify CPU impact and impact to other hosts who are browsing to a SMITE rule destination, but do not match smite rule
+
+
+Complete CONOPConcealed Operation rehearsalVerify the anticipated CONOPConcealed Operation steps with Operator
+
+
+
+Previous versions:
+| 1 empty
+| 2 
+| 3 
+| 4 
+| 5 
+| 6 [Xetron]
+| 7 [Xetron]
+| 8 [Xetron]
+| 9 [Xetron]
+| 10 [Xetron]
+| 11 [Xetron]
+| 12 [Xetron]
+| 13 [Xetron]
+| 14 [Xetron]
+| 15 [Xetron]
+| 16 [Xetron]
+| 17 [Xetron]
+| 18 [Xetron]
+| 19 [Xetron]
+| 20 [Xetron]
+|
+                    

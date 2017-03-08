@@ -1,0 +1,72 @@
+
+                        Making Make Suck Less
+Can't live with it, can't live without it.  If you're trying to live with Make, here are some helpful tips:
+
+Use Make.  Build scripts are usually a mistake.
+Use GNU make.  It sucks the least.
+Build targets in the current directory
+Only use VPATH to locate source files, not intermediate targets.
+Never write a filename more than once.
+Don't use Make recursively.
+Don't use Autotools to generate Makefiles.
+Use implicit rules and predefined variables as much as possible.
+If you're not using +=, ?=, and := often, you're probably doing it wrong.
+CFLAGS, CPPFLAGS, CXXFLAGS, LDFLAGS and LDLIBS should be used properly.
+
+ 
+Sometimes, you don't even need a recipe to build a target, so don't type any more than you need to.  For example, this Makefile compiles the foo executable from 3 implicit source files.
+
+CPPFLAGS += -Wall
+foo: foo.o bar.o baz.o
+
+ 
+
+Comments:
+
+
+2015-11-24 17:08 
+[User #524328]: 
+
+re: #3 - i prefer out of source builds as oppose to littering all manner of tmp files in the source dir, which inevitably gets checked in.
+recursive make is calling the make command within a makefile. generally use to build subprojects. the above paper (aaug97.pdf) gives indepth details, but what recursive make does is break your dependency tree. this makes it difficult/impossible to do threaded builds (-j), causes overbuilding (rebuilding things already built), and having to 'make clean' before actually building your project. all of which, is boo.
+i also avoid vpath to prevent file name collisions/confusions.
+
+
+2015-11-24 13:21 
+[User #2064619]: 
+
+RE: #6. I'm not saying I agree with all of it, but here is "Recursive Make Considered Harmful". I treat it like the "goto considered harmful" advice that's common on the internet... I still use goto in C in function error/cleanup exit cases. YMMV.
+
+('view-file' missing)
+
+
+2015-11-24 11:00 
+[User #524297]: 
+
+I'm not seeing it.  Why is #3 crap?  I'd still like to see #6 explained as well. 
+
+
+2015-11-20 13:04 
+[User #524328]: 
+
+if you try to fullfill all the above (except for 3, which is crap), you'll end up w/ something like makederps
+ 
+
+
+2015-04-30 04:11 
+[User #524297]: 
+
+good stuff, should add a Make section here: Make  .  Some of these points need some additional explanation though.
+
+
+
+Attachments:
+
+auug97.pdf
+
+
+Previous versions:
+| 1 
+| 2 
+|
+                    

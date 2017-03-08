@@ -1,0 +1,18 @@
+
+                        Owner: User #8650754
+Test Overview
+TestPlan
+The TestPlan testing tool is used to run a plan from the current directory.  All the .MOD files in the working directory are loaded into the current process.  A specific module plan will then be called with the GREMLIN_ID_RUN command.  The default plan is GREMLIN_MODULE_PLAN_TEST however, any module ID can be used by this code.  This code can be updated by the developer to test specific commands outside the packaging environment.  This can be helpful because the debug symbols and full source code access will be available when using this debug approach.
+TestPackageAMP
+The TestPackageAMP test framework is used to validate a specific AfterMidnight Package. 
+TestPackageAMP:
+COMMAND LINE: <AMP file>
+This interface allows for the debugging of the Master.dll loading code but can be used to validate the AMPArbitrary Map (data file format) file without including the shell code or master self-loading code.
+TestPackagePKG
+The TestPackagePKG test framework is used to validate a specific deployment package.
+   TestPackagePKG:
+   COMMAND LINE: AMPArbitrary Map (data file format) <amp file> <amm file>  -> used to process the plan package and master test
+   COMMAND LINE: PKG <package file>         -> used to process the package file for testing
+   COMMAND LINE: RAW <package file>         -> used to process the package file for testing
+This interface allow for the debugging of the multiple states of a PKG file.  The first allows the dynamic binding of the PKG in memory to validate the AMPArbitrary Map (data file format) and master.amm file without any additional overhead.  The second allows for the loading of the PKG file from disk with use of the master.dll and thus debugging of the bootstrapping code.  The third allows for the execution of the shell code and loading of the package into memory.  With these three stages, it should be possible to solve specific shell code and bootstrapping issues with the PKG file.
+                    

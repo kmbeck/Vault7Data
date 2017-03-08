@@ -1,0 +1,21 @@
+
+                        Frog Prince Install Test
+Preparation
+
+Write program to install / invoke Frog Prince module
+Use Frog Prince builder to create installation file(s)
+Write scripts for user interfacequeue status/list
+
+
+Test
+
+copy install vector and Frog Prince module on target
+install Frog Prince
+Monitor LP
+response file?
+creation of child queue(s)
+
+
+
+ 
+                    

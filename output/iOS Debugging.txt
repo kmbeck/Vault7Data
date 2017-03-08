@@ -1,0 +1,31 @@
+
+                        Create New Repository (Project)
+
+Describe when someone would need this information. For example "when connecting to wi-fi for the first time".
+Step-by-step guide
+
+In Stash, go to the "IOS" project.
+
+Click on the button on the left side to create a repository. Only certain people have permission to do this, so you may need to ask one of them to do this and some of the following steps.
+Under "Settings"–>"Workzone", select "Enable" for "Unapprove outgoing pull request".
+At a command line, perform the following steps to create an initial empty master branch to which default reviewers can be assigned.
+cd <your IOSApple operating system for small devices repo directory>
+git clone ssh://git@stash.devlan.net:7999/ios/<proj_name>.giT
+cd <proj_name>
+git commit --allow-empty -m "first commit"
+git push
+
+
+In Stash, have someone with permission add default reviewers to the new master branch.
+
+Related articles
+
+Related articles appear here based on the labels you select. Click to edit the macro and add or change labels.
+
+('contentbylabel' missing)
+('details' missing)
+
+Previous versions:
+| 1 
+|
+                    

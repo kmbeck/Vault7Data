@@ -1,0 +1,38 @@
+
+                        Owner: User #7995631
+Privilege Escalation Modules (KB)
+LABEL PAGE: Child pages of this page will contain code snippets pertaining to privilege escalation on the Windows operating system.
+ 
+
+('children' missing)
+ 
+ 
+ 
+
+Sub-Pages:
+
+
+LinkedOut User Mode LPE (PEULinkedOut_x86x64) SECRET
+
+
+Artillery UAC Bypass (PEUArtillery_x86x64) SECRET
+
+
+Calvary UAC Bypass (PEUCalvary_x86x64) SECRET
+
+
+LinkedIn User Mode LPE (PEULinkedIn_x86x64) SECRET
+
+
+SandWorm INF File Install (PEUSandWorm_x86x64) SECRET
+
+
+Vanguard LPE SECRET
+
+
+
+Previous versions:
+| 1 
+| 2 
+|
+                    

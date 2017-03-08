@@ -1,0 +1,803 @@
+
+                        Fine Dining Tool Module Lists
+ 
+ 
+Execution Vectors
+
+
+Technique Name
+Technique Type
+ Cover Application
+ Categories
+Technique Description and Use Case
+ Languages Supported
+ Version
+Status
+
+
+ 
+DLL Hijack - External Manifest
+VLC Player Portable
+User, Audio, Media
+Operator listens to music or views videos while collection is occurring
+ 
+v1.0
+ 
+
+
+ 
+DLL Hijack
+Irfan View
+User,  Media, Images
+Operator views/edits photos while collection is occurring
+ 
+v1.0
+ 
+
+
+ 
+DLL Hijack
+Chrome Portable
+User, Internet, Browser
+Operator uses portable browser while collection is occurring
+ 
+v1.0
+ 
+
+
+ 
+DLL Hijack
+Opera Portable
+User, Internet, Browser
+Operator uses portable browser while collection is occurring
+ 
+v1.0
+ 
+
+
+ 
+DLL Hijack
+Firefox Portable
+User, Internet, Browser
+Operator uses portable browser while collection is occurring
+ 
+v2.0
+ 
+
+
+ 
+DLL Hijack
+ClamWin Portable
+Administrator, Technical, PSP
+Operator "scans the target system" for malicious software while collection is occurring
+ 
+v1.0
+ 
+
+
+ 
+DLL Hijack
+Kaspersky TDSS Killer Portable
+Administrator, Technical, PSP
+Operator "scans the target system" for malicious software while collection is occurring 
+ 
+v1.0
+ 
+
+
+ 
+DLL Hijack
+McAfee Stinger Portable
+Administrator, Technical, PSP
+Operator "scans the target system" for malicious software while collection is occurring
+ 
+v1.0
+ 
+
+
+ 
+DLL Hijack
+Sophos Virus Removal
+Administrator, Technical, PSP
+Operator "scans the target system" for malicious software while collection is occurring
+ 
+v1.0
+ 
+
+
+ 
+DLL Hijack
+Thunderbird Portable
+User, Mail Client, Technical
+Operator checks email while collection is occurring
+ 
+v1.0
+ 
+
+
+ 
+DLL Hijack
+Opera Mail
+User, Mail Client, Technical
+Operator checks email while collection is occurring
+ 
+v1.0
+ 
+
+
+ 
+DLL Hijack
+Foxit Reader
+User, PDFPortable Document Format Reader
+Operator views documents in viewer while collection is occurring
+ 
+v1.0
+ 
+
+
+ 
+DLL Hijack
+Libre Office Portable
+User, Office Documents
+Operator views/edits documents while colleciton is occurring
+ 
+v1.0
+ 
+
+
+ 
+DLL Hijack
+Prezi
+User, Presentation Software
+Operator conducts powerpoint presentation while collection is occurring
+ 
+v1.0
+ 
+
+
+ 
+DLL Hijack
+Babel Pad
+User, Note Taker-Text Editor
+Operator takes notes or views documents while collection is occurring
+ 
+v1.0
+ 
+
+
+ 
+DLL Hijack
+Notepad++
+User, Note Taker-Text Editor
+Operator takes notes or views documents while collection is occurring
+ 
+v1.0
+ 
+
+
+ 
+DLL Hijack
+Skype
+User, Video-Chat
+Operator uses Skype to chat or call while collection is occurring
+ 
+v1.0
+ 
+
+
+ 
+DLL Hijack
+Iperius Backup
+User, Backup Software
+Operator performs a backup while collection is occurring
+ 
+v1.0
+ 
+
+
+ 
+DLL Hijack
+Sandisk Secure Access
+Administrator, Technical, Encrypted Container
+Operator extracts or stores data in encrypted container while collection is occurring
+ 
+v1.0
+ 
+
+
+ 
+Trojan
+U3 Software
+Administrator, U3 Software
+Operator installs U3 software while collection is occurring
+ 
+v2.0
+ 
+
+
+ 
+DLL Hijack
+2048
+User, Game
+Operator plays game while collection is occurring
+ 
+v1.0
+ 
+
+
+ 
+DLL Hijack
+LBreakout2
+User, Game
+Operator plays game while collection is occurring
+ 
+v1.0
+ 
+
+
+ 
+DLL Hijack
+7-Zip Portable
+User, Compression, Backup
+Operator performs backup, encrypted storage while collection is occurring
+ 
+v2.0
+ 
+
+
+ 
+ 
+Portable Linux CMD Prompt
+User, Technical, CMD Prompt
+Operator uses command line tool while collection is occurring
+ 
+v2.0
+ 
+
+
+ 
+Blacklisting/Whitelisting
+
+
+Technique Name
+Technique Description and Use Case
+Version 
+
+
+ 
+ Blacklist or Whitelist based upon process names
+v1.0
+
+
+ 
+ Blacklist or Whitelist based upon process path
+v2.0
+
+
+ 
+ Blacklist or Whitelist based upon registry key
+v2.0
+
+
+ 
+ Blacklist or Whitelist based upon file existence
+v1.0
+
+
+ 
+ Blacklist or Whitelist based upon internet connection
+v1.0
+
+
+ 
+PSP Defeats
+
+
+Technique Name
+Technique Description and Use Case
+Version
+
+
+ 
+ File exists
+v1.0
+
+
+ 
+ Run from location
+v2.0
+
+
+ 
+ COM calls (separate process)
+v1.0
+
+
+ 
+ Pack code stegged into image, zip, rar, or like
+v1.0
+
+
+ 
+DLP Defeats
+
+
+Technique Name
+Technique Description and Use Case
+Version
+
+
+ 
+USB Guard - Disables Write Blocking By USBGuard
+v1.0
+
+
+ 
+Fixed Disk 
+ 
+
+
+ 
+Folder Junction
+ 
+
+
+ 
+Separate Process
+ 
+
+
+ 
+Survey
+
+
+Technique Name
+ Category
+Technique Description and Use Case
+Version
+
+
+SWMI_Addict
+Configurable Full Machine Survey
+ 
+v1.0
+
+
+ 
+File Collection
+
+
+Technique Name
+Technique Description and Use Case
+Version
+
+
+ 
+ File Queueing
+v2.0
+
+
+ 
+ Prioritized file collection by extension and directory
+v1.0
+
+
+ 
+ Smash and Grab
+v1.0
+
+
+ 
+Persistence
+
+
+Technique Name
+Technique Description and Use Case
+Version
+
+
+ 
+ Powershell startup script
+v2.0
+
+
+ 
+ Scheduled Task
+v1.0
+
+
+ 
+ DLL Hijacks
+v2.0
+
+
+ 
+ WMI
+v1.0
+
+
+ 
+ Service
+v2.0
+
+
+ 
+ COM Junction
+v1.0
+
+
+ 
+CPL File
+v1.0
+
+
+ 
+Hooks
+
+
+Technique Name
+ Hook Type
+Technique Description
+Use Case
+Version
+
+
+????
+Privilege
+Uses a WMIWindows Management Instrumentation Event to asynchronously watch registry keys for specific key - if a command is written to the specified key, the command will be executed as System.
+XP - 10
+v1.0
+
+
+????
+Local/Drive
+CLSID Junction Folder -
+XP - 10
+v1.0
+
+
+????
+Local/Drive
+Libarary File (library-ms)
+7 - 10
+v1.0
+
+
+ 
+Local/Drive
+WMI
+XP - 10
+v1.0
+
+
+????
+Local/Remote/File
+Stegged File Carries Payload and/or Command
+XP - 10
+v1.0
+
+
+ 
+ 
+ 
+ 
+ 
+
+
+ 
+ 
+BITS
+ 
+ 
+
+
+ 
+ 
+Junction Folder (Hide CLSID extension)
+ 
+ 
+
+
+ 
+ 
+Search Handler - Internet Cache, Office Document
+ 
+ 
+
+
+ 
+ 
+WMI Event
+ 
+ 
+
+
+ 
+ 
+Scheduled Task
+ 
+ 
+
+
+ 
+ 
+ Library-ms
+ 
+ 
+
+
+ 
+ 
+ Group Policy
+ 
+ 
+
+
+ 
+ 
+ Stored RPC
+ 
+ 
+
+
+ 
+ 
+ Remote Service
+ 
+ 
+
+
+ 
+Privilege Escalation
+
+
+Technique Name
+Technique Description and Use Case
+Version
+
+
+ 
+Prompt for Administrator (UACUser Account Control)
+v1.0
+
+
+ 
+Prompt for Administrator (credential stealing?)
+v2.0
+
+
+ Sandworm
+Use INF file and InfDefaultInstall to bypass UACUser Account Control on Windows 7 
+v1.0
+
+
+ Artillery
+Utilizes elevated COM object to write to System32 and an auto-elevated process to execute as administrator
+v1.0
+
+
+ Calvary
+Utilizes the wusa.exe auto-elevated process to write to System32 and another auto-elevated process to execute as administrator
+v1.0
+
+
+ Stinger
+UAC bypass that obtains the token from an auto-elevated process, modifies it, and reuses it to execute as administrator
+v1.0
+
+
+ 
+Payload Deployment
+
+
+Technique Name
+Technique Description and Use Case
+Version
+
+
+ 
+Create Process
+v1.0
+
+
+ 
+Load Library
+v1.0
+
+
+ 
+Create Process WMI
+v1.0
+
+
+ 
+Create Process COM? 
+v1.0
+
+
+ 
+Reflect Load Library
+v1.0
+
+
+ 
+Data Storage 
+
+
+Technique Name
+Technique Description and Use Case
+Version
+
+
+ 
+ ADS
+v1.0
+
+
+ 
+ File Container
+v1.0
+
+
+ 
+ Steg into images, rar's, video, audio
+v1.0
+
+
+ 
+ Steg into documents (Sharpie)
+v2.0
+
+
+ 
+ Covert Partition?
+v2.0
+
+
+ 
+Post Processing
+
+
+Technique Name
+Technique Description and Use Case
+Version
+
+
+ 
+ Raw
+ 
+
+
+ 
+ Summary
+v1.0
+
+
+ 
+ Codex
+v1.0
+
+
+ 
+ TIO
+v1.0
+
+
+ 
+ISO File Collection
+v2.0
+
+
+ 
+Directory Walk Viewer
+v2.0
+
+
+ 
+Miscellaneous
+
+
+Technique Name
+Technique Description and Use Case
+Version
+
+
+ Marble
+Automated string/data obfuscation utilizing pre and post-build events 
+v1.0
+
+
+ 
+Logging/Reporting
+v1.0
+
+
+ 
+ 
+
+Sub-Pages:
+
+
+Sandisk Secure Access v2 DLL Hijack 
+
+
+LBreakout2 Game Portable DLL Hijack 
+
+
+2048 Game DLL Hijack 
+
+
+OperaMail DLL Hijack 
+
+
+LibreOffice Portable DLL Hijack 
+
+
+McAfee Stinger Portable DLL Hijack 
+
+
+Skype Portable DLL Hijack 
+
+
+Kaspersky TDSS Killer Portable DLL Hijack 
+
+
+Chrome Portable DLL Hijack 
+
+
+Sophos Virus Removal Tool DLL Hijack 
+
+
+Iperius Backup DLL Hijack 
+
+
+Opera Portable DLL Hijack 
+
+
+BabelPad Portable Hijack 
+
+
+Thunderbird Portable DLL Hijack 
+
+
+FoxitReader Portable DLL Hijack 
+
+
+ClamWin Portable DLL Hijack 
+
+
+Notepad++ DLL Hijack 
+
+
+
+Previous versions:
+| 1 empty
+| 2 
+| 3 
+| 4 
+| 5 
+| 6 
+| 7 
+| 8 
+| 9 
+| 10 
+| 11 
+| 12 
+| 13 
+| 14 
+| 15 
+| 16 
+| 17 
+| 18 
+| 19 
+| 20 
+| 21 
+| 22 
+| 23 
+| 24 
+| 25 
+| 26 
+| 27 
+| 28 
+|
+                    

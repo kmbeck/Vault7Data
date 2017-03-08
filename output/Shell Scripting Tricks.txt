@@ -1,0 +1,90 @@
+
+                        Strings-GUI:  A quick and easy way for Windows developers to examine strings, in binaries for delivery (without even launching CMD!)
+Hello, all!  I've built a useful Windows utility for examining strings in binaries I've built.  You may laugh, but I find it useful for the following reasons:
+
+I no longer have to find Sysinternals' "strings.exe" utility (on my dev. box, on DevLAN, on the Internet, wherever);
+
+I no longer have to copy it into my project's directory, or my %PATH%, or some other globally-accessible location; and
+
+I no longer have to open a command prompt, or even another Explorer window, to launch it.  I just click the "Send To" button below:
+
+
+ 
+Yes, I really am that lazy 
+
+ 
+If you would also like to be that lazy, please follow the steps below:
+
+First, download the linked file:  Strings-GUI.zip(It should work on any computer running Windows Vista or later... on the off chance that it doesn't, please let me know! –User #72901 )
+
+Next, extract it somewhere on your local hard drive – I chose "C:\Program Files (x86)\":
+
+Then, run "Strings-GUI.exe" (double-click the executable or whatever you like).  You should see the following message box: 
+Choose "Yes", to register the 'Send To' handler.  That's it, you're all set up!(Feel free to close the window, unless you have something you want to evaluate right now.)
+
+
+In the future, whenever you need to evaluate the plaintext strings in a binary, simply right-clickon the binary and choose "Strings-GUI " (below) :
+
+ 
+And you should see the following:
+
+ 
+Additionally, if you would like to take a peek at the source code for this very simple wrapper application,it is attached here:  Strings-GUI (revised, DataGridView-based).zip 
+NB (Nota Bene) :  This tool actually contains (and uses) Sysinternals' "strings.exe" binary – as such,please do not distribute it to any other organizations.  (I believe that Sysinternals allows for internal distribution, but I believe external distribution would constitute "publishing", which is prohibited.)
+ 
+Please let me know if there's anything else that you need!  –User #72901 
+Related articles:
+
+Related articles appear here based on the labels you select. Click to edit the macro and add or change labels.
+
+('contentbylabel' missing)
+
+Comments:
+
+
+2014-02-05 11:19 
+[User #71473]: 
+
+Oh, also:  I've got a Java-based GUIGraphical User Interface strings tool a buddy of mine in C3 wrote that might be useful (and nice to have for the non-Windows folks too).  Its lets you adjust a lot of the parameters for what constitutes a string, has a sortable list view and allows set operations between two string dumps, which is nice if you want to see how different a trojanized vs. untrojanized binary are.  Not as quick or as nicely integrated into the shell as this one though.
+
+
+2014-02-05 11:16 
+[User #71473]: 
+
+This is hella tight bro.  I approve
+
+
+2014-01-27 08:15 
+[User #524297]: 
+
+Awesome addition User #72901!  I really like seeing how others automate their workflow. Does it do Unicode strings in addition to ASCII?  Can you adjust the string length?
+For your source code, you should Create a New Personal Project in Stash and link to it from here!
+
+
+
+Attachments:
+
+
+Strings-GUI (revised, DataGridView-based).zip
+
+
+Strings-GUI, working screenshot.png
+
+
+Strings-GUI 'Send To' dialog, screenshot.png
+
+
+Strings-GUI folder in 'Program Files', screenshot.png
+
+
+Strings-GUI.zip
+
+
+'Send To' screenshot.png
+
+
+
+Previous versions:
+| 1 
+|
+                    

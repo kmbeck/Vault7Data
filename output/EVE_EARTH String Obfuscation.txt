@@ -1,0 +1,9 @@
+
+                        pycrypto
+Install Notes
+On Xcode 5+
+ 
+ARCHFLAGS=-Wno-error=unused-command-line-argument-hard-error-in-future python setup.py build
+sudo python setup.py install
+
+                    

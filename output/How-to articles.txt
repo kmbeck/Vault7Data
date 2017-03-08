@@ -1,0 +1,22 @@
+
+                        Owner: User #71494
+Installing VS2013 Update 5 on Windows 10
+I ran into issues trying to install VS2013 from CDCompact Disk and then applying the (as of this writing) five updates.  When attempting to apply the update, it will fail and complain that you need to turn off Windows Compatibility Mode.  You can turn that off all you want, but it's not going to fix your issues.  The problem from what I can gather from looking on the internet and trial and error here is that the updates available on the share are actually extracted iso's.  Apparently, VS is very sensitive to file names and installation media on Win 10.  Luckily, there is an iso on the share of VS2013 with all five updates included.  Also, nicely Windows 10 will allow you to directly mount an iso as a disk.  This is handy since the VS2013+Updates iso is too large to burn to a disk.  So:
+
+Copy \\fs-01\share\Windows Software Development Resources\Visual Studio 2013\en_visual)studio_premium_2013_with_update_5_x86_dvd_6815742.iso locally
+Right click the file and select "Mount"
+It should now appear in Explorer as a disk.
+Open it up, right click vs_premium.exe and select "Run as Administrator"
+
+This will avoid the Windows Compatibility headaches.  Enjoy.
+
+Comments:
+
+
+2016-01-14 16:46 
+[User #1179751]: 
+
+So I've been using 2015 and find it to be better than 2013 and haven't encountered any issues with the upgrade.
+
+
+                    

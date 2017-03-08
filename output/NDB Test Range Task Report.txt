@@ -1,0 +1,30 @@
+
+                        Owner: User #1179825
+Lab Infrastructure
+Console Servers   - Details on the devices that are used to provide the console connections to the network devices in the racks.
+VMware Servers   - Details regarding the IP address, login credentials and configuration information.
+Obselete VMs - Pruned from Inventory   - List of VMs that were not migrated to VMware ESXi 5.5 servers
+NDB Lab SAN Switch Port Mapping   - Switchport connections, port status and vlan assigments as of 2/12/15
+
+Sub-Pages:
+
+
+NDB Lab SAN Switch Port Mapping 
+
+
+Obselete VMs - Pruned from Inventory 
+
+
+VMware Servers 
+
+
+Console Servers 
+
+
+
+Previous versions:
+| 1 
+| 2 
+| 3 
+|
+                    

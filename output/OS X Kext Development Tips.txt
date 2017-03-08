@@ -1,0 +1,32 @@
+
+                        OS X NetInstall Images
+NetInstall images for OSOperating System X 10.6 through 10.11 are available on the apple.net subnet (10.6.4.0/24).  If you have network access to this subnet, you can boot the default NetInstall image by holding "n" during the boot process.  Alternatively, you can also select  use the Settings/Startup Disk to select a specific NetInstall image.
+ 
+Generating NetInstall Images
+Generating NetInstall Images is a pain.  You can only generate an image for the currently running version of OSOperating System X.  That means, if you want to make a 10.6 installer, you need to have 10.6 running.  Once you solve that problem, generally, you use the System Image Utility to generate the NetInstall image.  Older versions of OSOperating System X required OSOperating System X Server to be installed to generate the images.
+Starting with 10.10, you can use a command line tool to generate the images:
+/System/Library/CoreServices/Applications/System Image Utility.app/Contents/MacOS/imagetool
+In 10.11, image tool seems to be the only way to generate the images.
+
+Comments:
+
+
+2015-09-10 13:33 
+[User #3375388]: 
+
+Yea it's just a vlan--I'm sure IBInfrastructure Branch can extend it or bridge it to OSB's vlan...  Otherwise you can copy the folders from our file share on cifs://towerpower.apple.net
+
+
+2015-09-09 14:28 
+[User #71473]: 
+
+When you say "have network access to this subnet" does this mean you have to be on that VLAN?  My guess is yes...
+I don't know if we have enough of a need to do this right now, but if we were to want to mirror this setup on the OSBOperation Support Branch VLAN, would we need anything special to host the images?
+
+
+
+Previous versions:
+| 1 
+| 2 
+|
+                    

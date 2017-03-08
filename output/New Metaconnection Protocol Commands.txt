@@ -1,0 +1,207 @@
+
+                        Owner: User #71475
+The.Net
+
+
+The.Net
+ 
+the.net is a test network configuration that is designed to be incredibly flexible and simulate "real-world" internet link connections and configurations. It is a collection of "corporate" networks that are linked together virtually and using WANWide Area Network link simulators to simulate their connections to the internet. The.net exists within a single ESXi host at the moment (see connection information below).
+See The.Net Node Statuses   for up-to-the-microsecond information about the state of each node
+ 
+The.Net ESXi Host:   10.6.2.5 (normal dart login)The.Net DNS: 1.1.1.1 (10.6.2.10)
+ 
+
+
+        
+
+
+Company
+Public IP Range
+Public Netmask
+Private Range
+Private Netmask
+Private Gateway
+the.net DNS
+Public DNS
+Internal Domain
+Devlan IP
+
+
+Abstergo
+1.1.2.1 - X.X.X.XXX (CN)
+
+/16
+172.20.1.0
+/16
+172.20.1.1
+abstergo.the.net
+abstergo.com
+abstergo.com
+ 
+
+
+Aperture Labs
+1.1.3.1 - 1.1.3.255
+/16
+172.16.0.0
+/16
+172.16.1.1
+aperture.the.net
+aperturelabs.com
+aperture.lab
+ 
+
+
+Black Mesa
+1.1.4.1 - 1.1.4.255
+/16
+192.168.3.0
+/24
+192.168.3.1
+blackmesa.the.net
+blackmesa.org
+black.mesa
+ 
+
+
+CIA
+1.1.7.1 - 1.1.7.255
+/16
+172.16.0.0
+/16
+172.16.0.1
+cia.the.net
+cia.gov
+ic.cia.gov
+ 
+
+
+ISIS
+1.1.10.1 - 1.1.10.255
+/16
+192.168.1.0
+/24
+192.168.1.254
+isis.the.net
+isis.com
+isis.archer
+ 
+
+
+NSA
+1.1.8.1 - 1.1.8.255
+/16
+172.17.0.0
+/16
+172.17.0.1
+nsa.the.net
+nsa.gov
+ic.nsa.gov
+ 
+
+
+PLA
+1.1.9.1 - 1.1.9.255
+/16
+192.168.1.0
+/24
+192.168.1.1
+pla.the.net
+pla.cn
+pla.cn
+ 
+
+
+Sarif Industries
+1.1.5.1 - 1.1.5.255
+/16
+172.30.20.0
+/24
+172.30.20.1
+sarif.the.net
+sarifindustries.com
+sarif.co
+ 
+
+
+Umbrella Corp
+1.1.6.1 - 1.1.6.255
+/16
+192.168.0.0
+/16
+192.168.1.1
+umbrella.the.net
+umbrellacorp.com
+umb.corp
+ 
+
+
+
+ 
+Cloning a template VM
+We're cheating and not using VCenter, so cloning machines is a manual process. Briefly...
+
+Create a new VM, but do not add a harddrive
+
+ssh as root to the ESXI server and clone the harddrive of the template you want to copy to the new machine
+$ ssh root@10.6.2.5
+$ vmkfstools -i /vmfs/volumes/datastore2/templates/lin-ubuntu1404-64/lin-ubuntu1404-64.vmdk /vmfs/volumes/datastore3/cloud/cloud.vmdk -d thin
+
+Add the newly cloned harddrive to your new VMVirtual Machine and youre done.
+
+
+
+
+
+
+
+
+
+
+
+
+Attachments:
+
+
+umbrella-corp-logo.png
+
+
+sarif_industries_logo_by_titch_ix-d4ei9ef.png
+
+
+blackmesa.PNG
+
+
+Black_Mesa_logo_documents_+_text.svg
+
+
+Aperture_Laboratories_Stencil_by_ChrisInVT.png
+
+
+Abstergo_industries_3.gif
+
+
+Netposter1995.jpg
+
+
+
+Sub-Pages:
+
+
+The.Net Node Statuses 
+
+
+
+Previous versions:
+| 1 
+| 2 
+| 3 
+| 4 
+| 5 
+| 6 
+| 7 
+| 8 
+| 9 
+| 10 
+|
+                    

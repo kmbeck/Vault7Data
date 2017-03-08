@@ -1,0 +1,19 @@
+
+                        Owner: User #71467
+Setup Ubuntu Web Server for HTTPS
+VM Name - WebServer-UbuntuServer14.04-LTS
+username - ubuntu
+password - password
+ 
+cd /etc/apache2 and mkdir ssl
+cd ssl
+mkdir key and mkdir crt
+ 
+sudo openssl req -new -x509 -days 10000 -keyout /etc/apache2/ssl/key/vhost1.key -out /etc/apache2/ssl/crt/vhost1.crt -nodes -subj '/C=–/ST=SomeState/L=SomeCity/O=SomeOrganiziation/OU=SomeOrganizationalUnit/CN=google/emailAddress=root@google'
+cd /etc/apache2/sites-available
+edit default-ssl.conf file to reference the key and crt files you just created:
+SSLCertifcateFile     /etc/apache2/ssl/crt/vhost1.crt
+SSLCertificateKeyFile    /etc/apache2/ssl/key/vhost1.key
+ 
+Restart apache server - sudo service apache2 restart
+                    

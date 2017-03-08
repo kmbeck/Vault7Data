@@ -1,0 +1,274 @@
+
+                        Owner: User #71467
+JQJHAIRPIECE - ROCEM TESTING
+Testing Summary
+
+JIRA issues from ROCEM JQJADVERSE testing that were observed again for JQJHAIRPIECE
+ROC-2 - Exiting interactive ROCEM session produces SNMPSimple Network Management Protocol trap
+
+ROC-3 - Log messages observed on tac_plus /var/log/syslog server during ROCEM interactive session
+
+ROC-6 - If DUTDevice Under Test configured to log config changes to syslog, config changes made through ROCEM logged with no username
+
+ROC-8 - Effects of ROCEM user commands logged to syslogs
+ROC-9 - ROCEM telnet connection with no username visible in "show users" output
+
+
+Telnet user rx unexpected privilege level when ROCEM set whlie telnet user at Username: prompt - ROC-10
+ROCEM unset command produces SNMPSimple Network Management Protocol Trap - ROC-11
+
+ 
+ 
+Progress/Notes
+ 
+User #13205547 - 7-9-15
+Testing in support of JQJHAIRPIECE
+"This release is for hairpiece-1r. hairpiece-1r is released as a part of ROCEM 1.1.
+Target: hairpiece-1
+Platform: 2960S IOSApple operating system for small devices Version:   
+c2960s-universalk9-mz.122-55.SE8"
+Operator confirmed that the will just use ROCEM for survey at this point, in interactive mode.  Potentially will use ROCEM later to throw HG.
+Misc. Test Notes:
+
+SE7 and SE8 IOSApple operating system for small devices on the box, need SE8 for testing. Changed system boot, unable to load SE8. Deleted SE7 from the switch, reload, successfully loaded SE8.
+Test Infrastructure Information:
+
+
+Target Switch - 2960S-MgtSW / IP Address 192.168.21.2
+VMs 
+ICON1-UbuntuDesktop12.04_x64-LTS 172.20.12.22 - Command and Control
+scd-proxy - scripting telnet session (JQJHAIRPIECE-log)
+
+
+Solar Winds Network Management - 10.9.8.22
+AAA Server 10.9.8.25
+
+
+Smoke Test - Survey with ROCEM
+2960S is configured to log snmp traps and syslogs to Solarwinds (hairpiece-1r)
+2960S is configured to use AAASecurity Server from Cisco server for telnet sessions
+Executed ROCEM per readme - sudo ./rocem_c2960s-universalk9-mz.122-55.SE8.py -i -f fill.bin 192.168.21.2
+
+Output of "who" command before ROCEM shows my console session and my vty session on line 1:
+2960S-MgtSW#who Line User Host(s) Idle Location 0 con 0 root idle 00:03:11* 1 vty 0 root idle 00:00:00 10.9.8.96 2 vty 1 idle 00:00:09 172.20.12.22
+Followed Hairpiece-1r readme procedure to use ROCEM to execute show commands
+
+
+./rocem_c2960s-universalk9-mz.122-55.SE8.py -i -f fill.bin 192.168.21.2
+Entered y to proceed
+2960S-MgtSW# prompt appeared - no creds were entered
+Executed show commands from readme successfully. No log entries showed up from performing a "show log," no SNMPSimple Network Management Protocol entries seen on Solar Winds.  No commands were logged to AAA.
+Entries were logged on AAASecurity Server from Cisco server in /var/syslog at start and end of ROCEM session - ROC-3Jul 13 08:39:54 ubuntuserver tac_plus[1223]: connect from 172.31.255.2 [172.31.255.2] Jul 13 08:39:58 ubuntuserver tac_plus[1234]: connect from 172.31.255.2 [172.31.255.2] 
+Output of "who" command shows ROCEM vty session from ICON-CT IP and no username - ROC-9
+
+Typed exit at ROCEM prompt - session closed, no logs generated, however  SNMP trap for the connection close is logged: loctcpConnOutBytes.192.168.21.2.XX.XXX.XX.XX (???).22.54605 = 78  loctcpConnInBytes.192.168.21.2.XX.XXX.XX.XX (???).22.54605 = 847  loctcpConnElapsed.192.168.21.2.XX.XXX.XX.XX (???).22.54605 = 0.50 second  tcpConnState.192.168.21.2.XX.XXX.XX.XX (???).22.54605 = synReceived(4)  tslineSesType.2.1 = telnet(5)  snmpTrapOID = CISCOTRAP-MIB:tcpConnectionClose  sysUpTime = 23 hours 15 minutes 19.24 seconds - ROC-2
+
+
+
+
+Ad-hoc test - Login to DUTDevice Under Test while ROCEM interactive session is active
+Established ROCEM interactive session
+Attempted to login to DUTDevice Under Test on console using AAASecurity Server from Cisco creds
+Attempted to login on console as root/password - rcvd expected password prompt and priv 15
+Attempted to ssh in as root/password and telnet in as root/password and rcvd expected password prompt and priv 15
+This behavior differs from the JQJADVERSE ROCEM delivery where EAR 4684/ROC-4 was observed.
+
+
+
+Ad-hoc test - Login to DUTDevice Under Test while ROCEM set
+Set ROCEM
+Attempted to login to DUTDevice Under Test on console - immediately granted priv 15 access 
+Attempted to telnet in with root/password and was immediately granted priv 15 access
+Attempted to ssh in with root/password and was prompted for creds as usual
+All behavior reverted to normal when rocem was unset
+Note that SNMPSimple Network Management Protocol Trap is produced when ROCEM is unset - ROC-11
+No trap is produced when ROCEM set
+This is all expected per Operator Use Notes
+
+
+
+Ad-hoc test - Establish ROCEM interactive session while telnet user at Username prompt:
+Telnet to DUTDevice Under Test and wait at Username prompt
+Establish ROCEM interactive session
+
+Was prompted for credentials as expected
+
+Exited that telnet session and opened a new one -was pompted for creds as expected
+Same results repeated for user on console instead of telnet
+
+
+
+Ad-hoc test - Set ROCEM while telnet user at Username prompt.
+Telnet to DUTDevice Under Test and wait at Username prompt
+Set ROCEM
+Entered root/password at prompt on console- was only granted priv 1 acces
+Entered root/password at prompt in telnet session - was only granted priv 1 access
+
+Could not enable for either console or telnet session because the credentials were not accepted: ROC-10 2960S-MgtSW>enPassword:% Error in authentication.
+
+Unset ROCEM and behavior remained the same until the telnet session at priv 1 was exited and I made another attempt to login, at which point behavior reverted to normal.  This is not expected behavior based on Xetron's Hairpiece ROCEM QRC Results which state that:Set ROCEM while a user is at the telnet username promptAAA - Proper credentials are still required by the open telnet session.  During this test case, proper credentials are not accepted.  Telnet user rcvs unexpected privilege level, seems similar to EAREnterprise Archive 4684 which describes unexpeted privilege level recevied while ROCEM interactive session active.
+
+
+Ad-hoc test - Logging for non-ROCEM telnet session while ROCEM set
+Establish telnet session to DUTDevice Under Test and verified that AAASecurity Server from Cisco is logging
+Set ROCEM
+Perform show commands from exsiting non-ROCEM user and verified that AAASecurity Server from Cisco does not log show commands
+Logged out from existing telnet session and did see AAASecurity Server from Cisco log a disconnect: root, tty1, 10.9.8.96, stop, disc-cause-ex=9
+Logged back in whlie ROCEM set, ran show commands, then disconnected - AAASecurity Server from Cisco commands were not logged, nor any start/stop messages. 
+Logged back in while ROCEM set, ran config changes, then disconnected - AAASecurity Server from Cisco commands were not logged, nor any start/stop messages, or SNMPSimple Network Management Protocol traps, however a syslog message was printed to console screen and syslog:Jul 13 18:09:20: %SYS-5-CONFIG_I: Configured from console by vty0 (10.9.8.96)
+Unset ROCEM and then entered a show command in existing telnet session, and it was logged to AAA.
+
+
+Ad-hoc test - Logging for non-ROCEM telnet user during ROCEM interactive session
+Establish telnet session to DUTDevice Under Test and verified that AAASecurity Server from Cisco is logging
+Establish an interactive session to DUTDevice Under Test with ROCEM
+Perform show commands from existing non-ROCEM user and verified that AAASecurity Server from Cisco does not log show commands
+Perform show commands from ROCEM user and verified that AAASecurity Server from Cisco does not log show commands
+Logged out from existing telnet session and did see AAASecurity Server from Cisco log a disconnect: root, tty1, 10.9.8.96, stop, disc-cause-ex=9
+Logged back in whlie ROCEM interactive mode still active, ran show commands, then disconnected - AAASecurity Server from Cisco commands were not logged, nor any start/stop messages.
+Logged back in whlie ROCEM interactive mode still active, ran config changes, then disconnected - AAASecurity Server from Cisco commands were not logged, nor any start/stop messages, or SNMPSimple Network Management Protocol traps, however a syslog message was printed to console screen and syslog:Jul 13 18:43:37: %SYS-5-CONFIG_I: Configured from console by root on vty0 (10.9.8.96)
+Logged back in with telnet user and confirmed AAASecurity Server from Cisco logs not being generated.  Then disconnected ROCEM interactive session.  Entered show commands in existing telnet session and they are now logged.
+
+
+Ad-hoc test - Fill up VTY lines while ROCEM interactive session is active
+Filled up all VTY lines
+Attempted to set, unset and establish interactive ROCEM session - all attempts failed, but with no log message, trap or other alerting behavior.
+Exited one telnet session to free up a vty line for ROCEM
+Established ROCEM interactive session, then attempted to establish one more telnet session - telnet session refused, however no log message, trap or other alerting behavior.
+Exited ROCEM interactive session and then set ROCEM.  
+Attempted to telnet to device successfully, but subsequent attempts after vty lines fill up fail.  No log message, trap or other alerting behavior.
+
+
+Ad hoc test - SNMPSimple Network Management Protocol traps generated during ROCEM interactive session
+Established ROCEM interactive session
+Bounced an interface via ROCEM session as well as through non-ROCEM session - no traps produced
+Closed ROCEM interactive session
+bounced interface through existing non-ROCEM session - traps produced.
+Observed output of show snmp and trap PDUs increased whlie traps were not rcvd by SolarWinds.  This is expected based on Operational Use Notes that a config change through ROCEM interactive session will still generate an SNMPSimple Network Management Protocol entry.
+
+
+Ad hoc test - SNMPSimple Network Management Protocol traps generated while ROCEM set
+Established telnet session with DUT
+Set ROCEM
+From existing telnet session as well as through new session after ROCEM set, bounced an interface to attempt to produce a trap - no trap observed
+Unset ROCEM and repeated commands to bounce interface through existing telnet session - traps observed
+
+
+Use IACInternational Access Code with ROCEM to throw third party tool
+Set ROCEM
+Attack with IACInternational Access Code for HG aquaman-5h delivery
+We only have HG delivery for 2960-S for a slightly different code version, so I thought I'd try this test, however we also only have sshiac and not iac for that delivery of HG.
+
+
+Ad-hoc test - reload DUTDevice Under Test using ROCEM
+Established an interactive session to DUT
+Entered reload through ROCEM session
+Jul 14 11:56:09: %SYS-5-RELOAD: Reload requested by vty0 (172.20.12.22). Reload reason: Reload command - log message with no user listed as entering the command, just vty0
+No other alerting log messages or SNMPSimple Network Management Protocol traps
+After reload, I was able to log in normally to DUTDevice Under Test using AAASecurity Server from Cisco root/password creds.
+
+
+Confirm Xetron EAREnterprise Archive 5355
+Enabled debug telnet, then established interactive session
+Observed the following anomalous output:Jul 14 12:12:34: Telnet2: 1 1 251 1Jul 14 12:12:34: TCP2: Telnet sent WILL ECHO (1)Jul 14 12:12:34: Telnet2: 2 2 251 3Jul 14 12:12:34: TCP2: Telnet sent WILL SUPPRESS-GA (3)Jul 14 12:12:34: Telnet2: 80000 80000 253 24Jul 14 12:12:34: TCP2: Telnet sent DO TTY-TYPE (24)Jul 14 12:12:34: Telnet2: 10000000 10000000 253 31Jul 14 12:12:34: TCP2: Telnet sent DO WINDOW-SIZE (31)Jul 14 12:12:34: TCP2: Telnet received DO ECHO (1)Jul 14 12:12:34: TCP2: Telnet received DO SUPPRESS-GA (3)Jul 14 12:12:34: TCP2: Telnet received WILL TTY-TYPE (24)Jul 14 12:12:34: Telnet2: Sent SB 24 1Jul 14 12:12:34: TCP2: Telnet received WILL WINDOW-SIZE (31)Jul 14 12:12:34: Telnet2: recv SB NAWS 80 24Jul 14 12:12:34: Telnet2: recv SB 36 84 T"q:"!Q1BJul 14 12:12:34: Telnet2: recv SB 36 0 CISCO_KITSpJul 14 12:12:34: Telnet2: recv SB 24 0 xtermPuTTY
+
+
+
+
+Confirm Xetron EAREnterprise Archive 5387 - Anomalous ouput after test crash 4
+After a reboot, issed test crash 4.Jul 14 13:03:44: %PLATFORM-1-CRASHED: CPU Register Context:.Jul 14 13:03:44: %PLATFORM-1-CRASHED: Vector = 0x00002000 PCPersonal Computer = 0x018762B8 MSR = 0x00029230 CR = 0x20000002.Jul 14 13:03:44: %PLATFORM-1-CRASHED: LR = 0x0187627C CTR = 0x0098E108 XER = 0x00000000.Jul 14 13:03:44: %PLATFORM-1-CRASHED: R0 = 0x0187627C R1 = 0x02BE2838 R2 = 0x00000000 R3 = 0x03DF98A4.Jul 14 13:03:44: %PLATFORM-1-CRASHED: R4 = 0x00000006 R5 = 0x00000000 R6 = 0x02BE2820 R7 = 0x00000000.Jul 14 13:03:44: %PLATFORM-1-CRASHED: R8 = 0x00000000 R9 = 0x00000000 R10 = 0x022C0000 R11 = 0x03DF98A0.Jul 14 13:03:44: %PLATFORM-1-CRASHED: R12 = 0x0000001C R13 = 0x00000280 R14 = 0x00D9968C R15 = 0x00000000.Jul 14 13:03:44: %PLATFORM-1-CRASHED: R16 = 0x00000000 R17 = 0x00000000 R18 = 0x00000000 R19 = 0x00000000.Jul 14 13:03:44: %PLATFORM-1-CRASHED: R20 = 0x00000000 R21 = 0x00000000 R22 = 0x00000000 R23 = 0x022C0000.Jul 14 13:03:44: %PLATFORM-1-CRASHED: R24 = 0xAB1234AB R25 = 0x06200000 R26 = 0x00000000 R27 = 0x024B5B04.Jul 14 13:03:44: %PLATFORM-1-CRASHED: R28 = 0x00000001 R29 = 0x01C18D34 R30 = 0x06200000 R31 = 0x00000000.Jul 14 13:03:44: %PLATFORM-1-CRASHED:.Jul 14 13:03:44: %PLATFORM-1-CRASHED: Stack trace:.Jul 14 13:03:44: %PLATFORM-1-CRASHED: PCPersonal Computer = 0x018762B8, SP = 0x02BE2838.Jul 14 13:03:44: %PLATFORM-1-CRASHED: Frame 00: SP = 0x02BE2848 PCPersonal Computer = 0x0187627C.Jul 14 13:03:44: %PLATFORM-1-CRASHED: Frame 01: SP = 0x02BE2878 PCPersonal Computer = 0x00D962F4.Jul 14 13:03:44: %PLATFORM-1-CRASHED: Frame 02: SP = 0x02BE2890 PCPersonal Computer = 0x00D95D44.Jul 14 13:03:44: %PLATFORM-1-CRASHED: Frame 03: SP = 0x02BE28C8 PCPersonal Computer = 0x00D969D8.Jul 14 13:03:44: %PLATFORM-1-CRASHED: Frame 04: SP = 0x02BE28E0 PCPersonal Computer = 0x00D9951C.Jul 14 13:03:44: %PLATFORM-1-CRASHED: Frame 05: SP = 0x02BE28F8 PCPersonal Computer = 0x00D9972C.Jul 14 13:03:44: %PLATFORM-1-CRASHED: Frame 06: SP = 0x02BE2900 PCPersonal Computer = 0x01878288.Jul 14 13:03:44: %PLATFORM-1-CRASHED: Frame 07: SP = 0x00000000 PCPersonal Computer = 0x0186ED00.Jul 14 13:03:44: %PLATFORM-1-CRASHED:
+
+
+Set ROCEM and then issued test crash 4.Jul 14 13:18:31: %PLATFORM-1-CRASHED: SRR0 = 0x00DA5D64 SRR1 = 0x00029230 SRR2 = 0x0130CC18 SRR3 = 0x00029230.Jul 14 13:18:31: %PLATFORM-1-CRASHED: ESR = 0x00000000 DEAR = 0x00000000 TSR = 0x84000000 DBSR = 0x00000000.Jul 14 13:18:31: %PLATFORM-1-CRASHED:.Jul 14 13:18:31: %PLATFORM-1-CRASHED: CPU Register Context:.Jul 14 13:18:31: %PLATFORM-1-CRASHED: Vector = 0x00000000 PCPersonal Computer = 0x00DA5D64 MSR = 0x00029230 CR = 0x20004084.Jul 14 13:18:31: %PLATFORM-1-CRASHED: LR = 0x00000000 CTR = 0x00D56608 XER = 0x20000000.Jul 14 13:18:31: %PLATFORM-1-CRASHED: R0 = 0x48000000 R1 = 0x044E1348 R2 = 0x00000000 R3 = 0x00000000.Jul 14 13:18:31: %PLATFORM-1-CRASHED: R4 = 0x00DA5D64 R5 = 0x00029230 R6 = 0x00029230 R7 = 0xBEEFCAFE.Jul 14 13:18:31: %PLATFORM-1-CRASHED: R8 = 0x00000000 R9 = 0x022C0000 R10 = 0x00000000 R11 = 0x00029230.Jul 14 13:18:31: %PLATFORM-1-CRASHED: R12 = 0x000BE430 R13 = 0x00000280 R14 = 0x002A91C8 R15 = 0x00000000.Jul 14 13:18:31: %PLATFORM-1-CRASHED: R16 = 0x02BC02C8 R17 = 0x02BC02C8 R18 = 0x00000001 R19 = 0x00000000.Jul 14 13:18:31: %PLATFORM-1-CRASHED: R20 = 0x00000000 R21 = 0x00000000 R22 = 0x00000000 R23 = 0x027C0000.Jul 14 13:18:31: %PLATFORM-1-CRASHED: R24 = 0x00000001 R25 = 0x00000000 R26 = 0x00000000 R27 = 0x00000000.Jul 14 13:18:31: %PLATFORM-1-CRASHED: R28 = 0x00000000 R29 = 0x00001001 R30 = 0x00000034 R31 = 0x00000003.Jul 14 13:18:31: %PLATFORM-1-CRASHED:.Jul 14 13:18:31: %PLATFORM-1-CRASHED: Stack trace:.Jul 14 13:18:31: %PLATFORM-1-CRASHED: PCPersonal Computer = 0x00DA5D64, SP = 0x044E1348.Jul 14 13:18:31: %PLATFORM-1-CRASHED: Frame 00: SP = 0x044E1360 PCPersonal Computer = 0x013A6954.Jul 14 13:18:31: %PLATFORM-1-CRASHED: Frame 01: SP = 0x044E1470 PCPersonal Computer = 0x01323430.Jul 14 13:18:31: %PLATFORM-1-CRASHED: Frame 02: SP = 0x044E14D8 PCPersonal Computer = 0x00269F68.Jul 14 13:18:31: %PLATFORM-1-CRASHED: Frame 03: SP = 0x044E1510 PCPersonal Computer = 0x00268E7C.Jul 14 13:18:31: %PLATFORM-1-CRASHED: Frame 04: SP = 0x044E1528 PCPersonal Computer = 0x00278D64.Jul 14 13:18:31: %PLATFORM-1-CRASHED: Frame 05: SP = 0x044E1558 PCPersonal Computer = 0x00279260.Jul 14 13:18:31: %PLATFORM-1-CRASHED: Frame 06: SP = 0x044E1568 PCPersonal Computer = 0x0027962C.Jul 14 13:18:31: %PLATFORM-1-CRASHED: Frame 07: SP = 0x044E1580 PCPersonal Computer = 0x0027E4A8.Jul 14 13:18:31: %PLATFORM-1-CRASHED: Frame 08: SP = 0x044E1618 PCPersonal Computer = 0x002A9DB8.Jul 14 13:18:31: %PLATFORM-1-CRASHED: Frame 09: SP = 0x044E1620 PCPersonal Computer = 0x01878288.Jul 14 13:18:31: %PLATFORM-1-CRASHED: Frame 10: SP = 0x00000000 PCPersonal Computer = 0x0186ED00.Jul 14 13:18:31: %PLATFORM-1-CRASHED:
+Multiple register values that were zero before ROCEM are non-zero after, EAREnterprise Archive confirmed.
+
+Ad-hoc test - Test Crash with option 9
+Reloaded DUTDevice Under Test to start with a clean configuration
+Performed a test crash with option 9
+Compared the output and did not see the same anomalous output as in test crash 4 above
+
+
+Ad-hoc - Test if configuration changes made through ROCEM interactive session will be logged to local syslog
+Configured DUTDevice Under Test to log config changes locally
+Established ROCEM interactive session and made a test config change.
+Config change was logged with user vty0 instead of rootJul 14 18:07:52: %PARSER-5-CFGLOG_LOGGEDCMD: User:vty1 logged command:interface GigabitEthernet1/0/1Jul 14 18:07:53: %PARSER-5-CFGLOG_LOGGEDCMD: User:vty1 logged command:no descriptionJul 14 18:07:54: %SYS-5-CONFIG_I: Configured from console by vty1 (172.20.12.22)
+
+
+
+Latency test
+Tested using tc qdisc on ICON workstation VMVirtual Machine to add 1500 ms of latency to ROCEM target
+Set and Unset ROCEM successfully
+Successfully established and exited interactive session
+No crash observed, but connection was slow to due latency
+
+
+
+
+
+
+Comments:
+
+
+2015-07-09 08:45 
+[User #13205547]: 
+
+User #13205547 - 7-9-15
+Testing in support of JQJHAIRPIECE
+"This release is for hairpiece-1r. hairpiece-1r is released as a part of ROCEM 1.1.
+Target: hairpiece-1
+Platform: 2960S IOSApple operating system for small devices Version:   
+c2960s-universalk9-mz.122-55.SE8"
+Misc. Test Notes: 
+
+SE7 and SE8 IOSApple operating system for small devices on the box, need SE8 for testing. Changed system boot, unable to load SE8. Deleted SE7 from the switch, reload, successfully loaded SE8.
+Test Infrastructure Information:
+
+
+Target Switch - 2960S-MgtSW / IP Address 192.168.22.2
+VMs 
+ICON1-UbuntuDesktop12.04_x64-LTS 172.20.12.22 - Command and Control
+scd-proxy - scripting telnet session (JQJHAIRPIECE-log)
+
+
+Solar Winds Network Management - 10.9.8.22
+
+ 
+**** User #75474, if the text looks familiar, I basically just copied what you did and followed the script (minus the AAASecurity Server from Cisco stuff) *****
+ 
+Smoke Test - Survey 2960-S with ROCEM
+
+2960S is configured to log snmp traps and syslogs to Solarwinds (hairpiece-1r)
+Output of "who" command before ROCEM shows my console session and my vty session on line 1
+Followed Hairpiece-1r readme procedure to use ROCEM to execute show commands
+
+./rocem_c2960s-universalk9-mz.122-55.SE8.py -i -f fill.bin 192.168.21.2
+Entered y to proceed
+2960S-MgtSW# prompt appeared - no creds were entered
+Executed show commands from readme successfully. No log entries showed up from performing a "show log," no SNMPSimple Network Management Protocol entries seen on Solar Winds
+
+Output of "who" command shows ROCEM vty session from ICON-CT IP and no username   
+
+
+Typed exit at ROCEM prompt - session closed, no logs generated, however  SNMP trap for the connection close is logged: loctcpConnOutBytes.192.168.21.2.XX.XXX.XX.XX (???).22.54605 = 78  loctcpConnInBytes.192.168.21.2.XX.XXX.XX.XX (???).22.54605 = 847  loctcpConnElapsed.192.168.21.2.XX.XXX.XX.XX (???).22.54605 = 0.50 second  tcpConnState.192.168.21.2.XX.XXX.XX.XX (???).22.54605 = synReceived(4)  tslineSesType.2.1 = telnet(5)  snmpTrapOID = CISCOTRAP-MIB:tcpConnectionClose  sysUpTime = 23 hours 15 minutes 19.24 seconds 
+
+
+ 
+ 
+ 
+
+
+
+Previous versions:
+| 1 empty
+| 2 
+| 3 
+| 4 
+| 5 [Xetron]
+| 6 [Xetron]
+| 7 [Xetron]
+| 8 [Xetron]
+| 9 [Xetron]
+| 10 [Xetron]
+| 11 [Xetron]
+|
+                    

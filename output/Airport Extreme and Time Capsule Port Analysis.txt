@@ -1,0 +1,485 @@
+
+                        Owner: User #71384
+Airport Extreme and Time Capsule Port Analysis
+
+
+
+
+Airport Extreme – Open Port Summary
+
+
+Airport Extreme
+
+
+ 
+Internal Interface - LANLocal Area Network (10.0.1.1)
+
+
+ 
+External Interface - WANWide Area Network (10.7.1.101)
+
+
+
+Family
+Port
+Protocol
+Family
+Port
+Protocol
+
+
+TCP
+53
+domain?
+no open TCPTransport Control Protocol ports found on WAN
+
+
+TCP
+5009
+airport-admin
+ 
+ 
+ 
+
+
+TCP
+10000
+snet-sensor-mgmt?
+ 
+ 
+ 
+
+
+ 
+ 
+ 
+ 
+ 
+ 
+
+
+ 
+ 
+ 
+ 
+ 
+ 
+
+
+ 
+ 
+ 
+ 
+ 
+ 
+
+
+UDP
+53
+domain?
+no open UDPUser Datagram Protocol ports found on WAN
+
+
+UDP
+192
+osu-nms
+ 
+ 
+ 
+
+
+UDP
+5351
+nat-pmp
+ 
+ 
+ 
+
+
+UDP
+5353
+mdns
+ 
+ 
+ 
+
+
+
+
+Airport Time Capsule – Open Port Summary
+
+
+Bridged Mode
+Routed Mode
+
+
+Family
+Port
+Protocol
+Family
+Port
+Protocol
+
+
+TCP
+139
+SMB (netbios-ssn)
+
+no open TCPTransport Control Protocol ports found on WAN
+
+
+
+TCP
+145
+SMB domain server  (netbios-ssn)
+ 
+ 
+ 
+
+
+TCP
+548
+Apple Filing Protocol (AFP) over TCP
+ 
+ 
+ 
+
+
+TCP
+5009
+airport-admin
+ 
+ 
+ 
+
+
+TCP
+10000
+snet-sensor-mgmt?
+ 
+ 
+ 
+
+
+ 
+ 
+ 
+ 
+ 
+ 
+
+
+UDP
+192
+osu-nms
+
+no open TCPTransport Control Protocol ports found on WAN
+
+
+
+UDP
+922
+unknown
+ 
+ 
+ 
+
+
+UDP
+5353
+mdns
+ 
+ 
+ 
+
+
+ 
+ 
+
+
+
+
+Airport Extreme – Nmap Script Results
+# for TCP:
+nmap -vv -d -Pn -n --send-ip -sT -p- -A -oN <output-filename> -T4 <ip>
+ 
+# for UDP:
+nmap -vv -d -Pn -n --send-ip -sU -p- -A -oN <output-filename> -T4 <ip>
+5351/udp  open          nat-pmp           udp-response
+| nat-pmp-info:
+|_  WANWide Area Network IP: 10.7.1.101
+5353/udp  open          mdns              udp-response DNS-based service discovery
+| dns-service-discovery:
+|   5009/tcp acp-sync
+|     cu=4dde65b7-ee90-555f-a5a9-f20ee14e9322
+|     nm=edb's AirPort Extreme
+|     mac=6C:70:9F:D6:85:8B
+|     ssid=edb's Wi-Fi Network
+|     bssinfo=AQKEgIYQAAAJbHCf5mRlAVGGCAAAB2xwn+ZkZA
+|     Address=10.0.1.1 fe80:0:0:0:6e70:9fff:fed6:858b
+|   5009/tcp airport
+|     waMA=6C-70-9F-D6-85-8B,raMA=6C-70-9F-E6-64-65,raM2=6C-70-9F-E6-64-64,raNm=edb's Wi-Fi Network,raCh=132,rCh2=1,raSt=0,raNA=1,syFl=0x8A2C,syAP=120,syVs=7.7.3,srcv=77300.1,bjSd=21,prob=DubN
+|     model=AirPort7,120
+|     Address=10.0.1.1 fe80:0:0:0:6e70:9fff:fed6:858b
+|   65072/udp sleep-proxy
+|_    Address=10.0.1.1 fe80:0:0:0:6e70:9fff:fed6:858b
+
+
+Airport Time Capsule – Nmap TCPTransport Control Protocol Scan Results (Bridged Mode)
+# Nmap 6.40 scan initiated Tue Mar  3 15:14:14 2015 as: nmap -vv -Pn -n --send-ip -sT -p- -r -A -oN nmap-TCP-TimeCapsule.2015.03.03.txt -T4 
+10.7.1.102
+Nmap scan report for 10.7.1.102
+Host is up (0.0011s latency).
+Scanned at 2015-03-03 15:14:14 ESTEastern Standard Time for 771s
+Not shown: 65530 closed ports
+PORT      STATE SERVICE           VERSION
+139/tcp   open  netbios-ssn?
+445/tcp   open  netbios-ssn
+548/tcp   open  afp               Apple Time Capsule AFP (name: edbs-airport-time-capsule; protocol 3.3)
+| afp-serverinfo: 
+|   | Server Flags: 0x8ffb
+|   |   Super Client: Yes
+|   |   UUIDs: Yes
+|   |   UTF8 Server Name: Yes
+|   |   Open Directory: Yes
+|   |   Reconnect: Yes
+|   |   Server Notifications: Yes
+|   |   TCP/IP: Yes
+|   |   Server Signature: Yes
+|   |   ServerMessages: Yes
+|   |   Password Saving Prohibited: No
+|   |   Password Changing: Yes
+|   |_  Copy File: Yes
+|   Server Name: edbs-airport-time-capsule
+|   Machine Type: TimeCapsule8,119
+|   AFP Versions: AFP3.3, AFP3.2, AFP3.1
+|   UAMs: DHCAST128, DHX2, SRP, Recon1
+|   Server Signature: 4338364e48335547463948350069672d
+|   Network Address 1: 10.7.1.102:548
+|   Network Address 2: [fe80:0009:0000:0000:6e70:9fff:fed6:47d2]:548
+|   Network Address 3: 10.7.1.102
+|_  UTF8 Server Name: edb's AirPort Time Capsule
+5009/tcp  open  airport-admin     Apple AirPort or Time Capsule admin
+10000/tcp open  snet-sensor-mgmt?
+| ndmp-version: 
+|_  ERROR: Failed to get host information from server
+MAC Address: 6C:70:9F:D6:47:D2 (Unknown)
+Device type: general purpose
+Running: NetBSD 5.X
+OS CPE: cpe:/o:netbsd:netbsd:5
+OS details: NetBSD 5.0 - 5.99.5
+TCP/IP fingerprint:
+OS:SCAN(V=6.40%E=4%D=3/3%OT=139%CT=1%CU=30513%PV=Y%DS=1%DC=D%G=Y%M=6C709F%T
+OS:M=54F61919%P=x86_64-pc-linux-gnu)SEQ(SP=D9%GCD=1%ISR=DD%TI=Z%CI=Z)OPS(O1
+OS:=M5B4NW3NNT11SNN%O2=M5B4NW3NNT11SNN%O3=M5B4NW3NNT11%O4=M5B4NW3NNT11SNN%O
+OS:5=M5B4NW3NNT11SNN%O6=M5B4NNT11SNN)WIN(W1=8000%W2=8000%W3=8000%W4=8000%W5
+OS:=8000%W6=8000)ECN(R=Y%DF=Y%T=40%W=8000%O=M5B4NW3SNN%CC=N%Q=)T1(R=Y%DF=Y%
+OS:T=40%S=O%A=S+%F=AS%RD=0%Q=)T2(R=Y%DF=N%T=40%W=0%S=Z%A=S%F=AR%O=%RD=0%Q=)
+OS:T3(R=Y%DF=Y%T=40%W=8000%S=O%A=S+%F=AS%O=M5B4NW3NNT11SNN%RD=0%Q=)T4(R=Y%D
+OS:F=N%T=40%W=0%S=A%A=Z%F=R%O=%RD=0%Q=)T5(R=Y%DF=N%T=40%W=0%S=Z%A=S+%F=AR%O
+OS:=%RD=0%Q=)T6(R=Y%DF=N%T=40%W=0%S=A%A=Z%F=R%O=%RD=0%Q=)T7(R=Y%DF=N%T=40%W
+OS:=0%S=Z%A=S%F=AR%O=%RD=0%Q=)U1(R=Y%DF=N%T=FF%IPL=38%UN=0%RIPL=G%RID=G%RIP
+OS:CK=G%RUCK=G%RUD=G)IEInternet Explorer(R=Y%DFI=N%T=FF%CD=S)
+
+Network Distance: 1 hop
+TCP Sequence Prediction: Difficulty=217 (Good luck!)
+IP ID Sequence Generation: All zeros
+Service Info: Host: 10.7.1.102
+
+Host script results:
+| p2p-conficker: 
+|   Checking for Conficker.C or higher...
+|   Check 1 (port 49549/tcp): CLEAN (Couldn't connect)
+|   Check 2 (port 51106/tcp): CLEAN (Couldn't connect)
+|   | Check 3 (port 24961/udp): CLEAN (Failed to receive data)
+|   | Check 4 (port 22061/udp): CLEAN (Failed to receive data)
+|_  0/4 checks are positive: Host is CLEAN or ports are blocked
+| smb-os-discovery: 
+|   OS: Apple Base Station (CIFS 4.32)
+|   NetBIOS computer name: 
+|   Workgroup: 
+|_  System time: 2015-03-03T15:26:38-05:00
+| smb-security-mode: 
+|   Account that was used for smb scripts: guest
+|   User-level authentication
+|   SMB Security: Challenge/response passwords supported
+|_  Message signing disabled (dangerous, but default)
+|_smbv2-enabled: Server doesn't support SMBv2 protocol
+
+TRACEROUTE
+HOP RTT     ADDRESS
+1   1.10 ms 10.7.1.102
+
+Read data files from: /usr/bin/../share/nmap
+OS and Service detection performed. Please report any incorrect results at http://nmap.org/submit/ .
+# Nmap done at Tue Mar  3 15:27:05 2015 -- 1 IP address (1 host up) scanned in 771.73 seconds
+
+ 
+ 
+
+
+
+
+Network Capture Diagram
+ DNS/Linux Box <---------------------------------->Airport     |     Extreme<-------------------------------------->MAC Notebook
+
+
+                  192.0.2.1                                 192.0.2.102     |    10.0.1.1                                       10.0.1.1
+                                                            All ports closed   |    Open Ports
+
+                                                                                          |        53/tcp
+                                                                                          |    5009/tcp
+                                                                                          |  10000/tcp
+ 
+Nmap scan of Airport Extreme's 10.0.1.1 Local Area Network Port (nmap -T4 -A -v 10.0.1.1 >> nmap0.txt &) :
+Starting Nmap 6.47 ( http://nmap.org ) at 2015-01-28 10:16 PSTNSE: Loaded 118 scripts for scanning.NSE: Script Pre-scanning.Initiating Ping Scan at 10:16Scanning 10.0.1.1 [2 ports]Completed Ping Scan at 10:16, 0.00s elapsed (1 total hosts)Initiating Parallel DNSDomain Name System resolution of 1 host. at 10:16Completed Parallel DNSDomain Name System resolution of 1 host. at 10:16, 0.00s elapsedInitiating Connect Scan at 10:16Scanning 10.0.1.1 [1000 ports]Discovered open port 53/tcp on 10.0.1.1Increasing send delay for 10.0.1.1 from 0 to 5 due to max_successful_tryno increase to 5Increasing send delay for 10.0.1.1 from 5 to 10 due to max_successful_tryno increase to 6Discovered open port 10000/tcp on 10.0.1.1Discovered open port 5009/tcp on 10.0.1.1Completed Connect Scan at 10:17, 12.67s elapsed (1000 total ports)Initiating Service scan at 10:17Scanning 3 services on 10.0.1.1Service scan Timing: About 66.67% done; ETC: 10:19 (0:00:39 remaining)Completed Service scan at 10:18, 106.06s elapsed (3 services on 1 host)NSE: Script scanning 10.0.1.1.Initiating NSE at 10:18Completed NSE at 10:19, 30.02s elapsedNmap scan report for 10.0.1.1Host is up (0.0013s latency).Not shown: 997 closed portsPORT STATE SERVICE VERSION53/tcp open domain?5009/tcp open airport-admin Apple AirPort or Time Capsule admin10000/tcp open snet-sensor-mgmt?| ndmp-version: |_ ERROR: Failed to get host information from server
+NSE: Script Post-scanning.Read data files from: /usr/local/bin/../share/nmService detection performed. Please report any incorrect results at http://nmap.org/submit/ .Nmap done: 1 IP address (1 host up) scanned in 149.33 seconds
+ 
+Second Nmap scan of Airport Extreme's 10.0.1.1 Local Area Network Port (nmap -T4 -A -v -p X -sM -sV -O 10.0.1.1 >> nmap2_20150129.txt &):
+         where X=1-65355 (Could not get it to print properly).
+NSE: Loaded 118 scripts for scanning.NSE: Script Pre-scanning.Initiating Ping Scan at 11:59Scanning 10.0.1.1 [2 ports]Completed Ping Scan at 11:59, 0.00s elapsed (1 total hosts)Initiating Parallel DNSDomain Name System resolution of 1 host. at 11:59Completed Parallel DNSDomain Name System resolution of 1 host. at 11:59, 0.00s elapsedInitiating Connect Scan at 11:59Scanning 10.0.1.1 [65535 ports]Discovered open port 53/tcp on 10.0.1.1Increasing send delay for 10.0.1.1 from 0 to 5 due to 11 out of 23 dropped probes since last increase.Increasing send delay for 10.0.1.1 from 5 to 10 due to max_successful_tryno increase to 5Connect Scan Timing: About 2.42% done; ETC: 12:21 (0:20:48 remaining)Warning: 10.0.1.1 giving up on port because retransmission cap hit (6).Discovered open port 10000/tcp on 10.0.1.1Connect Scan Timing: About 8.03% done; ETC: 12:21 (0:19:40 remaining)Connect Scan Timing: About 13.17% done; ETC: 12:21 (0:18:34 remaining)Connect Scan Timing: About 19.09% done; ETC: 12:21 (0:17:27 remaining)Connect Scan Timing: About 24.35% done; ETC: 12:21 (0:16:22 remaining)Connect Scan Timing: About 28.96% done; ETC: 12:21 (0:15:15 remaining)Connect Scan Timing: About 33.76% done; ETC: 12:21 (0:14:10 remaining)Connect Scan Timing: About 38.59% done; ETC: 12:21 (0:13:05 remaining)Connect Scan Timing: About 43.52% done; ETC: 12:21 (0:11:58 remaining)Connect Scan Timing: About 48.37% done; ETC: 12:20 (0:10:54 remaining)Connect Scan Timing: About 49.32% done; ETC: 16:50 (2:27:06 remaining)Connect Scan Timing: About 53.11% done; ETC: 16:30 (2:06:51 remaining)Connect Scan Timing: About 57.46% done; ETC: 16:10 (1:46:44 remaining)Connect Scan Timing: About 61.81% done; ETC: 15:53 (1:29:23 remaining)Connect Scan Timing: About 66.16% done; ETC: 15:39 (1:14:15 remaining)Connect Scan Timing: About 70.51% done; ETC: 15:26 (1:00:56 remaining)Connect Scan Timing: About 74.86% done; ETC: 15:15 (0:49:06 remaining)Connect Scan Timing: About 79.20% done; ETC: 15:05 (0:38:30 remaining)Connect Scan Timing: About 83.56% done; ETC: 14:55 (0:28:58 remaining)Connect Scan Timing: About 88.34% done; ETC: 14:47 (0:19:30 remaining)Connect Scan Timing: About 93.13% done; ETC: 14:39 (0:10:56 remaining)Connect Scan Timing: About 98.35% done; ETC: 14:31 (0:02:30 remaining)Discovered open port 5009/tcp on 10.0.1.1Completed Connect Scan at 14:29, 8970.33s elapsed (65535 total ports)Initiating Service scan at 14:29Scanning 3 services on 10.0.1.1Service scan Timing: About 66.67% done; ETC: 14:31 (0:00:40 remaining)Completed Service scan at 14:31, 106.06s elapsed (3 services on 1 host)NSE: Script scanning 10.0.1.1.Initiating NSE at 14:31Completed NSE at 14:31, 30.01s elapsedNmap scan report for 10.0.1.1Host is up (0.0013s latency).Not shown: 64826 closed ports, 706 filtered portsPORT STATE SERVICE VERSION53/tcp open domain?5009/tcp open airport-admin Apple AirPort or Time Capsule admin10000/tcp open snet-sensor-mgmt?| ndmp-version: |_ ERROR: Failed to get host information from server
+NSE: Script Post-scanning.Read data files from: /usr/local/bin/../share/nmapService detection performed. Please report any incorrect results at http://nmap.org/submit/ .Nmap done: 1 IP address (1 host up) scanned in 9106.80 seconds
+
+
+Airport Time Capsule – Nmap UDPUser Datagram Protocol Scan Results (Bridged Mode)
+# Nmap 6.40 scan initiated Tue Mar  3 08:45:05 2015 as: nmap -vv -Pn -n --send-ip -sU -p- -r -A -oN nmap-UDP-TimeCapsule.2015.03.03.txt -T4 10.7.1.102
+Increasing send delay for 10.7.1.102 from 0 to 50 due to 115 out of 286 dropped probes since last increase.
+Increasing send delay for 10.7.1.102 from 50 to 100 due to 131 out of 327 dropped probes since last increase.
+Increasing send delay for 10.7.1.102 from 100 to 200 due to 11 out of 22 dropped probes since last increase.
+Host is up (0.0010s latency).
+Scanned at 2015-03-03 08:45:05 ESTEastern Standard Time for 13176s
+Not shown: 65524 closed ports
+PORT      STATE         SERVICE     VERSION
+68/udp    open|filtered dhcpc
+137/udp   open|filtered netbios-ns
+138/udp   open|filtered netbios-dgm
+192/udp   open          osu-nms     OSU Network Monitoring System
+514/udp   open|filtered syslog
+922/udp   open          unknown		unknown
+5353/udp  open          mdns        DNS-based service discovery
+| dns-service discovery:
+	9/tcp	adisk
+|     sys=waMA=6C:70:9F:D6:47:D2,adVF=0x1010
+|     dk2=adVF=0x1093,adVN=Data,adVU=6ceb0be6-3f56-56d2-aafb-436b503042ba
+|model=TimeCapsule8,119                                                                                                                                                                                 
+|     Address=10.7.1.102 fe80:0:0:0:6e70:9fff:fed6:47d2
+|   445/tcp smb
+|     netbios=
+|     model=TimeCapsule8,119
+|     Address=10.7.1.102 fe80:0:0:0:6e70:9fff:fed6:47d2
+|   548/tcp afpovertcp
+|     Address=10.7.1.102 fe80:0:0:0:6e70:9fff:fed6:47d2
+|   5009/tcp airport
+|     waMA=6C-70-9F-D6-47-D2,raMA=6C-70-9F-E6-05-33,raM2=6C-70-9F-E6-05-32,raNm=edb's Wi-Fi Network,raCh=100,rCh2=1,raSt=0,raNA=0,syFl=0x8A0C,syAP=119,syVs=7.7.3,srcv=77300.1,bjSd=22
+|     model=TimeCapsule8,119
+|     Address=10.7.1.102 fe80:0:0:0:6e70:9fff:fed6:47d2
+|   5009/tcp acp-sync
+|     cu=4dde65b7-ee90-555f-a5a9-f20ee14e9322
+|     nm=edb's AirPort Time Capsule
+|     mac=6C:70:9F:D6:47:D2
+|     ssid=edb's Wi-Fi Network
+|     bssinfo=AQJkgIYQAAAJbHCf5gUzAVGGCAAAB2xwn+YFMg
+|     Address=10.7.1.102 fe80:0:0:0:6e70:9fff:fed6:47d2
+|   56272/udp sleep-proxy
+|_    Address=10.7.1.102 fe80:0:0:0:6e70:9fff:fed6:47d2
+56272/udp open|filtered unknown
+65515/udp open|filtered unknown
+65519/udp open|filtered unknown
+1 service unrecognized despite returning data. If you know the service/version, please submit the following fingerprint at http://www.insecure.org/cgi-bin/servicefp-submit.cgi :
+SF-Port922-UDP:V=6.40%I=7%D=3/3%Time=54F5EDFC%P=x86_64-pc-linux-gnu%r(NBTS
+SF:tat,3E,"\x80\xf0\x85\0\0\0\0\x01\0\0\0\0\x20GINNPPHPIFBAKECAAAAAAAAAAIB
+SF:AKECA\0\0\x20\0\x01\0\0\0\0\0\x06@\0\0\0\0\0");
+MAC Address: 6C:70:9F:D6:47:D2 (Unknown)
+Device type: remote management|general purpose|printer|webcam|game console
+Running: Avocent embedded, NetBSD 2.X|3.X|5.X, Ricoh embedded, Panasonic embedded, QNX 6.X, Sony embedded
+OS CPE: cpe:/o:netbsd:netbsd:2 cpe:/o:netbsd:netbsd:3.1.1 cpe:/o:netbsd:netbsd:5 cpe:/h:panasonic:bb-hcm511a cpe:/h:panasonic:bl-c140 cpe:/o:qnx:qnx:6 cpe:/h:sony:playstation_3
+Too many fingerprints match this host to give specific OSOperating System details
+TCP/IP fingerprint:
+SCAN(V=6.40%E=4%D=3/3%OT=%CT=%CU=1%PV=Y%DS=1%DC=D%G=N%M=6C709F%TM=54F5EE59%P=x86_64-pc-linux-gnu)
+SEQ(CI=Z)
+T5(R=Y%DF=N%T=40%W=0%S=Z%A=S+%F=AR%O=%RD=0%Q=)
+T6(R=Y%DF=N%T=40%W=0%S=A%A=Z%F=R%O=%RD=0%Q=)
+T7(R=Y%DF=N%T=40%W=0%S=Z%A=S%F=AR%O=%RD=0%Q=)
+U1(R=Y%DF=N%T=FF%IPL=38%UN=0%RIPL=G%RID=G%RIPCK=G%RUCK=G%RUD=G)
+IE(R=Y%DFI=N%T=FF%CD=S)
+Network Distance: 1 hop
+TRACEROUTE
+HOP RTT     ADDRESS
+1   1.04 ms 10.7.1.102
+Read data files from: /usr/bin/../share/nmap
+OS and Service detection performed. Please report any incorrect results at http://nmap.org/submit/ .
+# Nmap done at Tue Mar  3 12:24:41 2015 -- 1 IP address (1 host up) scanned in 13176.50 seconds
+
+
+
+ 
+
+Airport Time Capsule – Nmap TCPTransport Control Protocol Scan Results (Routed Mode)
+# Nmap 6.40 scan initiated Wed Mar  4 15:52:13 2015 as: nmap -vv -Pn -n --send-ip -sT -p- -r -A -oN nmap-TCP-TimeCapsule.2015.03.04.txt -T4 10.7.1.102
+Nmap scan report for 10.7.1.102
+Host is up (0.0025s latency).
+All 65535 scanned ports on 10.7.1.102 are filtered
+MAC Address: 6C:70:9F:D6:47:D2 (Unknown)
+Too many fingerprints match this host to give specific OSOperating System details
+TCP/IP fingerprint:
+SCAN(V=6.40%E=4%D=3/4%OT=%CT=%CU=%PV=Y%DS=1%DC=D%G=N%M=6C709F%TM=54F770B0%P=x86_64-pc-linux-gnu)
+U1(R=N)
+IE(R=Y%DFI=N%TG=FF%CD=S)
+
+Network Distance: 1 hop
+
+TRACEROUTE
+HOP RTT     ADDRESS
+1   2.50 ms 10.7.1.102
+
+Read data files from: /usr/bin/../share/nmap
+OS and Service detection performed. Please report any incorrect results at http://nmap.org/submit/ .
+# Nmap done at Wed Mar  4 15:53:04 2015 -- 1 IP address (1 host up) scanned in 52.23 seconds
+
+
+
+ 
+
+Airport Time Capsule – Nmap UDPUser Datagram Protocol Scan Results (Routed Mode)
+ 
+# Nmap 6.40 scan initiated Wed Mar  4 15:59:00 2015 as: nmap -vv -Pn -n --send-ip -sU -p- -r -A -oN nmap-UDP-TimeCapsule.2015.03.04.txt -T4 10.7.1.102
+Increasing send delay for 10.7.1.102 from 0 to 50 due to 114 out of 284 dropped probes since last increase.
+Increasing send delay for 10.7.1.102 from 50 to 100 due to 150 out of 374 dropped probes since last increase.
+Increasing send delay for 10.7.1.102 from 100 to 200 due to 11 out of 22 dropped probes since last increase.
+Nmap scan report for 10.7.1.102
+Host is up (0.0013s latency).
+All 65535 scanned ports on 10.7.1.102 are filtered
+MAC Address: 6C:70:9F:D6:47:D2 (Unknown)
+Too many fingerprints match this host to give specific OSOperating System details
+TCP/IP fingerprint:
+SCAN(V=6.40%E=4%D=3/4%OT=%CT=%CU=%PV=Y%DS=1%DC=D%G=N%M=6C709F%TM=54F7A50D%P=x86_64-pc-linux-gnu)
+SEQ(II=RI)
+U1(R=N)
+IE(R=Y%DFI=N%TG=FF%CD=S)
+
+Network Distance: 1 hop
+
+TRACEROUTE
+HOP RTT     ADDRESS
+1   1.27 ms 10.7.1.102
+
+Read data files from: /usr/bin/../share/nmap
+OS and Service detection performed. Please report any incorrect results at http://nmap.org/submit/ .
+# Nmap done at Wed Mar  4 19:36:29 2015 -- 1 IP address (1 host up) scanned in 13048.68 seconds
+
+
+
+
+
+
+Previous versions:
+| 1 
+| 2 
+| 3 
+| 4 
+| 5 
+| 6 
+| 7 
+| 8 
+|
+                    

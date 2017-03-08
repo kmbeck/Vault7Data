@@ -1,0 +1,24 @@
+
+                        Windows File/Folder Manipulation
+LABEL PAGE: Child pages of this page will contain code snippets pertaining to manipulation of files and directories on the Windows Operating System.
+ 
+
+('children' missing)
+
+Sub-Pages:
+
+
+Path Manipulation 
+
+
+Create Directory With Attributes and Create Parent Directories (MISCDirectoryCreator_NTV) SECRET
+
+
+Capture and Reset File State (MISCFileStateCapture_WIN) SECRET
+
+
+
+Previous versions:
+| 1 
+|
+                    

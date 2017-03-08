@@ -1,0 +1,30 @@
+
+                        Owner: User #524297
+Create a Solaris Boot Server for a Subnetwork
+In order to Use the Solaris Automated Install Server   you will need a Boot Server that resides in your subnetwork.
+Step-by-step guide
+
+Add the steps involved:
+
+mkdir /tftpboot
+ln -s /tftpboot/. /tftpboot/tftpboot
+
+Enable tftp by uncommenting the following line in /etc/inetd.conf :
+tftp    dgram   udp6    wait    root    /usr/sbin/in.tftpd      in.tftpd -s /tftpboot
+
+/usr/sbin/inetconv
+svcadm enable network/rarp
+touch /etc/bootparams
+svcadm enable network/rpc/bootparams
+mount <Use the Solaris Automated Install Server  >:/export/boot /mnt
+mkdir -p /export/boot
+rsync -av /mnt/ /export/boot
+
+ 
+Work in progress!
+Related articles
+
+Related articles appear here based on the labels you select. Click to edit the macro and add or change labels.
+
+('contentbylabel' missing)
+                    

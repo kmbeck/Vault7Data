@@ -1,0 +1,114 @@
+
+                        Owner: User #15728648
+Reverse Engineering
+Place guides / tips / general information on reverse engineering iOS-related binaries / protocols / etc.
+Lockdownd
+ 
+Overview
+Lockdownd is a daemon on the device that provides services for interacting with an iOS device. Some of these services include:
+
+
+Service Name
+Description
+
+
+afc
+
+Apple File Conduit, used by iTunes to exchange files(mostly Media, like photos and videos)
+between the device
+
+
+
+syslog_relay
+
+System Log Relay, used by Xcode to display the syslog from the device.
+You can see this in action in Xcode by going to Xcode -> Devices
+
+
+
+
+diagnostics_relay
+
+Retrieves device information, as well as power-related functions like sleeping, restarting, and shutdown.
+See https://github.com/Cykey/ios-reversed-headers/blob/master/MobileGestalt/MobileGestalt.h
+for various keys you can use to retrieve device information.
+
+
+
+ 
+In iOS 8, these services are defined in an xml file(known by Apple as a plist file) within the /usr/libexec/lockdownd binary.
+It is embedded inside of a section of the binary itself, and can be extracted by doing the following:
+# this will show you the sections of the MachO binary.
+# as of iOS 8, the services are defined in the __TEXT Segment, __services section.
+$ xcrun otool -lv lockdownd
+$ xcrun segedit lockdownd -extract __TEXT __services services.plist 
+ 
+In iOS 7, the services were defined in a separate plist file, located in /System/Libary/Lockdown/Services.plist.
+ 
+Communicating With Lockdownd
+To establish a connection with lockdownd, you use the MobileDevice framework(located in /System/Library/PrivateFrameworks.framework/Versions/A/MobileDevice on OSXApple operating system). The MDF tool enables you to interface with it via Python. See the plistservice.py file in MDF to see how to connect to a service.
+Pre iOS 8, the data format sent to lockdownd was a binary plist. In iOS 8, several services, such as aitd, have switched to an NSKeyedArchiver format(see wirservice2.py, nskeyedarchiver.py, ait.py). Once you've established a connection(and/or sent a 'Hello' for certain services like aitd), you wait until you receive data on the socket created by the connection.
+ 
+Reversing Lockdownd
+The core of lockdownd lies in a large function (located at 0x1000139a0 on an iPhone 7,2 8.1.3). You can find it by looking for XREF to the string 'XPCServiceName'. Here's a preview of that function:
+ 
+
+ 
+Finding Function in LLDB
+Easy Way
+
+Load binary into IDA, find function you care about
+Connect to binary via LLDB
+Once connected, run:
+image dump sections <path to binary>
+Find __TEXT segment start address(after PAGEZERO), copy it
+
+
+Go back to IDA, then Edit -> Segments -> Rebase Program
+Select Image base and paste copied value
+Copy new address of function
+in lldb, disass -s <new address>
+
+Less Easy Way
+
+Load binary into disassembler of your choice
+connect to binary via LLDB
+Once connected, run:
+image dump sections <path to binary>
+Find __TEXT segment start address, copy it
+
+
+Run otool -lv on binary, find vmaddress of __TEXT segment
+Subtract value from step 3b from value from step 4 - this is the SLIDE
+Copy address of function in disassember, and add SLIDE to it
+Go back to lldb, disass -s <value from step 6>
+
+ 
+ 
+ 
+
+Attachments:
+
+
+image2015-9-18 15:36:30.png
+
+
+image2015-9-18 11:9:12.png
+
+
+
+Previous versions:
+| 1 
+| 2 
+| 3 
+| 4 
+| 5 
+| 6 
+| 7 
+| 8 
+| 9 
+| 10 
+| 11 
+| 12 
+|
+                    

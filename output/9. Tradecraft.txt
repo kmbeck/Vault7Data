@@ -1,0 +1,13 @@
+
+                        Owner: User #1179751
+9. Tradecraft
+ 
+Tradecraft plays a critical role within our tool development cycle. If a tool is sloppy its life is much shorter, and worse, the lifespans of the tools it is deployed with are also at risk. If we're going through the trouble of coming up with some cool stuff, we'd rather not get beat on something silly. Below is a collection of some tradecraft DO's and DON'Ts, however it is never complete and you should always be looking for better ways to protect ourselves (from signatures, correlation, and discovery).
+ 
+
+('include' missing)
+
+Previous versions:
+| 1 empty
+|
+                    

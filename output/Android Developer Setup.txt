@@ -1,0 +1,122 @@
+
+                        MDB DNS Entries
+MDB has received a copy of the wildcard SSLSecure Socket Layer certificate for the domain "*.xsdf.net".  Enter the subdomain you would like registerd along with the current IP and the MACApple Operating System address which is associated:
+
+
+Subdomain
+IP (current)
+MAC Address
+
+
+phil.xsdf.net
+10.2.3.54
+60:02:92:37:f6:e3
+
+
+penguin.xsdf.net
+10.2.3.54
+60:02:92:37:f6:e3
+
+
+phildesk.xsdf.net
+10.3.2.102
+18:03:73:b0:6d:09
+
+
+orangespots.xsdf.net
+10.2.3.183
+00:3e:e1:c5:93:99
+
+
+neckfencer.xsdf.net
+10.2.3.7
+08:2e:5f:8a:4f:c7
+
+
+longnecks.xsdf.net
+10.2.3.83
+08:00:27:7C:FD:F2
+
+
+tuttifrutti.xsdf.net
+10.2.3.80
+08:00:27:46:55:a8
+
+
+hoocksj.xsdf.net
+10.2.3.73
+3c:07:54:7e:af:c5 
+
+
+rhino.xsdf.net
+10.2.3.44
+00:3e:e1:c2:a0:5a
+
+
+rhino-vm.xsdf.net
+10.2.3.78
+00:0c:29:90:c2:3e
+
+
+rs.xsdf.net
+10.2.3.82
+68:5b:35:7f:a6:3a
+
+
+tomcat.xsdf.net
+10.2.3.72
+68:5b:35:8f:ef:57
+
+
+madscientist.xsdf.net
+10.2.3.92
+68:5b:35:88:70:ae
+
+
+ardbeg.xsdf.net
+10.2.3.185
+00:3e:e1:c4:31:2e
+
+
+ms.xsdf.net
+10.2.3.96
+00:50:56:af:69:22
+
+
+attlerb.xsdf.net
+10.2.3.48
+0c:4d:e9:9a:ea:a5
+
+
+gttofab.xsdf.net
+10.2.3.95
+38:c9:86:29:21:4d
+
+
+ 
+ 
+ 
+
+Attachments:
+
+markdown_viewer-1.8-fx.xpi
+
+
+Previous versions:
+| 1 
+| 2 
+| 3 
+| 4 
+| 5 
+| 6 
+| 7 
+| 8 
+| 9 
+| 10 
+| 11 
+| 12 
+| 13 
+| 14 
+| 15 
+|
+                    

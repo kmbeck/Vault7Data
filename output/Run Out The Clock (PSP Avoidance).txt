@@ -1,0 +1,27 @@
+
+                        Run Out The Clock (PSP Avoidance)
+Overview
+PSP sandboxes typically have a set time limit they analyze a program for before making a decision.  PSPs do not want impose unnecessarily long wait times on the user, which may cause the user to disable PSPPersonal Security Product (Anti-Virus) components or try other products out of frustration.  A common technique of exploiting this mechanism is using a Sleep-like call at the start of a program to 'run out the clock'.  PSPs caught on and many will skip the sleep calls in their sandbox environment.   To counteract this, Malware authors will call a meaningless function which performs some kind of task or calculation that takes a while to complete, before performing any malicious action.  This makes it harder/impossible for PSPs to know what to skip, and the Malware can effectively 'run out the clock' while in a PSPPersonal Security Product (Anti-Virus) sandbox.
+ 
+Source Code
+//Pseudocode, no promises that the following syntax/API function names are 100% correct
+void WasteTime()
+{
+	DWORD dwDeletes = 0;
+	WCHAR pszFileName[MAX_PATH] = {0};
+	srand(SystemTime);
+	
+	dwDeletes = rand() + 100;
+ 
+	for (int i = 0; i < dwDeletes; i++)
+	{
+		Ge
+	}
+}
+
+Previous versions:
+| 1 
+| 2 
+| 3 
+|
+                    

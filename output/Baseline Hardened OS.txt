@@ -1,0 +1,9 @@
+
+                        Packer Configurations
+ 
+ 
+Typical Packer configuration file (i.e. c65-minimal.json):
+{  "builders": [    {    "type": "vmware-iso",    "guest_os_type": "other",    "iso_url": "D:\\ISOs\\CentOS-6.5-x86_64-bin-DVD1.iso",    "iso_checksum": "83221db52687c7b857e65bfe60787838",    "iso_checksum_type": "md5",    "disk_size": 10000,    "vm_name": "c65-base",    "vmdk_name": "c65-base",    "http_directory": "D:\\ks",    "output_directory": "D:\\VMs\\c65-base",    "boot_wait": "10s",    "boot_command": ["<esc><esc><wait5>linux ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/c65-base.ks<wait5><enter>"],    "ssh_username": "root",    "ssh_password": "password",    "ssh_wait_timeout": "2000s",    "shutdown_command": "rm -rf /etc/udev/rules.d/70-persistent-net.rules && shutdown -P now"    }  ]}
+ 
+ 
+                    

@@ -1,0 +1,108 @@
+
+                        Owner: User #15728648
+DRBOOM
+
+Quick Installation Guide
+See official documentation for more information. As a convenience, v1.0's documentation is attached here.DRBOOM_V1.0_User_Guide.pdf
+ 
+System Test Matrix
+
+
+Procedure
+Devices
+Versions
+Expected Result
+
+
+Install
+
+armv7
+armv7s
+arm64
+
+
+iOS 8
+iOS 7
+
+Success
+
+
+Install, Deactivated
+
+armv7
+armv7s
+arm64
+
+
+iOS 8
+iOS 7
+
+Success
+
+
+Uninstall
+
+armv7
+armv7s
+arm64
+
+
+iOS 8
+iOS 7
+
+Success
+
+
+Install, Locked
+
+armv7
+armv7s
+arm64
+
+
+iOS 8
+iOS 7
+
+Failure
+
+
+ 
+Step-by-Step Process When Testing DRBOOM On New iOS Version
+
+Repo init / sync the crunchylimeskies_manifest project in a new directory, on the master branch.
+Find an two iPhones: one that is armv7s, and one that is arm64, on latest version
+Find an two iPhones: one that is armv7s, and one that is arm64, on iOS 7.1.2
+Find an two iPads: one that is armv7s, and one that is arm64, on latest version
+Find an two iPads: one that is armv7s, and one that is arm64, on iOS 7.1.2
+Go through each procedure on the System Test Matrix above on each deviceA "Success" result means and implant is run on boot - If using the testdylib "test" implant, you should see syslog output and possibly rebooting, if built that way
+
+
+ 
+ 
+
+Comments:
+
+
+2015-04-23 14:22 
+[User #524297]: 
+
+man... i was gonna upload that pic for you too, beat me to it!
+
+
+
+Attachments:
+
+
+DR-BOOM.jpg
+
+
+DRBOOM_V1.0_User_Guide.pdf
+
+
+
+Previous versions:
+| 1 
+| 2 
+| 3 
+|
+                    

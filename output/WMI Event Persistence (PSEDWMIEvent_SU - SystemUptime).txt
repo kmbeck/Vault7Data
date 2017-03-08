@@ -1,0 +1,51 @@
+
+                        Group Policy Startup Script (PSEDStartupScript_LDGR - Ledger)
+SECRET//NOFORN
+ 
+OSB Library: Persistence Library
+
+Module Name: PSEDStartupScript_LDGR - Ledger
+ 
+Module Description: This module creates and edits HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\GroupPolicy and INI files under C:\Windows\System32\Group Policy\* to set a Startup Script. Startup Scripts run on boot and are often used for virus definition updates or network maintenance scripts. Group Policies are visible in the Group Policy editor (gpedit.msc). However, it does not appear that Startup Scripts is visible in Autoruns.exe (see Sysinternals). This module requires administrator to install persistence. On boot, the persisted command will be executed as SYSTEM. Below is an example of the Group Policy Editor where Startup, Shutdown, Logon, and Logoff scripts may be set.
+ 
+
+ 
+PSP/OS Issues: Windows 7+
+ 
+('excerpt' missing)
+ 
+Sharing Level: Unilateral
+ 
+Technique Origin: In-house (Group Policy Objects can be set through gpedit.msc and are often used for virus definition updates, and mapping network drives for users)
+ 
+Notes: 
+
+When removing persistence, any command being persisted with the same command/argument pair will be deleted
+Works on Windows 7+
+Modifies registry and INI files in C:\Windows\System32\Group Policy
+When added to the list of Startup Scripts, the command is added to the end of the list
+When Startup Scripts are removed, any commands after the removed command get moved up (i.e. will maintain integrity of the script order)
+Always sets a Startup Script (no logon, logoff, or shutdown support)
+Supports installing from a 32-bit application on a 64-bit OS
+
+ 
+ 
+SECRET//NOFORN
+
+Attachments:
+
+
+GPE.png
+
+
+image2014-12-16 9:59:21.png
+
+
+
+Previous versions:
+| 1 SECRET
+| 2 SECRET
+| 3 SECRET
+| 4 SECRET
+|
+                    

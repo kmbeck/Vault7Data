@@ -1,0 +1,33 @@
+
+                        Compiling Busybox for android
+these instructions for busybox-1.24.1
+apt-get install libpam0g-dev libsepol1-dev libselinux1-dev libncurses5-dev
+ 
+setup a standalone toolchain, i used platform android-14 from ndk-r10d. add toolchain/bin to path.
+$NDK/build/tools/make-standalone-toolchain.sh --arch=arm --platform=android-14 --install-dir=~/android
+
+make android_ndk_defconfig
+make menuconfig
+busybox settings -> build options -> update sysroot to to your ndk PATH
+
+if building for 5.x+, added 
+
+-pie -fpic -fPIE to CFLAGS
+-pie to LDFLAGS
+uncheck static build (doesn't work for android-14)
+
+
+
+
+remove misc/i2c support
+
+ 
+ 
+
+Previous versions:
+| 1 
+| 2 
+| 3 
+| 4 
+|
+                    

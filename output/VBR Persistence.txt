@@ -1,0 +1,36 @@
+
+                        VBR Persistence
+Overview
+The Volume Boot Record (also known as the Partition Boot Record) contains code called Initial Program Loader (IPLInitial Program Loader).  This code is responsible for eventually launching NTLDR/WINLOAD for Windows OSOperating System partitions.  The code here is 16/32 bit assembly code (asm) which is running in a very limited context, generally having only BIOSBasic Input/Output System interrupts (INT) available.  
+Running code here, however, can give the attacker the ability to hook Windows boot/kernel code as it is loaded, before features like PatchGuard come online.  If done correctly, custom IPLInitial Program Loader code can maintain persistence throughout the boot process of a Windows partition.  In the example used by StolenGoods 2, the end result is a stub driver that is loaded during the boot process, which can then perform tasks such as launching payload DLLs and drivers.  The stub driver does not have to be signed if the IPLInitial Program Loader persistence code is done correctly.  
+ 
+Sample code/Explanation
+Stolen Goods 2.0 contains the VBR IPLInitial Program Loader components used to maintain persistence throughout the boot process.  The VBR IPLInitial Program Loader components were taken from Carberp, a Russian organized crime bootkit which had its source code published online.  The components work on Windows XPWindows operating system (Version) (32 bit) and Windows 7 (32 and 64 bit).  While Carberp advertised compatibility with Win 8, testing has shown that this is not the case currently.  The catch is that the stub driver to be loaded needs two separate DriverEntry points: One for when the IPLInitial Program Loader code calls into the stub driver, and one for when Windows calls into the stub driver.  The below sub sections will discuss some of the details.  To see a working example, check out the Stolen Goods 2.0 project.
+ 
+First entry point (IPLInitial Program Loader code calls)
+This entry point is called in a very limited context.  According to Carberp comments, this entry point is called from nt!KiSystemStartup. No IDT, interrupts are disabled, only 1 CPU is enabled, no PatchGuard, and IRQL is DISPATCH.  Debugger is not available, and SSE/2 "should be used very carefully, since no SSE state was saved before the call".  The stub driver can tell the IPLInitial Program Loader called this entry point as it will not be given an Driver object (NULL param).  The sole goal of the stub driver during this first call is to inject itself into the boot driver/module list, which is in the NTMicrosoft operating system Loader Block (accessed by the IPLInitial Program Loader and sent to the stub driver).  Carberp would simply copy information from another driver in the list (typically 'nt') and use the NULL service registry entry for the stub driver.  Once the stub driver has inserted itself into the boot list, it returns from DriverEntry and waits for the OSOperating System to call back in again.  It's at this point that Stolen Goods 2.0 saves off other information related to payloads that it sends from the IPLInitial Program Loader to the first DriverEntry call
+ 
+Second entry point (Windows calls)
+This time DriverEntry is called like a normal driver.  A Driver object is given, along with a registry path ('Null' service registry path). Anything a driver would/could normally do in a DriverEntry can be done at this time.  In Stolen Goods 2.0, the stub would then install process/thread/image notify routines, create a device object, and set up dispatch callbacks.  From here on out, the persistence method has finished its work, and it is up to the driver developer to perform any functionality they wish.
+ 
+Things you can do in the stub driver
+
+Memory load a driver (unsigned is fine)You obviously can't load an unsigned driver using the normal Windows method (unless you have an exploit already).  However, using modified memory load code will allow you to memory load/execute a driver, which does not have to be signed. Stolen Goods 2.0 has code for this.
+
+Install thread/image/process notify hooksGet notified via callback whenever a thread or process is created, or when an image is loaded.  This allows for certain types of process injection.
+
+Register dispatch routinesFilter file system activity, communicate with user-land processes, and more.
+
+
+ 
+Component source/Reuse
+Carberp is the original malware where the VBR IPLInitial Program Loader hook components were taken from.  The source is available online in a github repository.  Just google 'carberp source' or 'carberp github'.
+Stolen Goods 2.0 used these components, with modifications, to gain persistence on a system. 
+ 
+ 
+ 
+
+Previous versions:
+| 1 
+|
+                    

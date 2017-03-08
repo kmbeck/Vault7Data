@@ -1,0 +1,7 @@
+
+                        Owner: User #71473
+Winhex
+Winhex is a hex editor and lightweight forensics utility for Windows.  The tool is free for evaluation purposes, but has several limitations if not licensed.
+Our most up to date license currently on the share is a 3-user license for Winhex 16.1.  If anyone is aware of a more up to date license, please update the page.
+A 64-bit version is apparently available, but we do not currently have a copy on the share.
+                    

@@ -1,0 +1,18 @@
+
+                        Rain Maker v1.0 Unclassified User Guide
+ 
+===========================================User Guide===============================================
+Setup:
+The following files should be in the same directory: - RainMaker.dll - RainMakerStub.dll - vlc.exe.manifest - RainMakerConfigurator.exe
+ Arguments:
+ -t Semi-colon delimited lists of target collection directories in a Unicode text file (Use Implant\TargetDirectories.txt as an example). Modifying TargetDirectories.txt to fit your directories may be the easiest option. Environment variables may be used (see example below). -e Semi-colon delimited list of extensions/patterns of files to collect (Example: *.doc;*.xls;) -f Optional argument setting the percentage free space to be left on the drive. Default is 25%. Values from 0-100. -vlc Path to the VLCMediaplayer player executable (vlc.exe). -r Relative path from the VLCMediaplayer player executable to where the encrypted container should be kept. -p Optional path to a public key. This should be used when you already have a public/private key pair. If not specified a public/private key pair is generated.
+ 
+Validation:  You can verify that the vlc player is infected by checking for psapi.dll in the same folder as vlc.exe as well as the encrypted container at the relative path from vlc.exe.
+ 
+Sample Configuration:  RainMakerConfigurator.exe -t TargetDirectories.txt -e *.docx;*.doc;*.xls;*.xlsx;*.pdf; -f 23 -vlc E:\vlc-2.1.5\vlc.exe -r plugins\access\customplugins.dat -p RainMaker_PubKey.pem
+=====================================================================================================
+
+Previous versions:
+| 1 
+|
+                    

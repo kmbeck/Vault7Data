@@ -1,0 +1,90 @@
+
+                        Owner: User #14587667
+Linux Home
+
+
+Welcome to your new space!
+Complete these tasks to get started
+
+
+ID
+Status
+Task
+
+
+242
+incomplete
+
+                        Edit this home page - Click Edit in the top right of this screen to customize your Space home page
+                    
+
+
+243
+incomplete
+
+                        Create your first page - Click the Create button in the header to get started
+                    
+
+
+244
+incomplete
+
+                        Brand your Space - Click Configure Sidebar in the left panel to update space details and logo
+                    
+
+
+245
+incomplete
+
+                        Set permissions - Click Space Tools in the left sidebar to update permissions and give others access
+                    
+
+
+
+ 
+
+
+
+Recent space activity
+
+                    
+('recently-updated' missing)
+                
+
+Space contributors
+
+                    
+('contributors' missing)
+                
+
+ 
+
+
+Sub-Pages:
+
+
+Install Ubuntu on Mac Hardware 
+
+
+Install WANem to hard drive 
+
+
+How-to articles 
+
+
+CactiEZ Syslog Fix 
+
+
+Wireshark on Ubuntu 
+
+
+Create Squid Proxy Server 
+
+
+SSH PortForwarding 
+
+
+Key-Based SSH Login 
+
+
+                    

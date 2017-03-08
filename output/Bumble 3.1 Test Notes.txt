@@ -1,0 +1,105 @@
+
+                        Owner: User #14587667
+Config Explanation
+#
+ospf 1 import-route direct import-route static area 0.0.0.0 network 192.168.168.4 0.0.0.3
+
+
+import-route: redistribute AS-external routes from another routing protocol
+
+import-route direct: redistribute networks of local interfaces
+
+import-route static: redistribute static routes
+
+network: enable OSPFOpen Shortest Path First on the interface attached to this network
+
+# ip netstream export host 10.9.8.22 2055 (actual config uses port 9021)
+
+NetStream is an accounting technology that provides statistics on a per-flow basis. An IPv4 flow is defined by the following 7-tuple elements: Destination IP address, Source IP address, Destination port number, Source port number, Protocol number, ToS, Inbound or outbound interface.
+Configure the address and port number of the NetStream server as the destination for the NetStream data export. Use the default source interface for the NetStream data export.
+
+
+traffic classifier 2p-shiping operator and  if-match acl 3005
+
+
+2p-shiping: classifier-name
+
+operator: Sets the operator to logic AND (the default) or OR for the traffic class.
+
+and: Specifies the logic AND operator. The traffic class matches the packets that match all its criteria.
+
+#traffic behavior 2p-shiping queue af bandwidth 2000
+
+traffic behavior: create a traffic behavior and enter traffic behavior view.
+
+2p-shiping: policy-name
+
+queue af: enable assured-forwarding (AF) and set its minimum guaranteed bandwidth.
+
+bandwidth: Specifies the bandwidth in the range of 8 to 10000000 kbps.
+<Sysname> display traffic classifier user-defined     # Display information about all user-defined traffic classes.
+
+#qos policy 2p-shiping classifier 2p-shiping behavior 2p-shiping
+
+sp-shiping: policy-name
+Associates traffic class '2p-shiping' with behavior '2p-shiping' for this QoS policy ('2p-shiping')
+
+ 
+#
+nqa entry imclinktopologypleaseignore ping
+ type icmp-echo destination ip 172.20.100.234 frequency 270000
+
+
+admin-name operation-tag: Specifies an NQA operation by its administrator name and operation tag.
+The admin-name argument represents the name of the administrator who creates the NQA operation.
+The operation-tag argument represents the operation tag. Each of the arguments is a case-insensitive
+string of 1 to 32 characters that cannot contain hyphens (-).
+
+type: specify the operation type of the NQA operation and enter operation type view.
+
+icmp-echo: Specifies the ICMPInternet Control Message Protocol echo operation type.
+
+destination ip: configure the destination IP address for the operation.
+
+frequency: specify the interval at which the NQA operation repeats.
+
+ 
+# nqa schedule imclinktopologypleaseignore ping start-time now lifetime 630720000
+
+
+start-time: Specifies the start time and date of the NQA operation
+
+
+now: Starts the operation immediately.
+
+lifetime: Specifies the duration of an operation.
+
+lifetime: Specifies the duration of an operation in seconds, in the range of 1 to 2147483647.
+ 
+#
+interface Pos2/7/0ip address <ip> ip netstream inbound ip netstream outbound
+Enable IPv4 NetStream to collect statistics about the incoming and outgoing traffic on this interface
+ 
+#
+interface Serial2/6/5ip address <ip> <mask> packet-filter 3001 inbound
+
+
+packet-filter: apply an ACLAccess Control List to an interface to filter packets.
+
+display packet-filter statistics:  display match statistics and default action statistics of ACLs for packet filtering.
+
+#
+acl number 3001 rule 1 permit ip source XXX.X.XXX.XXX (JUMPSTART-5[US]) 0 rule 2 permit ip source XX.XX.X.X (MEGAPATH-BLK-4[US]) 0.0.0.255 destination XXX.X.XXX.XXX (JUMPSTART-5[US]) 0 rule 3 permit ip source XXX.X.XXX.XXX (JUMPSTART-5[US]) 0 destination XX.XX.X.X (EARTHLINKBUSINESS-BLK[US]) 0.0.0.255 rule 4 permit ip source XX.XX.X.X (MEGAPATH-BLK-4[US]) 0.0.0.255 destination XXX.X.XXX.XXX (JUMPSTART-5[US]) 0 rule 5 permit ip source XX.XX.X.X (MEGAPATH-BLK-4[US]) 0.0.0.255 destination XXX.X.XXX.XXX (JUMPSTART-5[US]) 0 rule 100 deny ip
+There is no default Deny at the end of an HP MSR ACL
+ 
+#acl number 3002 rule 0 permit ip source XX.XXX.XX.X (DODIIS[US]) 0.0.0.255 destination XXX.XXX.XXX.XXX (DNIC-RNET-192-100-100[US]) 0 rule 2 deny ip
+ 
+
+Previous versions:
+| 1 
+| 2 
+| 3 
+| 4 
+| 5 
+|
+                    

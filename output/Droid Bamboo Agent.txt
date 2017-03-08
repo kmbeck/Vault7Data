@@ -1,0 +1,27 @@
+
+                        Mobile Tiger MDB
+
+add `10.9.8.16 tr-vcenter.testrange.local` to `/etc/hosts`
+visit https://10.9.8.16:9443
+tr\username
+To login to hamr front end /back end: username: user1
+To ssh from local machine to backend: ssh user1@10.9.10.100
+To ssh from local machine to frontend: ssh user1@10.9.10.101
+To connect to AP_TEST1: password: MDB_wap_test
+Front End Ip that you want to hit from a phone = 8.8.30.22...ie. navigate to http://8.8.30.22:4343/?id=moobowtie for example.WILL ONLY WORK IF CONNECTED TO WAP
+
+Characterization files: smb://10.9.8.21/share/MDB
+
+ 
+ssh user1@10.9.10.101 "/usr/sbin/tcpdump -ni eth0 -s0 -w -" | wireshark -k -i -
+
+Previous versions:
+| 1 
+| 2 
+| 3 
+| 4 
+| 5 
+| 6 
+| 7 
+|
+                    

@@ -1,0 +1,93 @@
+
+                        Create, Delete, and Write Registry Values (MISCCreateRegistryEntries_WIN32)
+SECRET//NOFORN
+ 
+Miscellaneous Module
+Stash Repository: Miscellaneous Library
+
+Module Name: MISCCreateRegistryEntries_WIN32 (Win32 APIApplication Programming Interface)
+ 
+Module Description: This module allows you to recursively create and delete registry keys (with flags to specify which registry on 64-bit OSs). This module also allows you to create multiple key values in the registry to include string, DWORD, and binary data. This module uses the Win32 API. All recursion is done in this module and is not a function of the API. That being said, caution should be taken when using the deletion function as the registry identifying flags for x64 machines was not available until Vista. See the comments in the usage section for more specific information regarding the implementation.
+ 
+Usage: 
+
+	/*
+		Creates a recursive set of keys. For example, HKEY_CURRENT_USER, Software\\Microsoft\\Abc\\def\\ghi will cause the creation of Abc, def,
+		and ghi if they do not already exist. If given a NULL hKey value, HKEY_CURRENT_USER will be used. dwFlags is used on x64 bit systems
+		to determine where to write the registry key
+	*/
+	static BOOL CreateKeyRecursive(HKEY hKey, WCHAR *wcKey, DWORD dwFlags = 0);
+	/*
+		Deletes a set of keys from the registry. For example, HKEY_CURRENT_USER, Software\\Microsoft, Abc\\def\\ghi will cause the deletion of Abc,
+		def, and ghi if they exist. If given a NULL hKey value, HKEY_CURRENT_USER will be used. This function may fail to delete other a subkey if 
+		the key has other children that still exist. dwFlags is used on x64 bit systems to determine where to write the registry key
+	*/
+	static BOOL DeleteKeyRecursive(HKEY hKey, WCHAR *wcHead, WCHAR *wcKeysToDelete, DWORD dwFlags = 0);
+	/*
+		Sets or creates a REG_SZ key/value pair by default. Use NULL or "" for wcKeyName to set the default value.  If given a NULL hKey value, 
+		HKEY_CURRENT_USER will be used. Type should be REG_SZ, REG_MULTI_SZ, REG_EXPAND_SZ, REG_LINK. dwFlags is used on x64 bit systems
+		to determine where to write the registry key
+	*/
+	static BOOL CreateValue(HKEY hKey, WCHAR *wcKey, WCHAR *wcKeyName, WCHAR *wcValue, DWORD dwType = REG_SZ, DWORD dwFlags = 0);
+	/*
+		Sets or creates a REG_DWORD key/value pair by default.  If given a NULL hKey value, HKEY_CURRENT_USER will be used. dwFlags is used on 
+		x64 bit systems	to determine where to write the registry key
+	*/
+	static BOOL CreateValue(HKEY hKey, WCHAR *wcKey, WCHAR *wcKeyName, DWORD dwValue, DWORD dwFlags = 0);
+	/*
+		Sets or creates a REG_BINARY key/value pair by default. If given a NULL hKey value, HKEY_CURRENT_USER will be used. dwFlags is used on
+		x64 bit systems	to determine where to write the registry key.
+	*/
+	static BOOL CreateValue(HKEY hKey, WCHAR *wcKey, WCHAR *wcKeyName, LPBYTE lpbData, DWORD dwDataLen, DWORD dwFlags = 0);
+
+
+ 
+ 
+PSP/OS Issues: No known issues. (XPWindows operating system (Version) - 8.1)
+ 
+('excerpt' missing)
+ 
+Sharing Level: Unilateral
+ 
+Technique Origin: In-house (Win32 APIApplication Programming Interface)
+ 
+Notes:
+
+DeleteKeyRecursive may not be a full solution on 64-bit OSs. In Windows XP, the RegDeleteKey was the only delete function available. When using RegDeleteKey on a 64-bit system, a redirection flag cannot be set. Thus, the top level key (test in test\mykey\todelete) may not be deleted from the correct registry. You may wish to avoid this function on 64-bit machines if you are unaware how it could affect you.
+This module does not currently provide full coverage for writing key values to the registry (i.e. some unsupported types in the module that are supported in Windows).
+All recursion is done by the module, not the Windows API.
+If the first argument is left NULL, HKEY_CURRENT_USER is used.
+Some hives are not visible from certain contexts, this module does not work around this issue.
+
+ 
+Module Return Codes: Returns TRUE when successful.
+ 
+Example Code:
+ 
+//Create multiple sub keys
+bRet = MISCCreateRegistryEntries_WIN32::CreateKeyRecursive(HKEY_CURRENT_USER, L"Test0\\Test2\\Test3\\Test4");
+ 
+//Delete Test4
+bRet = MISCCreateRegistryEntries_WIN32::DeleteKeyRecursive(HKEY_CURRENT_USER, L"Test0\\Test2\\Test3", L"Test4");
+	
+//Delete Test2\\Test3
+bRet = MISCCreateRegistryEntries_WIN32::DeleteKeyRecursive(HKEY_CURRENT_USER, L"Test0", L"Test2\\Test3");
+
+//Set WCHAR default value
+bRet = MISCCreateRegistryEntries_WIN32::CreateValue(HKEY_CURRENT_USER, L"Test\\Test2\\Test3", L"", L"TestingValue");
+ 
+//Set Binary default value
+BYTE byTemp[10] = { 0xff };
+bRet = MISCCreateRegistryEntries_WIN32::CreateValue(NULL, L"Test\\Test2", NULL, byTemp, 10);
+ 
+//Set DWORD value
+bRet = MISCCreateRegistryEntries_WIN32::CreateValue(NULL, L"Test\\Test2\\Test3\\Test4", L"MyDword", 6);
+ 
+ 
+SECRET//NOFORN
+
+Previous versions:
+| 1 SECRET
+| 2 SECRET
+|
+                    

@@ -1,0 +1,24 @@
+
+                        Owner: User #71468
+McAfee Stinger Portable DLL Hijack
+Procmon screenshot of protential DLLDynamic Link Library options:
+
+McAfee attempts to load "mfeaaca.dll" several times, including when it runs a scan, and thus may not be the best candidate.
+the stinger32ENU.dll and stinger32LOC.dll locations resulted in McAffe crashing when returning FALSE from PROCSESS_ATTACH.  "vm3dum.dll" was never loaded
+ 
+"DWrite.dll" worked fine when calls were forwarded to the proper system DLL
+"DXGIDebug.dll" did not cause problems when returning FALSE from PROCESS_ATTACH (and thus no calls were forwarded)
+
+Languages Available:
+English only
+
+Attachments:
+
+mcafee procmon.png
+
+
+Previous versions:
+| 1 
+| 2 
+|
+                    

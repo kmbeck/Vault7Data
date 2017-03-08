@@ -1,0 +1,5 @@
+
+                        Owner: User #11628962
+BaldEagle
+Local user-to-root privilege escalation exploit within the Hardware Abstraction Layer (HAL) daemon.  Exploit is available on Linux and PC-BSD platforms with the hald process running.
+                    

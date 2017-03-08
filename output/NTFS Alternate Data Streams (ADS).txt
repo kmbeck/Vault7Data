@@ -1,0 +1,14 @@
+
+                        Component Object Model
+LABEL PAGE: Child pages of this page will contain articles pertaining to COM and COM Objects.
+ 
+
+('children' missing)
+
+Sub-Pages:
+
+
+CLSIDs and Junction Folders (Persistence and then some) SECRET
+
+
+                    

@@ -1,0 +1,377 @@
+
+                        12. Bonus: Capture The Flag
+SECRET//NOFORN
+ 
+Capture The Flag
+
+
+ 
+ 
+('excerpt' missing) Setup
+On the share (\\FS-01\share\NewDeveloperExercises\CaptureTheFlag) there is a VMVirtual Machine titled "New Developer CTFCapture the Flag Windows 8.1 x64.zip". Copy the zip to your local machine and extract the VM. If VMWare asks, you copied it. The CTFCapture the Flag snapshot sets the baseline for the challenge. If you ever run into issues with the state of the VMVirtual Machine you can always revert to this snapshot and continue the challenges. Next, you will want to register on the CTFCapture the Flag website. Once you have finished registering, you can submit flags as well as view the current scoreboard. 
+Submitting Answers
+To submit answers, go to the CTFCapture the Flag website and copy the SHA-256 string into the flag submission form. If the SHA-256 is correct you'll see your score updated. If it is incorrect, you'll be notified of the invalid submission.
+ 
+Challenge 1: Survey
+
+
+For this challenge you will be collecting information about the target machine (CTFCapture the Flag VMVirtual Machine). This is useful for understanding future deployments against a machine. Surveys can reveal many things about a machine and its network.
+Challenge 1: To capture this flag you will need to collect the following information about the CTFCapture the Flag VM. All strings should be wide character.
+
+Machine GUID
+User Name
+
+Computer Name
+
+Installed Applications (Display Name)
+Network Card MACApple Operating System Addresses
+List of all mounted volumes
+
+Process List
+
+ 
+Now, have your tool output the survey data (raw) into a file in Desktop\Results\Survey\Survey.txt. Shortly after, you'll have your first flag! 
+
+
+ 
+Challenge 2: File Collection
+
+
+File Collection is also an important part of what we do. Remember the main goal is to enable the collection of FI. In this line of work we run into limitations that aren't always a problem for normal software developers. Unfortunately, we often run into bandwitdth and/or time constraints when trying to retreive information from a target computer. Thus, when designing or configuring a tool, compression, throttling, collection prioritization, and file flattening are things you should consider.
+Challenge 2: Collect all of the files from User #?'s user directory (C:\Users\User #?) with the extensions *.doc, *.docx, *.xlsx, and *.pdf. You will then need to reconstruct the collected files in the Results\File Collection folder on the Desktop. Maintain all file timestamps.
+For example, let's say I collected the following files:
+C:\Users\User #?\Desktop\Passwords.xlsx
+C:\Users\User #?\Pictures\MyContacts.docx
+C:\Users\User #?\AppData\Local\Temp\WhereIKeepMyNukes.pdf
+ 
+Then, the folder structure in the Results\File Collection directory would look like this:
+ 
+_C
+Users
+User #?
+Desktop
+Passwords.xlsx
+Pictures
+MyContacts.docx
+AppData
+Local
+Temp
+WhereIKeepMyNukes.pdf
+ 
+**NOTE** Notice that the the results folder on the Desktop is underneath C:\Users\User #?. Therefore, you will need to make sure you exclude the Results folder from your file collection.
+Do not compress or encrypt any of the collected files. When you are done, signal the watcher that all files are collected by setting an event with the name {DEC334AC-E1E3-4582-9D4D-75A6201F053B} (See MSDN: OpenEvent and SetEvent). After your files are validated, your second flag should then appear!
+
+ 
+Challenge 3: Compression and Encryption
+
+
+Almost all of our tools utilize some combination of compression and encryption. Whenever we're sending data back over the internet, or storing the data for later exfil, it needs to be protected. The type of compression and encryption used is dependent upon many factors and should be decided on a per tool basis. SecureBuffer (or the buffer library) is a library of readily available compression and encryption algorithms (there should never be a need to roll your own compression or encryption - these are very signaturable things). So, for this challenge you will need to download the attached files (ImprovedDummy.exe, PubKey.pem).
+Challenge 3: Compress and encrypt the dummy payload to retrieve the flag.
+
+Download the attached files (ImprovedDummy.exe, PubKey.pem)
+Use SecureBuffer/Buffers Library) to compress the binary using ZLIB compression.
+Encrypt the buffer using RSAEncryption algorithm 4096/AES 256 and the supplied public key
+Dump the buffer into a file (raw) named ImprovedDummy.exe.enc in Results\Compression and Encryption
+
+ 
+ 
+The watcher on the wall will give you the third flag upon completion.
+ 
+ImprovedDummy.exe | publicKey.pem
+
+ 
+Challenge 4: Payload Deployment
+
+
+Many of our tools utilize other processes on the machine (sometimes our own). Since we develop tools to do specific tasks, it is important that many of our tools have the ability to load/kick off other tools.
+Challenge 4: Use Windows Management Instrumentation to execute a command.
+
+See MSDNMicrosoft Developer Network Win32_Process and Win32_ProcessStartup
+Take a look at some of the examples of WMIWindows Management Instrumentation online
+Now, execute the process C:\Test\CTF\Dummy.exe with the args Give Me The Flag (4 args) using WMI. You must also execute the command with the Error Mode (Win32_ProcessStartup -> ErrorMode) set to 1 (SEM_FAILCRITICALERRORS).
+Upon executing correctly, your flag should appear.
+
+ 
+
+ 
+Challenge 5: System Monitoring & Manipulation
+
+
+Sometimes our implants need to react to what is happening on target. This could be recording actions the target is taking or changing what the implant itself does (only exfil data when the target is browsing the internet). Windows often utilizes messages and events to notify stakeholders of certain actions (like if a removable media device has been plugged in).
+Challenge 5: Set up a notification hook for HKEY_CURRENT_USER\Software\CTF.
+
+Set up a notification hook to receive notifications for any new subkeys
+Every 30 seconds a subkey is generated and is deleted 5 seconds later
+Once you receive the notification, enumerate the CTFCapture the Flag subkeys to find a new value on one of the keys with the key name of "FLAG". The flag is the default value of the FLAG key.
+
+ 
+
+
+Challenge 6: Persistence
+
+
+To maintain access to a machine we want to modify the target machine in a way that our code/binary is re-run after it has been stopped (reboot, logoff, possibly even wiped). To do this we can take advantage of mechanisms that Windows itself uses as well as flaws found in the startup process.
+Challenge 6: Use the Task Scheduler, a well-known persistence mechanism, to persist ImprovedDummy across logon/logoff.
+
+See MSDNMicrosoft Developer Network ITaskScheduler (v1.0)
+The ITaskScheduler is a COM interface (a big part of Windows object-oriented design).
+Create a scheduled task that persists C:\Users\User #?\AppData\Roaming\Persist.exe
+Name the task CTF
+Create a trigger so that the command is run everytime a logon event occurs for User #?.
+Although not required, try to go through and understand all that is happening with the COM calls that are required.
+
+ 
+To retrieve the flag, restart the VM.
+
+ 
+Challenge 7: Data Transfer
+
+
+Once we have taken our surveys and collect our files the next step is getting that data back to IOC. There is no common interface for transferring data. Sometimes it's storing data on removable media and sometimes it's mimicking web traffic. In some cases, we can send data to another process so that it can exfil.
+Challenge 7: Assume that the watcher process has a cool technique for mimicking web traffic. Anything that it receives over its named pipe it will forward to the LPListening Post (listening post) via the internet to an IOCInformation Operation Center LP.
+
+Use the survey code from Challenge 1.
+Connect to the named pipe \\.\pipe\{5A426ADB-11B3-4492-8602-380317833226}
+Send the survey data over the named pipe in a single buffer (no need for multiple writes).
+
+Once the data is received by the LP, the first half of the flag will appear.
+To obtain the second half of the flag you will use the Windows Sockets APIApplication Programming Interface to send the survey data to a real LP.
+
+Read through the Windows Sockets APIApplication Programming Interface (Specifically WinSock2)
+Connect and send data to 127.0.0.1 port 27015 (TCPTransport Control Protocol)
+Once verified, the LPListening Post will send you "tasking" the tasking is the second half of the flag.
+
+ 
+
+ 
+Challenge 8: PSPPersonal Security Product (Anti-Virus) Evasion
+
+
+Since our code is malicious in nature, PSPs (personal security products) are looking for us. There are many different types of signatures that PSPs use to try to determine whether a binary is attempting to do something malicious. In many cases, we can evade detection by PSPs by understanding how they catch us and creating workarounds that accomplish the same tasks.
+Challenge 8: Modify the source of our program so it no longer is caught by the PSP
+
+Download the attached project, open and compile it.
+Take the compiled release version of the binary and put it on the CTFCapture the Flag VMVirtual Machine and run it. Note that it is caught by Windows Defender immediately.
+Modify the source (to complete the same goal), and bypass the Windows Defender sandbox.
+Once you have passed all of the PSPs checks, running the program should cause your flag to appear.
+Note: It is often simple to defeat PSPs. Especially if you can pinpoint what exactly it is they are flagging you for.
+
+NOTE: Ensure that you build the binary Release_Static
+PSPEvasion.zip
+
+ 
+Challenge 9: Execution Vectors
+
+
+Gaining execution on a machine can be one of the most difficult aspects of a computer operation. Sometimes we'll have exploits that let us gain access without any target interaction and other times we will engineer scenarios in which we can bait the target into allowing us access.
+Challenge 9: In this scenario you will perform a DLLDynamic Link Library Hijack on a portable third-party application.
+
+Grab a copy of the Sumatra PDFPortable Document Format application (attached)
+Analyze the application using PEBear and/or ProcMon to find the vulnerable DLLDynamic Link Library name (find a DLLDynamic Link Library that is looked for in the local/current directory first and has only a few imports).
+Generate your own DLLDynamic Link Library to use as a hijack for the application.
+Your DLLDynamic Link Library should also drop and run C:\Test\CTF\DummyDLL.dll using the attached DummyDLL file. Run the DLLDynamic Link Library by calling LoadLibrary inside of the Sumatra PDFPortable Document Format application.
+Embed Dummy DLLDynamic Link Library in your Hijack DLLDynamic Link Library by placing it in the resources (Raptor) or as a byte array in a header file (Melomy).
+Run the Sumatra PDFPortable Document Format application to receive your flag
+
+SumatraPDF.exe | DummyDLL.dll
+
+ 
+Challenge 10: Privilege Escalation
+
+
+Depending on our execution vector, the context our code is running in when we first gain access to a target may be at a privilege level that blocks us from doing things or obtaining information. That means that we'll need to pair our execution vector with another "exploit" to get us to the privilege level we need.
+Challenge 10: In this challenge you will be given background information that describes a vulnerability (known and unpatched by Microsoft) that allows you to bypass UACUser Account Control (go from User level privileges to Administrator level privileges without notifying the user). Use your new-found knowledge of the vulnerability to have your User privileged code gain Administrator privileges.
+ 
+Background Information
+ 
+UAC Bypasses: When working with UACUser Account Control Bypasses for Windows 7+ there are a couple of requirements for the target machine. The first requirement is that the user your code will be running as is an Administrator user (not limited, and not a guest), The second requirement is that the UACUser Account Control (User Account Control) level must be at default or below. You will note that both these things are true on the CTFCapture the Flag VM.
+ 
+
+
+ 
+ 
+Auto-Elevated Processes: Since Windows Vista, Microsoft made modifications to the security process in an attempt to reduce the number of UACUser Account Control prompts. One of the ways it did this was by allowing some processes to be automatically elevated. These auto-elevated process were limited to a select few Microsoft processes. These process must be signed by a specific Microsoft certificate, must specify auto-elevation in their manifest, and must reside in a specific set of locations. When executed by the user, the processes automatically are given Administrator privileges. The user calling the process does not get a return handle to the process it just created (they didn't want to make it that easy).
+ 
+
+
+ 
+
+ 
+ArtilleryTo implement the Artillery UACUser Account Control Bypass (In-House name) we take advantage of the Windows Update Standalone Installer (wusa.exe). This is an auto-elevated process provided to us by Microsoft in System32. The wusa.exe allows for command line options, one of which allows you to extract a CAB file to an arbitrary location. With a little research, we have also discovered that if printui.exe (another auto-elevated process) is moved from System32 to another directory, it has a vulnerability in its DLLDynamic Link Library loading process. When looking for CryptBase.dll the auto-elevate process looks in its local directory first before looking in System32. Putting this together we know we can do the following to get the auto-elevated process to load our shim DLL:
+
+Write our shim to a user accessible location
+Write a copy of printui.exe to a user accessible location
+Call makecab to put each of these files into a cab format
+Call wusa.exe to extract both files to System32\MUI
+
+Call System32\MUI\printui.exe
+
+
+
+ 
+Now, to complete the challenge:
+
+Download a copy of the "Shim" DLL
+Embed the shim in your tool - Keep it as a byte array in a header file (Melomy) or in your binary's resources (Raptor)
+Using your knowledge of the vulnerability, move the shim and any other required files to there appropriate locations
+Execute the privilege escalation to see your flag.
+
+ 
+PrivEscShim.dll
+
+ 
+ 
+Finishing Up
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+SECRET//NOFORN
+
+Comments:
+
+
+2015-05-21 12:37 
+[User #524297]: 
+
+I keep mine at your mom's house.  Shhh.
+
+
+2015-05-20 15:04 
+[User #71473]: 
+
+WhereIKeepMyNukes.pdf
+Best. filename. EVAR.
+
+
+
+Attachments:
+
+
+DummyDLL.dll
+
+
+SumatraPDF.exe
+
+
+PrivEscShim.dll
+
+
+PSPEvasion.zip
+
+
+publicKey.pem
+
+
+ImprovedDummy.exe
+
+
+image2015-5-20 12:15:0.png
+
+
+image2015-5-20 12:9:3.png
+
+
+image2015-5-20 12:8:8.png
+
+
+image2015-5-7 14:56:56.png
+
+
+image2015-5-7 14:55:48.png
+
+
+
+Previous versions:
+| 1 SECRET
+| 2 SECRET
+| 3 SECRET
+| 4 SECRET
+| 5 SECRET
+| 6 SECRET
+| 7 SECRET
+| 8 SECRET
+| 9 SECRET
+| 10 SECRET
+| 11 SECRET
+| 12 SECRET
+| 13 SECRET
+| 14 SECRET
+| 15 SECRET
+| 16 SECRET
+| 17 SECRET
+| 18 SECRET
+| 19 SECRET
+| 20 SECRET
+| 21 SECRET
+| 22 SECRET
+| 23 SECRET
+| 24 SECRET
+| 25 SECRET
+| 26 SECRET
+| 27 SECRET
+| 28 SECRET
+| 29 SECRET
+| 30 SECRET
+| 31 SECRET
+| 32 SECRET
+| 33 SECRET
+| 34 SECRET
+| 35 SECRET
+| 36 SECRET
+| 37 SECRET
+| 38 SECRET
+| 39 SECRET
+| 40 SECRET
+| 41 SECRET
+| 42 SECRET
+| 43 SECRET
+| 44 SECRET
+| 45 SECRET
+| 46 SECRET
+| 47 SECRET
+| 48 SECRET
+| 49 SECRET
+| 50 SECRET
+| 51 SECRET
+| 52 SECRET
+| 53 SECRET
+| 54 SECRET
+| 55 SECRET
+| 56 SECRET
+| 57 SECRET
+| 58 SECRET
+| 59 SECRET
+| 60 SECRET
+| 61 SECRET
+| 62 SECRET
+| 63 SECRET
+| 64 SECRET
+| 65 SECRET
+| 66 SECRET
+| 67 SECRET
+| 68 SECRET
+| 69 SECRET
+| 70 SECRET
+| 71 SECRET
+| 72 SECRET
+| 73 SECRET
+|
+                    

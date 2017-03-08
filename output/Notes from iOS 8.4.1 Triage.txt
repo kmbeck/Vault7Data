@@ -1,0 +1,46 @@
+
+                        iOS Firmware Updating to latest procedure / Adding Exploit Support For New Devices
+
+See Reflash iOS Device  , be sure to update Reflash Log  CONFIDENTIAL
+
+After a device is flashed, adderall it.cd adderall
+repo sync -d
+make dist
+Dist/Release-MacOSX/adderall-dist ~/iosfiles
+
+After all devices are updated and adderall'd, time to generate symbols for earlies using elsym.
+cd early
+repo sync -d
+python symdra full -k ~/iosfiles
+cd elsym
+make copyalldist
+
+If you adderall'd them all, that means you have trusted them. Save all the pairing records to the share.
+tar cvf /mdb/osx/DeveloperAccount/pairing_records_ios8.tar /var/db/lockdown
+
+
+
+Rebuild privileged nightvision and collect full filesystems for each device.
+cd nightvision
+repo sync -d
+make dist
+cd Dist/Release-iPhoneOS
+./nv -c ../../elsym-dist get -o ./
+Copy the .tbz file to cifs://fs-01.devlan.net/share/MDB/iOS/ios_filesystems
+
+
+
+
+Previous versions:
+| 1 
+| 2 
+| 3 
+| 4 
+| 5 
+| 6 
+| 7 
+| 8 
+| 9 
+| 10 
+|
+                    

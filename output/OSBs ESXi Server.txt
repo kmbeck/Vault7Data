@@ -1,0 +1,430 @@
+
+                        Owner: User #1179751
+OSB's ESXi Server
+Overview
+There are 5 classes of VMs running on this machine:
+Infrastructure (INF) - These machines are meant to support OSB's vlan or do other similar things.  They are NOT meant to be used in testing, only log into them if you know what you are doing.
+Utility (UTL) - These machines are shared machines like the snowcrash VM, they are not meant to be used for testing purposes and are simply a shared resource.
+Listing Posts (LPSListening Posts) - These are many different LPs, meant to be shared and made available for testing, but are not test vm's (i.e. don't try and break them).
+Bamboo (BMB) - These servers are out automated build servers, or vm's that support them, don't mess with them.
+Test (TST) - These are the machines you are looking for, all are joined to the domain for the most part and should be kept up to date (They won't have PSPs installed by default).  Use them, play with them, break them, but when you are done revert them to a clean snapshot.
+We are on the honor system here, so work with your fellow OSBers on what is available.
+Naming Convention
+ESXi doesn't let us organize VMs in folders so we need to follow a strict naming convention so we don't confuse ourselves.  This convention will be as follows:
+<CLASS>_<OS>_<ARCH>_<APPS OR DESCRIPTION>.
+So for example, a test VMVirtual Machine running Windows 7 and Office 2010 will be (TST_WIN7_X86_OFFICE2010).
+Accessing the VMs
+
+Connect directly to the VMVirtual Machine either via RDPRemote Desktop Protocol or SSH
+Connect to the ESXi Server through VMWare – File->Connect To Server (Probably the best way)
+Connect to the ESXi Server through VCenter – https://osb-vcenter.devlan.net (Login with DEVLAN credentials... Must be DEVLAN\username
+Connect to the ESXi Server through VSphere – Download the VSphere client on the share and connect directly to osb.devlan.net using DEVLAN credentials (\\fs-01.devlan.net\Windows Applications\VMware)
+
+Infrastructure VMs (10.2.8.200 - 10.2.8.210)
+
+
+Name
+IP
+Description
+Type 
+Computer Name
+Username
+Password
+Can/Should use DEVLAN credentials
+Additional Notes
+
+
+osb.devlan.net
+10.2.8.200
+ESXi Server
+ESXi 6.0.0
+osb.devlan.net
+root
+mysweetsummer
+YES
+Connect via VCENTER @ https://osb-vcenter.devlan.net
+
+
+INF_OSB1_ADMIN
+10.2.8.201
+DNS, DHCP, other ADActive Directory tools
+Windows Sever 2012 R2 
+osb-1v.devlan.net
+ 
+ 
+YES
+ 
+
+
+INF_OSB2_WEB
+10.2.8.202
+FTP, IIS, TFS
+Windows Server 2012 R2 
+osb-2v.devlan.net
+ 
+ 
+YES
+ 
+
+
+INF_OSB3_SQL
+10.2.8.203
+SQL
+Windows Server 2012 R2 
+osb-3v.devlan.net
+ 
+ 
+YES
+ 
+
+
+INF_OSB4_IRC 
+10.2.8.204
+IRC
+CentOS 7
+irc.devlan.net
+root
+mysweetsummer
+NO - SSHSecure Shell keypair
+ 
+
+
+INF_OSB7_VCENTER
+10.2.8.205
+VCENTER
+Windows Server 2012 R2
+osb-vcenter.devlan.net
+administrator@osb.local
+123ABCdef.
+YES
+ 
+
+
+ 
+ Bamboo VMs (10.2.8.211-10.2.8.220)
+
+
+Name
+IP
+Description
+Type 
+Computer Name
+Username
+Password
+Can/Should use DEVLAN credentials
+
+
+BMB_BUILD1_WIN8_VS20102013
+10.2.8.211
+Bamboo Build Server
+Windows 8 with VS2010 and VS2013
+osb-bmb1v.devlan.net
+bambooosb
+123ABCdef.
+ 
+
+
+BMB_BUILD2_WIN8_VS20102013
+10.2.8.212
+Bamboo Build Server
+Windows 8 with VS2010 and VS2013
+osb-bmb2v.devlan.net
+bambooosb
+123ABCdef.
+ 
+
+
+BMB_SUPPORT1_FEDORA19
+10.2.8.213
+Bamboo Support
+Fedora VMVirtual Machine meant to assist in running DARTTest-Software (commercial) scripts
+bamboo01.devlan.net
+root
+password
+ 
+
+
+BMB_SUPPORT2_FEDORA19
+10.2.8.214
+Bamboo Support
+Fedora VMVirtual Machine meant to assist in running DARTTest-Software (commercial) scripts
+ 
+ 
+ 
+ 
+
+
+ 
+LPs (10.2.8.221-10.2.8.240)
+
+
+Name
+IP
+Description
+Type 
+Computer Name
+Username
+Password
+Can/Should use DEVLAN credentials
+
+
+LPS_CentOS_Apache
+10.2.8.221
+Clean CentOS running Apache
+Apache
+ 
+ 
+ 
+ 
+
+
+LPS_Debian_Apache
+10.2.8.222
+Clean Debian running Apache
+Apache
+ 
+ 
+ 
+ 
+
+
+LPS_ShellTerm
+10.2.8.223
+Ubuntu 10.04 running ShellTerm 2.old
+ShellTerm 2.old
+ubuntu.devlan.net
+user
+123ABCdef.
+NO, SSHSecure Shell in. Root has same password.
+
+
+LPS_Cal
+10.2.8.224
+CentOS running Cal
+Cal (RB 4.X LPListening Post)
+cal.devlan.net
+tester
+123ABCdef.
+NO, SSHSecure Shell in. Root has same password.
+
+
+
+Shellterm 2.10 Test Server  SECRET
+
+10.2.8.225
+Ubuntu 12.04.05 LTSLong Term Support running Shellterm 2.10
+Shellterm 2.10
+shellterm210.com
+user
+123ABCdef.
+NO, SSHSecure Shell in. Root has same password
+
+
+
+Shellterm v3.0.1 Test Server  SECRET
+
+10.2.8.226
+Ubuntu 12.04.05 LTSLong Term Support running Shellterm 3.0.1
+ShellTerm 3.0.1
+shellterm301.com
+user
+123ABCdef.
+NO, SSHSecure Shell in. Root has same password
+
+
+LPS_Windex
+10.2.8.227
+Deb 7.7 running windex 5
+Windex 5
+osbwindex5.devlan.net
+windex
+123ABCdef.
+No. Root has same password.
+
+
+LPS_PocketPutin
+10.2.8.228
+ 
+ 
+PP_Server.devlan.net
+ 
+ 
+ 
+
+
+LPS_PocketPutin_Client
+10.2.8.229
+ 
+ 
+PP_Client.devlan.net
+ 
+ 
+ 
+
+
+LPS_Windex_frontend
+10.2.8.230
+Deb 7.7 running windex 5 frontend
+Windex 5 front end
+windex5front
+windexfe
+123ABCdef.
+No, SHH in. Root has same password.
+
+
+LPS_PocketPutin_v7
+10.2.8.231
+Pucket Putin Server
+Server 2012
+PP_server.devlan.net
+ 
+ 
+ 
+
+
+LPS_Doxygen
+10.2.8.232
+Deb 7.8
+Apache
+osb-doxygen
+root
+123ABCdef.
+ 
+
+
+LPS_PocketPutin_v81x86
+10.2.8.233
+Pocket Putin Client Running 8.1 32 Bit
+Windows 8.1
+win8-25.devlan.net
+tester
+123ABCdef.
+No
+
+
+LPS_PocketPutin_v81x64
+10.28.234
+Pocket Putin Client Running 8.1 64 Bit
+Windows 8.1
+win8-26.devlan.net
+tester
+123ABCdef.
+No
+
+
+Util VMs (10.2.8.241-10.2.8.254)
+
+
+Name
+IP
+Description
+Type 
+Username
+Password
+
+
+UTL_Snowcrash
+10.2.8.241
+XP VMVirtual Machine for building Snowcrash documents
+Snowcrash
+ 
+ 
+
+
+UTL-PEBrowser
+10.2.8.242
+To be used for REing a binary
+Win 7 with IDA and other tools
+user
+123ABCdef.
+
+
+UTL_XP_VS2003
+10.2.8.243
+Machine with XPWindows operating system (Version) and VS 2003 for our bad days
+XP, VS2003, SourceSafe
+ 
+ 
+
+
+UTL_XP_VS2005
+10.2.8.244
+Machine with XPWindows operating system (Version) and VS 2005 for our worst days
+XP, VS2005, SourceSafe
+ 
+ 
+
+
+UTL_Network 
+10.2.8.245 
+Machine with network utility and admin tools 
+Network utils 
+ 
+ 
+
+
+ 
+ Test VMs (10.2.8.100-10.2.8.199)
+
+Name
+IP
+Description
+Type 
+
+
+Sub-Pages:
+
+
+Shellterm v3.0.1 Test Server SECRET
+
+
+Shellterm 2.10 Test Server SECRET
+
+
+
+Previous versions:
+| 1 
+| 2 
+| 3 
+| 4 
+| 5 
+| 6 
+| 7 
+| 8 
+| 9 
+| 10 
+| 11 
+| 12 
+| 13 
+| 14 
+| 15 
+| 16 
+| 17 
+| 18 
+| 19 
+| 20 
+| 21 
+| 22 
+| 23 
+| 24 
+| 25 
+| 26 
+| 27 
+| 28 
+| 29 
+| 30 
+| 31 
+| 32 
+| 33 
+| 34 
+| 35 
+| 36 
+| 37 
+| 38 
+| 39 
+| 40 
+| 41 
+| 42 
+| 43 
+|
+                    

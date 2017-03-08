@@ -1,0 +1,48 @@
+
+                        Re-signature Guidelines and Signature Documentation
+SECRET//NOFORN
+ 
+
+Goals of this Page: 
+
+Describe the various definitions of the term signature as it applies to IOInformation Operations tools
+Identify levels of re-signaturing
+Layout a set of guidelines that people should consider when re-signaturing a tool or technique
+Set guidelines for identifying and documenting potential signatures
+Provide a better understanding about how our toolset could be linked by an adversary.
+
+ 
+Conceptual Signature:
+ 
+Target Signature:
+ 
+Attribution Signature:
+ 
+Stylistic Signature:
+ 
+Signature for New Discovery:
+ 
+ 
+ 
+
+Re-signature Guidelines:
+ 
+ 
+ 
+
+Documentation of Signatures:
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+SECRET//NOFORN
+
+Previous versions:
+| 1 SECRET
+| 2 SECRET
+| 3 SECRET
+|
+                    

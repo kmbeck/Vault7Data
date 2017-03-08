@@ -1,0 +1,34 @@
+
+                        How-to articles
+
+('create-from-template' missing)
+
+
+('content-report-table' missing)
+
+Sub-Pages:
+
+
+Remove Binary Files from a Git Repository 
+
+
+Creating an empty commit in a new project 
+
+
+Use Git Submodules to Manage Libraries 
+
+
+Merge Git Repositories? 
+
+
+Change Author Details of All Commits in a Git Repository 
+
+
+Convert a Mercurial Repository to Git on Windows 
+
+
+
+Previous versions:
+| 1 
+|
+                    

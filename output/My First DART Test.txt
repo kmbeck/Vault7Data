@@ -1,0 +1,82 @@
+
+                        Owner: User #17072267
+Setting up new DART tester VM (Fedora 20)
+When setting up a local DARTTest-Software (commercial) environment for creating and submitting automated tests for the first time
+Step-by-step guide
+
+Add the steps involved:
+
+Copy the VMVirtual Machine from \\fs-01\share\DART\Developer VM
+Import and turn on the VM
+Open a terminal and run "~/start_setup.bash".
+See "Required user input during start_setup.bash"
+At the end of the setup, two commands are generated and displayed in the terminal.
+Enter these these commands to kick off your first automated DARTTest-Software (commercial) test.
+See http://10.9.0.20/overview for the results.
+
+
+
+How the VMVirtual Machine is setup
+What "start_setup.bash" does
+Required user input during "start_setup.bash"
+How your VMVirtual Machine will look after "start_setup.bash"
+
+
+
+Fedora 20
+Yum works (repos set to repos.devlan.net in /etc/yum.repos.d/*)
+Mercurial is installed
+Git is installed
+Vim is installed (with a python-compatible .vimrc)
+Default user is "tester"
+Default passwords for "tester" and "root"
+
+
+Clones the "dartsetup" mercurial repo containing:
+setup_local_dart.py
+setup_local_dart_admin.py
+setup_local_dart_repos.bash
+
+
+Runs setup_local_dart.py which:
+Creates a unique local hostname if one does not already exist (ex. IUXQPX.devlan.net)
+Generates a RSAEncryption algorithm keypair for "tester" if one does not already exist
+Copies your RSAEncryption algorithm public key to the DARTTest-Software (commercial) server (10.9.0.20) /root/.ssh/authorized_keys
+Clones the DARTTest-Software (commercial) repos (tybase, tyworkflow, tyutils)
+Calls "make" in tyworkflow
+Creates a local tester "commits" directory on the DARTTest-Software (commercial) server (for your test files)
+Provides the commands to run your first test (service_ping_plan)
+
+
+
+
+"tester" password: this calls sudo as root permissions are required to change the local hostname
+Accept DARTTest-Software (commercial) server RSAEncryption algorithm key: type "yes" to initiate the trust relationship between your VMVirtual Machine and the DARTTest-Software (commercial) server
+DART server root password: this is the one and only time you will ever have to enter the root password. This is required to copy your local public key to the server's authorized_keys. "ssh root@10.9.0.20" will work without a password when this is done. Remote_commit will run much more smoothly after this.
+Create a unique tester identifier: this will identify your tests in Overview to other users. Choose something without spaces such as your initials, first initial and last name, etc. (ex. "saf" or "sfoerster")
+The two commands needed to run your first test are provided. Enter them and watch DARTTest-Software (commercial) submit your test files, generate combos, and launch your tests.
+Go to http://10.9.0.20/overview to see the test results
+
+
+Unique hostname
+Unique RSAEncryption algorithm keypair
+A default installation of DARTTest-Software (commercial) in ~/testing
+
+
+
+ 
+ 
+You may also want to use visual panels to communicate related information, tips or things users need to be aware of.
+Related articles
+
+Related articles appear here based on the labels you select. Click to edit the macro and add or change labels.
+
+('contentbylabel' missing)
+('details' missing)
+
+Previous versions:
+| 1 
+| 2 
+| 3 
+|
+                    

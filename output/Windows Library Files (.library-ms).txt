@@ -1,0 +1,11 @@
+
+                        NTFS Alternate Data Streams (ADS)
+
+('toc' missing)
+Alternate Data Streams on the Root of the Drive
+So on NTFS, alternate data streams are a good way to hide data. Whether it's for exfil or tradecraft. Normally, you can find an Alternate Data Stream via the command prompt when running the dir command. However, when you place the Alternate Data Streams at the root of the drive, the Alternate Data Streams cannot be seen in explorer or cmd. For example, write your ADSAda Specification (file) to H:\:myads.
+
+Previous versions:
+| 1 empty
+|
+                    

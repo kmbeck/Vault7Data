@@ -1,0 +1,43 @@
+
+                        Owner: User #14587667
+Create Squid Proxy Server
+These instructions are specific for Ubuntu.
+Install Squid
+sudo apt-get install squid3sudo cp /etc/squid3/squid.conf /etc/squid3/squid.conf.ORIGsudo chmod a-w /etc/squid3/squid.conf.ORIGsudo vi /etc/squid3/squid.conf
+By default, Squid listens on port 3128.  If you want to change the port change the http_port directive.
+To allow only a specific range of IPs to connect, edit the ACLAccess Control List section.  For this example, we want to allow the 192.168.42.0 subnetwork access to squid.
+At the bottom of the ACLAccess Control List section, add the line (without the quotes): "acl fortytwo_network src 192.168.42.0/24".
+Add the top of the http_access section, add the line (without the quotes): "http_access allow fortytwo_network"
+sudo service squid3 restarttail -f syslog
+Setup Basic Authentication
+
+
+ID
+Status
+Task
+
+
+1
+incomplete
+
+User #14587667 Complete this section.
+
+
+Setup Digest Authentication
+cd /etc/squid3/sudo touch passwdapt-get install apache2-utilssudo chown proxy.proxy passwdchmod 640 passwdsudo chmod 640 passwdsudo htdigest /etc/squid3/passwd <realm name> <username>sudo cat passwd/usr/lib/squid3/digest_file_auth -c /etc/squid3/passwd/usr/lib/squid3/digest_file_auth -c /etc/squid3/passwd "User #77550":"TestRange"/usr/lib/squid3/digest_file_auth -c /etc/squid3/passwd
+"<username>":"<realm name>"sudo /usr/lib/squid3/digest_file_auth -c /etc/squid3/passwdsudo vi /etc/squid3/squid.confsudo service squid3 reload
+In the auth_param section, add the following lines:
+auth_param digest program /usr/lib/squid3/digest_file_auth -c /etc/squid3/passwdauth_param digest realm <realm name>auth_param digest children 2
+In the http_access section, add the following line at the top:
+http_access allow auth_users
+In the ACLAccess Control List section, add the following line right before network acle (forttwo_network in the example above):
+acl auth_users proxy_auth REQUIRED
+Note: PuTTY only allows the use of Basic authentication when using the proxy setting.  You could consider doing SSH PortForwarding   as an alternative.
+
+Previous versions:
+| 1 
+| 2 
+| 3 
+| 4 
+|
+                    

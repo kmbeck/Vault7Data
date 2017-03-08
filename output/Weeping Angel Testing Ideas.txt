@@ -1,0 +1,33 @@
+
+                        Weeping Angel Testing Ideas
+SECRET // REL US, UK
+Long-Term, Steady State
+
+TV On, using wlan0, 24-72 hour longevity test
+TV On, using eth0, 24-72 hour longevity test
+TV Fake-Off, using wlan0, 24-72 hour longevity test
+TV Fake-Off, using eth0, 24-72 hour longevity test
+
+Transitions
+
+TV On to Fake-Off
+TV Fake-Off to On
+TV eth0 to wlan0
+TV wlan0 to eth0
+TV from one wifi network to another (wifi configuration changes)
+Replacing the script remotely. ("remote upgrade process")
+
+Related articles
+
+Related articles appear here based on the labels you select. Click to edit the macro and add or change labels.
+
+('contentbylabel' missing)
+ 
+SECRET // REL US, UK
+
+Previous versions:
+| 1 
+| 2 
+| 3 
+|
+                    

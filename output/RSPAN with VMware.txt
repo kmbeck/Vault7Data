@@ -1,0 +1,15 @@
+
+                        Owner: User #71467
+How to Create a New swindle.crt file for Blot
+How to Create a New swindle.crt file for Blot
+The following steps are approved by Xetron to generate a new certificate for the swindle.crt file used in Blot SSLSecure Socket Layer communications with an implant:
+
+openssl genrsa -out new_key.pem 1024
+openssl req -new -key new_key.pem -out new_req.csr
+openssl x509 -req -days 365 -in new_req.csr -signkey new_key.pem -out new_cert.crt
+
+swindle.crt file should take format:
+<output of openssl x509 -in new_cert.crt -noout -text>
+<contents of new_cert.crt>
+ 
+                    

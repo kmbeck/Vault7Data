@@ -1,0 +1,77 @@
+
+                        Owner: User #13763861
+Hamr Testing With WildTurkey
+WildTurkey (n.) A animal of the avian variety that has not been domesticated. Also a type of alcohol with a high proof (151). It get's you HAMR'D
+WildTurkey is the name of the collection of iOS related plugins for the HAMR framework. The project WildTurkey has a makefile that helps build all the related plugins and a HAMR BEM and a FEM. The BEM is the Back End Manager and manages the creation of a FEL (Front End Listener). The FEL will actually handle the exploitation process of a device. Build everything by:
+
+cd <ZOO_REPO_DIR>/wildturkey
+make <clean> <all|sot|sol>
+
+10.2.3.119 (DNSDomain Name System name to be assigned...) is a Debian VMVirtual Machine that has HAMR 1.3. Use that server to build and run your fels, and remember to stop your fel when you are done to not eat up ports.
+To build a fel:
+
+scp the plugins to the server
+ssh into the server
+make sure you have a plist (a sample exists on the share drive under MDB/Temporary/test.plist)
+If using the sample, make sure you change the URLUniform Resource Locator key under targets>global
+Also if using the sample, the passphrase is moo
+
+
+./bem build <plist path> <output name> <plugins>where output name is the name of the fel (for example test.fel)
+
+Now you can either run the fel through the bem and the fem via 4.b, or directly via 4.a
+python test.fel # input the passphrase when prompted
+see the hamr docs because I'm too lazy to look it up right meow
+
+
+
+ 
+In order to build a FEL, you need to have a configuration plist. Until we build an easy to configure plist here is a sample one:
+<?xml version="1.0" encoding="UTF-8"?>
+    <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+    <plist version="1.0">
+    <dict>
+    	<key>cherrypy</key>
+	<dict>
+		<key>server.socket_port</key>
+		<integer>8080</integer>
+		<key>tools.response_headers.headers</key>
+		<dict>
+			<key>Server</key>
+			<string>Apache/2.2.9</string>
+		</dict>
+	</dict>
+	<key>logconsole</key>
+	<true/>
+	<key>loglevel</key>
+	<integer>20</integer>
+	<key>passphrase</key>
+	<string>moo</string>
+	<key>targets</key>
+	<dict>
+		<key>global</key>
+		<dict>
+			<key>timeout</key>
+			<integer>300</integer>
+			<key>url</key>
+			<string>http://10.2.3.46:8080/</string>
+		</dict>
+		<key>myt</key>
+		<dict>
+			<key>boomerang_payloads</key>
+			<string>libdyld.dylib</string>
+			<key>gtfo_inject_path</key>
+			<string>/usr/libexec/locationd</string>
+		</dict>
+	</dict>
+</dict>
+</plist>
+ 
+
+Previous versions:
+| 1 
+| 2 
+| 3 
+| 4 
+|
+                    

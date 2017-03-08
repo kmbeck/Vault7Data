@@ -1,0 +1,48 @@
+
+                        Research
+ 
+Test Frameworks
+Potential test frameworks to be used...
+Unity (www.throwtheswitch.org)
+
+Lightweight and includes features for embedded development
+XUnit based
+Can work with mocks and exceptions via CMock and CException (also developed by the same company)
+Pure C implementation
+follows ANSI C
+Only requires a few files to be added to the test project.
+Includes generators (test runners, mocks via Cmock, etc.) generators require Ruby and a handful of gems
+Actively maintained
+
+ 
+GTest
+
+XUnit based
+C++ based
+Built in mocking framework
+Test discovery
+Requires Visual C++ v7.1 or newer
+3rd party Visual Studio graphical test runners
+Supports TAP
+XML test report generation
+Actively maintained
+Requires building a library and adding it as a dependency to the test project
+
+ 
+Visual Studio Microsoft Unit Test Framework (unmanaged)
+
+Built into Visual Studio
+ C++ based
+ Visual test explorer
+
+ 
+If the Kraken client is implemented in C (which is the current plan), linker issues will have to be accounted for if the decision is made to test the client code within a C++ test framework.
+ 
+ 
+
+Previous versions:
+| 1 
+| 2 
+| 3 
+|
+                    

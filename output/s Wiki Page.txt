@@ -1,0 +1,23 @@
+
+                        Owner: User #3375374
+Funny Code 2014
+Funny Code post from 2014.
+
+
+The DARTTest-Software (commercial) vSphere client installer does not default to English prompts, if you have the Chinese language pack installed.  I do not speak Chinese. The installer annoyling does this even, if the current locale is set to English e.g. set to use English. Now by design the installer's locale can be forced to use English with the following command line option: VMware-viclient.exe -locale en_US
+Unfortunate the install will fail when this option is specified. Thanks to User #73580 my tip of the day is in Chinese these characters 英语 means English. 
+
+
+ 
+
+sudo apt-get updatesudo apt-get upgradesudo apt-get install smbfs
+sudo apt-get install mercurialhg clone http://10.9.0.20:8000/tybasehg clone http://10.9.0.20:8000/tyworkflowcd tybase/makecd ../tyworkflow/makescp /home/User #77120/.ssh/id_rsa.pub root@dart-ts-01.devlan.net:~note: on dart-ts-01.devlan.net perform$ cat ~/id_rsa.pub >> /root/.ssh/authorized_keysnote: on dart-ts-01.devlan.net perform$ mkdir /proj/testing/commits/User #77120cd ../tybasebin/undermine leafbags/tyworkflow/overlib/preflight/service_ping_test.py 10.9.5.125cd leafbags/mkdir blackcrowmkdir blackcrow/blackcrowcd ../../..  (back to in tybase)cp ../blackcrow/unittests/*  leafbags/blackcrow/blackcrowln -s leafbags/blackcrow/blackcrow/plans/ .ln -s leafbags/blackcrow/blackcrow/tests/ .bin/undermine tests/simple.py 10.9.5.125bin/remote_commit -u User #77120 run plans/BlackcrowFxf.py count=1
+
+
+Previous versions:
+| 1 
+| 2 
+| 3 
+| 4 
+|
+                    

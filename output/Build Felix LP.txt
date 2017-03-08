@@ -1,0 +1,102 @@
+
+                        Owner: User #14587667
+Felix 1.1 Test Notes - MikroTik MIPS-BE
+Devices Under Test
+DUT7 - RB493G
+IP: 172.20.100.58/30
+ROS 5.20
+
+
+ID
+Status
+Task
+
+
+1
+incomplete
+Throw CR
+
+
+2
+incomplete
+Install & Persist TSH
+
+
+3
+incomplete
+Install & Persist BB
+
+
+4
+incomplete
+Install Felix
+
+
+DUT8 - RB750GL
+IP: 172.20.100.62/30
+ROS 6.23
+
+
+ID
+Status
+Task
+
+
+5
+incomplete
+Throw CR
+
+
+6
+incomplete
+Install & Persist TSH
+
+
+7
+incomplete
+Install & Persist BB
+
+
+8
+incomplete
+Install Felix
+
+
+DUT9 - RB750r2 (hEX lite)
+IP: 172.20.100.66/30
+ROS 6.25
+
+
+ID
+Status
+Task
+
+
+9
+incomplete
+Throw CR
+
+
+10
+incomplete
+Install & Persist TSH
+
+
+11
+incomplete
+Install & Persist BB
+
+
+12
+incomplete
+Install and Persist Felix
+
+
+ 
+ 
+
+Previous versions:
+| 1 empty
+| 2 
+|
+                    

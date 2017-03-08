@@ -1,0 +1,60 @@
+
+                        Link File Template
+ 
+Template is only 1/3 finished but still good for parsing the header, IDList, and target path structures. 
+ 
+//Link File Template
+struct LINK_FILE
+{
+    struct SHELL_LINK_HEADER
+    {
+        DWORD       dwHeaderSize;
+        BYTE        byCLSID[16];
+        DWORD       dwLinkFlags;
+        DWORD       dwFileAttribs;
+        FILETIME    ftCreationTime;
+        FILETIME    ftAccessTime;
+        FILETIME    ftWriteTime;
+        DWORD       dwFileSize;
+        DWORD       dwIconIndex;
+        DWORD       dwShowCommand;
+        WORD        wHotKey;
+        WORD        wReserved1;
+        DWORD       dwReserved2;
+        DWORD       dwReserved3;
+    }Header;
+    if(LinkFile.Header.dwLinkFlags & 0x00000001) //Has Link Target ID List
+    {
+        WORD    wIDListSize;
+        BYTE    byIDList[LinkFile.wIDListSize];
+    }
+    
+    if(LinkFile.Header.dwLinkFlags & 0x00000002) //Has Link Information
+    {
+        DWORD       dwLinkInfoSize;
+        DWORD       dwLinkInfoHeaderSize;
+        DWORD       dwLinkInfoFlags;
+        DWORD       dwVolumeIDOffset;
+        DWORD       dwLocalBasePathOffset; //****** this is the only part we care about
+        DWORD       dwCommonNetworkRelativeLinkOffset;
+        DWORD       dwCommonPathSuffixOffset;
+        DWORD       dwLocalBasePathOffsetUnicode;
+        DWORD       dwCommonPathSuffixUnicode;    
+    }
+    
+} LinkFile;
+ 
+Attached: Link File template and Link File Specification
+ 
+Link.btLink.bt
+
+Attachments:
+
+
+Link.bt
+
+
+[MS-SHLLINK].pdf
+
+
+                    

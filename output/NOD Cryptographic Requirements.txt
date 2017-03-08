@@ -1,0 +1,23 @@
+
+                        Owner: User #71473
+NOD Persistence Specification
+Files related to the NODNetwork Operations Division Persistence Specification
+('attachments' missing)
+
+Attachments:
+
+
+Persisted-DLL-Spec-v2-SECRET.pdf
+
+
+Persistence-Spec-v1-UNCLASSIFIED.pdf
+
+
+Persistence-Spec-v1-SECRET.pdf
+
+
+
+Previous versions:
+| 1 
+|
+                    

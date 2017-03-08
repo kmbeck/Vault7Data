@@ -1,0 +1,29 @@
+
+                        MDF Issues
+I get the following error on 9 and 8 devices when using mdf ait.  This command seems to work fine the first few times, but does not work after running it a few times.
+python ~/clean/mdf9/mdf/ ait launch com.apple.mobilesafari -u http://10.2.3.52:8080/?id=myt
+Traceback (most recent call last):
+  File "/System/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/runpy.py", line 162, in _run_module_as_main
+    "__main__", fname, loader, pkg_name)
+  File "/System/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/runpy.py", line 72, in _run_code
+    exec code in run_globals
+  File "/Users/User #71498/clean/mdf9/mdf/__main__.py", line 9, in <module>
+    run_cli()
+  File "/Users/User #71498/clean/mdf9/mdf/cli/__init__.py", line 85, in run_cli
+    cmd.do(**args)
+  File "/Users/User #71498/clean/mdf9/mdf/cli/commands/ait.py", line 67, in do
+    with devices[device] as dev,AITService(dev) as ait:
+  File "/Users/User #71498/clean/mdf9/mdf/lib/aitService.py", line 75, in __enter__
+    self.connect()
+  File "/Users/User #71498/clean/mdf9/mdf/lib/aitService.py", line 71, in connect
+    self._recvuntil(u'_rpc_applicationUnavailable:', '_rpc_debugMessage:')
+  File "/Users/User #71498/clean/mdf9/mdf/lib/aitService.py", line 54, in _recvuntil
+    sel, msg = self._recvmsg()
+  File "/Users/User #71498/clean/mdf9/mdf/lib/aitService.py", line 43, in _recvmsg
+    return self._aitcon._recvmsg()
+  File "/Users/User #71498/clean/mdf9/mdf/lib/wirservice.py", line 78, in _recvmsg
+    return self.proto._recvmsg()
+  File "/Users/User #71498/clean/mdf9/mdf/lib/wirservice.py", line 136, in _recvmsg
+    raise ValueError("connection did not return enough bytes (4 required), read {}".format(repr(rawlength)))
+ValueError: connection did not return enough bytes (4 required), read ''
+                    

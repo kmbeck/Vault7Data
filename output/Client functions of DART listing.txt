@@ -1,0 +1,50 @@
+
+                        How to DART your executable
+So, you've succeeded at your first DARTTest-Software (commercial) test... but are now looking to actually test your code?  This article is for you!
+Step-by-step guide
+Simple steps and some hints:
+Currently, the means to launch your own executable isn't really defined in a simple test.  So from that basic test, we're going to go over a few special commands that will allow you to upload files to the host, and then, execute said files.
+
+First and foremost, place the executable you wish to run in a folder on Media within your tybase directory.  This is important as commands will need to have a location within the tybase directory so they can be later used for testplans! (e.g. in my case:  ~/tybase/media/Michelangelo )
+
+Next, start with a basic setup such as below.  This is a basic setup test for my tool, Michelangelo, but the concepts explained below will extend to running other executables.
+Basic Ping test script
+
+
+
+Next, we're going to need to add a few things to make this functional.  First, we need a run function which is the meat of our test.  To do this, we need to set up our host to create a few things.  Additionally, with Michelangelo, we need to run Michelangelo as a user, not system.  To do this, we will require use of the Emissary piece of DART.  Emissary  allows you to run programs and execute as a user upon a host.  In this example, the emissary is set to be the user that is currently logged in, but this can be configured based on the DART/Tyrant documentation.
+
+Here is the basic beginning piece of my script:
+Semi-Generic Setup with using an Emissary
+
+
+ 
+
+
+Within this 'run' command, we will need to take a file from tybase, and PUT it on the guest spun up by DART.  It is usually wise to make a directory to put your implant and other media in on the guest VMVirtual Machine running the test.  This gives you a central location to check with later tests of whether something worked or it didn't and can greatly save you time.  This is done in the following manner:   (Still under the run function...)
+Put Command Example
+
+
+This piece of code will move both the configuration .ini file and the builder to a guest being managed by DART.  This is done in the context of the user as target is an Emissary of targethost, which is something to be wary of.  Now that our builder and configuration file are on our target, we need to test them by executing them!  To do this, we use the execcmd command in DART.  Here is an example of how to launch a complicated command with many flags and other bells and whistles!
+Big shiny executable usage with DART
+
+As you can see the execcmd function takes in array of flags and words for the commandline shell.  By setting the working directory properly, you can run the shell command as a user or as system (by using an emissary or not).  By setting up the entire command line, you can have DARTTest-Software (commercial) run your executable with all flags necessary and resolve your files.  Additionally, after running the builder, you can check for the existence of your outputs to ensure the builder has run successfully.  In Michelangelo, Errors are always preceeded with an all caps ERROR.  By searching the result string for this sentinel, we can easily determine if there were problems with running our builder and report the failure accordingly!
+
+Simple executables, such as the one created by our Michelangelo builder can be run with the following code.
+How to run a simple EXE
+
+In our case, the first argument is the exe name in that current working directory.  If there are no flags needed, you do not need to pass an array.
+While this is FAR from all encompassing, this should give you a beginning DARTTest-Software (commercial) test to help you write a simple:  "Move my files over and run them" sort of test.  Your mileage on error checking will vary extensively depending on how your tool runs.
+If using a Fire and Forget DLL, you could always bring along the RICE loader and execute your DLLDynamic Link Library with the above code.
+If you have any questions, come bother me and I'll do my best to help you out. -User #78164
+
+
+ 
+ 
+ 
+ 
+ 
+Related articles
+
+('contentbylabel' missing)
+                    

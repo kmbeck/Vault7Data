@@ -1,0 +1,32 @@
+
+                        Owner: User #14587667
+Enable Copy/Paste for VMs
+This describes how to enable copy and paste functionality between the guest operating system and remote consoles.  This feature is disabled by default on esxi 4.1 and later.
+Step-by-step guide
+These steps were tested on ESXi 6.0
+
+Backup /etc/vmware/settings.cp /etc/vmware/settings /etc/vmware/<DATE>.settings
+
+vi /etc/vmware/settings
+Add these lines:
+isolation.tools.copy.disable = "false"
+isolation.tools.paste.disable = "false"
+
+
+Type :wq! to close the file
+Restart your VM.
+
+ 
+This setting will not survive a host upgrade. So if you upgrade your host, you will need to re-apply these changes.
+Related articles
+
+Related articles appear here based on the labels you select. Click to edit the macro and add or change labels.
+
+('contentbylabel' missing)
+('details' missing)
+
+Previous versions:
+| 1 
+| 2 
+|
+                    

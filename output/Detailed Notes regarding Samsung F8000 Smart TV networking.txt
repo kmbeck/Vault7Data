@@ -1,0 +1,109 @@
+
+                        Detailed Notes regarding Samsung F8000 Smart TV networking
+SECRET // REL USA,UK
+In developing a WiFi reconnect watchdog when TV enters Fake-Off mode, the following information was learned about how the TV is configured
+Kernel Drivers
+Two related kernel drivers
+
+cfg80211 – module shown as loaded by lsmod and as a kernel thread by ps
+ath6kl_usb – module shown as loaded by lsmod, depends on cfg80211, and shown as kernel thread by ps
+
+Contents of /mtd_cmmlib/WIFI_LIB/QCA/WIFI_INIT_VERSION_INFO are:
+WIFI:ATH6KL(3.5.2.14.0204)
+ 
+Notable Files and Directories:
+/etc/Scripts/wifi_restart.sh – calls /sbin/wifi_module_reset which is not yet fully understood
+iwconfig and ifconfig utilities are present on the system
+Network configuration parameters held in /mtd_rwarea/network/ directory
+
+network_Wired_info – holds configuration for eth0.  configuration remains there even when wlan0 is the active interface
+network_type_info – set to "CurrentType=0" for wired, or "CurrentType=1" for wireless
+wpa_sta.conf – contains wireless configuration parameters for the wpa_supplicant.  Stores (last used) WPA passphrase in plaintext regardless of which interface is active.  Appears to be in standard wpa_supplicant configuration file format
+entropy.dat – probably used with wpa_supplicant
+
+/mtd_cmmlib/WIFI_LIB/QCA/ directory
+
+
+iw – standard linux utility for interfacing with system's wireless networking.  Potentially useful commands:
+iw wlan0 info
+iw wlan0 scan
+iw wlan0 get_average_signal
+
+
+
+wpa_client – client for wpa_supplicant.  Potentially useful commands:
+wpa_cli help
+wpa_cli status
+wpa_cli ping
+wpa_cli list_networks
+wpa_cli reconfigure
+wpa_cli reassociate
+
+wpa_cli reauthenticate
+
+wpa_cli reconnect
+wpa_cli enable_network 0
+
+
+wpa_supplicant – daemon that handles wireless & WPA functionality
+
+
+Experiments with Network Configuration Transitions:
+
+Start: wireless connected, manually add IP to eth0 with ifconfig
+eth0 keeps IP while powered on and while in Fake-Off
+eth0 loses IP when TV powered back on
+
+
+Start: wireless connected, use SmartHub to switch to wired
+eth0 reconfigured using previously configured static IP address
+wlan0 interface loses IP address
+wpa_cli status => wpa_state=INACTIVE
+wpa_sta.conf retains previous wlan0 settings and WPA credentials
+wpa_cli list_networks => last network shown with ID = 0, but as "[DISABLED]"
+Not certain all commands are required, but was able to re-active wlan0 with the following command sequence (this did not work in Fake-Off), but may if allowed to let the system settle more:
+wpa_cli reconfigure (wpa_state changed to DISCONNECTED)
+wpa_cli reassociate (wpa_state changed to INACTIVE)
+wpa_cli enable_network 0
+wpa_cli reconnect (wpa_state changed to COMPLETED, no IP)
+wpa_cli reassociate (wpa_state stays COMPLETED, no IP)
+udhcpc -i wlan0 -t 5 -T 5 -b (assigns IP to wlan0 interface and responds to pings)
+
+
+
+
+Start: wireless connected, manually add IP to eth0 with ifconfig, enter Fake-Off
+eth0 stays active with manually assigned IP (very useful for inspecting the system when in Fake-Off)
+wlan0 interface deleted (shown with ifconfig -a)
+wpa_supplicant continues to run in the background
+udhcpc no longer running (it has been killed)
+wpa_cli status => wpa_state=DISCONNECTED
+wpa_cli list_networks => ID = 0 with flags of "[DISABLED]"
+Could not find a sequence of ifconfig wlan0 up, wpa_cli enable_network 0, wpa_cli reconnect, wpa_cli reassociate, or wpa_cli reauthenticate that would bring up wlan0 into the needed wpa_state=CONNECTED.  wpa_state=4WAY_HANDSHAKE was common.
+A process that did work was to kill/restart wpa_supplicant, and kill/restart udhcpc
+An observation that was not fully verified – it seemed that when entering Fake-Off, the wlan0 interface is disabled twice.  Once right-away, and a second time 1-3 minutes later.  This was observed when manually reseting wlan0 immediately after entering Fake-Off.  Although it initially worked, the fix didn't stick as it seemed that something came along and disabled it again.  After reseting it a second time, the interface appeared to stay up for a long period of time.  Further diagnosis was not done since the solution should periodically check and reset.
+
+
+Start: wireless connected, use SmartHub to disconnect from wireless (also not connected to wired)
+wpa_cli status => wpa_state=INACTIVE
+wlan0 retains IP address and displayed by ifconfig
+
+
+
+
+Related articles
+
+Related articles appear here based on the labels you select. Click to edit the macro and add or change labels.
+
+('contentbylabel' missing)
+SECRET // REL USA,UK
+
+Previous versions:
+| 1 
+| 2 
+| 3 
+| 4 
+| 5 
+| 6 
+|
+                    

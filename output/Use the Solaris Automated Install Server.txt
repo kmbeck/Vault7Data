@@ -1,0 +1,50 @@
+
+                        Owner: User #524297
+Use the Solaris Automated Install Server
+
+Describe when someone would need this information. For example "when connecting to wi-fi for the first time".
+Bypassing the use of any DHCPDynamic Host Configuration Protocol server SPARC Clients
+
+Not Verified
+For provisioning SPARC clients you can work around having to make any changes to the pre-existing DHCPDynamic Host Configuration Protocol server by giving the SPARC client,  through the its PROM, the client's network identity and the address of the AIArtificial Intelligence server. This information will enable the SPARC client to send a request to that server to boot and begin the install process. To set up this information in the boot PROM follow the instructions below. Note that the client to be provisioned does not have to be on the same subnet as the AI server.
+{b} ok setenv network-boot-arguments 
+host-ip=<client-ip>,router-ip=<router-ip>,\
+subnet-mask=<mask>,hostname=<name-of-client>,\
+file=http://<aiserver-ip>:5555/cgi-bin/wanboot-cgi
+{b} ok boot net - install
+where:
+
+
+client-ip is the IP address of system to have Solaris installed
+
+router-ip is the IP address of the router. If AIArtificial Intelligence server and client are on same private subnet, use the AIArtificial Intelligence server's IP. Typically the router is xxx.xxx.xxx.1 or xxx.xxx.xxx.254.
+
+subnet-mask is the network mask, e.g. 255.255.255.0.
+
+name-of-client is the hostname assigned to the client on which Solaris will be installed.
+
+aiserver-ip is the IP address of the AIArtificial Intelligence Server
+
+X86 Clients
+
+Verified
+
+Boot from Solaris 11.1 Automated Installer (AIArtificial Intelligence) DVDDigital Versatile Disk media.
+Select the first GRUB option for a "custom" install.
+When prompted for an URLUniform Resource Locator to the installer file, enter: http://10.3.2.188:5555/Solaris_11_1_X86/local_repo
+
+Allow installation to finish.
+Upon reboot, the System Configuration program will start, allowing you to configure the machine.
+
+
+Related articles
+
+Related articles appear here based on the labels you select. Click to edit the macro and add or change labels.
+
+('contentbylabel' missing)
+
+Previous versions:
+| 1 
+| 2 
+|
+                    

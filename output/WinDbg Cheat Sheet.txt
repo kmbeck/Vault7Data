@@ -1,0 +1,27 @@
+
+                        CLSIDs (Class IDs)
+LABEL PAGE: Child pages of this page will contain articles pertaining to Windows CLSIDs.
+ 
+
+('children' missing)
+
+Sub-Pages:
+
+
+CLSIDs Windows 8.1 Enterprise x64 with Office 2013 
+
+
+CLSIDs Windows 8 Enterprise x86 Office 2013 
+
+
+CLSIDs Windows 7 Ultimate SP1 x64 Office 2010 
+
+
+CLSIDs Windows 7 Professional x86 With Office 2010 
+
+
+
+Previous versions:
+| 1 
+|
+                    

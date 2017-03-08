@@ -1,0 +1,69 @@
+
+                        2015-12-11 Meeting notes
+Date
+
+Attendees
+
+User #14587707
+
+
+@mention a person to add them as an attendee and they will be notified.
+
+
+Goals
+
+Post-notification, New edit : The first goal is to test how version control works. Is it lock-based? Merge-based? What happens if someone else edits this document while I'm editing it?Adding addition information to this page <-- What is this line?
+Post-notification, Another edit : The second goal is to see how often the draft is being autosaved, and see if that plays into version control //JBG
+Post-notification, 3rd edit : The third goal is to see how autosaves push out to other editors. //JBG
+
+Post-notification, Last edit : I added a fourth goal //JBG
+
+
+THIS IS A NEW SECTION
+ 
+Discussion items
+
+
+Time
+Item
+Who
+Notes
+
+
+5min
+It's talking about merging changes, which should be interesting
+User #?
+It says the last edit by User #73364 was made 1 minute ago.
+
+
+25min
+Agenda Item
+
+User #? Gant
+
+User #? didnt like my idea
+
+
+Action items
+
+
+ID
+Status
+Task
+
+
+1
+incomplete
+Type your task here. Use "@" to assign a user and "//" to select a due date.
+
+
+
+Previous versions:
+| 1 
+| 2 
+| 3 
+| 4 
+| 5 
+| 6 
+|
+                    

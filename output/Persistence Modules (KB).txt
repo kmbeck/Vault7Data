@@ -1,0 +1,35 @@
+
+                        Owner: User #71468
+Service Persistence (PSEDService_CF - Constant Flow)
+SECRET//NOFORN
+ 
+OSB Library: Persistence
+
+Module Name: PSEDService_CF (Constant Flow)
+ 
+Module Description: This module installs the calling payload as a service and handles all appropriate Service Control Manager (SCM) interactions.  The calling payload does not have to do anything additional to exist as a service.  The calling payload simply calls PersistPayload and continues code execution flow as normal.  The module can also persist a DLLDynamic Link Library payload if being called by RunDLL32
+ 
+PSP/OS Issues: No known issues
+ 
+('excerpt' missing)
+
+Sharing Level: Unilateral
+ 
+Technique Origin: In-house
+ 
+Notes:
+
+Can only persist payload calling module, not an external payload
+Relies on payload creating a Event to wait on so SCM can gracefully exit service upon payload completion
+If calling payload exists before Event is set, could result in SCM reporting improper stopping of service
+Must install persistence with a service name
+
+ 
+SECRET//NOFORN
+
+Previous versions:
+| 1 SECRET
+| 2 SECRET
+| 3 SECRET
+|
+                    

@@ -1,0 +1,21 @@
+
+                        Persistent storage option
+On all UEFIUniversal Extendible Firmware Interface enabled computers, there are variables that control the boot process, the state of Secure Boot, and many other vendor-specific things.  These are called NVRAMNon-volatile Random Access Memory variables and are stored in flash memory.  The variables are described by both a GUIDGlobally Unique Identifier and name.  The variables can hold arbitrary data of any size up to the size of the flash chip.  The UEFIUniversal Extendible Firmware Interface spec reserves one specific GUIDGlobally Unique Identifier for common NVRAMNon-volatile Random Access Memory variables, but the rest of the GUIDGlobally Unique Identifier space (as far as I know) is open for use by anyone.  Microsoft Windows provides an APIApplication Programming Interface to get and set these variables called GetFirmwareEnvironmentVariableEx and SetFirmwareEnvironmentVariableEx.  To use them, you must be administrator and have the SE_SYSTEM_ENVIRONMENT_NAME privilege set in your token. 
+These variables present interesting opportunities for our tools since they will survive a OSOperating System reinstall and are invisible to a forensic image of the hard drive.  What's also interesting is that there is no way to enumerate NVRAMNon-volatile Random Access Memory variables from the OS...you have to know the exact GUIDGlobally Unique Identifier and name of the variable to even determine that it exists.  The variables are part of the BIOSBasic Input/Output System image mapped into kernel memory, so it is possible to enumerate them from the kernel if a PSPPersonal Security Product (Anti-Virus) knew where to look.  This might be a good place to put either implants or encryption keys.  If every implant deployment used a different GUID/name pair, it would make the variables a bit more difficult to discover.
+If an adversary had physical access to the computer, then reading the NVRAMNon-volatile Random Access Memory variables would be much easier.  They could turn off secure boot in the UEFIUniversal Extendible Firmware Interface menu and boot to a UEFIUniversal Extendible Firmware Interface shell, which has a command to list all NVRAMNon-volatile Random Access Memory variables.  This isn't something that just anyone would be able to do, and if someone were doing it they are probably suspicious anyway.
+
+Comments:
+
+
+2015-10-26 09:49 
+[User #1179857]: 
+
+This also survives an OSOperating System reinstall.
+
+
+
+Previous versions:
+| 1 
+| 2 
+|
+                    

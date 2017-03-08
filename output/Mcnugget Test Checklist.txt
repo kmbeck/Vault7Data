@@ -1,0 +1,12 @@
+
+                        EVE_EARTH String Obfuscation
+Add strings_encrypt.html
+open strings_encrypt.html in a browser
+cut & paste string to strings.js
+add an index in strings.js
+ 
+
+Previous versions:
+| 1 
+|
+                    

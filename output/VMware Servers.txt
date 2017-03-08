@@ -1,0 +1,28 @@
+
+                        Owner: User #1179825
+Console Servers
+
+Note:All console servers use the following login credentials...Username: adminPassword: DoYouEvenL1ft
+
+Rack 2 Console Server 
+IP Address: 10.9.9.22Host Name: console2Connect to console server via browser: http://10.9.9.22
+Rack 3 Console Server 
+IP Address: 10.9.9.23Host Name: console3Connect to console server via browser: http://10.9.9.23Rack 4 Console Server 
+IP Address: 10.9.9.24Host Name: console4Connect to console server via browser: http://10.9.9.24
+Rack 5 Console Server 
+IP Address: 10.9.9.25Host Name: console5Connect to console server via browser: http://10.9.9.25
+Rack 6 Console Server 
+IP Address: 10.9.9.26Host Name: console6Connect to console server via browser: http://10.9.9.26
+Rack 7 Console Server 
+IP Address: 10.9.9.27Host Name: console7Connect to console server via browser: http://10.9.9.27
+Rack 8 Console Server 
+IP Address: 10.9.9.28Host Name: console8Connect to console server via browser: http://10.9.9.28
+
+
+Previous versions:
+| 1 
+| 2 
+| 3 
+| 4 
+|
+                    

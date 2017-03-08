@@ -1,0 +1,27 @@
+
+                        Kaspersky "heapgrd" DLL Inject
+Overview
+The Kaspersky AVP.EXE process references a DLL called WHEAPGRD.DLL. This DLL is supposed to be located in one of the Kaspersky directories (which are protected by the PSP). Due to a UNICODE/ASCII processing mistake, the DLL name is prepended with the Windows installation drive letter, rather than the full path to the DLL. For typicall installations, this causes Kaspersky to look for the DLL “CWHEAPGRD.DLL” by following the standard DLL search path order. Loading our own DLL into the AVP process enables us to bypass Kaspersky’s protections.
+This vulnerability is limited to some of Kaspersky’s previous releases (on both XPWindows operating system (Version) and Win 7).
+Vunerable
+
+KIS 7
+KIS 8
+WKSTN MP3
+
+Not Vulnerable
+
+KIS 9+
+WKSTN MP4
+
+ 
+Source Code
+This vulnerability was originally provided to us by AFD (source), but is has now been publicly disclosed.
+
+Component Reuse
+GreyGoose
+
+Previous versions:
+| 1 
+|
+                    

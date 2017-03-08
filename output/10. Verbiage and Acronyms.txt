@@ -1,0 +1,39 @@
+
+                        Owner: User #1179751
+10. Verbiage and Acronyms
+ 
+SECRET//NOFORN
+Acronyms
+ 
+ERB (Engineering Review Board): When EDGEngineering Development Branch delivers a tool they present the tool's features, capabilities, and limitations at the ERB (held every Monday). There is also a review of the testing results (to include forensics) supplied by IV&V. It is also good to cover the CONOPS in which the tool is intended to operate. 
+ 
+QRC (Quick Reaction Capability): A QRC is a short-fuse, time sensitive operation in which tool development is needed. The requirement will have a priority rating of 1 if it is a QRC. QRC's usually last somewhere between 1 day to 3 months. 
+ 
+OOC (Out-Of-Cycle): An out of cycle delivery usually happens when a QRC lasts for less than a week. In that case, the tool is devlivered in an Out-Of-Cycle delivery (a much smaller group of people in a more dynamic setting). 
+ 
+TDR (Tool Delivery Review): A tool delivery review is somewhat synonymous with ERB/OOC. Normally, you will here them in the context of TDR Slides. These are a set of slides that describe the tool CONOPS, the requirement tied to the tool, capabilities and limitations, and approvals. 
+ 
+PMB (Program Management Board): The Program Management Board is the ERB for programs (vs projects). The PMB also differs in that tools/programs are under review (by the board) throughout development not just at tool delivery.
+ 
+WAR (Weekly Activity Report): A weekly activity report is a report to your direct supervisor describing the status (and light description) of everything you are currently working on. 
+ 
+IB (Infastructure Branch): Infrastructure branch helps provide support of both hardware and software needs, so if you need something just ask.
+ 
+IV&V (Independent Verification & Validation): IV&V is the independent testing body of EDG. Generally, before you deliver a tool it will go through IV&V. During this process the tool is tested to ensure it meets all functional requirements as well as platform and security product compatibility. Forensic inspection of the tool is also provided by IV&V.
+ 
+MRB (Mission Requirement Board): The Mission Requirements Branch is embedded in COGComputer Operations Group and supports the generation of formalized requirements as well as all coordination between EDGEngineering Development Branch and customers. 
+ 
+PSP (Personal Security Product): This is any software that is intended to defend or secure the target system (anti-virus and anti-malware products).
+
+
+ 
+SECRET//NOFORN
+
+
+Previous versions:
+| 1 empty
+| 2 
+| 3 
+| 4 
+|
+                    

@@ -1,0 +1,19 @@
+
+                        Owner: User #1179825
+VMware Servers
+vCenter Server
+Name: vCenter.loki.labIP Addres: 10.9.9.30Username: rootPassword: NDBrul3s!
+
+
+Note:All ESXi servers use the following login credentials...Username: rootPassword: NDBrul3s
+ESXi Servers 
+Name: ESXi-1.loki.labPhysical location: Rack 2-15/16Running VMware ESXi 5.5.0 (VMKernel Release Build 2068190)IP address: 10.9.9.31
+Name: ESXi-2.loki.labPhysical location: Rack 2-13/14Running VMware ESXi 5.5.0 (VMKernel Release Build 2068190)IP address: 10.9.9.32
+Coming Soon...Name: ESXi-3.loki.labPhysical location: Rack 2-11/12Running VMware ESXi 5.5.0 (VMKernel Release Build 2068190)IP address: 10.9.9.33
+Coming Soon...Name: ESXi-4.loki.labPhysical location: Rack 2-9/10Running VMware ESXi 5.5.0 (VMKernel Release Build 2068190)IP address: 10.9.9.34
+
+Previous versions:
+| 1 
+| 2 
+|
+                    

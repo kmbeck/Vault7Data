@@ -1,0 +1,60 @@
+
+                        Owner: User #11628962
+Test Infrastructure
+ 
+
+HarpyEagle is currently focused on investigating the Apple AirPort Extreme and AirPort Time Capsule routers for avenues of access to the filesystem.
+
+
+Note: When a device is being tested in bridged mode, the LAN-side switch port (17/19) must be shut or the cable disconnected from the switch. Otherwise, two VLANs will be connected together and error messages on the switch will result.
+
+Port Analysis
+
+External Network Communications Analysis
+A DHCPDynamic Host Configuration Protocol and DNSDomain Name System server were connected to the WANWide Area Network port of the device and, over the course of testing, the device performed DNSDomain Name System look-ups for the following URLs:
+
+1-courier.push.apple.com1-courier.sandbox.push.apple.comalbert.apple.comapi.smoot.apple.comapple.comapsu.apple.comax.init.itunes.apple.comax.itunes.apple.comcaptive.apple.comcl1.apple.comconfiguration.apple.comcourier.sandbox.push.apple.comcrl.apple.comgsp1.apple.comgspe35-ssl.ls.apple.comhelp.apple.cominit.ess.apple.cominit.itunes.apple.cominit-p01md.apple.cominit-p01st.push.apple.cominternalcheck.apple.comiphonesubmissions.apple.commesu.apple.comp25-buy.itunes.apple.comphobos.apple.compush.apple.comradarsubmissions.apple.comswscan.apple.comtime.apple.comwww.apple.comxp.apple.com
+www.google.comxquartz.macosforge.comsd.symcb.com
+
+
+Initialization Sequence (incomplete)
+
+ 
+URL
+Description and/or Assumptions
+
+
+1
+apsu.apple.com/versions.xml
+Get version information
+
+
+2
+apsu.apple.com/versions.xml.signature
+Get version information signature
+
+
+3
+phobos.apple.com/bag.xml?ix=5
+Resolves to "ax.init.itunes/WebObjects/MZinit.woa/wa/initiateSession?ix=5"
+
+
+4
+www.apple.com/root.crl
+Get root certificate revocation list
+
+
+5
+crl.apple.com/codesigning.crl
+Get code signing certificate revocation list
+
+
+6
+init.ess.apple.com/WebObjects/VCInit.woa/wa/getBag?ix=1
+unknown
+
+
+
+
+ 
+                    

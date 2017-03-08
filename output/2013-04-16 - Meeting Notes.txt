@@ -1,0 +1,50 @@
+
+                        Owner: User #524297
+2013-04-16 - Meeting Notes
+Date
+16 April 2013
+Attendees
+User #524297
+Goals
+Goal:  To investigate content management and source control on DEVLAN. 
+Discussion Items
+
+
+Time
+Item
+Who
+Notes
+
+
+5min
+Agenda item
+Name
+Notes for this agenda item
+
+
+ 
+ 
+ 
+ 
+
+
+Action Items
+
+
+ID
+Status
+Task
+
+
+1
+complete
+
+User #524297 : Install demo versions of Atlassian products on DEVLAN.
+
+
+
+Previous versions:
+| 1 
+| 2 
+|
+                    

@@ -1,0 +1,29 @@
+
+                        Owner: User #20251227
+2016-02-01 Retrospective
+
+
+('details' missing)
+Retrospective
+
+
+
+What did we do well?
+
+We lost 2.5 days to snow/weather, seemed to handle it ok.
+Was able to pull in separate stories by a little bit of luck w/r/t SQLAlchemy stuff on backend.
+Customer Involvement/follow-up/comms was really good (particularly w/r/t reqs)
+
+
+
+What should we have done better?
+
+developed weather control tech
+still need a better model to express stories whose completion depends upon outside forces.
+
+
+
+
+What will we do differently next time to improve?
+
+                    

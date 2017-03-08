@@ -1,0 +1,29 @@
+
+                        Concepts: Git/Stash/Submodules
+ 
+Git repositories will hold all of the libraries. Each library will have a primary maintainer. Stash will be the interface used for any code review.
+ 
+Branch Descriptions:
+Master Branch: Official releases to be used by everyone else (requires pull request for merge, minimum library maintainer and 1 architect approver).
+Develop Branch: Stable branch that could be used if cutting edge functions are required for a project. Requires pull request for merge with 2 code reviewers.
+Feature Branch: Any state. Wild west.
+Bug Fix Branch: Comes off master and is integrated into Master and Develop
+ 
+Each Library exists as a Git Submodule. Some submodules may require others. Documentation should point out all of the dependencies of a library (responsibility of library maintainer).
+ 
+Related articles
+
+Related articles appear here based on the labels you select. Click to edit the macro and add or change labels.
+
+('contentbylabel' missing)
+
+Comments:
+
+
+2014-09-18 08:54 
+[User #524297]: 
+
+References: Git Workflows   (specifically Git Flow) for more description of branch management. (original paper here: successful-git-branching-model.pdf)
+
+
+                    

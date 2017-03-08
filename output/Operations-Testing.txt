@@ -1,0 +1,37 @@
+
+                        Owner: User #14587612
+Cannoli v2.0
+Supported platforms
+
+MIPSBE
+MIPSLE
+PPC
+X86
+ARM5 LE
+
+Platforms needed for next version
+
+ARM7 LE
+TileGX
+
+ 
+JIRA tickets
+cppcheck analysis  
+
+Sub-Pages:
+
+
+JQJCALIBAR - ZXHN-F660 
+
+
+JQJPRIZE - ASUS AC68U 
+
+
+cppcheck analysis 
+
+
+
+Previous versions:
+| 1 
+|
+                    

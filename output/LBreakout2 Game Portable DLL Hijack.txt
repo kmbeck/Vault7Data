@@ -1,0 +1,18 @@
+
+                        Owner: User #71468
+LBreakout2 Game Portable DLL Hijack
+Another silly game..
+Procmon screenshot:
+
+KBDUS.dll and AUDIOSES.dll are the best two options.  Their function's are well documented on MSDN.
+Interestingly enough, the EXE has no problem with returning FALSE from PROCESS_ATTACH for either of these DLLs...
+
+Attachments:
+
+lbreakout2 procmon.png
+
+
+Previous versions:
+| 1 
+|
+                    

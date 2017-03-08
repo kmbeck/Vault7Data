@@ -1,0 +1,82 @@
+
+                        Owner: User #15728648
+Bootstrapper (FURTIVESYRINGE) Design
+
+('toc' missing)
+Any comments / useful critiques are welcome!
+
+For the first version of this refactor, all the "modules" listed below will be statically compiled into the daemon. Eventually I will support dynamic loading/unloading of modules from a file/memory.
+The goal is to provide the following functionality:
+Process Injection
+IPC between processes
+Codesign hash additions
+Uninstall
+Key deriviation
+
+
+
+API Header File
+Here's the current Android Implementation
+Bootstrapper
+
+Daemon Providing Services
+
+Injection Module
+
+
+Comments:
+
+
+2016-02-10 10:23 
+[User #16384660]: 
+
+In the Daemon diagram .. the should uninstall should be a choice off the found implant -> yes branch right?
+In injection module .. if the daemon doesn't already have an existing send right you run a get task? is this supposed to get the send right for the client?
+
+
+2016-02-04 09:38 
+[User #16384660]: 
+
+My thoughts:
+
+Bootstrapper diagram: it might be clearer to have a box that says something like “Report Failure” so it is clear which branches are the failure cases. (Same with the Injection Module diagram)
+Daemon Services diagram:
+Run implant detection module before attempting uninstall so we don't try an uninstall if we aren't there?
+I do not understand what the outputs after the "Found Implant" conditional block do. What happens in the event loop if the implant is not found? Are the outputs of this conditional reversed?
+
+
+Injection Module diagram:
+Is this the same as SAL?
+Are the steps in the lower half of the diagram just some of the details of establishing bidirectional ports? If so, might want to remove the "establish bidirectional ports" block and maybe surround these steps by a square stating that is the subprocess they describe.
+
+
+Can you put some kind of special component blocks in the first two diagrams to indicate that there are subdiagrams detailing the blocks for Daemon Services and the Injection Module?
+Is there a write-up anywhere of what Furtive Syringe is? I've got some solid guesses, but a three sentence thing at the top of this page saying what it is and what each of the three components does would be great.
+Nice diagram!
+
+
+
+
+Attachments:
+
+
+Bootstrapper.png
+
+
+Daemon.png
+
+
+Injection.png
+
+
+
+Previous versions:
+| 1 
+| 2 
+| 3 
+| 4 
+| 5 
+| 6 
+| 7 
+|
+                    

@@ -1,0 +1,58 @@
+
+                        Owner: User #13763861
+Reflash Device Procedure
+TOP SECRET//NOFORN
+(U) General Description
+(U//FOUO) The purpose of this page is to set forth the requirements and conditions that must be followed by DEVLAN lab administrators and user. This page describes the basic procedures to be followed for the initial setup, configuration, update, activation, jailbreak, and/or rooting of cell phones before they are connected to equipment that is connected to DEVLAN. The below steps shall be followed.
+(U) Condition
+(TS/NF) IOC/EDG develops software exploits and implants for high priority target cell phones for intelligence collection. The completed software implants must be tested on an exact version (hardware and software) of the target phone to ensure correct operation and stealth. EDGEngineering Development Branch purchases phones through a non-attributable source but it is generally not possible to purchase them with a specific operating system version so we must restore an older version on the phone. Additionally, phones will become corrupted as a result of normal exploitation/development activities and we will need to restore the firmware, jailbreak, activate, and configure a phone (it is simply not possible to purchase additional/new copies of some older phones or phones from restricted locations). These activities must be completed by connecting the phone to a computer on the Internet using a USBUniversal Serial Bus cable, a WiFi connection, or directly through a cellular connection. The manufacturers do not provide a means for downloading the phone firmware and tools for this to be performed off-line. We currently  only perform the jailbreak, activate, and configure on new phones but we have reached the point where new phones are not available for specific versions of the operating system that we need. The only course of action left is to use an existing phone, clear it of any sensitive information, and connect that to the Internet for firmware update/downgrade, jailbreak, activate, and configuring required to obtain the needed phone configuration.
+(U) Procedure
+(U) Part 1 - Functional Device
+(U//FOUO) Generally the phones used for development work have NO classified data stored on them, but they have been connected to a classified developer network, so the phone must be inspected and cleaned of any classified information. Most mobile devices support reduced functionality modes for firmware restoration. This reduces the likelihood of information leakage.
+
+(U) Clear the phone of classified information by:
+(U) Removing all data files (if any) from phone,
+(U) Deleting all traces of development activity (proceses, development code, etc),
+(U) Deleting all crash logs,
+(U) And checking the phone for an option to either "Delete all user data" or "Restore to Factory Condition" and running it.
+
+
+(U) Get someone else with access to the classified network (DEVLAN) to inspect the device for the above.
+(U) Log the phone's inventory or serial number, date, your name, name of verifier, etc on DEVLAN (see Reflash Log  CONFIDENTIAL)(U//FOUO) This phone is TEMPORARILY approved for connection to the unclassified network (the Internet) for updating the firmware or operating system, activation, rooting or jailbreak, and configuration.
+(U) Connect to the Internet (using existing USBUniversal Serial Bus connection, or WiFi, or cellular) in recovery/restore mode. 
+Complete all necessary activities.
+The device is no longer approved for connection to the unclassified network (Internet). Return it to the classified network (DEVLAN).
+
+(U) Part 2 - NON-Functional Device
+(U//FOUO) If the phone is non-functional then you cannot directly delete any possible classified data. If possible, re-flash the entire firmware with an old (any) version of the operating system on the classified network (DEVLAN). Re-flashing will overwrite all stored data.
+
+(U) Re-flash the phone operating systemSee Reflash iOS Device   for instructions specific to iOS devices (iPhones, iPads, and iPods).
+
+(U) Get someone else with access to the classified network (DEVLAN) to inspect the device for the above.
+(U) Log the phone's inventory or serial number, date, your name, name of verifier, etc on DEVLAN (see Reflash Log  CONFIDENTIAL)(U//FOUO) This phone is TEMPORARILY approved for connection to the unclassified network (the Internet) for updating the firmware or operating system, activation, rooting or jailbreak, and configuration.
+(U) Connect to the Internet (using existing USBUniversal Serial Bus connection, or WiFi, or cellular) in recovery/restore mode. 
+Complete all necessary activities.
+The device is no longer approved for connection to the unclassified network (Internet). Return it to the classified network (DEVLAN).
+
+TOP SECRET//NOFORN
+ 
+
+Sub-Pages:
+
+
+Reflash iOS Device 
+
+
+Reflash Log CONFIDENTIAL
+
+
+
+Previous versions:
+| 1 
+| 2 
+| 3 TOP SECRET
+| 4 TOP SECRET
+| 5 TOP SECRET
+| 6 TOP SECRET
+|
+                    

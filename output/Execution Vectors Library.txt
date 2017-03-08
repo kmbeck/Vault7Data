@@ -1,0 +1,73 @@
+
+                        Miscellaneous Library
+SECRET//NOFORN
+ 
+Misc API
+<iframe src="https://osb-doxygen.devlan.net/misc/" noborder="0" width="100%" height="1000" scrolling="yes" seamless></iframe>
+ 
+Stash Repository: Miscellaneous Library
+ 
+Miscellaneous Library: The Miscellaneous Library (EDGEngineering Development Branch APIApplication Programming Interface) is a collection of functions and classes that are useful in the development of modules in multiple libraries. These code snippets include everything that isn't comprehensive enough to fit in another library (a smaller set of functionality). There are no defined interfaces or error codes for the Miscellaneous Library. All module documentation for the library should be placed in the AEDApplied Engineering Devision Knowledge Base.
+ 
+All Miscellaneous modules should start with MISC and have a descriptive name.
+ 
+Example: MISCFolderAccessControl_SVI
+ 
+MISC = Miscellanous Module
+FolderAccessControl = Modifies the ACLAccess Control List of a file or directory
+_SVI = System Volume Information - Generated in order to unlock and relock System Volume Informatiom directories (A crypt name/abbreviation is needed to differentiate between modules that do similar or the same things in different ways).
+ 
+Module List:
+ 
+Lock and Unlock System Volume Information (MISCFolderAccessControl_SVI)
+Convert to UTF-8 (String Encoding Class - MISCStringEncoder_WIN32)
+Capture and Reset File State (MISCFileStateCapture_WIN)
+Text File Typing - Determing Encoding (MISCTextFileTyper_ENC)
+
+ 
+foo
+ 
+
+Giraffe Link Files (MISCLinkWriter_GRF)
+
+Volume to Drive Partition (MISCGetActiveDrivePartition_IOCTL)
+Get File Major/Minor Version Numbers (MISCFileVersion_WIN32)
+Create, Delete, and Write Registry Values (MISCCreateRegistryEntries_WIN32)
+Get User Account Control (UACUser Account Control) Level (MISCUserAccountControlLevel_WIN32)
+
+List Installed Windows Updates (MISCEnumerateUpdatesCOM_OFF)
+List Installed Window Updates on WSUSWindows Server Update Service Connected Machines (MISCEnumerateUpdatesCOM_WSUS)
+List Installed Windows Updates via WMIWindows Management Instrumentation (MISCEnumerateUpdatesWMI_QFE)
+
+
+Verify User is in the Administrator Group via Net User APIApplication Programming Interface (MISCIsUserInAdminGroup_NET)
+
+Get Current User And Domain (MISCUserAndDomain_TOK)
+ 
+ 
+
+
+
+Memory Searching - Naive Sequence Search (MISCMemorySearch_NSS)
+
+Use COM to Create a 32-bit Process on 64-bit Windows (MISC32Surrogate_COM)
+Create Directory With Attributes and Create Parent Directories (MISCDirectoryCreator_NTV)
+
+Relative Path Generation (MISCRelativePathGenerator_CUST)
+SECRET//NOFORN
+
+Previous versions:
+| 1 SECRET
+| 2 SECRET
+| 3 SECRET
+| 4 SECRET
+| 5 SECRET
+| 6 SECRET
+| 7 SECRET
+| 8 SECRET
+| 9 SECRET
+| 10 SECRET
+| 11 SECRET
+| 12 SECRET
+|
+                    

@@ -1,0 +1,43 @@
+
+                        Owner: User #71468
+Run and RunOnce Registry Key Persistence (PSEDRunKey_QW - Quick Work)
+SECRET//NOFORN
+ 
+OSB Library: Persistence
+
+Module Name: PSEDRunKey_QW (Quick Work)
+ 
+Module Description: This module creates a registry key entry with a command line that runs each time a user logs on.  This is the "standard" Windows way to have programs run at start-up.  If running as Administrator or SYSTEM, the key will be written in HKEY_LOCAL_MACHINE, causing execution upon boot up.  Otherwise, the key will be written in HKEY_CURRENT_USER, causing execution to occur only when the current user logs in.  The module allows the user to specify whether the command should be written to the Run or RunOnce registry folder.  Keys written to RunOnce will be removed after calling and thus the code should perpetually re-write to RunOnce on execution in order to persist.  Keys written to the Run folder will not be removed.  The module writes to one of the following registry keys:
+ 
+
+HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Run
+HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Run
+HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\RunOnce
+HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\RunOnce
+
+
+PSP/OS Issues: No known issues
+ 
+('excerpt' missing)
+ 
+Sharing Level: Unilateral
+ 
+Technique Origin: Internet/open-source (Well-known)
+ 
+Notes:
+
+The module uses IsUserAnAdmin() to determine if key can be written to HKEY_LOCAL_MACHINE
+Setting isDLL flag to true prepends "rundll32.exe" and appends ordinal entry number
+Prefixing wcKeyValueName with "*" (asterisk) will cause command to execute in Safe Mode (otherwise detault is to ignore in Safe Mode)
+
+ 
+SECRET//NOFORN
+
+Previous versions:
+| 1 SECRET
+| 2 SECRET
+| 3 SECRET
+| 4 SECRET
+| 5 SECRET
+|
+                    

