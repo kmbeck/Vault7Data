@@ -1,8 +1,9 @@
 
                         Owner: User #71473
-Comodo 6.X Gaping Hole of DOOM
-Comodo, as you may know, is a colossal pain in the posterior.  It literally catches everything until you tell it not to, including standard windows services (say what?!?).
-...at least, that's what happens on Comodo 5.X.  In 6.X, Comodo apparently decided that catching things that were part of windows was a Bad Thing(tm).  Their "fix" was... kinda lame
-Anything running as SYSTEM is automatically legit under 6.X.  ANYTHING.  Let that sink in.  Got a kernal level exploit?  Good, because you can drop the kitchen sink and the contents of your garage and as long as you continue to run as SYSTEM you are golden.  Yeah.
-Needless to say, Comodo 6.X doesn't catch nearly as much stuff.  Comodo's user base, paranoid bastards that they are, has apparently caught wind of this and lots of them haven't upgraded to 6.X.  Kind of a shame, cuz this is a hole you could drive a very large wheeled freight carrying vehicle through.  However, if you're lucky enough to be going against a target running 6.X, have fun!
+Comodo Recycle Bin Defeat
+Comodo is a giant PITA.  It can and will catch and show your entire chain of execution and a great deal of your file I/O.  If you drop and run, it will show where you drop, what you run, and what you run runs.  Yeah, its that bad.
+However...
+There is a magical place that for some reason Comodo likes to ignore.  The Recycle Bin.  You know, that folder of stuff users have deleted?  Stuff that probably has no business executing at all, let along dropping and running other code?  Yeah – they like to ignore initial execution out of that bad boy.
+So, if Comodo is being a pain (i.e., working as intended), try throwing your binaries into C:\$Recycle.Bin (Win Vista/7/8) or C:\RECYCLER (XPWindows operating system (Version)).  You don't even have to throw it into any of the actual user's recycle bin folders (the ones with the ginormously long SIDs as folder names), just in the root of the recycle bin itself is fine.
+Please note that this is only a partial defeat.  It may let you get away with initial execution, but other things you do once running could still get caught.  Comodo is annoying like that.  Test, test, retest, and may the force be with you.
                     

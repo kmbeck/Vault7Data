@@ -50,3 +50,30 @@ class WebCrawler:
             print('Request on: ' + tgtURL + ' -- FAILED')
             self.failedReqs += 1
             return None
+
+    # Reqeusts and returns file data from target url.
+    def requestFileData(self, tgtURL):
+ 
+        # Wait before making request. Wait time based on response time of
+        # server.
+        time.sleep(self.prevResponseTime * self.reqRateFactor)
+
+        # Request page.
+        start = time.time()
+        data = requests.get(tgtURL, self.headers)
+        end = time.time()
+        
+        # Update data/metadata.
+        self.prevResponseTime = end - start
+        self.reqsMade += 1
+        
+
+        if data.status_code == 200:
+            print('Request on: ' + tgtURL + ' -- SUCCESS')
+            self.successfulReqs += 1
+            return data
+        else:
+            print('Request on: ' + tgtURL + ' -- FAILED')
+            self.failedReqs += 1
+            return None   
+

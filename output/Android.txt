@@ -1,19 +1,19 @@
 
-                        MDB
-
-https://confluence.devlan.net/display/mobile/MDB+static+leases
- 
-
+                        General Android Info, Tips and Tricks
 
 Sub-Pages:
 
 
-MDB static leases 
+selinux 
 
 
+adb shell commands 
 
-Previous versions:
-| 1 
-| 2 
-|
+
+Installing APK 
+
+
+Android USB reverse tethering 
+
+
                     

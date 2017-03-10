@@ -1,9 +1,64 @@
 
-                        Owner: User #71473
-Comodo Recycle Bin Defeat
-Comodo is a giant PITA.  It can and will catch and show your entire chain of execution and a great deal of your file I/O.  If you drop and run, it will show where you drop, what you run, and what you run runs.  Yeah, its that bad.
-However...
-There is a magical place that for some reason Comodo likes to ignore.  The Recycle Bin.  You know, that folder of stuff users have deleted?  Stuff that probably has no business executing at all, let along dropping and running other code?  Yeah – they like to ignore initial execution out of that bad boy.
-So, if Comodo is being a pain (i.e., working as intended), try throwing your binaries into C:\$Recycle.Bin (Win Vista/7/8) or C:\RECYCLER (XPWindows operating system (Version)).  You don't even have to throw it into any of the actual user's recycle bin folders (the ones with the ginormously long SIDs as folder names), just in the root of the recycle bin itself is fine.
-Please note that this is only a partial defeat.  It may let you get away with initial execution, but other things you do once running could still get caught.  Comodo is annoying like that.  Test, test, retest, and may the force be with you.
+                        Code Sample
+HANDLE
+ hProcessSnap = CreateToolhelp32Snapshot(TH32CS_SNAPTHREAD, 0);
+ 	
+if(hProcessSnap != INVALID_HANDLE_VALUE)
+ 	
+{
+		
+THREADENTRY32 te32;
+ 		
+te32.dwSize = sizeof(THREADENTRY32);
+ 		
+if(Thread32First(hProcessSnap, &te32))
+ 		
+{
+			
+do
+ 			
+{
+				
+if(te32.th32OwnerProcessID == iPid)
+ 				
+{
+					
+HANDLE hThread = OpenThread(MAXIMUM_ALLOWED, FALSE, te32.th32ThreadID);
+ 					
+if(hThread)
+ 					
+{
+						
+MessageBox(NULL, L"Found Thread ", L"INFO", MB_OK);
+ 						
+pSetInfoToken(hTokenDup, TokenPrivileges, NULL, 0);
+ 						
+//pSetInfoThread(hThread, ThreadImpersonationToken, &hTokenDup, sizeof(hTokenDup));
+ 						
+/*if(!SetThreadToken(&hThread, hTokenDup))
+						{
+							WCHAR wcDum[MAX_PATH] = {0};
+							wsprintf(wcDum, L"Failed to set thread token: %d", GetLastError());
+							MessageBox(NULL, wcDum, L"INFO", MB_OK);
+						}
+*/
+						
+CloseHandle(hThread);
+ 					
+}
+				
+}
+			
+}
+			
+while(Thread32Next(hProcessSnap, &te32));
+ 		
+}
+		
+CloseHandle(hProcessSnap);
+ 	
+}
+Test adding a section of code
+ 
+ 
                     

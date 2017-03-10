@@ -1,9 +1,36 @@
 
                         Owner: User #71473
-AVG Fake Installer Trick
-AVG will sometimes heuristically identify Raptor/Melomy/Ferret trojans as, well, Trojans (duh).  However, in many cases this heuristic detection can be avoided by renaming the .exe to a common installer name such as setup.exe.  There may be other names that can be used – Windows itself recognizes a few "installer" exe names and slaps the little shield icon on there by default and also does that weird "this program didn't install correctly" popup, which can be elminated with some manifest-fu.
+PSPs vs. DLL Injection
+SECRET//NOFORN
+ 
+ 
+PSPs have various levels of protections against injecting code into common processes.  Most PSPs appear to have a decent level of protection against their own running processes, and some protect various windows processes as well.  Here's what we have observed to date:
+
+
+Kaspersky:
+When running as SYSTEM, Kaspersky protects several Windows system processes that are ordinarily accessible: wininit.exe, csrss.exe and lsass.exe are all locked down.  Kaspersky does not appear to protect svchost.exe processes.  Additional research is needed to nail down exactly which processes are open for manipulation, but most SYSTEM process that can cause an immediate bluescreen are protected.
+Kaspersky does not appear to protect user processes at all.  Explorer and dwm are both open for injection.  The Kaspersky sandbox, however, does appear to flag the injection of some types of payloads, so a KAV sandbox defeat prior to injection is recommended.
+
+
+
+AVG: AVG appears to protect explorer.exe.  It may also detect injection as malicious activity via the sandbox, so a sandbox defeat prior to injection is recommended.  We were able to successfully defeat the AVG sandbox with a large (100MB) malloc followed by a memset and free.
+
+Bitdefender: Bitdefender appears to protect explorer.exe.
+
+Rising: Flags injection into explorer.exe
+
+ 
+For those processes that block injection into explorer.exe, we have had varying levels of success doing the following:
+
+Create a non-suspended process with a hidden window then inject into the process.  Some PSPs will flag this.  Others flag the hidden window. (low success)
+Create a suspended process with notepad.exe, cmd.exe or some other common binary, then inject into the suspended process.  Some PSPs still block the injection and thread creation (medium success)
+Create a suspended process using the PSPs own binaries.  We specifically target the HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall keys for the target PSPPersonal Security Product (Anti-Virus) and identified the uninstall binary from either the DisplayIcon or UninstallString values.  This was successful against AVG, Bitdefender and Rising. (great success!)
+
+ 
+ 
+SECRET//NOFORN
 
 Previous versions:
-| 1 
+| 1 SECRET
 |
                     

@@ -1,6 +1,40 @@
 
                         Owner: User #71473
-Bitdefender Resource Defeat
-If Bitdefender is complaining about a tool and you've tried (and succeeded) to get Bitdefender to stop complaining by stripping out your configuration resources, try changing the resource type from RC_DATA to BITMAP instead.  It just might give you a pass.
-This seems to be an entropy based check – cleartext resources or simple RXOR-ed resources don't seem to cause Bitdefender to trip.
+Anti-Sandboxing: Wait for Mouse Click
+Overview
+The Trojan Upclicker (as reported by eEye) uses the SetWindowsHookExA API with the WH_MOUSE_LL parameter to wait until the user lets up the left mouse button (WM_LBUTTONUP) before performing any malicious functionality (then it injects into Explorer.exe).
+A sandbox environment that does not mimic mouse actions (probably most of them) will never execute the malicious behavior. This is probably effective against Kaspersky and others.
+ 
+Source
+The Trojan Upclicker
+ 
+Component Reuse
+None
+
+Comments:
+
+
+2015-08-03 15:59 
+[User #71473]: 
+
+Good call.  Thanks for the cleanup.
+
+
+2015-08-03 05:56 
+[User #524297]: 
+
+done, should probably link around rather than create copies. have theirs link here or vice versa
+get User #4849738 to make you a Confluence poweruser.
+
+
+2015-07-31 16:49 
+[User #71473]: 
+
+So, uh, I tried to copy this so I could move the copy over to Detecting and Bypassing Personal Security Products (PSPs)  , but it won't let me move it.  Can one of y'all fine RDBers do me a solid and move it over?  Thanks!
+
+
+
+Previous versions:
+| 1 
+|
                     

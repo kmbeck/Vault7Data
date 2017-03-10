@@ -1,80 +1,32 @@
 
-                        Owner: User #71473
+                        Owner: User #524297
+Collaboration and Partnership Efforts
+ 
+Conferences
+NSA CNE-DEV
 
-User #71473's Home
+Workshops
 
 
+Joint Development Workshop - Joint Development Workshop with UK Partners
+HANDEX
+HANDRE
+SPARK Hackathon - Small Sensor Workshop
 
+
+Technical Knowledge Sharing
+
+
+NERDS (Networking, Engineering, Research, and Development Symposium)  
+
+Brown Bag Sessions
 
  
-Noob: Opposite of Pro 
- 
- 
- 
- 
- 
- 
- 
- 
- 
-
-
-About Me (User #71473)
-
-Ecstatically happy to no longer be AC/OSB
-Voted "Best Mujahideen User #71493" 6 years running
-Resident Curmudgeon #getoffmylawn
-
- 
-Ask me about:
-
-Detours
-PE File infector shellcode
-Windows RawInput API
-Fingerprinting CD-ROMs
-Fire and Forget
-JPEG EXIF Metadata (including GPS coords)
-Identifying Windows MBRMaster Boot Record Boot disks and trashing their MBRs in interesting ways
-Defeating idiotic entropy based PSPPersonal Security Product (Anti-Virus) heuristics
-Care and Feeding of User #71493
-
-
- 
-Quote of the Year (2013):
-"Yeah, there's an undocumented way to do it properly..." - User #4849738
-Quote of the Year (2014):
- "Mission don't pay the bills" - User #54198274
-
-
-
-('recently-updated' missing)
-
-
-
-Navigate space
-
-('pagetreesearch' missing)
-
-('pagetree' missing)
-
-
 
 Sub-Pages:
 
 
-HammerDrill SECRET
-
-
-User #76722's awesome tool names page 
-
-
-TODO: Something SECRET
-
-
-File lists 
-
-
-User #71473 Home 
+NERDS (Networking, Engineering, Research, and Development Symposium) 
 
 
 
@@ -83,8 +35,5 @@ Previous versions:
 | 2 
 | 3 
 | 4 
-| 5 
-| 6 
-| 7 
 |
                     

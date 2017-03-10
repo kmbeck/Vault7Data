@@ -1,57 +1,212 @@
 
-                        Owner: User #17072267
+                        Owner: User #14587667
 
-User #77281’s Home
+User #73506's Task List
 
-
-About Me (User #77281)
-You may edit this page to include additional information about yourself.
-E-mail: None
+('tasks-report-macro' missing)
+Task List
 
 
+ID
+Status
+Task
 
 
-('recently-updated' missing)
+22
+incomplete
+
+User #14587667 Create a "whatismyip" server which echos the browser's IP address.
 
 
-Navigate space
+29
+incomplete
 
-('pagetreesearch' missing)
+User #14587667 Easily diff custom RANCID commands
 
-('pagetree' missing)
+
+28
+incomplete
+
+User #14587667 Tag VMs with OSOperating System version tag
+
+
+23
+complete
+
+User #14587667 Configure automatic putty logging
+
+
+24
+complete
+
+User #14587667 Squid proxy setup (dabproxy)
+
+
+25
+complete
+
+User #14587667 SSHSecure Shell PortForwarding (dabproxy)
+
+
+26
+complete
+
+User #14587667 Rancid script to automatically create new projects/tests
+
+
+27
+complete
+
+User #14587667 Migrated VMs still attempting to talk to old vCenter server.
+
+
+21
+complete
+
+User #14587667 Set up custom priority field in JIRA
+
+
+19
+complete
+
+User #14587667 How will importing PW's JIRAUser Managment Software (Atlassian) impace EIB's JIRAUser Managment Software (Atlassian) instance (concerned about global values like priority, etc)
+
+
+20
+complete
+
+User #14587667 Setup RANCID for multiple groups.  Each test will be its own group.
+
+
+16
+incomplete
+
+User #14587667 CACovert Action Server
+
+
+17
+complete
+
+User #14587667 RSPAN with VMware
+
+
+18
+incomplete
+
+User #14587667 Query VMVirtual Machine Status (CheckDemos script)
+
+
+15
+incomplete
+
+User #14587667 How do you set PowerShell to run as Admin by default
+
+
+12
+incomplete
+
+User #14587667 How do we manage script versions and distribute them to the appropriate destinations (ie. Lab workstations). A: Use VMware Orchestrator
+
+
+13
+complete
+
+User #14587667 Pack-Gen VMVirtual Machine not responding when Terminal opened
+
+
+14
+complete
+
+User #14587667 Investigate how to use Pack-Gen
+
+
+9
+complete
+User #14587667 Setup Mercurial server (SCM Manager)
+
+
+10
+incomplete
+
+User #14587667 Add vmnic2 to ESXi hosts (NDBNetwork Devices Branch lab)
+
+
+8
+incomplete
+
+User #14587667 Fix HTTPSHypertext Transfer Protocol Secure cert error (vCenter)
+
+
+5
+complete
+
+User #14587667 Prepare for 3745 testing
+
+
+6
+complete
+
+User #14587667 Add VMware group to ADActive Directory and add that group as a vCenter admin
+
+
+11
+complete
+
+User #14587667 Configure VTPVLANVirtual Local Area Network Trunk Protocol on TR TOR Switches
+
+
+7
+complete
+
+User #14587667 Configure RDNS on BINDDNSDomain Name System server software server
+
+
+3
+complete
+
+User #14587667 Add NDBNetwork Devices Branch lab core server DNSDomain Name System entries to BINDDNSDomain Name System server software server
+
+
+4
+complete
+
+User #14587667 Install BINDDNS server software server. 10.9.9.12
 
 
  
 
-
-Comments:
-
-
-2015-06-09 16:44 
-[User #17072267]: 
-
-XFCE linux desktop for local development VMs: will run faster and use fewer resources than gnome
-yum install @xfce
-
-
-2015-06-05 15:44 
-[User #17072267]: 
-
-If reaper is on but resources are not reaping: probably DNSDomain Name System (copy backup /etc/resolv.conf)
-
-
-2015-06-05 15:42 
-[User #17072267]: 
-
-/tmp needs 1777 permissions
-
-
-2015-05-18 10:40 
-[User #17072267]: 
-
-Setting up new DARTTest-Software (commercial) development machine for remote_committing tests:
-SSH error: Agent admitted failure to sign using the key.
-Solution: "ssh-add" on the client (dev machine)
-
-
+Previous versions:
+| 1 
+| 2 
+| 3 
+| 4 
+| 5 
+| 6 
+| 7 
+| 8 
+| 9 
+| 10 
+| 11 
+| 12 
+| 13 
+| 14 
+| 15 
+| 16 
+| 17 
+| 18 
+| 19 
+| 20 
+| 21 
+| 22 
+| 23 
+| 24 
+| 25 
+| 26 
+| 27 
+| 28 
+| 29 
+| 30 
+| 31 
+| 32 
+|
                     

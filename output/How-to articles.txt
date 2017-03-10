@@ -1,22 +1,154 @@
 
-                        Owner: User #71494
-Installing VS2013 Update 5 on Windows 10
-I ran into issues trying to install VS2013 from CDCompact Disk and then applying the (as of this writing) five updates.  When attempting to apply the update, it will fail and complain that you need to turn off Windows Compatibility Mode.  You can turn that off all you want, but it's not going to fix your issues.  The problem from what I can gather from looking on the internet and trial and error here is that the updates available on the share are actually extracted iso's.  Apparently, VS is very sensitive to file names and installation media on Win 10.  Luckily, there is an iso on the share of VS2013 with all five updates included.  Also, nicely Windows 10 will allow you to directly mount an iso as a disk.  This is handy since the VS2013+Updates iso is too large to burn to a disk.  So:
+                        Owner: User #1179751
+Throw GoogleTest Executables Against Dart via Bamboo (Alternatively, How to Stop Testing on User #1179751’s Build Agents)
+For all of you Windows developers using Google Test for their unit testing, I’ve finished writing some dart scripts that make throwing the gtest executable against DARTTest-Software (commercial) via Bamboo extremely easy, and this post will outline how to use them.  Doing this allows for you to automatically throw code changes against a range of operating systems and having the results collected to a single area.  I’ve also created a template project in Bamboo that can be cloned as a basepoint for your work; this project can be found here, and will be referred to often during this post.
+Before You Go Further
+Project Setup
 
-Copy \\fs-01\share\Windows Software Development Resources\Visual Studio 2013\en_visual)studio_premium_2013_with_update_5_x86_dvd_6815742.iso locally
-Right click the file and select "Mount"
-It should now appear in Explorer as a disk.
-Open it up, right click vs_premium.exe and select "Run as Administrator"
-
-This will avoid the Windows Compatibility headaches.  Enjoy.
-
-Comments:
+Repositories
+Before we delve into the stages of the test, let’s talk about two of the tabs under the “Plan Configuration” portion of Google Test Template. 
+The first is the “Repositories” tab, this is a list of the repos this plan has access too, and for this to work there are a few:
 
 
-2016-01-14 16:46 
-[User #1179751]: 
+Google Test Example (default) – This is my main repo with my project’s code. 
 
-So I've been using 2015 and find it to be better than 2013 and haven't encountered any issues with the upgrade.
+Dart Scripts – This is a repo specific to my parent project, you’ll have something similar.  I’ll be delving into the files in this repo later, so don’t worry about it for now.
+
+Bamboo Leafbag – This is the ## Bamboo ## repository which can be found here.  This is already setup in the linked repositories and can easily be pulled in.
+
+Tyrant Leafbag – This is the Tyrant leafbag, which is also available as a linked repository.
+
+EDG Leafbag – This is the EDGEngineering Development Branch leafbag, again, available as a linked repository.
+
+ 
+A quick asisde about the default repository.  This should also be the main repository, or the one that is under the most work.  This is because Bamboo only allows plan branches for this repository and thus you won't be able to have multiple concurent builds for your seperate git branches.
+ 
+Variables
+ 
+ 
+The next part is the “Variables” tab.  THIS IS IMPORTANT, if you don’t have the following variables my scripts will error out.  These variables will be talked about a bit more when I discuss the bash script that executes our plan, but for now if you are following along with your own plan ensure you have the following two values set (they are case sensitive):
+
+ 
+
+additional_args – should be left empty
+filter – should be set to “*” without quotes.  It is *RunMe* for example purposes here.
+
+Stages & Jobs
+The “Google Test Template” is broken into two stages:
+
+Build – Where our project is pulled down from Stash and built using Visual Studio
+Test – Where the relevant leafbags are checked out and our binary is thrown against dart.  This stage will wait for the results to return and parse them for you
+
+The Build Stage
+Since this is just a template, only the 32-bit debug version of this tool is being built, this was done to keep things simple, but in truth, you will probably have both a debug and release version and may have both a 32-bit and 64-bit build as well.  It is up to you if you want a single job to build this, or multiple jobs.  Jobs run concurrently, so having multiple one will reduce your build time, but you’ll be using additional resources. 
+The build step has two tasks that we care about for this article (the third is discussed in code coverage).  These two steps are pretty self-explanatory, but let’s delve into them to talk about the specific settings.
+Source Code Checkout
+This is where you’ll pull down your code so it can be built.  For this stage the only repository you care about is the one containing your unit test project.  In our project we pull down the Google Test Example project into a checkout directory called “source”.  This checkout directory will be whatever you want it to be, and will be created in the root of the Job’s home folder.  If desired you can select “Force Clean Build” which will increase your build time but will ensure you have a empty directory before every checkout.
+Visual Studio
+This is where the code gets compiled.  There are a few options you’ll need to select here:
+
+Executable – Which version of Visual Studio you want to use.  Our build agents have 2010, 2012, and 2013 (2015 is coming soon).
+Solution – The solution name.
+Options – Most likely will just be /build “<CONFIGURATION>|<PLATFORM>”, but see the command line arguments for devenv.exe for more info here.
+Platform – If someone can explain to me why this is an option, I’d be grateful.  My understanding is devenv.exe only comes in the x86 variety so you can leave this as x86
+Working sub directory – This should point to your source folder.
+
+Build Artifacts
+The finle step we need to take for the Build Stage is creating an artifact out of our newly compiled executable. This can be set by navigating to the “Artifacts” tab and selecting “Create Definition”.
+Artifacts allows other stages access to files generated during this stage, and for us that means the unit test we just created.  Fill in the following information:
+
+Name – This is arbitrary but you should stick with whatever the executable is originally called ot avoid confusion.
+Location – relative to the jobs home directory
+Copy Pattern – The search pattern to look for, in our example we just specify the name of the exe.
+Shared – Make sure this is checked.
+
+The Test Stage
+This is the more interesting of the two steps.  The test step takes your executable that was created during the last stage and throws it against dart.  Before we dive into the tasks, take a look at the “Artifacts”
+
+Having an artifact dependency tells Bamboo that the first thing it needs to do when running a Job is deploy that artifact to the location designated.  In our example we deploy Sample_GoogleTest.exe to “sgt_dart/resources” (if you don't understand why I put it there go to Run GoogleTest Executables in DART (The Easy Way)   and read up).
+Another thing to look at is the “Requirements” tab.  To be able to submit a DARTTest-Software (commercial) test successfully from BAMBOO the agent needs to have a dart.user assigned to it.  Simply ensure you have a requirement that this property exists.
+The Dart Test Job
+If you look at our example, the Source Code Checkout is much more involved.  This is because we need to check out the four additional repositories that are a part of our plan.  Furthermore, these four repositories need to be checked out into specific folders (case sensitive) or things will go badly for us.
+
+Tyrant Leafbag – Must be checked out into the ‘tyrant’ directory
+EDG Leafbag – Must be checked out into the ‘edg’ directory
+Bamboo Leafbag – Must be checked out into the ‘bamboo’ directory
+Dart Scripts – Must be checked out into the original folder name (for us this is sgt_dart)
+
+If these four folders aren’t peers to each other, the links we are about to create will fail.
+The next three steps are all setting up the necessary symbolic links for DARTTest-Software (commercial) to work:
+
+Script 1 – Runs Make on the Tyrant leafbag and sets up the symbolic links for the edg leafbag.
+Script 2 – Sets the symbolic links for the bamboo leafbag
+Script 3 – Sets the symbolic links for the sgt_dart leafbag (if you use the new_leafbag script when you create your DARTTest-Software (commercial) project, this script is generated for you). 
+
+Once all of this is complete, we run the fourth script which kicks off Tyrant and waits, but let’s take a look at that task.  The most important thing is that we are running the “gtest_runner.sh” script and we need to supply the DARTTest-Software (commercial) plan we are submitting, in our case it is sgt_dart.plans.gtest_submission.  Furthermore, the working sub directory must be bamboo/setup_utils. Note the –c isn’t required and will be talked about in the code coverage post. 
+The final task we need to look at is the Junit Parser.  We use this task to parse the results GoolgeTest generates, allowing us to get details on what tests passed and what failed.  The script that we run will always put the gtest results in a gtest_results folder, so our search pattern should be "gtest_results/*.xml"
+Running It
+Now all there is to do is run the plan, which can be done by simply selecting "Run".  This will kick off your build and you sit back and wait for the results to parse.  However, the true magic of the plan is seen by saying "Run Customised...".  If you select these you can override a variable, more importantly you can override filter=* and replace it with a new gtest filter, which allows you to target that one pesky test that is failing vice waiting for them all to run.  This override can also be done at the branch level, but I'll leave that for you to figure out.
+ 
+Step-by-step guide
+Here is the tldr for the above.
+
+Clone the Goolge Test Template Plan
+Update the repos
+Google Test Example should be your project's repo
+Dart Tests should be your dart project
+
+
+If you are starting a plan from scratch make sure you have the filter and additional_args variables set
+Update the "Set up symbolic links for DART" so it works for your test and not sgt_dart
+Update the "Kick off Tyrant" task so that it kicks off your test
+Run the plan
+
+ 
+ 
+ 
+ 
+ 
+You’ll notice there are two entries for the three leafbags mentioned during "Project Setup".  The ones I listed, and the ones in the picture which are preceded by (OSBOperation Support Branch).  The difference between the two is the three regular ones will always point to “master” in their respective repos, while the (OSBOperation Support Branch) ones are wherever I feel like having them (usually ahead of master, but sometimes master).  The (OSBOperation Support Branch) ones should be somewhat stable, but no complaining if you elect to use them.
+ 
+ 
+ 
+ 
+ 
+Related articles
+
+Related articles appear here based on the labels you select. Click to edit the macro and add or change labels.
+
+('contentbylabel' missing)
+('details' missing)
+ 
+ 
+
+Attachments:
+
+
+image2016-1-14 18:13:3.png
+
+
+image2016-1-14 18:9:49.png
+
+
+image2016-1-14 18:8:59.png
+
+
+image2016-1-14 18:8:35.png
+
+
+image2016-1-14 18:7:52.png
+
+
+image2016-1-14 18:6:35.png
+
+
+image2016-1-14 18:4:54.png
+
+
+image2016-1-14 17:19:2.png
+
+
+image2016-1-14 17:0:52.png
 
 
                     

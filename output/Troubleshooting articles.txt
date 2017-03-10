@@ -1,34 +1,20 @@
 
-                        Use Visual Studio as GIT diff/merge tool
-Add the following to your .gitconfig:
+                        SDK-Based Development
+OS X supports SDK-based development.  This means that you can compile binaries for old versions of OSOperating System X on new versions of OSOperating System X.  Here's an example of how a Makefile might use this feature:
  
-[diff]
-  tool = vsdiffmerge
-[difftool]
-  prompt = false
-[difftool "vsdiffmerge"]
-  cmd = '"C:/Program Files (x86)/Microsoft Visual Studio 12.0/Common7/IDE/vsDiffMerge.exe"' "$LOCAL" "$REMOTE" //t
-  keepBackup = false
-  trustexitcode = true
-[merge]
-   tool = vsdiffmerge
-[mergetool]
-   prompt = false
-[mergetool "vsdiffmerge"]
-   cmd = '"C:/Program Files (x86)/Microsoft Visual Studio 12.0/Common7/IDE/vsDiffMerge.exe"' "$REMOTE" "$LOCAL" "$BASE" "$MERGED" //m
-   keepBackup = false
-   trustexitcode = true
+SDK_VER ?= 10.8
+SDK_PATH := /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX$(SDK_VER).sdk
+CFLAGS += -isysroot $(SDK_PATH)
+LDFLAGS += -Xlinker -syslibroot -Xlinker $(SDK_PATH) -Xlinker -macosx_version_min -Xlinker $(SDK_VER)
  
-"Microsoft Visual Studio 12.0" = Visual Studio 2013
-"Microsoft Visual Studio 11.0" = Visual Studio 2012
+You may also want to use visual panels to communicate related information, tips or things users need to be aware of.
+Related articles
 
-Attachments:
+Related articles appear here based on the labels you select. Click to edit the macro and add or change labels.
 
-.gitconfig
-
+('contentbylabel' missing)
 
 Previous versions:
 | 1 
-| 2 
 |
                     

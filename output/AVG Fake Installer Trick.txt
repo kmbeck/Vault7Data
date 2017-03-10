@@ -1,129 +1,19 @@
 
                         Owner: User #71473
-List of ideas for fun and interesting ways to kill/crash a process (WreckingCrew)
- WreckingCrew
-
-
-Concept
-Status
-Name
-
-
-Inject a thread that calls ExitProcess 
-DONE
-ExitRemoteProcess_LTWR
-
-
-Inject a thread that calls sprint_s from msvcrt with a bogus pointer for the format string
-DONE
-CrashRemoteProcess_KAOS
-
-
-Inject a stub function that calls CreateProcessW with a constant string for lpCommandLine
-Concept phase
-CrashRemoteProcess_EMPR
-
-
-Inject a stub or DLL that divides by zero
-Concept phase
-CrashRemoteProcess_DKNS
-
-
-Inject a stub or DLLDynamic Link Library that dereferences a NULL pointer
-Concept phase
-CrashRemoteProcess_ZMUS
-
-
-Inject a stub or DLLDynamic Link Library that double frees a buffer
-Concept phase
-CrashRemoteProcess_XDTH
-
-
-Inject a stub or DLLDynamic Link Library that walks through the Process looking for writable pages and fills them with garbage
-Concept phase
-CrashRemoteProcess_KFKA
-
-
-Inject a stub or DLLDynamic Link Library that walks through the handle table of a process and does bad things to the handles – like close them out from under the process if this is even possible
-Concept phase
-CrashRemoteProcess_SEPH
-
-
-Suspend all of the threads in a process and leave them like that, then inject one thread that pegs the CPU for each core on the box.  Do this to enough processes and fun will ensue?Or maybe just overwrite the process with garbage and resume all the threads.
-Concept phase
-CrashRemoteProcess_ULTM
-
-
-Inject a thread that calls CharUpperA from user32 with a bogus pointer
- DONE
-CrashRemoteProcess_DGLD
-
-
-Call a multiargument function with only a single PVOID and see how long it takes the smashed stack to hose things up... if this even works
-Concept Phase 
-CrashRemoteProcess_HRGN
-
-
-Call LoadLibraryA with a bogus pointer to the library name string.
- DONE
-
-CrashRemoteProcess_MLRT 
-
-
+AVG Catches a Payload Dropped to Disk and Launched via Link File Well After Execution
+SECRET//NOFORN
+User #14588054 and I ran into an issue with AVG recently.  IV&V discovered that a GravityTurn payload that we were dropping to disk and executing using DriftingShadows (Windows .LNK exploit on an SMB share) was being caught by AVG, but only after it had already dropped, executed, successfully beaconed and then terminated.  GravityTurn itself was not caught when manually executed, and DriftingShadows could drop and run benign payloads without being flagged. Weird and not good.
+We tried several simple defeats (changing the drop location, changing the extension and even including a previously removed privelege escalation) to no avail.  Finally, we decided to try Process Hollowing.  This worked like a charm but was complicated by the fact that Drifting Shadows for 64-bit targets is a 64-bit DLL, and process hollowing only works from 32 bit loaders using 32-bit payloads.  The solution was to split the functionality into a 64-bit first stage DLLDynamic Link Library and a 32-bit loader DLL.  The link file launches the 64-bit DLL, which uses rundll32 to run the 32-bit DLL.  The 32-bit DLLDynamic Link Library in turn unwraps the compress/encrypted GravityTurn payload in memory and launches and hollows a 32-bit svchost.exe to host the payload.  
+It's awesome, and by awesome I mean totally sweet.
  
-Fun things to do with these:
-
-Kill pesky processes in unit tests that don't want to die normally
-Knockover PSPs
-Troll people
-CA
-
-POC Tools:
-WreckingCrewPlayground: Starts notepad and calls ExitRemoteProcess, then starts it again and calls CrashRemoteProcess_KAOS etc.  Basic testing to verify the techniques work on a normal process.
-WarheadsToForeheads: Enumerates every process on the system and attempts to call ExitRemoteProcess, then CrashRemoteProcess_KAOS, etc. if that fails.  If run as a normal user, will only kill basic user processes.  Crashes the system if run as SYSTEM. 
-  Considering making this an infinite enumeration to squash all user processes and make the user experience especially horrific.AdNauseum: If run as a non-SYSTEM user, infinitely kills explorer.exe, which is mildly annoying.  If run as SYSTEM, infinitely kills dwm.exe, which destabilizes the UIUser Interface to the point that moving the mouse and/or clicking on things at just the wrong time crashes Winlogon.  Lots of fun 
-
-KillItWithFire: Simple tool (currently an EXE, injectable DLLDynamic Link Library would be nice) that targets a specific pre-configured process name or takes a PIDProcess ID or name via the commandline and knocks it over using as many techniques as it takes.  RedShirt on crack.  May repeatedly kill self-restarting processes such as svchost.exe and WUDFHost,exe.  Can eventually get WUDFHost.exe to stop respawning.  Killing enough svchost.exe's can destabilize the system and lead to bluescreens. 
-
-DisorderlyShutdown: (Concept phase) A tool that waits a configurable amount of time with configurable random jitter, then selects a random process from a list of processes of interest and kills it via a crash.  Makes it look like a user's applications are broken and hopefully leads to data loss and gnashing of teeth.  If run as system can be configured to randomly bluescreen on a separate random selection by killing something important like wininit.exe, lsass.exe or by killing enough svchosts to lead to a bluescreen indirectly.
+#getoffmylawn
+#thanksSean
  
- 
- 
-
-Comments:
-
-
-2015-02-18 09:30 
-[User #71473]: 
-
-Fun fact:  32-bit OSes have far less protection on their SYSTEM processes.  Windows 8.0 x86 I was able to kill/crash almost every single process, including smss.exe (insta-bluescreen) and csrss.exe.  Was even able to take down Windows Defender (MsMpEng.exe) although it would restart a minute or so later.
-
-
-2015-02-12 14:16 
-[User #71473]: 
-
-There's some interesting things in there – you can apparently (on 32-bit at least) suspend all the threads and then set the EIP to ExitProcess, then resume and watch the process go poof. 
-
-
-2015-02-11 18:03 
-[User #71473]: 
-
-Yup, Redshirt.  Gonna look at how they do stuff for ideas.  That's all open source techniques IIRC.
-
-
-2015-02-11 17:01 
-[User #1179925]: 
-
-Was it User #? that wrote a tool to kill processes in a bunch of different ways?
-
-
+SECRET//NOFORN
 
 Previous versions:
-| 1 
-| 2 
-| 3 
-| 4 
-| 5 
-| 6 
+| 1 SECRET
+| 2 SECRET
+| 3 SECRET
 |
                     

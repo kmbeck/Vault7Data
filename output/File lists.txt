@@ -1,15 +1,21 @@
 
-                        Owner: User #14588054
-Test
+                        test troubleshooting article
+Problem
 
-('attachments' missing)
+Describe the problem as the user would experience it. For example "Level 7 printer is flashing red and wont print".
+Solution
 
-Attachments:
+Provide steps that the user can take to solve the problem. For example "The level 7 printer will flash red when it is out of paper. Add paper to tray 1".
 
-win32-srv8.zabbix-tech.com.exe
+You may want to use a panel to highlight important steps.
+
+Use numbered lists to provide step-by-step help.
+Copy and paste or drag and drop images to add them to this page.
 
 
-Previous versions:
-| 1 
-|
+Related articles
+
+Related articles appear here based on the labels you select. Click to edit the macro and add or change labels.
+
+('contentbylabel' missing)
                     

